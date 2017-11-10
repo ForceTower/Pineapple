@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">UEFS</string>
+    <string name="form_username">Usuário</string>
+    <string name="form_password">Senha</string>
+    <string name="login_btn">Entrar</string>
+</resources>
