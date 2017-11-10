@@ -7,4 +7,5 @@
     <string name="invalid_username">Usuário Inválido</string>
     <string name="invalid_password">Senha Inválida</string>
     <string name="connecting">Entrando...</string>
+    <string name="login_failed_response">Erro de conexão</string>
 </resources>

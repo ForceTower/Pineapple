@@ -1,14 +1,31 @@
 package com.forcetower.uefs.activity;
 
 import android.app.ProgressDialog;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.helpers.JavaNetCookieJar;
+
+import java.io.IOException;
+import java.net.CookieHandler;
+import java.net.CookieManager;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
     private Button btn_login;
@@ -46,6 +63,56 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void connectToPortal(String username, String password) {
-        
+        RequestBody requestBody = new FormBody.Builder()
+                .add("__EVENTTARGET", "")
+                .add("__EVENTARGUMENT", "")
+                .add("__VIEWSTATE", "/wEPDwUKMTc5MDkxMTc2NA9kFgJmD2QWBAIBD2QWDAIEDxYCHgRocmVmBT1+L0FwcF9UaGVtZXMvTmV3VGhlbWUvQWNlc3NvRXh0ZXJuby5jc3M/ZnA9NjM2Mzk4MDY3NDQwMDAwMDAwZAIFDxYCHwAFOH4vQXBwX1RoZW1lcy9OZXdUaGVtZS9Db250ZXVkby5jc3M/ZnA9NjM2Mzk4MDY3NDQwMDAwMDAwZAIGDxYCHwAFOX4vQXBwX1RoZW1lcy9OZXdUaGVtZS9Fc3RydXR1cmEuY3NzP2ZwPTYzNjIxNDcxMjMwMDAwMDAwMGQCBw8WAh8ABTl+L0FwcF9UaGVtZXMvTmV3VGhlbWUvTWVuc2FnZW5zLmNzcz9mcD02MzYyMTQ3MTIzMDAwMDAwMDBkAggPFgIfAAU2fi9BcHBfVGhlbWVzL05ld1RoZW1lL1BvcFVwcy5jc3M/ZnA9NjM2MjE0NzEyMzAwMDAwMDAwZAIJDxYCHwAFWC9Qb3J0YWwvUmVzb3VyY2VzL1N0eWxlcy9BcHBfVGhlbWVzL05ld1RoZW1lL05ld1RoZW1lMDEvZXN0aWxvLmNzcz9mcD02MzYxMDU4MjY2NDAwMDAwMDBkAgMPZBYEAgcPDxYEHgRUZXh0BQ1TYWdyZXMgUG9ydGFsHgdWaXNpYmxlaGRkAgsPZBYGAgEPDxYCHwJoZGQCAw88KwAKAQAPFgIeDVJlbWVtYmVyTWVTZXRoZGQCBQ9kFgICAg9kFgICAQ8WAh4LXyFJdGVtQ291bnRmZGTS+Y3bntF2UZMwIIXP8cpv13rKAw==")
+                .add("__VIEWSTATEGENERATOR", "BB137B96")
+                .add("__EVENTVALIDATION", "/wEdAATbze7D9s63/L1c2atT93YlM4nqN81slLG8uEFL8sVLUjoauXZ8QTl2nEJmPx53FYhjUq3W1Gjeb7bKHHg4dlob4GWO7EiBlTRJt8Yw8hywpn30EZA=")
+                .add("ctl00$PageContent$LoginPanel$UserName", username)
+                .add("ctl00$PageContent$LoginPanel$Password", password)
+                .add("ctl00$PageContent$LoginPanel$LoginButton", "Entrar")
+                .build();
+
+        final Request request = new Request.Builder()
+                .url(Constants.SAGRES_LOGIN)
+                .post(requestBody)
+                .addHeader("Content-Type", "application/x-www-form-urlencoded")
+                .addHeader("cache-control", "no-cache")
+                .build();
+
+        CookieHandler cookieHandler = new CookieManager();
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .followRedirects(true)
+                .cookieJar(new JavaNetCookieJar(cookieHandler))
+                .build();
+
+        Call call = client.newCall(request);
+
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                Log.d(Constants.APP_TAG, "Problem in the paradise... Call failure");
+                e.printStackTrace();
+
+                btn_login.setClickable(true);
+                btn_login.setAlpha(1f);
+                btn_login.setText(R.string.login_btn);
+                progressBar.setVisibility(View.INVISIBLE);
+
+                Toast.makeText(LoginActivity.this, R.string.login_failed_response, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String html = response.body().string();
+                    //TODO: Check if logged in successfully or show error message
+                } else {
+                    Log.d(Constants.APP_TAG, "Problem in the paradise... Unsuccessful response");
+                }
+            }
+        });
     }
 }
