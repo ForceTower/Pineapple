@@ -4,4 +4,7 @@
     <string name="form_username">Usuário</string>
     <string name="form_password">Senha</string>
     <string name="login_btn">Entrar</string>
+    <string name="invalid_username">Usuário Inválido</string>
+    <string name="invalid_password">Senha Inválida</string>
+    <string name="connecting">Entrando...</string>
 </resources>

@@ -51,11 +51,19 @@
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:text="@string/login_btn"/>
-
+            android:text="@string/login_btn"
+            android:onClick="login"/>
     </LinearLayout>
 
-
+    <ProgressBar
+        android:id="@+id/login_progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_marginBottom="8dp"
+        android:visibility="invisible"
+        android:indeterminate="true"/>
 
 
 
