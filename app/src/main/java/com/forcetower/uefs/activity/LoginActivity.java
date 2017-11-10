@@ -1,7 +1,9 @@
-package com.forcetower.uefs;
+package com.forcetower.uefs.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.forcetower.uefs.R;
 
 public class LoginActivity extends AppCompatActivity {
 
