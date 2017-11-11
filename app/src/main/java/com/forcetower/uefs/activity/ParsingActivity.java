@@ -1,20 +1,30 @@
 package com.forcetower.uefs.activity;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.UEFSApplication;
 import com.forcetower.uefs.helpers.Utils;
 import com.forcetower.uefs.html_parser.SagresParser;
 import com.forcetower.uefs.model.UClass;
+import com.forcetower.uefs.model.UClassDay;
+import com.forcetower.uefs.receivers.NotificationWake;
 
+import java.util.Calendar;
 import java.util.HashMap;
+
+import static com.forcetower.uefs.Constants.APP_TAG;
 
 public class ParsingActivity extends AppCompatActivity {
     private TextView tv_information;
@@ -75,6 +85,9 @@ public class ParsingActivity extends AppCompatActivity {
                     HashMap<String, UClass> classHashMap = SagresParser.findDetails(html);
                     ((UEFSApplication)getApplication()).saveClasses(classHashMap);
 
+
+                    setupNotifications(classHashMap);
+
                     //Thread.sleep(500);
                     //fadeOut(tv_information);
                     //Thread.sleep(100);
@@ -82,6 +95,7 @@ public class ParsingActivity extends AppCompatActivity {
                     //fadeIn(tv_information);
 
                     //Thread.sleep(1000);
+
                     
                     completeActivity();
                 } catch (InterruptedException e) {
@@ -89,6 +103,36 @@ public class ParsingActivity extends AppCompatActivity {
                 }
             }
         }).start();
+    }
+
+    private void setupNotifications(HashMap<String, UClass> classHashMap) {
+        AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+        if (alarmManager == null) {
+            Log.e(APP_TAG, "Alarm Manager is null");
+            Toast.makeText(ParsingActivity.this, R.string.alarm_manager_null, Toast.LENGTH_SHORT).show();
+        } else {
+            for (UClass uClass : classHashMap.values()) {
+                for (UClassDay classDay : uClass.getDays()) {
+                    Calendar start = classDay.getStart();
+                    Intent myIntent = new Intent("Class Notification");
+                    myIntent.putExtra("name", uClass.getName());
+                    myIntent.putExtra("room", classDay.getAllocatedRoom());
+                    myIntent.putExtra("modulo", classDay.getPlace());
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(ParsingActivity.this, 0, myIntent, 0);
+                    alarmManager.set(AlarmManager.RTC, start.getTimeInMillis(), pendingIntent);
+                }
+            }
+
+            Calendar next = Calendar.getInstance();
+            next.add(Calendar.MINUTE, 1);
+            Intent test = new Intent("Class Notification");
+            test.putExtra("name", "Testing the App");
+            test.putExtra("room", "PAV99");
+            test.putExtra("modulo", "Modulo 0");
+            Log.i(APP_TAG, "Default Test Notification fired");
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(ParsingActivity.this, 0, test, 0);
+            alarmManager.set(AlarmManager.RTC, next.getTimeInMillis(), pendingIntent);
+        }
     }
 
     private void completeActivity() {

@@ -51,7 +51,6 @@ public class DayScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        System.out.println("Bind Position: " + position);
         if (position == 0) {
             onBindHeaderViewHolder((HeaderHolder)holder);
         } else {

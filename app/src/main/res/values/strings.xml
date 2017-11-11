@@ -24,4 +24,7 @@
     <string name="saturday">Saturday</string>
     <string name="sunday">Sunday</string>
     <string name="this_is_and_error">Error Item - Report</string>
+    <string name="class_about_to_start">Class about to begin</string>
+    <string name="class_notification_display">The class %1$s is at %2$s, %3$s</string>
+    <string name="alarm_manager_null">AlarmManager is null. Notifications won\'t work. Report.</string>
 </resources>

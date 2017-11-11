@@ -3,6 +3,8 @@
           package="com.forcetower.uefs">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
         android:name=".UEFSApplication"
@@ -25,11 +27,24 @@
         </activity>
         <activity
             android:name=".activity.ConnectedActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
         </activity>
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts"/>
+
+        <receiver
+            android:name=".receivers.NotificationWake"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="Class Notification"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

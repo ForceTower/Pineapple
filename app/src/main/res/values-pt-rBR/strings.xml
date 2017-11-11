@@ -25,4 +25,7 @@
     <string name="saturday">Sábado</string>
     <string name="sunday">Domingo</string>
     <string name="this_is_and_error">Erro no item - Reporte</string>
+    <string name="class_about_to_start">Aula vai começar</string>
+    <string name="class_notification_display">A aula %1$s é na sala %2$s, %3$s</string>
+    <string name="alarm_manager_null">O controlador de alarmes é null. Notificações de aula não irão funcionar. Reporte</string>
 </resources>
