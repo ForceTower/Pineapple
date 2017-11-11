@@ -17,9 +17,6 @@ android {
         }
     }
     buildToolsVersion '26.0.2'
-    dexOptions {
-        incremental true
-    }
 }
 
 dependencies {
@@ -30,6 +27,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
+    //For connecting to the internet easily
     compile 'com.squareup.okhttp3:okhttp:3.9.0'
+    //To be able to use material design layouts
     compile 'com.android.support:design:26.1.0'
 }

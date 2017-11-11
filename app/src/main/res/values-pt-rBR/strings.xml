@@ -6,6 +6,15 @@
     <string name="login_btn">Entrar</string>
     <string name="invalid_username">Usuário Inválido</string>
     <string name="invalid_password">Senha Inválida</string>
-    <string name="connecting">Entrando...</string>
+    <string name="connecting">Entrando</string>
     <string name="login_failed_response">Erro de conexão</string>
+    <string name="incorrect_credentials">Login Incorreto</string>
+    <string name="processing_info">Processando informações</string>
+    <string name="welcome">Olá %1$s</string>
+    <string name="finding_class_structure">Encontrando aulas</string>
+    <string name="finding_class_details">Encontrando detalhes das aulas</string>
+    <string name="completed">Finalizado!</string>
+    <string name="title_notifications">Notificações</string>
+    <string name="title_dashboard">Geral</string>
+    <string name="title_schedule">Horários</string>
 </resources>

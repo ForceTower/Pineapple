@@ -5,6 +5,15 @@
     <string name="login_btn">Login</string>
     <string name="invalid_username">Invalid Username</string>
     <string name="invalid_password">Invalid Password</string>
-    <string name="connecting">Connecting...</string>
+    <string name="connecting">Connecting</string>
     <string name="login_failed_response">Connection error</string>
+    <string name="incorrect_credentials">Incorrect Credentials</string>
+    <string name="processing_info">Processing information</string>
+    <string name="welcome">Hello %1$s</string>
+    <string name="finding_class_structure">Finding classes</string>
+    <string name="finding_class_details">Finding class details</string>
+    <string name="completed">Completed</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_schedule">Schedule</string>
 </resources>

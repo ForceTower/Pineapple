@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.transition.Fade;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -13,7 +14,9 @@ import android.widget.Toast;
 
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.UEFSApplication;
 import com.forcetower.uefs.helpers.JavaNetCookieJar;
+import com.forcetower.uefs.html_parser.SagresParser;
 
 import java.io.IOException;
 import java.net.CookieHandler;
@@ -57,6 +60,8 @@ public class LoginActivity extends AppCompatActivity {
             btn_login.setAlpha(0.4f);
             btn_login.setText(R.string.connecting);
             progressBar.setVisibility(View.VISIBLE);
+            et_username.setEnabled(false);
+            et_password.setEnabled(false);
 
             connectToPortal(username, password);
         }
@@ -96,10 +101,13 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d(Constants.APP_TAG, "Problem in the paradise... Call failure");
                 e.printStackTrace();
 
-                btn_login.setClickable(true);
-                btn_login.setAlpha(1f);
-                btn_login.setText(R.string.login_btn);
-                progressBar.setVisibility(View.INVISIBLE);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        returnUiToDefault(false);
+                    }
+                });
+
 
                 Toast.makeText(LoginActivity.this, R.string.login_failed_response, Toast.LENGTH_SHORT).show();
             }
@@ -108,10 +116,38 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String html = response.body().string();
-                    //TODO: Check if logged in successfully or show error message
+                    html = SagresParser.changeCharset(html);
+
+                    boolean connected = SagresParser.connected(html);
+                    if (!connected) {
+                        returnUiToDefault(true);
+                    } else {
+                        ((UEFSApplication)getApplication()).saveHtml(html);
+                        returnUiToDefault(false);
+                        ParsingActivity.startActivity(LoginActivity.this, html);
+                        finish();
+                    }
+
                 } else {
                     Log.d(Constants.APP_TAG, "Problem in the paradise... Unsuccessful response");
                 }
+            }
+        });
+    }
+
+    private void returnUiToDefault(final boolean error) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                btn_login.setClickable(true);
+                btn_login.setAlpha(1f);
+                btn_login.setText(R.string.login_btn);
+                progressBar.setVisibility(View.INVISIBLE);
+                et_username.setEnabled(true);
+                et_password.setEnabled(true);
+
+                if (error)
+                    et_password.setError(getString(R.string.incorrect_credentials));
             }
         });
     }
