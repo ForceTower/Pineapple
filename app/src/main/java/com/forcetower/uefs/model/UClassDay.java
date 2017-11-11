@@ -1,5 +1,7 @@
 package com.forcetower.uefs.model;
 
+import android.support.annotation.NonNull;
+
 import com.forcetower.uefs.helpers.Utils;
 
 import java.util.Calendar;
@@ -9,7 +11,7 @@ import java.util.concurrent.TimeUnit;
  * Created by João Paulo on 10/11/2017.
  */
 
-class UClassDay {
+public class UClassDay implements Comparable<UClassDay>{
     private String stringStart;
     private String stringFinish;
     private String classType;
@@ -19,15 +21,17 @@ class UClassDay {
     private String allocatedRoom;
     private String campus;
     private String place;
+    private UClass uClass;
     private long duration;
 
-    UClassDay(String startString, String finishString, String day, String classType) {
+    UClassDay(String startString, String finishString, String day, String classType, UClass uClass) {
         this.stringStart = startString;
         this.stringFinish = finishString;
         this.start = Utils.generateCalendar(startString);
         this.finish = Utils.generateCalendar(finishString);
         this.day = day;
         this.classType = classType;
+        this.uClass = uClass;
 
         duration = Utils.getDateDiff(start.getTime(), finish.getTime(), TimeUnit.HOURS);
     }
@@ -103,5 +107,27 @@ class UClassDay {
 
     public void setClassType(String classType) {
         this.classType = classType;
+    }
+
+    public UClass getUClass() {
+        return uClass;
+    }
+
+    @Override
+    public int compareTo(@NonNull UClassDay uClassDay) {
+        if (uClassDay.getDay().equalsIgnoreCase(this.getDay())) {
+            if (start.before(uClassDay.getStart())) {
+                return -1;
+            } else {
+                return 1;
+            }
+        } else {
+            return Utils.compareDayOfWeek(day, uClassDay.getDay());
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Name: " + uClass.getName() + " - " + stringStart + " ~ " + stringFinish;
     }
 }

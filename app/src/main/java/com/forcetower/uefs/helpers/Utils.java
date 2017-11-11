@@ -4,9 +4,19 @@ import android.content.Context;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.TextView;
 
+import com.forcetower.uefs.R;
+import com.forcetower.uefs.model.UClass;
+import com.forcetower.uefs.model.UClassDay;
+
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -56,5 +66,103 @@ public class Utils {
         v.startAnimation(fadeOutAnim);
         v.setVisibility(View.INVISIBLE);
         v.requestLayout();
+    }
+
+    public static String toWeekLongDay(Context context, String day) {
+        if (day.equalsIgnoreCase("seg"))
+            return context.getString(R.string.monday);
+        else if (day.equalsIgnoreCase("ter"))
+            return context.getString(R.string.tuesday);
+        else if (day.equalsIgnoreCase("qua"))
+            return context.getString(R.string.wednesday);
+        else if (day.equalsIgnoreCase("qui"))
+            return context.getString(R.string.thursday);
+        else if (day.equalsIgnoreCase("sex"))
+            return context.getString(R.string.friday);
+        else if (day.equalsIgnoreCase("sab"))
+            return context.getString(R.string.saturday);
+        else if (day.equalsIgnoreCase("dom"))
+            return context.getString(R.string.sunday);
+
+        return day;
+    }
+
+    public static HashMap<String, List<UClassDay>> getSchedule(HashMap<String, UClass> classes) {
+        HashMap<String, List<UClassDay>> classPerDay = new HashMap<>();
+
+        for (int i = 1; i <= 7; i++) {
+            String dayOfWeek = getDayOfWeek(i);
+            List<UClassDay> dayOfClass = new ArrayList<>();
+
+            for (UClass uclass : classes.values()) {
+                List<UClassDay> days = uclass.getDays();
+
+                for (UClassDay classz : days) {
+                    if (classz.getDay().equalsIgnoreCase(dayOfWeek)) {
+                        dayOfClass.add(classz);
+                    }
+                }
+            }
+
+            Collections.sort(dayOfClass);
+            classPerDay.put(dayOfWeek, dayOfClass);
+            System.out.println(dayOfClass);
+        }
+
+        return classPerDay;
+    }
+
+    public static String getDayOfWeek(int i) {
+        if (i == 1)
+            return "SEG";
+        else if (i == 2)
+            return "TER";
+        else if (i == 3)
+            return "QUA";
+        else if (i == 4)
+            return "QUI";
+        else if (i == 5)
+            return "SEX";
+        else if (i == 6)
+            return "SAB";
+        else if (i == 7)
+            return "DOM";
+
+        return "???";
+    }
+
+    public static int compareDayOfWeek(String one, String two) {
+        int first = dayToInt(one);
+        int second = dayToInt(two);
+
+        if (first < second) {
+            System.out.println(one + " > " + second);
+            return -1;
+        } else if (second > first) {
+            System.out.println(one + " < " + second);
+            return 1;
+        } else {
+            System.out.println(one + " = " + second);
+            return 0;
+        }
+    }
+
+    public static int dayToInt(String day) {
+        if (day.equalsIgnoreCase("seg"))
+            return 1;
+        else if (day.equalsIgnoreCase("ter"))
+            return 2;
+        else if (day.equalsIgnoreCase("qua"))
+            return 3;
+        else if (day.equalsIgnoreCase("qui"))
+            return 4;
+        else if (day.equalsIgnoreCase("sex"))
+            return 5;
+        else if (day.equalsIgnoreCase("sab"))
+            return 6;
+        else if (day.equalsIgnoreCase("dom"))
+            return 7;
+
+        return 0;
     }
 }

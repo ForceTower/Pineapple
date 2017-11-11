@@ -18,10 +18,12 @@ import java.util.HashMap;
 
 public class ParsingActivity extends AppCompatActivity {
     private TextView tv_information;
+    private boolean delayed;
 
-    public static void startActivity(Context context, String html) {
+    public static void startActivity(Context context, String html, boolean delayed) {
         Intent intent = new Intent(context, ParsingActivity.class);
         intent.putExtra("html", html);
+        intent.putExtra("delayed", delayed);
 
         Bundle bundle = ActivityOptionsCompat.makeCustomAnimation(context,
                 android.R.anim.fade_in, android.R.anim.fade_out).toBundle();
@@ -38,6 +40,7 @@ public class ParsingActivity extends AppCompatActivity {
         tv_information.setText(R.string.processing_info);
         Utils.fadeIn(tv_information, this);
 
+        delayed = getIntent().getBooleanExtra("delayed", false);
         startLoadHtml(getIntent().getStringExtra("html"));
     }
 
@@ -46,39 +49,39 @@ public class ParsingActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(500);
+                    if (delayed) Thread.sleep(500);
                     fadeOut(tv_information);
 
                     String name = SagresParser.getUserName(html);
 
-                    Thread.sleep(200);
+                    if (delayed) Thread.sleep(200);
                     updateInformation(getString(R.string.welcome, name));
                     fadeIn(tv_information);
 
-                    Thread.sleep(1000);
+                    if (delayed) Thread.sleep(1000);
                     fadeOut(tv_information);
-                    Thread.sleep(100);
+                    if (delayed) Thread.sleep(100);
                     updateInformation(getString(R.string.finding_class_structure));
                     fadeIn(tv_information);
 
                     SagresParser.findSchedule(html);
-                    Thread.sleep(600);
+                    //Thread.sleep(600);
 
-                    fadeOut(tv_information);
-                    Thread.sleep(100);
+                    //fadeOut(tv_information);
+                    //Thread.sleep(100);
                     updateInformation(getString(R.string.finding_class_details));
-                    fadeIn(tv_information);
+                    //fadeIn(tv_information);
 
                     HashMap<String, UClass> classHashMap = SagresParser.findDetails(html);
-                    ((UEFSApplication)getApplication()).saveSchedule(classHashMap);
+                    ((UEFSApplication)getApplication()).saveClasses(classHashMap);
 
-                    Thread.sleep(500);
-                    fadeOut(tv_information);
-                    Thread.sleep(100);
+                    //Thread.sleep(500);
+                    //fadeOut(tv_information);
+                    //Thread.sleep(100);
                     updateInformation(getString(R.string.completed));
-                    fadeIn(tv_information);
+                    //fadeIn(tv_information);
 
-                    Thread.sleep(1000);
+                    //Thread.sleep(1000);
                     
                     completeActivity();
                 } catch (InterruptedException e) {
@@ -93,6 +96,7 @@ public class ParsingActivity extends AppCompatActivity {
             @Override
             public void run() {
                 ConnectedActivity.startActivity(ParsingActivity.this);
+                finish();
             }
         });
     }

@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.fragments.ScheduleFragment;
 
 public class ConnectedActivity extends AppCompatActivity {
     private TextView mTextMessage;
@@ -51,5 +52,14 @@ public class ConnectedActivity extends AppCompatActivity {
         mTextMessage = findViewById(R.id.message);
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        if (findViewById(R.id.fragment_container) != null) {
+            if (savedInstanceState != null) {
+                return;
+            }
+
+            ScheduleFragment fragment = ScheduleFragment.newInstance();
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, fragment).commit();
+        }
     }
 }

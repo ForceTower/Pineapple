@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 public class UEFSApplication extends Application {
     private String html;
-    private HashMap<String, UClass> schedule;
+    private HashMap<String, UClass> classes;
 
     public UEFSApplication() {
         super();
@@ -26,7 +26,11 @@ public class UEFSApplication extends Application {
         return html;
     }
 
-    public void saveSchedule(HashMap<String, UClass> schedule) {
-        this.schedule = schedule;
+    public void saveClasses(HashMap<String, UClass> classes) {
+        this.classes = classes;
+    }
+
+    public HashMap<String, UClass> getClasses() {
+        return classes;
     }
 }

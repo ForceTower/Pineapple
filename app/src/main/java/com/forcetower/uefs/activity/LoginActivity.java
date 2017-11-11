@@ -16,6 +16,7 @@ import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.UEFSApplication;
 import com.forcetower.uefs.helpers.JavaNetCookieJar;
+import com.forcetower.uefs.helpers.PrefUtils;
 import com.forcetower.uefs.html_parser.SagresParser;
 
 import java.io.IOException;
@@ -45,6 +46,14 @@ public class LoginActivity extends AppCompatActivity {
         et_username = findViewById(R.id.username_form);
         et_password = findViewById(R.id.password_form);
         progressBar = findViewById(R.id.login_progress);
+
+        boolean connected = PrefUtils.get(this, "connected", false);
+        String html = PrefUtils.get(this, "html", "");
+
+        if (connected && !html.trim().equals("")) {
+            ParsingActivity.startActivity(this, html, false);
+            finish();
+        }
     }
 
     public void login(View view) {
@@ -67,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void connectToPortal(String username, String password) {
+    private void connectToPortal(final String username, final String password) {
         RequestBody requestBody = new FormBody.Builder()
                 .add("__EVENTTARGET", "")
                 .add("__EVENTARGUMENT", "")
@@ -123,8 +132,14 @@ public class LoginActivity extends AppCompatActivity {
                         returnUiToDefault(true);
                     } else {
                         ((UEFSApplication)getApplication()).saveHtml(html);
+                        PrefUtils.save(LoginActivity.this, "html", html);
+                        PrefUtils.save(LoginActivity.this, "connected", true);
+                        //TODO: Save password on device?? (Yes, for now, i'm to lazy for typing it every time)
+                        PrefUtils.save(LoginActivity.this, "username", username);
+                        PrefUtils.save(LoginActivity.this, "password", password);
+
                         returnUiToDefault(false);
-                        ParsingActivity.startActivity(LoginActivity.this, html);
+                        ParsingActivity.startActivity(LoginActivity.this, html, true);
                         finish();
                     }
 

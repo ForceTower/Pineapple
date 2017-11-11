@@ -50,7 +50,7 @@ public class UClass {
     }
 
     public void addStartEndTime(String start, String finish, String day, String classType) {
-        UClassDay classDay = new UClassDay(start, finish, day, classType);
+        UClassDay classDay = new UClassDay(start, finish, day, classType, this);
         days.add(classDay);
     }
 
@@ -175,5 +175,9 @@ public class UClass {
         }
 
         return part.trim();
+    }
+
+    public List<UClassDay> getDays() {
+        return days;
     }
 }

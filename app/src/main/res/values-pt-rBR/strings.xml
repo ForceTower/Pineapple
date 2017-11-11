@@ -17,4 +17,12 @@
     <string name="title_notifications">Notificações</string>
     <string name="title_dashboard">Geral</string>
     <string name="title_schedule">Horários</string>
+    <string name="monday">Segunda</string>
+    <string name="tuesday">Terça</string>
+    <string name="wednesday">Quarta</string>
+    <string name="thursday">Quinta</string>
+    <string name="friday">Sexta</string>
+    <string name="saturday">Sábado</string>
+    <string name="sunday">Domingo</string>
+    <string name="this_is_and_error">Erro no item - Reporte</string>
 </resources>
