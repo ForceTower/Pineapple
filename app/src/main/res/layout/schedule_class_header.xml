@@ -9,11 +9,10 @@
         android:id="@+id/tv_day_class_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:layout_centerVertical="true"
         android:layout_marginStart="16dp"
-        android:textColor="@android:color/black"
-        android:alpha="0.54"
+        android:textColor="@color/colorPrimary"
         android:fontFamily="@font/roboto_medium"
         tools:text="Monday"/>
 </RelativeLayout>
