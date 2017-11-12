@@ -59,6 +59,9 @@ public class SagresParser {
     }
 
     public static void findSchedule(String html) {
+        iterationPerDay = new SparseArray<>();
+        codePerLessons = new HashMap<>();
+
         if (html.contains(SCHEDULE_PATTERN)) {
             int start = html.indexOf(SCHEDULE_PATTERN) + SCHEDULE_PATTERN.length();
             int end = html.indexOf("</table>", start);

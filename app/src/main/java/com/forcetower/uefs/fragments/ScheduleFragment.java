@@ -46,6 +46,8 @@ public class ScheduleFragment extends Fragment {
         configureRecyclerViews();
         configureRelativeLayouts();
 
+        fillWithSchedule();
+
         return rootView;
     }
 
@@ -69,10 +71,7 @@ public class ScheduleFragment extends Fragment {
         relativeLayouts[6] = rootView.findViewById(R.id.rl_sun);
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
+    private void fillWithSchedule() {
         HashMap<String, UClass> classes = ((UEFSApplication)getActivity().getApplication()).getClasses();
         HashMap<String, List<UClassDay>> classPerDay = Utils.getSchedule(classes);
 
@@ -88,7 +87,13 @@ public class ScheduleFragment extends Fragment {
                 recyclerViews[i].setLayoutManager(new LinearLayoutManager(context));
                 recyclerViews[i].setAdapter(new DayScheduleAdapter(context, day, dayOfWeek));
                 recyclerViews[i].addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
+                recyclerViews[i].setNestedScrollingEnabled(false);
             }
         }
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 }

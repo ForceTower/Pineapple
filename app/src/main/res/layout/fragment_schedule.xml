@@ -4,6 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:nestedScrollingEnabled="false"
     android:fillViewport="true">
 
     <LinearLayout
@@ -12,6 +13,7 @@
         android:orientation="vertical"
         android:clipToPadding="false"
         android:background="@color/light_gray"
+        android:nestedScrollingEnabled="false"
         android:paddingBottom="4dp">
 
         <RelativeLayout
