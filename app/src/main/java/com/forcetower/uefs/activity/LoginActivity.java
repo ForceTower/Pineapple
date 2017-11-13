@@ -52,15 +52,15 @@ public class LoginActivity extends AppCompatActivity {
 
         boolean connected = PrefUtils.get(this, "connected", false);
         String html = PrefUtils.get(this, "html", "");
-        String savedClasses = PrefUtils.get(this, "classes", "");
+        //String savedClasses = PrefUtils.get(this, "classes", "");
 
         if (connected) {
-            if (!savedClasses.trim().equals("")) {
+            /*if (!savedClasses.trim().equals("")) {
                 HashMap classes = new Gson().fromJson(savedClasses, HashMap.class);
                 ((UEFSApplication)getApplication()).saveClasses(classes);
                 ConnectedActivity.startActivity(this);
                 finish();
-            }
+            }*/
 
             if (!html.trim().equals("")) {
                 ParsingActivity.startActivity(this, html, false);
@@ -119,7 +119,7 @@ public class LoginActivity extends AppCompatActivity {
 
         call.enqueue(new Callback() {
             @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+            public void onFailure(@NonNull Call call, @NonNull final IOException e) {
                 Log.d(Constants.APP_TAG, "Problem in the paradise... Call failure");
                 e.printStackTrace();
 
@@ -127,11 +127,11 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         returnUiToDefault(false);
+                        Toast.makeText(LoginActivity.this, R.string.login_failed_response, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
-
-                Toast.makeText(LoginActivity.this, R.string.login_failed_response, Toast.LENGTH_SHORT).show();
             }
 
             @Override

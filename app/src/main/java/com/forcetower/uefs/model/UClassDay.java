@@ -25,7 +25,7 @@ public class UClassDay implements Comparable<UClassDay>{
 
     private String className;
     private String classCode;
-    //private UClass uClass;
+    private UClass uClass;
     private long duration;
 
     UClassDay(String startString, String finishString, String day, String classType, UClass uClass) {
@@ -37,6 +37,7 @@ public class UClassDay implements Comparable<UClassDay>{
         this.classType = classType;
         this.className = uClass.getName();
         this.classCode = uClass.getCode();
+        this.uClass = uClass;
 
         duration = Utils.getDateDiff(start.getTime(), finish.getTime(), TimeUnit.HOURS);
     }
@@ -114,10 +115,10 @@ public class UClassDay implements Comparable<UClassDay>{
         this.classType = classType;
     }
 
-    /*
+
     public UClass getUClass() {
         return uClass;
-    }*/
+    }
 
     @Override
     public int compareTo(@NonNull UClassDay uClassDay) {
@@ -134,7 +135,7 @@ public class UClassDay implements Comparable<UClassDay>{
 
     @Override
     public String toString() {
-        return "Name: " + className + " - " + stringStart + " ~ " + stringFinish;
+        return "Name: " + getClassName() + " - " + stringStart + " ~ " + stringFinish;
     }
 
     public String getClassCode() {
@@ -142,6 +143,6 @@ public class UClassDay implements Comparable<UClassDay>{
     }
 
     public String getClassName() {
-        return className;
+        return uClass.getName();
     }
 }

@@ -87,8 +87,8 @@ public class ParsingActivity extends AppCompatActivity {
                     HashMap<String, UClass> classHashMap = SagresParser.findDetails(html);
                     ((UEFSApplication)getApplication()).saveClasses(classHashMap);
 
-                    String json = new Gson().toJson(classHashMap);
-                    PrefUtils.save(ParsingActivity.this, "classes", json);
+                    //String json = new Gson().toJson(classHashMap);
+                    //PrefUtils.save(ParsingActivity.this, "classes", json);
 
 
                     //setupNotifications(classHashMap);
