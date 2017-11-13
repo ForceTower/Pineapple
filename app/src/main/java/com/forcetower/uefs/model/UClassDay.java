@@ -2,6 +2,7 @@ package com.forcetower.uefs.model;
 
 import android.support.annotation.NonNull;
 
+import com.forcetower.uefs.UEFSApplication;
 import com.forcetower.uefs.helpers.Utils;
 
 import java.util.Calendar;
@@ -21,7 +22,10 @@ public class UClassDay implements Comparable<UClassDay>{
     private String allocatedRoom;
     private String campus;
     private String place;
-    private UClass uClass;
+
+    private String className;
+    private String classCode;
+    //private UClass uClass;
     private long duration;
 
     UClassDay(String startString, String finishString, String day, String classType, UClass uClass) {
@@ -31,7 +35,8 @@ public class UClassDay implements Comparable<UClassDay>{
         this.finish = Utils.generateCalendar(finishString);
         this.day = day;
         this.classType = classType;
-        this.uClass = uClass;
+        this.className = uClass.getName();
+        this.classCode = uClass.getCode();
 
         duration = Utils.getDateDiff(start.getTime(), finish.getTime(), TimeUnit.HOURS);
     }
@@ -109,9 +114,10 @@ public class UClassDay implements Comparable<UClassDay>{
         this.classType = classType;
     }
 
+    /*
     public UClass getUClass() {
         return uClass;
-    }
+    }*/
 
     @Override
     public int compareTo(@NonNull UClassDay uClassDay) {
@@ -128,6 +134,14 @@ public class UClassDay implements Comparable<UClassDay>{
 
     @Override
     public String toString() {
-        return "Name: " + uClass.getName() + " - " + stringStart + " ~ " + stringFinish;
+        return "Name: " + className + " - " + stringStart + " ~ " + stringFinish;
+    }
+
+    public String getClassCode() {
+        return classCode;
+    }
+
+    public String getClassName() {
+        return className;
     }
 }

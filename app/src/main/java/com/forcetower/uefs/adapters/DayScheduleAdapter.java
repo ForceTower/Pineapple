@@ -76,7 +76,7 @@ public class DayScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             return;
         }
 
-        String name = uClass.getUClass().getName();
+        String name = uClass.getClassName();
 
         String start = uClass.getStartString();
         String end = uClass.getFinishString();

@@ -72,8 +72,7 @@ public class ScheduleFragment extends Fragment {
     }
 
     private void fillWithSchedule() {
-        HashMap<String, UClass> classes = ((UEFSApplication)getActivity().getApplication()).getClasses();
-        HashMap<String, List<UClassDay>> classPerDay = Utils.getSchedule(classes);
+        HashMap<String, List<UClassDay>> classPerDay = ((UEFSApplication)getActivity().getApplication()).getSchedule();
 
         for (int i = 0; i < 7; i++) {
             String dayOfWeek = Utils.getDayOfWeek(i + 1);

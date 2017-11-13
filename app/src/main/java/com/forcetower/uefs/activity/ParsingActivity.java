@@ -15,11 +15,13 @@ import android.widget.Toast;
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.UEFSApplication;
+import com.forcetower.uefs.helpers.PrefUtils;
 import com.forcetower.uefs.helpers.Utils;
 import com.forcetower.uefs.html_parser.SagresParser;
 import com.forcetower.uefs.model.UClass;
 import com.forcetower.uefs.model.UClassDay;
 import com.forcetower.uefs.receivers.NotificationWake;
+import com.google.gson.Gson;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -85,8 +87,11 @@ public class ParsingActivity extends AppCompatActivity {
                     HashMap<String, UClass> classHashMap = SagresParser.findDetails(html);
                     ((UEFSApplication)getApplication()).saveClasses(classHashMap);
 
+                    String json = new Gson().toJson(classHashMap);
+                    PrefUtils.save(ParsingActivity.this, "classes", json);
 
-                    setupNotifications(classHashMap);
+
+                    //setupNotifications(classHashMap);
 
                     //Thread.sleep(500);
                     //fadeOut(tv_information);

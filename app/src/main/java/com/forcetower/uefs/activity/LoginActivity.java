@@ -18,10 +18,13 @@ import com.forcetower.uefs.UEFSApplication;
 import com.forcetower.uefs.helpers.JavaNetCookieJar;
 import com.forcetower.uefs.helpers.PrefUtils;
 import com.forcetower.uefs.html_parser.SagresParser;
+import com.forcetower.uefs.model.UClass;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.net.CookieHandler;
 import java.net.CookieManager;
+import java.util.HashMap;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -49,10 +52,20 @@ public class LoginActivity extends AppCompatActivity {
 
         boolean connected = PrefUtils.get(this, "connected", false);
         String html = PrefUtils.get(this, "html", "");
+        String savedClasses = PrefUtils.get(this, "classes", "");
 
-        if (connected && !html.trim().equals("")) {
-            ParsingActivity.startActivity(this, html, false);
-            finish();
+        if (connected) {
+            if (!savedClasses.trim().equals("")) {
+                HashMap classes = new Gson().fromJson(savedClasses, HashMap.class);
+                ((UEFSApplication)getApplication()).saveClasses(classes);
+                ConnectedActivity.startActivity(this);
+                finish();
+            }
+
+            if (!html.trim().equals("")) {
+                ParsingActivity.startActivity(this, html, false);
+                finish();
+            }
         }
     }
 
