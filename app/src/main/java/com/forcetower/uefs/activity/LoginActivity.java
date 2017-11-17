@@ -1,10 +1,8 @@
 package com.forcetower.uefs.activity;
 
-import android.app.ProgressDialog;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.transition.Fade;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -18,13 +16,10 @@ import com.forcetower.uefs.UEFSApplication;
 import com.forcetower.uefs.helpers.JavaNetCookieJar;
 import com.forcetower.uefs.helpers.PrefUtils;
 import com.forcetower.uefs.html_parser.SagresParser;
-import com.forcetower.uefs.model.UClass;
-import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.net.CookieHandler;
 import java.net.CookieManager;
-import java.util.HashMap;
 
 import okhttp3.Call;
 import okhttp3.Callback;
