@@ -40,6 +40,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText et_password;
     private ProgressBar progressBar;
 
+    private Call currentCall;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,6 +118,7 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
 
         Call call = client.newCall(request);
+        currentCall = call;
 
         call.enqueue(new Callback() {
             @Override
@@ -158,12 +161,16 @@ public class LoginActivity extends AppCompatActivity {
 
                 } else {
                     Log.d(Constants.APP_TAG, "Problem in the paradise... Unsuccessful response");
+                    returnUiToDefault(false);
                 }
+
+                currentCall = null;
             }
         });
     }
 
     private void returnUiToDefault(final boolean error) {
+        currentCall = null;
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -178,5 +185,16 @@ public class LoginActivity extends AppCompatActivity {
                     et_password.setError(getString(R.string.incorrect_credentials));
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (currentCall != null && !currentCall.isExecuted()) {
+            currentCall.cancel();
+
+            returnUiToDefault(false);
+        } else {
+            super.onBackPressed();
+        }
     }
 }

@@ -12,6 +12,7 @@
         android:textSize="12sp"
         android:layout_centerVertical="true"
         android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:textColor="@color/colorPrimary"
         android:fontFamily="@font/roboto_medium"
         tools:text="Monday"/>

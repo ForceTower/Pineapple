@@ -81,7 +81,7 @@ public class ScheduleFragment extends Fragment {
             if (day.isEmpty()) {
                 relativeLayouts[i].setVisibility(View.GONE);
             } else {
-                relativeLayouts[i].setElevation(2);
+                if (Utils.supportsMaterialDesign()) relativeLayouts[i].setElevation(2);
                 relativeLayouts[i].setBackgroundResource(android.R.color.white);
                 recyclerViews[i].setLayoutManager(new LinearLayoutManager(context));
                 recyclerViews[i].setAdapter(new DayScheduleAdapter(context, day, dayOfWeek));

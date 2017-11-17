@@ -57,7 +57,7 @@ public class ConnectedActivity extends AppCompatActivity {
             try {
                 fragment = (Fragment) clazz.newInstance();
                 getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, fragment, tag).commit();
-            } catch (InstantiationException | IllegalAccessException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         } else {

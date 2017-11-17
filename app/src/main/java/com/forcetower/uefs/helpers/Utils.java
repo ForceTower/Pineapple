@@ -1,6 +1,7 @@
 package com.forcetower.uefs.helpers;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -50,6 +51,10 @@ public class Utils {
             calendar.set(Calendar.SECOND, Integer.parseInt(parts[2]));
 
         return calendar;
+    }
+
+    public static boolean supportsMaterialDesign() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     }
 
     public static void fadeIn(View v, Context context) {
