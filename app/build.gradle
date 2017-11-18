@@ -34,4 +34,5 @@ dependencies {
     compile 'com.android.support:design:27.0.1'
     //Create Json from objects
     compile 'com.google.code.gson:gson:2.8.1'
+    compile 'org.jetbrains:annotations-java5:15.0'
 }
