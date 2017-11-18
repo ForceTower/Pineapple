@@ -150,6 +150,14 @@ public class SagresClassDay implements Comparable<SagresClassDay>{
         return campus;
     }
 
+    public void setClassName(String className) {
+        this.class_name = className;
+    }
+
+    public void setClassCode(String classCode) {
+        this.class_code = classCode;
+    }
+
     public int compareTo(@NonNull SagresClassDay other) {
         if (other.getDay().equalsIgnoreCase(this.getDay())) {
             if (starts.before(other.getStartsAt())) {

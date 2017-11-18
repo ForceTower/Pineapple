@@ -1,5 +1,10 @@
 package com.forcetower.uefs.sagres_sdk.domain;
 
+import android.util.Log;
+
+import com.forcetower.uefs.activity.LoginActivity;
+import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +30,9 @@ public class SagresClass {
 
     public void setName(String name) {
         this.name = name;
+        for (SagresClassDay classDay : days) {
+            classDay.setClassName(name);
+        }
     }
 
     public String getCode() {
@@ -33,6 +41,9 @@ public class SagresClass {
 
     public void setCode(String code) {
         this.code = code;
+        for (SagresClassDay classDay : days) {
+            classDay.setClassCode(code);
+        }
     }
 
     public void addClazz(String aClass) {
@@ -51,6 +62,7 @@ public class SagresClass {
 
     public void addStartEndTime(String start, String finish, String day, String classType) {
         SagresClassDay classDay = new SagresClassDay(start, finish, day, classType, this);
+        Log.d(SagresPortalSDK.SAGRES_SDK_TAG, "Class name is: " + name);
         days.add(classDay);
     }
 
