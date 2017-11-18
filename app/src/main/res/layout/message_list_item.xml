@@ -1,7 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
+    android:id="@+id/vr_message_item"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="70dp">
+    android:layout_height="88dp"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/tv_class_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/roboto_regular"
+        android:textSize="16sp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="8dp"
+        android:singleLine="true"
+        android:textColor="@color/primaryText"
+        tools:text="TEC 412 - Signals and Systems"/>
+
+    <TextView
+        android:id="@+id/tv_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:fontFamily="@font/roboto_regular"
+        android:layout_below="@id/tv_class_name"
+        android:textSize="14sp"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/secondaryText"
+        tools:text="Caros estudantes, amanhã não vai ter aula, dei 10 a todos, flws"/>
+
+    <TextView
+        android:id="@+id/tv_sender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:fontFamily="@font/roboto_regular"
+        android:layout_below="@id/tv_message"
+        android:textSize="14sp"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/secondaryText"
+        tools:text="20/11/2017 - Armando Sanca Sanca"/>
 
 </RelativeLayout>
