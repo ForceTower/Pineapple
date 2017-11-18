@@ -7,6 +7,7 @@ import com.forcetower.uefs.sagres_sdk.domain.SagresAccess;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassDay;
 import com.forcetower.uefs.sagres_sdk.domain.SagresMessage;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
+import com.forcetower.uefs.sagres_sdk.exception.SagresLoginException;
 import com.forcetower.uefs.sagres_sdk.parsers.SagresMessagesParser;
 import com.forcetower.uefs.sagres_sdk.parsers.SagresParser;
 import com.forcetower.uefs.sagres_sdk.parsers.SagresScheduleParser;
@@ -23,7 +24,8 @@ import java.util.List;
 public class SagresUtility {
     public interface InformationFetchWithCacheCallback {
         void onSuccess(SagresProfile profile);
-        void onFailure(Exception e);
+        void onFailure(SagresLoginException e);
+        void onLoginSuccess();
     }
 
     public static void getInformationFromUserWithCacheAsync(SagresAccess access, InformationFetchWithCacheCallback callback) {
@@ -32,14 +34,14 @@ public class SagresUtility {
 
         if (!SagresPortalSDK.isSdkInitialized()) {
             if (callback != null) {
-                callback.onFailure(new Exception("Sagres SDK is not initialized"));
+                callback.onFailure(new SagresLoginException("Sagres SDK is not initialized"));
             }
             return;
         }
 
         if (username == null || password == null) {
             if (callback != null) {
-                callback.onFailure(new Exception("Fields are null"));
+                callback.onFailure(new SagresLoginException(true, false, "Fields are null"));
             }
             return;
         }
@@ -49,7 +51,7 @@ public class SagresUtility {
             if (loginResponse.has("error")) {
                 Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Login has error");
                 if (callback != null) {
-                    callback.onFailure(new Exception("Login has error - Timeout[Prob]"));
+                    callback.onFailure(new SagresLoginException(false, true, "Login has error - Timeout[Prob]"));
                 }
                 return;
             }
@@ -59,8 +61,12 @@ public class SagresUtility {
 
             boolean connected = SagresParser.connected(html);
             if (!connected) {
-                callback.onFailure(new Exception("Invalid Login"));
+                callback.onFailure(new SagresLoginException(true, false, "Invalid Login"));
                 return;
+            } else {
+                if (callback != null) {
+                    callback.onLoginSuccess();
+                }
             }
 
             final String studentName                            = SagresParser.getUserName(html);
@@ -75,6 +81,7 @@ public class SagresUtility {
 
         } catch (JSONException e) {
             e.printStackTrace();
+            callback.onFailure(new SagresLoginException("JSONException in parse - Never should've happened"));
             Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "JSONException in login");
         }
 

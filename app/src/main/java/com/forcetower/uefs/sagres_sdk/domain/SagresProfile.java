@@ -1,5 +1,6 @@
 package com.forcetower.uefs.sagres_sdk.domain;
 
+import com.forcetower.uefs.sagres_sdk.exception.SagresLoginException;
 import com.forcetower.uefs.sagres_sdk.utility.SagresDayUtils;
 import com.forcetower.uefs.sagres_sdk.managers.SagresProfileManager;
 import com.forcetower.uefs.sagres_sdk.utility.SagresUtility;
@@ -38,6 +39,10 @@ public class SagresProfile {
         return SagresProfileManager.getInstance().getCurrentProfile();
     }
 
+    public HashMap<String, List<SagresClassDay>> getClasses() {
+        return classes;
+    }
+
     public static void setCurrentProfile(SagresProfile profile) {
         SagresProfileManager.getInstance().setCurrentProfile(profile);
     }
@@ -52,14 +57,23 @@ public class SagresProfile {
         SagresUtility.getInformationFromUserWithCacheAsync(access, new SagresUtility.InformationFetchWithCacheCallback() {
             @Override
             public void onSuccess(SagresProfile profile) {
-
+                System.out.println("Profile fetch");
+                setCurrentProfile(profile);
             }
 
             @Override
-            public void onFailure(Exception e) {
-
+            public void onFailure(SagresLoginException e) {
+                e.printStackTrace();
             }
+
+            @Override
+            public void onLoginSuccess() {}
         });
+    }
+
+    public static void fetchProfileForSagresAccess(SagresAccess access, SagresUtility.InformationFetchWithCacheCallback callback) {
+        setCurrentProfile(null);
+        SagresUtility.getInformationFromUserWithCacheAsync(access, callback);
     }
 
     public JSONObject toJSONObject() throws JSONException {

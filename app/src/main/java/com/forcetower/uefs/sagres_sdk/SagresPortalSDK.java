@@ -2,6 +2,7 @@ package com.forcetower.uefs.sagres_sdk;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.forcetower.uefs.sagres_sdk.domain.SagresAccess;
 import com.forcetower.uefs.sagres_sdk.managers.SagresAccessManager;
@@ -11,6 +12,7 @@ import com.forcetower.uefs.sagres_sdk.utility.SagresCookieJar;
 
 import java.net.CookieHandler;
 import java.net.CookieManager;
+import java.util.Calendar;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.FutureTask;
@@ -30,8 +32,10 @@ public class SagresPortalSDK {
 
     private static OkHttpClient httpClient;
 
-    private static void initializeSdk(final Context context) {
+    public static void initializeSdk(final Context context) {
         if (sdkInitialized) return;
+
+        Log.i(SAGRES_SDK_TAG, "Initializing Sagres SDK - " + Calendar.getInstance().getTime().toString());
 
         CookieHandler cookieHandler = new CookieManager();
 
@@ -50,10 +54,10 @@ public class SagresPortalSDK {
                 SagresProfileManager.getInstance().loadCurrentProfile();
 
                 if (SagresAccess.getCurrentAccess() != null && SagresProfile.getCurrentProfile() == null) {
+                    Log.i(SAGRES_SDK_TAG, "Attempt to load user profile");
                     SagresProfile.fetchProfileForCurrentAccess();
                 }
 
-                SagresMethods.instantiate();
                 return null;
             }
         });

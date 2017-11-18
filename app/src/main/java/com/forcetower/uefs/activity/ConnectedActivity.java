@@ -7,15 +7,15 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.activity.base.UEFSBaseActivity;
 import com.forcetower.uefs.fragments.ScheduleFragment;
 
-public class ConnectedActivity extends AppCompatActivity {
+public class ConnectedActivity extends UEFSBaseActivity {
     private TextView mTextMessage;
     private Menu menu;
     private int count;

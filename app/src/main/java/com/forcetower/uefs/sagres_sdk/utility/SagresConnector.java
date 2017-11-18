@@ -1,8 +1,5 @@
 package com.forcetower.uefs.sagres_sdk.utility;
 
-import android.support.annotation.NonNull;
-
-import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.sagres_sdk.SagresConstants;
 import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
 

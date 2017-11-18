@@ -13,7 +13,11 @@ import android.widget.Toast;
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.UEFSApplication;
+import com.forcetower.uefs.activity.base.UEFSBaseActivity;
 import com.forcetower.uefs.sagres_sdk.SagresConstants;
+import com.forcetower.uefs.sagres_sdk.domain.SagresAccess;
+import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
+import com.forcetower.uefs.sagres_sdk.managers.SagresLoginManager;
 import com.forcetower.uefs.sagres_sdk.utility.SagresCookieJar;
 import com.forcetower.uefs.helpers.PrefUtils;
 import com.forcetower.uefs.sagres_sdk.parsers.SagresParser;
@@ -30,7 +34,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends UEFSBaseActivity {
     private Button btn_login;
     private EditText et_username;
     private EditText et_password;
@@ -48,22 +52,9 @@ public class LoginActivity extends AppCompatActivity {
         et_password = findViewById(R.id.password_form);
         progressBar = findViewById(R.id.login_progress);
 
-        boolean connected = PrefUtils.get(this, "connected", false);
-        String html = PrefUtils.get(this, "html", "");
-        //String savedClasses = PrefUtils.get(this, "classes", "");
-
-        if (connected) {
-            /*if (!savedClasses.trim().equals("")) {
-                HashMap classes = new Gson().fromJson(savedClasses, HashMap.class);
-                ((UEFSApplication)getApplication()).saveClasses(classes);
-                ConnectedActivity.startActivity(this);
-                finish();
-            }*/
-
-            if (!html.trim().equals("")) {
-                ParsingActivity.startActivity(this, html, false);
-                finish();
-            }
+        if (SagresAccess.getCurrentAccess() != null && SagresProfile.getCurrentProfile() != null) {
+            ConnectedActivity.startActivity(this);
+            finish();
         }
     }
 
@@ -88,79 +79,23 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void connectToPortal(final String username, final String password) {
-        RequestBody requestBody = new FormBody.Builder()
-                .add("__EVENTTARGET", "")
-                .add("__EVENTARGUMENT", "")
-                .add("__VIEWSTATE", "/wEPDwUKMTc5MDkxMTc2NA9kFgJmD2QWBAIBD2QWDAIEDxYCHgRocmVmBT1+L0FwcF9UaGVtZXMvTmV3VGhlbWUvQWNlc3NvRXh0ZXJuby5jc3M/ZnA9NjM2Mzk4MDY3NDQwMDAwMDAwZAIFDxYCHwAFOH4vQXBwX1RoZW1lcy9OZXdUaGVtZS9Db250ZXVkby5jc3M/ZnA9NjM2Mzk4MDY3NDQwMDAwMDAwZAIGDxYCHwAFOX4vQXBwX1RoZW1lcy9OZXdUaGVtZS9Fc3RydXR1cmEuY3NzP2ZwPTYzNjIxNDcxMjMwMDAwMDAwMGQCBw8WAh8ABTl+L0FwcF9UaGVtZXMvTmV3VGhlbWUvTWVuc2FnZW5zLmNzcz9mcD02MzYyMTQ3MTIzMDAwMDAwMDBkAggPFgIfAAU2fi9BcHBfVGhlbWVzL05ld1RoZW1lL1BvcFVwcy5jc3M/ZnA9NjM2MjE0NzEyMzAwMDAwMDAwZAIJDxYCHwAFWC9Qb3J0YWwvUmVzb3VyY2VzL1N0eWxlcy9BcHBfVGhlbWVzL05ld1RoZW1lL05ld1RoZW1lMDEvZXN0aWxvLmNzcz9mcD02MzYxMDU4MjY2NDAwMDAwMDBkAgMPZBYEAgcPDxYEHgRUZXh0BQ1TYWdyZXMgUG9ydGFsHgdWaXNpYmxlaGRkAgsPZBYGAgEPDxYCHwJoZGQCAw88KwAKAQAPFgIeDVJlbWVtYmVyTWVTZXRoZGQCBQ9kFgICAg9kFgICAQ8WAh4LXyFJdGVtQ291bnRmZGTS+Y3bntF2UZMwIIXP8cpv13rKAw==")
-                .add("__VIEWSTATEGENERATOR", "BB137B96")
-                .add("__EVENTVALIDATION", "/wEdAATbze7D9s63/L1c2atT93YlM4nqN81slLG8uEFL8sVLUjoauXZ8QTl2nEJmPx53FYhjUq3W1Gjeb7bKHHg4dlob4GWO7EiBlTRJt8Yw8hywpn30EZA=")
-                .add("ctl00$PageContent$LoginPanel$UserName", username)
-                .add("ctl00$PageContent$LoginPanel$Password", password)
-                .add("ctl00$PageContent$LoginPanel$LoginButton", "Entrar")
-                .build();
-
-        final Request request = new Request.Builder()
-                .url(SagresConstants.SAGRES_LOGIN_PAGE)
-                .post(requestBody)
-                .addHeader("Content-Type", "application/x-www-form-urlencoded")
-                .addHeader("cache-control", "no-cache")
-                .build();
-
-        CookieHandler cookieHandler = new CookieManager();
-
-        OkHttpClient client = new OkHttpClient.Builder()
-                .followRedirects(true)
-                .cookieJar(new SagresCookieJar(cookieHandler))
-                .build();
-
-        Call call = client.newCall(request);
-        currentCall = call;
-
-        call.enqueue(new Callback() {
+        SagresLoginManager.getInstance().login(username, password, new SagresLoginManager.SagresLoginCallback() {
             @Override
-            public void onFailure(@NonNull Call call, @NonNull final IOException e) {
-                Log.d(Constants.APP_TAG, "Problem in the paradise... Call failure");
-                e.printStackTrace();
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        returnUiToDefault(false);
-                        Toast.makeText(LoginActivity.this, R.string.login_failed_response, Toast.LENGTH_SHORT).show();
-                        Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-
+            public void onSuccess() {
+                Log.i(Constants.APP_TAG, "LoginActivity::ParseSuccess()");
+                ConnectedActivity.startActivity(LoginActivity.this);
+                finish();
             }
 
             @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    String html = response.body().string();
-                    html = SagresParser.changeCharset(html);
+            public void onFailure() {
+                Log.i(Constants.APP_TAG, "LoginActivity::Invalid Login");
+                returnUiToDefault(true);
+            }
 
-                    boolean connected = SagresParser.connected(html);
-                    if (!connected) {
-                        returnUiToDefault(true);
-                    } else {
-                        ((UEFSApplication)getApplication()).saveHtml(html);
-                        PrefUtils.save(LoginActivity.this, "html", html);
-                        PrefUtils.save(LoginActivity.this, "connected", true);
-                        //TODO: Save password on device?? (Yes, for now, i'm to lazy for typing it every time)
-                        PrefUtils.save(LoginActivity.this, "username", username);
-                        PrefUtils.save(LoginActivity.this, "password", password);
-
-                        returnUiToDefault(false);
-                        ParsingActivity.startActivity(LoginActivity.this, html, true);
-                        finish();
-                    }
-
-                } else {
-                    Log.d(Constants.APP_TAG, "Problem in the paradise... Unsuccessful response");
-                    returnUiToDefault(false);
-                }
-
-                currentCall = null;
+            @Override
+            public void onLoginSuccess() {
+                Log.i(Constants.APP_TAG, "LoginActivity::LoginSuccess()");
             }
         });
     }

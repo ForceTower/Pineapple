@@ -23,7 +23,11 @@ public class SagresAccess {
     private String lastLogin;
     private Calendar lastLoginCalendar;
 
-    private SagresAccess(String username, String password, String lastLogin) {
+    public SagresAccess(String username, String password) {
+        this(username, password, Calendar.getInstance().getTime().toString());
+    }
+
+    public SagresAccess(String username, String password, String lastLogin) {
         this.username = username;
         this.password = password;
         this.lastLogin = lastLogin;

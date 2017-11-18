@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.UEFSApplication;
+import com.forcetower.uefs.activity.base.UEFSBaseActivity;
 import com.forcetower.uefs.helpers.Utils;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassDay;
 import com.forcetower.uefs.sagres_sdk.parsers.SagresParser;
@@ -25,7 +26,7 @@ import java.util.HashMap;
 
 import static com.forcetower.uefs.Constants.APP_TAG;
 
-public class ParsingActivity extends AppCompatActivity {
+public class ParsingActivity extends UEFSBaseActivity {
     private TextView tv_information;
     private boolean delayed;
 

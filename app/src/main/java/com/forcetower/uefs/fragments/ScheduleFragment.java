@@ -20,6 +20,7 @@ import com.forcetower.uefs.UEFSApplication;
 import com.forcetower.uefs.adapters.DayScheduleAdapter;
 import com.forcetower.uefs.helpers.Utils;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassDay;
+import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
 
 import java.util.HashMap;
 import java.util.List;
@@ -78,7 +79,7 @@ public class ScheduleFragment extends Fragment {
 
     private void fillWithSchedule() {
         if (getActivity() != null) {
-            HashMap<String, List<SagresClassDay>> classPerDay = ((UEFSApplication) getActivity().getApplication()).getSchedule();
+            HashMap<String, List<SagresClassDay>> classPerDay = SagresProfile.getCurrentProfile().getClasses();
 
             for (int i = 0; i < 7; i++) {
                 String dayOfWeek = Utils.getDayOfWeek(i + 1);

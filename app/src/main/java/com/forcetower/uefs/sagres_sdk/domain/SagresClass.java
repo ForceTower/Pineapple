@@ -39,34 +39,18 @@ public class SagresClass {
         return code;
     }
 
-    public void setCode(String code) {
-        this.code = code;
-        for (SagresClassDay classDay : days) {
-            classDay.setClassCode(code);
-        }
-    }
-
     public void addClazz(String aClass) {
         aClass = aClass.trim();
         if (!containsClazz(aClass))
             this.classes.add(aClass);
     }
 
-    public List<String> getClasses() {
-        return classes;
-    }
-
-    public String getClazz() {
-        return classes.size() > 0 ? classes.get(0) : "Unique";
-    }
-
     public void addStartEndTime(String start, String finish, String day, String classType) {
         SagresClassDay classDay = new SagresClassDay(start, finish, day, classType, this);
-        Log.d(SagresPortalSDK.SAGRES_SDK_TAG, "Class name is: " + name);
         days.add(classDay);
     }
 
-    public long getTotalTimePerWeek() {
+    private long getTotalTimePerWeek() {
         long value = 0;
         for (SagresClassDay classDay : days) {
             value += classDay.getDuration();
@@ -90,7 +74,7 @@ public class SagresClass {
                 "},";
     }
 
-    public String getClassDaysString() {
+    private String getClassDaysString() {
         StringBuilder builder = new StringBuilder();
 
         for (SagresClassDay classDay : days) {
