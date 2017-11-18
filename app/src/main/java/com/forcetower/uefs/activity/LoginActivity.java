@@ -13,9 +13,10 @@ import android.widget.Toast;
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.UEFSApplication;
-import com.forcetower.uefs.helpers.JavaNetCookieJar;
+import com.forcetower.uefs.sagres_sdk.SagresConstants;
+import com.forcetower.uefs.sagres_sdk.utility.SagresCookieJar;
 import com.forcetower.uefs.helpers.PrefUtils;
-import com.forcetower.uefs.html_parser.SagresParser;
+import com.forcetower.uefs.sagres_sdk.parsers.SagresParser;
 
 import java.io.IOException;
 import java.net.CookieHandler;
@@ -99,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
 
         final Request request = new Request.Builder()
-                .url(Constants.SAGRES_LOGIN)
+                .url(SagresConstants.SAGRES_LOGIN_PAGE)
                 .post(requestBody)
                 .addHeader("Content-Type", "application/x-www-form-urlencoded")
                 .addHeader("cache-control", "no-cache")
@@ -109,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .followRedirects(true)
-                .cookieJar(new JavaNetCookieJar(cookieHandler))
+                .cookieJar(new SagresCookieJar(cookieHandler))
                 .build();
 
         Call call = client.newCall(request);

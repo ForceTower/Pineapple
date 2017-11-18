@@ -1,64 +1,35 @@
-package com.forcetower.uefs.html_parser;
+package com.forcetower.uefs.sagres_sdk.parsers;
 
 import android.util.Log;
 import android.util.SparseArray;
 
 import com.forcetower.uefs.Constants;
-import com.forcetower.uefs.helpers.Utils;
-import com.forcetower.uefs.model.UClass;
+import com.forcetower.uefs.sagres_sdk.domain.SagresClass;
+import com.forcetower.uefs.sagres_sdk.domain.SagresClassDay;
+import com.forcetower.uefs.sagres_sdk.utility.SagresDayUtils;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 /**
- * Created by João Paulo on 10/11/2017.
+ * Created by João Paulo on 18/11/2017.
  */
 
-public class SagresParser {
-    private static final String LOGIN_ERROR_PATTERN = "<div class=\"externo-erro\">";
-    private static final String USER_NAME_PATTERN = "<span id=\"ctl00_ConteudoTopo_UserName\" class=\"usuario-nome\">";
+public class SagresScheduleParser {
     private static final String SCHEDULE_PATTERN = "<table class=\"meus-horarios\" cellspacing=\"0\" rules=\"all\" border=\"1\"";
     private static final String SCHEDULE_SUB_PATTERN = "<table class=\"meus-horarios-legenda\" cellspacing=\"0\" rules=\"all\" border=\"1\"";
 
+    private static SparseArray<String> iterationPerDay;
+    private static HashMap<String, SagresClass> codePerLessons;
 
-    private static SparseArray<String> iterationPerDay = new SparseArray<>();
-    private static HashMap<String, UClass> codePerLessons = new HashMap<>();
-
-    public static String changeCharset(String html) {
-        return ParserUtils.useReplacements(html);
+    public static HashMap<String, List<SagresClassDay>> getCompleteSchedule(String html) {
+        findSchedule(html);
+        return getSchedule(findDetails(html));
     }
 
-    public static boolean connected(String html) {
-        if (html.contains(LOGIN_ERROR_PATTERN)) {
-            int start = html.indexOf(LOGIN_ERROR_PATTERN) + LOGIN_ERROR_PATTERN.length();
-            int end = html.indexOf("</div>", start);
-
-            String loginError = html.substring(start, end).trim();
-            if (loginError.length() != 0) {
-                Log.i(Constants.APP_TAG, "[Probability] Login failed by user mistake");
-                return false;
-            } else {
-                Log.i(Constants.APP_TAG, "[Probability] Login failed by my mistake");
-                return false;
-            }
-        } else {
-            Log.i(Constants.APP_TAG, "[Probability] Correct Login");
-            return true;
-        }
-    }
-
-    public static String getUserName(String html) {
-        if (html.contains(USER_NAME_PATTERN)) {
-            int start = html.indexOf(USER_NAME_PATTERN) + USER_NAME_PATTERN.length();
-            int end = html.indexOf("</span>", start);
-
-            String name = html.substring(start, end).trim();
-            return Utils.toTitleCase(name);
-        } else {
-            return null;
-        }
-    }
-
-    public static void findSchedule(String html) {
+    public static HashMap<String, SagresClass> findSchedule(String html) {
         iterationPerDay = new SparseArray<>();
         codePerLessons = new HashMap<>();
 
@@ -76,6 +47,8 @@ public class SagresParser {
             String remaining = schedule.substring(header_end + 5);
             parseSchedule(remaining);
         }
+
+        return codePerLessons;
     }
 
     private static void extractScheduleHeader(String section) {
@@ -152,9 +125,9 @@ public class SagresParser {
                     if (iterations > 0) {
                         String key = iterationPerDay.get(iterations);
 
-                        UClass clazz = codePerLessons.get(parts[0].trim());
+                        SagresClass clazz = codePerLessons.get(parts[0].trim());
                         if (clazz == null) {
-                            clazz = new UClass(parts[0].trim());
+                            clazz = new SagresClass(parts[0].trim());
                         }
 
                         clazz.addClazz(parts[1]);
@@ -173,7 +146,7 @@ public class SagresParser {
         }
     }
 
-    public static HashMap<String, UClass> findDetails(String html) {
+    public static HashMap<String, SagresClass> findDetails(String html) {
         if (html.contains(SCHEDULE_SUB_PATTERN)) {
             int start = html.indexOf(SCHEDULE_SUB_PATTERN) + SCHEDULE_SUB_PATTERN.length();
             int end = html.indexOf("</table>", start);
@@ -225,7 +198,7 @@ public class SagresParser {
                 String name = td_2.substring(td_2.indexOf("-") + 1).trim();
 
                 currentCode = code;
-                UClass lesson = codePerLessons.get(code);
+                SagresClass lesson = codePerLessons.get(code);
                 lesson.setName(name);
                 codePerLessons.put(code, lesson);
             } else {
@@ -233,12 +206,12 @@ public class SagresParser {
 
                 if (parts.length == 2) {
                     if (!currentCode.equals("undef")) {
-                        UClass lesson = codePerLessons.get(currentCode);
+                        SagresClass lesson = codePerLessons.get(currentCode);
                         lesson.addAtToAllClasses(parts[1].trim());
                     }
                 } else if (parts.length == 3) {
                     if (!currentCode.equals("undef")) {
-                        UClass lesson = codePerLessons.get(currentCode);
+                        SagresClass lesson = codePerLessons.get(currentCode);
                         lesson.addAtToSpecificClass(parts[2].trim(), parts[1].trim(), parts[0].trim());
                     }
                 } else {
@@ -249,6 +222,29 @@ public class SagresParser {
             position = tr_end + 5;
         }
 
-        return;
+    }
+
+    public static HashMap<String, List<SagresClassDay>> getSchedule(HashMap<String, SagresClass> classes) {
+        HashMap<String, List<SagresClassDay>> classPerDay = new HashMap<>();
+
+        for (int i = 1; i <= 7; i++) {
+            String dayOfWeek = SagresDayUtils.getDayOfWeek(i);
+            List<SagresClassDay> dayOfClass = new ArrayList<>();
+
+            for (SagresClass uclass : classes.values()) {
+                List<SagresClassDay> days = uclass.getDays();
+
+                for (SagresClassDay classz : days) {
+                    if (classz.getDay().equalsIgnoreCase(dayOfWeek)) {
+                        dayOfClass.add(classz);
+                    }
+                }
+            }
+
+            Collections.sort(dayOfClass);
+            classPerDay.put(dayOfWeek, dayOfClass);
+        }
+
+        return classPerDay;
     }
 }

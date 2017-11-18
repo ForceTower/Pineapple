@@ -1,7 +1,11 @@
-package com.forcetower.uefs.sdk;
+package com.forcetower.uefs.sagres_sdk.caching;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.util.Log;
+
+import com.forcetower.uefs.content.ObscuredSharedPreferences;
+import com.forcetower.uefs.helpers.PrefUtils;
+import com.forcetower.uefs.sagres_sdk.domain.SagresAccess;
+import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,17 +14,17 @@ import org.json.JSONObject;
  * Created by João Paulo on 17/11/2017.
  */
 
-class SagresAccessCache {
+public class SagresAccessCache {
     private static final String CACHED_ACCESS_TOKEN_KEY = "com.forcetower.SagresAccessCache.CachedCredentials";
-    private final SharedPreferences sharedPreferences;
+    private final ObscuredSharedPreferences sharedPreferences;
 
 
-    SagresAccessCache(SharedPreferences preferences) {
+    public SagresAccessCache(ObscuredSharedPreferences preferences) {
         this.sharedPreferences = preferences;
     }
 
-    SagresAccessCache() {
-        this(SagresPortalSDK.getApplicationContext().getSharedPreferences(SagresAccessManager.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE));
+    public SagresAccessCache() {
+        this(PrefUtils.getPrefs(SagresPortalSDK.getApplicationContext()));
     }
 
     public SagresAccess loadCredentials() {
@@ -50,18 +54,18 @@ class SagresAccessCache {
         return null;
     }
 
-    void clear() {
+    public void clear() {
         sharedPreferences.edit().remove(CACHED_ACCESS_TOKEN_KEY).apply();
     }
 
     public void save(SagresAccess access) {
-        /*TODO JSONObject jsonObject = null;
+        JSONObject jsonObject;
         try {
             jsonObject = access.toJSONObject();
-            sharedPreferences.edit().putString(CACHED_ACCESS_TOKEN_KEY, jsonObject.toString())
-                    .apply();
+            sharedPreferences.edit().putString(CACHED_ACCESS_TOKEN_KEY, jsonObject.toString()).apply();
         } catch (JSONException e) {
-            // Can't recover
-        }*/
+            Log.e(SagresPortalSDK.SAGRES_SDK_TAG, "Attempt to save Sagres Access has failed");
+            e.printStackTrace();
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.forcetower.uefs.model;
+package com.forcetower.uefs.sagres_sdk.domain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,13 +7,13 @@ import java.util.List;
  * Created by João Paulo on 10/11/2017.
  */
 
-public class UClass {
+public class SagresClass {
     private String name;
     private String code;
     private List<String> classes;
-    private List<UClassDay> days;
+    private List<SagresClassDay> days;
 
-    public UClass(String code) {
+    public SagresClass(String code) {
         this.code = code;
         classes = new ArrayList<>();
         days = new ArrayList<>();
@@ -50,13 +50,13 @@ public class UClass {
     }
 
     public void addStartEndTime(String start, String finish, String day, String classType) {
-        UClassDay classDay = new UClassDay(start, finish, day, classType, this);
+        SagresClassDay classDay = new SagresClassDay(start, finish, day, classType, this);
         days.add(classDay);
     }
 
     public long getTotalTimePerWeek() {
         long value = 0;
-        for (UClassDay classDay : days) {
+        for (SagresClassDay classDay : days) {
             value += classDay.getDuration();
         }
 
@@ -81,13 +81,13 @@ public class UClass {
     public String getClassDaysString() {
         StringBuilder builder = new StringBuilder();
 
-        for (UClassDay classDay : days) {
+        for (SagresClassDay classDay : days) {
             String day = classDay.getDay();
             String start = classDay.getStartString();
             String finish = classDay.getFinishString();
             String classType = classDay.getClassType();
             String allocatedRoom = classDay.getAllocatedRoom();
-            String place = classDay.getPlace();
+            String place = classDay.getModulo();
 
             builder.append("\t\t{\n");
             builder.append("\t\t\tday: ").append(day).append("\n");
@@ -128,10 +128,10 @@ public class UClass {
         }
 
 
-        for (UClassDay classDay : days) {
-            classDay.setAllocatedRoom(allocatedRoom);
+        for (SagresClassDay classDay : days) {
+            classDay.setRoom(allocatedRoom);
             classDay.setCampus(campus);
-            classDay.setPlace(place);
+            classDay.setModulo(place);
         }
     }
 
@@ -160,11 +160,11 @@ public class UClass {
             place = "testing_please_report_4";
         }
 
-        for (UClassDay classDay : days) {
+        for (SagresClassDay classDay : days) {
             if (classDay.getDay().equals(day) && classDay.getClassType().equals(type)) {
-                classDay.setAllocatedRoom(allocatedRoom);
+                classDay.setRoom(allocatedRoom);
                 classDay.setCampus(campus);
-                classDay.setPlace(place);
+                classDay.setModulo(place);
             }
         }
     }
@@ -177,7 +177,7 @@ public class UClass {
         return part.trim();
     }
 
-    public List<UClassDay> getDays() {
+    public List<SagresClassDay> getDays() {
         return days;
     }
 }

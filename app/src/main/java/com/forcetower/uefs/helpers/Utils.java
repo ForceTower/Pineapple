@@ -5,15 +5,13 @@ import android.os.Build;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.TextView;
 
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.model.UClass;
-import com.forcetower.uefs.model.UClassDay;
+import com.forcetower.uefs.sagres_sdk.domain.SagresClass;
+import com.forcetower.uefs.sagres_sdk.domain.SagresClassDay;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -92,17 +90,17 @@ public class Utils {
         return day;
     }
 
-    public static HashMap<String, List<UClassDay>> getSchedule(HashMap<String, UClass> classes) {
-        HashMap<String, List<UClassDay>> classPerDay = new HashMap<>();
+    public static HashMap<String, List<SagresClassDay>> getSchedule(HashMap<String, SagresClass> classes) {
+        HashMap<String, List<SagresClassDay>> classPerDay = new HashMap<>();
 
         for (int i = 1; i <= 7; i++) {
             String dayOfWeek = getDayOfWeek(i);
-            List<UClassDay> dayOfClass = new ArrayList<>();
+            List<SagresClassDay> dayOfClass = new ArrayList<>();
 
-            for (UClass uclass : classes.values()) {
-                List<UClassDay> days = uclass.getDays();
+            for (SagresClass uclass : classes.values()) {
+                List<SagresClassDay> days = uclass.getDays();
 
-                for (UClassDay classz : days) {
+                for (SagresClassDay classz : days) {
                     if (classz.getDay().equalsIgnoreCase(dayOfWeek)) {
                         dayOfClass.add(classz);
                     }

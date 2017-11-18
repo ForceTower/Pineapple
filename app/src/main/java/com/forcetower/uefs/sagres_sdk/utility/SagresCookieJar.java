@@ -1,4 +1,4 @@
-package com.forcetower.uefs.helpers;
+package com.forcetower.uefs.sagres_sdk.utility;
 
 import java.io.IOException;
 import java.net.CookieHandler;
@@ -19,10 +19,10 @@ import static okhttp3.internal.Util.trimSubstring;
  * Created by João Paulo on 09/11/2017.
  */
 
-public class JavaNetCookieJar implements CookieJar {
+public class SagresCookieJar implements CookieJar {
     private final CookieHandler cookieHandler;
 
-    public JavaNetCookieJar(CookieHandler cookieHandler) {
+    public SagresCookieJar(CookieHandler cookieHandler) {
         this.cookieHandler = cookieHandler;
     }
 

@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.helpers.Utils;
-import com.forcetower.uefs.model.UClassDay;
+import com.forcetower.uefs.sagres_sdk.domain.SagresClassDay;
 
 import java.util.List;
 
@@ -27,10 +27,10 @@ public class DayScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private Context context;
     private OnClassClickListener clickListener;
-    private List<UClassDay> classes;
+    private List<SagresClassDay> classes;
     private String day;
 
-    public DayScheduleAdapter(Context context, List<UClassDay> classes, String day) {
+    public DayScheduleAdapter(Context context, List<SagresClassDay> classes, String day) {
         this.context = context;
         this.classes = classes;
         this.day = day;
@@ -70,7 +70,7 @@ public class DayScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     private void onBindClassViewHolder(ClassHolder view, int position) {
-        UClassDay uClass = getItem(position);
+        SagresClassDay uClass = getItem(position);
         if (uClass == null) {
             view.tv_class_name.setText(R.string.this_is_and_error);
             return;
@@ -83,7 +83,7 @@ public class DayScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         String class_time = start + " ~ " + end;
 
         String campus = uClass.getCampus();
-        String place = uClass.getPlace();
+        String place = uClass.getModulo();
         String room = uClass.getAllocatedRoom();
         String location = campus + " - " + place + " - " + room;
 
@@ -92,7 +92,7 @@ public class DayScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         view.tv_class_location.setText(location);
     }
 
-    private UClassDay getItem(int position) {
+    private SagresClassDay getItem(int position) {
         if (position < 0 || position >= classes.size())
             return null;
         return classes.get(position);

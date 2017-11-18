@@ -1,10 +1,13 @@
-package com.forcetower.uefs.sdk;
+package com.forcetower.uefs.sagres_sdk.managers;
+
+import com.forcetower.uefs.sagres_sdk.caching.SagresProfileCache;
+import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
 
 /**
  * Created by João Paulo on 17/11/2017.
  */
 
-class SagresProfileManager {
+public class SagresProfileManager {
     private static SagresProfileManager instance;
     private final SagresProfileCache profileCache;
     private SagresProfile currentProfile;
@@ -13,7 +16,7 @@ class SagresProfileManager {
         profileCache = new SagresProfileCache();
     }
 
-    static SagresProfileManager getInstance() {
+    public static SagresProfileManager getInstance() {
         if (instance == null) {
             synchronized (SagresProfileManager.class) {
                 instance = new SagresProfileManager();
@@ -22,7 +25,7 @@ class SagresProfileManager {
         return instance;
     }
 
-    boolean loadCurrentProfile() {
+    public boolean loadCurrentProfile() {
         SagresProfile profile = profileCache.loadProfile();
 
         if (profile != null) {

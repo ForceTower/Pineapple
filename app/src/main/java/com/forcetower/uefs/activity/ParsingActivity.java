@@ -12,16 +12,13 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.UEFSApplication;
-import com.forcetower.uefs.helpers.PrefUtils;
 import com.forcetower.uefs.helpers.Utils;
-import com.forcetower.uefs.html_parser.SagresParser;
-import com.forcetower.uefs.model.UClass;
-import com.forcetower.uefs.model.UClassDay;
-import com.forcetower.uefs.receivers.NotificationWake;
-import com.google.gson.Gson;
+import com.forcetower.uefs.sagres_sdk.domain.SagresClassDay;
+import com.forcetower.uefs.sagres_sdk.parsers.SagresParser;
+import com.forcetower.uefs.sagres_sdk.domain.SagresClass;
+import com.forcetower.uefs.sagres_sdk.parsers.SagresScheduleParser;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -76,30 +73,13 @@ public class ParsingActivity extends AppCompatActivity {
                     updateInformation(getString(R.string.finding_class_structure));
                     fadeIn(tv_information);
 
-                    SagresParser.findSchedule(html);
-                    //Thread.sleep(600);
-
-                    //fadeOut(tv_information);
-                    //Thread.sleep(100);
+                    SagresScheduleParser.findSchedule(html);
                     updateInformation(getString(R.string.finding_class_details));
-                    //fadeIn(tv_information);
 
-                    HashMap<String, UClass> classHashMap = SagresParser.findDetails(html);
+                    HashMap<String, SagresClass> classHashMap = SagresScheduleParser.findDetails(html);
                     ((UEFSApplication)getApplication()).saveClasses(classHashMap);
 
-                    //String json = new Gson().toJson(classHashMap);
-                    //PrefUtils.save(ParsingActivity.this, "classes", json);
-
-
-                    //setupNotifications(classHashMap);
-
-                    //Thread.sleep(500);
-                    //fadeOut(tv_information);
-                    //Thread.sleep(100);
                     updateInformation(getString(R.string.completed));
-                    //fadeIn(tv_information);
-
-                    //Thread.sleep(1000);
 
                     
                     completeActivity();
@@ -110,19 +90,19 @@ public class ParsingActivity extends AppCompatActivity {
         }).start();
     }
 
-    private void setupNotifications(HashMap<String, UClass> classHashMap) {
+    private void setupNotifications(HashMap<String, SagresClass> classHashMap) {
         AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
         if (alarmManager == null) {
             Log.e(APP_TAG, "Alarm Manager is null");
             Toast.makeText(ParsingActivity.this, R.string.alarm_manager_null, Toast.LENGTH_SHORT).show();
         } else {
-            for (UClass uClass : classHashMap.values()) {
-                for (UClassDay classDay : uClass.getDays()) {
+            for (SagresClass sagresClass : classHashMap.values()) {
+                for (SagresClassDay classDay : sagresClass.getDays()) {
                     Calendar start = classDay.getStart();
                     Intent myIntent = new Intent("Class Notification");
-                    myIntent.putExtra("name", uClass.getName());
+                    myIntent.putExtra("name", sagresClass.getName());
                     myIntent.putExtra("room", classDay.getAllocatedRoom());
-                    myIntent.putExtra("modulo", classDay.getPlace());
+                    myIntent.putExtra("modulo", classDay.getModulo());
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(ParsingActivity.this, 0, myIntent, 0);
                     alarmManager.set(AlarmManager.RTC, start.getTimeInMillis(), pendingIntent);
                 }

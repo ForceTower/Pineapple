@@ -1,4 +1,4 @@
-package com.forcetower.uefs.html_parser;
+package com.forcetower.uefs.sagres_sdk.parsers;
 
 import android.util.Pair;
 
@@ -6,8 +6,8 @@ import android.util.Pair;
  * Created by João Paulo on 10/11/2017.
  */
 
-final class ParserReplacements {
-    static final Pair[] replacements =
+final class SagresParserReplacements {
+    private static final Pair[] replacements =
             new Pair[]{
                     new Pair<>("&#192;", "À"),
                     new Pair<>("&#193;", "Á"),
@@ -46,4 +46,12 @@ final class ParserReplacements {
                     new Pair<>("&#146;", "'"),
                     new Pair<>("&#145;", "'"),
             };
+
+    public static String useReplacements(String str) {
+        String replaced = str;
+        for (Pair pair : replacements) {
+            replaced = replaced.replaceAll((String)pair.first, (String)pair.second);
+        }
+        return replaced;
+    }
 }

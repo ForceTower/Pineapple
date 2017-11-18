@@ -3,8 +3,8 @@ package com.forcetower.uefs;
 import android.app.Application;
 
 import com.forcetower.uefs.helpers.Utils;
-import com.forcetower.uefs.model.UClass;
-import com.forcetower.uefs.model.UClassDay;
+import com.forcetower.uefs.sagres_sdk.domain.SagresClass;
+import com.forcetower.uefs.sagres_sdk.domain.SagresClassDay;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,8 +15,8 @@ import java.util.List;
 
 public class UEFSApplication extends Application {
     private String html;
-    private HashMap<String, UClass> classes;
-    private HashMap<String, List<UClassDay>> schedule;
+    private HashMap<String, SagresClass> classes;
+    private HashMap<String, List<SagresClassDay>> schedule;
 
     public UEFSApplication() {
         super();
@@ -30,16 +30,16 @@ public class UEFSApplication extends Application {
         return html;
     }
 
-    public void saveClasses(HashMap<String, UClass> classes) {
+    public void saveClasses(HashMap<String, SagresClass> classes) {
         this.classes = classes;
         schedule = Utils.getSchedule(classes);
     }
 
-    public HashMap<String, UClass> getClasses() {
+    public HashMap<String, SagresClass> getClasses() {
         return classes;
     }
 
-    public HashMap<String, List<UClassDay>> getSchedule() {
+    public HashMap<String, List<SagresClassDay>> getSchedule() {
         return schedule;
     }
 }

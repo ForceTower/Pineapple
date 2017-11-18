@@ -1,10 +1,13 @@
-package com.forcetower.uefs.sdk;
+package com.forcetower.uefs.sagres_sdk.managers;
+
+import com.forcetower.uefs.sagres_sdk.caching.SagresAccessCache;
+import com.forcetower.uefs.sagres_sdk.domain.SagresAccess;
 
 /**
  * Created by João Paulo on 17/11/2017.
  */
 
-class SagresAccessManager {
+public class SagresAccessManager {
     public static final String SHARED_PREFERENCES_NAME = "com.forcetower.SagresAccessManager.SharedPreferences";
     private static SagresAccessManager instance;
     private final SagresAccessCache credentialsCache;
@@ -14,7 +17,7 @@ class SagresAccessManager {
         credentialsCache = new SagresAccessCache();
     }
 
-    static SagresAccessManager getInstance() {
+    public static SagresAccessManager getInstance() {
         if (instance == null) {
             synchronized (SagresAccessManager.class) {
                 instance = new SagresAccessManager();
@@ -23,7 +26,7 @@ class SagresAccessManager {
         return instance;
     }
 
-    boolean loadCurrentAccess() {
+    public boolean loadCurrentAccess() {
         SagresAccess credentials = credentialsCache.loadCredentials();
         if (credentials != null) {
             setCurrentCredentials(credentials, false);
@@ -32,7 +35,7 @@ class SagresAccessManager {
         return false;
     }
 
-    void setCurrentCredentials(SagresAccess credentials) {
+    public void setCurrentCredentials(SagresAccess credentials) {
         setCurrentCredentials(credentials, true);
     }
 
@@ -47,7 +50,7 @@ class SagresAccessManager {
         }
     }
 
-    SagresAccess getCurrentAccessCredentials() {
+    public SagresAccess getCurrentAccessCredentials() {
         return currentAccessCredentials;
     }
 

@@ -1,10 +1,10 @@
-package com.forcetower.uefs.sdk;
+package com.forcetower.uefs.sagres_sdk;
 
 /**
  * Created by João Paulo on 17/11/2017.
  */
 
-class SagresMethods {
+public class SagresMethods {
     private static SagresMethods instance;
 
     public static void instantiate() {
@@ -15,4 +15,5 @@ class SagresMethods {
             }
         }
     }
+
 }
