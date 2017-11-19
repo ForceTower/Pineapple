@@ -28,4 +28,6 @@
     <string name="class_notification_display">A aula %1$s é na sala %2$s, %3$s</string>
     <string name="alarm_manager_null">O controlador de alarmes é null. Notificações de aula não irão funcionar. Reporte</string>
     <string name="title_messages">Recados</string>
+    <string name="sent_at">Recebida: %1$s</string>
+    <string name="title_message">Recado</string>
 </resources>

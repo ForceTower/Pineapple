@@ -19,7 +19,6 @@ import com.forcetower.uefs.fragments.ScheduleFragment;
 public class ConnectedActivity extends UEFSBaseActivity {
     private TextView mTextMessage;
     private Menu menu;
-    private int count;
 
     public static void startActivity(Context context) {
         Intent intent = new Intent(context, ConnectedActivity.class);
@@ -77,7 +76,6 @@ public class ConnectedActivity extends UEFSBaseActivity {
         BottomNavigationView navigation = findViewById(R.id.navigation);
 
         menu = navigation.getMenu();
-        count = menu.size();
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 

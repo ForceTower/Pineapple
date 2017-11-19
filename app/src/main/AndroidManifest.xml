@@ -10,23 +10,22 @@
         android:name=".UEFSApplication"
         android:allowBackup="true"
         android:fullBackupContent="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:hardwareAccelerated="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".activity.LoginActivity">
+        <activity android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity android:name=".activity.ParsingActivity">
         </activity>
-        <activity
-            android:name=".activity.ConnectedActivity">
+        <activity android:name=".activity.ConnectedActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
             </intent-filter>
@@ -42,9 +41,13 @@
             android:exported="false">
             <intent-filter>
                 <action android:name="Class Notification"/>
+
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </receiver>
+
+        <activity android:name=".activity.MessageActivity">
+        </activity>
     </application>
 
 </manifest>
