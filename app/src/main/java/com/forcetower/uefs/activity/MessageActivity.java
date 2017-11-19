@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.transition.Explode;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.activity.base.UEFSBaseActivity;
+import com.forcetower.uefs.helpers.Utils;
 import com.forcetower.uefs.sagres_sdk.domain.SagresMessage;
 
 public class MessageActivity extends UEFSBaseActivity {
@@ -29,7 +31,12 @@ public class MessageActivity extends UEFSBaseActivity {
 
         if(messageInst == null)
             finish();
-
+/*
+        if (Utils.supportsMaterialDesign()) {
+           getWindow().setEnterTransition(new Explode());
+           getWindow().setExitTransition(new Explode());
+        }
+*/
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(R.string.title_message);

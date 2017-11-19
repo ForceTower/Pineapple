@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.transition.Explode;
+import android.transition.Fade;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -15,6 +17,7 @@ import com.forcetower.uefs.R;
 import com.forcetower.uefs.activity.base.UEFSBaseActivity;
 import com.forcetower.uefs.fragments.MessageBoardFragment;
 import com.forcetower.uefs.fragments.ScheduleFragment;
+import com.forcetower.uefs.helpers.Utils;
 
 public class ConnectedActivity extends UEFSBaseActivity {
     private TextView mTextMessage;
@@ -74,7 +77,12 @@ public class ConnectedActivity extends UEFSBaseActivity {
 
         mTextMessage = findViewById(R.id.message);
         BottomNavigationView navigation = findViewById(R.id.navigation);
-
+/*
+        if (Utils.supportsMaterialDesign()) {
+            getWindow().setEnterTransition(new Fade());
+            getWindow().setExitTransition(new Explode());
+        }
+*/
         menu = navigation.getMenu();
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);

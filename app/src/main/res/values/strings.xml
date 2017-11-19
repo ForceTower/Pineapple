@@ -30,4 +30,77 @@
     <string name="sent_at">Received: %1$s</string>
     <string name="title_message">Message</string>
     <string name="lorem_ipsum" translatable="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque iaculis lorem mauris, in lobortis sem dignissim et. Morbi nec pretium tellus, sit amet dignissim urna. Nunc dignissim luctus massa ut viverra. Suspendisse dapibus quis nulla sed vulputate. Vivamus dignissim, leo eu viverra congue, lorem dui semper massa, sit amet consequat dui tortor at mi. Integer pulvinar eros justo, et rutrum nulla tempor vel. Vestibulum malesuada dui a lectus tincidunt, sed fermentum felis rhoncus. Nulla varius, arcu et fringilla tincidunt, nulla magna cursus lorem, vel vestibulum sem lectus a diam. Cras imperdiet nunc at neque viverra pretium. Aenean mattis, dui ac commodo vulputate, tellus urna pharetra odio, eu rutrum eros risus sit amet justo. Aliquam cursus neque dui. Curabitur quis mattis justo, et tincidunt sapien.  Vivamus eu laoreet mauris. Donec dui nibh, gravida nec dapibus quis, tincidunt vel nibh. Interdum et malesuada fames ac ante ipsum primis in faucibus. Suspendisse potenti. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas lacinia semper libero sit amet egestas. Integer suscipit turpis quis nunc aliquet fringilla. Pellentesque tincidunt enim ligula, nec convallis ipsum luctus at. Aliquam vitae nulla ac purus rutrum iaculis. Etiam in aliquam urna, nec viverra ante. Duis placerat enim aliquam, dignissim eros sed, volutpat libero. Suspendisse lobortis massa vitae diam faucibus, eu hendrerit felis interdum. Nam egestas tellus in lacus sagittis, non pellentesque libero ultrices.  Cras ullamcorper a odio non molestie. Nam vestibulum vel ipsum ut volutpat. Morbi laoreet pellentesque nisi in volutpat. In semper metus vel neque elementum, id pellentesque nunc tempus. Etiam mattis, quam sit amet interdum pulvinar, ipsum ligula volutpat erat, quis dapibus nisl erat in magna. Fusce metus diam, convallis in placerat ut, dictum at erat. Ut vitae mauris quis tellus tincidunt dapibus sit amet vitae quam. Sed a vehicula diam, id molestie est. Donec lectus purus, efficitur vel ultrices maximus, fringilla id orci. Proin iaculis justo et nisi vestibulum ornare. Duis eleifend interdum semper.  Donec euismod odio in elit blandit, sed venenatis enim varius. Donec non sagittis sapien. Duis erat neque, gravida at hendrerit et, sollicitudin et purus. Donec vitae maximus metus. Sed feugiat cursus justo. Sed et odio erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec vulputate tempor risus sit amet suscipit. Aenean posuere orci non dui rhoncus rutrum vitae vitae diam. Curabitur mollis finibus quam ac ultricies. Aliquam volutpat viverra risus, quis iaculis felis luctus vitae. Nam et ullamcorper felis, id porta ligula. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed vehicula fermentum massa, quis imperdiet lectus egestas quis. Curabitur rutrum, dolor aliquet sollicitudin pretium, magna nunc laoreet sem, sed euismod leo odio sit amet libero.  Suspendisse eu efficitur ligula. Ut ullamcorper a dui vitae semper. Integer vulputate, arcu vitae varius tempus, felis nulla placerat purus, eget malesuada lorem lacus vitae eros. Morbi lacinia ultrices tristique. Nullam cursus sodales ipsum hendrerit condimentum. Mauris luctus augue molestie, suscipit felis ut, tincidunt sapien. Nam pellentesque augue eget libero mattis, a vulputate lorem dignissim. Curabitur porta suscipit mauris ut blandit. Vestibulum placerat lacus metus, non mollis ipsum feugiat id. Donec consequat dolor lorem, vitae auctor massa imperdiet a. Donec velit neque, hendrerit pharetra quam vel, hendrerit sollicitudin nisi. Praesent nisi lorem, varius sed ipsum in, gravida porttitor leo. Integer quis lorem magna.</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">General</string>
+
+    <string name="pref_title_social_recommendations">Enable social recommendations</string>
+    <string name="pref_description_social_recommendations">Recommendations for people to contact
+        based on your message history
+    </string>
+
+    <string name="pref_title_display_name">Display name</string>
+    <string name="pref_default_display_name">John Smith</string>
+
+    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
+    <string-array name="pref_example_list_titles">
+        <item>Always</item>
+        <item>When possible</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_example_list_values">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </string-array>
+
+    <!-- Example settings for Data & Sync -->
+    <string name="pref_header_data_sync">Data &amp; sync</string>
+
+    <string name="pref_title_sync_frequency">Sync frequency</string>
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>3 hours</item>
+        <item>6 hours</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+    </string-array>
+
+    <string-array name="list_preference_entries">
+        <item>Entry 1</item>
+        <item>Entry 2</item>
+        <item>Entry 3</item>
+    </string-array>
+
+    <string-array name="list_preference_entry_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="multi_select_list_preference_default_value"/>
+
+    <string name="pref_title_system_sync_settings">System sync settings</string>
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_notifications">Notifications</string>
+
+    <string name="pref_title_new_message_notifications">New message notifications</string>
+
+    <string name="pref_title_ringtone">Ringtone</string>
+    <string name="pref_ringtone_silent">Silent</string>
+
+    <string name="pref_title_vibrate">Vibrate</string>
 </resources>
