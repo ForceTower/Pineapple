@@ -13,7 +13,6 @@
     <string name="finding_class_structure">Finding classes</string>
     <string name="finding_class_details">Finding class details</string>
     <string name="completed">Completed</string>
-    <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_schedule">Schedule</string>
     <string name="monday">Monday</string>
@@ -27,4 +26,5 @@
     <string name="class_about_to_start">Class about to begin</string>
     <string name="class_notification_display">The class %1$s is at %2$s, %3$s</string>
     <string name="alarm_manager_null">AlarmManager is null. Notifications won\'t work. Report.</string>
+    <string name="title_messages">Messages</string>
 </resources>

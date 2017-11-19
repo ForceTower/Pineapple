@@ -43,6 +43,10 @@ public class SagresProfile {
         return classes;
     }
 
+    public List<SagresMessage> getMessages() {
+        return messages;
+    }
+
     public static void setCurrentProfile(SagresProfile profile) {
         SagresProfileManager.getInstance().setCurrentProfile(profile);
     }

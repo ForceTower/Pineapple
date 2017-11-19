@@ -16,7 +16,6 @@ import android.widget.RelativeLayout;
 
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.UEFSApplication;
 import com.forcetower.uefs.adapters.DayScheduleAdapter;
 import com.forcetower.uefs.helpers.Utils;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassDay;
@@ -35,9 +34,7 @@ public class ScheduleFragment extends Fragment {
         return new ScheduleFragment();
     }
 
-    public ScheduleFragment() {
-
-    }
+    public ScheduleFragment() {}
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.activity.base.UEFSBaseActivity;
+import com.forcetower.uefs.fragments.MessageBoardFragment;
 import com.forcetower.uefs.fragments.ScheduleFragment;
 
 public class ConnectedActivity extends UEFSBaseActivity {
@@ -40,7 +41,8 @@ public class ConnectedActivity extends UEFSBaseActivity {
                 switchToFragment(ScheduleFragment.class);
                 return true;
             } else if (id == R.id.navigation_dashboard) {
-                mTextMessage.setText(R.string.title_dashboard);
+                mTextMessage.setText(R.string.title_messages);
+                switchToFragment(MessageBoardFragment.class);
                 return true;
             } else if (id == R.id.navigation_notifications) {
                 mTextMessage.setText(R.string.title_notifications);

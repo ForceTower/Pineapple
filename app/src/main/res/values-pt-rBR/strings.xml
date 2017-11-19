@@ -15,7 +15,6 @@
     <string name="finding_class_details">Encontrando detalhes das aulas</string>
     <string name="completed">Finalizado!</string>
     <string name="title_notifications">Notificações</string>
-    <string name="title_dashboard">Geral</string>
     <string name="title_schedule">Horários</string>
     <string name="monday">Segunda</string>
     <string name="tuesday">Terça</string>
@@ -28,4 +27,5 @@
     <string name="class_about_to_start">Aula vai começar</string>
     <string name="class_notification_display">A aula %1$s é na sala %2$s, %3$s</string>
     <string name="alarm_manager_null">O controlador de alarmes é null. Notificações de aula não irão funcionar. Reporte</string>
+    <string name="title_messages">Recados</string>
 </resources>

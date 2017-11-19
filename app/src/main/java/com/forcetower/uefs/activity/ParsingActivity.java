@@ -78,7 +78,6 @@ public class ParsingActivity extends UEFSBaseActivity {
                     updateInformation(getString(R.string.finding_class_details));
 
                     HashMap<String, SagresClass> classHashMap = SagresScheduleParser.findDetails(html);
-                    ((UEFSApplication)getApplication()).saveClasses(classHashMap);
 
                     updateInformation(getString(R.string.completed));
 
