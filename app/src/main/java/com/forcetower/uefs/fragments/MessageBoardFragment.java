@@ -33,6 +33,7 @@ public class MessageBoardFragment extends Fragment {
     private Context context;
     private RecyclerView recyclerView;
     private RelativeLayout relativeLayout;
+    private MessageBoardAdapter messageAdapter;
 
     public static MessageBoardFragment newInstance() {
         return new MessageBoardFragment();
@@ -67,7 +68,7 @@ public class MessageBoardFragment extends Fragment {
     private void fillWithMessages() {
         List<SagresMessage> messages = SagresProfile.getCurrentProfile().getMessages();
 
-        MessageBoardAdapter messageAdapter = new MessageBoardAdapter(context, messages);
+        messageAdapter = new MessageBoardAdapter(context, messages);
         messageAdapter.setOnMessageClickListener(onMessageClickListener);
 
         if (Utils.supportsMaterialDesign()) relativeLayout.setElevation(2);
@@ -76,7 +77,13 @@ public class MessageBoardFragment extends Fragment {
         recyclerView.setAdapter(messageAdapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
         recyclerView.setNestedScrollingEnabled(false);
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        List<SagresMessage> messages = SagresProfile.getCurrentProfile().getMessages();
+        messageAdapter.setMessageList(messages);
     }
 
     private MessageBoardAdapter.OnMessageClickListener onMessageClickListener = new MessageBoardAdapter.OnMessageClickListener() {

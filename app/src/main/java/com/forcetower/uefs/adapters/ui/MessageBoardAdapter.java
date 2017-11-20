@@ -17,6 +17,7 @@ import java.util.List;
  */
 
 public class MessageBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
     public interface OnMessageClickListener {
         void onMessageClicked(View view, int position, SagresMessage message);
     }
@@ -69,6 +70,11 @@ public class MessageBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             return null;
 
         return messages.get(position);
+    }
+
+    public void setMessageList(List<SagresMessage> messages) {
+        this.messages = messages;
+        notifyDataSetChanged();
     }
 
     public class MessageHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
