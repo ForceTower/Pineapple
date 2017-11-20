@@ -7,10 +7,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.IntentCompat;
-import android.util.Log;
 
-import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.activity.LoginActivity;
 import com.forcetower.uefs.sagres_sdk.domain.SagresAccess;
