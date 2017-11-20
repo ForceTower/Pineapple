@@ -24,6 +24,9 @@ import okhttp3.OkHttpClient;
  */
 
 public class SagresPortalSDK {
+    public interface SagresSDKInitializationCallback {
+        void onFinishInit();
+    }
     public static final String SAGRES_SDK_TAG = "Sagres SDK";
     private static final Object LOCK = new Object();
     private static Executor executor;
@@ -33,6 +36,10 @@ public class SagresPortalSDK {
     private static OkHttpClient httpClient;
 
     public static void initializeSdk(final Context context) {
+        initializeSdk(context, null);
+    }
+
+    public static void initializeSdk(final Context context, final SagresSDKInitializationCallback callback) {
         if (sdkInitialized) return;
 
         Log.i(SAGRES_SDK_TAG, "Initializing Sagres SDK - " + Calendar.getInstance().getTime().toString());
@@ -58,6 +65,7 @@ public class SagresPortalSDK {
                     SagresProfile.fetchProfileForCurrentAccess();
                 }
 
+                callback.onFinishInit();
                 return null;
             }
         });

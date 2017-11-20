@@ -58,7 +58,8 @@
 
         <service
             android:name=".services.SyncService"
-            android:exported="true">
+            android:exported="true"
+            android:process=":sync">
 
             <intent-filter>
                 <action android:name="android.content.SyncAdapter"/>
@@ -81,7 +82,7 @@
         </service>
 
         <provider
-            android:authorities="com.forcetower.uefs"
+            android:authorities="com.forcetower.uefs.providers"
             android:name=".providers.SagresProvider"
             android:exported="false"
             android:syncable="true"/>

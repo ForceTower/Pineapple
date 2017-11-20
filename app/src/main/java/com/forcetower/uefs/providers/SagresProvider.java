@@ -16,15 +16,6 @@ import com.forcetower.uefs.Constants;
  */
 
 public class SagresProvider extends ContentProvider {
-    private static final String AUTHORITY = SagresContract.CONTENT_AUTHORITY;
-
-    public static final int ROUTE_MESSAGES = 1;
-
-    private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-
-    static {
-        sUriMatcher.addURI(AUTHORITY, "messages", ROUTE_MESSAGES);
-    }
 
     @Override
     public boolean onCreate() {
@@ -40,11 +31,7 @@ public class SagresProvider extends ContentProvider {
     @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
-        final int match = sUriMatcher.match(uri);
-        if (match == ROUTE_MESSAGES)
-            return SagresContract.Entry.MESSAGE_TYPE;
-        else
-            throw new UnsupportedOperationException("Unknown uri: " + uri);
+        return null;
     }
 
     @Nullable

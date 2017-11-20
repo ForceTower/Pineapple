@@ -1,7 +1,5 @@
 package com.forcetower.uefs.activity;
 
-import android.content.ContentProvider;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,9 +17,9 @@ import com.forcetower.uefs.activity.base.UEFSBaseActivity;
 import com.forcetower.uefs.fragments.MessageBoardFragment;
 import com.forcetower.uefs.fragments.ScheduleFragment;
 import com.forcetower.uefs.helpers.SyncUtils;
-import com.forcetower.uefs.providers.SagresContract;
 
 public class ConnectedActivity extends UEFSBaseActivity {
+    private static final String AUTHORITY = "com.forcetower.uefs.providers";
 
     public static void startActivity(Context context) {
         Intent intent = new Intent(context, ConnectedActivity.class);

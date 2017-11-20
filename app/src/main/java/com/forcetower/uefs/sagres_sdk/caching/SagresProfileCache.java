@@ -16,7 +16,6 @@ import org.json.JSONObject;
 
 public class SagresProfileCache {
     private static final String CACHED_PROFILE_KEY = "com.forcetower.SagresProfileManager.CachedProfile";
-    private static final String SHARED_PREFERENCES_NAME = "com.forcetower.SagresAccessManager.SharedPreferences";
 
     private final ObscuredSharedPreferences sharedPreferences;
 

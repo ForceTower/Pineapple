@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.forcetower.uefs.Constants;
-import com.forcetower.uefs.providers.SagresContract;
 import com.forcetower.uefs.services.GenericAccountService;
 
 /**
@@ -16,8 +15,8 @@ import com.forcetower.uefs.services.GenericAccountService;
  */
 
 public class SyncUtils {
-    private static final long SYNC_FREQUENCY = 60;
-    private static final String CONTENT_AUTHORITY = SagresContract.CONTENT_AUTHORITY;
+    private static final String AUTHORITY = "com.forcetower.uefs.providers";
+    private static final long SYNC_FREQUENCY = 60L;
     private static final String PREF_SETUP_COMPLETE = "setup_complete";
 
     public static void createSyncAccount(Context context) {
@@ -30,9 +29,9 @@ public class SyncUtils {
         assert accountManager != null;
 
         if (accountManager.addAccountExplicitly(account, null, null)) {
-            ContentResolver.setIsSyncable(account, CONTENT_AUTHORITY, 1);
-            ContentResolver.setSyncAutomatically(account, CONTENT_AUTHORITY, true);
-            ContentResolver.addPeriodicSync(account, CONTENT_AUTHORITY, new Bundle(), SYNC_FREQUENCY);
+            ContentResolver.setIsSyncable(account, AUTHORITY, 1);
+            ContentResolver.setSyncAutomatically(account, AUTHORITY, true);
+            ContentResolver.addPeriodicSync(account, AUTHORITY, Bundle.EMPTY, SYNC_FREQUENCY);
             Log.i(Constants.APP_TAG, "Account set");
             newAccount = true;
         }
@@ -48,6 +47,6 @@ public class SyncUtils {
         Bundle b = new Bundle();
         b.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         b.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-        ContentResolver.requestSync(GenericAccountService.getAccount(), SagresContract.CONTENT_AUTHORITY, b);
+        ContentResolver.requestSync(GenericAccountService.getAccount(), AUTHORITY, b);
     }
 }
