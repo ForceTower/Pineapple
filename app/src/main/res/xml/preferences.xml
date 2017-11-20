@@ -59,8 +59,9 @@
         android:title="@string/pref_account_settings">
 
         <Preference
+            android:key="logoff_key"
             android:title="@string/pref_logoff"
-            android:summary="@string/pref_not_working_still"
+            android:summary="@string/pref_logoff_summary"
             android:icon="@drawable/ic_logoff_accent_30dp"/>
     </PreferenceCategory>
 
