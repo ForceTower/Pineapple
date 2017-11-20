@@ -5,6 +5,9 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.READ_SYNC_STATS"/>
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
 
     <application
         android:name=".UEFSApplication"
@@ -52,6 +55,36 @@
             android:name=".activity.SettingsActivity"
             android:theme="@style/AppTheme.PreferencesStyle">
         </activity>
+
+        <service
+            android:name=".services.SyncService"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter"
+                />
+        </service>
+
+        <service
+            android:name=".services.GenericAccountService">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
+        </service>
+
+        <provider
+            android:authorities="com.forcetower.uefs"
+            android:name=".providers.SagresProvider"
+            android:exported="false"
+            android:syncable="true"/>
     </application>
 
 </manifest>

@@ -16,7 +16,7 @@ import android.widget.RelativeLayout;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.activity.MessageActivity;
-import com.forcetower.uefs.adapters.MessageBoardAdapter;
+import com.forcetower.uefs.adapters.ui.MessageBoardAdapter;
 import com.forcetower.uefs.helpers.Utils;
 import com.forcetower.uefs.sagres_sdk.domain.SagresMessage;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;

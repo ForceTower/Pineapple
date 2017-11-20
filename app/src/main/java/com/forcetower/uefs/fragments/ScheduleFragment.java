@@ -16,7 +16,7 @@ import android.widget.RelativeLayout;
 
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.adapters.DayScheduleAdapter;
+import com.forcetower.uefs.adapters.ui.DayScheduleAdapter;
 import com.forcetower.uefs.helpers.Utils;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassDay;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
