@@ -1,6 +1,7 @@
 package com.forcetower.uefs.adapters.sync;
 
 import android.accounts.Account;
+import android.app.Notification;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentProviderOperation;
@@ -13,11 +14,13 @@ import android.os.RemoteException;
 import android.util.Log;
 
 import com.forcetower.uefs.Constants;
+import com.forcetower.uefs.helpers.NotificationCreator;
 import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
 import com.forcetower.uefs.sagres_sdk.domain.SagresMessage;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -66,7 +69,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         for (SagresMessage message : messagesAfter) {
             if (!messagesBefore.contains(message)) {
                 Log.i(Constants.APP_TAG, "New message arrived");
+                NotificationCreator.createNewMessageNotification(getContext(), message);
             }
         }
+
+        NotificationCreator.createNewMessageNotification(getContext(), new SagresMessage("João Paulo", "Hey there,\n\nThis is a test notification to check if everything works out.\n\nThanks!", "20/11/2017", "The Developer"));
     }
 }

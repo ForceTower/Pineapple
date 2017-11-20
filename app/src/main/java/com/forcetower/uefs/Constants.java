@@ -9,5 +9,9 @@ public final class Constants {
     public static final String PREFS_FILE = "UEFS_PrefsFile";
 
     public static final String CLASSES_CHANNEL = "Aulas";
+    public static final String MESSAGES_CHANNEL = "Recados";
+
+
     public static final int CLASSES_ID = 65;
+    public static final int MESSAGES_ID = 130;
 }
