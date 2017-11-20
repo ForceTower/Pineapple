@@ -4,24 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
-import android.transition.Explode;
-import android.transition.Fade;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.activity.base.UEFSBaseActivity;
 import com.forcetower.uefs.fragments.MessageBoardFragment;
 import com.forcetower.uefs.fragments.ScheduleFragment;
-import com.forcetower.uefs.helpers.Utils;
 
 public class ConnectedActivity extends UEFSBaseActivity {
-    private TextView mTextMessage;
-    private Menu menu;
 
     public static void startActivity(Context context) {
         Intent intent = new Intent(context, ConnectedActivity.class);
@@ -39,20 +35,26 @@ public class ConnectedActivity extends UEFSBaseActivity {
             int id = item.getItemId();
 
             if (id == R.id.navigation_home) {
-                mTextMessage.setText(R.string.title_schedule);
+                changeToolbarText(R.string.title_schedule);
                 switchToFragment(ScheduleFragment.class);
                 return true;
             } else if (id == R.id.navigation_dashboard) {
-                mTextMessage.setText(R.string.title_messages);
+                changeToolbarText(R.string.title_messages);
                 switchToFragment(MessageBoardFragment.class);
                 return true;
             } else if (id == R.id.navigation_notifications) {
-                mTextMessage.setText(R.string.title_notifications);
+                changeToolbarText(R.string.title_notifications);
                 return true;
             }
             return false;
         }
     };
+
+    private void changeToolbarText(@StringRes int resId) {
+        /*if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(resId);
+        }*/
+    }
 
     private void switchToFragment(Class clazz) {
         String tag = clazz.getName();
@@ -75,7 +77,10 @@ public class ConnectedActivity extends UEFSBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connected);
 
-        mTextMessage = findViewById(R.id.message);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        setSupportActionBar(toolbar);
+
         BottomNavigationView navigation = findViewById(R.id.navigation);
 /*
         if (Utils.supportsMaterialDesign()) {
@@ -83,7 +88,6 @@ public class ConnectedActivity extends UEFSBaseActivity {
             getWindow().setExitTransition(new Explode());
         }
 */
-        menu = navigation.getMenu();
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
@@ -95,5 +99,22 @@ public class ConnectedActivity extends UEFSBaseActivity {
             ScheduleFragment fragment = ScheduleFragment.newInstance();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.connected, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.menu_settings) {
+            SettingsActivity.startActivity(this);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

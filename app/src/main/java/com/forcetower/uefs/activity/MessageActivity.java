@@ -39,9 +39,9 @@ public class MessageActivity extends UEFSBaseActivity {
 */
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle(R.string.title_message);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         if (getSupportActionBar() != null){
+            getSupportActionBar().setTitle(R.string.title_message);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }

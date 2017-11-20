@@ -30,4 +30,45 @@
     <string name="title_messages">Recados</string>
     <string name="sent_at">Recebida: %1$s</string>
     <string name="title_message">Recado</string>
+    <string name="title_activity_settings">Configurações</string>
+    <string name="pref_header_notifications">Notificações</string>
+    <string name="pref_show_class_notification">Aulas</string>
+    <string name="pref_show_class_notification_enabled">Notificar quando a aula for começar</string>
+    <string name="pref_show_class_notification_disabled">Não notificar quando a aula for começar</string>
+    <string name="pref_show_message_notification">Recados</string>
+    <string name="pref_show_message_notification_enabled">Notificar ao receber uma mensagem</string>
+    <string name="pref_show_message_notification_disabled">Não notificar ao receber uma mensagem</string>
+    <string name="pref_notification_sound">Som</string>
+    <string name="pref_notification_header">Notificações</string>
+    <string name="pref_title_vibrate">Vibrar</string>
+    <string name="pref_header_data_sync">Dados e sincronização</string>
+    <string name="pref_sync_frequency">Frequência de atualização</string>
+    <string name="pref_sync_frequency_enabled">A cada %1$s</string>
+    <string name="settings">Configurações</string>
+    <string name="pref_account_settings">Conta</string>
+    <string name="pref_not_working_still">Não funciona, nem tenta</string>
+    <string name="pref_new_message_vibration_enabled">Vibrar na notificação</string>
+    <string name="pref_new_message_vibration_disabled">Não vibrar na notificação</string>
+    <string name="pref_notification_sound_summary">Mudar som de notificação</string>
+
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 minutos</item>
+        <item>30 minutos</item>
+        <item>1 hora</item>
+        <item>3 horas</item>
+        <item>6 horas</item>
+        <item>Nunca</item>
+        <item>60Hz</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+        <item>-2</item>
+    </string-array>
+    <string name="pref_logoff">Sair</string>
+    <string name="pref_sync_frequency_never">Nunca atualizar</string>
 </resources>
