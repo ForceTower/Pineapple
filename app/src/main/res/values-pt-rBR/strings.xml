@@ -52,18 +52,16 @@
     <string name="pref_notification_sound_summary">Mudar som de notificação</string>
 
     <string-array name="pref_sync_frequency_titles">
-        <item>15 minutos</item>
-        <item>30 minutos</item>
         <item>1 hora</item>
+        <item>2 horas</item>
         <item>3 horas</item>
         <item>6 horas</item>
         <item>Nunca</item>
         <item>60Hz</item>
     </string-array>
     <string-array name="pref_sync_frequency_values">
-        <item>15</item>
-        <item>30</item>
         <item>60</item>
+        <item>120</item>
         <item>180</item>
         <item>360</item>
         <item>-1</item>
@@ -72,4 +70,5 @@
     <string name="pref_logoff">Sair</string>
     <string name="pref_sync_frequency_never">Nunca atualizar</string>
     <string name="pref_logoff_summary">Sair e limpar informações</string>
+    <string name="sagres_sync">Atualização Sagres</string>
 </resources>

@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:contentAuthority="com.forcetower.uefs.providers"
     android:accountType="com.forcetower.uefs"
-    android:userVisible="false"
+    android:userVisible="true"
     android:supportsUploading="false"
     android:allowParallelSyncs="false"
     android:isAlwaysSyncable="true"/>

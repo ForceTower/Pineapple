@@ -85,6 +85,7 @@
             android:authorities="com.forcetower.uefs.providers"
             android:name=".providers.SagresProvider"
             android:exported="false"
+            android:label="@string/sagres_sync"
             android:syncable="true"/>
     </application>
 

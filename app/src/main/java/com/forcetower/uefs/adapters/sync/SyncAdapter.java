@@ -52,8 +52,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         } else {
             fetchData();
         }
-        //resolver.applyBatch(SagresContract.CONTENT_AUTHORITY, batch);
-        //resolver.notifyChange(SagresContract.Entry.CONTENT_URI, null, false);
     }
 
     private void fetchData() {
@@ -68,7 +66,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         for (SagresMessage message : messagesAfter) {
             if (!messagesBefore.contains(message)) {
                 Log.i(Constants.APP_TAG, "New message arrived");
-                //batch.add(ContentProviderOperation.newInsert(SagresContract.Entry.CONTENT_URI).build());
             }
         }
     }

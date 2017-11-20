@@ -10,6 +10,7 @@ import android.support.v4.app.ActivityCompat;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.activity.LoginActivity;
+import com.forcetower.uefs.helpers.SyncUtils;
 import com.forcetower.uefs.sagres_sdk.domain.SagresAccess;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
 
@@ -50,9 +51,11 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 if (frequency == -1) {
                     syncFrequency.setSummary(R.string.pref_sync_frequency_never);
                     notification.setEnabled(false);
-                } else {
+                    SyncUtils.stopPeriodicSync();
+                } else if (frequency > 0) {
                     syncFrequency.setSummary(R.string.pref_sync_frequency_enabled);
                     notification.setEnabled(true);
+                    SyncUtils.setNewPeriodForSync(frequency);
                 }
             }
         }
@@ -63,6 +66,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     public boolean onPreferenceClick(Preference preference) {
         SagresProfile.setCurrentProfile(null);
         SagresAccess.setCurrentAccess(null);
+        SyncUtils.stopPeriodicSync();
 
         Intent intent = new Intent(getActivity(), LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
