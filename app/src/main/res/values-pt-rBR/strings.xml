@@ -71,4 +71,5 @@
     <string name="pref_sync_frequency_never">Nunca atualizar</string>
     <string name="pref_logoff_summary">Sair e limpar informações</string>
     <string name="sagres_sync">Atualização Sagres</string>
+    <string name="wait_before_updating_again">Espere para atualizar novamente</string>
 </resources>

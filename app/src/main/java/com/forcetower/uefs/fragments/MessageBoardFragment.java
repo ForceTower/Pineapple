@@ -2,16 +2,15 @@ package com.forcetower.uefs.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,8 +28,6 @@ import com.forcetower.uefs.sagres_sdk.utility.SagresUtility;
 
 import java.util.List;
 
-import static com.forcetower.uefs.Constants.APP_TAG;
-
 /**
  * Created by João Paulo on 18/11/2017.
  */
@@ -42,6 +39,8 @@ public class MessageBoardFragment extends Fragment {
     private MessageBoardAdapter messageAdapter;
     private SwipeRefreshLayout refreshLayout;
     private View rootView;
+    private boolean canRefresh = true;
+    private Handler handler;
 
     public static MessageBoardFragment newInstance() {
         return new MessageBoardFragment();
@@ -66,7 +65,7 @@ public class MessageBoardFragment extends Fragment {
 
         refreshLayout.setOnRefreshListener(refreshListener);
 
-        if (Utils.supportsMaterialDesign()) {
+        if (Utils.isLollipop()) {
             rootView.setNestedScrollingEnabled(false);
             relativeLayout.setNestedScrollingEnabled(false);
         }
@@ -82,12 +81,18 @@ public class MessageBoardFragment extends Fragment {
         messageAdapter = new MessageBoardAdapter(context, messages);
         messageAdapter.setOnMessageClickListener(onMessageClickListener);
 
-        if (Utils.supportsMaterialDesign()) relativeLayout.setElevation(2);
+        if (Utils.isLollipop()) relativeLayout.setElevation(2);
         relativeLayout.setBackgroundResource(android.R.color.white);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(messageAdapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
         recyclerView.setNestedScrollingEnabled(false);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        handler = new Handler(context.getMainLooper());
     }
 
     @Override
@@ -107,6 +112,15 @@ public class MessageBoardFragment extends Fragment {
     private SwipeRefreshLayout.OnRefreshListener refreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
+            if (!canRefresh) {
+                refreshLayout.setRefreshing(false);
+                showTextOnToast(R.string.wait_before_updating_again);
+                return;
+            }
+
+            canRefresh = false;
+            handler.postDelayed(refreshDelay, 20000);
+
             refreshLayout.setRefreshing(true);
             SagresProfile.asyncFetchProfileInformationWithCallback(new SagresUtility.AsyncFetchProfileInformationCallback() {
                 @Override
@@ -132,6 +146,13 @@ public class MessageBoardFragment extends Fragment {
                     updateView(null, false);
                 }
             });
+        }
+    };
+
+    private Runnable refreshDelay = new Runnable() {
+        @Override
+        public void run() {
+            canRefresh = true;
         }
     };
 

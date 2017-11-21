@@ -1,5 +1,6 @@
 package com.forcetower.uefs.helpers;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
@@ -19,6 +20,8 @@ import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.activity.LoginActivity;
 import com.forcetower.uefs.sagres_sdk.domain.SagresMessage;
+
+import okhttp3.internal.Util;
 
 import static com.forcetower.uefs.Constants.APP_TAG;
 
@@ -72,6 +75,11 @@ public class NotificationCreator {
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (notificationManager != null) {
+            /*if (Utils.isOreo()) {
+                NotificationChannel messagesChannel = new NotificationChannel(Constants.MESSAGES_CHANNEL, context.getString(R.string.title_messages), NotificationManager.IMPORTANCE_DEFAULT);
+                //Causes UI Crash !! DO NOT USE THIS
+                notificationManager.createNotificationChannel(messagesChannel);
+            }*/
             notificationManager.notify(message.hashCode(), notificationBuilder.build());
         } else {
             Log.e(Constants.APP_TAG, "Alarm manager failed, it is null");

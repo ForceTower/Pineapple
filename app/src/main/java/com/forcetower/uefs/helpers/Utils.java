@@ -34,8 +34,12 @@ public class Utils {
         return sb.toString().trim();
     }
 
-    public static boolean supportsMaterialDesign() {
+    public static boolean isLollipop() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+    }
+
+    public static boolean isOreo() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O;
     }
 
     public static void fadeIn(View v, Context context) {

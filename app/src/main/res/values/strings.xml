@@ -76,4 +76,5 @@
     <string name="pref_sync_frequency_never">Never update</string>
     <string name="pref_logoff_summary">Exit and clean information</string>
     <string name="sagres_sync">Sagres Sync</string>
+    <string name="wait_before_updating_again">Wait before updating again</string>
 </resources>

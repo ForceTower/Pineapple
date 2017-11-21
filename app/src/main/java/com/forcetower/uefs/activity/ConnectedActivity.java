@@ -85,7 +85,7 @@ public class ConnectedActivity extends UEFSBaseActivity {
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
 
-        if (Utils.supportsMaterialDesign()) {
+        if (Utils.isLollipop()) {
             toolbar.setElevation(10);
             navigation.setElevation(10);
 //            getWindow().setEnterTransition(new Fade());
