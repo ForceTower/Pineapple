@@ -34,7 +34,7 @@ public class SagresLoginManager {
             @Override
             public void run() {
                 final SagresAccess access = createAccess(username, password);
-                SagresProfile.fetchProfileForSagresAccess(access, new SagresUtility.InformationFetchWithCacheCallback() {
+                SagresProfile.fetchProfileForSagresAccess(access, new SagresUtility.AllInformationFetchWithCacheCallback() {
                     @Override
                     public void onSuccess(SagresProfile profile) {
                         callback.onSuccess();

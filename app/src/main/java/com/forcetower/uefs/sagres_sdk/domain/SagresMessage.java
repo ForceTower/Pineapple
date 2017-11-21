@@ -78,8 +78,6 @@ public class SagresMessage {
             return false;
         if (message != null ? !message.equals(message1.message) : message1.message != null)
             return false;
-        if (received_at != null ? !received_at.equals(message1.received_at) : message1.received_at != null)
-            return false;
         return class_receive != null ? class_receive.equals(message1.class_receive) : message1.class_receive == null;
     }
 
@@ -87,7 +85,6 @@ public class SagresMessage {
     public int hashCode() {
         int result = sender != null ? sender.hashCode() : 0;
         result = 31 * result + (message != null ? message.hashCode() : 0);
-        result = 31 * result + (received_at != null ? received_at.hashCode() : 0);
         result = 31 * result + (class_receive != null ? class_receive.hashCode() : 0);
         return result;
     }

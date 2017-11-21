@@ -1,5 +1,7 @@
 package com.forcetower.uefs.sagres_sdk.domain;
 
+import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
+import com.forcetower.uefs.sagres_sdk.exception.SagresInfoFetchException;
 import com.forcetower.uefs.sagres_sdk.exception.SagresLoginException;
 import com.forcetower.uefs.sagres_sdk.utility.SagresDayUtils;
 import com.forcetower.uefs.sagres_sdk.managers.SagresProfileManager;
@@ -58,7 +60,7 @@ public class SagresProfile {
             return;
         }
 
-        SagresUtility.getInformationFromUserWithCacheAsync(access, new SagresUtility.InformationFetchWithCacheCallback() {
+        SagresUtility.getInformationFromUserWithCacheAsync(access, new SagresUtility.AllInformationFetchWithCacheCallback() {
             @Override
             public void onSuccess(SagresProfile profile) {
                 System.out.println("Profile fetch");
@@ -75,7 +77,7 @@ public class SagresProfile {
         });
     }
 
-    public static void fetchProfileForSagresAccess(SagresAccess access, SagresUtility.InformationFetchWithCacheCallback callback) {
+    public static void fetchProfileForSagresAccess(SagresAccess access, SagresUtility.AllInformationFetchWithCacheCallback callback) {
         setCurrentProfile(null);
         SagresUtility.getInformationFromUserWithCacheAsync(access, callback);
     }
@@ -157,5 +159,23 @@ public class SagresProfile {
             messages.add(message);
         }
         return messages;
+    }
+
+    public static void asyncFetchProfileInformationWithCallback(SagresUtility.AsyncFetchProfileInformationCallback callback) {
+        SagresUtility.getProfileInformationAsyncWithCallback(callback);
+    }
+
+    public void updateInformation(String studentName, List<SagresMessage> messages, HashMap<String, List<SagresClassDay>> classes) {
+        this.studentName = studentName;
+        this.classes = classes;
+        mergeMessages(messages);
+        setCurrentProfile(this);
+    }
+
+    private void mergeMessages(List<SagresMessage> newMessages) {
+        for (SagresMessage message : newMessages) {
+            if (!messages.contains(message))
+                messages.add(0, message);
+        }
     }
 }

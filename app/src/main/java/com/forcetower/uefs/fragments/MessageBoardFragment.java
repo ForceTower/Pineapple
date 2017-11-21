@@ -4,7 +4,10 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.activity.MessageActivity;
@@ -20,6 +24,8 @@ import com.forcetower.uefs.adapters.ui.MessageBoardAdapter;
 import com.forcetower.uefs.helpers.Utils;
 import com.forcetower.uefs.sagres_sdk.domain.SagresMessage;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
+import com.forcetower.uefs.sagres_sdk.exception.SagresInfoFetchException;
+import com.forcetower.uefs.sagres_sdk.utility.SagresUtility;
 
 import java.util.List;
 
@@ -34,6 +40,8 @@ public class MessageBoardFragment extends Fragment {
     private RecyclerView recyclerView;
     private RelativeLayout relativeLayout;
     private MessageBoardAdapter messageAdapter;
+    private SwipeRefreshLayout refreshLayout;
+    private View rootView;
 
     public static MessageBoardFragment newInstance() {
         return new MessageBoardFragment();
@@ -50,10 +58,13 @@ public class MessageBoardFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_message_board, container, false);
+        rootView = inflater.inflate(R.layout.fragment_message_board, container, false);
 
         relativeLayout = rootView.findViewById(R.id.rl_root);
         recyclerView = rootView.findViewById(R.id.rv_messages);
+        refreshLayout = rootView.findViewById(R.id.message_swipe_refresh);
+
+        refreshLayout.setOnRefreshListener(refreshListener);
 
         if (Utils.supportsMaterialDesign()) {
             rootView.setNestedScrollingEnabled(false);
@@ -89,8 +100,63 @@ public class MessageBoardFragment extends Fragment {
     private MessageBoardAdapter.OnMessageClickListener onMessageClickListener = new MessageBoardAdapter.OnMessageClickListener() {
         @Override
         public void onMessageClicked(View view, int position, SagresMessage message) {
-            Log.d(APP_TAG, "Clicked Message: " + message);
             MessageActivity.startActivity(context, message);
         }
     };
+
+    private SwipeRefreshLayout.OnRefreshListener refreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+        @Override
+        public void onRefresh() {
+            refreshLayout.setRefreshing(true);
+            SagresProfile.asyncFetchProfileInformationWithCallback(new SagresUtility.AsyncFetchProfileInformationCallback() {
+                @Override
+                public void onSuccess(SagresProfile profile) {
+                    updateView(profile, false);
+                }
+
+                @Override
+                public void onInvalidLogin() {
+                    showTextOnToast(R.string.incorrect_credentials);
+                    updateView(null, false);
+                }
+
+                @Override
+                public void onDeveloperError() {
+                    showTextOnToast(R.string.this_is_and_error);
+                    updateView(null, false);
+                }
+
+                @Override
+                public void onFailure(SagresInfoFetchException e) {
+                    showTextOnToast(R.string.this_is_and_error);
+                    updateView(null, false);
+                }
+            });
+        }
+    };
+
+    private void updateView(final SagresProfile profile, final boolean refreshing) {
+
+        assert getActivity() != null;
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                refreshLayout.setRefreshing(refreshing);
+                if (profile == null) {
+                    return;
+                }
+                messageAdapter.setMessageList(profile.getMessages());
+            }
+        });
+    }
+
+    private void showTextOnToast(@StringRes final int resId) {
+        assert getActivity() != null;
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getContext(), resId, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }
