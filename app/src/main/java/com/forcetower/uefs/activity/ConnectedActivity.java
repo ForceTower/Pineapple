@@ -17,6 +17,7 @@ import com.forcetower.uefs.activity.base.UEFSBaseActivity;
 import com.forcetower.uefs.fragments.MessageBoardFragment;
 import com.forcetower.uefs.fragments.ScheduleFragment;
 import com.forcetower.uefs.helpers.SyncUtils;
+import com.forcetower.uefs.helpers.Utils;
 
 public class ConnectedActivity extends UEFSBaseActivity {
     private static final String AUTHORITY = "com.forcetower.uefs.providers";
@@ -81,18 +82,18 @@ public class ConnectedActivity extends UEFSBaseActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
-        setSupportActionBar(toolbar);
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
 
-        SyncUtils.createSyncAccount(this);
-/*
         if (Utils.supportsMaterialDesign()) {
-            getWindow().setEnterTransition(new Fade());
-            getWindow().setExitTransition(new Explode());
+            toolbar.setElevation(10);
+            navigation.setElevation(10);
+//            getWindow().setEnterTransition(new Fade());
+//            getWindow().setExitTransition(new Explode());
         }
-*/
 
+        setSupportActionBar(toolbar);
+        SyncUtils.createSyncAccount(this);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         if (findViewById(R.id.fragment_container) != null) {
