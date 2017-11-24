@@ -90,6 +90,17 @@ public class SagresPortalSDK {
         return executor;
     }
 
+    public static void logout() {
+        SagresAccess.setCurrentAccess(null);
+        SagresProfile.setCurrentProfile(null);
+
+        CookieHandler cookieHandler = new CookieManager();
+        httpClient = new OkHttpClient.Builder()
+                .followRedirects(true)
+                .cookieJar(new SagresCookieJar(cookieHandler))
+                .build();
+    }
+
     public static OkHttpClient getHttpClient() {
         return httpClient;
     }

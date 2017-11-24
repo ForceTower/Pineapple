@@ -11,6 +11,7 @@ import android.support.v4.app.ActivityCompat;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.activity.LoginActivity;
 import com.forcetower.uefs.helpers.SyncUtils;
+import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
 import com.forcetower.uefs.sagres_sdk.domain.SagresAccess;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
 
@@ -64,8 +65,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
     @Override
     public boolean onPreferenceClick(Preference preference) {
-        SagresProfile.setCurrentProfile(null);
-        SagresAccess.setCurrentAccess(null);
+        SagresPortalSDK.logout();
         SyncUtils.stopPeriodicSync();
 
         Intent intent = new Intent(getActivity(), LoginActivity.class);
