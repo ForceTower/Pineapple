@@ -22,7 +22,7 @@
         android:key="notification_category"
         android:title="@string/pref_notification_header">
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="true"
             android:icon="@drawable/ic_book_accent_30dp"
             android:key="show_class_notification"
@@ -30,7 +30,7 @@
             android:summaryOn="@string/pref_show_class_notification_enabled"
             android:title="@string/pref_show_class_notification"/>
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="true"
             android:icon="@drawable/ic_message_accent_30dp"
             android:key="show_message_notification"
@@ -38,7 +38,7 @@
             android:summaryOn="@string/pref_show_message_notification_enabled"
             android:title="@string/pref_show_message_notification"/>
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="true"
             android:icon="@drawable/ic_vibration_accent_30dp"
             android:key="notifications_new_message_vibrate"
