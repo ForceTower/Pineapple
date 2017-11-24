@@ -35,6 +35,7 @@ public class SagresUtility {
         void onInvalidLogin();
         void onDeveloperError();
         void onFailure(SagresInfoFetchException e);
+        void onFailedConnect();
     }
 
     public static void getInformationFromUserWithCacheAsync(SagresAccess access, AllInformationFetchWithCacheCallback callback) {
@@ -122,9 +123,9 @@ public class SagresUtility {
                 try {
                     JSONObject loginResponse = SagresConnector.login(username, password);
                     if (loginResponse.has("error")) {
-                        Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Login has error");
+                        Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Login has error - Time out or no network");
                         if (callback != null) {
-                            callback.onInvalidLogin();
+                            callback.onFailedConnect();
                         }
                         return;
                     }

@@ -145,6 +145,12 @@ public class MessageBoardFragment extends Fragment {
                     showTextOnToast(R.string.this_is_and_error);
                     updateView(null, false);
                 }
+
+                @Override
+                public void onFailedConnect() {
+                    showTextOnToast(R.string.network_error);
+                    updateView(null, false);
+                }
             });
         }
     };

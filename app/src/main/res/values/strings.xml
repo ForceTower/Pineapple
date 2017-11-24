@@ -77,4 +77,5 @@
     <string name="pref_logoff_summary">Exit and clean information</string>
     <string name="sagres_sync">Sagres Sync</string>
     <string name="wait_before_updating_again">Wait before updating again</string>
+    <string name="network_error">Network Error</string>
 </resources>
