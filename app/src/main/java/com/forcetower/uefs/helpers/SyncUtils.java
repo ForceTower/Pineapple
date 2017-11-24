@@ -5,6 +5,8 @@ import android.accounts.AccountManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.os.Bundle;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.forcetower.uefs.Constants;
@@ -32,8 +34,20 @@ public class SyncUtils {
             startPeriodicSync(account, SYNC_FREQUENCY);
             Log.i(Constants.APP_TAG, "Account set");
             newAccount = true;
-
+        } else {
+            if (ContentResolver.getPeriodicSyncs(account, AUTHORITY).isEmpty()) {
+                String s_frequency = PreferenceManager.getDefaultSharedPreferences(context).getString("sync_frequency", "-1");
+                int frequency = Integer.parseInt(s_frequency);
+                if (frequency > 0) {
+                    Log.i(Constants.APP_TAG, "Account already existed, frequency was set to " + frequency);
+                    startPeriodicSync(account, frequency);
+                } else {
+                    Log.i(Constants.APP_TAG, "Account already existed, frequency not set because of preferences");
+                }
+            }
         }
+
+
 
         if (newAccount || !setupComplete) {
             triggerRefresh();
