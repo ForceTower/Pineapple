@@ -75,16 +75,16 @@
         <service
             android:name=".services.GenericAccountService">
             <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator" />
+                <action android:name="android.accounts.AccountAuthenticator"/>
             </intent-filter>
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
-                android:resource="@xml/authenticator" />
+                android:resource="@xml/authenticator"/>
         </service>
 
         <provider
-            android:authorities="com.forcetower.uefs.providers"
             android:name=".providers.SagresProvider"
+            android:authorities="com.forcetower.uefs.providers"
             android:exported="false"
             android:label="@string/sagres_sync"
             android:syncable="true"/>

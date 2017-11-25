@@ -9,10 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
 import android.util.Log;
-
-import java.net.Authenticator;
 
 import static com.forcetower.uefs.Constants.APP_TAG;
 
@@ -21,8 +18,8 @@ import static com.forcetower.uefs.Constants.APP_TAG;
  */
 
 public class GenericAccountService extends Service {
-    private static final String ACCOUNT_TYPE = "com.forcetower.uefs";
     public static final String ACCOUNT_NAME = "Sagres Sync";
+    private static final String ACCOUNT_TYPE = "com.forcetower.uefs";
     private Authenticator mAuthenticator;
 
     public static Account getAccount() {

@@ -35,10 +35,6 @@ public class SagresProfileManager {
         return false;
     }
 
-    public void setCurrentProfile(SagresProfile profile) {
-        setCurrentProfile(profile, true);
-    }
-
     private void setCurrentProfile(SagresProfile profile, boolean saveToCache) {
         this.currentProfile = profile;
 
@@ -53,5 +49,9 @@ public class SagresProfileManager {
 
     public SagresProfile getCurrentProfile() {
         return currentProfile;
+    }
+
+    public void setCurrentProfile(SagresProfile profile) {
+        setCurrentProfile(profile, true);
     }
 }

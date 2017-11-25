@@ -1,70 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
+    android:layout_marginStart="8dp"
     tools:context="com.forcetower.uefs.activity.LoginActivity">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true">
+        android:layout_centerVertical="true"
+        android:orientation="vertical"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp">
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/username_form"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:hint="@string/form_username"/>
+                android:hint="@string/form_username"
+                android:singleLine="true"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/password_form"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/form_password"
                 android:inputType="textPassword"
-                android:singleLine="true"
-                android:hint="@string/form_password"/>
+                android:singleLine="true"/>
         </android.support.design.widget.TextInputLayout>
-        
+
         <Button
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:text="@string/login_btn"
-            android:onClick="login"/>
+            android:onClick="login"
+            android:text="@string/login_btn"/>
     </LinearLayout>
 
     <ProgressBar
         android:id="@+id/login_progress"
+        style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        style="?android:attr/progressBarStyleHorizontal"
         android:layout_marginBottom="8dp"
-        android:visibility="invisible"
-        android:indeterminate="true"/>
-
+        android:indeterminate="true"
+        android:visibility="invisible"/>
 
 
 </RelativeLayout>

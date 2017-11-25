@@ -24,20 +24,6 @@ import java.util.List;
  */
 public class SagresUtility {
 
-    public interface AllInformationFetchWithCacheCallback {
-        void onSuccess(SagresProfile profile);
-        void onFailure(SagresLoginException e);
-        void onLoginSuccess();
-    }
-
-    public interface AsyncFetchProfileInformationCallback {
-        void onSuccess(SagresProfile profile);
-        void onInvalidLogin();
-        void onDeveloperError();
-        void onFailure(SagresInfoFetchException e);
-        void onFailedConnect();
-    }
-
     public static void getInformationFromUserWithCacheAsync(SagresAccess access, AllInformationFetchWithCacheCallback callback) {
         String username = access.getUsername();
         String password = access.getPassword();
@@ -79,9 +65,9 @@ public class SagresUtility {
                 }
             }
 
-            final String studentName                            = SagresParser.getUserName(html);
+            final String studentName = SagresParser.getUserName(html);
             final HashMap<String, List<SagresClassDay>> classes = SagresScheduleParser.getCompleteSchedule(html);
-            final List<SagresMessage> messages                  = SagresMessagesParser.getStartPageMessages(html);
+            final List<SagresMessage> messages = SagresMessagesParser.getStartPageMessages(html);
 
             if (callback != null) {
                 callback.onSuccess(new SagresProfile(studentName, messages, classes));
@@ -106,14 +92,16 @@ public class SagresUtility {
 
         SagresAccess access = SagresAccess.getCurrentAccess();
         if (access == null) {
-            if (callback != null) callback.onFailure(new SagresInfoFetchException("Invalid Access"));
+            if (callback != null)
+                callback.onFailure(new SagresInfoFetchException("Invalid Access"));
             return;
         }
 
         final String username = access.getUsername();
         final String password = access.getPassword();
         if (username == null || password == null) {
-            if (callback != null) callback.onFailure(new SagresInfoFetchException("Fields are null"));
+            if (callback != null)
+                callback.onFailure(new SagresInfoFetchException("Fields are null"));
             return;
         }
 
@@ -139,9 +127,9 @@ public class SagresUtility {
                         return;
                     }
 
-                    final String studentName                            = SagresParser.getUserName(html);
+                    final String studentName = SagresParser.getUserName(html);
                     final HashMap<String, List<SagresClassDay>> classes = SagresScheduleParser.getCompleteSchedule(html);
-                    final List<SagresMessage> messages                  = SagresMessagesParser.getStartPageMessages(html);
+                    final List<SagresMessage> messages = SagresMessagesParser.getStartPageMessages(html);
 
                     if (callback != null) {
                         if (SagresProfile.getCurrentProfile() == null) {
@@ -163,5 +151,25 @@ public class SagresUtility {
         };
 
         SagresPortalSDK.getExecutor().execute(runnable);
+    }
+
+    public interface AllInformationFetchWithCacheCallback {
+        void onSuccess(SagresProfile profile);
+
+        void onFailure(SagresLoginException e);
+
+        void onLoginSuccess();
+    }
+
+    public interface AsyncFetchProfileInformationCallback {
+        void onSuccess(SagresProfile profile);
+
+        void onInvalidLogin();
+
+        void onDeveloperError();
+
+        void onFailure(SagresInfoFetchException e);
+
+        void onFailedConnect();
     }
 }

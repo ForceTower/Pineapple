@@ -5,11 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.activity.base.UEFSBaseActivity;
 import com.forcetower.uefs.fragments.SettingsFragment;
 
 public class SettingsActivity extends AppCompatActivity {

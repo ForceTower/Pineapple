@@ -11,7 +11,7 @@ import com.forcetower.uefs.adapters.sync.SyncAdapter;
  * Created by João Paulo on 20/11/2017.
  */
 
-public class SyncService extends Service{
+public class SyncService extends Service {
     private static final Object LOCK = new Object();
     private static SyncAdapter syncAdapter = null;
 

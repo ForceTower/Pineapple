@@ -4,8 +4,8 @@ import android.util.Log;
 
 import com.forcetower.uefs.content.ObscuredSharedPreferences;
 import com.forcetower.uefs.helpers.PrefUtils;
-import com.forcetower.uefs.sagres_sdk.domain.SagresAccess;
 import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
+import com.forcetower.uefs.sagres_sdk.domain.SagresAccess;
 
 import org.json.JSONException;
 import org.json.JSONObject;

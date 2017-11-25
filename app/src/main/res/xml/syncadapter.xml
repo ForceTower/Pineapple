@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <sync-adapter
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:contentAuthority="com.forcetower.uefs.providers"
     android:accountType="com.forcetower.uefs"
-    android:userVisible="true"
-    android:supportsUploading="false"
     android:allowParallelSyncs="false"
-    android:isAlwaysSyncable="true"/>
+    android:contentAuthority="com.forcetower.uefs.providers"
+    android:isAlwaysSyncable="true"
+    android:supportsUploading="false"
+    android:userVisible="true"/>

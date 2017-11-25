@@ -4,13 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.transition.Explode;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.activity.base.UEFSBaseActivity;
-import com.forcetower.uefs.helpers.Utils;
 import com.forcetower.uefs.sagres_sdk.domain.SagresMessage;
 
 public class MessageActivity extends UEFSBaseActivity {
@@ -29,7 +27,7 @@ public class MessageActivity extends UEFSBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
 
-        if(messageInst == null)
+        if (messageInst == null)
             finish();
 /*
         if (Utils.supportsMaterialDesign()) {
@@ -40,15 +38,15 @@ public class MessageActivity extends UEFSBaseActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
-        if (getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(R.string.title_message);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        TextView className    = findViewById(R.id.tv_class_name);
-        TextView messageText  = findViewById(R.id.tv_message_text);
-        TextView senderName   = findViewById(R.id.tv_sender_name);
+        TextView className = findViewById(R.id.tv_class_name);
+        TextView messageText = findViewById(R.id.tv_message_text);
+        TextView senderName = findViewById(R.id.tv_sender_name);
         TextView receivedTime = findViewById(R.id.tv_received_time);
 
         className.setText(messageInst.getClassName());

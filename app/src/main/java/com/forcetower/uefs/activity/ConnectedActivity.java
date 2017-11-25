@@ -21,15 +21,6 @@ import com.forcetower.uefs.helpers.Utils;
 
 public class ConnectedActivity extends UEFSBaseActivity {
     private static final String AUTHORITY = "com.forcetower.uefs.providers";
-
-    public static void startActivity(Context context) {
-        Intent intent = new Intent(context, ConnectedActivity.class);
-        Bundle bundle = ActivityOptionsCompat.makeCustomAnimation(context,
-                android.R.anim.fade_in, android.R.anim.fade_out).toBundle();
-
-        context.startActivity(intent, bundle);
-    }
-
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -52,6 +43,14 @@ public class ConnectedActivity extends UEFSBaseActivity {
             return false;
         }
     };
+
+    public static void startActivity(Context context) {
+        Intent intent = new Intent(context, ConnectedActivity.class);
+        Bundle bundle = ActivityOptionsCompat.makeCustomAnimation(context,
+                android.R.anim.fade_in, android.R.anim.fade_out).toBundle();
+
+        context.startActivity(intent, bundle);
+    }
 
     private void changeToolbarText(@StringRes int resId) {
         /*if (getSupportActionBar() != null) {

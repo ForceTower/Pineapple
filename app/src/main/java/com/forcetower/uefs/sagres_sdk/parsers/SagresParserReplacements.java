@@ -50,7 +50,7 @@ final class SagresParserReplacements {
     public static String useReplacements(String str) {
         String replaced = str;
         for (Pair pair : replacements) {
-            replaced = replaced.replaceAll((String)pair.first, (String)pair.second);
+            replaced = replaced.replaceAll((String) pair.first, (String) pair.second);
         }
         return replaced;
     }

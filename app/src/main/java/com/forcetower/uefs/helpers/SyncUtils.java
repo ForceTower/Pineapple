@@ -5,7 +5,6 @@ import android.accounts.AccountManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.os.Bundle;
-import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -46,7 +45,6 @@ public class SyncUtils {
                 }
             }
         }
-
 
 
         if (newAccount || !setupComplete) {

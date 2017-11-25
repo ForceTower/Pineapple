@@ -20,17 +20,7 @@ import com.forcetower.uefs.activity.LoginActivity;
 
 public class NotificationWake extends BroadcastReceiver {
 
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        Log.i(Constants.APP_TAG, "Notify class starting");
-
-        String name = intent.getStringExtra("name");
-        String room = intent.getStringExtra("room");
-        String modulo = intent.getStringExtra("modulo");
-        generateClassNotification(context, name, modulo, room);
-    }
-
-    public static void generateClassNotification(Context context, String name, String modulo, String room){
+    public static void generateClassNotification(Context context, String name, String modulo, String room) {
         NotificationCompat.BigTextStyle textStyle = new NotificationCompat.BigTextStyle().bigText(context.getString(R.string.class_notification_display, name, room, modulo));
 
         Intent resultIntent = new Intent(context, LoginActivity.class);
@@ -57,5 +47,15 @@ public class NotificationWake extends BroadcastReceiver {
         } else {
             Log.e(Constants.APP_TAG, "Alarm manager failed, it is null");
         }
+    }
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        Log.i(Constants.APP_TAG, "Notify class starting");
+
+        String name = intent.getStringExtra("name");
+        String room = intent.getStringExtra("room");
+        String modulo = intent.getStringExtra("modulo");
+        generateClassNotification(context, name, modulo, room);
     }
 }

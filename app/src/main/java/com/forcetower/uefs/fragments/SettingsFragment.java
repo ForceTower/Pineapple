@@ -12,8 +12,6 @@ import com.forcetower.uefs.R;
 import com.forcetower.uefs.activity.LoginActivity;
 import com.forcetower.uefs.helpers.SyncUtils;
 import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
-import com.forcetower.uefs.sagres_sdk.domain.SagresAccess;
-import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
 
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener, Preference.OnPreferenceClickListener {
     @Override
@@ -27,14 +25,14 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         super.onResume();
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
         Preference logoff = findPreference("logoff_key");
-        if(logoff != null) logoff.setOnPreferenceClickListener(this);
+        if (logoff != null) logoff.setOnPreferenceClickListener(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         Preference logoff = findPreference("logoff_key");
-        if(logoff != null) logoff.setOnPreferenceClickListener(this);
+        if (logoff != null) logoff.setOnPreferenceClickListener(this);
 
         getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
     }

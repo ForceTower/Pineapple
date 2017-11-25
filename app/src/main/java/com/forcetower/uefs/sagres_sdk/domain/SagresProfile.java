@@ -1,10 +1,8 @@
 package com.forcetower.uefs.sagres_sdk.domain;
 
-import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
-import com.forcetower.uefs.sagres_sdk.exception.SagresInfoFetchException;
 import com.forcetower.uefs.sagres_sdk.exception.SagresLoginException;
-import com.forcetower.uefs.sagres_sdk.utility.SagresDayUtils;
 import com.forcetower.uefs.sagres_sdk.managers.SagresProfileManager;
+import com.forcetower.uefs.sagres_sdk.utility.SagresDayUtils;
 import com.forcetower.uefs.sagres_sdk.utility.SagresUtility;
 import com.forcetower.uefs.sagres_sdk.validators.Validate;
 
@@ -41,14 +39,6 @@ public class SagresProfile {
         return SagresProfileManager.getInstance().getCurrentProfile();
     }
 
-    public HashMap<String, List<SagresClassDay>> getClasses() {
-        return classes;
-    }
-
-    public List<SagresMessage> getMessages() {
-        return messages;
-    }
-
     public static void setCurrentProfile(SagresProfile profile) {
         SagresProfileManager.getInstance().setCurrentProfile(profile);
     }
@@ -73,13 +63,64 @@ public class SagresProfile {
             }
 
             @Override
-            public void onLoginSuccess() {}
+            public void onLoginSuccess() {
+            }
         });
     }
 
     public static void fetchProfileForSagresAccess(SagresAccess access, SagresUtility.AllInformationFetchWithCacheCallback callback) {
         setCurrentProfile(null);
         SagresUtility.getInformationFromUserWithCacheAsync(access, callback);
+    }
+
+    public static SagresProfile fromJSONObject(JSONObject jsonObject) throws JSONException {
+        String name = jsonObject.getString(NAME_KEY);
+        List<SagresMessage> messages = getMessages(jsonObject);
+        HashMap<String, List<SagresClassDay>> classes = getClasses(jsonObject);
+
+        return new SagresProfile(name, messages, classes);
+    }
+
+    private static HashMap<String, List<SagresClassDay>> getClasses(JSONObject jsonObject) throws JSONException {
+        HashMap<String, List<SagresClassDay>> classes = new HashMap<>();
+        JSONObject classesObject = jsonObject.getJSONObject(CLASSES_KEY);
+
+        for (int i = 1; i <= 7; i++) {
+            List<SagresClassDay> classesDay = new ArrayList<>();
+            String day = SagresDayUtils.getDayOfWeek(i);
+            JSONArray dayObject = classesObject.getJSONArray(day);
+
+            for (int j = 0; j < dayObject.length(); j++) {
+                SagresClassDay classDay = SagresClassDay.fromJSONObject(dayObject.getJSONObject(j));
+                classesDay.add(classDay);
+            }
+            classes.put(day, classesDay);
+        }
+        return classes;
+    }
+
+    private static List<SagresMessage> getMessages(JSONObject jsonObject) throws JSONException {
+        List<SagresMessage> messages = new ArrayList<>();
+        JSONArray messagesArray = jsonObject.getJSONArray(MESSAGES_KEY);
+
+        for (int i = 0; i < messagesArray.length(); i++) {
+            JSONObject messageObject = messagesArray.getJSONObject(i);
+            SagresMessage message = SagresMessage.fromJSONObject(messageObject);
+            messages.add(message);
+        }
+        return messages;
+    }
+
+    public static void asyncFetchProfileInformationWithCallback(SagresUtility.AsyncFetchProfileInformationCallback callback) {
+        SagresUtility.getProfileInformationAsyncWithCallback(callback);
+    }
+
+    public HashMap<String, List<SagresClassDay>> getClasses() {
+        return classes;
+    }
+
+    public List<SagresMessage> getMessages() {
+        return messages;
     }
 
     public JSONObject toJSONObject() throws JSONException {
@@ -121,48 +162,6 @@ public class SagresProfile {
         }
 
         return messagesArray;
-    }
-
-    public static SagresProfile fromJSONObject(JSONObject jsonObject) throws JSONException {
-        String name = jsonObject.getString(NAME_KEY);
-        List<SagresMessage> messages = getMessages(jsonObject);
-        HashMap<String, List<SagresClassDay>> classes = getClasses(jsonObject);
-
-        return new SagresProfile(name, messages, classes);
-    }
-
-    private static HashMap<String,List<SagresClassDay>> getClasses(JSONObject jsonObject) throws JSONException {
-        HashMap<String,List<SagresClassDay>> classes = new HashMap<>();
-        JSONObject classesObject = jsonObject.getJSONObject(CLASSES_KEY);
-
-        for (int i = 1; i <= 7; i++) {
-            List<SagresClassDay> classesDay = new ArrayList<>();
-            String day = SagresDayUtils.getDayOfWeek(i);
-            JSONArray dayObject = classesObject.getJSONArray(day);
-
-            for (int j = 0; j < dayObject.length(); j++) {
-                SagresClassDay classDay = SagresClassDay.fromJSONObject(dayObject.getJSONObject(j));
-                classesDay.add(classDay);
-            }
-            classes.put(day, classesDay);
-        }
-        return classes;
-    }
-
-    private static List<SagresMessage> getMessages(JSONObject jsonObject) throws JSONException {
-        List<SagresMessage> messages = new ArrayList<>();
-        JSONArray messagesArray = jsonObject.getJSONArray(MESSAGES_KEY);
-
-        for (int i = 0; i < messagesArray.length(); i++) {
-            JSONObject messageObject = messagesArray.getJSONObject(i);
-            SagresMessage message = SagresMessage.fromJSONObject(messageObject);
-            messages.add(message);
-        }
-        return messages;
-    }
-
-    public static void asyncFetchProfileInformationWithCallback(SagresUtility.AsyncFetchProfileInformationCallback callback) {
-        SagresUtility.getProfileInformationAsyncWithCallback(callback);
     }
 
     public void updateInformation(String studentName, List<SagresMessage> messages, HashMap<String, List<SagresClassDay>> classes) {

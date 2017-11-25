@@ -1,6 +1,5 @@
 package com.forcetower.uefs.helpers;
 
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
@@ -9,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
@@ -20,8 +18,6 @@ import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.activity.LoginActivity;
 import com.forcetower.uefs.sagres_sdk.domain.SagresMessage;
-
-import okhttp3.internal.Util;
 
 import static com.forcetower.uefs.Constants.APP_TAG;
 

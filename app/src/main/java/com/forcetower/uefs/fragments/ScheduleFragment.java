@@ -30,11 +30,12 @@ public class ScheduleFragment extends Fragment {
     private RecyclerView[] recyclerViews = new RecyclerView[7];
     private RelativeLayout[] relativeLayouts = new RelativeLayout[7];
 
+    public ScheduleFragment() {
+    }
+
     public static ScheduleFragment newInstance() {
         return new ScheduleFragment();
     }
-
-    public ScheduleFragment() {}
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

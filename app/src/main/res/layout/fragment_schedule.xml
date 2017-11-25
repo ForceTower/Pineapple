@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
-    android:id="@+id/sv_view_root"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sv_view_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
@@ -10,19 +10,19 @@
         android:id="@+id/classes_ll_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:clipToPadding="false"
         android:background="@color/light_gray"
+        android:clipToPadding="false"
+        android:orientation="vertical"
         android:paddingBottom="4dp">
 
         <RelativeLayout
             android:id="@+id/rl_mon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="4dp">
 
             <android.support.v7.widget.RecyclerView
@@ -36,11 +36,12 @@
             android:id="@+id/rl_tue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="4dp">
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_schedule_tue"
                 android:layout_width="match_parent"
@@ -53,10 +54,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="4dp">
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_schedule_wed"
                 android:layout_width="match_parent"
@@ -69,10 +71,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="4dp">
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_schedule_thu"
                 android:layout_width="match_parent"
@@ -85,10 +88,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="4dp">
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_schedule_fri"
                 android:layout_width="match_parent"
@@ -101,10 +105,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="4dp">
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_schedule_sat"
                 android:layout_width="match_parent"
@@ -117,10 +122,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="4dp">
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_schedule_sun"
                 android:layout_width="match_parent"

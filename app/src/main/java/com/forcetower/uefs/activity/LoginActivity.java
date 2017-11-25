@@ -1,38 +1,20 @@
 package com.forcetower.uefs.activity;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.UEFSApplication;
 import com.forcetower.uefs.activity.base.UEFSBaseActivity;
-import com.forcetower.uefs.sagres_sdk.SagresConstants;
 import com.forcetower.uefs.sagres_sdk.domain.SagresAccess;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
 import com.forcetower.uefs.sagres_sdk.managers.SagresLoginManager;
-import com.forcetower.uefs.sagres_sdk.utility.SagresCookieJar;
-import com.forcetower.uefs.helpers.PrefUtils;
-import com.forcetower.uefs.sagres_sdk.parsers.SagresParser;
-
-import java.io.IOException;
-import java.net.CookieHandler;
-import java.net.CookieManager;
 
 import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 public class LoginActivity extends UEFSBaseActivity {
     private Button btn_login;

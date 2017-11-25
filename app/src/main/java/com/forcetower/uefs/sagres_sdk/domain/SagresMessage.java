@@ -1,7 +1,5 @@
 package com.forcetower.uefs.sagres_sdk.domain;
 
-import android.widget.TextView;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -29,6 +27,14 @@ public class SagresMessage {
         this.class_receive = class_receive;
     }
 
+    public static SagresMessage fromJSONObject(JSONObject jsonObject) throws JSONException {
+        String sender = jsonObject.getString(SENDER_KEY);
+        String message = jsonObject.getString(MESSAGE_KEY);
+        String received_at = jsonObject.getString(RECEIVE_TIME_KEY);
+        String class_receive = jsonObject.getString(CLASS_MESSAGE_KEY);
+        return new SagresMessage(sender, message, received_at, class_receive);
+    }
+
     public String getClassName() {
         return class_receive;
     }
@@ -52,14 +58,6 @@ public class SagresMessage {
         jsonObject.put(RECEIVE_TIME_KEY, received_at);
         jsonObject.put(CLASS_MESSAGE_KEY, class_receive);
         return jsonObject;
-    }
-
-    public static SagresMessage fromJSONObject(JSONObject jsonObject) throws JSONException {
-        String sender = jsonObject.getString(SENDER_KEY);
-        String message = jsonObject.getString(MESSAGE_KEY);
-        String received_at = jsonObject.getString(RECEIVE_TIME_KEY);
-        String class_receive = jsonObject.getString(CLASS_MESSAGE_KEY);
-        return new SagresMessage(sender, message, received_at, class_receive);
     }
 
     @Override

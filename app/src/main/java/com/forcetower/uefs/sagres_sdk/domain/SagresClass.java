@@ -1,10 +1,5 @@
 package com.forcetower.uefs.sagres_sdk.domain;
 
-import android.util.Log;
-
-import com.forcetower.uefs.activity.LoginActivity;
-import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
-
 import java.util.ArrayList;
 import java.util.List;
 

@@ -7,16 +7,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.sagres_sdk.domain.SagresClass;
-import com.forcetower.uefs.sagres_sdk.domain.SagresClassDay;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by João Paulo on 10/11/2017.
@@ -76,7 +66,6 @@ public class Utils {
 
         return day;
     }
-
 
 
     public static String getDayOfWeek(int i) {

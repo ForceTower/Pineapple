@@ -41,12 +41,70 @@ public class MessageBoardFragment extends Fragment {
     private View rootView;
     private boolean canRefresh = true;
     private Handler handler;
+    private MessageBoardAdapter.OnMessageClickListener onMessageClickListener = new MessageBoardAdapter.OnMessageClickListener() {
+        @Override
+        public void onMessageClicked(View view, int position, SagresMessage message) {
+            MessageActivity.startActivity(context, message);
+        }
+    };
+    private Runnable refreshDelay = new Runnable() {
+        @Override
+        public void run() {
+            canRefresh = true;
+        }
+    };
+    private SwipeRefreshLayout.OnRefreshListener refreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+        @Override
+        public void onRefresh() {
+            if (!canRefresh) {
+                refreshLayout.setRefreshing(false);
+                showTextOnToast(R.string.wait_before_updating_again);
+                return;
+            }
+
+            canRefresh = false;
+            handler.postDelayed(refreshDelay, 20000);
+
+            refreshLayout.setRefreshing(true);
+            SagresProfile.asyncFetchProfileInformationWithCallback(new SagresUtility.AsyncFetchProfileInformationCallback() {
+                @Override
+                public void onSuccess(SagresProfile profile) {
+                    updateView(profile, false);
+                }
+
+                @Override
+                public void onInvalidLogin() {
+                    showTextOnToast(R.string.incorrect_credentials);
+                    updateView(null, false);
+                }
+
+                @Override
+                public void onDeveloperError() {
+                    showTextOnToast(R.string.this_is_and_error);
+                    updateView(null, false);
+                }
+
+                @Override
+                public void onFailure(SagresInfoFetchException e) {
+                    showTextOnToast(R.string.this_is_and_error);
+                    updateView(null, false);
+                }
+
+                @Override
+                public void onFailedConnect() {
+                    showTextOnToast(R.string.network_error);
+                    updateView(null, false);
+                }
+            });
+        }
+    };
+
+    public MessageBoardFragment() {
+    }
 
     public static MessageBoardFragment newInstance() {
         return new MessageBoardFragment();
     }
-
-    public MessageBoardFragment() {}
 
     @Override
     public void onAttach(Context context) {
@@ -101,66 +159,6 @@ public class MessageBoardFragment extends Fragment {
         List<SagresMessage> messages = SagresProfile.getCurrentProfile().getMessages();
         messageAdapter.setMessageList(messages);
     }
-
-    private MessageBoardAdapter.OnMessageClickListener onMessageClickListener = new MessageBoardAdapter.OnMessageClickListener() {
-        @Override
-        public void onMessageClicked(View view, int position, SagresMessage message) {
-            MessageActivity.startActivity(context, message);
-        }
-    };
-
-    private SwipeRefreshLayout.OnRefreshListener refreshListener = new SwipeRefreshLayout.OnRefreshListener() {
-        @Override
-        public void onRefresh() {
-            if (!canRefresh) {
-                refreshLayout.setRefreshing(false);
-                showTextOnToast(R.string.wait_before_updating_again);
-                return;
-            }
-
-            canRefresh = false;
-            handler.postDelayed(refreshDelay, 20000);
-
-            refreshLayout.setRefreshing(true);
-            SagresProfile.asyncFetchProfileInformationWithCallback(new SagresUtility.AsyncFetchProfileInformationCallback() {
-                @Override
-                public void onSuccess(SagresProfile profile) {
-                    updateView(profile, false);
-                }
-
-                @Override
-                public void onInvalidLogin() {
-                    showTextOnToast(R.string.incorrect_credentials);
-                    updateView(null, false);
-                }
-
-                @Override
-                public void onDeveloperError() {
-                    showTextOnToast(R.string.this_is_and_error);
-                    updateView(null, false);
-                }
-
-                @Override
-                public void onFailure(SagresInfoFetchException e) {
-                    showTextOnToast(R.string.this_is_and_error);
-                    updateView(null, false);
-                }
-
-                @Override
-                public void onFailedConnect() {
-                    showTextOnToast(R.string.network_error);
-                    updateView(null, false);
-                }
-            });
-        }
-    };
-
-    private Runnable refreshDelay = new Runnable() {
-        @Override
-        public void run() {
-            canRefresh = true;
-        }
-    };
 
     private void updateView(final SagresProfile profile, final boolean refreshing) {
 

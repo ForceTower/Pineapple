@@ -5,8 +5,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.forcetower.uefs.sagres_sdk.domain.SagresAccess;
-import com.forcetower.uefs.sagres_sdk.managers.SagresAccessManager;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
+import com.forcetower.uefs.sagres_sdk.managers.SagresAccessManager;
 import com.forcetower.uefs.sagres_sdk.managers.SagresProfileManager;
 import com.forcetower.uefs.sagres_sdk.utility.SagresCookieJar;
 
@@ -24,15 +24,11 @@ import okhttp3.OkHttpClient;
  */
 
 public class SagresPortalSDK {
-    public interface SagresSDKInitializationCallback {
-        void onFinishInit();
-    }
     public static final String SAGRES_SDK_TAG = "Sagres SDK";
     private static final Object LOCK = new Object();
     private static Executor executor;
     private static boolean sdkInitialized = false;
     private static Context applicationContext = null;
-
     private static OkHttpClient httpClient;
 
     public static void initializeSdk(final Context context) {
@@ -103,5 +99,9 @@ public class SagresPortalSDK {
 
     public static OkHttpClient getHttpClient() {
         return httpClient;
+    }
+
+    public interface SagresSDKInitializationCallback {
+        void onFinishInit();
     }
 }

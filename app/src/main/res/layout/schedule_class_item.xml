@@ -13,9 +13,9 @@
         android:id="@+id/tv_class_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@id/tv_class_time"
         android:layout_alignLeft="@id/tv_class_time"
         android:layout_alignParentTop="true"
+        android:layout_alignStart="@id/tv_class_time"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/roboto_regular"
         android:textColor="@android:color/black"
@@ -27,13 +27,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_class_name"
-        android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
-        android:fontFamily="@font/roboto_regular"
-        android:textSize="12sp"
-        android:textColor="@android:color/black"
         android:alpha="0.54"
+        android:fontFamily="@font/roboto_regular"
+        android:textColor="@android:color/black"
+        android:textSize="12sp"
         tools:text="07:30 ~ 09:30"/>
 
     <TextView
@@ -41,15 +41,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_class_name"
-        android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
         android:layout_toEndOf="@id/tv_class_time"
         android:layout_toRightOf="@id/tv_class_time"
-        android:fontFamily="@font/roboto_regular"
-        android:textSize="12sp"
-        android:textColor="@android:color/black"
         android:alpha="0.54"
+        android:fontFamily="@font/roboto_regular"
+        android:textColor="@android:color/black"
+        android:textSize="12sp"
         tools:text="UEFS - Módulo 3 - PAT37"/>
 
     <Button
@@ -59,11 +59,11 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:background="@drawable/def_button_border"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:fontFamily="@font/roboto_regular"
+        android:background="@drawable/def_button_border"
         android:elevation="1dp"
+        android:fontFamily="@font/roboto_regular"
         android:visibility="invisible"
         tools:text="Abrir"/>
 </RelativeLayout>

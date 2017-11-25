@@ -12,11 +12,6 @@ import org.jetbrains.annotations.NotNull;
  * Created by João Paulo on 18/11/2017.
  */
 public class SagresLoginManager {
-    public interface SagresLoginCallback {
-        void onSuccess();
-        void onFailure();
-        void onLoginSuccess();
-    }
     private static SagresLoginManager instance;
 
     public static SagresLoginManager getInstance() {
@@ -58,5 +53,13 @@ public class SagresLoginManager {
 
     private SagresAccess createAccess(String username, String password) {
         return new SagresAccess(username, password);
+    }
+
+    public interface SagresLoginCallback {
+        void onSuccess();
+
+        void onFailure();
+
+        void onLoginSuccess();
     }
 }

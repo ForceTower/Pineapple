@@ -1,7 +1,5 @@
 package com.forcetower.uefs.sagres_sdk.domain;
 
-import android.telecom.Call;
-
 import com.forcetower.uefs.sagres_sdk.managers.SagresAccessManager;
 
 import org.json.JSONException;

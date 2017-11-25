@@ -19,17 +19,11 @@ import java.util.List;
  */
 
 public class DayScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    public interface OnClassClickListener {
-        void onClassClicked(View view, int position);
-    }
-
     private final int HEADER = 0, CLASS = 1;
-
     private Context context;
     private OnClassClickListener clickListener;
     private List<SagresClassDay> classes;
     private String day;
-
     public DayScheduleAdapter(Context context, List<SagresClassDay> classes, String day) {
         this.context = context;
         this.classes = classes;
@@ -52,9 +46,9 @@ public class DayScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (position == 0) {
-            onBindHeaderViewHolder((HeaderHolder)holder);
+            onBindHeaderViewHolder((HeaderHolder) holder);
         } else {
-            onBindClassViewHolder((ClassHolder)holder, position - 1);
+            onBindClassViewHolder((ClassHolder) holder, position - 1);
         }
     }
 
@@ -105,6 +99,10 @@ public class DayScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     public void setClickListener(OnClassClickListener clickListener) {
         this.clickListener = clickListener;
+    }
+
+    public interface OnClassClickListener {
+        void onClassClicked(View view, int position);
     }
 
     public class HeaderHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

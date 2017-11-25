@@ -21,9 +21,11 @@ public class PrefUtils {
     public static String get(Context context, String key, String defaultValue) {
         return getPrefs(context).getString(key, defaultValue);
     }
+
     public static Boolean get(Context context, String key, boolean defaultValue) {
         return getPrefs(context).getBoolean(key, defaultValue);
     }
+
     public static int get(Context context, String key, int defaultValue) {
         return getPrefs(context).getInt(key, defaultValue);
     }
