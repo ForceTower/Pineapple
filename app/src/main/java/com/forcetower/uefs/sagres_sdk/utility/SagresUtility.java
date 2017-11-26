@@ -5,10 +5,12 @@ import android.util.Log;
 import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
 import com.forcetower.uefs.sagres_sdk.domain.SagresAccess;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassDay;
+import com.forcetower.uefs.sagres_sdk.domain.SagresGrade;
 import com.forcetower.uefs.sagres_sdk.domain.SagresMessage;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
 import com.forcetower.uefs.sagres_sdk.exception.SagresInfoFetchException;
 import com.forcetower.uefs.sagres_sdk.exception.SagresLoginException;
+import com.forcetower.uefs.sagres_sdk.parsers.SagresGradesParser;
 import com.forcetower.uefs.sagres_sdk.parsers.SagresMessagesParser;
 import com.forcetower.uefs.sagres_sdk.parsers.SagresParser;
 import com.forcetower.uefs.sagres_sdk.parsers.SagresScheduleParser;
@@ -69,15 +71,27 @@ public class SagresUtility {
             final HashMap<String, List<SagresClassDay>> classes = SagresScheduleParser.getCompleteSchedule(html);
             final List<SagresMessage> messages = SagresMessagesParser.getStartPageMessages(html);
 
+            //TODO This call should fetch all the grades for all the semesters
+            JSONObject gradesResponse = SagresConnector.getStudentGrades();
+            if (gradesResponse.has("error")) {
+                Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Grades Error!!!!!");
+                return;
+            }
+
+            String gradesHtml = gradesResponse.getString("html");
+            HashMap<String, SagresGrade> grades = SagresGradesParser.getGrades(gradesHtml);
+            Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Grades obtained and set");
+
+
             if (callback != null) {
-                callback.onSuccess(new SagresProfile(studentName, messages, classes));
+                callback.onSuccess(new SagresProfile(studentName, messages, classes, grades));
             }
 
             Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Finished Fetching Profile");
 
         } catch (JSONException e) {
             e.printStackTrace();
-            callback.onFailure(new SagresLoginException("JSONException in parse - Never should've happened"));
+            if (callback != null) callback.onFailure(new SagresLoginException("JSONException in parse - Never should've happened"));
             Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "JSONException in login");
         }
     }
@@ -131,13 +145,28 @@ public class SagresUtility {
                     final HashMap<String, List<SagresClassDay>> classes = SagresScheduleParser.getCompleteSchedule(html);
                     final List<SagresMessage> messages = SagresMessagesParser.getStartPageMessages(html);
 
-                    if (callback != null) {
-                        if (SagresProfile.getCurrentProfile() == null) {
-                            SagresProfile.setCurrentProfile(new SagresProfile(studentName, messages, classes));
-                        } else {
-                            SagresProfile profile = SagresProfile.getCurrentProfile();
-                            profile.updateInformation(studentName, messages, classes);
+                    if (SagresProfile.getCurrentProfile() == null) {
+                        SagresProfile.setCurrentProfile(new SagresProfile(studentName, messages, classes));
+                    } else {
+                        SagresProfile profile = SagresProfile.getCurrentProfile();
+                        profile.updateInformation(studentName, messages, classes);
+                    }
+
+                    JSONObject gradesResponse = SagresConnector.getStudentGrades();
+                    if (loginResponse.has("error")) {
+                        Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Login has error - Time out or no network");
+                        if (callback != null) {
+                            callback.onHalfCompleted(1);
                         }
+                    } else {
+                        Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Fetching Grades...");
+                        String gradesHtml = gradesResponse.getString("html");
+                        HashMap<String, SagresGrade> grades = SagresGradesParser.getGrades(gradesHtml);
+                        SagresProfile.getCurrentProfile().placeNewGrades(grades);
+                        Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Grades obtained and set");
+                    }
+
+                    if (callback != null) {
                         callback.onSuccess(SagresProfile.getCurrentProfile());
                     }
 
@@ -171,5 +200,7 @@ public class SagresUtility {
         void onFailure(SagresInfoFetchException e);
 
         void onFailedConnect();
+
+        void onHalfCompleted(int completedSteps);
     }
 }

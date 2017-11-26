@@ -12,6 +12,7 @@ import android.util.Log;
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.helpers.NotificationCreator;
 import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
+import com.forcetower.uefs.sagres_sdk.domain.SagresAccess;
 import com.forcetower.uefs.sagres_sdk.domain.SagresMessage;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
 
@@ -52,16 +53,25 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     private void fetchData() {
+        if (SagresAccess.getCurrentAccess() == null) {
+            return;
+        }
+
         SagresProfile profile = SagresProfile.getCurrentProfile();
-        List<SagresMessage> messagesBefore = profile.getMessages();
+        List<SagresMessage> messagesBefore = null;
+        if (profile != null) {
+            messagesBefore = profile.getMessages();
+        }
+
         //TODO change to just fetch the messages
         SagresProfile.fetchProfileForCurrentAccess();
+        //SagresProfile.asyncFetchProfileInformationWithCallback(null);
 
         SagresProfile profileUpdated = SagresProfile.getCurrentProfile();
         List<SagresMessage> messagesAfter = profileUpdated.getMessages();
 
         for (SagresMessage message : messagesAfter) {
-            if (!messagesBefore.contains(message)) {
+            if (messagesBefore != null && !messagesBefore.contains(message)) {
                 Log.i(Constants.APP_TAG, "New message arrived");
                 NotificationCreator.createNewMessageNotification(getContext(), message);
             }

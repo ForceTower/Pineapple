@@ -157,6 +157,10 @@ public class SagresClassDay implements Comparable<SagresClassDay> {
         this.class_code = classCode;
     }
 
+    public String getClassCode() {
+        return class_code;
+    }
+
     public int compareTo(@NonNull SagresClassDay other) {
         if (other.getDay().equalsIgnoreCase(this.getDay())) {
             if (starts.before(other.getStartsAt())) {

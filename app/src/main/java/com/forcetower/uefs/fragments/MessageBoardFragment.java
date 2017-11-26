@@ -95,6 +95,13 @@ public class MessageBoardFragment extends Fragment {
                     showTextOnToast(R.string.network_error);
                     updateView(null, false);
                 }
+
+                @Override
+                public void onHalfCompleted(int completedSteps) {
+                    if (completedSteps == 1) {
+                        showTextOnToast(R.string.unable_to_fetch_grades);
+                    }
+                }
             });
         }
     };

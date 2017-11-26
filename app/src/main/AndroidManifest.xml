@@ -61,22 +61,19 @@
             android:name=".services.SyncService"
             android:exported="true"
             android:process=":sync">
-
             <intent-filter>
                 <action android:name="android.content.SyncAdapter"/>
             </intent-filter>
 
             <meta-data
                 android:name="android.content.SyncAdapter"
-                android:resource="@xml/syncadapter"
-                />
+                android:resource="@xml/syncadapter"/>
         </service>
-
-        <service
-            android:name=".services.GenericAccountService">
+        <service android:name=".services.GenericAccountService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator"/>
             </intent-filter>
+
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/authenticator"/>
@@ -88,6 +85,9 @@
             android:exported="false"
             android:label="@string/sagres_sync"
             android:syncable="true"/>
+
+        <activity android:name=".activity.ClassDetailsActivity">
+        </activity>
     </application>
 
 </manifest>

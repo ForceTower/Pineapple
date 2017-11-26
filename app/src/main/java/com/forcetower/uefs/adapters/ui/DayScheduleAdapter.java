@@ -2,12 +2,14 @@ package com.forcetower.uefs.adapters.ui;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.helpers.Utils;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassDay;
@@ -24,6 +26,7 @@ public class DayScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private OnClassClickListener clickListener;
     private List<SagresClassDay> classes;
     private String day;
+
     public DayScheduleAdapter(Context context, List<SagresClassDay> classes, String day) {
         this.context = context;
         this.classes = classes;
@@ -102,24 +105,15 @@ public class DayScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     public interface OnClassClickListener {
-        void onClassClicked(View view, int position);
+        void onClassClicked(View view, int position, SagresClassDay classDay);
     }
 
-    public class HeaderHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class HeaderHolder extends RecyclerView.ViewHolder {
         TextView tv_day;
 
         HeaderHolder(View itemView) {
             super(itemView);
-            itemView.setOnClickListener(this);
             tv_day = itemView.findViewById(R.id.tv_day_class_header);
-        }
-
-        @Override
-        public void onClick(View view) {
-            if (clickListener != null) {
-                int position = getAdapterPosition();
-                clickListener.onClassClicked(view, position);
-            }
         }
     }
 
@@ -142,7 +136,7 @@ public class DayScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         public void onClick(View view) {
             if (clickListener != null) {
                 int position = getAdapterPosition();
-                clickListener.onClassClicked(view, position);
+                clickListener.onClassClicked(view, position - 1, getItem(position - 1));
             }
         }
     }
