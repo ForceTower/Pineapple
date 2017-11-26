@@ -116,4 +116,12 @@ public class SagresGrade {
         }
         return sections;
     }
+
+    public GradeSection findSection(String name) {
+        for (GradeSection section : getSections()) {
+            if (section.getName().equalsIgnoreCase(name))
+                return section;
+        }
+        return null;
+    }
 }

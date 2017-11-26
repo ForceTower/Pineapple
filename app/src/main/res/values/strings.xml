@@ -82,4 +82,6 @@
     <string name="class_details_recent_messages">Recent messages</string>
     <string name="class_details">Class details</string>
     <string name="unable_to_fetch_grades">Unable to fetch grades</string>
+    <string name="grade_posted">New grade posted</string>
+    <string name="new_grade_notification">You got a %1$s at %2$s</string>
 </resources>

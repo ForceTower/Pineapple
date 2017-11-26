@@ -48,4 +48,25 @@ public class GradeInfo {
 
         return new GradeInfo(evalName, grade, date);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        GradeInfo gradeInfo = (GradeInfo) o;
+
+        if (evalName != null ? !evalName.equals(gradeInfo.evalName) : gradeInfo.evalName != null)
+            return false;
+        if (grade != null ? !grade.equals(gradeInfo.grade) : gradeInfo.grade != null) return false;
+        return date != null ? date.equals(gradeInfo.date) : gradeInfo.date == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = evalName != null ? evalName.hashCode() : 0;
+        result = 31 * result + (grade != null ? grade.hashCode() : 0);
+        result = 31 * result + (date != null ? date.hashCode() : 0);
+        return result;
+    }
 }

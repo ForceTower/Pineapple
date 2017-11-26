@@ -77,4 +77,6 @@
     <string name="class_details_recent_messages">Últimos recados</string>
     <string name="class_details">Detalhes da disciplina</string>
     <string name="unable_to_fetch_grades">Não foi possível obter as notas</string>
+    <string name="grade_posted">Nova nota postada</string>
+    <string name="new_grade_notification">Você tirou %1$s em %2$s</string>
 </resources>
