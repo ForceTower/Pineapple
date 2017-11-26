@@ -78,4 +78,12 @@
     <string name="sagres_sync">Sagres Sync</string>
     <string name="wait_before_updating_again">Wait before updating again</string>
     <string name="network_error">Network Error</string>
+    <string name="class_details_grades">Grades</string>
+    <string name="class_details_recent_messages">Recent messages</string>
+    <string name="class_details">Class details</string>
+    <string name="unable_to_fetch_grades">Unable to fetch grades</string>
+    <string name="grade_posted">New grade posted</string>
+    <string name="new_grade_notification">The grade of %1$s from %2$s is available.\nGo check it out!</string>
+    <string name="new_grade_notification_great">The grade of %1$s from %2$s is available.\nGo check it out!\n\nIt's a good one!</string>
+    <string name="class_details_cod_name">%1$s - %2$s</string>
 </resources>

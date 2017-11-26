@@ -55,4 +55,29 @@ public class SagresConnector {
 
         return jsonObject;
     }
+
+    static JSONObject getStudentGrades () throws JSONException {
+        Request request = new Request.Builder()
+                .url(SagresConstants.SAGRES_GRADE_PAGE)
+                .addHeader("content-type", "application/x-www-form-urlencoded")
+                .addHeader("cache-control", "no-cache")
+                .build();
+
+        Call call = SagresPortalSDK.getHttpClient().newCall(request);
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            Response response = call.execute();
+            if (response.isSuccessful()) {
+                jsonObject.put("html", response.body().string());
+                return jsonObject;
+            } else {
+                jsonObject.put("error", 1);
+            }
+        } catch (IOException e) {
+            jsonObject.put("error", 0);
+        }
+
+        return jsonObject;
+    }
 }

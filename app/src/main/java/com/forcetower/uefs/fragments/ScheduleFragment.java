@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.activity.ClassDetailsActivity;
 import com.forcetower.uefs.adapters.ui.DayScheduleAdapter;
 import com.forcetower.uefs.helpers.Utils;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassDay;
@@ -29,6 +30,12 @@ public class ScheduleFragment extends Fragment {
     private View rootView;
     private RecyclerView[] recyclerViews = new RecyclerView[7];
     private RelativeLayout[] relativeLayouts = new RelativeLayout[7];
+    private DayScheduleAdapter.OnClassClickListener classClickListener = new DayScheduleAdapter.OnClassClickListener() {
+        @Override
+        public void onClassClicked(View view, int position, SagresClassDay classDay) {
+            ClassDetailsActivity.startActivity(context, classDay);
+        }
+    };
 
     public ScheduleFragment() {
     }
@@ -89,7 +96,11 @@ public class ScheduleFragment extends Fragment {
                     if (Utils.isLollipop()) relativeLayouts[i].setElevation(2);
                     relativeLayouts[i].setBackgroundResource(android.R.color.white);
                     recyclerViews[i].setLayoutManager(new LinearLayoutManager(context));
-                    recyclerViews[i].setAdapter(new DayScheduleAdapter(context, day, dayOfWeek));
+
+                    DayScheduleAdapter dayScheduleAdapter = new DayScheduleAdapter(context, day, dayOfWeek);
+                    dayScheduleAdapter.setClickListener(classClickListener);
+
+                    recyclerViews[i].setAdapter(dayScheduleAdapter);
                     recyclerViews[i].addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
                     recyclerViews[i].setNestedScrollingEnabled(false);
                 }
