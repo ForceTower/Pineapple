@@ -48,7 +48,7 @@ public class ClassDetailsActivity extends UEFSBaseActivity {
         }
 
         TextView className = findViewById(R.id.tv_class_name);
-        className.setText(sagresClass.getClassName());
+        className.setText(getString(R.string.class_details_cod_name, sagresClass.getClassCode(), sagresClass.getClassName()));
 
         fillWithGrades();
     }

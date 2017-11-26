@@ -120,10 +120,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
         HashMap<String, SagresGrade> updatedGrades = profileUpdated.getGrades();
 
+        //GradeInfo info = new GradeInfo("AVXX - Teste de Notificação", "9,8", "25/11/2017");
+        //updatedGrades.get("TEC412").getSections().get(0).addGradeInfo(info);
+
         if (grades != null) {
             for (String key : updatedGrades.keySet()) {
                 SagresGrade before = grades.get(key);
-                SagresGrade after = grades.get(key);
+                SagresGrade after = updatedGrades.get(key);
 
                 if (after == null) {
                     Log.i(Constants.APP_TAG, "Lost track of a grade... [" + key + "]");

@@ -108,13 +108,24 @@ public class NotificationCreator {
         stackBuilder.addNextIntent(resultIntent);
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        NotificationCompat.BigTextStyle bigText = new NotificationCompat.BigTextStyle().bigText(context.getString(R.string.new_grade_notification, grade.getEvaluationName(), sagresGrade.getClassName()));
+
+        try {
+            String gra = grade.getGrade().replace(",", ".");
+            double val = Double.parseDouble(gra);
+            if (val >= 7) {
+                bigText = new NotificationCompat.BigTextStyle().bigText(context.getString(R.string.new_grade_notification_great, grade.getEvaluationName(), sagresGrade.getClassName()));
+            }
+        } catch (NumberFormatException ignored) {}
+
         //Create the notification
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, Constants.MESSAGES_CHANNEL)
                 .setAutoCancel(true)
                 .setSmallIcon(R.mipmap.ic_launcher_round)
                 .setLargeIcon(largeIcon)
+                .setStyle(bigText)
                 .setContentTitle(context.getString(R.string.grade_posted))
-                .setContentText(context.getString(R.string.new_grade_notification, grade.getGrade(), sagresGrade.getClassName()))
+                .setContentText(context.getString(R.string.new_grade_notification, grade.getEvaluationName(), sagresGrade.getClassName()))
                 .setContentIntent(resultPendingIntent)
                 .setColor(ContextCompat.getColor(context, R.color.colorPrimary));
 

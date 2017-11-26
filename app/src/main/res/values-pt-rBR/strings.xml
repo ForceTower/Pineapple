@@ -78,5 +78,7 @@
     <string name="class_details">Detalhes da disciplina</string>
     <string name="unable_to_fetch_grades">Não foi possível obter as notas</string>
     <string name="grade_posted">Nova nota postada</string>
-    <string name="new_grade_notification">Você tirou %1$s em %2$s</string>
+    <string name="new_grade_notification">A nota da %1$s de %2$s está disponível. Vá olhar!</string>
+    <string name="new_grade_notification_great">A nota da %1$s de %2$s está disponível. Vá olhar!\n\nParabéns!!</string>
+    <string name="class_details_cod_name">%1$s - %2$s</string>
 </resources>
