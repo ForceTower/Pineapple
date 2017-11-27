@@ -8,9 +8,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.activity.base.UEFSBaseActivity;
 import com.forcetower.uefs.fragments.SettingsFragment;
+import com.forcetower.uefs.helpers.Utils;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends UEFSBaseActivity {
 
     public static void startActivity(Context context) {
         Intent intent = new Intent(context, SettingsActivity.class);
@@ -24,6 +26,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        if (Utils.isLollipop()) toolbar.setElevation(10);
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {

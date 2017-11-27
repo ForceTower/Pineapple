@@ -135,7 +135,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
                 if (before == null) {
                     //NotificationCreator.createNewGradeMessage(getContext(), after, NotificationCreator.GENERATED_GRADE);
-                    Log.i(Constants.APP_TAG, "Now it's tracking a new grade... " + after.getClassCode());
+                    Log.i(Constants.APP_TAG, "Now it's tracking a new class...??? " + after.getClassCode());
                     continue;
                 }
 
