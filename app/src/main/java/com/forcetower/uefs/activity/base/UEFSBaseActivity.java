@@ -11,9 +11,20 @@ import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
  */
 
 public abstract class UEFSBaseActivity extends AppCompatActivity {
+    SagresPortalSDK.SagresSDKInitializationCallback initializationCallback = new SagresPortalSDK.SagresSDKInitializationCallback() {
+        @Override
+        public void onFinishInit() {
+            onFinishInitializing();
+        }
+    };
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SagresPortalSDK.initializeSdk(this);
+        SagresPortalSDK.initializeSdk(this, initializationCallback);
+    }
+
+    protected void onFinishInitializing() {
+
     }
 }

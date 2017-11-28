@@ -12,7 +12,9 @@ import com.forcetower.uefs.sagres_sdk.utility.SagresCookieJar;
 
 import java.net.CookieHandler;
 import java.net.CookieManager;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.FutureTask;
@@ -30,13 +32,18 @@ public class SagresPortalSDK {
     private static boolean sdkInitialized = false;
     private static Context applicationContext = null;
     private static OkHttpClient httpClient;
+    private static List<LoginListener> loginListeners;
 
     public static void initializeSdk(final Context context) {
         initializeSdk(context, null);
     }
 
     public static void initializeSdk(final Context context, final SagresSDKInitializationCallback callback) {
-        if (sdkInitialized) return;
+        if (sdkInitialized) {
+            if (callback != null)
+                callback.onFinishInit();
+            return;
+        }
 
         Log.i(SAGRES_SDK_TAG, "Initializing Sagres SDK - " + Calendar.getInstance().getTime().toString());
 
@@ -47,8 +54,9 @@ public class SagresPortalSDK {
                 .cookieJar(new SagresCookieJar(cookieHandler))
                 .build();
 
+        loginListeners = new ArrayList<>();
+
         applicationContext = context;
-        sdkInitialized = true;
 
         FutureTask<Void> futureTask = new FutureTask<>(new Callable<Void>() {
             @Override
@@ -62,6 +70,7 @@ public class SagresPortalSDK {
                 }
 
                 callback.onFinishInit();
+                sdkInitialized = true;
                 return null;
             }
         });
@@ -101,7 +110,25 @@ public class SagresPortalSDK {
         return httpClient;
     }
 
+    public static void alertConnectionListeners(int code, String string) {
+        for (LoginListener listener : loginListeners) {
+            listener.alert(code, string);
+        }
+    }
+
+    public static void addLoginListener(LoginListener loginListener) {
+        loginListeners.add(loginListener);
+    }
+
+    public static void removeLoginListener(LoginListener loginListener) {
+        loginListeners.remove(loginListener);
+    }
+
     public interface SagresSDKInitializationCallback {
         void onFinishInit();
+    }
+
+    public interface LoginListener {
+        void alert(int code, String string);
     }
 }

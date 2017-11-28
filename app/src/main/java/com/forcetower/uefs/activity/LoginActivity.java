@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.activity.base.UEFSBaseActivity;
+import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
 import com.forcetower.uefs.sagres_sdk.domain.SagresAccess;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
 import com.forcetower.uefs.sagres_sdk.managers.SagresLoginManager;
@@ -33,7 +34,16 @@ public class LoginActivity extends UEFSBaseActivity {
         et_username = findViewById(R.id.username_form);
         et_password = findViewById(R.id.password_form);
         progressBar = findViewById(R.id.login_progress);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onFinishInitializing() {
+        super.onFinishInitializing();
         if (SagresAccess.getCurrentAccess() != null && SagresProfile.getCurrentProfile() != null) {
             ConnectedActivity.startActivity(this);
             finish();
@@ -77,7 +87,7 @@ public class LoginActivity extends UEFSBaseActivity {
 
             @Override
             public void onLoginSuccess() {
-                Log.i(Constants.APP_TAG, "LoginActivity::LoginSuccess()");
+                ParsingActivity.startActivity(LoginActivity.this);
             }
         });
     }

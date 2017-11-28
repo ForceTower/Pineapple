@@ -74,6 +74,8 @@ public class SagresUtility {
             }
 
             final String studentName = SagresParser.getUserName(html);
+            SagresPortalSDK.alertConnectionListeners(1, studentName);
+
             final HashMap<String, List<SagresClassDay>> classes = SagresScheduleParser.getCompleteSchedule(html);
             final List<SagresMessage> messages = SagresMessagesParser.getStartPageMessages(html);
 
@@ -82,6 +84,7 @@ public class SagresUtility {
                 Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Grades Error!!!!!");
                 return;
             }
+            SagresPortalSDK.alertConnectionListeners(2, null);
 
             String gradesHtml = gradesResponse.getString("html");
             HashMap<String, SagresGrade> grades = SagresUtility.getGradeHashMap(SagresGradesParser.extractGrades(gradesHtml));
@@ -95,7 +98,7 @@ public class SagresUtility {
                 profile.setAllSemestersGrades(semesterGrades);
                 callback.onSuccess(profile);
             }
-
+            SagresPortalSDK.alertConnectionListeners(10, null);
             Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Finished Fetching Profile");
 
         } catch (JSONException e) {

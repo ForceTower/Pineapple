@@ -35,6 +35,7 @@ public class SagresGradesParser {
         Elements semestersValues = htmlDocument.select("option");
 
         for (Element element : semestersValues) {
+            SagresPortalSDK.alertConnectionListeners(3, element.text());
             System.out.println("Value: " + element.attr("value"));
             System.out.println("Semester: " + element.text());
             List<SagresGrade> grades = getGradesFor(element.attr("value"), htmlDocument);

@@ -32,8 +32,8 @@ public class SagresLoginManager {
                 SagresProfile.fetchProfileForSagresAccess(access, new SagresUtility.AllInformationFetchWithCacheCallback() {
                     @Override
                     public void onSuccess(SagresProfile profile) {
-                        callback.onSuccess();
                         SagresProfile.setCurrentProfile(profile);
+                        callback.onSuccess();
                     }
 
                     @Override
