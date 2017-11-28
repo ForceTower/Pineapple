@@ -25,7 +25,7 @@ public class SagresProfile {
     private static final String MESSAGES_KEY = "messages";
     private static final String NAME_KEY = "name";
     private static final String GRADES_KEY = "grades";
-    private static final String ALL_GRADES_KEY = "grades";
+    private static final String ALL_GRADES_KEY = "all_grades";
 
     //Profile Attributes
     private String studentName;
