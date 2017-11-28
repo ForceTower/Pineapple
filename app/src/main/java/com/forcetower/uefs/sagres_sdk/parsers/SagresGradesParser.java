@@ -1,181 +1,148 @@
 package com.forcetower.uefs.sagres_sdk.parsers;
 
+import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
 import com.forcetower.uefs.sagres_sdk.domain.GradeInfo;
 import com.forcetower.uefs.sagres_sdk.domain.GradeSection;
 import com.forcetower.uefs.sagres_sdk.domain.SagresGrade;
+import com.forcetower.uefs.sagres_sdk.domain.SagresSemester;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+import okhttp3.FormBody;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by João Paulo on 25/11/2017.
  */
 
 public class SagresGradesParser {
-    private static final String CARD_REPORT_PATTERN = "<div id=\"divBoletins\">";
-    private static final String GRADES_PATTERN = "class=\"boletim-notas\"";
-    private static final String TD_CLASS_DARK = "<td class=\"negrito\">";
 
-    private static final String TABLE_PATTERN = "<table";
-    private static final String TABLE_END_PATTERN = "</table>";
-    private static final String T_BODY_PATTERN = "<tbody>";
-    private static final String T_BODY_END_PATTERN = "</tbody>";
-    private static final String TR_PATTERN = "<tr>";
-    private static final String TR_END_PATTERN = "</tr>";
+    public static HashMap<SagresSemester, List<SagresGrade>> getAllGrades(String html) {
+        Document htmlDocument = Jsoup.parse(html);
+        htmlDocument.charset(Charset.forName("UTF-8"));
 
-    private static HashMap<String, SagresGrade> sagresGradesHash;
+        HashMap<SagresSemester, List<SagresGrade>> semesterGrades = new HashMap<>();
 
-    public static HashMap<String, SagresGrade> getGrades(String html) {
-        sagresGradesHash = new HashMap<>();
+        Elements semestersValues = htmlDocument.select("option");
 
-        int index = html.indexOf(CARD_REPORT_PATTERN);
-        if (index == -1) {
-            return null;
+        for (Element element : semestersValues) {
+            System.out.println("Value: " + element.attr("value"));
+            System.out.println("Semester: " + element.text());
+            List<SagresGrade> grades = getGradesFor(element.attr("value"), htmlDocument);
+            if (grades != null && !grades.isEmpty()) {
+                semesterGrades.put(new SagresSemester(element.attr("value"), element.text()), grades);
+            }
         }
 
-        String gradesDiv = html.substring(index + CARD_REPORT_PATTERN.length()).trim();
-        extractEachClass(gradesDiv);
-
-        return sagresGradesHash;
+        return semesterGrades;
     }
 
-    private static void extractEachClass(String gradesDiv) {
-        int index = 0;
+    private static List<SagresGrade> getGradesFor(String semesterVal, Document html) {
+        FormBody.Builder formBody = new FormBody.Builder();
 
-        while (index < gradesDiv.length()) {
-            int position = gradesDiv.indexOf(GRADES_PATTERN, index);
-            if (position == -1) {
-                return;
-            }
+        Elements elements = html.select("input[value][type=\"hidden\"]");
 
-            int nameStart = gradesDiv.indexOf("ItemBoletim_lblDescricao", index);
-            int nameEnd = gradesDiv.indexOf("</span>", nameStart);
-
-            String name = gradesDiv.substring(nameStart, nameEnd);
-
-            nameStart = name.indexOf(">") + 1;
-            name = name.substring(nameStart);
-            SagresGrade objectGrade = new SagresGrade(name);
-
-            position += GRADES_PATTERN.length() + 1;
-            String div = gradesDiv.substring(position);
-
-            String gradeTable = extractGradeTable(div);
-
-            if (gradeTable != null) {
-                processTBodyForGrades(gradeTable, objectGrade);
-                int tFootStart = gradeTable.indexOf("<tfoot>");
-                int tFootEnd = gradeTable.indexOf("</tfoot>");
-
-                String tFoot = gradeTable.substring(tFootStart + 8, tFootEnd);
-                boolean hasFinalScore = tFoot.contains("ItemBoletim_lblMediaFinal");
-                if (hasFinalScore) {
-                    int fScoreStart = tFoot.indexOf("ItemBoletim_lblMediaFinal");
-                    int fScoreEnd = tFoot.indexOf("</span>", fScoreStart);
-                    String finalScore = tFoot.substring(fScoreStart, fScoreEnd);
-                    fScoreStart = finalScore.indexOf(">") + 1;
-                    finalScore = finalScore.substring(fScoreStart);
-                    objectGrade.setFinalScore(finalScore);
-                } else {
-                    objectGrade.setFinalScore("Não foi divulgado");
-                }
-            }
-
-            index = position;
-
-            sagresGradesHash.put(objectGrade.getClassCode(), objectGrade);
-        }
-    }
-
-    private static String extractGradeTable(String div) {
-        int tableStart = div.indexOf(TABLE_PATTERN);
-        int tableEnd = div.indexOf(TABLE_END_PATTERN);
-
-        if (tableStart == -1) {
-            return null;
+        for (Element element : elements) {
+            String key = element.attr("id");
+            String value = element.attr("value");
+            formBody.add(key, value);
         }
 
-        return div.substring(tableStart + TABLE_PATTERN.length() + 1, tableEnd).trim();
+        formBody.add("ctl00$MasterPlaceHolder$ddPeriodosLetivos$ddPeriodosLetivos", semesterVal);
+        formBody.add("ctl00$MasterPlaceHolder$imRecuperar", "Exibir");
+
+        Request request = new Request.Builder()
+                .url("http://academico2.uefs.br/Portal/Modules/Diario/Aluno/Relatorio/Boletim.aspx?op=notas")
+                .post(formBody.build())
+                .addHeader("x-requested-with", "XMLHttpRequest")
+                .addHeader("content-type", "application/x-www-form-urlencoded")
+                .addHeader("cache-control", "no-cache")
+                .build();
+
+        try {
+            Response response = SagresPortalSDK.getHttpClient().newCall(request).execute();
+            String htmlSemester = response.body().string();
+            return extractGrades(htmlSemester);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
-    private static void processTBodyForGrades(String tBody, SagresGrade objectGrade) {
-        int index = 0;
-        String currentHeader = "";
-        GradeSection currentGSection = new GradeSection("");
+    public static List<SagresGrade> extractGrades(String htmlSemester) {
+        List<SagresGrade> grades = new ArrayList<>();
 
-        while (index < tBody.length()) {
-            //TODO this skips the line: <tr class="boletim-linha-destaque"> FIX it
-            int position = tBody.indexOf(TR_PATTERN, index);
-            if (position == -1) {
-                if (currentGSection.getGrades().size() != 0) {
-                    objectGrade.addSection(currentGSection);
-                }
-                return;
+        Document html = Jsoup.parse(htmlSemester);
+        Element gradesDiv = html.selectFirst("div[id=\"divBoletins\"]");
+
+        Elements classes = gradesDiv.select("div[class=\"boletim-container\"]");
+        for (Element element : classes) {
+            Element classInfo = element.selectFirst("div[class=\"boletim-item-info\"]");
+            Element className = classInfo.selectFirst("span[class=\"boletim-item-titulo cor-destaque\"]");
+            SagresGrade clazz = new SagresGrade(className.text());
+
+            Element situation = classInfo.selectFirst("span[class=\"boletim-item-resumo\"]");
+            if (situation != null) {
+                //System.out.println("Situation: " + situation.text());
+            } else {
+                //System.out.println("Situation: Not released yet");
             }
-            int finish = tBody.indexOf(TR_END_PATTERN, position);
-            String tr = tBody.substring(position + TR_PATTERN.length(), finish).trim();
 
-            if (tr.contains(TD_CLASS_DARK)) {
-                String nHeader = extractGradeHeader(tr);
+            Element gradesInfo = element.selectFirst("div[class=\"boletim-notas\"]");
+            Element gradesTable = gradesInfo.selectFirst("table");
+            Element gradesTBody = gradesTable.selectFirst("tbody");
+            if (gradesTBody != null) {
+                Elements trs = gradesTBody.select("tr");
+                if (!trs.isEmpty()) {
+                    GradeSection section = new GradeSection("Não definido");
 
-                if (nHeader != null && !nHeader.equals(currentHeader)) {
-                    currentHeader = nHeader;
-                    if (currentGSection.getGrades().size() != 0) {
-                        objectGrade.addSection(currentGSection);
+                    for (Element tr : trs) {
+                        Elements children = tr.children();
+                        if (children.size() == 2) {
+                            if (section.getGrades().size() > 0) {
+                                clazz.addSection(section);
+                            }
+
+                            section = new GradeSection(children.get(1).text());
+                        } else if (children.size() == 4) {
+                            Element td = children.first();
+                            if (td.children().size() == 0) {
+                                //System.out.println("Final!");
+                                Element meanTests = children.get(2);
+                                //System.out.println("Partial Mean " + meanTests.text());
+                            } else {
+                                Element date = children.get(0);
+                                Element identification = children.get(1);
+                                Element grade = children.get(2);
+                                GradeInfo gradeInfo = new GradeInfo(identification.text(), grade.text(), date.text());
+                                section.addGradeInfo(gradeInfo);
+                            }
+                        }
                     }
-
-                    currentGSection = new GradeSection(currentHeader);
                 }
-            } else if (tr.contains("<span")) {
-                GradeInfo gradeInfo = extractGradeAndInfo(tr);
-                currentGSection.addGradeInfo(gradeInfo);
             }
 
-            position += TR_PATTERN.length();
-            index = position;
+            Element tFoot = gradesTable.selectFirst("tfoot");
+            if (tFoot != null) {
+                Element tr = tFoot.selectFirst("tr");
+                if (tr != null && tr.children().size() == 4) {
+                    clazz.setFinalScore(tr.children().get(2).text());
+                }
+            }
+
+            grades.add(clazz);
         }
 
-        if (currentGSection.getGrades().size() != 0) {
-            objectGrade.addSection(currentGSection);
-        }
-    }
-
-    private static GradeInfo extractGradeAndInfo(String tr) {
-        //Date
-        int tdDateStart = tr.indexOf("ResumoGrupo_lblDataAvaliacao\"");
-        int tdDateEnd = tr.indexOf("</span>", tdDateStart);
-
-        String date = tr.substring(tdDateStart, tdDateEnd).trim();
-        tdDateStart = date.indexOf(">") + 1;
-        date = date.substring(tdDateStart).trim();
-
-        //Identification
-        int tdIdStart = tr.indexOf("ResumoGrupo_lblDescricaoAvaliacao\"");
-        int tdIdEnd = tr.indexOf("</span>", tdIdStart);
-        String identification = tr.substring(tdIdStart, tdIdEnd).trim();
-        tdIdStart = identification.indexOf(">") + 1;
-        identification = identification.substring(tdIdStart).trim();
-
-        //Grade
-        int tdGradeStart = tr.indexOf("<span", tdIdEnd);
-        int tdGradeEnd = tr.indexOf("</span>", tdGradeStart);
-        String grade = tr.substring(tdGradeStart, tdGradeEnd).trim();
-        tdGradeStart = grade.indexOf(">") + 1;
-        grade = grade.substring(tdGradeStart).trim();
-
-        return new GradeInfo(identification, grade, date);
-    }
-
-    private static String extractGradeHeader(String tr) {
-        int start = tr.indexOf("<span");
-        int end = tr.indexOf("</span>");
-
-        if (start == -1) {
-            return null;
-        } else {
-            String substring = tr.substring(start + 5, end);
-            start = substring.indexOf(">") + 1;
-            substring = substring.substring(start).trim();
-            return substring;
-        }
+        return grades;
     }
 }

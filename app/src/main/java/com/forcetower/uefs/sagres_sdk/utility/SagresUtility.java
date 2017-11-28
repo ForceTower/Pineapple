@@ -8,6 +8,7 @@ import com.forcetower.uefs.sagres_sdk.domain.SagresClassDay;
 import com.forcetower.uefs.sagres_sdk.domain.SagresGrade;
 import com.forcetower.uefs.sagres_sdk.domain.SagresMessage;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
+import com.forcetower.uefs.sagres_sdk.domain.SagresSemester;
 import com.forcetower.uefs.sagres_sdk.exception.SagresInfoFetchException;
 import com.forcetower.uefs.sagres_sdk.exception.SagresLoginException;
 import com.forcetower.uefs.sagres_sdk.parsers.SagresGradesParser;
@@ -26,6 +27,11 @@ import java.util.List;
  */
 public class SagresUtility {
 
+    /**
+     * This returns FULL information about user. Should only be used in case of full update
+     * @param access Access to be used to fetch [Username, Password]
+     * @param callback Information about the fetch, can be null
+     */
     public static void getInformationFromUserWithCacheAsync(SagresAccess access, AllInformationFetchWithCacheCallback callback) {
         String username = access.getUsername();
         String password = access.getPassword();
@@ -71,7 +77,6 @@ public class SagresUtility {
             final HashMap<String, List<SagresClassDay>> classes = SagresScheduleParser.getCompleteSchedule(html);
             final List<SagresMessage> messages = SagresMessagesParser.getStartPageMessages(html);
 
-            //TODO This call should fetch all the grades for all the semesters
             JSONObject gradesResponse = SagresConnector.getStudentGrades();
             if (gradesResponse.has("error")) {
                 Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Grades Error!!!!!");
@@ -79,12 +84,16 @@ public class SagresUtility {
             }
 
             String gradesHtml = gradesResponse.getString("html");
-            HashMap<String, SagresGrade> grades = SagresGradesParser.getGrades(gradesHtml);
+            HashMap<String, SagresGrade> grades = SagresUtility.getGradeHashMap(SagresGradesParser.extractGrades(gradesHtml));
+            HashMap<SagresSemester, List<SagresGrade>> semesterGrades = SagresGradesParser.getAllGrades(gradesHtml);
+
             Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Grades obtained and set");
 
 
             if (callback != null) {
-                callback.onSuccess(new SagresProfile(studentName, messages, classes, grades));
+                SagresProfile profile = new SagresProfile(studentName, messages, classes, grades);
+                profile.setAllSemestersGrades(semesterGrades);
+                callback.onSuccess(profile);
             }
 
             Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Finished Fetching Profile");
@@ -96,6 +105,18 @@ public class SagresUtility {
         }
     }
 
+    private static HashMap<String,SagresGrade> getGradeHashMap(List<SagresGrade> sagresGrades) {
+        HashMap<String,SagresGrade> map = new HashMap<>();
+        for (SagresGrade grade : sagresGrades) {
+            map.put(grade.getClassCode(), grade);
+        }
+        return map;
+    }
+
+    /**
+     * Fetches simple user data, can be called at every need to update
+     * @param callback information about the fetch, can be null
+     */
     public static void getProfileInformationAsyncWithCallback(final AsyncFetchProfileInformationCallback callback) {
         if (!SagresPortalSDK.isSdkInitialized()) {
             if (callback != null) {
@@ -161,7 +182,7 @@ public class SagresUtility {
                     } else {
                         Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Fetching Grades...");
                         String gradesHtml = gradesResponse.getString("html");
-                        HashMap<String, SagresGrade> grades = SagresGradesParser.getGrades(gradesHtml);
+                        HashMap<String, SagresGrade> grades = getGradeHashMap(SagresGradesParser.extractGrades(gradesHtml));
                         SagresProfile.getCurrentProfile().placeNewGrades(grades);
                         Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Grades obtained and set");
                     }

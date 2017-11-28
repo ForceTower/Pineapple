@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by João Paulo on 17/11/2017.
@@ -24,12 +25,14 @@ public class SagresProfile {
     private static final String MESSAGES_KEY = "messages";
     private static final String NAME_KEY = "name";
     private static final String GRADES_KEY = "grades";
+    private static final String ALL_GRADES_KEY = "grades";
 
     //Profile Attributes
     private String studentName;
     private List<SagresMessage> messages;
     private HashMap<String, List<SagresClassDay>> classes;
     private HashMap<String, SagresGrade> grades;
+    private HashMap<SagresSemester, List<SagresGrade>> allSemestersGrades;
 
     public SagresProfile(String name, List<SagresMessage> messages, HashMap<String, List<SagresClassDay>> classes) {
         this.studentName = name;
@@ -52,6 +55,10 @@ public class SagresProfile {
         SagresProfileManager.getInstance().setCurrentProfile(profile);
     }
 
+    /**
+     * Fetches full information of user;
+     * This should only be called when the user logs in or in case of full profile restore
+     */
     public static void fetchProfileForCurrentAccess() {
         SagresAccess access = SagresAccess.getCurrentAccess();
         if (access == null) {
@@ -77,6 +84,12 @@ public class SagresProfile {
         });
     }
 
+    /**
+     * Fetches full information of user;
+     * This should only be called when the user logs in or in case of full profile restore
+     * @param access Access to be used [Username, Password]
+     * @param callback information about the fetch, can be null
+     */
     public static void fetchProfileForSagresAccess(SagresAccess access, SagresUtility.AllInformationFetchWithCacheCallback callback) {
         setCurrentProfile(null);
         SagresUtility.getInformationFromUserWithCacheAsync(access, callback);
@@ -87,8 +100,11 @@ public class SagresProfile {
         List<SagresMessage> messages = getMessages(jsonObject);
         HashMap<String, List<SagresClassDay>> classes = getClasses(jsonObject);
         HashMap<String, SagresGrade> grades = getGrades(jsonObject);
+        HashMap<SagresSemester, List<SagresGrade>> allGrades = getAllGrades(jsonObject);
 
-        return new SagresProfile(name, messages, classes, grades);
+        SagresProfile profile = new SagresProfile(name, messages, classes, grades);
+        profile.setAllSemestersGrades(allGrades);
+        return profile;
     }
 
     private static HashMap<String, List<SagresClassDay>> getClasses(JSONObject jsonObject) throws JSONException {
@@ -135,6 +151,38 @@ public class SagresProfile {
         return grades;
     }
 
+    private static List<SagresGrade> getGradesWithoutTransformation(JSONArray jsonArray) throws JSONException {
+        List<SagresGrade> gradesList = new ArrayList<>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            gradesList.add(SagresGrade.fromJSONObject(jsonArray.getJSONObject(i)));
+        }
+
+        return gradesList;
+    }
+
+    private static HashMap<SagresSemester,List<SagresGrade>> getAllGrades(JSONObject jsonObject) throws JSONException {
+        HashMap<SagresSemester,List<SagresGrade>> allGrades = new HashMap<>();
+        JSONArray jsonArray = jsonObject.getJSONArray(ALL_GRADES_KEY);
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject object = jsonArray.getJSONObject(i);
+            String semesterCode = object.getString(SagresSemester.SEMESTER_CODE_KEY);
+            String semesterName = object.getString(SagresSemester.SEMESTER_NAME_KEY);
+
+            JSONArray classes = object.getJSONArray(GRADES_KEY);
+            List<SagresGrade> grades = getGradesWithoutTransformation(classes);
+            SagresSemester semester = new SagresSemester(semesterCode, semesterName);
+
+            allGrades.put(semester, grades);
+        }
+
+        return allGrades;
+    }
+
+    /**
+     * Fetch simple user data, can be called all the time
+     * @param callback
+     */
     public static void asyncFetchProfileInformationWithCallback(SagresUtility.AsyncFetchProfileInformationCallback callback) {
         SagresUtility.getProfileInformationAsyncWithCallback(callback);
     }
@@ -161,6 +209,9 @@ public class SagresProfile {
 
         JSONArray gradesArray = gradesToJSONArray();
         jsonObject.put(GRADES_KEY, gradesArray);
+
+        JSONArray allGradesArray = allGradesToJSONArray();
+        jsonObject.put(ALL_GRADES_KEY, allGradesArray);
 
         return jsonObject;
     }
@@ -203,6 +254,34 @@ public class SagresProfile {
         return gradesArray;
     }
 
+    private JSONArray gradesToJSONArray(List<SagresGrade> grades) throws JSONException{
+        JSONArray gradesArray = new JSONArray();
+
+        for (SagresGrade grade : grades) {
+            JSONObject gradeObject = grade.toJSONObject();
+            gradesArray.put(gradeObject);
+        }
+
+        return gradesArray;
+    }
+
+    private JSONArray allGradesToJSONArray() throws JSONException {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Map.Entry<SagresSemester, List<SagresGrade>> entry : allSemestersGrades.entrySet()) {
+            JSONObject jsonObject = new JSONObject();
+            SagresSemester key = entry.getKey();
+            List<SagresGrade> grades = entry.getValue();
+            jsonObject.put(SagresSemester.SEMESTER_NAME_KEY, key.getName());
+            jsonObject.put(SagresSemester.SEMESTER_CODE_KEY, key.getSemesterCode());
+            jsonObject.put(GRADES_KEY, gradesToJSONArray(grades));
+
+            jsonArray.put(jsonObject);
+        }
+
+        return jsonArray;
+    }
+
     public void updateInformation(String studentName, List<SagresMessage> messages, HashMap<String, List<SagresClassDay>> classes) {
         this.studentName = studentName;
         this.classes = classes;
@@ -225,5 +304,9 @@ public class SagresProfile {
         this.grades = grades;
         setCurrentProfile(this);
         //TODO create a logic to know if a grad changed
+    }
+
+    public void setAllSemestersGrades(HashMap<SagresSemester, List<SagresGrade>> allSemestersGrades) {
+        this.allSemestersGrades = allSemestersGrades;
     }
 }
