@@ -16,6 +16,9 @@ public class GradeInfo {
     private String date;
 
     public GradeInfo(String evalName, String grade, String date) {
+        if (grade.trim().isEmpty())
+            grade = "0,0";
+
         this.evalName = evalName;
         this.grade = grade;
         this.date = date;

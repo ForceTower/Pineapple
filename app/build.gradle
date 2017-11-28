@@ -38,5 +38,8 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.1'
     //Circle image view
     compile 'de.hdodenhof:circleimageview:2.2.0'
+    //HTML Parser
+    compile 'org.jsoup:jsoup:1.11.2'
+
     compile 'org.jetbrains:annotations-java5:15.0'
 }
