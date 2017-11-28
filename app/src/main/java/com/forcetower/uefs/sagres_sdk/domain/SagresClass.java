@@ -114,8 +114,8 @@ public class SagresClass {
             place = "testing_please_report";
         } else {
             allocatedRoom = removeRoomName(parts[0]);
-            campus = "testing_please_report_2";
-            place = "testing_please_report_2";
+            campus = "-1";
+            place = "-1";
         }
 
 
