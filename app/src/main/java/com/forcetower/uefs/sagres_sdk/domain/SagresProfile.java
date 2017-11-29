@@ -309,4 +309,8 @@ public class SagresProfile {
     public void setAllSemestersGrades(HashMap<SagresSemester, List<SagresGrade>> allSemestersGrades) {
         this.allSemestersGrades = allSemestersGrades;
     }
+
+    public String getStudentName() {
+        return studentName;
+    }
 }

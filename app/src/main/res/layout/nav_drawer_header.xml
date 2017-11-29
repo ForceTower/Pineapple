@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="172dp"
+    android:layout_marginBottom="8dp">
+
+    <ImageView
+        android:id="@+id/bg_image_view"
+        android:layout_width="match_parent"
+        android:scaleType="centerCrop"
+        android:layout_height="match_parent" />
+
+    <ImageView
+        android:id="@+id/opaque"
+        android:layout_width="match_parent"
+        android:scaleType="centerCrop"
+        android:background="@android:color/black"
+        android:alpha="0.25"
+        android:layout_height="match_parent" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_image_view"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:visibility="invisible"
+        android:src="@color/trans_white"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_above="@+id/title_text_view"
+        android:layout_margin="16dp"
+        android:layout_gravity="center_vertical" />
+
+    <TextView
+        android:id="@+id/title_text_view"
+        android:visibility="gone"
+        android:maxLines="1"
+        android:textSize="15sp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:fontFamily="@font/roboto_regular"
+        android:textColor="@color/white"
+        android:layout_alignWithParentIfMissing="true"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:layout_above="@+id/subtitle_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/subtitle_text_view"
+        android:visibility="gone"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:fontFamily="@font/roboto_regular"
+        android:maxLines="2"
+        android:textColor="@color/white"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

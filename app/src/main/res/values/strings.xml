@@ -89,4 +89,6 @@
     <string name="initializing_app">Initializing App</string>
     <string name="prepare_to_fetch_grades">Preparing to fetch infos</string>
     <string name="fetching_grades_for_semester">Fetching infotmation from %1$s</string>
+    <string name="drawer_open">Open Drawer</string>
+    <string name="drawer_close">Close Drawer</string>
 </resources>

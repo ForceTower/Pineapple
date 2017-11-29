@@ -1,5 +1,6 @@
 package com.forcetower.uefs.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -45,7 +46,9 @@ public class LoginActivity extends UEFSBaseActivity {
     protected void onFinishInitializing() {
         super.onFinishInitializing();
         if (SagresAccess.getCurrentAccess() != null && SagresProfile.getCurrentProfile() != null) {
-            ConnectedActivity.startActivity(this);
+            //ConnectedActivity.startActivity(this);
+            Intent intent = new Intent(LoginActivity.this, NConnectedActivity.class);
+            startActivity(intent);
             finish();
         }
     }
@@ -75,7 +78,9 @@ public class LoginActivity extends UEFSBaseActivity {
             @Override
             public void onSuccess() {
                 Log.i(Constants.APP_TAG, "LoginActivity::ParseSuccess()");
-                ConnectedActivity.startActivity(LoginActivity.this);
+                //ConnectedActivity.startActivity(LoginActivity.this);
+                Intent intent = new Intent(LoginActivity.this, NConnectedActivity.class);
+                startActivity(intent);
                 finish();
             }
 

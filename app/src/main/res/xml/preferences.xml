@@ -23,11 +23,12 @@
         android:title="@string/pref_notification_header">
 
         <CheckBoxPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:icon="@drawable/ic_book_accent_30dp"
             android:key="show_class_notification"
             android:summaryOff="@string/pref_show_class_notification_disabled"
             android:summaryOn="@string/pref_show_class_notification_enabled"
+            android:enabled="false"
             android:title="@string/pref_show_class_notification"/>
 
         <CheckBoxPreference

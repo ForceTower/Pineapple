@@ -168,8 +168,10 @@ public class MessageBoardFragment extends Fragment {
     }
 
     private void updateView(final SagresProfile profile, final boolean refreshing) {
-
         assert getActivity() != null;
+        if (getActivity() == null)
+            return;
+
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
