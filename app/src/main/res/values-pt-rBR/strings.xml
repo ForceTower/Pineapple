@@ -82,6 +82,6 @@
     <string name="new_grade_notification_great">A nota da %1$s de %2$s está disponível. Vá olhar!\n\nParabéns!!</string>
     <string name="class_details_cod_name">%1$s - %2$s</string>
     <string name="initializing_app">Iniciando Aplicativo</string>
-    <string name="prepare_to_fetch_grades">Preparando baixar as notas</string>
+    <string name="prepare_to_fetch_grades">Preparando baixar as informações</string>
     <string name="fetching_grades_for_semester">Baixando informações do semestre %1$s</string>
 </resources>
