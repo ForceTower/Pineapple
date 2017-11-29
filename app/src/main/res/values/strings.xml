@@ -88,5 +88,5 @@
     <string name="class_details_cod_name">%1$s - %2$s</string>
     <string name="initializing_app">Initializing App</string>
     <string name="prepare_to_fetch_grades">Preparing to fetch grades</string>
-    <string name="fetching_grades_for_semester">Fetching grades from %1$s</string>
+    <string name="fetching_grades_for_semester">Fetching infotmation from %1$s</string>
 </resources>
