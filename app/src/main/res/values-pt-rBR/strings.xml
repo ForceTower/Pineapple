@@ -84,4 +84,8 @@
     <string name="initializing_app">Iniciando Aplicativo</string>
     <string name="prepare_to_fetch_grades">Preparando baixar as informações</string>
     <string name="fetching_grades_for_semester">Baixando informações do semestre %1$s</string>
+    <string name="drawer_open">Abrir gaveta</string>
+    <string name="drawer_close">Fechar gaveta</string>
+    <string name="title_grades">Notas</string>
+    <string name="title_calendar">Calendário</string>
 </resources>

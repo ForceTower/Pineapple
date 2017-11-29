@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -99,8 +100,10 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         List<NavDrawerItem> items = new ArrayList<>();
 
         items.add(new NavDrawerItem(true));
-        items.add(new NavDrawerItem(getString(R.string.title_schedule), R.drawable.ic_home_black_24dp, 1));
-        items.add(new NavDrawerItem(getString(R.string.title_messages), R.drawable.ic_dashboard_black_24dp, 2));
+        items.add(new NavDrawerItem(getString(R.string.title_schedule), R.drawable.ic_schedule_black_24dp, 1));
+        items.add(new NavDrawerItem(getString(R.string.title_messages), R.drawable.ic_messages_black_24dp, 2));
+        items.add(new NavDrawerItem(getString(R.string.title_grades), R.drawable.ic_grades_black_24dp, 3));
+        items.add(new NavDrawerItem(getString(R.string.title_calendar), R.drawable.ic_calendar_black_24dp, 4));
         items.add(new NavDrawerItem(getString(R.string.settings), R.drawable.ic_settings_accent_24dp, settingsListener));
 
         return items;
