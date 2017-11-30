@@ -34,7 +34,6 @@
                 <action android:name="android.intent.action.VIEW"/>
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.NConnectedActivity"
             android:theme="@style/AppTheme.NavigationDrawer"
@@ -92,6 +91,8 @@
             android:syncable="true"/>
 
         <activity android:name=".activity.ClassDetailsActivity">
+        </activity>
+        <activity android:name=".activity.AboutActivity">
         </activity>
     </application>
 

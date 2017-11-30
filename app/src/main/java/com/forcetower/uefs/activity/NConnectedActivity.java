@@ -17,6 +17,7 @@ import com.forcetower.uefs.fragments.MessageBoardFragment;
 import com.forcetower.uefs.fragments.NavigationDrawerFragment;
 import com.forcetower.uefs.fragments.ScheduleFragment;
 import com.forcetower.uefs.fragments.SettingsFragment;
+import com.forcetower.uefs.helpers.SyncUtils;
 import com.forcetower.uefs.helpers.Utils;
 
 import static com.forcetower.uefs.Constants.APP_TAG;
@@ -29,7 +30,6 @@ public class NConnectedActivity extends UEFSBaseActivity implements NavigationDr
     private Toolbar toolbar;
     private ScrimInsetsFrameLayout navigationDrawerContainer;
     private NavigationDrawerFragment navigationDrawerFragment;
-    private int lastSelected = -1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,6 +50,8 @@ public class NConnectedActivity extends UEFSBaseActivity implements NavigationDr
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeButtonEnabled(true);
         }
+
+        SyncUtils.createSyncAccount(this);
 
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         navigationDrawerFragment.init(navigationDrawerContainer, drawerLayout);

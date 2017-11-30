@@ -7,10 +7,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.activity.base.UEFSBaseActivity;
+import com.forcetower.uefs.helpers.Utils;
 import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
 import com.forcetower.uefs.sagres_sdk.domain.SagresAccess;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
@@ -23,6 +25,7 @@ public class LoginActivity extends UEFSBaseActivity {
     private EditText et_username;
     private EditText et_password;
     private ProgressBar progressBar;
+    private TextView aboutApp;
 
     private Call currentCall;
 
@@ -35,6 +38,7 @@ public class LoginActivity extends UEFSBaseActivity {
         et_username = findViewById(R.id.username_form);
         et_password = findViewById(R.id.password_form);
         progressBar = findViewById(R.id.login_progress);
+        aboutApp = findViewById(R.id.about_app);
     }
 
     @Override
@@ -68,7 +72,7 @@ public class LoginActivity extends UEFSBaseActivity {
             progressBar.setVisibility(View.VISIBLE);
             et_username.setEnabled(false);
             et_password.setEnabled(false);
-
+            Utils.fadeOut(aboutApp, this);
             connectToPortal(username, password);
         }
     }
@@ -108,6 +112,7 @@ public class LoginActivity extends UEFSBaseActivity {
                 progressBar.setVisibility(View.INVISIBLE);
                 et_username.setEnabled(true);
                 et_password.setEnabled(true);
+                Utils.fadeIn(aboutApp, LoginActivity.this);
 
                 if (error)
                     et_password.setError(getString(R.string.incorrect_credentials));
@@ -124,5 +129,9 @@ public class LoginActivity extends UEFSBaseActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    public void about(View view) {
+        AboutActivity.startActivity(this);
     }
 }

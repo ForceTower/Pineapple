@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryLight"
     tools:context="com.forcetower.uefs.activity.LoginActivity">
 
     <ImageView
@@ -35,6 +34,8 @@
                 android:id="@+id/username_form"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="@color/primaryText"
                 android:hint="@string/form_username"
                 android:singleLine="true"/>
         </android.support.design.widget.TextInputLayout>
@@ -42,6 +43,7 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp">
 
@@ -49,6 +51,7 @@
                 android:id="@+id/password_form"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/primaryText"
                 android:hint="@string/form_password"
                 android:inputType="textPassword"
                 android:singleLine="true"/>
@@ -60,9 +63,23 @@
             android:layout_height="48dp"
             android:onClick="login"
             android:background="@color/colorAccent"
+            android:fontFamily="@font/roboto_regular"
             android:textAllCaps="false"
             android:text="@string/login_btn"/>
     </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/about_app"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/login_progress"
+        android:text="@string/click_to_know_about"
+        android:textAlignment="center"
+        android:fontFamily="@font/roboto_regular"
+        android:textSize="14sp"
+        android:onClick="about"
+        android:textColor="@color/primaryText"/>
 
     <ProgressBar
         android:id="@+id/login_progress"
