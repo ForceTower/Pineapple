@@ -11,6 +11,7 @@ import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
 import com.forcetower.uefs.sagres_sdk.domain.SagresSemester;
 import com.forcetower.uefs.sagres_sdk.exception.SagresInfoFetchException;
 import com.forcetower.uefs.sagres_sdk.exception.SagresLoginException;
+import com.forcetower.uefs.sagres_sdk.parsers.SagresClassParser;
 import com.forcetower.uefs.sagres_sdk.parsers.SagresGradesParser;
 import com.forcetower.uefs.sagres_sdk.parsers.SagresMessagesParser;
 import com.forcetower.uefs.sagres_sdk.parsers.SagresParser;
@@ -76,7 +77,8 @@ public class SagresUtility {
             final String studentName = SagresParser.getUserName(html);
             SagresPortalSDK.alertConnectionListeners(1, studentName);
 
-            final HashMap<String, List<SagresClassDay>> classes = SagresScheduleParser.getCompleteSchedule(html);
+            //Changed here
+            final HashMap<String, List<SagresClassDay>> classes = SagresClassParser.getCompleteSchedule(html);
             final List<SagresMessage> messages = SagresMessagesParser.getStartPageMessages(html);
 
             JSONObject gradesResponse = SagresConnector.getStudentGrades();
@@ -166,7 +168,8 @@ public class SagresUtility {
                     }
 
                     final String studentName = SagresParser.getUserName(html);
-                    final HashMap<String, List<SagresClassDay>> classes = SagresScheduleParser.getCompleteSchedule(html);
+                    //Changed Here
+                    final HashMap<String, List<SagresClassDay>> classes = SagresClassParser.getCompleteSchedule(html);
                     final List<SagresMessage> messages = SagresMessagesParser.getStartPageMessages(html);
 
                     if (SagresProfile.getCurrentProfile() == null) {
