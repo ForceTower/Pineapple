@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:background="@color/white"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/tv_class_name"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textSize="14sp"
+        android:fontFamily="@font/roboto_regular"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textColor="@color/colorAccent"
+        tools:text="COD123 - Name"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_discipline_grades"
+        android:layout_below="@id/tv_class_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </android.support.v7.widget.RecyclerView>
+
+</RelativeLayout>

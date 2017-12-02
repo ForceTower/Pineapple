@@ -10,4 +10,12 @@
     android:fitsSystemWindows="true"
     android:clipToPadding="false"
     android:background="@color/colorPrimary"
-    app:layout_scrollFlags="scroll|enterAlways" />
+    app:layout_scrollFlags="scroll|enterAlways">
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:popupTheme="@style/AppTheme.PopupOverlay"/>
+</android.support.v7.widget.Toolbar>

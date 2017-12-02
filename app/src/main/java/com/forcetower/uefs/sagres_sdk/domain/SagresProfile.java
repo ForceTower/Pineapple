@@ -339,6 +339,18 @@ public class SagresProfile {
         this.allSemestersGrades = allSemestersGrades;
     }
 
+    public HashMap<SagresSemester, List<SagresGrade>> getAllSemestersGrades() {
+        return allSemestersGrades;
+    }
+
+    public List<SagresGrade> getGradesOfSemester(String semester) {
+        for (Map.Entry<SagresSemester, List<SagresGrade>> entry : allSemestersGrades.entrySet()) {
+            if (entry.getKey().getName().equals(semester))
+                return entry.getValue();
+        }
+        return null;
+    }
+
     public String getStudentName() {
         return studentName;
     }

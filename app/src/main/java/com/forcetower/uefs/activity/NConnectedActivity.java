@@ -13,6 +13,7 @@ import com.forcetower.uefs.R;
 import com.forcetower.uefs.activity.base.UEFSBaseActivity;
 import com.forcetower.uefs.adapters.ui.NavDrawerItem;
 import com.forcetower.uefs.fragments.CalendarFragment;
+import com.forcetower.uefs.fragments.GradesFragment;
 import com.forcetower.uefs.fragments.MessageBoardFragment;
 import com.forcetower.uefs.fragments.NavigationDrawerFragment;
 import com.forcetower.uefs.fragments.ScheduleFragment;
@@ -72,16 +73,14 @@ public class NConnectedActivity extends UEFSBaseActivity implements NavigationDr
             return;
 
         int tag = item.getTag();
+        if (getSupportActionBar() != null) getSupportActionBar().setTitle(item.getTitle());
         if (tag == 1) {
-            if (getSupportActionBar() != null) getSupportActionBar().setTitle(item.getTitle());
             switchToFragment(ScheduleFragment.class);
         } else if (tag == 2) {
-            if (getSupportActionBar() != null) getSupportActionBar().setTitle(item.getTitle());
             switchToFragment(MessageBoardFragment.class);
         } else if (tag == 3) {
-
+            switchToFragment(GradesFragment.class);
         } else if (tag == 4) {
-            if (getSupportActionBar() != null) getSupportActionBar().setTitle(item.getTitle());
             switchToFragment(CalendarFragment.class);
         }
     }

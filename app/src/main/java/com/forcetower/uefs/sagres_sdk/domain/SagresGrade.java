@@ -22,10 +22,13 @@ public class SagresGrade {
     private String classCode;
 
     public SagresGrade(String singleName) {
-        String[] names = singleName.split("-");
-        this.classCode = names[0].trim();
+        int index = singleName.indexOf("-");
+        //String[] names = singleName.split("-");
+        this.classCode = singleName.substring(0, index).trim();
+        //this.classCode = names[0].trim();
 
-        String name = names[1].trim();
+        //String name = names[1].trim();
+        String name = singleName.substring(index + 1).trim();
         if (name.contains("(")) {
             name = name.substring(0, name.lastIndexOf("("));
         }
