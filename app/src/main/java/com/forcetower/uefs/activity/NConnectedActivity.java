@@ -7,20 +7,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.activity.base.UEFSBaseActivity;
 import com.forcetower.uefs.adapters.ui.NavDrawerItem;
+import com.forcetower.uefs.fragments.CalendarFragment;
 import com.forcetower.uefs.fragments.MessageBoardFragment;
 import com.forcetower.uefs.fragments.NavigationDrawerFragment;
 import com.forcetower.uefs.fragments.ScheduleFragment;
-import com.forcetower.uefs.fragments.SettingsFragment;
 import com.forcetower.uefs.helpers.SyncUtils;
 import com.forcetower.uefs.helpers.Utils;
-
-import static com.forcetower.uefs.Constants.APP_TAG;
 
 /**
  * Created by João Paulo on 29/11/2017.
@@ -81,6 +78,11 @@ public class NConnectedActivity extends UEFSBaseActivity implements NavigationDr
         } else if (tag == 2) {
             if (getSupportActionBar() != null) getSupportActionBar().setTitle(item.getTitle());
             switchToFragment(MessageBoardFragment.class);
+        } else if (tag == 3) {
+
+        } else if (tag == 4) {
+            if (getSupportActionBar() != null) getSupportActionBar().setTitle(item.getTitle());
+            switchToFragment(CalendarFragment.class);
         }
     }
 

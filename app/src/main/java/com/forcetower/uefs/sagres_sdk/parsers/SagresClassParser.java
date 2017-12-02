@@ -1,9 +1,7 @@
 package com.forcetower.uefs.sagres_sdk.parsers;
 
-import android.util.Log;
 import android.util.SparseArray;
 
-import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClass;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassDay;
 import com.forcetower.uefs.sagres_sdk.utility.SagresDayUtils;

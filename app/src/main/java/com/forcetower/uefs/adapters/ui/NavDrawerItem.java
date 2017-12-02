@@ -1,7 +1,6 @@
 package com.forcetower.uefs.adapters.ui;
 
 import android.support.annotation.DrawableRes;
-import android.support.annotation.IdRes;
 
 /**
  * Created by João Paulo on 29/11/2017.

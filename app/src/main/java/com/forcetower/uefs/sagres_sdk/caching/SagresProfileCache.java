@@ -30,6 +30,7 @@ public class SagresProfileCache {
                 JSONObject jsonObject = new JSONObject(jsonString);
                 return SagresProfile.fromJSONObject(jsonObject);
             } catch (JSONException e) {
+                e.printStackTrace();
                 return null;
             }
         }

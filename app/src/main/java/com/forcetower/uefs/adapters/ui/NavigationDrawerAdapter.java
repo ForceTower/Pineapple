@@ -2,8 +2,6 @@ package com.forcetower.uefs.adapters.ui;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
-import android.support.annotation.IdRes;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -69,7 +67,7 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter {
             holder.profileImageView.setVisibility(View.VISIBLE);
             holder.profileImageView.setImageResource(R.drawable.logo_uefs);
             holder.backgroundImageView.setVisibility(View.VISIBLE);
-            holder.backgroundImageView.setImageResource(R.drawable.background);
+            holder.backgroundImageView.setImageResource(R.drawable.capa);
             holder.subtitleTextView.setVisibility(View.VISIBLE);
             holder.subtitleTextView.setText(access.getUsername());
         }

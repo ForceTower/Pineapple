@@ -55,7 +55,7 @@ public class SagresPortalSDK {
                 .build();
 
         loginListeners = new ArrayList<>();
-
+        sdkInitialized = true;
         applicationContext = context;
 
         FutureTask<Void> futureTask = new FutureTask<>(new Callable<Void>() {
@@ -70,7 +70,6 @@ public class SagresPortalSDK {
                 }
 
                 callback.onFinishInit();
-                sdkInitialized = true;
                 return null;
             }
         });

@@ -26,6 +26,7 @@ public class SagresProfile {
     private static final String NAME_KEY = "name";
     private static final String GRADES_KEY = "grades";
     private static final String ALL_GRADES_KEY = "all_grades";
+    private static final String CALENDAR_KEY = "calendar";
 
     //Profile Attributes
     private String studentName;
@@ -33,6 +34,7 @@ public class SagresProfile {
     private HashMap<String, List<SagresClassDay>> classes;
     private HashMap<String, SagresGrade> grades;
     private HashMap<SagresSemester, List<SagresGrade>> allSemestersGrades;
+    private List<SagresCalendarItem> calendar;
 
     public SagresProfile(String name, List<SagresMessage> messages, HashMap<String, List<SagresClassDay>> classes) {
         this.studentName = name;
@@ -101,9 +103,11 @@ public class SagresProfile {
         HashMap<String, List<SagresClassDay>> classes = getClasses(jsonObject);
         HashMap<String, SagresGrade> grades = getGrades(jsonObject);
         HashMap<SagresSemester, List<SagresGrade>> allGrades = getAllGrades(jsonObject);
+        List<SagresCalendarItem> calendar = getCalendar(jsonObject);
 
         SagresProfile profile = new SagresProfile(name, messages, classes, grades);
         profile.setAllSemestersGrades(allGrades);
+        profile.setCalendar(calendar);
         return profile;
     }
 
@@ -179,9 +183,21 @@ public class SagresProfile {
         return allGrades;
     }
 
+    private static List<SagresCalendarItem> getCalendar(JSONObject jsonObject) throws JSONException {
+        List<SagresCalendarItem> calendar = new ArrayList<>();
+        JSONArray jsonArray = jsonObject.getJSONArray(CALENDAR_KEY);
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject object = jsonArray.getJSONObject(i);
+            calendar.add(SagresCalendarItem.fromJSONObject(object));
+        }
+
+        return calendar;
+    }
+
     /**
      * Fetch simple user data, can be called all the time
-     * @param callback
+     * @param callback information about fetch
      */
     public static void asyncFetchProfileInformationWithCallback(SagresUtility.AsyncFetchProfileInformationCallback callback) {
         SagresUtility.getProfileInformationAsyncWithCallback(callback);
@@ -212,6 +228,9 @@ public class SagresProfile {
 
         JSONArray allGradesArray = allGradesToJSONArray();
         jsonObject.put(ALL_GRADES_KEY, allGradesArray);
+
+        JSONArray calendarArray = calendarToJSONArray();
+        jsonObject.put(CALENDAR_KEY, calendarArray);
 
         return jsonObject;
     }
@@ -282,6 +301,16 @@ public class SagresProfile {
         return jsonArray;
     }
 
+    private JSONArray calendarToJSONArray() throws JSONException {
+        JSONArray jsonArray = new JSONArray();
+
+        for (SagresCalendarItem item : calendar) {
+            jsonArray.put(item.toJSONObject());
+        }
+
+        return jsonArray;
+    }
+
     public void updateInformation(String studentName, List<SagresMessage> messages, HashMap<String, List<SagresClassDay>> classes) {
         this.studentName = studentName;
         this.classes = classes;
@@ -312,5 +341,13 @@ public class SagresProfile {
 
     public String getStudentName() {
         return studentName;
+    }
+
+    public void setCalendar(List<SagresCalendarItem> calendar) {
+        this.calendar = calendar;
+    }
+
+    public List<SagresCalendarItem> getCalendar() {
+        return calendar;
     }
 }
