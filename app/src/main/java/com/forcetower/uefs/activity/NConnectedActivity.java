@@ -88,7 +88,7 @@ public class NConnectedActivity extends UEFSBaseActivity implements NavigationDr
     private void switchToFragment(Class clazz) {
         String tag = clazz.getName();
         Fragment fragment = getSupportFragmentManager().findFragmentByTag(tag);
-        if (fragment == null) {
+        if (fragment == null || tag.equals("GradesFragment")) {
             try {
                 fragment = (Fragment) clazz.newInstance();
                 getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, fragment, tag).commit();
