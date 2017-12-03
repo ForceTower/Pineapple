@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.helpers.Utils;
+import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -28,14 +29,14 @@ public class SagresParser {
 
             String loginError = html.substring(start, end).trim();
             if (loginError.length() != 0) {
-                Log.i(Constants.APP_TAG, "[Probability] Login failed by user mistake");
+                Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "[Probability] Login failed by user mistake");
                 return false;
             } else {
-                Log.i(Constants.APP_TAG, "[Probability] Login failed by my mistake");
+                Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "[Probability] Login failed by my mistake");
                 return false;
             }
         } else {
-            Log.i(Constants.APP_TAG, "[Probability] Correct Login");
+            Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "[Probability] Correct Login");
             return true;
         }
     }
@@ -55,6 +56,6 @@ public class SagresParser {
     public static String getScore(String html) {
         Document document = Jsoup.parse(html);
         Element element = document.selectFirst("div[class=\"situacao-escore\"]");
-        return element.selectFirst("div[class=\"destaque\"]").text();
+        return element.selectFirst("span[class=\"destaque\"]").text();
     }
 }

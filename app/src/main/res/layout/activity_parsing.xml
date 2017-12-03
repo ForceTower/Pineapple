@@ -5,7 +5,7 @@
     android:id="@+id/view_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryLight"
+    android:background="@color/white"
     tools:context="com.forcetower.uefs.activity.ParsingActivity">
 
     <ProgressBar
@@ -28,6 +28,8 @@
         android:layout_marginBottom="8dp"
         android:textSize="16sp"
         android:visibility="invisible"
+        android:textColor="@color/primaryText"
+        android:fontFamily="@font/roboto_regular"
         tools:text="Processing information..."/>
 
     <TextView
@@ -37,6 +39,8 @@
         android:layout_above="@id/tv_information"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="8dp"
+        android:textColor="@color/primaryText"
+        android:fontFamily="@font/roboto_regular"
         android:textSize="16sp"
         android:visibility="invisible"
         tools:text="Processing information..."/>

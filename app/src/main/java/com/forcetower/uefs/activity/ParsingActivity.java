@@ -51,7 +51,7 @@ public class ParsingActivity extends UEFSBaseActivity {
             @Override
             public void run() {
                 if (code == 1) {
-                    tv_user_name.setText(string);
+                    tv_user_name.setText(getString(R.string.welcome, string));
                     Utils.fadeIn(tv_user_name, ParsingActivity.this);
                 } else if (code == 2) {
                     tv_information.setText(R.string.prepare_to_fetch_grades);

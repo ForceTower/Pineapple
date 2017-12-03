@@ -108,4 +108,5 @@
     <string name="about_app_title">Sobre o aplicativo</string>
     <string name="about_app_bugs_title">Bugs</string>
     <string name="final_score_text">Média Final</string>
+    <string name="connecting_you_dont_need_to_relog">Conectando, você não precisa entrar novamente</string>
 </resources>

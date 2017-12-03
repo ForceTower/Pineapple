@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
@@ -38,6 +39,11 @@ public class LoginActivity extends UEFSBaseActivity {
         et_password = findViewById(R.id.password_form);
         progressBar = findViewById(R.id.login_progress);
         aboutApp = findViewById(R.id.about_app);
+
+        if (SagresAccess.getCurrentAccess() != null && SagresProfile.getCurrentProfile() == null) {
+            Toast.makeText(this, R.string.connecting_you_dont_need_to_relog, Toast.LENGTH_SHORT).show();
+            ParsingActivity.startActivity(this);
+        }
     }
 
     @Override
@@ -81,7 +87,6 @@ public class LoginActivity extends UEFSBaseActivity {
             @Override
             public void onSuccess() {
                 Log.i(Constants.APP_TAG, "LoginActivity::ParseSuccess()");
-                //ConnectedActivity.startActivity(LoginActivity.this);
                 Intent intent = new Intent(LoginActivity.this, NConnectedActivity.class);
                 startActivity(intent);
                 finish();
