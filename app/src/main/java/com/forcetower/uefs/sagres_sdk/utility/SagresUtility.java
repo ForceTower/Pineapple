@@ -76,6 +76,7 @@ public class SagresUtility {
             }
 
             final String studentName = SagresParser.getUserName(html);
+            final String score = SagresParser.getScore(html);
             SagresPortalSDK.alertConnectionListeners(1, studentName);
 
             //Changed here
@@ -99,6 +100,7 @@ public class SagresUtility {
 
             if (callback != null) {
                 SagresProfile profile = new SagresProfile(studentName, messages, classes, grades);
+                profile.setScore(score);
                 profile.setAllSemestersGrades(semesterGrades);
                 profile.setCalendar(calendar);
                 callback.onSuccess(profile);
@@ -171,16 +173,21 @@ public class SagresUtility {
                     }
 
                     final String studentName = SagresParser.getUserName(html);
+                    final String score = SagresParser.getScore(html);
                     //Changed Here
                     final HashMap<String, List<SagresClassDay>> classes = SagresClassParser.getCompleteSchedule(html);
                     final List<SagresMessage> messages = SagresMessagesParser.getStartPageMessages(html);
                     final List<SagresCalendarItem> calendar = SagresCalendarParser.getCalendar(html);
 
                     if (SagresProfile.getCurrentProfile() == null) {
-                        SagresProfile.setCurrentProfile(new SagresProfile(studentName, messages, classes));
+                        SagresProfile profile = new SagresProfile(studentName, messages, classes);
+                        profile.setScore(score);
+                        profile.setCalendar(calendar);
+                        SagresProfile.setCurrentProfile(profile);
                     } else {
                         SagresProfile profile = SagresProfile.getCurrentProfile();
                         profile.updateInformation(studentName, messages, classes);
+                        profile.setScore(score);
                         profile.setCalendar(calendar);
                     }
 

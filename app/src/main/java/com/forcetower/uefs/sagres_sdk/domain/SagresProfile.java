@@ -27,9 +27,11 @@ public class SagresProfile {
     private static final String GRADES_KEY = "grades";
     private static final String ALL_GRADES_KEY = "all_grades";
     private static final String CALENDAR_KEY = "calendar";
+    private static final String SCORE_KEY = "score";
 
     //Profile Attributes
     private String studentName;
+    private String score;
     private List<SagresMessage> messages;
     private HashMap<String, List<SagresClassDay>> classes;
     private HashMap<String, SagresGrade> grades;
@@ -99,6 +101,7 @@ public class SagresProfile {
 
     public static SagresProfile fromJSONObject(JSONObject jsonObject) throws JSONException {
         String name = jsonObject.getString(NAME_KEY);
+        String score = jsonObject.getString(SCORE_KEY);
         List<SagresMessage> messages = getMessages(jsonObject);
         HashMap<String, List<SagresClassDay>> classes = getClasses(jsonObject);
         HashMap<String, SagresGrade> grades = getGrades(jsonObject);
@@ -108,6 +111,7 @@ public class SagresProfile {
         SagresProfile profile = new SagresProfile(name, messages, classes, grades);
         profile.setAllSemestersGrades(allGrades);
         profile.setCalendar(calendar);
+        profile.setScore(score);
         return profile;
     }
 
@@ -216,6 +220,7 @@ public class SagresProfile {
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put(NAME_KEY, studentName);
+        jsonObject.put(SCORE_KEY, score);
 
         JSONObject classesObject = classesToJSONObject();
         jsonObject.put(CLASSES_KEY, classesObject);
@@ -361,5 +366,9 @@ public class SagresProfile {
 
     public List<SagresCalendarItem> getCalendar() {
         return calendar;
+    }
+
+    public void setScore(String score) {
+        this.score = score;
     }
 }

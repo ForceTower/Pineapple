@@ -5,6 +5,10 @@ import android.util.Log;
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.helpers.Utils;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+
 /**
  * Created by João Paulo on 10/11/2017.
  */
@@ -46,5 +50,11 @@ public class SagresParser {
         } else {
             return null;
         }
+    }
+
+    public static String getScore(String html) {
+        Document document = Jsoup.parse(html);
+        Element element = document.selectFirst("div[class=\"situacao-escore\"]");
+        return element.selectFirst("div[class=\"destaque\"]").text();
     }
 }
