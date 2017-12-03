@@ -2,6 +2,7 @@ package com.forcetower.uefs.adapters.ui;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
+import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -28,6 +29,7 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter {
     private final int normalColor, normalBackground, checkedColor, checkedBackground;
     private OnNavDrawerClickListener clickListener;
     private DrawerCallback callback;
+    private Context context;
 
     public NavigationDrawerAdapter(Context context, DrawerCallback callback, List<NavDrawerItem> items) {
         normalColor       = ContextCompat.getColor(context, R.color.primaryText);
@@ -35,6 +37,7 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter {
         checkedColor      = ContextCompat.getColor(context, R.color.colorPrimary);
         checkedBackground = R.color.nav_drawer_selected_bg;
         this.callback = callback;
+        this.context = context;
         setItems(items);
     }
 
@@ -69,7 +72,12 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter {
             holder.backgroundImageView.setVisibility(View.VISIBLE);
             holder.backgroundImageView.setImageResource(R.drawable.capa);
             holder.subtitleTextView.setVisibility(View.VISIBLE);
-            holder.subtitleTextView.setText(access.getUsername());
+
+            boolean showScore = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("show_score", true);
+            if (!showScore)
+                holder.subtitleTextView.setText(access.getUsername());
+            else
+                holder.subtitleTextView.setText(context.getString(R.string.score_is, profile.getScore()));
         }
     }
 

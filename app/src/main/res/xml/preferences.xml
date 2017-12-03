@@ -41,6 +41,14 @@
 
         <CheckBoxPreference
             android:defaultValue="true"
+            android:icon="@drawable/ic_grades_accent_30dp"
+            android:key="show_grades_notification"
+            android:summaryOff="@string/pref_show_grades_notification_disabled"
+            android:summaryOn="@string/pref_show_grades_notification_enabled"
+            android:title="@string/pref_show_grades_notification"/>
+
+        <CheckBoxPreference
+            android:defaultValue="true"
             android:icon="@drawable/ic_vibration_accent_30dp"
             android:key="notifications_new_message_vibrate"
             android:summaryOff="@string/pref_new_message_vibration_disabled"
@@ -58,6 +66,14 @@
 
     <PreferenceCategory
         android:title="@string/pref_account_settings">
+
+        <CheckBoxPreference
+            android:icon="@drawable/ic_grades_accent_30dp"
+            android:key="show_score"
+            android:title="@string/show_score"
+            android:defaultValue="false"
+            android:summaryOff="@string/pref_do_not_show_score"
+            android:summaryOn="@string/pref_do_show_score"/>
 
         <Preference
             android:icon="@drawable/ic_logoff_accent_30dp"

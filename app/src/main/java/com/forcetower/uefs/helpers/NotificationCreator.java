@@ -36,11 +36,11 @@ public class NotificationCreator {
     public static void createNewMessageNotification(Context context, SagresMessage message) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-        boolean showNotification = preferences.getBoolean("show_message_notification", true);
+        /*boolean showNotification = preferences.getBoolean("show_message_notification", true);
         if (!showNotification) {
             Log.i(APP_TAG, "Messages notifications are disabled, message will be omitted");
             return;
-        }
+        }*/
 
         Log.i(APP_TAG, "New message received. Creating notification...");
 

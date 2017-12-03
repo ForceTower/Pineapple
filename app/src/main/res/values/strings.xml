@@ -93,7 +93,7 @@
     <string name="drawer_close">Close Drawer</string>
     <string name="title_grades">Grades</string>
     <string name="title_calendar">Calendar</string>
-    <string name="creator">Created by João Paulo [facebook.com/ForceTower]\nVersion: %1$s</string>
+    <string name="creator">Created by João Paulo [facebook.com/ForceTower]\n[github.com/ForceTower]\nVersion: %1$s</string>
     <string name="click_to_know_about">Click to know about the App</string>
     <string name="about_app_bugs_title">Bugs</string>
     <string name="about_app_title">About App</string>
@@ -113,4 +113,11 @@
     <string name="about_app_bugs">For some stupid mistake, if your Android version is 8.0+ (Oreo) you\'ll not receive any notifications, I\'m working on fixing it :^)</string>
     <string name="final_score_text">Final Mean</string>
     <string name="connecting_you_dont_need_to_relog">Connecting, you don\'t need to relog</string>
+    <string name="score_is">Score: %1$s</string>
+    <string name="show_score">Score</string>
+    <string name="pref_do_not_show_score">Don\'t show on start page</string>
+    <string name="pref_do_show_score">Show on start page</string>
+    <string name="pref_show_grades_notification">Grades</string>
+    <string name="pref_show_grades_notification_disabled">You\'ll not be notified when a new grade arrive</string>
+    <string name="pref_show_grades_notification_enabled">You\'ll be notified when a new grade arrive</string>
 </resources>

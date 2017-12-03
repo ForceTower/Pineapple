@@ -38,6 +38,11 @@
     <string name="pref_show_message_notification">Recados</string>
     <string name="pref_show_message_notification_enabled">Notificar ao receber uma mensagem</string>
     <string name="pref_show_message_notification_disabled">Não notificar ao receber uma mensagem</string>
+    <string name="pref_do_not_show_score">Não mostrar na tela inicial</string>
+    <string name="pref_do_show_score">Mostrar na tela inicial</string>
+    <string name="pref_show_grades_notification">Notas</string>
+    <string name="pref_show_grades_notification_disabled">Não notificar quando receber uma nota</string>
+    <string name="pref_show_grades_notification_enabled">Notificar quando receber uma nota</string>
     <string name="pref_notification_sound">Som</string>
     <string name="pref_notification_header">Notificações</string>
     <string name="pref_title_vibrate">Vibrar</string>
@@ -46,6 +51,7 @@
     <string name="pref_sync_frequency_enabled">A cada %1$s</string>
     <string name="settings">Configurações</string>
     <string name="pref_account_settings">Conta</string>
+    <string name="show_score">Score</string>
     <string name="pref_not_working_still">Não funciona, nem tenta</string>
     <string name="pref_new_message_vibration_enabled">Vibrar na notificação</string>
     <string name="pref_new_message_vibration_disabled">Não vibrar na notificação</string>
@@ -78,6 +84,8 @@
     <string name="class_details">Detalhes da disciplina</string>
     <string name="unable_to_fetch_grades">Não foi possível obter as notas</string>
     <string name="grade_posted">Nova nota postada</string>
+
+    <!-- Other Again -->
     <string name="new_grade_notification">A nota da %1$s de %2$s está disponível. Vá olhar!</string>
     <string name="new_grade_notification_great">A nota da %1$s de %2$s está disponível. Vá olhar!\n\nParabéns!!</string>
     <string name="class_details_cod_name">%1$s - %2$s</string>
@@ -88,7 +96,7 @@
     <string name="drawer_close">Fechar gaveta</string>
     <string name="title_grades">Notas</string>
     <string name="title_calendar">Calendário</string>
-    <string name="creator">Criado por João Paulo [facebook.com/ForceTower]\nVersão: %1$s</string>
+    <string name="creator">Criado por João Paulo\n[facebook.com/ForceTower]\n[github.com/ForceTower]\nVersão: %1$s</string>
 
     <string name="click_to_know_about">Clique para informações sobre o aplicativo</string>
     <string name="about_app_presentation">Oi, eu sou o João :)\nO código fonte do aplicativo está disponível em: github.com/ForceTower/UEFS_Sagres_App</string>
@@ -109,4 +117,5 @@
     <string name="about_app_bugs_title">Bugs</string>
     <string name="final_score_text">Média Final</string>
     <string name="connecting_you_dont_need_to_relog">Conectando, você não precisa entrar novamente</string>
+    <string name="score_is">Score: %1$s</string>
 </resources>

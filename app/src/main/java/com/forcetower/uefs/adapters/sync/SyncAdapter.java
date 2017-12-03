@@ -5,8 +5,10 @@ import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.SyncResult;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.forcetower.uefs.Constants;
@@ -105,62 +107,65 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     private void successMeasures(SagresProfile profile, List<SagresMessage> messagesBefore, HashMap<String, SagresGrade> grades) {
         SagresProfile profileUpdated = SagresProfile.getCurrentProfile();
-        List<SagresMessage> messagesAfter = profileUpdated.getMessages();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 
-        if (messagesBefore != null) {
-            for (SagresMessage message : messagesAfter) {
-                if (!messagesBefore.contains(message)) {
-                    Log.i(Constants.APP_TAG, "New message arrived");
-                    NotificationCreator.createNewMessageNotification(getContext(), message);
+        boolean showMessageNotification = preferences.getBoolean("show_message_notification", true);
+        if (showMessageNotification) {
+            List<SagresMessage> messagesAfter = profileUpdated.getMessages();
+            if (messagesBefore != null) {
+                for (SagresMessage message : messagesAfter) {
+                    if (!messagesBefore.contains(message)) {
+                        Log.i(Constants.APP_TAG, "New message arrived");
+                        NotificationCreator.createNewMessageNotification(getContext(), message);
+                    }
                 }
+            } else {
+                Log.i(Constants.APP_TAG, "Auto Sync Fetch a new profile[Messages], interesting");
             }
-        } else {
-            Log.i(Constants.APP_TAG, "Auto Sync Fetch a new profile[Messages], interesting");
         }
 
-        HashMap<String, SagresGrade> updatedGrades = profileUpdated.getGrades();
+        boolean showGradesNotification = preferences.getBoolean("show_grades_notification", true);
+        if (showGradesNotification) {
+            HashMap<String, SagresGrade> updatedGrades = profileUpdated.getGrades();
+            //GradeInfo info = new GradeInfo("AVXX - Teste de Notificação", "9,8", "25/11/2017");
+            //updatedGrades.get("TEC412").getSections().get(0).addGradeInfo(info);
+            if (grades != null) {
+                for (String key : updatedGrades.keySet()) {
+                    SagresGrade before = grades.get(key);
+                    SagresGrade after = updatedGrades.get(key);
 
-        //GradeInfo info = new GradeInfo("AVXX - Teste de Notificação", "9,8", "25/11/2017");
-        //updatedGrades.get("TEC412").getSections().get(0).addGradeInfo(info);
+                    if (after == null) {
+                        Log.i(Constants.APP_TAG, "Lost track of a grade... [" + key + "]");
+                        continue;
+                    }
 
-        if (grades != null) {
-            for (String key : updatedGrades.keySet()) {
-                SagresGrade before = grades.get(key);
-                SagresGrade after = updatedGrades.get(key);
+                    if (before == null) {
+                        //NotificationCreator.createNewGradeMessage(getContext(), after, NotificationCreator.GENERATED_GRADE);
+                        Log.i(Constants.APP_TAG, "Now it's tracking a new class...??? " + after.getClassCode());
+                        continue;
+                    }
 
-                if (after == null) {
-                    Log.i(Constants.APP_TAG, "Lost track of a grade... [" + key + "]");
-                    continue;
-                }
+                    for (GradeSection nSection : after.getSections()) {
+                        GradeSection oSection = before.findSection(nSection.getName());
 
-                if (before == null) {
-                    //NotificationCreator.createNewGradeMessage(getContext(), after, NotificationCreator.GENERATED_GRADE);
-                    Log.i(Constants.APP_TAG, "Now it's tracking a new class...??? " + after.getClassCode());
-                    continue;
-                }
-
-                for (GradeSection nSection : after.getSections()) {
-                    GradeSection oSection = before.findSection(nSection.getName());
-
-                    if (oSection != null) {
-                        for (GradeInfo nInfo : nSection.getGrades()) {
-                            if (!oSection.getGrades().contains(nInfo)) {
+                        if (oSection != null) {
+                            for (GradeInfo nInfo : nSection.getGrades()) {
+                                if (!oSection.getGrades().contains(nInfo)) {
+                                    NotificationCreator.createNewGradeNotification(getContext(), nInfo, after, NotificationCreator.ADDED_GRADE);
+                                }
+                            }
+                        } else {
+                            Log.i(Constants.APP_TAG, "Class " + after.getClassCode() + " has a new section!");
+                            for (GradeInfo nInfo : nSection.getGrades()) {
                                 NotificationCreator.createNewGradeNotification(getContext(), nInfo, after, NotificationCreator.ADDED_GRADE);
                             }
                         }
-                    } else {
-                        Log.i(Constants.APP_TAG, "Class " + after.getClassCode() + " has a new section!");
-                        for (GradeInfo nInfo : nSection.getGrades()) {
-                            NotificationCreator.createNewGradeNotification(getContext(), nInfo, after, NotificationCreator.ADDED_GRADE);
-                        }
                     }
+
                 }
-
+            } else {
+                Log.i(Constants.APP_TAG, "Auto Sync Fetch a new profile[Grades], interesting");
             }
-        } else {
-            Log.i(Constants.APP_TAG, "Auto Sync Fetch a new profile[Grades], interesting");
         }
-
-
     }
 }
