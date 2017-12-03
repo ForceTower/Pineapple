@@ -107,4 +107,5 @@
     <string name="about_app_privacy_title">Privacidade</string>
     <string name="about_app_title">Sobre o aplicativo</string>
     <string name="about_app_bugs_title">Bugs</string>
+    <string name="final_score_text">Média Final</string>
 </resources>

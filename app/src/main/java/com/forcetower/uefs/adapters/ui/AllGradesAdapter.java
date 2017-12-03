@@ -38,6 +38,8 @@ public class AllGradesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         SagresGrade current = grades.get(position);
 
         classHolder.className.setText(current.getClassName());
+        classHolder.mean_text.setText(current.getFinalScore());
+
         GradesAdapter gradesAdapter = new GradesAdapter(context, current);
         classHolder.recyclerView.setLayoutManager(new LinearLayoutManager(context));
         classHolder.recyclerView.setAdapter(gradesAdapter);
@@ -53,10 +55,12 @@ public class AllGradesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private class ClassHolder extends RecyclerView.ViewHolder {
         RecyclerView recyclerView;
         TextView className;
+        TextView mean_text;
 
         ClassHolder(View itemView) {
             super(itemView);
             className = itemView.findViewById(R.id.tv_class_name);
+            mean_text = itemView.findViewById(R.id.mean_text);
             recyclerView = itemView.findViewById(R.id.rv_discipline_grades);
         }
     }

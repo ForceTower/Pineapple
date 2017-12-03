@@ -111,4 +111,5 @@
     <string name="about_app_notifications">You will receive a notification whenever someone posts a new Grade or a Message on the website (with some delay, based on the selected frequency)</string>
     <string name="about_app_exit">At any moment you can logout by clicking at Settings>Logoff, this action will erase all the saved data related to your Sagres account from the device. You can login again at any time and return receiving notifications.</string>
     <string name="about_app_bugs">For some stupid mistake, if your Android version is 8.0+ (Oreo) you\'ll not receive any notifications, I\'m working on fixing it :^)</string>
+    <string name="final_score_text">Final Mean</string>
 </resources>

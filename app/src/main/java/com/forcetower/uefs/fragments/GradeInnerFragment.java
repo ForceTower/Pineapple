@@ -55,6 +55,8 @@ public class GradeInnerFragment extends Fragment{
         } else if (semester != null) {
             grades = SagresProfile.getCurrentProfile().getGradesOfSemester(semester);
             fillWithGrades(grades);
+        } else {
+            Log.i(Constants.APP_TAG, "No arguments, semester is null... Skipped");
         }
 
         return view;
