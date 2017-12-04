@@ -104,7 +104,7 @@
     <string name="about_app_disclaimer_title">Disclaimer</string>
     <string name="about_app_presentation_title">About me</string>
     <string name="about_app_enjoy">Enjoy :)</string>
-    <string name="about_app_presentation">Hi, I am João :). The source code of this app is available at github.com/ForceTower/UEFS_Sagres_App</string>
+    <string name="about_app_presentation">Hi, I am João Paulo, student of Computer Engineering\nThis is UNES - UNES Não É Sagres, an app to help your student life :).\n The source code of this app is available at github.com/ForceTower/UEFS_Sagres_App</string>
     <string name="about_app_disclaimer">This app is not endorsed nor licensed by TecnoTrends and has no connection with the enterprise that offers the Sagres to the university. The app not intended for profit-making and was developed to help the day life of the students</string>
     <string name="about_app_privacy">The information gathered by the app are only accessible by you. Your username and password are saved exclusively on YOUR SMARTPHONE(Or at your Google\'s account, in case your smartphone supports backup).</string>
     <string name="about_app_features">After the first login you will have access to you schedule, grades and messages. These data are stored on your smartphone, so even when you have no connection you\'ll still be able to read the data and when your connection returns it will update the data again. The app updates your information periodically and you can control the frequency this happens</string>
