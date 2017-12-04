@@ -8,7 +8,7 @@ Também espera-se que possua algumas funcionalidades extras como mostrar no mapa
 ## Progresso
 - [x] Login/Logout
 - [x] Aulas da Semana
-- [x] Notas do semestre
+- [x] Notas do semestre, médias e score
 - [x] Recados Recentes
 - [ ] Descrição das aulas
 - [ ] Faltas
@@ -16,6 +16,8 @@ Também espera-se que possua algumas funcionalidades extras como mostrar no mapa
 - [ ] Aviso de aula próxima
 - [x] Aviso de novo recado
 - [x] Aviso de nota postada
+- [ ] Localização no mapa de cada sala\laboratório (evitar que calouros se percam)
+- [ ] Momento em que cada laboratório está aberto e nome dos monitores
 
 ## Disclaimer
 Este aplicativo não é lincenciado nem tem qualquer ligação com a Tecnotrends, a empresa que mantêm o Website e o serviço Sagres da UEFS. O aplicativo utiliza as informações disponibilizadas pelo portal do estudante que se conecta para filtrar e então exibir no aplicativo.
