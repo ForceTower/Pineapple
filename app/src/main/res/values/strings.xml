@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">UEFS</string>
+    <string name="app_name">UNES</string>
     <string name="form_username">Username</string>
     <string name="form_password">Password</string>
     <string name="login_btn">Login</string>
