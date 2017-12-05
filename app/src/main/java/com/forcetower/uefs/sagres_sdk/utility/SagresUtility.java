@@ -85,15 +85,22 @@ public class SagresUtility {
             final List<SagresCalendarItem> calendar = SagresCalendarParser.getCalendar(html);
 
             JSONObject gradesResponse = SagresConnector.getStudentGrades();
+
+            HashMap<String, SagresGrade> grades;
+            HashMap<SagresSemester, List<SagresGrade>> semesterGrades;
             if (gradesResponse.has("error")) {
                 Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Grades Error!!!!!");
-                return;
+                grades = (SagresProfile.getCurrentProfile() != null) ? SagresProfile.getCurrentProfile().getGrades() : null;
+                semesterGrades = null;
+            } else {
+                String gradesHtml = gradesResponse.getString("html");
+                grades = SagresUtility.getGradeHashMap(SagresGradesParser.extractGrades(gradesHtml));
+                semesterGrades = SagresGradesParser.getAllGrades(gradesHtml);
             }
             SagresPortalSDK.alertConnectionListeners(2, null);
 
-            String gradesHtml = gradesResponse.getString("html");
-            HashMap<String, SagresGrade> grades = SagresUtility.getGradeHashMap(SagresGradesParser.extractGrades(gradesHtml));
-            HashMap<SagresSemester, List<SagresGrade>> semesterGrades = SagresGradesParser.getAllGrades(gradesHtml);
+
+
 
             Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Grades obtained and set");
 
@@ -101,7 +108,7 @@ public class SagresUtility {
             if (callback != null) {
                 SagresProfile profile = new SagresProfile(studentName, messages, classes, grades);
                 profile.setScore(score);
-                profile.setAllSemestersGrades(semesterGrades);
+                if (semesterGrades != null) profile.setAllSemestersGrades(semesterGrades);
                 profile.setCalendar(calendar);
                 callback.onSuccess(profile);
             }
@@ -192,8 +199,8 @@ public class SagresUtility {
                     }
 
                     JSONObject gradesResponse = SagresConnector.getStudentGrades();
-                    if (loginResponse.has("error")) {
-                        Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Login has error - Time out or no network");
+                    if (gradesResponse.has("error")) {
+                        Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Grades has error - Time out or no network");
                         if (callback != null) {
                             callback.onHalfCompleted(1);
                         }

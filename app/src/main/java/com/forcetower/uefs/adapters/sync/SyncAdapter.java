@@ -25,6 +25,7 @@ import com.forcetower.uefs.sagres_sdk.utility.SagresUtility;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
  * Created by João Paulo on 20/11/2017.
@@ -117,12 +118,18 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                     if (!messagesBefore.contains(message)) {
                         Log.i(Constants.APP_TAG, "New message arrived");
                         NotificationCreator.createNewMessageNotification(getContext(), message);
+                    } else {
+                        Log.i(Constants.APP_TAG, "Message already there");
                     }
                 }
             } else {
                 Log.i(Constants.APP_TAG, "Auto Sync Fetch a new profile[Messages], interesting");
             }
+        } else {
+            Log.i(Constants.APP_TAG, "Messages notifications skipped");
         }
+
+        //NotificationCreator.createNewMessageNotification(getContext(), new SagresMessage("My_Self", "Testando... 1 2 3\nSanca postou e nao recebi!!!", "11:59", "TEC709"));
 
         boolean showGradesNotification = preferences.getBoolean("show_grades_notification", true);
         if (showGradesNotification) {
@@ -166,6 +173,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             } else {
                 Log.i(Constants.APP_TAG, "Auto Sync Fetch a new profile[Grades], interesting");
             }
+        } else {
+            Log.i(Constants.APP_TAG, "Grades notifications skipped");
         }
     }
 }
