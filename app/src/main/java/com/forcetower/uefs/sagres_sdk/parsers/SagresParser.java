@@ -42,7 +42,7 @@ public class SagresParser {
 
     public static String getUserName(String html) {
         Document document = Jsoup.parse(html);
-        Element element = document.selectFirst("span[class\"usuario-nome\"]");
+        Element element = document.selectFirst("span[class=\"usuario-nome\"]");
         if (element != null) {
             return Utils.toTitleCase(element.text());
         } else {
@@ -53,6 +53,13 @@ public class SagresParser {
     public static String getScore(String html) {
         Document document = Jsoup.parse(html);
         Element element = document.selectFirst("div[class=\"situacao-escore\"]");
-        return element.selectFirst("span[class=\"destaque\"]").text();
+        if (element != null) {
+            Element score = element.selectFirst("span[class=\"destaque\"]");
+            if (score != null) {
+                return score.text();
+            }
+        }
+
+        return "Não foi possivel pegar o score";
     }
 }
