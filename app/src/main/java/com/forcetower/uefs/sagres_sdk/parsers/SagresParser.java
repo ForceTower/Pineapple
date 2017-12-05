@@ -22,6 +22,22 @@ public class SagresParser {
     }
 
     public static boolean connected(String html) {
+        Document document = Jsoup.parse(html);
+        Element element = document.selectFirst("div[class=\"externo-erro\"]");
+        if (element != null) {
+            if (element.text().length() != 0) {
+                Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "[Probability] Login failed by user mistake");
+                return false;
+            } else {
+                Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "[Probability] Login failed by my mistake");
+                return false;
+            }
+        } else {
+            Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "[Probability] Correct Login");
+            return true;
+        }
+
+        /*
         if (html.contains(LOGIN_ERROR_PATTERN)) {
             int start = html.indexOf(LOGIN_ERROR_PATTERN) + LOGIN_ERROR_PATTERN.length();
             int end = html.indexOf("</div>", start);
@@ -37,7 +53,7 @@ public class SagresParser {
         } else {
             Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "[Probability] Correct Login");
             return true;
-        }
+        }*/
     }
 
     public static String getUserName(String html) {
