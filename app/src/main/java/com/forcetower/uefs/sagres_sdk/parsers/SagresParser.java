@@ -16,7 +16,6 @@ import org.jsoup.nodes.Element;
 
 public class SagresParser {
     private static final String LOGIN_ERROR_PATTERN = "<div class=\"externo-erro\">";
-    private static final String USER_NAME_PATTERN = "<span id=\"ctl00_ConteudoTopo_UserName\" class=\"usuario-nome\">";
 
     public static String changeCharset(String html) {
         return SagresParserReplacements.useReplacements(html);
@@ -42,14 +41,12 @@ public class SagresParser {
     }
 
     public static String getUserName(String html) {
-        if (html.contains(USER_NAME_PATTERN)) {
-            int start = html.indexOf(USER_NAME_PATTERN) + USER_NAME_PATTERN.length();
-            int end = html.indexOf("</span>", start);
-
-            String name = html.substring(start, end).trim();
-            return Utils.toTitleCase(name);
+        Document document = Jsoup.parse(html);
+        Element element = document.selectFirst("span[class\"usuario-nome\"]");
+        if (element != null) {
+            return Utils.toTitleCase(element.text());
         } else {
-            return null;
+            return "Não foi possivel pegar o nome...";
         }
     }
 
