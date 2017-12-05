@@ -375,4 +375,8 @@ public class SagresProfile {
     public String getScore() {
         return score;
     }
+
+    public void setClasses(HashMap<String, List<SagresClassDay>> classes) {
+        this.classes = classes;
+    }
 }

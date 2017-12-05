@@ -172,4 +172,32 @@ public class SagresClassDay implements Comparable<SagresClassDay> {
             return SagresDayUtils.compareDayOfWeek(day, other.getDay());
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SagresClassDay classDay = (SagresClassDay) o;
+
+        if (starts_at != null ? !starts_at.equals(classDay.starts_at) : classDay.starts_at != null)
+            return false;
+        if (ends_at != null ? !ends_at.equals(classDay.ends_at) : classDay.ends_at != null)
+            return false;
+        if (class_type != null ? !class_type.equals(classDay.class_type) : classDay.class_type != null)
+            return false;
+        if (day != null ? !day.equals(classDay.day) : classDay.day != null) return false;
+        if (room != null ? !room.equals(classDay.room) : classDay.room != null) return false;
+        if (campus != null ? !campus.equals(classDay.campus) : classDay.campus != null)
+            return false;
+        if (modulo != null ? !modulo.equals(classDay.modulo) : classDay.modulo != null)
+            return false;
+        if (class_code != null ? !class_code.equals(classDay.class_code) : classDay.class_code != null)
+            return false;
+        if (class_name != null ? !class_name.equals(classDay.class_name) : classDay.class_name != null)
+            return false;
+        if (starts != null ? !starts.equals(classDay.starts) : classDay.starts != null)
+            return false;
+        return ends != null ? ends.equals(classDay.ends) : classDay.ends == null;
+    }
 }
