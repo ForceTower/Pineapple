@@ -73,7 +73,7 @@ public class ParsingActivity extends UEFSBaseActivity {
                 } else if (code == 3) {
                     String semester = string;
                     if (semester != null) {
-                        semester = semester.substring(0, semester.length() - 1) + "." + semester.charAt(semester.length() - 1);
+                        semester = semester.substring(0, 4) + "." + semester.substring(4);
                     }
                     tv_information.setText(getString(R.string.fetching_grades_for_semester, semester));
                 }
