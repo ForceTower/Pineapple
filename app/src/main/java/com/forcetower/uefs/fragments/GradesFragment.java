@@ -68,7 +68,7 @@ public class GradesFragment extends Fragment {
         for (String semester : gradesList) {
             TabLayout.Tab tab = tabLayout.newTab();
             String start = semester.substring(0, 4);
-            tab.setText(start + "." + semester.charAt(semester.length() - 1));
+            tab.setText(start + "." + semester.substring(4));
             tabLayout.addTab(tab);
         }
 
@@ -88,12 +88,16 @@ public class GradesFragment extends Fragment {
         Collections.sort(list, new Comparator<String>() {
             @Override
             public int compare(String s, String t1) {
-                int i1 = Integer.parseInt(s);
-                int i2 = Integer.parseInt(t1);
-                if (i2 < i1)
-                    return -1;
-                 else
-                     return 1;
+                try {
+                    int i1 = Integer.parseInt(s.substring(0, 5));
+                    int i2 = Integer.parseInt(t1.substring(0, 5));
+                    if (i2 < i1)
+                        return -1;
+                    else
+                        return 1;
+                } catch (NumberFormatException e) {
+                    return 1;
+                }
             }
         });
 

@@ -23,6 +23,7 @@ import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
 import com.forcetower.uefs.sagres_sdk.exception.SagresInfoFetchException;
 import com.forcetower.uefs.sagres_sdk.utility.SagresUtility;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentSkipListMap;
@@ -68,13 +69,18 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
         SagresProfile profile = SagresProfile.getCurrentProfile();
         final List<SagresMessage> messagesBefore = (profile == null) ? null : profile.getMessages();
+        final List<SagresMessage> actualBefore = new ArrayList<>();
+        if (messagesBefore != null) actualBefore.addAll(messagesBefore);
+
         final HashMap<String, SagresGrade> gradesHashMap = (profile == null) ? null : profile.getGrades();
+        final HashMap<String, SagresGrade> beforeGrades = new HashMap<>();
+        if (gradesHashMap != null) beforeGrades.putAll(gradesHashMap);
 
         //SagresProfile.fetchProfileForCurrentAccess();
         SagresProfile.asyncFetchProfileInformationWithCallback(new SagresUtility.AsyncFetchProfileInformationCallback() {
             @Override
             public void onSuccess(SagresProfile profile) {
-                successMeasures(profile, messagesBefore, gradesHashMap);
+                successMeasures(profile, actualBefore, beforeGrades);
             }
 
             @Override
