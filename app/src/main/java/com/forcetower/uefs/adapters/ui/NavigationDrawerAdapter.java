@@ -73,7 +73,7 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter {
             holder.backgroundImageView.setImageResource(R.drawable.capa);
             holder.subtitleTextView.setVisibility(View.VISIBLE);
 
-            boolean showScore = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("show_score", true);
+            boolean showScore = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("show_score", false);
             if (!showScore)
                 holder.subtitleTextView.setText(access.getUsername());
             else

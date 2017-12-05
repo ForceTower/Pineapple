@@ -50,6 +50,7 @@ public class ParsingActivity extends UEFSBaseActivity {
             }
         });
 
+        //May be unnecessary
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -78,5 +79,13 @@ public class ParsingActivity extends UEFSBaseActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onFinishInitializing() {
+        super.onFinishInitializing();
+        if (SagresProfile.getCurrentProfile() != null) {
+            finish();
+        }
     }
 }
