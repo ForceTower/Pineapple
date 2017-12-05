@@ -44,7 +44,7 @@ public class AllGradesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         classHolder.recyclerView.setLayoutManager(new LinearLayoutManager(context));
         classHolder.recyclerView.setAdapter(gradesAdapter);
         classHolder.recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
-        //classHolder.recyclerView.setNestedScrollingEnabled(false);
+        classHolder.recyclerView.setNestedScrollingEnabled(false);
     }
 
     @Override
