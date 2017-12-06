@@ -93,9 +93,20 @@ public class LoginActivity extends UEFSBaseActivity {
             }
 
             @Override
-            public void onFailure() {
-                Log.i(Constants.APP_TAG, "LoginActivity::Invalid Login");
-                returnUiToDefault(true);
+            public void onFailure(boolean failedConnection) {
+                if (failedConnection) {
+                    Log.i(Constants.APP_TAG, "LoginActivity::Network Error");
+                    returnUiToDefault(false);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(LoginActivity.this, R.string.connection_failed, Toast.LENGTH_SHORT);
+                        }
+                    });
+                } else {
+                    Log.i(Constants.APP_TAG, "LoginActivity::Invalid Login");
+                    returnUiToDefault(true);
+                }
             }
 
             @Override
