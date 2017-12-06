@@ -100,7 +100,7 @@ public class LoginActivity extends UEFSBaseActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(LoginActivity.this, R.string.connection_failed, Toast.LENGTH_SHORT);
+                            Toast.makeText(LoginActivity.this, R.string.connection_failed, Toast.LENGTH_SHORT).show();
                         }
                     });
                 } else {
