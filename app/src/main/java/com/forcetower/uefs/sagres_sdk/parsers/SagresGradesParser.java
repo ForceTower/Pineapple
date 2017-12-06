@@ -1,5 +1,7 @@
 package com.forcetower.uefs.sagres_sdk.parsers;
 
+import android.util.Log;
+
 import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
 import com.forcetower.uefs.sagres_sdk.domain.GradeInfo;
 import com.forcetower.uefs.sagres_sdk.domain.GradeSection;
@@ -36,8 +38,8 @@ public class SagresGradesParser {
 
         for (Element element : semestersValues) {
             SagresPortalSDK.alertConnectionListeners(3, element.text());
-            System.out.println("Value: " + element.attr("value"));
-            System.out.println("Semester: " + element.text());
+            Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Value: " + element.attr("value"));
+            Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Semester: " + element.text());
             List<SagresGrade> grades = getGradesFor(element.attr("value"), htmlDocument);
             if (grades != null && !grades.isEmpty()) {
                 semesterGrades.put(new SagresSemester(element.attr("value"), element.text()), grades);
