@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.forcetower.uefs.R;
@@ -33,7 +34,7 @@ public class MessageBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.message_list_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.message_list_item_new, parent, false);
         return new MessageHolder(view);
     }
 
@@ -49,10 +50,16 @@ public class MessageBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             return;
         }
 
-        String combined = message.getReceivedTime() + " - " + message.getSender();
+        if (message.getClassName().equalsIgnoreCase("UEFS")) {
+            holder.iv_icon.setImageResource(R.drawable.ic_university_accent_30dp);
+        } else {
+            holder.iv_icon.setImageResource(R.drawable.ic_class_message_accent_30dp);
+        }
+
         holder.tv_class_name.setText(message.getClassName());
         holder.tv_message.setText(message.getMessage());
-        holder.tv_sender.setText(combined);
+        holder.tv_sender.setText(message.getSender());
+        holder.tv_date_received.setText(message.getReceivedTime());
     }
 
     @Override
@@ -80,14 +87,18 @@ public class MessageBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView tv_class_name;
         TextView tv_message;
         TextView tv_sender;
+        TextView tv_date_received;
+        ImageView iv_icon;
 
         MessageHolder(View itemView) {
             super(itemView);
-            itemView.setOnClickListener(this);
+            //itemView.setOnClickListener(this);
 
-            tv_class_name = itemView.findViewById(R.id.tv_class_name);
-            tv_message = itemView.findViewById(R.id.tv_message);
-            tv_sender = itemView.findViewById(R.id.tv_sender);
+            tv_class_name = itemView.findViewById(R.id.cod_class);
+            tv_message = itemView.findViewById(R.id.message);
+            tv_sender = itemView.findViewById(R.id.sender);
+            tv_date_received = itemView.findViewById(R.id.date_received);
+            iv_icon = itemView.findViewById(R.id.sender_icon);
         }
 
         @Override
