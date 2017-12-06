@@ -7,7 +7,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 27
         versionCode 2
-        versionName "2.0b"
+        versionName "2.0.1b"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }

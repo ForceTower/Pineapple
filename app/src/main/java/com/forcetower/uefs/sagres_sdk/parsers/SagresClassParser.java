@@ -1,7 +1,9 @@
 package com.forcetower.uefs.sagres_sdk.parsers;
 
+import android.util.Log;
 import android.util.SparseArray;
 
+import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClass;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassDay;
 import com.forcetower.uefs.sagres_sdk.utility.SagresDayUtils;
@@ -32,12 +34,22 @@ public class SagresClassParser {
         Element schedule = startPage.selectFirst("table[class=\"meus-horarios\"]");
         Element subtitle = startPage.selectFirst("table[class=\"meus-horarios-legenda\"]");
 
-        findSchedule(schedule);
-        findDetails(subtitle);
+        if (findSchedule(schedule)) findDetails(subtitle);
         return getSchedule(codePerLessons);
     }
 
-    private static void findSchedule(Element schedule) {
+    private static boolean findSchedule(Element schedule) {
+        if (schedule == null) {
+            iterationPerDay.put(1, "SEG");
+            SagresClass clazz = new SagresClass("Seu sagres está com algo minimizado?");
+            clazz.setName("Desminimize todas as partes da tela inicial do sagres");
+            clazz.addClazz("N01");
+            clazz.addStartEndTime("Erro ao pegar info", "Abra o sagres e desminimize", "SEG", ":)");
+            Log.e(SagresPortalSDK.SAGRES_SDK_TAG, "Minimized! Not found \"meu horarios\"!");
+            codePerLessons.put("Seu sagres está com algo minimizado?", clazz);
+            return false;
+        }
+
         Element body = schedule.selectFirst("tbody");
         Elements trs = body.select("tr");
 
@@ -85,6 +97,7 @@ public class SagresClassParser {
                 }
             }
         }
+        return true;
     }
 
     private static void findDetails(Element subtitle) {

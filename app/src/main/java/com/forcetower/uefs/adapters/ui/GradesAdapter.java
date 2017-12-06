@@ -36,19 +36,25 @@ public class GradesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private void setupGradesList(SagresGrade grades) {
         created = new ArrayList<>();
 
-        if (grades.getSections().isEmpty()) {
+        if (grades == null) {
             created.add(new GradeView("Sem notas divulgadas"));
+            return;
         }
 
-        for (GradeSection section : grades.getSections()) {
-            created.add(new GradeView(section.getName()));
+        if (grades.getSections() == null || grades.getSections().isEmpty()) {
+            created.add(new GradeView("Sem notas divulgadas"));
+        } else {
 
-            if (section.getGrades().isEmpty()) {
-                created.add(new GradeView("Sem notas divulgadas"));
-            }
+            for (GradeSection section : grades.getSections()) {
+                created.add(new GradeView(section.getName()));
 
-            for (GradeInfo info : section.getGrades()) {
-                created.add(new GradeView(info.getGrade(), info.getDate(), info.getEvaluationName()));
+                if (section.getGrades().isEmpty()) {
+                    created.add(new GradeView("Sem notas divulgadas"));
+                }
+
+                for (GradeInfo info : section.getGrades()) {
+                    created.add(new GradeView(info.getGrade(), info.getDate(), info.getEvaluationName()));
+                }
             }
         }
         notifyDataSetChanged();

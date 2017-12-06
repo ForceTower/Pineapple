@@ -78,9 +78,9 @@ public class DayScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         String class_time = start + " ~ " + end;
 
 
-        String campus = uClass.getCampus();
-        String place = uClass.getModulo();
-        String room = uClass.getAllocatedRoom();
+        String campus = uClass.getCampus() != null ? uClass.getCampus() : "-1";
+        String place = uClass.getModulo() != null ? uClass.getModulo() : "-1";
+        String room = uClass.getAllocatedRoom() != null ? uClass.getAllocatedRoom() : "-1";
         String location = campus + " - " + place + " - " + room;
         if (campus.equalsIgnoreCase("-1") || place.equalsIgnoreCase("-1")) {
             location = room;
