@@ -69,6 +69,7 @@
         tools:text="Prezados colegas, Gostaria que pudessem participar da minha pesquisa acadêmica com a finalidade de coleta de dados, afim de que os utilize para fundamentar o trabalho de conclusão de curso, a Monografia. Para acessar o formulário copie ou clique link abaixo. Agradeço-os antecipadamente!! https://goo.gl/forms/rx2JUDdKyXv1r0Kj2 Att, Osmario de Oliveira Administração - UEFS."/>
 
     <TextView
+        android:id="@+id/sender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/message"
