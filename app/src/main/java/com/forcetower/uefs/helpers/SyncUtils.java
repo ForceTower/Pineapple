@@ -32,6 +32,7 @@ public class SyncUtils {
         if (accountManager.addAccountExplicitly(account, null, null)) {
             startPeriodicSync(account, SYNC_FREQUENCY);
             Log.i(Constants.APP_TAG, "Account set");
+
             newAccount = true;
         } else {
             if (ContentResolver.getPeriodicSyncs(account, AUTHORITY).isEmpty()) {
@@ -47,8 +48,8 @@ public class SyncUtils {
         }
 
 
-        if (newAccount || !setupComplete) {
-            triggerRefresh();
+        if (!setupComplete) {
+            //triggerRefresh();
             PrefUtils.save(context, PREF_SETUP_COMPLETE, true);
         }
     }
