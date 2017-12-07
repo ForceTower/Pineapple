@@ -26,6 +26,7 @@ import com.forcetower.uefs.sagres_sdk.utility.SagresUtility;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
@@ -70,11 +71,19 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         SagresProfile profile = SagresProfile.getCurrentProfile();
         final List<SagresMessage> messagesBefore = (profile == null) ? null : profile.getMessages();
         final List<SagresMessage> actualBefore = new ArrayList<>();
-        if (messagesBefore != null) actualBefore.addAll(messagesBefore);
+        if (messagesBefore != null) {
+            actualBefore.addAll(messagesBefore);
+            Log.i(Constants.APP_TAG, "Before not null");
+        }
 
         final HashMap<String, SagresGrade> gradesHashMap = (profile == null) ? null : profile.getGrades();
         final HashMap<String, SagresGrade> beforeGrades = new HashMap<>();
-        if (gradesHashMap != null) beforeGrades.putAll(gradesHashMap);
+        if (gradesHashMap != null) {
+            for (Map.Entry<String, SagresGrade> entry : gradesHashMap.entrySet()) {
+                Log.i(Constants.APP_TAG, "Key: " + entry.getKey() + " - Value: " + entry.getValue().getClassName());
+                beforeGrades.put(entry.getKey(), entry.getValue());
+            }
+        }
 
         //SagresProfile.fetchProfileForCurrentAccess();
         SagresProfile.asyncFetchProfileInformationWithCallback(new SagresUtility.AsyncFetchProfileInformationCallback() {
@@ -144,6 +153,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             //updatedGrades.get("TEC412").getSections().get(0).addGradeInfo(info);
             if (grades != null) {
                 for (String key : updatedGrades.keySet()) {
+                    Log.i(Constants.APP_TAG, "Current Key: " + key);
                     SagresGrade before = grades.get(key);
                     SagresGrade after = updatedGrades.get(key);
 

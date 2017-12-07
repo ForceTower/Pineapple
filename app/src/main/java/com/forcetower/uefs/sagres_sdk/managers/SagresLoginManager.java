@@ -38,7 +38,10 @@ public class SagresLoginManager {
 
                     @Override
                     public void onFailure(SagresLoginException e) {
-                        callback.onFailure();
+                        if (e.failedConnection())
+                            callback.onFailure(false);
+                        else
+                            callback.onFailure(true);
                     }
 
                     @Override
@@ -58,7 +61,7 @@ public class SagresLoginManager {
     public interface SagresLoginCallback {
         void onSuccess();
 
-        void onFailure();
+        void onFailure(boolean failedConnection);
 
         void onLoginSuccess();
     }

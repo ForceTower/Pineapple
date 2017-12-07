@@ -119,4 +119,5 @@
     <string name="connecting_you_dont_need_to_relog">Conectando, você não precisa entrar novamente</string>
     <string name="score_is">Score: %1$s</string>
     <string name="temporary_layout">Tela temporária, ainda não acabada</string>
+    <string name="connection_failed">Conexão falhou. Se você está na UEFS, tente colocar o proxy 10.65.16.2 porta 3128</string>
 </resources>

@@ -72,11 +72,11 @@ public class SagresMessage {
 
         SagresMessage message1 = (SagresMessage) o;
 
-        if (sender != null ? !sender.equals(message1.sender) : message1.sender != null)
+        if (sender != null ? !sender.equalsIgnoreCase(message1.sender) : message1.sender != null)
             return false;
-        if (message != null ? !message.equals(message1.message) : message1.message != null)
+        if (message != null ? !message.equalsIgnoreCase(message1.message) : message1.message != null)
             return false;
-        return class_receive != null ? class_receive.equals(message1.class_receive) : message1.class_receive == null;
+        return class_receive != null ? class_receive.equalsIgnoreCase(message1.class_receive) : message1.class_receive == null;
     }
 
     @Override

@@ -17,4 +17,12 @@ public class SagresLoginException extends Exception {
         this.failedConnection = failedConnection;
         this.failedLogin = failedLogin;
     }
+
+    public boolean failedConnection() {
+        return failedConnection;
+    }
+
+    public boolean failedLogin() {
+        return failedLogin;
+    }
 }
