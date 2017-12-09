@@ -269,10 +269,12 @@ public class SagresProfile {
     private JSONArray gradesToJSONArray() throws JSONException{
         JSONArray gradesArray = new JSONArray();
 
-        for (String code : grades.keySet()) {
-            SagresGrade grade = grades.get(code);
-            JSONObject gradeObject = grade.toJSONObject();
-            gradesArray.put(gradeObject);
+        if (grades != null) {
+            for (String code : grades.keySet()) {
+                SagresGrade grade = grades.get(code);
+                JSONObject gradeObject = grade.toJSONObject();
+                gradesArray.put(gradeObject);
+            }
         }
 
         return gradesArray;
