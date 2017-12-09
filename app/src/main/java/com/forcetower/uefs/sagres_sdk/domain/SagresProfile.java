@@ -362,6 +362,7 @@ public class SagresProfile {
 
     public void setCalendar(List<SagresCalendarItem> calendar) {
         this.calendar = calendar;
+        setCurrentProfile(this);
     }
 
     public List<SagresCalendarItem> getCalendar() {
@@ -370,6 +371,7 @@ public class SagresProfile {
 
     public void setScore(String score) {
         this.score = score;
+        setCurrentProfile(this);
     }
 
     public String getScore() {

@@ -93,29 +93,19 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             }
 
             @Override
-            public void onInvalidLogin() {
-
-            }
+            public void onInvalidLogin() {}
 
             @Override
-            public void onDeveloperError() {
-
-            }
+            public void onDeveloperError() {}
 
             @Override
-            public void onFailure(SagresInfoFetchException e) {
-
-            }
+            public void onFailure(SagresInfoFetchException e) {}
 
             @Override
-            public void onFailedConnect() {
-
-            }
+            public void onFailedConnect() {}
 
             @Override
-            public void onHalfCompleted(int completedSteps) {
-
-            }
+            public void onHalfCompleted(int completedSteps) {}
         });
 
         //NotificationCreator.createNewMessageNotification(getContext(), new SagresMessage("João Paulo", "Hey there,\n\nThis is a test notification to check if everything works out.\n\nThanks!", "20/11/2017", "The Developer"));

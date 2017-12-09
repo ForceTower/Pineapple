@@ -186,10 +186,13 @@ public class MessageBoardFragment extends Fragment {
 
     private void showTextOnToast(@StringRes final int resId) {
         assert getActivity() != null;
+        if (!isVisible())
+            return;
+
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getContext(), resId, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), resId, Toast.LENGTH_SHORT).show();
             }
         });
     }

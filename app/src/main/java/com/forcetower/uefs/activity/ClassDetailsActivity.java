@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.activity.base.UEFSBaseActivity;
@@ -48,9 +49,13 @@ public class ClassDetailsActivity extends UEFSBaseActivity {
         }
 
         TextView className = findViewById(R.id.tv_class_name);
-        className.setText(getString(R.string.class_details_cod_name, sagresClass.getClassCode(), sagresClass.getClassName()));
-
-        fillWithGrades();
+        if (sagresClass != null) {
+            className.setText(getString(R.string.class_details_cod_name, sagresClass.getClassCode(), sagresClass.getClassName()));
+            fillWithGrades();
+        } else {
+            Toast.makeText(this, R.string.class_is_undefined, Toast.LENGTH_SHORT).show();
+            finish();
+        }
     }
 
     private void fillWithGrades() {
