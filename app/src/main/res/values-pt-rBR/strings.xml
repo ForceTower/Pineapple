@@ -120,4 +120,5 @@
     <string name="score_is">Score: %1$s</string>
     <string name="temporary_layout">Tela temporária, ainda não acabada</string>
     <string name="connection_failed">Conexão falhou. Se você está na UEFS, tente colocar o proxy 10.65.16.2 porta 3128</string>
+    <string name="class_is_undefined">Aula Indefinida (Este bug será resolvido junto com os detalhes completos da turma, provavelmente dia 16/12)</string>
 </resources>
