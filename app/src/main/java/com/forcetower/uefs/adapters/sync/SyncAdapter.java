@@ -93,29 +93,19 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             }
 
             @Override
-            public void onInvalidLogin() {
-
-            }
+            public void onInvalidLogin() {}
 
             @Override
-            public void onDeveloperError() {
-
-            }
+            public void onDeveloperError() {}
 
             @Override
-            public void onFailure(SagresInfoFetchException e) {
-
-            }
+            public void onFailure(SagresInfoFetchException e) {}
 
             @Override
-            public void onFailedConnect() {
-
-            }
+            public void onFailedConnect() {}
 
             @Override
-            public void onHalfCompleted(int completedSteps) {
-
-            }
+            public void onHalfCompleted(int completedSteps) {}
         });
 
         //NotificationCreator.createNewMessageNotification(getContext(), new SagresMessage("João Paulo", "Hey there,\n\nThis is a test notification to check if everything works out.\n\nThanks!", "20/11/2017", "The Developer"));
@@ -149,8 +139,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         boolean showGradesNotification = preferences.getBoolean("show_grades_notification", true);
         if (showGradesNotification) {
             HashMap<String, SagresGrade> updatedGrades = profileUpdated.getGrades();
-            //GradeInfo info = new GradeInfo("AVXX - Teste de Notificação", "9,8", "25/11/2017");
-            //updatedGrades.get("TEC412").getSections().get(0).addGradeInfo(info);
+
+//
+//            GradeInfo info = new GradeInfo("AVXX - Teste de Notificação", "9,8", "25/11/2017");
+//            updatedGrades.get("TEC412").getSections().get(0).addGradeInfo(info);
+
+
             if (grades != null) {
                 for (String key : updatedGrades.keySet()) {
                     Log.i(Constants.APP_TAG, "Current Key: " + key);

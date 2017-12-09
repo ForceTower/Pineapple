@@ -120,6 +120,7 @@
     <string name="pref_show_grades_notification">Grades</string>
     <string name="pref_show_grades_notification_disabled">You\'ll not be notified when a new grade arrive</string>
     <string name="pref_show_grades_notification_enabled">You\'ll be notified when a new grade arrive</string>
-    <string name="temporary_layout">Temporary Layout</string>
+    <string name="temporary_layout">Temporary Layout, it will be updated next week prob</string>
     <string name="connection_failed">Connection Failed</string>
+    <string name="class_is_undefined">Class Undefined (will be solved next version around 16/12</string>
 </resources>

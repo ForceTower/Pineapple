@@ -21,6 +21,12 @@ public class SagresCalendarParser {
         List<SagresCalendarItem> items = new ArrayList<>();
         Document document = Jsoup.parse(html);
         Element element = document.selectFirst("div[class=\"webpart-calendario\"]");
+        if (element == null) {
+            Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Calendar doesn't exist for this person, v2 of app will fix it");
+            items.add(new SagresCalendarItem("15/12", "20/12", "Seu calendario não foi encontrado na pagina inicial do sagres. Este bug será corrigido depois dessa sexta feira, pois tenho prova e preciso estudar"));
+            return items;
+        }
+
         if (element.childNodeSize() < 2) {
             Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Incorrect amount of children");
             return items;

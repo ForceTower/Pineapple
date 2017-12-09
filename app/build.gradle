@@ -6,8 +6,8 @@ android {
         applicationId "com.forcetower.uefs"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 3
-        versionName "2.0.1b"
+        versionCode 4
+        versionName "2.0.2b"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -20,7 +20,7 @@ android {
     lintOptions {
         abortOnError false
     }
-    buildToolsVersion '27.0.1'
+    buildToolsVersion '27.0.2'
 }
 
 dependencies {

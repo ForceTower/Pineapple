@@ -28,6 +28,7 @@ import static com.forcetower.uefs.Constants.APP_TAG;
  */
 
 public class NotificationCreator {
+    private static int count = 0;
     public static final int GENERATED_GRADE = 0;
     public static final int CHANGED_GRADE = 1;
     public static final int ADDED_GRADE = 2;
@@ -144,7 +145,7 @@ public class NotificationCreator {
                 //Causes UI Crash !! DO NOT USE THIS
                 notificationManager.createNotificationChannel(messagesChannel);
             }*/
-            notificationManager.notify(grade.hashCode(), notificationBuilder.build());
+            notificationManager.notify(grade.hashCode() + count++, notificationBuilder.build());
         } else {
             Log.e(Constants.APP_TAG, "Alarm manager failed, it is null");
         }

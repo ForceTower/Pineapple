@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.FutureTask;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 
@@ -52,6 +53,9 @@ public class SagresPortalSDK {
         httpClient = new OkHttpClient.Builder()
                 .followRedirects(true)
                 .cookieJar(new SagresCookieJar(cookieHandler))
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
                 .build();
 
         loginListeners = new ArrayList<>();
@@ -102,6 +106,9 @@ public class SagresPortalSDK {
         httpClient = new OkHttpClient.Builder()
                 .followRedirects(true)
                 .cookieJar(new SagresCookieJar(cookieHandler))
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
                 .build();
     }
 

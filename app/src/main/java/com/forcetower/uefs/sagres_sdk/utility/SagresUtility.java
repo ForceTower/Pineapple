@@ -99,19 +99,17 @@ public class SagresUtility {
             }
             SagresPortalSDK.alertConnectionListeners(2, null);
 
-
-
-
             Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Grades obtained and set");
 
+            SagresProfile profile = new SagresProfile(studentName, messages, classes, grades);
+            profile.setScore(score);
+            if (semesterGrades != null) profile.setAllSemestersGrades(semesterGrades);
+            profile.setCalendar(calendar);
 
             if (callback != null) {
-                SagresProfile profile = new SagresProfile(studentName, messages, classes, grades);
-                profile.setScore(score);
-                if (semesterGrades != null) profile.setAllSemestersGrades(semesterGrades);
-                profile.setCalendar(calendar);
                 callback.onSuccess(profile);
             }
+
             SagresPortalSDK.alertConnectionListeners(10, null);
             Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Finished Fetching Profile");
 
@@ -175,7 +173,7 @@ public class SagresUtility {
 
                     boolean connected = SagresParser.connected(html);
                     if (!connected) {
-                        callback.onInvalidLogin();
+                        if (callback != null) callback.onInvalidLogin();
                         return;
                     }
 
@@ -213,6 +211,7 @@ public class SagresUtility {
                     }
 
                     if (callback != null) {
+                        if (SagresProfile.getCurrentProfile() != null) SagresProfile.setCurrentProfile(SagresProfile.getCurrentProfile());
                         callback.onSuccess(SagresProfile.getCurrentProfile());
                     }
 

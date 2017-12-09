@@ -269,10 +269,12 @@ public class SagresProfile {
     private JSONArray gradesToJSONArray() throws JSONException{
         JSONArray gradesArray = new JSONArray();
 
-        for (String code : grades.keySet()) {
-            SagresGrade grade = grades.get(code);
-            JSONObject gradeObject = grade.toJSONObject();
-            gradesArray.put(gradeObject);
+        if (grades != null) {
+            for (String code : grades.keySet()) {
+                SagresGrade grade = grades.get(code);
+                JSONObject gradeObject = grade.toJSONObject();
+                gradesArray.put(gradeObject);
+            }
         }
 
         return gradesArray;
@@ -324,10 +326,19 @@ public class SagresProfile {
     }
 
     private void mergeMessages(List<SagresMessage> newMessages) {
-        for (SagresMessage message : newMessages) {
-            if (!messages.contains(message))
-                messages.add(0, message);
+        for(SagresMessage oldMessage : newMessages) {
+            if (!newMessages.contains(oldMessage)) {
+                newMessages.add(oldMessage);
+            }
         }
+
+        this.messages = newMessages;
+        /*
+        for (SagresMessage message : newMessages) {
+            if (!messages.contains(message)) {
+                messages.add(0, message);
+            }
+        }*/
     }
 
     public HashMap<String, SagresGrade> getGrades() {
@@ -362,6 +373,7 @@ public class SagresProfile {
 
     public void setCalendar(List<SagresCalendarItem> calendar) {
         this.calendar = calendar;
+        setCurrentProfile(this);
     }
 
     public List<SagresCalendarItem> getCalendar() {
@@ -370,6 +382,7 @@ public class SagresProfile {
 
     public void setScore(String score) {
         this.score = score;
+        setCurrentProfile(this);
     }
 
     public String getScore() {
