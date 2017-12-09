@@ -112,6 +112,7 @@ public class SagresGradesParser {
                     for (Element tr : trs) {
                         Elements children = tr.children();
                         if (children.size() == 2) {
+                            //section.addGradeInfo(new GradeInfo("Prova 987", "10,7", "31/12/2017"));
                             if (section.getGrades().size() > 0) {
                                 clazz.addSection(section);
                             }
