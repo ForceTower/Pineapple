@@ -139,8 +139,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         boolean showGradesNotification = preferences.getBoolean("show_grades_notification", true);
         if (showGradesNotification) {
             HashMap<String, SagresGrade> updatedGrades = profileUpdated.getGrades();
-            //GradeInfo info = new GradeInfo("AVXX - Teste de Notificação", "9,8", "25/11/2017");
-            //updatedGrades.get("TEC412").getSections().get(0).addGradeInfo(info);
+
+//
+//            GradeInfo info = new GradeInfo("AVXX - Teste de Notificação", "9,8", "25/11/2017");
+//            updatedGrades.get("TEC412").getSections().get(0).addGradeInfo(info);
+
+
             if (grades != null) {
                 for (String key : updatedGrades.keySet()) {
                     Log.i(Constants.APP_TAG, "Current Key: " + key);

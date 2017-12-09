@@ -324,10 +324,19 @@ public class SagresProfile {
     }
 
     private void mergeMessages(List<SagresMessage> newMessages) {
-        for (SagresMessage message : newMessages) {
-            if (!messages.contains(message))
-                messages.add(0, message);
+        for(SagresMessage oldMessage : newMessages) {
+            if (!newMessages.contains(oldMessage)) {
+                newMessages.add(oldMessage);
+            }
         }
+
+        this.messages = newMessages;
+        /*
+        for (SagresMessage message : newMessages) {
+            if (!messages.contains(message)) {
+                messages.add(0, message);
+            }
+        }*/
     }
 
     public HashMap<String, SagresGrade> getGrades() {
