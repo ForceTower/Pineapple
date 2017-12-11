@@ -172,6 +172,9 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     private void showTextOnToast(@StringRes final int resId) {
         assert getActivity() != null;
+        if (getActivity() == null)
+            return;
+        
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
