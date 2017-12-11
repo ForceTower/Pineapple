@@ -81,8 +81,10 @@ public class GradesFragment extends Fragment {
     private List<String> asKeyList(HashMap<SagresSemester, List<SagresGrade>> grades) {
         List<String> list = new ArrayList<>();
 
-        for (SagresSemester semester : grades.keySet()) {
-            list.add(semester.getName());
+        if (grades != null) {
+            for (SagresSemester semester : grades.keySet()) {
+                list.add(semester.getName());
+            }
         }
 
         Collections.sort(list, new Comparator<String>() {

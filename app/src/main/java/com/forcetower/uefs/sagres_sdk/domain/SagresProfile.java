@@ -294,15 +294,17 @@ public class SagresProfile {
     private JSONArray allGradesToJSONArray() throws JSONException {
         JSONArray jsonArray = new JSONArray();
 
-        for (Map.Entry<SagresSemester, List<SagresGrade>> entry : allSemestersGrades.entrySet()) {
-            JSONObject jsonObject = new JSONObject();
-            SagresSemester key = entry.getKey();
-            List<SagresGrade> grades = entry.getValue();
-            jsonObject.put(SagresSemester.SEMESTER_NAME_KEY, key.getName());
-            jsonObject.put(SagresSemester.SEMESTER_CODE_KEY, key.getSemesterCode());
-            jsonObject.put(GRADES_KEY, gradesToJSONArray(grades));
+        if (allSemestersGrades != null) {
+            for (Map.Entry<SagresSemester, List<SagresGrade>> entry : allSemestersGrades.entrySet()) {
+                JSONObject jsonObject = new JSONObject();
+                SagresSemester key = entry.getKey();
+                List<SagresGrade> grades = entry.getValue();
+                jsonObject.put(SagresSemester.SEMESTER_NAME_KEY, key.getName());
+                jsonObject.put(SagresSemester.SEMESTER_CODE_KEY, key.getSemesterCode());
+                jsonObject.put(GRADES_KEY, gradesToJSONArray(grades));
 
-            jsonArray.put(jsonObject);
+                jsonArray.put(jsonObject);
+            }
         }
 
         return jsonArray;
