@@ -243,13 +243,15 @@ public class SagresProfile {
     private JSONObject classesToJSONObject() throws JSONException {
         JSONObject classesObject = new JSONObject();
 
-        for (String day : classes.keySet()) {
-            JSONArray dayObject = new JSONArray();
-            for (SagresClassDay classesDay : classes.get(day)) {
-                JSONObject classDayObject = classesDay.toJSONObject();
-                dayObject.put(classDayObject);
+        if (classes != null) {
+            for (String day : classes.keySet()) {
+                JSONArray dayObject = new JSONArray();
+                for (SagresClassDay classesDay : classes.get(day)) {
+                    JSONObject classDayObject = classesDay.toJSONObject();
+                    dayObject.put(classDayObject);
+                }
+                classesObject.put(day, dayObject);
             }
-            classesObject.put(day, dayObject);
         }
 
         return classesObject;
@@ -258,9 +260,11 @@ public class SagresProfile {
     private JSONArray messagesToJSONObject() throws JSONException {
         JSONArray messagesArray = new JSONArray();
 
-        for (SagresMessage message : messages) {
-            JSONObject messageObject = message.toJSONObject();
-            messagesArray.put(messageObject);
+        if (messages != null) {
+            for (SagresMessage message : messages) {
+                JSONObject messageObject = message.toJSONObject();
+                messagesArray.put(messageObject);
+            }
         }
 
         return messagesArray;
@@ -283,9 +287,11 @@ public class SagresProfile {
     private JSONArray gradesToJSONArray(List<SagresGrade> grades) throws JSONException{
         JSONArray gradesArray = new JSONArray();
 
-        for (SagresGrade grade : grades) {
-            JSONObject gradeObject = grade.toJSONObject();
-            gradesArray.put(gradeObject);
+        if (grades != null) {
+            for (SagresGrade grade : grades) {
+                JSONObject gradeObject = grade.toJSONObject();
+                gradesArray.put(gradeObject);
+            }
         }
 
         return gradesArray;
@@ -313,8 +319,10 @@ public class SagresProfile {
     private JSONArray calendarToJSONArray() throws JSONException {
         JSONArray jsonArray = new JSONArray();
 
-        for (SagresCalendarItem item : calendar) {
-            jsonArray.put(item.toJSONObject());
+        if (calendar != null) {
+            for (SagresCalendarItem item : calendar) {
+                jsonArray.put(item.toJSONObject());
+            }
         }
 
         return jsonArray;
