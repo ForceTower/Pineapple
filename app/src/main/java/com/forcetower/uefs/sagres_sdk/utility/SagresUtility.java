@@ -210,8 +210,8 @@ public class SagresUtility {
                         Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Grades obtained and set");
                     }
 
+                    if (SagresProfile.getCurrentProfile() != null) SagresProfile.setCurrentProfile(SagresProfile.getCurrentProfile());
                     if (callback != null) {
-                        if (SagresProfile.getCurrentProfile() != null) SagresProfile.setCurrentProfile(SagresProfile.getCurrentProfile());
                         callback.onSuccess(SagresProfile.getCurrentProfile());
                     }
 

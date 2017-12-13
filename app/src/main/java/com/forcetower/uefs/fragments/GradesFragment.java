@@ -120,7 +120,7 @@ public class GradesFragment extends Fragment {
 
         @Override
         public int getCount() {
-            return grades.size();
+            return gradesList.size();
         }
     }
 }

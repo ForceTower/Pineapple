@@ -62,6 +62,7 @@ public class SagresPortalSDK {
         sdkInitialized = true;
         applicationContext = context;
 
+        //TODO This will be moved to a new section where all this stuff can happen syncronous
         FutureTask<Void> futureTask = new FutureTask<>(new Callable<Void>() {
             @Override
             public Void call() throws Exception {

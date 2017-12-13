@@ -146,6 +146,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
 
             if (grades != null) {
+                if (updatedGrades == null) {
+                    Log.e(Constants.APP_TAG, "Updated grades is null... Prob timed out");
+                }
+
                 for (String key : updatedGrades.keySet()) {
                     Log.i(Constants.APP_TAG, "Current Key: " + key);
                     SagresGrade before = grades.get(key);
