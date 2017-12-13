@@ -66,6 +66,7 @@ public class SagresPortalSDK {
         FutureTask<Void> futureTask = new FutureTask<>(new Callable<Void>() {
             @Override
             public Void call() throws Exception {
+                /*
                 SagresAccessManager.getInstance().loadCurrentAccess();
                 SagresProfileManager.getInstance().loadCurrentProfile();
 
@@ -73,7 +74,7 @@ public class SagresPortalSDK {
                     Log.i(SAGRES_SDK_TAG, "Attempt to load user profile");
                     SagresProfile.fetchProfileForCurrentAccess();
                 }
-
+                */
                 callback.onFinishInit();
                 return null;
             }
