@@ -117,18 +117,23 @@ public class SagresProfile {
 
     private static HashMap<String, List<SagresClassDay>> getClasses(JSONObject jsonObject) throws JSONException {
         HashMap<String, List<SagresClassDay>> classes = new HashMap<>();
-        JSONObject classesObject = jsonObject.getJSONObject(CLASSES_KEY);
 
-        for (int i = 1; i <= 7; i++) {
-            List<SagresClassDay> classesDay = new ArrayList<>();
-            String day = SagresDayUtils.getDayOfWeek(i);
-            JSONArray dayObject = classesObject.getJSONArray(day);
+        try {
+            JSONObject classesObject = jsonObject.getJSONObject(CLASSES_KEY);
 
-            for (int j = 0; j < dayObject.length(); j++) {
-                SagresClassDay classDay = SagresClassDay.fromJSONObject(dayObject.getJSONObject(j));
-                classesDay.add(classDay);
+            for (int i = 1; i <= 7; i++) {
+                List<SagresClassDay> classesDay = new ArrayList<>();
+                String day = SagresDayUtils.getDayOfWeek(i);
+                JSONArray dayObject = classesObject.getJSONArray(day);
+
+                for (int j = 0; j < dayObject.length(); j++) {
+                    SagresClassDay classDay = SagresClassDay.fromJSONObject(dayObject.getJSONObject(j));
+                    classesDay.add(classDay);
+                }
+                classes.put(day, classesDay);
             }
-            classes.put(day, classesDay);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return classes;
     }
@@ -143,7 +148,7 @@ public class SagresProfile {
                 messages.add(message);
             }
         } catch (JSONException e) {
-            
+            e.printStackTrace();
         }
 
         return messages;
@@ -151,9 +156,14 @@ public class SagresProfile {
 
     private static HashMap<String, SagresGrade> getGrades(JSONObject jsonObject) throws JSONException {
         List<SagresGrade> gradesList = new ArrayList<>();
-        JSONArray jsonArray = jsonObject.getJSONArray(GRADES_KEY);
-        for (int i = 0; i < jsonArray.length(); i++) {
-            gradesList.add(SagresGrade.fromJSONObject(jsonArray.getJSONObject(i)));
+
+        try {
+            JSONArray jsonArray = jsonObject.optJSONArray(GRADES_KEY);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                gradesList.add(SagresGrade.fromJSONObject(jsonArray.getJSONObject(i)));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
         HashMap<String, SagresGrade> grades = new HashMap<>();
@@ -165,8 +175,13 @@ public class SagresProfile {
 
     private static List<SagresGrade> getGradesWithoutTransformation(JSONArray jsonArray) throws JSONException {
         List<SagresGrade> gradesList = new ArrayList<>();
-        for (int i = 0; i < jsonArray.length(); i++) {
-            gradesList.add(SagresGrade.fromJSONObject(jsonArray.getJSONObject(i)));
+
+        try {
+            for (int i = 0; i < jsonArray.length(); i++) {
+                gradesList.add(SagresGrade.fromJSONObject(jsonArray.getJSONObject(i)));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
         return gradesList;
@@ -174,18 +189,22 @@ public class SagresProfile {
 
     private static HashMap<SagresSemester,List<SagresGrade>> getAllGrades(JSONObject jsonObject) throws JSONException {
         HashMap<SagresSemester,List<SagresGrade>> allGrades = new HashMap<>();
-        JSONArray jsonArray = jsonObject.getJSONArray(ALL_GRADES_KEY);
+        try {
+            JSONArray jsonArray = jsonObject.getJSONArray(ALL_GRADES_KEY);
 
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject object = jsonArray.getJSONObject(i);
-            String semesterCode = object.getString(SagresSemester.SEMESTER_CODE_KEY);
-            String semesterName = object.getString(SagresSemester.SEMESTER_NAME_KEY);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject object = jsonArray.getJSONObject(i);
+                String semesterCode = object.getString(SagresSemester.SEMESTER_CODE_KEY);
+                String semesterName = object.getString(SagresSemester.SEMESTER_NAME_KEY);
 
-            JSONArray classes = object.getJSONArray(GRADES_KEY);
-            List<SagresGrade> grades = getGradesWithoutTransformation(classes);
-            SagresSemester semester = new SagresSemester(semesterCode, semesterName);
+                JSONArray classes = object.getJSONArray(GRADES_KEY);
+                List<SagresGrade> grades = getGradesWithoutTransformation(classes);
+                SagresSemester semester = new SagresSemester(semesterCode, semesterName);
 
-            allGrades.put(semester, grades);
+                allGrades.put(semester, grades);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
         return allGrades;
@@ -193,11 +212,16 @@ public class SagresProfile {
 
     private static List<SagresCalendarItem> getCalendar(JSONObject jsonObject) throws JSONException {
         List<SagresCalendarItem> calendar = new ArrayList<>();
-        JSONArray jsonArray = jsonObject.getJSONArray(CALENDAR_KEY);
 
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject object = jsonArray.getJSONObject(i);
-            calendar.add(SagresCalendarItem.fromJSONObject(object));
+        try {
+            JSONArray jsonArray = jsonObject.getJSONArray(CALENDAR_KEY);
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject object = jsonArray.getJSONObject(i);
+                calendar.add(SagresCalendarItem.fromJSONObject(object));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
         return calendar;
