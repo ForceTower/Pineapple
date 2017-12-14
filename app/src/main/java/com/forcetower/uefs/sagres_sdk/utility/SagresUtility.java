@@ -177,12 +177,12 @@ public class SagresUtility {
                         return;
                     }
 
-                    final String studentName = SagresParser.getUserName(html);
-                    final String score = SagresParser.getScore(html);
+                    String studentName = SagresParser.getUserName(html);
+                    String score = SagresParser.getScore(html);
                     //Changed Here
-                    final HashMap<String, List<SagresClassDay>> classes = SagresClassParser.getCompleteSchedule(html);
-                    final List<SagresMessage> messages = SagresMessagesParser.getStartPageMessages(html);
-                    final List<SagresCalendarItem> calendar = SagresCalendarParser.getCalendar(html);
+                    HashMap<String, List<SagresClassDay>> classes = SagresClassParser.getCompleteSchedule(html);
+                    List<SagresMessage> messages = SagresMessagesParser.getStartPageMessages(html);
+                    List<SagresCalendarItem> calendar = SagresCalendarParser.getCalendar(html);
 
                     if (SagresProfile.getCurrentProfile() == null) {
                         SagresProfile profile = new SagresProfile(studentName, messages, classes);
@@ -191,6 +191,7 @@ public class SagresUtility {
                         SagresProfile.setCurrentProfile(profile);
                     } else {
                         SagresProfile profile = SagresProfile.getCurrentProfile();
+                        if (SagresClassParser.failed) classes = profile.getClasses();
                         profile.updateInformation(studentName, messages, classes);
                         profile.setScore(score);
                         profile.setCalendar(calendar);

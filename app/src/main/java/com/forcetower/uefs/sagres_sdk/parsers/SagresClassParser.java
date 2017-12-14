@@ -25,10 +25,12 @@ import java.util.List;
 public class SagresClassParser {
     private static SparseArray<String> iterationPerDay;
     private static HashMap<String, SagresClass> codePerLessons;
+    public static boolean failed;
 
     public static HashMap<String, List<SagresClassDay>> getCompleteSchedule(String html) {
         iterationPerDay = new SparseArray<>();
         codePerLessons = new HashMap<>();
+        failed = false;
 
         Document startPage = Jsoup.parse(html);
         Element schedule = startPage.selectFirst("table[class=\"meus-horarios\"]");
@@ -40,11 +42,12 @@ public class SagresClassParser {
 
     private static boolean findSchedule(Element schedule) {
         if (schedule == null) {
+            failed = true;
             iterationPerDay.put(1, "SEG");
             SagresClass clazz = new SagresClass("Seu sagres está com algo minimizado?");
-            clazz.setName("Desminimize todas as partes da tela inicial do sagres");
+            clazz.setName("Horarios não encontrados no sagres - Atualizaremos em 1h");
             clazz.addClazz("N01");
-            clazz.addStartEndTime("Erro ao pegar info", "Abra o sagres e desminimize", "SEG", ":)");
+            clazz.addStartEndTime("Erro ao pegar info", "Observe se seu horario está na tela inicial", "SEG", ":)");
             Log.e(SagresPortalSDK.SAGRES_SDK_TAG, "Minimized! Not found \"meu horarios\"!");
             codePerLessons.put("Seu sagres está com algo minimizado?", clazz);
             return false;

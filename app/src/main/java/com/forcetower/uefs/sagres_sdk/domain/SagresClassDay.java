@@ -66,9 +66,9 @@ public class SagresClassDay implements Comparable<SagresClassDay> {
         String ends_at = jsonObject.getString(END_KEY);
         String class_type = jsonObject.getString(CLASS_TYPE_KEY);
         String day = jsonObject.getString(DAY_KEY);
-        String room = jsonObject.getString(ROOM_KEY);
-        String campus = jsonObject.getString(CAMPUS_KEY);
-        String modulo = jsonObject.getString(MODULO_KEY);
+        String room = jsonObject.optString(ROOM_KEY, "-1");
+        String campus = jsonObject.optString(CAMPUS_KEY,"-1");
+        String modulo = jsonObject.optString(MODULO_KEY, "-1");
         String class_code = jsonObject.getString(CLASS_CODE_KEY);
         String class_name = jsonObject.getString(CLASS_NAME_KEY);
 
