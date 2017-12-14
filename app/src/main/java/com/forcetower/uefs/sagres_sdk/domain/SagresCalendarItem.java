@@ -43,9 +43,9 @@ public class SagresCalendarItem {
     }
 
     public static SagresCalendarItem fromJSONObject(JSONObject jsonObject) throws JSONException {
-        String day = jsonObject.getString(DAY_KEY);
-        String last = jsonObject.optString(LAST_DAY_KEY);
-        String message = jsonObject.getString(MESSAGE_KEY);
+        String day = jsonObject.optString(DAY_KEY, "Sem dia definido");
+        String last = jsonObject.optString(LAST_DAY_KEY, "Sem dia");
+        String message = jsonObject.optString(MESSAGE_KEY, "Sem mensagem definida");
         return new SagresCalendarItem(day, last, message);
     }
 }

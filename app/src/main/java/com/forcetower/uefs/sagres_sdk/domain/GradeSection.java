@@ -55,7 +55,7 @@ public class GradeSection {
     }
 
     public static GradeSection fromJSONObject(JSONObject jsonObject) throws JSONException {
-        String name = jsonObject.getString(NAME_KEY);
+        String name = jsonObject.optString(NAME_KEY, "Notas");
         List<GradeInfo> grades = gradesFromJSONArray(jsonObject.getJSONArray(GRADES_KEY));
         return new GradeSection(name, grades);
     }

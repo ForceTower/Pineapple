@@ -45,9 +45,9 @@ public class GradeInfo {
     }
 
     public static GradeInfo fromJSONObject(JSONObject jsonObject) throws JSONException {
-        String evalName = jsonObject.getString(EVALUATION_NAME_KEY);
-        String grade = jsonObject.getString(GRADE_KEY);
-        String date = jsonObject.getString(DATE_KEY);
+        String evalName = jsonObject.optString(EVALUATION_NAME_KEY, "Sem nome");
+        String grade = jsonObject.optString(GRADE_KEY, "--");
+        String date = jsonObject.optString(DATE_KEY, "Sem data");
 
         return new GradeInfo(evalName, grade, date);
     }

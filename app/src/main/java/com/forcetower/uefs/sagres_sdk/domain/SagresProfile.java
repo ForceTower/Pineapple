@@ -135,13 +135,17 @@ public class SagresProfile {
 
     private static List<SagresMessage> getMessages(JSONObject jsonObject) throws JSONException {
         List<SagresMessage> messages = new ArrayList<>();
-        JSONArray messagesArray = jsonObject.getJSONArray(MESSAGES_KEY);
-
-        for (int i = 0; i < messagesArray.length(); i++) {
-            JSONObject messageObject = messagesArray.getJSONObject(i);
-            SagresMessage message = SagresMessage.fromJSONObject(messageObject);
-            messages.add(message);
+        try {
+            JSONArray messagesArray = jsonObject.optJSONArray(MESSAGES_KEY);
+            for (int i = 0; i < messagesArray.length(); i++) {
+                JSONObject messageObject = messagesArray.getJSONObject(i);
+                SagresMessage message = SagresMessage.fromJSONObject(messageObject);
+                messages.add(message);
+            }
+        } catch (JSONException e) {
+            
         }
+
         return messages;
     }
 

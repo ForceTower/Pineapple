@@ -42,7 +42,7 @@ public class SagresAccess {
     public static SagresAccess createFromJSONObject(JSONObject jsonObject) throws JSONException {
         String username = jsonObject.getString(USERNAME_KEY);
         String password = jsonObject.getString(PASSWORD_KEY);
-        String lastLogin = jsonObject.getString(LAST_LOGIN_KEY);
+        String lastLogin = jsonObject.optString(LAST_LOGIN_KEY, "12/12/2017");
 
         return new SagresAccess(username, password, lastLogin);
     }
