@@ -121,4 +121,6 @@
     <string name="temporary_layout">Tela temporária, ainda não acabada. Será atualizada provavelmente semana que vem depois das minhas provas (15/12)</string>
     <string name="connection_failed">Conexão falhou. Se você está na UEFS, tente colocar o proxy 10.65.16.2 porta 3128</string>
     <string name="class_is_undefined">Aula Indefinida (Este bug será resolvido junto com os detalhes completos da turma, provavelmente dia 16/12)</string>
+    <string name="going_to_student_portal">Indo para o portal do estudante</string>
+    <string name="retrying_connection">Tentando conexão %1$s de 3</string>
 </resources>

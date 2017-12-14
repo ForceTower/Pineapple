@@ -127,4 +127,12 @@ public class SagresGrade {
         }
         return null;
     }
+
+    public boolean equals(Object o) {
+        if (o instanceof SagresGrade) {
+            SagresGrade other = (SagresGrade) o;
+            return other.getClassCode().equals(classCode);
+        }
+        return false;
+    }
 }

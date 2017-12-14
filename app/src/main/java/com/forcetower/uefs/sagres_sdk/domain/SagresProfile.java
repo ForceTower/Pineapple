@@ -1,5 +1,8 @@
 package com.forcetower.uefs.sagres_sdk.domain;
 
+import android.util.Log;
+
+import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
 import com.forcetower.uefs.sagres_sdk.exception.SagresLoginException;
 import com.forcetower.uefs.sagres_sdk.managers.SagresProfileManager;
 import com.forcetower.uefs.sagres_sdk.utility.SagresDayUtils;
@@ -385,6 +388,22 @@ public class SagresProfile {
 
     public void placeNewGrades(HashMap<String, SagresGrade> grades) {
         this.grades = grades;
+
+        if (allSemestersGrades != null) {
+            List<SagresGrade> mergeList = new ArrayList<>();
+            for (Map.Entry<String, SagresGrade> entry : grades.entrySet()) {
+                mergeList.add(entry.getValue());
+            }
+
+            for (Map.Entry<SagresSemester, List<SagresGrade>> entry : allSemestersGrades.entrySet()) {
+                if (entry.getValue().containsAll(mergeList)) {
+                    allSemestersGrades.put(entry.getKey(), mergeList);
+                    Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Changed grades of semester: " + entry.getKey().getName());
+                    break;
+                }
+            }
+        }
+
         setCurrentProfile(this);
         //TODO create a logic to know if a grad changed
     }
