@@ -80,4 +80,25 @@ public class SagresConnector {
 
         return jsonObject;
     }
+
+    public static String getSagresStudentPage() {
+        Request request = new Request.Builder()
+                .url(SagresConstants.SAGRES_DIARY_PAGE)
+                .addHeader("Content-Type", "application/x-www-form-urlencoded")
+                .addHeader("cache-control", "no-cache")
+                .build();
+
+        Call call = SagresPortalSDK.getHttpClient().newCall(request);
+        try {
+            Response response = call.execute();
+            if (response.isSuccessful()) {
+                return response.body().string();
+            }
+            else
+                return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

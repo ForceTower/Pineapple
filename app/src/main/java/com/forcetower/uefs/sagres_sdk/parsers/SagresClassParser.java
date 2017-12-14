@@ -53,8 +53,8 @@ public class SagresClassParser {
             return false;
         }
 
-        Element body = schedule.selectFirst("tbody");
-        Elements trs = body.select("tr");
+        //Element body = schedule.selectFirst("tbody");
+        Elements trs = schedule.select("tr");
 
         for (int i = 0; i < trs.size(); i++) {
             Element tr = trs.get(i);
@@ -104,8 +104,8 @@ public class SagresClassParser {
     }
 
     private static void findDetails(Element subtitle) {
-        Element body = subtitle.selectFirst("tbody");
-        Elements trs = body.select("tr");
+        //Element body = subtitle.selectFirst("tbody");
+        Elements trs = subtitle.select("tr");
 
         String currentCode = "undef";
         for (int i = 0; i < trs.size(); i++) {

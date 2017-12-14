@@ -123,4 +123,6 @@
     <string name="temporary_layout">Temporary Layout, it will be updated next week prob</string>
     <string name="connection_failed">Connection Failed</string>
     <string name="class_is_undefined">Class Undefined (will be solved next version around 16/12</string>
+    <string name="going_to_student_portal">Going to the Student Portal</string>
+    <string name="retrying_connection">Retrying connection %1$s of 3</string>
 </resources>

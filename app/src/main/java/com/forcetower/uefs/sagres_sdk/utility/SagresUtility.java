@@ -75,14 +75,34 @@ public class SagresUtility {
                 }
             }
 
-            final String studentName = SagresParser.getUserName(html);
-            final String score = SagresParser.getScore(html);
+            String studentName = SagresParser.getUserName(html);
+            String score = SagresParser.getScore(html);
             SagresPortalSDK.alertConnectionListeners(1, studentName);
 
-            //Changed here
-            final HashMap<String, List<SagresClassDay>> classes = SagresClassParser.getCompleteSchedule(html);
-            final List<SagresMessage> messages = SagresMessagesParser.getStartPageMessages(html);
-            final List<SagresCalendarItem> calendar = SagresCalendarParser.getCalendar(html);
+            SagresPortalSDK.alertConnectionListeners(5, null);
+
+            String studentPageHtml = null;
+            for (int i = 0; i < 3; i++) {
+                studentPageHtml = SagresConnector.getSagresStudentPage();
+                if (studentPageHtml != null) {
+                    break;
+                } else {
+                    SagresPortalSDK.alertConnectionListeners(6, ""+(i + 1));
+                }
+            }
+
+            HashMap<String, List<SagresClassDay>> classes;
+            List<SagresMessage> messages;
+            List<SagresCalendarItem> calendar;
+            if (studentPageHtml != null) {
+                classes = SagresClassParser.getCompleteSchedule(studentPageHtml);
+                messages = SagresMessagesParser.getStartPageMessages(studentPageHtml);
+                calendar = SagresCalendarParser.getCalendar(studentPageHtml);
+            } else {
+                classes = SagresClassParser.getCompleteSchedule(html);
+                messages = SagresMessagesParser.getStartPageMessages(html);
+                calendar = SagresCalendarParser.getCalendar(html);
+            }
 
             JSONObject gradesResponse = SagresConnector.getStudentGrades();
 
@@ -180,9 +200,26 @@ public class SagresUtility {
                     String studentName = SagresParser.getUserName(html);
                     String score = SagresParser.getScore(html);
                     //Changed Here
-                    HashMap<String, List<SagresClassDay>> classes = SagresClassParser.getCompleteSchedule(html);
-                    List<SagresMessage> messages = SagresMessagesParser.getStartPageMessages(html);
-                    List<SagresCalendarItem> calendar = SagresCalendarParser.getCalendar(html);
+                    String studentPageHtml = null;
+                    for (int i = 0; i < 3; i++) {
+                        studentPageHtml = SagresConnector.getSagresStudentPage();
+                        if (studentPageHtml != null) {
+                            break;
+                        }
+                    }
+
+                    HashMap<String, List<SagresClassDay>> classes;
+                    List<SagresMessage> messages;
+                    List<SagresCalendarItem> calendar;
+                    if (studentPageHtml != null) {
+                        classes = SagresClassParser.getCompleteSchedule(studentPageHtml);
+                        messages = SagresMessagesParser.getStartPageMessages(studentPageHtml);
+                        calendar = SagresCalendarParser.getCalendar(studentPageHtml);
+                    } else {
+                        classes = SagresClassParser.getCompleteSchedule(html);
+                        messages = SagresMessagesParser.getStartPageMessages(html);
+                        calendar = SagresCalendarParser.getCalendar(html);
+                    }
 
                     if (SagresProfile.getCurrentProfile() == null) {
                         SagresProfile profile = new SagresProfile(studentName, messages, classes);
@@ -230,23 +267,16 @@ public class SagresUtility {
 
     public interface AllInformationFetchWithCacheCallback {
         void onSuccess(SagresProfile profile);
-
         void onFailure(SagresLoginException e);
-
         void onLoginSuccess();
     }
 
     public interface AsyncFetchProfileInformationCallback {
         void onSuccess(SagresProfile profile);
-
         void onInvalidLogin();
-
         void onDeveloperError();
-
         void onFailure(SagresInfoFetchException e);
-
         void onFailedConnect();
-
         void onHalfCompleted(int completedSteps);
     }
 }
