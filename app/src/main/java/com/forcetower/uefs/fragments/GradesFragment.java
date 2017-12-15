@@ -12,10 +12,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.ThemedSpinnerAdapter;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -54,6 +59,8 @@ import static com.forcetower.uefs.Constants.APP_TAG;
  * Created by João Paulo on 02/12/2017.
  */
 public class GradesFragment extends Fragment {
+    private SwipeRefreshLayout refreshAllGrades;
+    private boolean updating = false;
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private RelativeLayout maskView;
@@ -77,16 +84,43 @@ public class GradesFragment extends Fragment {
         downloadBtn = view.findViewById(R.id.btn_download_grades);
         progressBar = view.findViewById(R.id.progress_bar);
         textCenter = view.findViewById(R.id.text_center_not_downloaded);
+        refreshAllGrades = view.findViewById(R.id.refresh_all_grades);
+
+        enableDisableSwipeRefresh(false);
 
         downloadBtn.setOnClickListener(downloadClick);
         if (Utils.isLollipop()) downloadBtn.setElevation(3);
+
+        refreshAllGrades.setOnRefreshListener(refreshListener);
 
         grades = SagresProfile.getCurrentProfile().getAllSemestersGrades();
         if (grades != null && !grades.isEmpty()) {
             insertGradesOnInterface();
         }
 
+        setHasOptionsMenu(true);
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.grades_menu, menu);
+    }
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        MenuItem item = menu.findItem(R.id.menu_refresh);
+        if (item != null) item.setVisible(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_refresh:
+                downloadClick.onClick(null);
+                break;
+        }
+        return false;
     }
 
     private void insertGradesOnInterface() {
@@ -108,6 +142,8 @@ public class GradesFragment extends Fragment {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                refreshAllGrades.setRefreshing(false);
+                updating = false;
                 tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
                 if (Utils.isLollipop()) tabLayout.setElevation(10);
 
@@ -130,6 +166,12 @@ public class GradesFragment extends Fragment {
                 viewPager.setAdapter(sectionsPagerAdapter);
             }
         });
+    }
+
+    public void enableDisableSwipeRefresh(boolean enable) {
+        if (refreshAllGrades != null) {
+            refreshAllGrades.setEnabled(enable);
+        }
     }
 
     private List<String> asKeyList(HashMap<SagresSemester, List<SagresGrade>> grades) {
@@ -168,7 +210,9 @@ public class GradesFragment extends Fragment {
 
             fragments = new ArrayList<>();
             for (String semester : gradesList) {
-                fragments.add(GradeInnerFragment.newInstance(semester));
+                GradeInnerFragment fragment = GradeInnerFragment.newInstance(semester);
+                fragment.masterReference(GradesFragment.this);
+                fragments.add(fragment);
             }
 
         }
@@ -189,9 +233,13 @@ public class GradesFragment extends Fragment {
     private View.OnClickListener downloadClick = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            if (updating)
+                return;
+
             Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
+                    updating = true;
                     disableButtonAndShowProgress();
                     Pair<Integer, HashMap<SagresSemester, List<SagresGrade>>> pair = SagresUtility.connectAndGetGrades(null);
                     if (pair.first < 0) {
@@ -211,6 +259,13 @@ public class GradesFragment extends Fragment {
         }
     };
 
+    private SwipeRefreshLayout.OnRefreshListener refreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+        @Override
+        public void onRefresh() {
+            downloadClick.onClick(null);
+        }
+    };
+
     private void disableButtonAndShowProgress() {
         if (getActivity() == null)
             return;
@@ -221,6 +276,7 @@ public class GradesFragment extends Fragment {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                refreshAllGrades.setRefreshing(true);
                 Utils.fadeOut(downloadBtn, getActivity());
                 Utils.fadeIn(progressBar, getActivity());
                 textCenter.setText(R.string.downloading_grades);
@@ -238,6 +294,8 @@ public class GradesFragment extends Fragment {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                updating = false;
+                refreshAllGrades.setRefreshing(false);
                 Utils.fadeIn(downloadBtn, getActivity());
                 Utils.fadeOut(progressBar, getActivity());
                 textCenter.setText(R.string.grades_not_downloaded_yet);

@@ -529,8 +529,9 @@ public class SagresProfile {
             if (allSemestersGrades == null)
                 allSemestersGrades = new HashMap<>();
 
-            if (allSemestersGrades.get(gradesOfSemester.getKey()) == null || allSemestersGrades.get(gradesOfSemester.getKey()).isEmpty())
+            if (allSemestersGrades.get(gradesOfSemester.getKey()) == null || allSemestersGrades.get(gradesOfSemester.getKey()).isEmpty()) {
                 allSemestersGrades.put(gradesOfSemester.getKey(), gradesOfSemester.getValue());
+            }
         }
     }
 }

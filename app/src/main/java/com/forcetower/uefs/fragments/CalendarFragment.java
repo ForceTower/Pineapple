@@ -12,6 +12,8 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -55,6 +57,13 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
         this.context = context;
     }
 
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        MenuItem item = menu.findItem(R.id.menu_refresh);
+        if (item != null) item.setVisible(false);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -68,7 +77,8 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
             rootView.setNestedScrollingEnabled(false);
             relativeLayout.setNestedScrollingEnabled(false);
         }
-        
+
+        setHasOptionsMenu(true);
         fillWithCalendar();
 
         return rootView;

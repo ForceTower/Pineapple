@@ -1,5 +1,7 @@
 package com.forcetower.uefs.fragments;
 
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -35,21 +37,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.forcetower.uefs.Constants.APP_TAG;
+
 /**
  * Created by João Paulo on 02/12/2017.
  */
 
-public class GradeInnerFragment extends Fragment{
+public class GradeInnerFragment extends Fragment {
     private static final String SEMESTER_KEY = "semester";
     private RecyclerView rv_all_grades;
     private RelativeLayout mask_download_semester;
-    private ScrollView sv_view_root;
+    private View sv_view_root;
     private Button btnDownload;
     private ProgressBar progressBar;
     private TextView textView;
     private List<SagresGrade> grades;
+    private LinearLayoutManager layoutManager;
     private String semester = null;
     private AllGradesAdapter gradesAdapter;
+    private GradesFragment callback;
 
     public GradeInnerFragment() {}
 
@@ -59,6 +65,11 @@ public class GradeInnerFragment extends Fragment{
         args.putString(SEMESTER_KEY, semester);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
     }
 
     @Nullable
@@ -80,7 +91,7 @@ public class GradeInnerFragment extends Fragment{
             grades = SagresProfile.getCurrentProfile().getGradesOfSemester(semester);
             fillWithGrades(grades);
         } else {
-            Log.i(Constants.APP_TAG, "No arguments, semester is null... Skipped");
+            Log.i(APP_TAG, "No arguments, semester is null... Skipped");
         }
 
         btnDownload.setOnClickListener(btnDownloadClick);
@@ -90,7 +101,7 @@ public class GradeInnerFragment extends Fragment{
 
     private void fillWithGrades(List<SagresGrade> grades) {
         if (grades == null || getContext() == null) {
-            Log.i(Constants.APP_TAG, "Returned because Ctx: " + getContext() + ". grs: " + grades);
+            Log.i(APP_TAG, "Returned because Ctx: " + getContext() + ". grs: " + grades);
             return;
         }
 
@@ -100,7 +111,8 @@ public class GradeInnerFragment extends Fragment{
             mask_download_semester.setVisibility(View.INVISIBLE);
 
             gradesAdapter = new AllGradesAdapter(getContext(), grades);
-            rv_all_grades.setLayoutManager(new LinearLayoutManager(getContext()));
+            layoutManager = new LinearLayoutManager(getContext());
+            rv_all_grades.setLayoutManager(layoutManager);
             rv_all_grades.setAdapter(gradesAdapter);
             rv_all_grades.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
             rv_all_grades.setNestedScrollingEnabled(false);
@@ -208,5 +220,14 @@ public class GradeInnerFragment extends Fragment{
                 textView.setText(R.string.downloading_grades);
             }
         });
+    }
+
+    public void masterReference(GradesFragment gradesFragment) {
+        callback = gradesFragment;
+    }
+
+    public interface GradesFragmentCallback {
+        void isOnTop();
+        void notOnTop();
     }
 }

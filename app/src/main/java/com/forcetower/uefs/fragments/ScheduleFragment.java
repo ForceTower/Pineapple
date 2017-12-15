@@ -10,6 +10,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -40,6 +42,13 @@ public class ScheduleFragment extends Fragment {
     public ScheduleFragment() {
     }
 
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        MenuItem item = menu.findItem(R.id.menu_refresh);
+        if (item != null) item.setVisible(false);
+    }
+
     public static ScheduleFragment newInstance() {
         return new ScheduleFragment();
     }
@@ -58,6 +67,7 @@ public class ScheduleFragment extends Fragment {
         configureRelativeLayouts();
 
         fillWithSchedule();
+        setHasOptionsMenu(true);
 
         return rootView;
     }

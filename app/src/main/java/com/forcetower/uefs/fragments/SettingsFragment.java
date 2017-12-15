@@ -7,6 +7,8 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.forcetower.uefs.R;
@@ -26,6 +28,14 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        MenuItem item = menu.findItem(R.id.menu_refresh);
+        if (item != null) item.setVisible(false);
     }
 
     @Override
