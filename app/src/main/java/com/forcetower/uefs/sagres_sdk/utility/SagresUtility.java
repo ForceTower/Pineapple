@@ -102,12 +102,12 @@ public class SagresUtility {
                 classes = SagresClassParser.getCompleteSchedule(studentPageHtml);
                 messages = SagresMessagesParser.getStartPageMessages(studentPageHtml);
                 calendar = SagresCalendarParser.getCalendar(studentPageHtml);
-                classDetails = SagresFullClassParser.getClassesDetails(Jsoup.parse(studentPageHtml), "20172");
+                classDetails = SagresFullClassParser.getClassesDetails(Jsoup.parse(studentPageHtml), "20172", true);
             } else {
                 classes = SagresClassParser.getCompleteSchedule(html);
                 messages = SagresMessagesParser.getStartPageMessages(html);
                 calendar = SagresCalendarParser.getCalendar(html);
-                classDetails = SagresFullClassParser.connectAndGetClassesDetails("20172");
+                classDetails = SagresFullClassParser.connectAndGetClassesDetails("20172", true);
             }
 
             JSONObject gradesResponse = SagresConnector.getStudentGrades();
@@ -220,20 +220,24 @@ public class SagresUtility {
                     HashMap<String, List<SagresClassDay>> classes;
                     List<SagresMessage> messages;
                     List<SagresCalendarItem> calendar;
+                    List<SagresClassDetails> classDetails;
                     if (studentPageHtml != null) {
                         classes = SagresClassParser.getCompleteSchedule(studentPageHtml);
                         messages = SagresMessagesParser.getStartPageMessages(studentPageHtml);
                         calendar = SagresCalendarParser.getCalendar(studentPageHtml);
+                        classDetails = SagresFullClassParser.getClassesDetails(Jsoup.parse(studentPageHtml), null, true);
                     } else {
                         classes = SagresClassParser.getCompleteSchedule(html);
                         messages = SagresMessagesParser.getStartPageMessages(html);
                         calendar = SagresCalendarParser.getCalendar(html);
+                        classDetails = SagresFullClassParser.connectAndGetClassesDetails(null, true);
                     }
 
                     if (SagresProfile.getCurrentProfile() == null) {
                         SagresProfile profile = new SagresProfile(studentName, messages, classes);
                         profile.setScore(score);
                         profile.setCalendar(calendar);
+                        profile.setClassDetails(classDetails);
                         SagresProfile.setCurrentProfile(profile);
                     } else {
                         SagresProfile profile = SagresProfile.getCurrentProfile();
@@ -241,6 +245,7 @@ public class SagresUtility {
                         profile.updateInformation(studentName, messages, classes);
                         profile.setScore(score);
                         profile.setCalendar(calendar);
+                        profile.updateClassDetails(classDetails);
                     }
 
                     JSONObject gradesResponse = SagresConnector.getStudentGrades();

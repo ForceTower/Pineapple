@@ -486,4 +486,37 @@ public class SagresProfile {
     public void setClassDetails(List<SagresClassDetails> classDetails) {
         this.classDetails = classDetails;
     }
+
+    public void updateClassDetails(List<SagresClassDetails> classDetailsUpdated) {
+        if (classDetails == null) {
+            classDetails = classDetailsUpdated;
+            setCurrentProfile(this);
+            return;
+        }
+        else if (classDetailsUpdated == null || classDetailsUpdated.isEmpty()) {
+            setCurrentProfile(this);
+            return;
+        }
+
+        for (SagresClassDetails updated : classDetailsUpdated) {
+            SagresClassDetails correspondent = getCorrespondingClass(updated.getCode(), updated.getSemester());
+            if (correspondent != null) {
+                correspondent.setMissedClasses(updated.getMissedClasses());
+                correspondent.setLastClass(updated.getLastClass());
+                correspondent.setNextClass(updated.getNextClass());
+            } else {
+                Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Didn't exists before, but it's all ogre now: " + updated.getCode() + ": " + updated.getSemester());
+                classDetails.add(updated);
+            }
+        }
+    }
+
+    private SagresClassDetails getCorrespondingClass(String code, String semester) {
+        if (classDetails != null)
+            for (SagresClassDetails classDetail : classDetails)
+                if (classDetail.getSemester().equalsIgnoreCase(semester) && classDetail.getCode().equalsIgnoreCase(code))
+                    return classDetail;
+
+        return null;
+    }
 }

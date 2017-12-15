@@ -33,7 +33,7 @@ import okhttp3.Response;
 public class SagresFullClassParser {
     private static List<SagresClassDetails> classDetailsList;
 
-    public static List<SagresClassDetails> connectAndGetClassesDetails(String specificSemester) {
+    public static List<SagresClassDetails> connectAndGetClassesDetails(String specificSemester, boolean draftOnly) {
         Request request = new Request.Builder()
                 .url(SagresConstants.SAGRES_DIARY_PAGE)
                 .addHeader("Content-Type", "application/x-www-form-urlencoded")
@@ -46,7 +46,7 @@ public class SagresFullClassParser {
             if (response.isSuccessful()) {
                 String html = response.body().string();
                 Document document = Jsoup.parse(html);
-                return getClassesDetails(document, specificSemester);
+                return getClassesDetails(document, specificSemester, draftOnly);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -55,7 +55,7 @@ public class SagresFullClassParser {
         return new ArrayList<>();
     }
 
-    public static List<SagresClassDetails> getClassesDetails(Document document, String specificSemester) {
+    public static List<SagresClassDetails> getClassesDetails(Document document, String specificSemester, boolean draftOnly) {
         document.charset(Charset.forName("ISO-8859-1"));
         classDetailsList = new ArrayList<>();
         List<Pair<FormBody.Builder,String>> builderList = new ArrayList<>();
@@ -67,6 +67,25 @@ public class SagresFullClassParser {
             String credits = classDet.select("span[class=\"webpart-aluno-codigo\"]").text();
             credits = credits.replaceAll("[^\\d]", "");
 
+            Element studentLinks = classDet.selectFirst("div[class=\"webpart-aluno-links webpart-aluno-links-up\"]");
+            if (studentLinks == null) studentLinks = classDet.selectFirst("div[class=\"webpart-aluno-links webpart-aluno-links-down\"]");
+            Element misses = studentLinks.child(1);
+            Element missesSpan = misses.selectFirst("span");
+            String missedClasses = missesSpan.text();
+
+            String last = "";
+            String next = "";
+            Elements lastAndNextClasses = classDet.select("div[class=\"webpart-aluno-detalhe\"]");
+            if (lastAndNextClasses.size() > 0) {
+                Element lastSpan = lastAndNextClasses.get(0).selectFirst("span");
+                last = lastSpan.text();
+            }
+
+            if (lastAndNextClasses.size() > 1) {
+                Element nextSpan = lastAndNextClasses.get(1).selectFirst("span");
+                next = nextSpan.text();
+            }
+
             int codePos = title.indexOf("-");
             String code = title.substring(0, codePos).trim();
             String name = title.substring(codePos + 1);
@@ -74,6 +93,9 @@ public class SagresFullClassParser {
             SagresClassDetails details = new SagresClassDetails(name, code);
             details.setSemester(period);
             details.setCredits(credits);
+            details.setMissedClasses(missedClasses);
+            details.setLastClass(last);
+            details.setNextClass(next);
 
             Elements elements = document.select("input[value][type=\"hidden\"]");
             Element ul = classDet.selectFirst("ul");
@@ -133,11 +155,13 @@ public class SagresFullClassParser {
             classDetailsList.add(details);
         }
 
-        for (Pair<FormBody.Builder, String> pair : builderList) {
-            try {
-                preConnect(pair.first, pair.second);
-            } catch (Exception e) {
-                e.printStackTrace();
+        if (!draftOnly) {
+            for (Pair<FormBody.Builder, String> pair : builderList) {
+                try {
+                    preConnect(pair.first, pair.second);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
 
