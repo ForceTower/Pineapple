@@ -300,6 +300,8 @@ public class SagresUtility {
             if (access == null)
                 return new Pair<>(-1, null);
 
+            SagresPortalSDK.resetHttpClient();
+
             JSONObject loginResponse = SagresConnector.login(access.getUsername(), access.getPassword());
             if (loginResponse.has("error")) {
                 Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Login has error - Time out or no network");

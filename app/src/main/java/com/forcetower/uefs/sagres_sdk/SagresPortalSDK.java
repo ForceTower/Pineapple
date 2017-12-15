@@ -34,6 +34,7 @@ public class SagresPortalSDK {
     private static Context applicationContext = null;
     private static OkHttpClient httpClient;
     private static List<LoginListener> loginListeners;
+    private static CookieHandler cookieHandler;
 
     public static void initializeSdk(final Context context) {
         initializeSdk(context, null);
@@ -48,8 +49,7 @@ public class SagresPortalSDK {
 
         Log.i(SAGRES_SDK_TAG, "Initializing Sagres SDK - " + Calendar.getInstance().getTime().toString());
 
-        CookieHandler cookieHandler = new CookieManager();
-
+        cookieHandler = new CookieManager();
         httpClient = new OkHttpClient.Builder()
                 .followRedirects(true)
                 .cookieJar(new SagresCookieJar(cookieHandler))
@@ -103,7 +103,7 @@ public class SagresPortalSDK {
         SagresAccess.setCurrentAccess(null);
         SagresProfile.setCurrentProfile(null);
 
-        CookieHandler cookieHandler = new CookieManager();
+        cookieHandler = new CookieManager();
         httpClient = new OkHttpClient.Builder()
                 .followRedirects(true)
                 .cookieJar(new SagresCookieJar(cookieHandler))
@@ -129,6 +129,17 @@ public class SagresPortalSDK {
 
     public static void removeLoginListener(LoginListener loginListener) {
         loginListeners.remove(loginListener);
+    }
+
+    public static void resetHttpClient() {
+        cookieHandler = new CookieManager();
+        httpClient = new OkHttpClient.Builder()
+                .followRedirects(true)
+                .cookieJar(new SagresCookieJar(cookieHandler))
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+                .build();
     }
 
     public interface SagresSDKInitializationCallback {

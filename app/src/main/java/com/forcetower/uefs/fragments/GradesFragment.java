@@ -161,15 +161,23 @@ public class GradesFragment extends Fragment {
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
+        private List<GradeInnerFragment> fragments;
 
         SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
+
+            fragments = new ArrayList<>();
+            for (String semester : gradesList) {
+                fragments.add(GradeInnerFragment.newInstance(semester));
+            }
+
         }
 
         @Override
         public Fragment getItem(int position) {
-            String semester = gradesList.get(position);
-            return GradeInnerFragment.newInstance(semester);
+            return fragments.get(position);
+            //String semester = gradesList.get(position);
+            //return GradeInnerFragment.newInstance(semester);
         }
 
         @Override

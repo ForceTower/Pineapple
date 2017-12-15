@@ -40,6 +40,8 @@ public class LoginActivity extends UEFSBaseActivity {
         progressBar = findViewById(R.id.login_progress);
         aboutApp = findViewById(R.id.about_app);
 
+        if (Utils.isLollipop()) btn_login.setElevation(3);
+
         if (SagresAccess.getCurrentAccess() != null && SagresProfile.getCurrentProfile() == null) {
             Toast.makeText(this, R.string.connecting_you_dont_need_to_relog, Toast.LENGTH_SHORT).show();
             ParsingActivity.startActivity(this);

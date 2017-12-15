@@ -523,4 +523,14 @@ public class SagresProfile {
     public static void saveProfile() {
         SagresProfile.setCurrentProfile(SagresProfile.getCurrentProfile());
     }
+
+    public synchronized void setGradesOfSemester(Map.Entry<SagresSemester,List<SagresGrade>> gradesOfSemester) {
+        if (gradesOfSemester != null && gradesOfSemester.getValue() != null && !gradesOfSemester.getValue().isEmpty()) {
+            if (allSemestersGrades == null)
+                allSemestersGrades = new HashMap<>();
+
+            if (allSemestersGrades.get(gradesOfSemester.getKey()) == null || allSemestersGrades.get(gradesOfSemester.getKey()).isEmpty())
+                allSemestersGrades.put(gradesOfSemester.getKey(), gradesOfSemester.getValue());
+        }
+    }
 }
