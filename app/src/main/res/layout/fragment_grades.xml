@@ -6,11 +6,68 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true">
 
+    <RelativeLayout
+        android:id="@+id/mask_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"/>
+
+        <TextView
+            android:id="@+id/text_center_not_downloaded"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/grades_not_downloaded_yet"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            android:fontFamily="@font/roboto_regular"/>
+
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_above="@id/text_center_not_downloaded"
+            android:layout_marginBottom="8dp"
+            android:contentDescription="@string/grades_image"
+            android:layout_centerHorizontal="true"/>
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:visibility="invisible"
+            android:indeterminate="true"
+            android:layout_centerHorizontal="true"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_below="@id/text_center_not_downloaded"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"/>
+
+        <Button
+            android:id="@+id/btn_download_grades"
+            android:layout_width="120dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="8dp"
+            android:layout_below="@id/progress_bar"
+            android:text="@string/download"
+            android:textColor="@color/white"
+            android:background="@color/colorAccent"
+            android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+
     <android.support.design.widget.TabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:tabMode="scrollable"
+        android:visibility="gone"
         android:background="@color/colorPrimary"
         app:tabBackground="@color/colorPrimary"
         app:tabSelectedTextColor="@color/white">

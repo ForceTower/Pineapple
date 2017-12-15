@@ -1,6 +1,7 @@
 package com.forcetower.uefs.sagres_sdk.utility;
 
 import android.util.Log;
+import android.util.Pair;
 
 import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
 import com.forcetower.uefs.sagres_sdk.domain.SagresAccess;
@@ -126,7 +127,8 @@ public class SagresUtility {
             } else {
                 String gradesHtml = gradesResponse.getString("html");
                 grades = SagresUtility.getGradeHashMap(SagresGradesParser.extractGrades(gradesHtml));
-                semesterGrades = SagresGradesParser.getAllGrades(gradesHtml);
+                semesterGrades = new HashMap<>();
+                //semesterGrades = SagresGradesParser.getAllGrades(gradesHtml);
             }
             SagresPortalSDK.alertConnectionListeners(2, null);
 
@@ -290,6 +292,45 @@ public class SagresUtility {
         };
 
         SagresPortalSDK.getExecutor().execute(runnable);
+    }
+
+    public static Pair<Integer, HashMap<SagresSemester, List<SagresGrade>>> connectAndGetGrades(String semester) {
+        try {
+            SagresAccess access = SagresAccess.getCurrentAccess();
+            if (access == null)
+                return new Pair<>(-1, null);
+
+            JSONObject loginResponse = SagresConnector.login(access.getUsername(), access.getPassword());
+            if (loginResponse.has("error")) {
+                Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Login has error - Time out or no network");
+                return new Pair<>(-2, null);
+            }
+
+            String html = loginResponse.getString("html");
+            html = SagresParser.changeCharset(html);
+
+            boolean connected = SagresParser.connected(html);
+            if (!connected) {
+                return new Pair<>(-3, null);
+            }
+
+            JSONObject gradesResponse = SagresConnector.getStudentGrades();
+            HashMap<SagresSemester, List<SagresGrade>> semesterGrades;
+            if (gradesResponse.has("error")) {
+                Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Grades Error!!!!!");
+            } else {
+                String gradesHtml = gradesResponse.getString("html");
+                semesterGrades = SagresGradesParser.getAllGrades(gradesHtml, semester);
+                if (semesterGrades == null || semesterGrades.isEmpty()) {
+                    return new Pair<>(-4, semesterGrades);
+                }
+                return new Pair<>(0, semesterGrades);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new Pair<>(-5, null);
     }
 
     public interface AllInformationFetchWithCacheCallback {

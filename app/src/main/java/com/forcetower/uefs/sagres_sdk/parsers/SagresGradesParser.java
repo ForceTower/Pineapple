@@ -28,7 +28,7 @@ import okhttp3.Response;
 
 public class SagresGradesParser {
 
-    public static HashMap<SagresSemester, List<SagresGrade>> getAllGrades(String html) {
+    public static HashMap<SagresSemester, List<SagresGrade>> getAllGrades(String html, String semester) {
         Document htmlDocument = Jsoup.parse(html);
         htmlDocument.charset(Charset.forName("UTF-8"));
 
@@ -40,9 +40,14 @@ public class SagresGradesParser {
             SagresPortalSDK.alertConnectionListeners(3, element.text());
             Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Value: " + element.attr("value"));
             Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Semester: " + element.text());
-            List<SagresGrade> grades = getGradesFor(element.attr("value"), htmlDocument);
-            if (grades != null && !grades.isEmpty()) {
-                semesterGrades.put(new SagresSemester(element.attr("value"), element.text()), grades);
+
+            if (semester == null || semester.equalsIgnoreCase(element.text())) {
+                List<SagresGrade> grades = getGradesFor(element.attr("value"), htmlDocument);
+                if (grades != null && !grades.isEmpty()) {
+                    semesterGrades.put(new SagresSemester(element.attr("value"), element.text()), grades);
+                } else {
+                    semesterGrades.put(new SagresSemester(element.attr("value"), element.text()), new ArrayList<SagresGrade>());
+                }
             }
         }
 

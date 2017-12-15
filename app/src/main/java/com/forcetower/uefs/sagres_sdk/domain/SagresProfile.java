@@ -519,4 +519,8 @@ public class SagresProfile {
 
         return null;
     }
+
+    public static void saveProfile() {
+        SagresProfile.setCurrentProfile(SagresProfile.getCurrentProfile());
+    }
 }

@@ -125,4 +125,9 @@
     <string name="class_is_undefined">Class Undefined (will be solved next version around 16/12</string>
     <string name="going_to_student_portal">Going to the Student Portal</string>
     <string name="retrying_connection">Retrying connection %1$s of 3</string>
+    <string name="grades_not_downloaded_yet">The grades were not downloaded yet</string>
+    <string name="grades_image">Grades Image</string>
+    <string name="download">Download</string>
+    <string name="get_grades_failed">Failed getting grades</string>
+    <string name="downloading_grades">Downloading Grades</string>
 </resources>
