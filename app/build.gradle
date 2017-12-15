@@ -43,6 +43,8 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.2.0'
     //HTML Parser
     compile 'org.jsoup:jsoup:1.11.2'
+    //WordUtils
+    compile 'org.apache.commons:commons-lang3:3.7'
 
     compile 'org.jetbrains:annotations-java5:15.0'
 }

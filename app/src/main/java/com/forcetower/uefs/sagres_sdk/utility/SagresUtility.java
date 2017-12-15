@@ -6,6 +6,7 @@ import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
 import com.forcetower.uefs.sagres_sdk.domain.SagresAccess;
 import com.forcetower.uefs.sagres_sdk.domain.SagresCalendarItem;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassDay;
+import com.forcetower.uefs.sagres_sdk.domain.SagresClassDetails;
 import com.forcetower.uefs.sagres_sdk.domain.SagresGrade;
 import com.forcetower.uefs.sagres_sdk.domain.SagresMessage;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
@@ -14,12 +15,14 @@ import com.forcetower.uefs.sagres_sdk.exception.SagresInfoFetchException;
 import com.forcetower.uefs.sagres_sdk.exception.SagresLoginException;
 import com.forcetower.uefs.sagres_sdk.parsers.SagresCalendarParser;
 import com.forcetower.uefs.sagres_sdk.parsers.SagresClassParser;
+import com.forcetower.uefs.sagres_sdk.parsers.SagresFullClassParser;
 import com.forcetower.uefs.sagres_sdk.parsers.SagresGradesParser;
 import com.forcetower.uefs.sagres_sdk.parsers.SagresMessagesParser;
 import com.forcetower.uefs.sagres_sdk.parsers.SagresParser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
 
 import java.util.HashMap;
 import java.util.List;
@@ -94,14 +97,17 @@ public class SagresUtility {
             HashMap<String, List<SagresClassDay>> classes;
             List<SagresMessage> messages;
             List<SagresCalendarItem> calendar;
+            List<SagresClassDetails> classDetails;
             if (studentPageHtml != null) {
                 classes = SagresClassParser.getCompleteSchedule(studentPageHtml);
                 messages = SagresMessagesParser.getStartPageMessages(studentPageHtml);
                 calendar = SagresCalendarParser.getCalendar(studentPageHtml);
+                classDetails = SagresFullClassParser.getClassesDetails(Jsoup.parse(studentPageHtml), "20172");
             } else {
                 classes = SagresClassParser.getCompleteSchedule(html);
                 messages = SagresMessagesParser.getStartPageMessages(html);
                 calendar = SagresCalendarParser.getCalendar(html);
+                classDetails = SagresFullClassParser.connectAndGetClassesDetails("20172");
             }
 
             JSONObject gradesResponse = SagresConnector.getStudentGrades();
@@ -122,11 +128,14 @@ public class SagresUtility {
             Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Grades obtained and set");
 
             SagresProfile profile = new SagresProfile(studentName, messages, classes, grades);
+            Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "After here");
             profile.setScore(score);
+            if (classDetails != null) profile.setClassDetails(classDetails);
             if (semesterGrades != null) profile.setAllSemestersGrades(semesterGrades);
             profile.setCalendar(calendar);
 
             if (callback != null) {
+                Log.i(SagresPortalSDK.SAGRES_SDK_TAG,"On success");
                 callback.onSuccess(profile);
             }
 

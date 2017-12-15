@@ -16,11 +16,15 @@ public class SagresClassDetails {
     public static final String CODE_KEY = "code";
     public static final String SEMESTER_KEY = "semester";
     public static final String GROUPS_KEY = "groups";
+    public static final String DRAFT_KEY = "draft";
+    public static final String CREDITS_KEY = "credits";
 
     private String name;
     private String code;
     private String semester;
-    public List<SagresClassGroup> groups;
+    private String fullCredits = "0";
+    private boolean draft = true;
+    private List<SagresClassGroup> groups;
 
     public SagresClassDetails(String name, String code) {
         this.name = name;
@@ -60,8 +64,24 @@ public class SagresClassDetails {
         return groups;
     }
 
+    public boolean isDraft() {
+        return draft;
+    }
+
+    public void setDraft(boolean draft) {
+        this.draft = draft;
+    }
+
     public void setGroups(List<SagresClassGroup> groups) {
         this.groups = groups;
+    }
+
+    public void setCredits(String credits) {
+        this.fullCredits = credits;
+    }
+
+    public String getCredits() {
+        return fullCredits;
     }
 
     public JSONObject toJSONObject() throws JSONException {
@@ -69,15 +89,14 @@ public class SagresClassDetails {
         jsonObject.put(NAME_KEY, name);
         jsonObject.put(SEMESTER_KEY, semester);
         jsonObject.put(CODE_KEY, code);
-
-        JSONArray groupsArray = groupsToJSONArray();
-        jsonObject.put(GROUPS_KEY, groupsArray);
+        jsonObject.put(DRAFT_KEY, draft);
+        jsonObject.put(CREDITS_KEY, fullCredits);
+        jsonObject.put(GROUPS_KEY, groupsToJSONArray());
         return jsonObject;
     }
 
     private JSONArray groupsToJSONArray() throws JSONException {
         JSONArray jsonArray = new JSONArray();
-
         for (SagresClassGroup group : groups) {
             jsonArray.put(group.toJSONObject());
         }
@@ -88,11 +107,15 @@ public class SagresClassDetails {
         String name = jsonObject.getString(NAME_KEY);
         String code = jsonObject.getString(CODE_KEY);
         String semester = jsonObject.getString(SEMESTER_KEY);
+        boolean draft = jsonObject.getBoolean(DRAFT_KEY);
+        String credits = jsonObject.optString(CREDITS_KEY, "0");
         List<SagresClassGroup> groups = groupsFromJSONArray(jsonObject);
 
         SagresClassDetails details = new SagresClassDetails(name, code);
         details.setSemester(semester);
         details.setGroups(groups);
+        details.setDraft(draft);
+        details.setCredits(credits);
         return details;
     }
 

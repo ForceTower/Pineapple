@@ -31,6 +31,7 @@ public class SagresProfile {
     private static final String ALL_GRADES_KEY = "all_grades";
     private static final String CALENDAR_KEY = "calendar";
     private static final String SCORE_KEY = "score";
+    private static final String CLASS_DETAILS_KEY = "class_details";
 
     //Profile Attributes
     private String studentName;
@@ -40,6 +41,7 @@ public class SagresProfile {
     private HashMap<String, SagresGrade> grades;
     private HashMap<SagresSemester, List<SagresGrade>> allSemestersGrades;
     private List<SagresCalendarItem> calendar;
+    private List<SagresClassDetails> classDetails;
 
     public SagresProfile(String name, List<SagresMessage> messages, HashMap<String, List<SagresClassDay>> classes) {
         this.studentName = name;
@@ -110,12 +112,28 @@ public class SagresProfile {
         HashMap<String, SagresGrade> grades = getGrades(jsonObject);
         HashMap<SagresSemester, List<SagresGrade>> allGrades = getAllGrades(jsonObject);
         List<SagresCalendarItem> calendar = getCalendar(jsonObject);
+        List<SagresClassDetails> classDetails = getClassDetails(jsonObject);
 
         SagresProfile profile = new SagresProfile(name, messages, classes, grades);
         profile.setAllSemestersGrades(allGrades);
         profile.setCalendar(calendar);
         profile.setScore(score);
+        profile.setClassDetails(classDetails);
         return profile;
+    }
+
+    private static List<SagresClassDetails> getClassDetails(JSONObject jsonObject) {
+        List<SagresClassDetails> classDetails = new ArrayList<>();
+        try {
+            JSONArray classesArray = jsonObject.getJSONArray(CLASS_DETAILS_KEY);
+            for (int i = 0; i < classesArray.length(); i++) {
+                classDetails.add(SagresClassDetails.fromJSONObject(classesArray.getJSONObject(i)));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return classDetails;
     }
 
     private static HashMap<String, List<SagresClassDay>> getClasses(JSONObject jsonObject) throws JSONException {
@@ -267,8 +285,21 @@ public class SagresProfile {
 
         JSONArray calendarArray = calendarToJSONArray();
         jsonObject.put(CALENDAR_KEY, calendarArray);
+        
+        JSONArray classDetails = classesDetailsToJSONArray();
+        jsonObject.put(CLASS_DETAILS_KEY, classDetails);
 
         return jsonObject;
+    }
+
+    private JSONArray classesDetailsToJSONArray() throws JSONException{
+        JSONArray jsonArray = new JSONArray();
+        if (classDetails != null) {
+            for (SagresClassDetails classDetail : classDetails) {
+                jsonArray.put(classDetail.toJSONObject());
+            }
+        }
+        return jsonArray;
     }
 
     private JSONObject classesToJSONObject() throws JSONException {
@@ -428,6 +459,9 @@ public class SagresProfile {
     }
 
     public void setCalendar(List<SagresCalendarItem> calendar) {
+        if (calendar == null)
+            return;
+
         this.calendar = calendar;
         setCurrentProfile(this);
     }
@@ -447,5 +481,9 @@ public class SagresProfile {
 
     public void setClasses(HashMap<String, List<SagresClassDay>> classes) {
         this.classes = classes;
+    }
+
+    public void setClassDetails(List<SagresClassDetails> classDetails) {
+        this.classDetails = classDetails;
     }
 }

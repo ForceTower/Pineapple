@@ -7,7 +7,7 @@ import org.json.JSONObject;
  * Created by João Paulo on 14/12/2017.
  */
 
-class SagresClassTime {
+public class SagresClassTime {
     public static final String DAY_KEY = "day";
     public static final String START_KEY = "start";
     public static final String END_KEY = "end";
