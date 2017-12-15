@@ -405,7 +405,6 @@ public class SagresProfile {
         }
 
         setCurrentProfile(this);
-        //TODO create a logic to know if a grad changed
     }
 
     public void setAllSemestersGrades(HashMap<SagresSemester, List<SagresGrade>> allSemestersGrades) {

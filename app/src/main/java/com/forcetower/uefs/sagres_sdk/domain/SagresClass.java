@@ -111,11 +111,11 @@ public class SagresClass {
         } else if (parts.length == 2) {
             campus = parts[0];
             allocatedRoom = removeRoomName(parts[1]);
-            place = "testing_please_report";
+            place = "";
         } else {
             allocatedRoom = removeRoomName(parts[0]);
-            campus = "-1";
-            place = "-1";
+            campus = "";
+            place = "";
         }
 
 
@@ -144,11 +144,11 @@ public class SagresClass {
         } else if (parts.length == 2) {
             campus = parts[0];
             allocatedRoom = removeRoomName(parts[1]);
-            place = "testing_please_report_3";
+            place = "";
         } else {
             allocatedRoom = removeRoomName(parts[0]);
-            campus = "testing_please_report_4";
-            place = "testing_please_report_4";
+            campus = "";
+            place = "";
         }
 
         for (SagresClassDay classDay : days) {
