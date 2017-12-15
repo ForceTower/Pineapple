@@ -28,6 +28,26 @@ public class SagresClassItem {
         this.numberOfMaterials = numberOfMaterials;
     }
 
+    public String getNumber() {
+        return number;
+    }
+
+    public String getSituation() {
+        return situation;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getNumberOfMaterials() {
+        return numberOfMaterials;
+    }
+
     public JSONObject toJSONObject() throws JSONException{
         JSONObject jsonObject = new JSONObject();
         jsonObject.put(NUMBER_KEY, number);

@@ -83,4 +83,26 @@ public class SagresClassDetails {
         }
         return jsonArray;
     }
+
+    public static SagresClassDetails fromJSONObject(JSONObject jsonObject) throws JSONException {
+        String name = jsonObject.getString(NAME_KEY);
+        String code = jsonObject.getString(CODE_KEY);
+        String semester = jsonObject.getString(SEMESTER_KEY);
+        List<SagresClassGroup> groups = groupsFromJSONArray(jsonObject);
+
+        SagresClassDetails details = new SagresClassDetails(name, code);
+        details.setSemester(semester);
+        details.setGroups(groups);
+        return details;
+    }
+
+    private static List<SagresClassGroup> groupsFromJSONArray(JSONObject jsonObject) throws JSONException {
+        List<SagresClassGroup> groups = new ArrayList<>();
+        JSONArray jsonArray = jsonObject.getJSONArray(GROUPS_KEY);
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject group = jsonArray.getJSONObject(i);
+            groups.add(SagresClassGroup.fromJSONObject(group));
+        }
+        return groups;
+    }
 }
