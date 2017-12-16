@@ -16,6 +16,7 @@ public class GradeSection {
 
     private String name;
     private List<GradeInfo> grades;
+    private String partialMean;
 
     public GradeSection(String name) {
         this.name = name;
@@ -67,5 +68,13 @@ public class GradeSection {
             grades.add(GradeInfo.fromJSONObject(jsonObject));
         }
         return grades;
+    }
+
+    public void addPartialMean(String text) {
+        partialMean = text;
+    }
+
+    public String getPartialMean() {
+        return partialMean;
     }
 }

@@ -130,7 +130,7 @@ public class GradesFragment extends Fragment {
         }
 
         if (!isAdded() || isDetached()) {
-            Log.i(APP_TAG, "Not added ot detached. It will not place the grades");
+            Log.i(APP_TAG, "Not added or is detached. It will not place the grades");
             return;
         }
 
@@ -143,6 +143,10 @@ public class GradesFragment extends Fragment {
             @Override
             public void run() {
                 refreshAllGrades.setRefreshing(false);
+                tabLayout.removeAllTabs();
+                tabLayout.clearOnTabSelectedListeners();
+                viewPager.clearOnPageChangeListeners();
+
                 updating = false;
                 tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
                 if (Utils.isLollipop()) tabLayout.setElevation(10);

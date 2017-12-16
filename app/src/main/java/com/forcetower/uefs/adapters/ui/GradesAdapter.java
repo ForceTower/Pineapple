@@ -22,6 +22,7 @@ import java.util.List;
 public class GradesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int HEADER = 1;
     private static final int ITEM = 2;
+    private static final int PARTIAL_MEAN = 3;
 
     private Context context;
     private SagresGrade grades;
@@ -48,6 +49,10 @@ public class GradesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else {
 
             for (GradeSection section : grades.getSections()) {
+                if (section.getName().equalsIgnoreCase("Notas complementares") && grades.getPartialMean() != null) {
+                    created.add(new GradeView(true, grades.getPartialMean()));
+                }
+
                 created.add(new GradeView(section.getName()));
 
                 if (section.getGrades().isEmpty()) {
@@ -67,6 +72,9 @@ public class GradesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (viewType == HEADER) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_grade_header, parent, false);
             return new HeaderHolder(view);
+        } else if (viewType == PARTIAL_MEAN) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_grade_partial_mean, parent, false);
+            return new PartialHolder(view);
         } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_grade_item, parent, false);
             return new GradeHolder(view);
@@ -77,9 +85,16 @@ public class GradesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == HEADER) {
             onBindHeaderHolder((HeaderHolder)holder, position);
+        } else if(getItemViewType(position) == PARTIAL_MEAN) {
+            onBindPartialHolder((PartialHolder)holder, position);
         } else {
             onBindGradeHolder((GradeHolder)holder, position);
         }
+    }
+
+    private void onBindPartialHolder(PartialHolder holder, int position) {
+        GradeView grade = created.get(position);
+        holder.tv_partial_mean.setText(grade.headerName);
     }
 
     private void onBindHeaderHolder(HeaderHolder holder, int position) {
@@ -98,6 +113,8 @@ public class GradesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public int getItemViewType(int position) {
         if (created.get(position).header)
             return HEADER;
+        if(created.get(position).partialMean)
+            return PARTIAL_MEAN;
         return ITEM;
     }
 
@@ -109,6 +126,7 @@ public class GradesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private class GradeView {
         boolean header;
+        boolean partialMean;
         //Header
         String headerName;
         //Not a header
@@ -126,6 +144,11 @@ public class GradesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private GradeView(String headerName) {
             this.headerName = headerName;
             header = true;
+        }
+
+        public GradeView(boolean b, String partial) {
+            partialMean = true;
+            headerName = partial;
         }
     }
 
@@ -148,6 +171,15 @@ public class GradesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         HeaderHolder(View itemView) {
             super(itemView);
             tv_section_name = itemView.findViewById(R.id.tv_grade_info_name);
+        }
+    }
+
+    class PartialHolder extends RecyclerView.ViewHolder {
+        TextView tv_partial_mean;
+
+        PartialHolder(View itemView) {
+            super(itemView);
+            tv_partial_mean = itemView.findViewById(R.id.tv_partial_mean);
         }
     }
 }

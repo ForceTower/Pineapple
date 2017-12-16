@@ -15,11 +15,13 @@ public class SagresGrade {
     private static final String CLASS_NAME_KEY = "class_name";
     private static final String FINAL_SCORE_KEY = "score";
     private static final String SECTIONS_KEY = "sections";
+    private static final String PARTIAL_MEAN_KEY = "partial_mean";
 
     private List<GradeSection> sections;
     private String finalScore;
     private String className;
     private String classCode;
+    private String partialMean;
 
     public SagresGrade(String singleName) {
         int index = singleName.indexOf("-");
@@ -90,6 +92,7 @@ public class SagresGrade {
         jsonObject.put(CLASS_NAME_KEY, className);
         jsonObject.put(CLASS_CODE_KEY, classCode);
         jsonObject.put(FINAL_SCORE_KEY, finalScore);
+        jsonObject.put(PARTIAL_MEAN_KEY, partialMean);
         jsonObject.put(SECTIONS_KEY, sectionsToJSONArray());
         return jsonObject;
     }
@@ -109,7 +112,10 @@ public class SagresGrade {
         String classCode = jsonObject.getString(CLASS_CODE_KEY);
         String finalScore = jsonObject.getString(FINAL_SCORE_KEY);
         List<GradeSection> sections = sectionsFromJSONArray(jsonObject.getJSONArray(SECTIONS_KEY));
-        return new SagresGrade(className, classCode, finalScore, sections);
+        String partialMean = jsonObject.optString(PARTIAL_MEAN_KEY, null);
+        SagresGrade grade = new SagresGrade(className, classCode, finalScore, sections);
+        grade.setPartialMean(partialMean);
+        return grade;
     }
 
     private static List<GradeSection> sectionsFromJSONArray(JSONArray jsonArray) throws JSONException {
@@ -134,5 +140,13 @@ public class SagresGrade {
             return other.getClassCode().equals(classCode);
         }
         return false;
+    }
+
+    public void setPartialMean(String partialMean) {
+        this.partialMean = partialMean;
+    }
+
+    public String getPartialMean() {
+        return partialMean;
     }
 }
