@@ -43,6 +43,7 @@
                 android:indeterminate="true"/>
 
             <include android:id="@+id/draft_card" layout="@layout/card_class_details_draft_class"/>
+            <include layout="@layout/card_class_details_identification"/>
             <include layout="@layout/card_class_details_general"/>
             <include layout="@layout/card_class_details_misses"/>
             <include layout="@layout/card_class_details_prev_and_next"/>

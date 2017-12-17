@@ -42,20 +42,23 @@ public class ClassDetailsActivity extends UEFSBaseActivity {
 
     private SagresClassDetails details;
     private SagresClassGroup detailsGroup;
-    //View References card one
+    //View References card details
     private TextView classCredits;
     private TextView classPeriod;
     private TextView classTeacher;
     private TextView classDepartment;
     private TextView classMissLimit;
-    //View References Card Two
+    //View References card faults
     private ImageView classAlertImage;
     private TextView classesMissed;
     private TextView classMissRemain;
     private ProgressBar classesMissedProgress;
-    //View References Card Three
+    //View References card prev and next
     private TextView classPrevious;
     private TextView classNext;
+    //View References card identification
+    private TextView className;
+    private TextView classGroup;
 
     private String semester;
     private String classCode;
@@ -101,6 +104,9 @@ public class ClassDetailsActivity extends UEFSBaseActivity {
         classNext = findViewById(R.id.tv_next_class);
         loadDetailsProgressBar = findViewById(R.id.progress_bar_load_details);
 
+        className = findViewById(R.id.tv_class_name);
+        classGroup = findViewById(R.id.tv_class_group);
+
         if (detailsGroup == null) {
             detailsGroup = new SagresClassGroup(null, null, null, null, null, null);
             System.out.println("It's null.. it needs something to hold it back");
@@ -112,8 +118,13 @@ public class ClassDetailsActivity extends UEFSBaseActivity {
         classTeacher.setText(getString(R.string.class_details_teacher, detailsGroup.isDraft() ? "???" : detailsGroup.getTeacher()));
         classDepartment.setText(detailsGroup.isDraft() ? getString(R.string.class_details_department, "???") : detailsGroup.getDepartment());
         classMissLimit.setText(getString(R.string.class_details_miss_limit, detailsGroup.isDraft() ? "???" : detailsGroup.getMissLimit()));
-
         classesMissed.setText(getString(R.string.class_details_classes_missed, details.getMissedClasses()));
+
+        String fullName = details.getCode() + " - " + details.getName();
+        className.setText(fullName);
+        if (detailsGroup != null) classGroup.setText(detailsGroup.getType());
+        else classGroup.setText("???");
+
         int missed = 0;
         int maxAllowed = 1;
         boolean visible = true;
