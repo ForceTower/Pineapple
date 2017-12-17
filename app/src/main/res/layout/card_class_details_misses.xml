@@ -28,7 +28,7 @@
                 android:id="@+id/iv_icon_class_missed"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:background="@drawable/ic_priority_high_black_24dp"
+                app:srcCompat="@drawable/ic_tag_faces_happy_black_24dp"
                 android:layout_centerVertical="true"/>
         </RelativeLayout>
 

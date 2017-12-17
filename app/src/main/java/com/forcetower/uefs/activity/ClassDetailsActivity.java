@@ -121,14 +121,27 @@ public class ClassDetailsActivity extends UEFSBaseActivity {
             missed = Integer.parseInt(details.getMissedClasses());
             if (detailsGroup != null && detailsGroup.getMissLimit() != null && !detailsGroup.getMissLimit().trim().isEmpty()) maxAllowed = Integer.parseInt(detailsGroup.getMissLimit());
             else maxAllowed = Integer.parseInt(details.getCredits())/4;
+
+            int remains = maxAllowed - missed;
+            if (remains > (maxAllowed / 4) + 1 && remains <= (maxAllowed / 2)) {
+                classAlertImage.setImageResource(R.drawable.ic_tag_faces_neutral_black_24dp);
+            } else if (remains <= (maxAllowed / 4) + 1 && remains >= 0)
+                classAlertImage.setImageResource(R.drawable.ic_tag_faces_sad_black_24dp);
+            else if (remains < 0)
+                classAlertImage.setImageResource(R.drawable.ic_tag_faces_dead_black_24dp);
         } catch (Exception ignored){
             ignored.printStackTrace();
             visible = false;
         }
 
+        int remains = maxAllowed - missed;
+
         if (!visible) classesMissedProgress.setVisibility(View.INVISIBLE);
         else classesMissedProgress.setProgress((missed*100)/maxAllowed);
-        classMissRemain.setText(getString(R.string.class_details_miss_remain, visible ? ((maxAllowed - missed) + "") : "???"));
+
+        if (remains > 0) classMissRemain.setText(getString(R.string.class_details_miss_remain, visible ? (remains + "") : "???"));
+        else if (remains == 0) classMissRemain.setText(getString(R.string.class_details_can_not_miss_anymore));
+        else classMissRemain.setText(getString(R.string.class_details_failed_by_lack));
 
         classPrevious.setText(getString(R.string.class_details_previous_class, details.getLastClass()));
         classNext.setText(getString(R.string.class_details_next_class, details.getNextClass()));

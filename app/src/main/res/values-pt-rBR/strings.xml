@@ -149,4 +149,6 @@
     <string name="class_name_list_format">%1$s %2$s</string>
     <string name="class_additional_info_format">%1$s - %2$s horas - %3$s faltas</string>
     <string name="title_disciplines">Disciplinas</string>
+    <string name="class_details_failed_by_lack">Você foi reprovado por falta</string>
+    <string name="class_details_can_not_miss_anymore">Você não pode mais faltar</string>
 </resources>

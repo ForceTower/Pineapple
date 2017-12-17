@@ -151,4 +151,6 @@
     <string name="title_disciplines">Disciplines</string>
     <string name="class_name_list_format">%1$s %2$s</string>
     <string name="class_additional_info_format">%1$s - %2$s hours - %3$s missed classes</string>
+    <string name="class_details_failed_by_lack">You failed for lack</string>
+    <string name="class_details_can_not_miss_anymore">You can not miss any class</string>
 </resources>
