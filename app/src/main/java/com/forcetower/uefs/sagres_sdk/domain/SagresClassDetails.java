@@ -86,6 +86,7 @@ public class SagresClassDetails {
 
     public void setCredits(String credits) {
         this.fullCredits = credits.trim();
+        fullCredits = fullCredits.replaceAll("[^\\d]", "").trim();
     }
 
     public String getCredits() {

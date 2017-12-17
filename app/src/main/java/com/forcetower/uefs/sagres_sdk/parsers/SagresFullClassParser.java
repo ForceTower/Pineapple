@@ -38,7 +38,7 @@ import okhttp3.Response;
 public class SagresFullClassParser {
     private static List<SagresClassDetails> classDetailsList;
 
-    public static List<SagresClassDetails> loginConnectAndGetClassesDetails(String specificSemester, String specificCode, boolean draftOnly) {
+    public static List<SagresClassDetails> loginConnectAndGetClassesDetails(String specificSemester, String specificCode, String specificGroup, boolean draftOnly) {
         if (SagresAccess.getCurrentAccess() == null) {
             Log.e(SagresPortalSDK.SAGRES_SDK_TAG, "Invalid Acess");
             return new ArrayList<>();
@@ -50,7 +50,7 @@ public class SagresFullClassParser {
                 Log.e(SagresPortalSDK.SAGRES_SDK_TAG, "Login error when trying to get info");
                 return new ArrayList<>();
             }
-            return connectAndGetClassesDetails(specificSemester, specificCode, draftOnly);
+            return connectAndGetClassesDetails(specificSemester, specificCode, specificGroup, draftOnly);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -58,7 +58,7 @@ public class SagresFullClassParser {
         return new ArrayList<>();
     }
 
-    public static List<SagresClassDetails> connectAndGetClassesDetails(String specificSemester, String specificCode, boolean draftOnly) {
+    public static List<SagresClassDetails> connectAndGetClassesDetails(String specificSemester, String specificCode, String specificGroup, boolean draftOnly) {
         Request request = new Request.Builder()
                 .url(SagresConstants.SAGRES_DIARY_PAGE)
                 .addHeader("Content-Type", "application/x-www-form-urlencoded")
@@ -71,7 +71,7 @@ public class SagresFullClassParser {
             if (response.isSuccessful()) {
                 String html = response.body().string();
                 Document document = Jsoup.parse(html);
-                return getClassesDetails(document, specificSemester, specificCode, draftOnly);
+                return getClassesDetails(document, specificSemester, specificCode, specificGroup, draftOnly);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -80,7 +80,7 @@ public class SagresFullClassParser {
         return new ArrayList<>();
     }
 
-    public static List<SagresClassDetails> getClassesDetails(Document document, String specificSemester, String specificCode, boolean draftOnly) {
+    public static List<SagresClassDetails> getClassesDetails(Document document, String specificSemester, String specificCode, String specificGroup, boolean draftOnly) {
         document.charset(Charset.forName("ISO-8859-1"));
         classDetailsList = new ArrayList<>();
         List<Pair<FormBody.Builder,String>> builderList = new ArrayList<>();
@@ -148,7 +148,10 @@ public class SagresFullClassParser {
                     builderIn.add("__EVENTTARGET", values);
                     if (specificSemester == null || period.equalsIgnoreCase(specificSemester)) {
                         if (specificCode == null || code.equalsIgnoreCase(specificCode)) {
-                            builderList.add(new Pair<>(builderIn, period));
+                            if (specificGroup == null || type.equalsIgnoreCase(specificGroup)) {
+                                Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Added a builder");
+                                builderList.add(new Pair<>(builderIn, period));
+                            }
                         }
                     }
 
@@ -202,7 +205,7 @@ public class SagresFullClassParser {
     }
 
     private static void preConnect(FormBody.Builder builder, String semester) {
-        System.out.println("Pre connect LIVE");
+        Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Pre connect LIVE");
         Request request = new Request.Builder()
                 .url(SagresConstants.SAGRES_DIARY_PAGE)
                 .post(builder.build())
@@ -269,6 +272,8 @@ public class SagresFullClassParser {
 
             SagresClassGroup classGroup = getGroupByCode(code, refGroup, semester);
             if (classGroup == null) classGroup = desperateMeasures(code, name, refGroup, semester);
+
+            Log.i(SagresPortalSDK.SAGRES_SDK_TAG,"Details of " + classNameFull);
 
             classGroup.setType(refGroup);
 
@@ -339,6 +344,7 @@ public class SagresFullClassParser {
             }
             classGroup.setClasses(classItems);
             classGroup.setDraft(false);
+            Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Finished details of " + classNameFull);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {

@@ -183,7 +183,7 @@ public class ClassDetailsActivity extends UEFSBaseActivity {
             @Override
             public void run() {
                 refreshing = true;
-                List<SagresClassDetails> classDetails = SagresFullClassParser.loginConnectAndGetClassesDetails(semester, classCode, false);
+                List<SagresClassDetails> classDetails = SagresFullClassParser.loginConnectAndGetClassesDetails(semester, classCode, group, false);
                 SagresProfile.getCurrentProfile().updateClassDetails(classDetails);
                 Log.i(APP_TAG, "Finished... Start Interface Update");
                 updateViewWithNewInfo();

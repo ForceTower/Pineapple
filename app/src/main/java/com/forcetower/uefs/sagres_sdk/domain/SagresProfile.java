@@ -545,7 +545,7 @@ public class SagresProfile {
             SagresClassGroup upd = updated.getGroups().get(0);
             SagresClassGroup cor = correspondent.getGroups().get(0);
 
-            if (upd.getTeacher() != null && !upd.getTeacher().trim().isEmpty()) {
+            if (!upd.isDraft()) {
                 cor.updateFrom(upd);
             }
 
@@ -553,17 +553,15 @@ public class SagresProfile {
         }
 
         for (SagresClassGroup group : updated.getGroups()) {
-            if (group.getTeacher() != null && !group.getTeacher().trim().isEmpty()) {
+            if (!group.isDraft()) {
                 SagresClassGroup corGroup = getCorrespondingGroup(correspondent, group.getType());
                 if (corGroup == null) {
                     group.setDraft(false);
                     correspondent.addGroup(group);
                     Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "updateGroups: " + correspondent.getName() + " added group");
                 } else {
-                    if (corGroup.getTeacher() == null || group.getTeacher().trim().isEmpty()) {
-                        Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "updateGroups: " + correspondent.getName() + " updated to new version");
-                        corGroup.updateFrom(group);
-                    }
+                    Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "updateGroups: " + correspondent.getName() + " updated to new version");
+                    corGroup.updateFrom(group);
                 }
             }
         }

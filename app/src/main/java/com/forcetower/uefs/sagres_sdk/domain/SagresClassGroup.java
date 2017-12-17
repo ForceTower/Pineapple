@@ -45,6 +45,8 @@ public class SagresClassGroup {
         this.department = department;
         classTimeList = new ArrayList<>();
         classes = new ArrayList<>();
+
+        if (this.credits != null) this.credits = this.credits.replaceAll("[^\\d]", "").trim();
     }
 
     public void setClassTimeList(List<SagresClassTime> classTimeList) {
@@ -153,6 +155,7 @@ public class SagresClassGroup {
 
     public void setCredits(String credits) {
         this.credits = credits;
+        if (this.credits != null) this.credits = this.credits.replaceAll("[^\\d]", "").trim();
     }
 
     public void setMissLimit(String missLimit) {
