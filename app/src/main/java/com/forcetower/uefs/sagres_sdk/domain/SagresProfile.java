@@ -509,6 +509,8 @@ public class SagresProfile {
                 classDetails.add(updated);
             }
         }
+
+        setCurrentProfile(this);
     }
 
     private SagresClassDetails getCorrespondingClass(String code, String semester) {
