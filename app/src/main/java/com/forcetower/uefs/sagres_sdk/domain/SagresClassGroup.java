@@ -24,14 +24,14 @@ public class SagresClassGroup {
     public static final String SAGRES_CONNECT_CODE_KEY = "sagres_connect_code";
     public static final String SEMESTER_KEY = "semester";
 
-    private String teacher;
-    private String type;
-    private String credits;
-    private String missLimit;
-    private String classPeriod;
-    private String department;
-    private String sagresConnectCode;
-    private String semester;
+    private String teacher = "";
+    private String type = "";
+    private String credits = "";
+    private String missLimit = "";
+    private String classPeriod = "";
+    private String department = "";
+    private String sagresConnectCode = "";
+    private String semester = "";
     private boolean draft = true;
     private List<SagresClassTime> classTimeList;
     private List<SagresClassItem> classes;

@@ -138,7 +138,7 @@ public class SagresUtility {
             SagresProfile profile = new SagresProfile(studentName, messages, classes, grades);
             Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "After here");
             profile.setScore(score);
-            if (classDetails != null) profile.setClassDetails(classDetails);
+            if (classDetails != null && !classDetails.isEmpty()) profile.setClassDetails(classDetails);
             if (semesterGrades != null) profile.setAllSemestersGrades(semesterGrades);
             profile.setCalendar(calendar);
 

@@ -35,8 +35,8 @@ public class SagresClassDetails {
     private String missedClassesInformed = "0";
 
     public SagresClassDetails(String name, String code) {
-        this.name = name;
-        this.code = code;
+        this.name = name.trim();
+        this.code = code.trim();
         groups = new ArrayList<>();
     }
 
@@ -45,15 +45,15 @@ public class SagresClassDetails {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name.trim();
     }
 
     public void setCode(String code) {
-        this.code = code;
+        this.code = code.trim();
     }
 
     public void setSemester(String semester) {
-        this.semester = semester;
+        this.semester = semester.trim();
     }
 
     public String getName() {
@@ -85,7 +85,7 @@ public class SagresClassDetails {
     }
 
     public void setCredits(String credits) {
-        this.fullCredits = credits;
+        this.fullCredits = credits.trim();
     }
 
     public String getCredits() {

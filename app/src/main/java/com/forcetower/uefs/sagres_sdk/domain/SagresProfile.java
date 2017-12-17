@@ -292,14 +292,20 @@ public class SagresProfile {
         return jsonObject;
     }
 
-    private JSONArray classesDetailsToJSONArray() throws JSONException{
-        JSONArray jsonArray = new JSONArray();
-        if (classDetails != null) {
-            for (SagresClassDetails classDetail : classDetails) {
-                jsonArray.put(classDetail.toJSONObject());
+    private JSONArray classesDetailsToJSONArray() throws JSONException {
+        try {
+            JSONArray jsonArray = new JSONArray();
+            if (classDetails != null) {
+                for (SagresClassDetails classDetail : classDetails) {
+                    jsonArray.put(classDetail.toJSONObject());
+                }
             }
+            return jsonArray;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return jsonArray;
+
+        return null;
     }
 
     private JSONObject classesToJSONObject() throws JSONException {
@@ -485,6 +491,7 @@ public class SagresProfile {
 
     public void setClassDetails(List<SagresClassDetails> classDetails) {
         this.classDetails = classDetails;
+        setCurrentProfile(this);
     }
 
     public void updateClassDetails(List<SagresClassDetails> classDetailsUpdated) {
@@ -538,10 +545,13 @@ public class SagresProfile {
     }
 
     public SagresClassDetails getClassDetailsWithParams(String code, String semester) {
-        if (classDetails != null)
-            for (SagresClassDetails classGroup : classDetails)
-                if (classGroup.getCode().equalsIgnoreCase(code) && classGroup.getSemester().equalsIgnoreCase(semester))
+        if (classDetails != null) {
+            for (SagresClassDetails classGroup : classDetails) {
+                if (classGroup.getCode().equalsIgnoreCase(code) && classGroup.getSemester().equalsIgnoreCase(semester)) {
                     return classGroup;
+                }
+            }
+        }
 
         return null;
     }
@@ -564,5 +574,9 @@ public class SagresProfile {
                 }
 
         return null;
+    }
+
+    public List<SagresClassDetails> getClassesDetails() {
+        return classDetails;
     }
 }

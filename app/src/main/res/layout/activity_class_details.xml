@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/lighter_gray"
     tools:context="com.forcetower.uefs.activity.ClassDetailsActivity">
 
     <android.support.v7.widget.Toolbar
@@ -28,8 +29,10 @@
             android:layout_marginStart="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginLeft="8dp"
-            android:paddingBottom="8dp">
+            android:paddingBottom="8dp"
+            android:clipToPadding="false">
 
+            <include android:id="@+id/draft_card" layout="@layout/card_class_details_draft_class"/>
             <include layout="@layout/card_class_details_general"/>
             <include layout="@layout/card_class_details_misses"/>
             <include layout="@layout/card_class_details_prev_and_next"/>

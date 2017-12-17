@@ -7,6 +7,9 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,6 +28,8 @@ import com.forcetower.uefs.sagres_sdk.domain.SagresClassGroup;
 import com.forcetower.uefs.sagres_sdk.domain.SagresGrade;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
 import com.forcetower.uefs.sagres_sdk.managers.SagresProfileManager;
+
+import static com.forcetower.uefs.Constants.APP_TAG;
 
 public class ClassDetailsActivity extends UEFSBaseActivity {
     private static final String CLASS_CODE_KEY = "class_code";
@@ -84,6 +89,8 @@ public class ClassDetailsActivity extends UEFSBaseActivity {
         classPrevious = findViewById(R.id.tv_last_class);
         classNext = findViewById(R.id.tv_next_class);
 
+        if (!details.isDraft()) findViewById(R.id.draft_card).setVisibility(View.GONE);
+
         classCredits.setText(getString(R.string.class_details_credits, details.getCredits()));
         classPeriod.setText(getString(R.string.class_details_class_period, details.isDraft() ? "???" : detailsGroup.getClassPeriod()));
         classTeacher.setText(getString(R.string.class_details_teacher, details.isDraft() ? "???" : detailsGroup.getTeacher()));
@@ -96,7 +103,8 @@ public class ClassDetailsActivity extends UEFSBaseActivity {
         boolean visible = true;
         try {
             missed = Integer.parseInt(details.getMissedClasses());
-            maxAllowed = Integer.parseInt(detailsGroup.getMissLimit());
+            if (detailsGroup != null && detailsGroup.getMissLimit() != null && !detailsGroup.getMissLimit().trim().isEmpty()) maxAllowed = Integer.parseInt(detailsGroup.getMissLimit());
+            else maxAllowed = Integer.parseInt(details.getCredits())/4;
         } catch (Exception ignored){
             ignored.printStackTrace();
             visible = false;
@@ -107,7 +115,7 @@ public class ClassDetailsActivity extends UEFSBaseActivity {
         classMissRemain.setText(getString(R.string.class_details_miss_remain, visible ? ((maxAllowed - missed) + "") : "???"));
 
         classPrevious.setText(getString(R.string.class_details_previous_class, details.getLastClass()));
-        classPrevious.setText(getString(R.string.class_details_next_class, details.getLastClass()));
+        classNext.setText(getString(R.string.class_details_next_class, details.getLastClass()));
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         if (Utils.isLollipop()) {
@@ -130,8 +138,22 @@ public class ClassDetailsActivity extends UEFSBaseActivity {
         if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
+        } else if (item.getItemId() == R.id.menu_refresh) {
+            refreshClass();
+            return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void refreshClass() {
+        Log.i(APP_TAG, "Refresh");
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.class_details, menu);
+        return true;
     }
 
     private boolean makeSureEverythingIsOkayOrFinish() {
@@ -163,7 +185,9 @@ public class ClassDetailsActivity extends UEFSBaseActivity {
         String classCode = bundle.getString(CLASS_CODE_KEY);
         String group = bundle.getString(GROUP_KEY);
 
-        if (semester == null || classCode == null)
+        if (semester == null || classCode == null) {
+            return;
+        }
 
         details = SagresProfile.getCurrentProfile().getClassDetailsWithParams(classCode, semester);
         findDesiredGroup(group);
@@ -180,6 +204,11 @@ public class ClassDetailsActivity extends UEFSBaseActivity {
             detailsGroup = details.getGroups().get(0);
 
         for (SagresClassGroup classGroup : details.getGroups()) {
+            if (classGroup.getType() == null && details.getGroups().size() == 1) {
+                this.detailsGroup = classGroup;
+                return;
+            }
+
             if (classGroup.getType().equalsIgnoreCase(group)) {
                 this.detailsGroup = classGroup;
                 return;

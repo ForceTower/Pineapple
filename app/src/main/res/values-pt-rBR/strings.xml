@@ -135,7 +135,7 @@
     <string name="grades_cleared">Notas apagadas. Você talvez precise reiniciar o aplicativo</string>
     <string name="partial_mean">Nota parcial</string>
     <string name="class_not_found_dev_error">Aula não encontrada... Provavelmente erro meu.</string>
-    <string name="class_details_credits">Carga horária: %1$s</string>
+    <string name="class_details_credits">Carga horária: %1$s horas</string>
     <string name="class_details_class_period">Periodo de aulas: %1$s</string>
     <string name="class_details_teacher">Professor: %1$s</string>
     <string name="class_details_department">Departamento: %1$s</string>
@@ -144,4 +144,5 @@
     <string name="class_details_miss_remain">Você ainda pode faltar %1$s vezes</string>
     <string name="class_details_previous_class">Aula anterior: %1$s</string>
     <string name="class_details_next_class">Próxima aula: %1$s</string>
+    <string name="card_class_details_this_is_a_draft">Este é um rascunho, atualize a aula para ter informação completa</string>
 </resources>
