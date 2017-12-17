@@ -2,7 +2,6 @@ package com.forcetower.uefs.adapters.ui;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,15 +9,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.activity.ClassDetailsActivity;
 import com.forcetower.uefs.fragments.DisciplinesFragment;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassDetails;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassGroup;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.forcetower.uefs.Constants.APP_TAG;
 
 /**
  * Created by João Paulo on 17/12/2017.
@@ -60,9 +56,18 @@ public class SemesterDisciplinesAdapter extends RecyclerView.Adapter<RecyclerVie
         DisciplineHolder view = (DisciplineHolder) holder;
         ClassDetailsView item = classesGroups.get(position);
 
-        String additionalInfo = context.getString(R.string.class_additional_info_format, item.getDetails().getCode(), item.getDetails().getCredits(), item.getDetails().getMissedClasses());
+        String additionalInfo = context.getString(R.string.class_additional_info_format,
+                item.getDetails().getCode(),
+                item.getGroup().isDraft() ? item.getDetails().getCredits() : item.getGroup().getCredits(),
+                item.getDetails().getMissedClasses()
+        );
+
         String type = item.getGroup().getType();
-        view.className.setText(context.getString(R.string.class_name_list_format, item.getDetails().getName(), (type != null && !type.trim().isEmpty() ? type : "")));
+        view.className.setText(context.getString(R.string.class_name_list_format,
+                item.getDetails().getName(),
+                (type != null && !type.trim().isEmpty() ? type : ""))
+        );
+
         view.additionalInfo.setText(additionalInfo);
 
         if (item.getGroup().isDraft()) view.draftImage.setVisibility(View.VISIBLE);

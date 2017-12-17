@@ -11,7 +11,6 @@ import com.forcetower.uefs.sagres_sdk.domain.SagresClassGroup;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassItem;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassTime;
 import com.forcetower.uefs.sagres_sdk.utility.SagresConnector;
-import com.forcetower.uefs.sagres_sdk.utility.SagresUtility;
 
 import org.apache.commons.lang3.text.WordUtils;
 import org.json.JSONException;

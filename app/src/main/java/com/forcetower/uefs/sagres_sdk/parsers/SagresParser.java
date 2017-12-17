@@ -2,7 +2,6 @@ package com.forcetower.uefs.sagres_sdk.parsers;
 
 import android.util.Log;
 
-import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.helpers.Utils;
 import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
 
