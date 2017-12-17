@@ -501,6 +501,7 @@ public class SagresProfile {
             return;
         }
         else if (classDetailsUpdated == null || classDetailsUpdated.isEmpty()) {
+            System.out.println(classDetailsUpdated);
             setCurrentProfile(this);
             return;
         }
@@ -511,6 +512,7 @@ public class SagresProfile {
                 correspondent.setMissedClasses(updated.getMissedClasses());
                 correspondent.setLastClass(updated.getLastClass());
                 correspondent.setNextClass(updated.getNextClass());
+                updateGroups(correspondent, updated);
             } else {
                 Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Didn't exists before, but it's all ogre now: " + updated.getCode() + ": " + updated.getSemester());
                 classDetails.add(updated);
@@ -518,6 +520,67 @@ public class SagresProfile {
         }
 
         setCurrentProfile(this);
+    }
+
+    private void updateGroups(SagresClassDetails correspondent, SagresClassDetails updated) {
+        if (correspondent.getGroups() == null) {
+            correspondent.setGroups(updated.getGroups());
+            return;
+        }
+
+        if (updated.getGroups() == null) {
+            return;
+        }
+
+        if (correspondent.getGroups().isEmpty()) {
+            correspondent.setGroups(updated.getGroups());
+            return;
+        }
+
+        if(updated.getGroups().isEmpty()) {
+            return;
+        }
+
+        if (correspondent.getGroups().size() == 1 && updated.getGroups().size() == 1) {
+            SagresClassGroup upd = updated.getGroups().get(0);
+            SagresClassGroup cor = correspondent.getGroups().get(0);
+
+            if (upd.getTeacher() != null && !upd.getTeacher().trim().isEmpty()) {
+                cor.updateFrom(upd);
+            }
+            Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "updateGroups: updated single! " + correspondent.getName());
+            return;
+        }
+
+        for (SagresClassGroup group : updated.getGroups()) {
+            if (group.getTeacher() != null && !group.getTeacher().trim().isEmpty()) {
+                SagresClassGroup corGroup = getCorrespondingGroup(correspondent, group.getType());
+                if (corGroup == null) {
+                    group.setDraft(false);
+                    correspondent.addGroup(group);
+                    Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "updateGroups: " + correspondent.getName() + " added group");
+                } else {
+                    if (corGroup.getTeacher() == null || group.getTeacher().trim().isEmpty()) {
+                        Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "updateGroups: " + correspondent.getName() + " updated to new version");
+                        corGroup.updateFrom(group);
+                    }
+                }
+            }
+        }
+
+        for (SagresClassGroup oldGroups : correspondent.getGroups()) {
+            if (getCorrespondingGroup(updated, oldGroups.getType()) == null) {
+                Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Possible that user moved groups... check that later");
+            }
+        }
+    }
+
+    private SagresClassGroup getCorrespondingGroup(SagresClassDetails correspondent, String type) {
+        for (SagresClassGroup group : correspondent.getGroups())
+            if (type.equalsIgnoreCase(group.getType()))
+                return group;
+
+        return null;
     }
 
     private SagresClassDetails getCorrespondingClass(String code, String semester) {

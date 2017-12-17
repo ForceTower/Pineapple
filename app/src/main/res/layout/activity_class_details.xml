@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/lighter_gray"
     tools:context="com.forcetower.uefs.activity.ClassDetailsActivity">
 
@@ -31,6 +32,14 @@
             android:layout_marginLeft="8dp"
             android:paddingBottom="8dp"
             android:clipToPadding="false">
+
+            <ProgressBar
+                android:id="@+id/progress_bar_load_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:visibility="gone"
+                android:indeterminate="true"/>
 
             <include android:id="@+id/draft_card" layout="@layout/card_class_details_draft_class"/>
             <include layout="@layout/card_class_details_general"/>

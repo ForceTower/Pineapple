@@ -5,12 +5,17 @@ import android.util.Pair;
 
 import com.forcetower.uefs.sagres_sdk.SagresConstants;
 import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
+import com.forcetower.uefs.sagres_sdk.domain.SagresAccess;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassDetails;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassGroup;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassItem;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassTime;
+import com.forcetower.uefs.sagres_sdk.utility.SagresConnector;
+import com.forcetower.uefs.sagres_sdk.utility.SagresUtility;
 
 import org.apache.commons.lang3.text.WordUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -33,7 +38,27 @@ import okhttp3.Response;
 public class SagresFullClassParser {
     private static List<SagresClassDetails> classDetailsList;
 
-    public static List<SagresClassDetails> connectAndGetClassesDetails(String specificSemester, boolean draftOnly) {
+    public static List<SagresClassDetails> loginConnectAndGetClassesDetails(String specificSemester, String specificCode, boolean draftOnly) {
+        if (SagresAccess.getCurrentAccess() == null) {
+            Log.e(SagresPortalSDK.SAGRES_SDK_TAG, "Invalid Acess");
+            return new ArrayList<>();
+        }
+        SagresAccess access = SagresAccess.getCurrentAccess();
+        try {
+            JSONObject object = SagresConnector.login(access.getUsername(), access.getPassword());
+            if (object.has("error")) {
+                Log.e(SagresPortalSDK.SAGRES_SDK_TAG, "Login error when trying to get info");
+                return new ArrayList<>();
+            }
+            return connectAndGetClassesDetails(specificSemester, specificCode, draftOnly);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return new ArrayList<>();
+    }
+
+    public static List<SagresClassDetails> connectAndGetClassesDetails(String specificSemester, String specificCode, boolean draftOnly) {
         Request request = new Request.Builder()
                 .url(SagresConstants.SAGRES_DIARY_PAGE)
                 .addHeader("Content-Type", "application/x-www-form-urlencoded")
@@ -46,7 +71,7 @@ public class SagresFullClassParser {
             if (response.isSuccessful()) {
                 String html = response.body().string();
                 Document document = Jsoup.parse(html);
-                return getClassesDetails(document, specificSemester, draftOnly);
+                return getClassesDetails(document, specificSemester, specificCode, draftOnly);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -55,7 +80,7 @@ public class SagresFullClassParser {
         return new ArrayList<>();
     }
 
-    public static List<SagresClassDetails> getClassesDetails(Document document, String specificSemester, boolean draftOnly) {
+    public static List<SagresClassDetails> getClassesDetails(Document document, String specificSemester, String specificCode, boolean draftOnly) {
         document.charset(Charset.forName("ISO-8859-1"));
         classDetailsList = new ArrayList<>();
         List<Pair<FormBody.Builder,String>> builderList = new ArrayList<>();
@@ -119,8 +144,11 @@ public class SagresFullClassParser {
                         builderIn.add(key, value);
                     }
                     builderIn.add("__EVENTTARGET", values);
-                    if (specificSemester == null || period.equalsIgnoreCase(specificSemester))
-                        builderList.add(new Pair<>(builderIn, period));
+                    if (specificSemester == null || period.equalsIgnoreCase(specificSemester)) {
+                        if (specificCode == null || code.equalsIgnoreCase(specificCode)) {
+                            builderList.add(new Pair<>(builderIn, period));
+                        }
+                    }
 
                     SagresClassGroup classGroup = new SagresClassGroup(null, type, null, null, null, null);
                     classGroup.setSagresConnectCode(values);
@@ -144,8 +172,11 @@ public class SagresFullClassParser {
                     String value = element.attr("value");
                     builder.add(key, value);
                 }
-                if (specificSemester == null || period.equalsIgnoreCase(specificSemester))
-                    builderList.add(new Pair<>(builder, period));
+                if (specificSemester == null || period.equalsIgnoreCase(specificSemester)) {
+                    if (specificCode == null ||code.equalsIgnoreCase(specificCode)) {
+                        builderList.add(new Pair<>(builder, period));
+                    }
+                }
 
                 SagresClassGroup classGroup = new SagresClassGroup(null, null, credits, null, null, null);
                 classGroup.setSagresConnectCode(values);
@@ -169,6 +200,7 @@ public class SagresFullClassParser {
     }
 
     private static void preConnect(FormBody.Builder builder, String semester) {
+        System.out.println("Pre connect LIVE");
         Request request = new Request.Builder()
                 .url(SagresConstants.SAGRES_DIARY_PAGE)
                 .post(builder.build())
@@ -259,6 +291,7 @@ public class SagresFullClassParser {
 
                 else if (bText.equalsIgnoreCase("Limite de Faltas:")) {
                     missLimits = element.child(1).text();
+                    missLimits = missLimits.replaceAll("[^\\d]", "").trim();
                     classGroup.setMissLimit(missLimits);
                 }
 
@@ -304,6 +337,7 @@ public class SagresFullClassParser {
             classGroup.setClasses(classItems);
             classGroup.setDraft(false);
             Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "It's believed that Java updated the class group for " + name + " group " + classGroup.getType());
+            Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "This should be ok then: " + getGroupByCode(code, refGroup, semester).getMissLimit());
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {

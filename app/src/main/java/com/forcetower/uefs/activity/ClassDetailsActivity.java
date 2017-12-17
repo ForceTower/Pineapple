@@ -22,12 +22,16 @@ import com.forcetower.uefs.R;
 import com.forcetower.uefs.activity.base.UEFSBaseActivity;
 import com.forcetower.uefs.adapters.ui.GradesAdapter;
 import com.forcetower.uefs.helpers.Utils;
+import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassDay;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassDetails;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassGroup;
 import com.forcetower.uefs.sagres_sdk.domain.SagresGrade;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
 import com.forcetower.uefs.sagres_sdk.managers.SagresProfileManager;
+import com.forcetower.uefs.sagres_sdk.parsers.SagresFullClassParser;
+
+import java.util.List;
 
 import static com.forcetower.uefs.Constants.APP_TAG;
 
@@ -52,6 +56,13 @@ public class ClassDetailsActivity extends UEFSBaseActivity {
     //View References Card Three
     private TextView classPrevious;
     private TextView classNext;
+
+    private String semester;
+    private String classCode;
+    private String group;
+    private boolean refreshing = false;
+
+    private ProgressBar loadDetailsProgressBar;
 
     public static void startActivity(Context context, String classCode, String semester, String group) {
         Intent intent = new Intent(context, ClassDetailsActivity.class);
@@ -88,14 +99,19 @@ public class ClassDetailsActivity extends UEFSBaseActivity {
 
         classPrevious = findViewById(R.id.tv_last_class);
         classNext = findViewById(R.id.tv_next_class);
+        loadDetailsProgressBar = findViewById(R.id.progress_bar_load_details);
 
-        if (!details.isDraft()) findViewById(R.id.draft_card).setVisibility(View.GONE);
+        if (detailsGroup == null) {
+            detailsGroup = new SagresClassGroup(null, null, null, null, null, null);
+            System.out.println("It's null.. it needs something to hold it back");
+        }
+        if (!detailsGroup.isDraft()) findViewById(R.id.draft_card).setVisibility(View.GONE);
 
         classCredits.setText(getString(R.string.class_details_credits, details.getCredits()));
-        classPeriod.setText(getString(R.string.class_details_class_period, details.isDraft() ? "???" : detailsGroup.getClassPeriod()));
-        classTeacher.setText(getString(R.string.class_details_teacher, details.isDraft() ? "???" : detailsGroup.getTeacher()));
-        classDepartment.setText(details.isDraft() ? getString(R.string.class_details_department, "???") : detailsGroup.getDepartment());
-        classMissLimit.setText(getString(R.string.class_details_miss_limit, details.isDraft() ? "???" : detailsGroup.getMissLimit()));
+        classPeriod.setText(getString(R.string.class_details_class_period, detailsGroup.isDraft() ? "???" : detailsGroup.getClassPeriod()));
+        classTeacher.setText(getString(R.string.class_details_teacher, detailsGroup.isDraft() ? "???" : detailsGroup.getTeacher()));
+        classDepartment.setText(detailsGroup.isDraft() ? getString(R.string.class_details_department, "???") : detailsGroup.getDepartment());
+        classMissLimit.setText(getString(R.string.class_details_miss_limit, detailsGroup.isDraft() ? "???" : detailsGroup.getMissLimit()));
 
         classesMissed.setText(getString(R.string.class_details_classes_missed, details.getMissedClasses()));
         int missed = 0;
@@ -146,7 +162,41 @@ public class ClassDetailsActivity extends UEFSBaseActivity {
     }
 
     private void refreshClass() {
+        if (refreshing) return;
         Log.i(APP_TAG, "Refresh");
+        Utils.fadeIn(loadDetailsProgressBar, this);
+
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                refreshing = true;
+                List<SagresClassDetails> classDetails = SagresFullClassParser.loginConnectAndGetClassesDetails(semester, classCode, false);
+                SagresProfile.getCurrentProfile().updateClassDetails(classDetails);
+                Log.i(APP_TAG, "Finished... Start Interface Update");
+                updateViewWithNewInfo();
+                refreshing = false;
+            }
+        };
+
+        SagresPortalSDK.getExecutor().execute(runnable);
+    }
+
+    private void updateViewWithNewInfo() {
+        if(isFinishing()) {
+            Log.i(APP_TAG, "Is finishing, it will not recreate");
+            return;
+        }
+
+        SagresClassDetails details = SagresProfile.getCurrentProfile().getClassDetailsWithParams(classCode, semester);
+        System.out.println("Hey! " + details.getGroups().get(0).getMissLimit());
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                loadDetailsProgressBar.setVisibility(View.GONE);
+                recreate();
+            }
+        });
     }
 
     @Override
@@ -181,9 +231,9 @@ public class ClassDetailsActivity extends UEFSBaseActivity {
         }
 
         Bundle bundle = getIntent().getExtras();
-        String semester = bundle.getString(SEMESTER_KEY);
-        String classCode = bundle.getString(CLASS_CODE_KEY);
-        String group = bundle.getString(GROUP_KEY);
+        semester = bundle.getString(SEMESTER_KEY);
+        classCode = bundle.getString(CLASS_CODE_KEY);
+        group = bundle.getString(GROUP_KEY);
 
         if (semester == null || classCode == null) {
             return;

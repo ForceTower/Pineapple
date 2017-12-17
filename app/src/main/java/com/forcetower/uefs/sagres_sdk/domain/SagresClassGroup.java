@@ -214,4 +214,18 @@ public class SagresClassGroup {
     public List<SagresClassItem> getClasses() {
         return classes;
     }
+
+    public void updateFrom(SagresClassGroup group) {
+        setDraft(group.isDraft());
+        setSagresConnectCode(group.getSagresConnectCode());
+        setClasses(group.getClasses());
+        setClassTimeList(group.getClassTimeList());
+        setCredits(group.getCredits());
+        setDepartment(group.getDepartment());
+        setMissLimit(group.getMissLimit());
+        setPeriod(group.getClassPeriod());
+        setSemester(group.getSemester());
+        setTeacher(group.getTeacher());
+        setType(group.getType());
+    }
 }

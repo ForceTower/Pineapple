@@ -106,13 +106,13 @@ public class SagresUtility {
                 classes = SagresClassParser.getCompleteSchedule(studentPageHtml);
                 messages = SagresMessagesParser.getStartPageMessages(studentPageHtml);
                 calendar = SagresCalendarParser.getCalendar(studentPageHtml);
-                classDetails = SagresFullClassParser.getClassesDetails(Jsoup.parse(studentPageHtml), "20172", true);
+                classDetails = SagresFullClassParser.getClassesDetails(Jsoup.parse(studentPageHtml), "20172", null, true);
             } else {
                 Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Connection failed, parsing from start page");
                 classes = SagresClassParser.getCompleteSchedule(html);
                 messages = SagresMessagesParser.getStartPageMessages(html);
                 calendar = SagresCalendarParser.getCalendar(html);
-                classDetails = SagresFullClassParser.connectAndGetClassesDetails("20172", true);
+                classDetails = SagresFullClassParser.connectAndGetClassesDetails("20172", null, true);
             }
 
             Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Getting grades");
@@ -237,13 +237,13 @@ public class SagresUtility {
                         classes = SagresClassParser.getCompleteSchedule(studentPageHtml);
                         messages = SagresMessagesParser.getStartPageMessages(studentPageHtml);
                         calendar = SagresCalendarParser.getCalendar(studentPageHtml);
-                        classDetails = SagresFullClassParser.getClassesDetails(Jsoup.parse(studentPageHtml), null, true);
+                        classDetails = SagresFullClassParser.getClassesDetails(Jsoup.parse(studentPageHtml), null, null,  true);
                     } else {
                         Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Connection failed, parsing from start page");
                         classes = SagresClassParser.getCompleteSchedule(html);
                         messages = SagresMessagesParser.getStartPageMessages(html);
                         calendar = SagresCalendarParser.getCalendar(html);
-                        classDetails = SagresFullClassParser.connectAndGetClassesDetails(null, true);
+                        classDetails = SagresFullClassParser.connectAndGetClassesDetails(null, null, true);
                     }
 
                     Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Saving information");

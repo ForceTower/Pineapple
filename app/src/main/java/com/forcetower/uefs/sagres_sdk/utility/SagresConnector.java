@@ -20,7 +20,7 @@ import okhttp3.Response;
 
 public class SagresConnector {
 
-    static JSONObject login(String username, String password) throws JSONException {
+    public static JSONObject login(String username, String password) throws JSONException {
         RequestBody requestBody = new FormBody.Builder()
                 .add("__EVENTTARGET", "")
                 .add("__EVENTARGUMENT", "")
