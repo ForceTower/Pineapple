@@ -115,7 +115,7 @@ public class ClassDetailsActivity extends UEFSBaseActivity {
         classMissRemain.setText(getString(R.string.class_details_miss_remain, visible ? ((maxAllowed - missed) + "") : "???"));
 
         classPrevious.setText(getString(R.string.class_details_previous_class, details.getLastClass()));
-        classNext.setText(getString(R.string.class_details_next_class, details.getLastClass()));
+        classNext.setText(getString(R.string.class_details_next_class, details.getNextClass()));
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         if (Utils.isLollipop()) {
