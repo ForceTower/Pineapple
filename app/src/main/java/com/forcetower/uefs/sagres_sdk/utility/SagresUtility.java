@@ -273,7 +273,11 @@ public class SagresUtility {
                         Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Fetching Grades...");
                         String gradesHtml = gradesResponse.getString("html");
                         HashMap<String, SagresGrade> grades = getGradeHashMap(SagresGradesParser.extractGrades(gradesHtml));
-                        SagresProfile.getCurrentProfile().placeNewGrades(grades);
+                        if (grades != null && !grades.isEmpty())
+                            SagresProfile.getCurrentProfile().placeNewGrades(grades);
+                        else
+                            Log.e(SagresPortalSDK.SAGRES_SDK_TAG, "Failed getting grades, prob sagres disconnected");
+
                         Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Grades obtained and set");
                     }
 

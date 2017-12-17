@@ -178,4 +178,40 @@ public class SagresClassGroup {
     public void setType(String type) {
         this.type = type;
     }
+
+    public String getTeacher() {
+        return teacher;
+    }
+
+    public String getCredits() {
+        return credits;
+    }
+
+    public String getMissLimit() {
+        return missLimit;
+    }
+
+    public String getClassPeriod() {
+        return classPeriod;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public String getSagresConnectCode() {
+        return sagresConnectCode;
+    }
+
+    public String getSemester() {
+        return semester;
+    }
+
+    public List<SagresClassTime> getClassTimeList() {
+        return classTimeList;
+    }
+
+    public List<SagresClassItem> getClasses() {
+        return classes;
+    }
 }

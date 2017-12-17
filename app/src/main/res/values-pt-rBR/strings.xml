@@ -134,4 +134,14 @@
     <string name="pref_clear_all_semesters_grades_summary">Atualizar em caso de erros</string>
     <string name="grades_cleared">Notas apagadas. Você talvez precise reiniciar o aplicativo</string>
     <string name="partial_mean">Nota parcial</string>
+    <string name="class_not_found_dev_error">Aula não encontrada... Provavelmente erro meu.</string>
+    <string name="class_details_credits">Carga horária: %1$s</string>
+    <string name="class_details_class_period">Periodo de aulas: %1$s</string>
+    <string name="class_details_teacher">Professor: %1$s</string>
+    <string name="class_details_department">Departamento: %1$s</string>
+    <string name="class_details_miss_limit">Limite de Faltas: %1$s</string>
+    <string name="class_details_classes_missed">Você faltou %1$s aulas</string>
+    <string name="class_details_miss_remain">Você ainda pode faltar %1$s vezes</string>
+    <string name="class_details_previous_class">Aula anterior: %1$s</string>
+    <string name="class_details_next_class">Próxima aula: %1$s</string>
 </resources>

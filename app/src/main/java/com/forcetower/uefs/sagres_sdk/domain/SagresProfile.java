@@ -534,4 +534,33 @@ public class SagresProfile {
             }
         }
     }
+
+    public SagresClassDetails getClassDetailsWithParams(String code, String semester) {
+        if (classDetails != null)
+            for (SagresClassDetails classGroup : classDetails)
+                if (classGroup.getCode().equalsIgnoreCase(code) && classGroup.getSemester().equalsIgnoreCase(semester))
+                    return classGroup;
+
+        return null;
+    }
+
+    public SagresClassGroup getClassGroupWithParams(String code, String grouping, String semester) {
+        if (classDetails != null)
+            for (SagresClassDetails classGroup : classDetails)
+                if (classGroup.getCode().equalsIgnoreCase(code) && classGroup.getSemester().equalsIgnoreCase(semester)) {
+                    List<SagresClassGroup> groups = classGroup.getGroups();
+                    if (grouping == null)
+                        return groups.get(0);
+
+                    for (SagresClassGroup group : groups) {
+                        if (group.getType() == null && groups.size() == 1)
+                            return group;
+
+                        if (group.getType().contains(grouping))
+                            return group;
+                    }
+                }
+
+        return null;
+    }
 }

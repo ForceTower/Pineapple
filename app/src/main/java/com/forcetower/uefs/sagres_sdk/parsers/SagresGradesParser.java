@@ -27,8 +27,10 @@ import okhttp3.Response;
  */
 
 public class SagresGradesParser {
+    private static boolean failed;
 
     public static HashMap<SagresSemester, List<SagresGrade>> getAllGrades(String html, String semester) {
+        failed = false;
         Document htmlDocument = Jsoup.parse(html);
         htmlDocument.charset(Charset.forName("UTF-8"));
 
@@ -94,6 +96,11 @@ public class SagresGradesParser {
         Element gradesDiv = html.selectFirst("div[id=\"divBoletins\"]");
 
         Elements classes = gradesDiv.select("div[class=\"boletim-container\"]");
+        if (classes == null) {
+            return grades;
+        }
+
+
         for (Element element : classes) {
             Element classInfo = element.selectFirst("div[class=\"boletim-item-info\"]");
             Element className = classInfo.selectFirst("span[class=\"boletim-item-titulo cor-destaque\"]");

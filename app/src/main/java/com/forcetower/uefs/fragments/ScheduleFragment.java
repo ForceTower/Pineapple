@@ -35,7 +35,7 @@ public class ScheduleFragment extends Fragment {
     private DayScheduleAdapter.OnClassClickListener classClickListener = new DayScheduleAdapter.OnClassClickListener() {
         @Override
         public void onClassClicked(View view, int position, SagresClassDay classDay) {
-            ClassDetailsActivity.startActivity(context, classDay);
+            ClassDetailsActivity.startActivity(context, "TEC500", "20172", null);
         }
     };
 

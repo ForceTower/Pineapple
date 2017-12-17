@@ -136,4 +136,14 @@
     <string name="pref_clear_all_semesters_grades_summary">Refresh in case of error</string>
     <string name="grades_cleared">Grades Reset. You might need to restart the app</string>
     <string name="partial_mean">Partial Mean</string>
+    <string name="class_not_found_dev_error">Class not found. This is prob a dev error</string>
+    <string name="class_details_credits">Class Credits: %1$s</string>
+    <string name="class_details_class_period">Class Period: %1$s</string>
+    <string name="class_details_teacher">Teacher: %1$s</string>
+    <string name="class_details_department">Department: %1$s</string>
+    <string name="class_details_miss_limit">Fault Limit: %1$s</string>
+    <string name="class_details_classes_missed">You missed %1$s classes</string>
+    <string name="class_details_miss_remain">You still can miss %1$s classes</string>
+    <string name="class_details_previous_class">Previous Class: %1$s</string>
+    <string name="class_details_next_class">Next Class: %1$s</string>
 </resources>
