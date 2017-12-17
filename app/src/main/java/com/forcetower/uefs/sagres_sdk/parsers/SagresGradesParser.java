@@ -130,13 +130,11 @@ public class SagresGradesParser {
                             }
 
                             section = new GradeSection(children.get(1).text());
-                            Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Added section: " + section.getName() + " to class " + clazz.getClassName());
                         } else if (children.size() == 4) {
                             Element td = children.first();
                             if (td.children().size() == 0) {
                                 Element meanTests = children.get(2);
                                 clazz.setPartialMean(meanTests.text());
-                                Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Partial Mean of " + clazz.getClassName() + "> " + meanTests.text());
                             } else {
                                 Element date = children.get(0);
                                 Element identification = children.get(1);
