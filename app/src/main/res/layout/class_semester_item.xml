@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="72dp"
+    android:foreground="?android:attr/selectableItemBackground"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/iv_draft_item"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:srcCompat="@drawable/ic_download_black_24dp"
+        android:tint="@color/colorPrimary"
+        android:contentDescription="@string/draft_class"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/iv_draft_item"
+        android:layout_toStartOf="@id/iv_draft_item"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_centerVertical="true">
+
+        <TextView
+            android:id="@+id/tv_class_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/primaryText"
+            android:fontFamily="@font/roboto_regular"
+            android:textSize="14sp"
+            tools:text="MI - Processadores de Linguaguens de Programação"/>
+
+        <TextView
+            android:id="@+id/tv_additional_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/secondaryText"
+            android:fontFamily="@font/roboto_regular"
+            android:layout_below="@id/tv_class_name"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp"
+            tools:text="COD123 - 60h - 4 faltas"/>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

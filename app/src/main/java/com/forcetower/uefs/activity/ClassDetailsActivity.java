@@ -107,7 +107,7 @@ public class ClassDetailsActivity extends UEFSBaseActivity {
         }
         if (!detailsGroup.isDraft()) findViewById(R.id.draft_card).setVisibility(View.GONE);
 
-        classCredits.setText(getString(R.string.class_details_credits, details.getCredits()));
+        classCredits.setText(getString(R.string.class_details_credits, detailsGroup.isDraft() ? details.getCredits() : detailsGroup.getCredits()));
         classPeriod.setText(getString(R.string.class_details_class_period, detailsGroup.isDraft() ? "???" : detailsGroup.getClassPeriod()));
         classTeacher.setText(getString(R.string.class_details_teacher, detailsGroup.isDraft() ? "???" : detailsGroup.getTeacher()));
         classDepartment.setText(detailsGroup.isDraft() ? getString(R.string.class_details_department, "???") : detailsGroup.getDepartment());
@@ -188,7 +188,6 @@ public class ClassDetailsActivity extends UEFSBaseActivity {
         }
 
         SagresClassDetails details = SagresProfile.getCurrentProfile().getClassDetailsWithParams(classCode, semester);
-        System.out.println("Hey! " + details.getGroups().get(0).getMissLimit());
 
         runOnUiThread(new Runnable() {
             @Override
@@ -250,8 +249,15 @@ public class ClassDetailsActivity extends UEFSBaseActivity {
         if (details.getGroups() == null)
             return;
 
-        if (group == null && details.getGroups().size() > 0)
+        if (group == null && details.getGroups().size() > 0) {
             detailsGroup = details.getGroups().get(0);
+            return;
+        }
+
+        if (details.getGroups().size() == 1) {
+            detailsGroup = details.getGroups().get(0);
+            return;
+        }
 
         for (SagresClassGroup classGroup : details.getGroups()) {
             if (classGroup.getType() == null && details.getGroups().size() == 1) {

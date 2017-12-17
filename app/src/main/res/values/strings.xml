@@ -147,4 +147,8 @@
     <string name="class_details_previous_class">Previous Class: %1$s</string>
     <string name="class_details_next_class">Next Class: %1$s</string>
     <string name="card_class_details_this_is_a_draft">This is a draft class, update the class to get full information</string>
+    <string name="draft_class">This is a draft class. Full info is not available</string>
+    <string name="title_disciplines">Disciplines</string>
+    <string name="class_name_list_format">%1$s %2$s</string>
+    <string name="class_additional_info_format">%1$s - %2$s hours - %3$s missed classes</string>
 </resources>

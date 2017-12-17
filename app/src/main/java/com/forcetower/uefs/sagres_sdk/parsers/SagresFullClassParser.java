@@ -136,6 +136,8 @@ public class SagresFullClassParser {
 
                     values = values.substring(0, end);
                     String type = element.text();
+                    int refGroupPos = type.lastIndexOf("(");
+                    type = type.substring(0, refGroupPos).trim();
 
                     FormBody.Builder builderIn = new FormBody.Builder();
                     for (Element elementIn : elements) {
@@ -286,6 +288,7 @@ public class SagresFullClassParser {
 
                 else if (bText.equalsIgnoreCase("Carga horária:") && classCredits.isEmpty()) {
                     classCredits = element.child(1).text();
+                    classCredits = classCredits.replaceAll("[^\\d]", "").trim();
                     classGroup.setCredits(classCredits);
                 }
 
@@ -336,8 +339,6 @@ public class SagresFullClassParser {
             }
             classGroup.setClasses(classItems);
             classGroup.setDraft(false);
-            Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "It's believed that Java updated the class group for " + name + " group " + classGroup.getType());
-            Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "This should be ok then: " + getGroupByCode(code, refGroup, semester).getMissLimit());
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {

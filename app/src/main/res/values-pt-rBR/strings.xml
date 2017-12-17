@@ -145,4 +145,8 @@
     <string name="class_details_previous_class">Aula anterior: %1$s</string>
     <string name="class_details_next_class">Próxima aula: %1$s</string>
     <string name="card_class_details_this_is_a_draft">Este é um rascunho, atualize a aula para ter informação completa</string>
+    <string name="draft_class">Esta é uma aula rascunho. Informação completa indisponível</string>
+    <string name="class_name_list_format">%1$s %2$s</string>
+    <string name="class_additional_info_format">%1$s - %2$s horas - %3$s faltas</string>
+    <string name="title_disciplines">Disciplinas</string>
 </resources>

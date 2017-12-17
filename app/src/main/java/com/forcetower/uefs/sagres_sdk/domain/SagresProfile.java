@@ -548,7 +548,7 @@ public class SagresProfile {
             if (upd.getTeacher() != null && !upd.getTeacher().trim().isEmpty()) {
                 cor.updateFrom(upd);
             }
-            Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "updateGroups: updated single! " + correspondent.getName());
+
             return;
         }
 
