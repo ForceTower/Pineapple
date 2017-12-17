@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -24,96 +23,16 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"
+            android:paddingBottom="8dp">
 
-            <TextView
-                android:id="@+id/tv_class_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginEnd="8dp"
-                android:textSize="16sp"
-                android:textColor="@color/primaryText"
-                android:fontFamily="@font/roboto_regular"
-                tools:text="COD123 - Disciplina Genérica II"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                android:textSize="13sp"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/primaryText"
-                android:text="@string/class_details_grades"/>
-
-            <RelativeLayout
-                android:id="@+id/rl_grades"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginEnd="8dp">
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_grades"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-            </RelativeLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                android:textSize="13sp"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/primaryText"
-                android:text="@string/temporary_layout"/>
-<!--
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                android:textSize="13sp"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/primaryText"
-                android:text="@string/class_details_recent_messages"/>
-
-            <RelativeLayout
-                android:id="@+id/rl_messages"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginEnd="8dp">
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_messages"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-            </RelativeLayout>
--->
+            <include layout="@layout/card_class_details_general"/>
+            <include layout="@layout/card_class_details_misses"/>
+            <include layout="@layout/card_class_details_prev_and_next"/>
         </LinearLayout>
-
     </ScrollView>
-
-
 </RelativeLayout>
