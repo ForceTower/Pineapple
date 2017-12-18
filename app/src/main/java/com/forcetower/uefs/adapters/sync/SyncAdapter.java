@@ -21,6 +21,7 @@ import com.forcetower.uefs.sagres_sdk.domain.SagresGrade;
 import com.forcetower.uefs.sagres_sdk.domain.SagresMessage;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
 import com.forcetower.uefs.sagres_sdk.exception.SagresInfoFetchException;
+import com.forcetower.uefs.sagres_sdk.managers.SagresProfileManager;
 import com.forcetower.uefs.sagres_sdk.utility.SagresUtility;
 
 import java.util.ArrayList;
@@ -51,6 +52,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
         if (!SagresPortalSDK.isSdkInitialized()) {
             Log.i(Constants.APP_TAG, "SDK not initialized on service context");
+            SagresPortalSDK.setContext(getContext());
             SagresPortalSDK.initializeSdk(getContext(), new SagresPortalSDK.SagresSDKInitializationCallback() {
                 @Override
                 public void onFinishInit() {
@@ -79,7 +81,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         final HashMap<String, SagresGrade> beforeGrades = new HashMap<>();
         if (gradesHashMap != null) {
             for (Map.Entry<String, SagresGrade> entry : gradesHashMap.entrySet()) {
-                Log.i(Constants.APP_TAG, "Key: " + entry.getKey() + " - Value: " + entry.getValue().getClassName());
                 beforeGrades.put(entry.getKey(), entry.getValue());
             }
         }
@@ -112,6 +113,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     private void successMeasures(SagresProfile profile, List<SagresMessage> messagesBefore, HashMap<String, SagresGrade> grades) {
         SagresProfile profileUpdated = SagresProfile.getCurrentProfile();
+        profileUpdated.saveProfileNonStatic();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 
         boolean showMessageNotification = preferences.getBoolean("show_message_notification", true);
@@ -147,41 +149,40 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             if (grades != null) {
                 if (updatedGrades == null) {
                     Log.e(Constants.APP_TAG, "Updated grades is null... Prob timed out");
-                }
+                } else {
+                    for (String key : updatedGrades.keySet()) {
+                        Log.i(Constants.APP_TAG, "Current Key: " + key);
+                        SagresGrade before = grades.get(key);
+                        SagresGrade after = updatedGrades.get(key);
 
-                for (String key : updatedGrades.keySet()) {
-                    Log.i(Constants.APP_TAG, "Current Key: " + key);
-                    SagresGrade before = grades.get(key);
-                    SagresGrade after = updatedGrades.get(key);
+                        if (after == null) {
+                            Log.i(Constants.APP_TAG, "Lost track of a grade... [" + key + "]");
+                            continue;
+                        }
 
-                    if (after == null) {
-                        Log.i(Constants.APP_TAG, "Lost track of a grade... [" + key + "]");
-                        continue;
-                    }
+                        if (before == null) {
+                            //NotificationCreator.createNewGradeMessage(getContext(), after, NotificationCreator.GENERATED_GRADE);
+                            Log.i(Constants.APP_TAG, "Now it's tracking a new class...??? " + after.getClassCode());
+                            continue;
+                        }
 
-                    if (before == null) {
-                        //NotificationCreator.createNewGradeMessage(getContext(), after, NotificationCreator.GENERATED_GRADE);
-                        Log.i(Constants.APP_TAG, "Now it's tracking a new class...??? " + after.getClassCode());
-                        continue;
-                    }
+                        for (GradeSection nSection : after.getSections()) {
+                            GradeSection oSection = before.findSection(nSection.getName());
 
-                    for (GradeSection nSection : after.getSections()) {
-                        GradeSection oSection = before.findSection(nSection.getName());
-
-                        if (oSection != null) {
-                            for (GradeInfo nInfo : nSection.getGrades()) {
-                                if (!oSection.getGrades().contains(nInfo)) {
+                            if (oSection != null) {
+                                for (GradeInfo nInfo : nSection.getGrades()) {
+                                    if (!oSection.getGrades().contains(nInfo)) {
+                                        NotificationCreator.createNewGradeNotification(getContext(), nInfo, after, NotificationCreator.ADDED_GRADE);
+                                    }
+                                }
+                            } else {
+                                Log.i(Constants.APP_TAG, "Class " + after.getClassCode() + " has a new section!");
+                                for (GradeInfo nInfo : nSection.getGrades()) {
                                     NotificationCreator.createNewGradeNotification(getContext(), nInfo, after, NotificationCreator.ADDED_GRADE);
                                 }
                             }
-                        } else {
-                            Log.i(Constants.APP_TAG, "Class " + after.getClassCode() + " has a new section!");
-                            for (GradeInfo nInfo : nSection.getGrades()) {
-                                NotificationCreator.createNewGradeNotification(getContext(), nInfo, after, NotificationCreator.ADDED_GRADE);
-                            }
                         }
                     }
-
                 }
             } else {
                 Log.i(Constants.APP_TAG, "Auto Sync Fetch a new profile[Grades], interesting");

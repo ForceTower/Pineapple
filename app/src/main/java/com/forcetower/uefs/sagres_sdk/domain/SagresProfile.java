@@ -446,6 +446,7 @@ public class SagresProfile {
 
     public void setAllSemestersGrades(HashMap<SagresSemester, List<SagresGrade>> allSemestersGrades) {
         this.allSemestersGrades = allSemestersGrades;
+        setCurrentProfile(this);
     }
 
     public HashMap<SagresSemester, List<SagresGrade>> getAllSemestersGrades() {
@@ -594,6 +595,10 @@ public class SagresProfile {
         SagresProfile.setCurrentProfile(SagresProfile.getCurrentProfile());
     }
 
+    public void saveProfileNonStatic() {
+        setCurrentProfile(this);
+    }
+
     public synchronized void setGradesOfSemester(Map.Entry<SagresSemester,List<SagresGrade>> gradesOfSemester) {
         if (gradesOfSemester != null && gradesOfSemester.getValue() != null && !gradesOfSemester.getValue().isEmpty()) {
             if (allSemestersGrades == null)
@@ -603,6 +608,7 @@ public class SagresProfile {
                 allSemestersGrades.put(gradesOfSemester.getKey(), gradesOfSemester.getValue());
             }
         }
+        setCurrentProfile(this);
     }
 
     public SagresClassDetails getClassDetailsWithParams(String code, String semester) {

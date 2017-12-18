@@ -20,6 +20,7 @@ import com.forcetower.uefs.fragments.NavigationDrawerFragment;
 import com.forcetower.uefs.fragments.ScheduleFragment;
 import com.forcetower.uefs.helpers.SyncUtils;
 import com.forcetower.uefs.helpers.Utils;
+import com.forcetower.uefs.sagres_sdk.managers.SagresProfileManager;
 
 /**
  * Created by João Paulo on 29/11/2017.
@@ -111,5 +112,10 @@ public class NConnectedActivity extends UEFSBaseActivity implements NavigationDr
                 return false;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }

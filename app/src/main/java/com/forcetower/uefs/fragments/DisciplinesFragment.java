@@ -8,6 +8,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -36,8 +38,14 @@ public class DisciplinesFragment extends Fragment {
         rvAllDisciplines = view.findViewById(R.id.rv_all_disciplines);
 
         setupAllDisciplines();
-
         return view;
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        MenuItem item = menu.findItem(R.id.menu_refresh);
+        if (item != null) item.setVisible(false);
     }
 
     private void setupAllDisciplines() {

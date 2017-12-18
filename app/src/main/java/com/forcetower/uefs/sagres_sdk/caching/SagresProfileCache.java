@@ -49,6 +49,7 @@ public class SagresProfileCache {
             JSONObject jsonObject = profile.toJSONObject();
             if (jsonObject != null) {
                 sharedPreferences.edit().putString(CACHED_PROFILE_KEY, jsonObject.toString()).apply();
+                Log.d(SagresPortalSDK.SAGRES_SDK_TAG, "Profile saved");
             }
         } catch (JSONException e) {
             Log.e(SagresPortalSDK.SAGRES_SDK_TAG, "Attempt to save Sagres Profile failed");

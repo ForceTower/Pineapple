@@ -142,6 +142,10 @@ public class SagresPortalSDK {
                 .build();
     }
 
+    public static void setContext(Context context) {
+        applicationContext = context;
+    }
+
     public interface SagresSDKInitializationCallback {
         void onFinishInit();
     }

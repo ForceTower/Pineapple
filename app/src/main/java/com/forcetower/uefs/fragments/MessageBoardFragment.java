@@ -23,9 +23,11 @@ import com.forcetower.uefs.R;
 import com.forcetower.uefs.activity.MessageActivity;
 import com.forcetower.uefs.adapters.ui.MessageBoardAdapter;
 import com.forcetower.uefs.helpers.Utils;
+import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
 import com.forcetower.uefs.sagres_sdk.domain.SagresMessage;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
 import com.forcetower.uefs.sagres_sdk.exception.SagresInfoFetchException;
+import com.forcetower.uefs.sagres_sdk.managers.SagresProfileManager;
 import com.forcetower.uefs.sagres_sdk.utility.SagresUtility;
 
 import java.util.List;
@@ -172,6 +174,7 @@ public class MessageBoardFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        SagresProfileManager.getInstance().loadCurrentProfile();
         List<SagresMessage> messages = SagresProfile.getCurrentProfile().getMessages();
         messageAdapter.setMessageList(messages);
     }

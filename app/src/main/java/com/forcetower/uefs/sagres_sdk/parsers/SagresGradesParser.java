@@ -94,6 +94,10 @@ public class SagresGradesParser {
 
         Document html = Jsoup.parse(htmlSemester);
         Element gradesDiv = html.selectFirst("div[id=\"divBoletins\"]");
+        if (gradesDiv == null) {
+            Log.e(SagresPortalSDK.SAGRES_SDK_TAG, "Div boletins not found");
+            return grades;
+        }
 
         Elements classes = gradesDiv.select("div[class=\"boletim-container\"]");
         if (classes == null) {
