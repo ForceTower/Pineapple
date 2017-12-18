@@ -51,12 +51,7 @@ public class MessageBoardFragment extends Fragment {
             MessageActivity.startActivity(context, message);
         }
     };
-    private Runnable refreshDelay = new Runnable() {
-        @Override
-        public void run() {
-            canRefresh = true;
-        }
-    };
+    private Runnable refreshDelay = () -> canRefresh = true;
     private SwipeRefreshLayout.OnRefreshListener refreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
@@ -184,15 +179,12 @@ public class MessageBoardFragment extends Fragment {
         if (getActivity() == null)
             return;
 
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                refreshLayout.setRefreshing(refreshing);
-                if (profile == null) {
-                    return;
-                }
-                messageAdapter.setMessageList(profile.getMessages());
+        getActivity().runOnUiThread(() -> {
+            refreshLayout.setRefreshing(refreshing);
+            if (profile == null) {
+                return;
             }
+            messageAdapter.setMessageList(profile.getMessages());
         });
     }
 
@@ -201,11 +193,6 @@ public class MessageBoardFragment extends Fragment {
         if (!isVisible())
             return;
 
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getActivity(), resId, Toast.LENGTH_SHORT).show();
-            }
-        });
+        getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resId, Toast.LENGTH_SHORT).show());
     }
 }

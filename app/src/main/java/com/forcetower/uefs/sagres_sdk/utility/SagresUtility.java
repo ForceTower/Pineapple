@@ -208,122 +208,119 @@ public class SagresUtility {
             return;
         }
 
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    JSONObject loginResponse = SagresConnector.login(username, password);
-                    if (loginResponse.has("error")) {
-                        Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Login has error - Time out or no network");
-                        if (callback != null) {
-                            callback.onFailedConnect();
-                        }
-                        return;
+        Runnable runnable = () -> {
+            try {
+                JSONObject loginResponse = SagresConnector.login(username, password);
+                if (loginResponse.has("error")) {
+                    Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Login has error - Time out or no network");
+                    if (callback != null) {
+                        callback.onFailedConnect();
                     }
+                    return;
+                }
 
-                    String html = loginResponse.getString("html");
-                    html = SagresParser.changeCharset(html);
+                String html = loginResponse.getString("html");
+                html = SagresParser.changeCharset(html);
 
-                    boolean connected = SagresParser.connected(html);
-                    if (!connected) {
-                        if (callback != null) callback.onInvalidLogin();
-                        return;
-                    }
+                boolean connected = SagresParser.connected(html);
+                if (!connected) {
+                    if (callback != null) callback.onInvalidLogin();
+                    return;
+                }
 
-                    Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Connected... Started Parsing start page");
-                    String studentName = SagresParser.getUserName(html);
-                    String score = SagresParser.getScore(html);
-                    //Changed Here
-                    String studentPageHtml = null;
-                    Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Going to student page");
-                    for (int i = 0; i < 3; i++) {
-                        studentPageHtml = SagresConnector.getSagresStudentPage();
-                        if (studentPageHtml != null) {
-                            Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Connected to student page");
-                            break;
-                        }
-                    }
-
-                    HashMap<String, List<SagresClassDay>> classes;
-                    List<SagresMessage> messages;
-                    List<SagresCalendarItem> calendar;
-                    List<SagresClassDetails> classDetails;
+                Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Connected... Started Parsing start page");
+                String studentName = SagresParser.getUserName(html);
+                String score = SagresParser.getScore(html);
+                //Changed Here
+                String studentPageHtml = null;
+                Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Going to student page");
+                for (int i = 0; i < 3; i++) {
+                    studentPageHtml = SagresConnector.getSagresStudentPage();
                     if (studentPageHtml != null) {
-                        Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Parsing information in student page");
-                        classes = SagresClassParser.getCompleteSchedule(studentPageHtml);
-                        messages = SagresMessagesParser.getStartPageMessages(studentPageHtml);
-                        calendar = SagresCalendarParser.getCalendar(studentPageHtml);
-                        classDetails = SagresFullClassParser.getClassesDetails(Jsoup.parse(studentPageHtml), null, null, null, true);
-                    } else {
-                        Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Connection failed, parsing from start page");
-                        classes = SagresClassParser.getCompleteSchedule(html);
-                        messages = SagresMessagesParser.getStartPageMessages(html);
-                        calendar = SagresCalendarParser.getCalendar(html);
-                        classDetails = SagresFullClassParser.connectAndGetClassesDetails(null, null, null, true);
+                        Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Connected to student page");
+                        break;
                     }
+                }
 
-                    Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Saving information");
-                    if (SagresProfile.getCurrentProfile() == null) {
-                        SagresProfile profile = new SagresProfile(studentName, messages, classes);
-                        profile.setScore(score);
-                        profile.setCalendar(calendar);
-                        profile.setClassDetails(classDetails);
-                        SagresProfile.setCurrentProfile(profile);
+                HashMap<String, List<SagresClassDay>> classes;
+                List<SagresMessage> messages;
+                List<SagresCalendarItem> calendar;
+                List<SagresClassDetails> classDetails;
+                if (studentPageHtml != null) {
+                    Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Parsing information in student page");
+                    classes = SagresClassParser.getCompleteSchedule(studentPageHtml);
+                    messages = SagresMessagesParser.getStartPageMessages(studentPageHtml);
+                    calendar = SagresCalendarParser.getCalendar(studentPageHtml);
+                    classDetails = SagresFullClassParser.getClassesDetails(Jsoup.parse(studentPageHtml), null, null, null, true);
+                } else {
+                    Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Connection failed, parsing from start page");
+                    classes = SagresClassParser.getCompleteSchedule(html);
+                    messages = SagresMessagesParser.getStartPageMessages(html);
+                    calendar = SagresCalendarParser.getCalendar(html);
+                    classDetails = SagresFullClassParser.connectAndGetClassesDetails(null, null, null, true);
+                }
+
+                Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Saving information");
+                if (SagresProfile.getCurrentProfile() == null) {
+                    SagresProfile profile = new SagresProfile(studentName, messages, classes);
+                    profile.setScore(score);
+                    profile.setCalendar(calendar);
+                    profile.setClassDetails(classDetails);
+                    SagresProfile.setCurrentProfile(profile);
+                } else {
+                    SagresProfile profile = SagresProfile.getCurrentProfile();
+                    if (SagresClassParser.failed) classes = profile.getClasses();
+                    profile.updateInformation(studentName, messages, classes);
+                    profile.setScore(score);
+                    profile.setCalendar(calendar);
+                    profile.updateClassDetails(classDetails);
+                }
+
+                try {
+                    Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Getting grades");
+                    JSONObject gradesResponse = SagresConnector.getStudentGrades();
+                    if (gradesResponse.has("error")) {
+                        Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Grades has error - Time out or no network");
+                        if (callback != null) {
+                            callback.onHalfCompleted(1);
+                        }
                     } else {
-                        SagresProfile profile = SagresProfile.getCurrentProfile();
-                        if (SagresClassParser.failed) classes = profile.getClasses();
-                        profile.updateInformation(studentName, messages, classes);
-                        profile.setScore(score);
-                        profile.setCalendar(calendar);
-                        profile.updateClassDetails(classDetails);
-                    }
-
-                    try {
-                        Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Getting grades");
-                        JSONObject gradesResponse = SagresConnector.getStudentGrades();
-                        if (gradesResponse.has("error")) {
-                            Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Grades has error - Time out or no network");
-                            if (callback != null) {
-                                callback.onHalfCompleted(1);
-                            }
-                        } else {
-                            Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Fetching Grades...");
-                            String gradesHtml = gradesResponse.getString("html");
-                            HashMap<String, SagresGrade> grades = getGradeHashMap(SagresGradesParser.extractGrades(gradesHtml));
-                            if (grades != null && !grades.isEmpty())
-                                SagresProfile.getCurrentProfile().placeNewGrades(grades);
-                            else {
-                                if (grades == null || grades.isEmpty()) {
-                                    gradesResponse = SagresConnector.getStudentGrades();
-                                    if (!gradesResponse.has("error")) {
-                                        Log.e(SagresPortalSDK.SAGRES_SDK_TAG, "RETRYING GRADES");
-                                        gradesHtml = gradesResponse.getString("html");
-                                        grades = SagresUtility.getGradeHashMap(SagresGradesParser.extractGrades(gradesHtml));
-                                        SagresProfile.getCurrentProfile().placeNewGrades(grades);
-                                        Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Got'em, grades is set");
-                                    }
+                        Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Fetching Grades...");
+                        String gradesHtml = gradesResponse.getString("html");
+                        HashMap<String, SagresGrade> grades = getGradeHashMap(SagresGradesParser.extractGrades(gradesHtml));
+                        if (grades != null && !grades.isEmpty())
+                            SagresProfile.getCurrentProfile().placeNewGrades(grades);
+                        else {
+                            if (grades == null || grades.isEmpty()) {
+                                gradesResponse = SagresConnector.getStudentGrades();
+                                if (!gradesResponse.has("error")) {
+                                    Log.e(SagresPortalSDK.SAGRES_SDK_TAG, "RETRYING GRADES");
+                                    gradesHtml = gradesResponse.getString("html");
+                                    grades = SagresUtility.getGradeHashMap(SagresGradesParser.extractGrades(gradesHtml));
+                                    SagresProfile.getCurrentProfile().placeNewGrades(grades);
+                                    Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Got'em, grades is set");
                                 }
                             }
-
-                            Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Grades obtained and set");
                         }
-                    } catch (NullPointerException e) {
-                        Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Avoided App Crash");
-                        e.printStackTrace();
-                        Log.e(SagresPortalSDK.SAGRES_SDK_TAG, e.getLocalizedMessage());
-                    }
 
-                    if (SagresProfile.getCurrentProfile() != null) SagresProfile.setCurrentProfile(SagresProfile.getCurrentProfile());
-                    if (callback != null) {
-                        callback.onSuccess(SagresProfile.getCurrentProfile());
+                        Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Grades obtained and set");
                     }
-
-                    Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Finished Fetching Profile");
-                } catch (JSONException e) {
+                } catch (NullPointerException e) {
+                    Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Avoided App Crash");
                     e.printStackTrace();
-                    callback.onDeveloperError();
-                    Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "JSONException in login");
+                    Log.e(SagresPortalSDK.SAGRES_SDK_TAG, e.getLocalizedMessage());
                 }
+
+                if (SagresProfile.getCurrentProfile() != null) SagresProfile.setCurrentProfile(SagresProfile.getCurrentProfile());
+                if (callback != null) {
+                    callback.onSuccess(SagresProfile.getCurrentProfile());
+                }
+
+                Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Finished Fetching Profile");
+            } catch (JSONException e) {
+                e.printStackTrace();
+                callback.onDeveloperError();
+                Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "JSONException in login");
             }
         };
 

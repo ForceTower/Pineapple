@@ -33,7 +33,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_centerVertical="true"
-                    android:background="@drawable/ic_keyboard_arrow_left_black_24dp"/>
+                    app:srcCompat="@drawable/ic_keyboard_arrow_left_black_24dp"/>
             </RelativeLayout>
 
             <TextView
@@ -59,7 +59,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_centerVertical="true"
-                    android:background="@drawable/ic_keyboard_arrow_right_black_24dp"/>
+                    app:srcCompat="@drawable/ic_keyboard_arrow_right_black_24dp"/>
             </RelativeLayout>
 
             <TextView

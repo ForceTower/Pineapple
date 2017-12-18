@@ -29,7 +29,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_centerVertical="true"
-                android:background="@drawable/ic_clock_black_24dp"/>
+                app:srcCompat="@drawable/ic_clock_black_24dp"/>
 
             <TextView
                 android:id="@+id/tv_class_credits"
@@ -53,7 +53,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_centerVertical="true"
-                android:background="@drawable/ic_calendar_black_24dp"/>
+                app:srcCompat="@drawable/ic_calendar_black_24dp"/>
 
             <TextView
                 android:id="@+id/tv_class_period"
@@ -77,7 +77,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_centerVertical="true"
-                android:background="@drawable/ic_grades_black_24dp"/>
+                app:srcCompat="@drawable/ic_grades_black_24dp"/>
 
             <TextView
                 android:id="@+id/tv_class_teacher"
@@ -101,7 +101,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_centerVertical="true"
-                android:background="@drawable/ic_building_black_24dp"/>
+                app:srcCompat="@drawable/ic_building_black_24dp"/>
 
             <TextView
                 android:id="@+id/tv_class_department"
@@ -125,7 +125,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_centerVertical="true"
-                android:background="@drawable/ic_info_outline_black_24dp"/>
+                app:srcCompat="@drawable/ic_info_outline_black_24dp"/>
 
             <TextView
                 android:id="@+id/tv_class_miss_limit"

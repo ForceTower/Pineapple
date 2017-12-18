@@ -188,19 +188,8 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         return selectedPosition;
     }
 
-    private NavigationDrawerAdapter.NavDrawerItemClickListener settingsListener = new NavigationDrawerAdapter.NavDrawerItemClickListener() {
-        @Override
-        public void onClick() {
-            SettingsActivity.startActivity(getContext());
-        }
-    };
-
-    private NavigationDrawerAdapter.NavDrawerItemClickListener aboutListener = new NavigationDrawerAdapter.NavDrawerItemClickListener() {
-        @Override
-        public void onClick() {
-            AboutActivity.startActivity(getContext());
-        }
-    };
+    private NavigationDrawerAdapter.NavDrawerItemClickListener settingsListener = () -> SettingsActivity.startActivity(getContext());
+    private NavigationDrawerAdapter.NavDrawerItemClickListener aboutListener = () -> AboutActivity.startActivity(getContext());
 
     public interface Callbacks {
         void onNavigationDrawerItemSelected(NavDrawerItem item);
