@@ -11,8 +11,8 @@ Também espera-se que possua algumas funcionalidades extras como mostrar no mapa
 - [x] Notas do semestre, médias e score
 - [x] Recados Recentes
 - [ ] Descrição das aulas
-- [ ] Faltas
-- [ ] Nome do professor da disciplina
+- [X] Faltas
+- [X] Nome do professor da disciplina
 - [ ] Aviso de aula próxima
 - [x] Aviso de novo recado
 - [x] Aviso de nota postada
