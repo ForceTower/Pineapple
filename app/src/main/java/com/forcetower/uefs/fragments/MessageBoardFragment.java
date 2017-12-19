@@ -11,6 +11,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,6 +32,8 @@ import com.forcetower.uefs.sagres_sdk.managers.SagresProfileManager;
 import com.forcetower.uefs.sagres_sdk.utility.SagresUtility;
 
 import java.util.List;
+
+import static com.forcetower.uefs.Constants.APP_TAG;
 
 /**
  * Created by João Paulo on 18/11/2017.
@@ -169,7 +172,6 @@ public class MessageBoardFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        SagresProfileManager.getInstance().loadCurrentProfile();
         List<SagresMessage> messages = SagresProfile.getCurrentProfile().getMessages();
         messageAdapter.setMessageList(messages);
     }

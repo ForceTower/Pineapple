@@ -151,4 +151,9 @@
     <string name="title_disciplines">Disciplinas</string>
     <string name="class_details_failed_by_lack">Você foi reprovado por falta</string>
     <string name="class_details_can_not_miss_anymore">Você não pode mais faltar</string>
+    <string name="press_back_twice">Pressione voltar novamente para sair do aplicativo</string>
+    <string name="application_settings">Aplicativo</string>
+    <string name="pref_double_back">Duas vezes para sair</string>
+    <string name="pref_double_back_on">Você sairá do aplicativo apertando voltar duas vezes</string>
+    <string name="pref_double_back_off">Você sairá do aplicativo apertando voltar uma vez</string>
 </resources>

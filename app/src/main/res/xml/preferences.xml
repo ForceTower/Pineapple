@@ -65,6 +65,19 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:title="@string/application_settings">
+
+        <CheckBoxPreference
+            android:icon="@drawable/ic_back_accent_30dp"
+            android:key="double_back"
+            android:defaultValue="true"
+            android:title="@string/pref_double_back"
+            android:summaryOn="@string/pref_double_back_on"
+            android:summaryOff="@string/pref_double_back_off"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/pref_account_settings">
 
         <CheckBoxPreference
