@@ -156,4 +156,7 @@
     <string name="pref_double_back">Duas vezes para sair</string>
     <string name="pref_double_back_on">Você sairá do aplicativo apertando voltar duas vezes</string>
     <string name="pref_double_back_off">Você sairá do aplicativo apertando voltar uma vez</string>
+    <string name="classes_not_found">Os horários não foram encontrados</string>
+    <string name="check_schedule_in_official_page">Vá até o site oficial do Sagres e verifique se os horários estão visiveis. Tentaremos obter estes dados novamente mais tarde</string>
+    <string name="that_s_embarrassing">Bem... Isso é constrangedor</string>
 </resources>

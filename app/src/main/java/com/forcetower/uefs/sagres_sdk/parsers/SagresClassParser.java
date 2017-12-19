@@ -43,13 +43,16 @@ public class SagresClassParser {
     private static boolean findSchedule(Element schedule) {
         if (schedule == null) {
             failed = true;
+            Log.e(SagresPortalSDK.SAGRES_SDK_TAG, "Minimized! Not found \"meu horarios\"!");
+            /*
             iterationPerDay.put(1, "SEG");
             SagresClass clazz = new SagresClass("Seu sagres está com algo minimizado?");
             clazz.setName("Horarios não encontrados no sagres - Atualizaremos em 1h");
             clazz.addClazz("N01");
             clazz.addStartEndTime("Erro ao pegar info", "Observe se seu horario está na tela inicial", "SEG", ":)");
-            Log.e(SagresPortalSDK.SAGRES_SDK_TAG, "Minimized! Not found \"meu horarios\"!");
+
             codePerLessons.put("Seu sagres está com algo minimizado?", clazz);
+            */
             return false;
         }
 
@@ -143,6 +146,9 @@ public class SagresClassParser {
     private static HashMap<String, List<SagresClassDay>> getSchedule(HashMap<String, SagresClass> classes) {
         HashMap<String, List<SagresClassDay>> classPerDay = new HashMap<>();
 
+        if (classes.isEmpty())
+            return classPerDay;
+
         for (int i = 1; i <= 7; i++) {
             String dayOfWeek = SagresDayUtils.getDayOfWeek(i);
             List<SagresClassDay> dayOfClass = new ArrayList<>();
@@ -158,7 +164,7 @@ public class SagresClassParser {
             }
 
             Collections.sort(dayOfClass);
-            classPerDay.put(dayOfWeek, dayOfClass);
+            if (!dayOfClass.isEmpty()) classPerDay.put(dayOfWeek, dayOfClass);
         }
 
         return classPerDay;
