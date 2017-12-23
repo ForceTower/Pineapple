@@ -161,4 +161,6 @@
     <string name="classes_not_found">Schedule was not found on start page</string>
     <string name="check_schedule_in_official_page">Go to official Sagres page and check if the schedule is visible</string>
     <string name="that_s_embarrassing">That\'s embarrassing</string>
+    <string name="classes">Classes</string>
+    <string name="all_classes">All classes</string>
 </resources>

@@ -59,6 +59,12 @@
             android:name=".activity.SettingsActivity"
             android:theme="@style/AppTheme.PreferencesStyle">
         </activity>
+        <activity android:name=".activity.ClassDetailsActivity">
+        </activity>
+        <activity android:name=".activity.DisciplineClassesActivity">
+        </activity>
+        <activity android:name=".activity.AboutActivity">
+        </activity>
 
         <service
             android:name=".services.SyncService"
@@ -88,11 +94,6 @@
             android:exported="false"
             android:label="@string/sagres_sync"
             android:syncable="true"/>
-
-        <activity android:name=".activity.ClassDetailsActivity">
-        </activity>
-        <activity android:name=".activity.AboutActivity">
-        </activity>
     </application>
 
 </manifest>

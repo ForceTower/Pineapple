@@ -6,6 +6,9 @@
     android:id="@+id/card_general_details"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
     android:layout_marginTop="4dp"
     app:cardCornerRadius="2dp"
     app:cardElevation="2dp">
@@ -71,6 +74,15 @@
                 android:textSize="14sp"
                 tools:text="Proxima Aula: A mágica da Transformada de Fourier no Tempo Contínuo - Exercicios"/>
         </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:fontFamily="@font/roboto_regular"
+            android:layout_marginTop="16dp"
+            android:textAlignment="center"
+            android:text="@string/all_classes"/>
 
     </LinearLayout>
 

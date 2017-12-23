@@ -82,6 +82,10 @@ public class ClassDetailsActivity extends UEFSBaseActivity {
             return;
         }
 
+        findViewById(R.id.draft_card).setOnClickListener(view -> refreshClass());
+        if (details != null && detailsGroup != null && !detailsGroup.isDraft())
+            findViewById(R.id.classes_pn_card).setOnClickListener(view -> DisciplineClassesActivity.startActivity(this, detailsGroup.getClasses()));
+
         classCredits = findViewById(R.id.tv_class_credits);
         classPeriod = findViewById(R.id.tv_class_period);
         classTeacher = findViewById(R.id.tv_class_teacher);
@@ -133,6 +137,8 @@ public class ClassDetailsActivity extends UEFSBaseActivity {
                 classAlertImage.setImageResource(R.drawable.ic_tag_faces_sad_black_24dp);
             else if (remains < 0)
                 classAlertImage.setImageResource(R.drawable.ic_tag_faces_dead_black_24dp);
+
+            classMissLimit.setText(getString(R.string.class_details_miss_limit, detailsGroup.isDraft() ? maxAllowed+"" : detailsGroup.getMissLimit()));
         } catch (Exception ignored){
             ignored.printStackTrace();
             visible = false;
@@ -183,16 +189,13 @@ public class ClassDetailsActivity extends UEFSBaseActivity {
         Log.i(APP_TAG, "Refresh");
         Utils.fadeIn(loadDetailsProgressBar, this);
 
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                refreshing = true;
-                List<SagresClassDetails> classDetails = SagresFullClassParser.loginConnectAndGetClassesDetails(semester, classCode, group, false);
-                SagresProfile.getCurrentProfile().updateClassDetails(classDetails);
-                Log.i(APP_TAG, "Finished... Start Interface Update");
-                updateViewWithNewInfo();
-                refreshing = false;
-            }
+        Runnable runnable = () -> {
+            refreshing = true;
+            List<SagresClassDetails> classDetails = SagresFullClassParser.loginConnectAndGetClassesDetails(semester, classCode, group, false);
+            SagresProfile.getCurrentProfile().updateClassDetails(classDetails);
+            Log.i(APP_TAG, "Finished... Start Interface Update");
+            updateViewWithNewInfo();
+            refreshing = false;
         };
 
         SagresPortalSDK.getExecutor().execute(runnable);
@@ -204,14 +207,11 @@ public class ClassDetailsActivity extends UEFSBaseActivity {
             return;
         }
 
-        SagresClassDetails details = SagresProfile.getCurrentProfile().getClassDetailsWithParams(classCode, semester);
+        //SagresClassDetails details = SagresProfile.getCurrentProfile().getClassDetailsWithParams(classCode, semester);
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                loadDetailsProgressBar.setVisibility(View.GONE);
-                recreate();
-            }
+        runOnUiThread(() -> {
+            loadDetailsProgressBar.setVisibility(View.GONE);
+            recreate();
         });
     }
 

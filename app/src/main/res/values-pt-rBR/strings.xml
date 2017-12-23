@@ -159,4 +159,6 @@
     <string name="classes_not_found">Os horários não foram encontrados</string>
     <string name="check_schedule_in_official_page">Vá até o site oficial do Sagres e verifique se os horários estão visiveis. Tentaremos obter estes dados novamente mais tarde</string>
     <string name="that_s_embarrassing">Bem... Isso é constrangedor</string>
+    <string name="classes">Aulas</string>
+    <string name="all_classes">Todas as aulas</string>
 </resources>

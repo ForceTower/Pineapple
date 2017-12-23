@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/lighter_gray"
+    android:background="@color/light_gray"
     android:animateLayoutChanges="true"
     tools:context="com.forcetower.uefs.activity.ClassDetailsActivity">
 
@@ -43,10 +43,10 @@
                 android:indeterminate="true"/>
 
             <include android:id="@+id/draft_card" layout="@layout/card_class_details_draft_class"/>
-            <include layout="@layout/card_class_details_identification"/>
-            <include layout="@layout/card_class_details_general"/>
-            <include layout="@layout/card_class_details_misses"/>
-            <include layout="@layout/card_class_details_prev_and_next"/>
+            <include android:id="@+id/identification_card" layout="@layout/card_class_details_identification"/>
+            <include android:id="@+id/details_card" layout="@layout/card_class_details_general"/>
+            <include android:id="@+id/missed_card" layout="@layout/card_class_details_misses"/>
+            <include android:id="@+id/classes_pn_card" layout="@layout/card_class_details_prev_and_next"/>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>
