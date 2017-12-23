@@ -5,9 +5,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.helpers.Utils;
 
 public class SuggestionActivity extends AppCompatActivity {
     public static void startActivity(Context context) {
@@ -27,6 +30,17 @@ public class SuggestionActivity extends AppCompatActivity {
             composeEmail(editText.getText().toString());
             finish();
         });
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        if (Utils.isLollipop()) toolbar.setElevation(10);
+        setSupportActionBar(toolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(R.string.suggestions);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
     }
 
     public void composeEmail(String body) {
@@ -35,5 +49,17 @@ public class SuggestionActivity extends AppCompatActivity {
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "[UNES]App_Feedback");
         emailIntent.putExtra(Intent.EXTRA_TEXT, body);
         startActivity(Intent.createChooser(emailIntent, getString(R.string.send_email)));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

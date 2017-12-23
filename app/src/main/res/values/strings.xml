@@ -172,4 +172,8 @@
     <string name="suggestion">Suggestion</string>
     <string name="send_email">Send email...</string>
     <string name="suggestions">Suggestions</string>
+    <string name="credits">Credits</string>
+    <string name="credits_string">
+        App Icon: Lokisley Oliveira\nhttps://www.facebook.com/Lokisley\n\n
+    </string>
 </resources>

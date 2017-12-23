@@ -108,6 +108,10 @@
     <string name="about_app_bugs">Por burrices minhas, se você usa o Android 8.0+ (Oreo) você não irá receber notificações pois tem um bug que não consegui resolver ainda :^)\nTambém existe um bug que algumas mensagens criam notificações sendo que elas já foram vistas</string>
     <string name="about_app_enjoy">Aproveite :)</string>
     <string name="about_app_features_title">Funções e Benefícios</string>
+    <string name="credits">Creditos</string>
+    <string name="credits_string">
+        Ícone do Aplicativo: Lokisley Oliveira\nhttps://www.facebook.com/Lokisley
+    </string>
     <string name="about_app_notifications_title">Notificações</string>
     <string name="about_app_exit_title">Sair</string>
     <string name="about_app_presentation_title">Sobre mim</string>
