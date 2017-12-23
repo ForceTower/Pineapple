@@ -100,12 +100,12 @@
 
     <string name="click_to_know_about">Clique para informações sobre o aplicativo</string>
     <string name="about_app_presentation">Oi, eu sou o João Paulo, estudante de Engenharia de Computação na UEFS\nEste é o UNES - UNES Não É Sagres, um aplicativo para ajudar você na sua vida acadêmica :)\nO código fonte do aplicativo está disponível em: github.com/ForceTower/UEFS_Sagres_App</string>
-    <string name="about_app_disclaimer">Este aplicativo não foi endorsado ou licenciado pela TecnoTrends e não tem nenhuma ligação com a empresa que fornece o serviço do Sagres à universidade. O aplicativo foi desenvolvido para auxiliar o dia a dia dos estudantes da UEFS.\nEle ainda não está perfeito, alguns bugs inesperados podem acontecer, por isso não confie sua vida a ele ainda</string>
+    <string name="about_app_disclaimer">Este aplicativo não foi endorsado ou licenciado pela TecnoTrends e não tem nenhuma ligação com a empresa que fornece o serviço do Sagres à universidade. O aplicativo foi desenvolvido para auxiliar o dia a dia dos estudantes da UEFS.\nEle ainda não está perfeito, alguns bugs inesperados podem acontecer, por isso não confie sua vida a ele ainda.\nO aplicativo é um reflexo do SAGRES, então em caso de algo inesperado no sagres, o aplicativo pode não funcionar corretamente.</string>
     <string name="about_app_privacy">As informações adquiridas pelo aplicativo não são transmitidas para mais ninguém alem de você. O usuário e senha digitados aqui ficam salvos APENAS no SMARTPHONE (Ou na SUA conta do Google, caso o seu celular suporte backup).</string>
     <string name="about_app_features">Após o primeiro login, você terá acesso ao seu horário, notas e recados. Estes dados ficam salvos no seu smartphone, então caso você esteja sem internet você ainda poderá visualizar os dados, e quando você voltar à internet os dados serão atualizados. O aplicativo também atualiza as informações de forma automática de certo em certo tempo se houver conexão com a internet :)</string>
     <string name="about_app_notifications">Você receberá uma notificação quando algum professor postar uma nota ou colocar um recado no portal.</string>
     <string name="about_app_exit">A qualquer momento, você pode se desconectar da sua conta clicando em Configurações>Sair isso fará com que todos os relacionado à sua conta do Sagres no aplicativo sejam apagados, você voltará a receber notificações quando entrar novamente.</string>
-    <string name="about_app_bugs">Por burrices minhas, se você usa o Android 8.0+ (Oreo) você não irá receber notificações pois tem um bug que não consegui resolver ainda :^)</string>
+    <string name="about_app_bugs">Por burrices minhas, se você usa o Android 8.0+ (Oreo) você não irá receber notificações pois tem um bug que não consegui resolver ainda :^)\nTambém existe um bug que algumas mensagens criam notificações sendo que elas já foram vistas</string>
     <string name="about_app_enjoy">Aproveite :)</string>
     <string name="about_app_features_title">Funções e Benefícios</string>
     <string name="about_app_notifications_title">Notificações</string>
@@ -165,4 +165,9 @@
     <string name="pref_detect_missed_auto_disabled">O aplicativo não irá tentar detectar se você faltou uma aula automaticamente</string>
     <string name="pref_detect_missed_auto_enabled">O aplicativo irá tentar detectar se você faltou uma aula automaticamente</string>
     <string name="days_and_classes">Dias e Aulas</string>
+    <string name="submit">Enviar</string>
+    <string name="write_a_suggestion">Escreva uma sugestão para o aplicativo</string>
+    <string name="suggestion">Sugestão</string>
+    <string name="send_email">Enviar email...</string>
+    <string name="suggestions">Sugestões</string>
 </resources>

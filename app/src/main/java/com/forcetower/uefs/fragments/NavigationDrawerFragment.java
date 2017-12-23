@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.activity.AboutActivity;
 import com.forcetower.uefs.activity.SettingsActivity;
+import com.forcetower.uefs.activity.SuggestionActivity;
 import com.forcetower.uefs.adapters.ui.NavDrawerItem;
 import com.forcetower.uefs.adapters.ui.NavigationDrawerAdapter;
 import com.forcetower.uefs.helpers.PrefUtils;
@@ -107,6 +108,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         items.add(new NavDrawerItem(getString(R.string.title_disciplines), R.drawable.ic_book_open_black_24dp, 5));
         items.add(new NavDrawerItem(getString(R.string.settings), R.drawable.ic_settings_black_24dp, settingsListener));
         items.add(new NavDrawerItem(getString(R.string.about_app_title), R.drawable.ic_info_black_24dp, aboutListener));
+        items.add(new NavDrawerItem(getString(R.string.suggestions), R.drawable.ic_feedback_black_24dp, suggestionListener));
 
         return items;
     }
@@ -190,6 +192,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
     private NavigationDrawerAdapter.NavDrawerItemClickListener settingsListener = () -> SettingsActivity.startActivity(getContext());
     private NavigationDrawerAdapter.NavDrawerItemClickListener aboutListener = () -> AboutActivity.startActivity(getContext());
+    private NavigationDrawerAdapter.NavDrawerItemClickListener suggestionListener = () -> SuggestionActivity.startActivity(getContext());
 
     public interface Callbacks {
         void onNavigationDrawerItemSelected(NavDrawerItem item);

@@ -94,6 +94,9 @@
             android:exported="false"
             android:label="@string/sagres_sync"
             android:syncable="true"/>
+
+        <activity android:name=".activity.SuggestionActivity">
+        </activity>
     </application>
 
 </manifest>
