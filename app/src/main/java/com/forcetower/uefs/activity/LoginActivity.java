@@ -13,7 +13,9 @@ import android.widget.Toast;
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.activity.base.UEFSBaseActivity;
+import com.forcetower.uefs.helpers.PrefUtils;
 import com.forcetower.uefs.helpers.Utils;
+import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
 import com.forcetower.uefs.sagres_sdk.domain.SagresAccess;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
 import com.forcetower.uefs.sagres_sdk.managers.SagresLoginManager;
@@ -33,6 +35,11 @@ public class LoginActivity extends UEFSBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        if (!PrefUtils.getPrefs(this).contains("purge_profile_205")) {
+            SagresPortalSDK.logout();
+            PrefUtils.save(this, "purge_profile_205", false);
+        }
 
         btn_login = findViewById(R.id.btn_login);
         et_username = findViewById(R.id.username_form);
