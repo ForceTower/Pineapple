@@ -3,6 +3,9 @@ package com.forcetower.uefs.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -16,10 +19,12 @@ import android.widget.Toast;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.activity.base.UEFSBaseActivity;
+import com.forcetower.uefs.adapters.ui.GradesAdapter;
 import com.forcetower.uefs.helpers.Utils;
 import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassDetails;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassGroup;
+import com.forcetower.uefs.sagres_sdk.domain.SagresGrade;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
 import com.forcetower.uefs.sagres_sdk.managers.SagresProfileManager;
 import com.forcetower.uefs.sagres_sdk.parsers.SagresFullClassParser;
@@ -52,6 +57,8 @@ public class ClassDetailsActivity extends UEFSBaseActivity {
     //View References card identification
     private TextView className;
     private TextView classGroup;
+    //View References card grades
+    private RecyclerView classGrades;
 
     private String semester;
     private String classCode;
@@ -83,8 +90,12 @@ public class ClassDetailsActivity extends UEFSBaseActivity {
         }
 
         findViewById(R.id.draft_card).setOnClickListener(view -> refreshClass());
-        if (details != null && detailsGroup != null && !detailsGroup.isDraft())
+        if (details != null && detailsGroup != null && !detailsGroup.isDraft()) {
             findViewById(R.id.classes_pn_card).setOnClickListener(view -> DisciplineClassesActivity.startActivity(this, detailsGroup.getClasses()));
+            findViewById(R.id.tv_show_all_classes).setVisibility(View.VISIBLE);
+        } else {
+            findViewById(R.id.tv_show_all_classes).setVisibility(View.GONE);
+        }
 
         classCredits = findViewById(R.id.tv_class_credits);
         classPeriod = findViewById(R.id.tv_class_period);
@@ -103,6 +114,8 @@ public class ClassDetailsActivity extends UEFSBaseActivity {
 
         className = findViewById(R.id.tv_class_name);
         classGroup = findViewById(R.id.tv_class_group);
+
+        classGrades = findViewById(R.id.rv_discipline_grades);
 
         if (detailsGroup == null) {
             detailsGroup = new SagresClassGroup(null, null, null, null, null, null);
@@ -155,6 +168,13 @@ public class ClassDetailsActivity extends UEFSBaseActivity {
 
         classPrevious.setText(getString(R.string.class_details_previous_class, details.getLastClass()));
         classNext.setText(getString(R.string.class_details_next_class, details.getNextClass()));
+
+
+        SagresGrade grade = null;
+        if (details != null) grade = SagresProfile.getCurrentProfile().getGradesOfClass(details.getCode(), details.getSemester());
+        classGrades.setLayoutManager(new LinearLayoutManager(this));
+        classGrades.setAdapter(new GradesAdapter(this, grade));
+        classGrades.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         if (Utils.isLollipop()) {

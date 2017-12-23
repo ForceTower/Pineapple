@@ -47,6 +47,7 @@
             <include android:id="@+id/details_card" layout="@layout/card_class_details_general"/>
             <include android:id="@+id/missed_card" layout="@layout/card_class_details_misses"/>
             <include android:id="@+id/classes_pn_card" layout="@layout/card_class_details_prev_and_next"/>
+            <include layout="@layout/card_class_details_grades"/>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

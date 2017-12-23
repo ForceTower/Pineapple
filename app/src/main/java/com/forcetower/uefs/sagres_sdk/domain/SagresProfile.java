@@ -646,4 +646,17 @@ public class SagresProfile {
     public List<SagresClassDetails> getClassesDetails() {
         return classDetails;
     }
+
+    public SagresGrade getGradesOfClass(String code, String semester) {
+        List<SagresGrade> grades = getGradesOfSemester(semester);
+
+        if (grades != null) {
+            for (SagresGrade sagresGrade : grades) {
+                if (sagresGrade.getClassCode().equalsIgnoreCase(code))
+                    return sagresGrade;
+            }
+        }
+
+        return null;
+    }
 }

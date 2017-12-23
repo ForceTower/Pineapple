@@ -124,36 +124,33 @@ public class GradesFragment extends Fragment {
             return;
         }
 
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                refreshAllGrades.setRefreshing(false);
-                tabLayout.removeAllTabs();
-                tabLayout.clearOnTabSelectedListeners();
-                viewPager.clearOnPageChangeListeners();
+        getActivity().runOnUiThread(() -> {
+            refreshAllGrades.setRefreshing(false);
+            tabLayout.removeAllTabs();
+            tabLayout.clearOnTabSelectedListeners();
+            viewPager.clearOnPageChangeListeners();
 
-                updating = false;
-                tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
-                if (Utils.isLollipop()) tabLayout.setElevation(10);
+            updating = false;
+            tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
+            if (Utils.isLollipop()) tabLayout.setElevation(10);
 
-                Utils.fadeIn(tabLayout, getActivity());
+            Utils.fadeIn(tabLayout, getActivity());
 
-                viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-                tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
+            viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+            tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
 
-                Utils.fadeOut(maskView, getActivity());
-                gradesList = asKeyList(grades);
+            Utils.fadeOut(maskView, getActivity());
+            gradesList = asKeyList(grades);
 
-                for (String semester : gradesList) {
-                    TabLayout.Tab tab = tabLayout.newTab();
-                    String start = semester.substring(0, 4);
-                    tab.setText(start + "." + semester.substring(4));
-                    tabLayout.addTab(tab);
-                }
-
-                sectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
-                viewPager.setAdapter(sectionsPagerAdapter);
+            for (String semester : gradesList) {
+                TabLayout.Tab tab = tabLayout.newTab();
+                String start = semester.substring(0, 4);
+                tab.setText(start + "." + semester.substring(4));
+                tabLayout.addTab(tab);
             }
+
+            sectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
+            viewPager.setAdapter(sectionsPagerAdapter);
         });
     }
 
@@ -172,19 +169,16 @@ public class GradesFragment extends Fragment {
             }
         }
 
-        Collections.sort(list, new Comparator<String>() {
-            @Override
-            public int compare(String s, String t1) {
-                try {
-                    int i1 = Integer.parseInt(s.substring(0, 5));
-                    int i2 = Integer.parseInt(t1.substring(0, 5));
-                    if (i2 < i1)
-                        return -1;
-                    else
-                        return 1;
-                } catch (NumberFormatException e) {
+        Collections.sort(list, (s, t1) -> {
+            try {
+                int i1 = Integer.parseInt(s.substring(0, 5));
+                int i2 = Integer.parseInt(t1.substring(0, 5));
+                if (i2 < i1)
+                    return -1;
+                else
                     return 1;
-                }
+            } catch (NumberFormatException e) {
+                return 1;
             }
         });
 
@@ -219,41 +213,30 @@ public class GradesFragment extends Fragment {
         }
     }
 
-    private View.OnClickListener downloadClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            if (updating)
-                return;
+    private View.OnClickListener downloadClick = view -> {
+        if (updating)
+            return;
 
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    updating = true;
-                    disableButtonAndShowProgress();
-                    Pair<Integer, HashMap<SagresSemester, List<SagresGrade>>> pair = SagresUtility.connectAndGetGrades(null);
-                    if (pair.first < 0) {
-                        showOnToast(R.string.get_grades_failed);
-                        enableButtonAndRemoveProgress();
-                    } else {
-                        if (SagresProfile.getCurrentProfile() != null) {
-                            SagresProfile.getCurrentProfile().setAllSemestersGrades(pair.second);
-                            SagresProfile.saveProfile();
-                        }
-                        gotGrades(pair.second);
-                    }
+        Runnable runnable = () -> {
+            updating = true;
+            disableButtonAndShowProgress();
+            Pair<Integer, HashMap<SagresSemester, List<SagresGrade>>> pair = SagresUtility.connectAndGetGrades(null);
+            if (pair.first < 0) {
+                showOnToast(R.string.get_grades_failed);
+                enableButtonAndRemoveProgress();
+            } else {
+                if (SagresProfile.getCurrentProfile() != null) {
+                    SagresProfile.getCurrentProfile().setAllSemestersGrades(pair.second);
+                    SagresProfile.saveProfile();
                 }
-            };
+                gotGrades(pair.second);
+            }
+        };
 
-            SagresPortalSDK.getExecutor().execute(runnable);
-        }
+        SagresPortalSDK.getExecutor().execute(runnable);
     };
 
-    private SwipeRefreshLayout.OnRefreshListener refreshListener = new SwipeRefreshLayout.OnRefreshListener() {
-        @Override
-        public void onRefresh() {
-            downloadClick.onClick(null);
-        }
-    };
+    private SwipeRefreshLayout.OnRefreshListener refreshListener = () -> downloadClick.onClick(null);
 
     private void disableButtonAndShowProgress() {
         if (getActivity() == null)
@@ -262,14 +245,11 @@ public class GradesFragment extends Fragment {
         if(!isAdded() || isRemoving())
             return;
 
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                refreshAllGrades.setRefreshing(true);
-                Utils.fadeOut(downloadBtn, getActivity());
-                Utils.fadeIn(progressBar, getActivity());
-                textCenter.setText(R.string.downloading_grades);
-            }
+        getActivity().runOnUiThread(() -> {
+            refreshAllGrades.setRefreshing(true);
+            Utils.fadeOut(downloadBtn, getActivity());
+            Utils.fadeIn(progressBar, getActivity());
+            textCenter.setText(R.string.downloading_grades);
         });
     }
 
@@ -280,15 +260,12 @@ public class GradesFragment extends Fragment {
         if(!isAdded() || isRemoving())
             return;
 
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                updating = false;
-                refreshAllGrades.setRefreshing(false);
-                Utils.fadeIn(downloadBtn, getActivity());
-                Utils.fadeOut(progressBar, getActivity());
-                textCenter.setText(R.string.grades_not_downloaded_yet);
-            }
+        getActivity().runOnUiThread(() -> {
+            updating = false;
+            refreshAllGrades.setRefreshing(false);
+            Utils.fadeIn(downloadBtn, getActivity());
+            Utils.fadeOut(progressBar, getActivity());
+            textCenter.setText(R.string.grades_not_downloaded_yet);
         });
     }
 
@@ -304,11 +281,6 @@ public class GradesFragment extends Fragment {
         if(!isAdded() || isRemoving())
             return;
 
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getActivity(), id, Toast.LENGTH_SHORT).show();
-            }
-        });
+        getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), id, Toast.LENGTH_SHORT).show());
     }
 }

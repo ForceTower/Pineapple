@@ -40,7 +40,7 @@ public class AllDisciplinesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         if (detailsList == null || detailsList.isEmpty()) {
             auxiliary.add("Não encontrado =/");
-            classesPerSemester.add(new ArrayList<SagresClassDetails>());
+            classesPerSemester.add(new ArrayList<>());
             notifyDataSetChanged();
             return;
         }
