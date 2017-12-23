@@ -46,7 +46,7 @@ public class NotificationCreator {
         Log.i(APP_TAG, "New message received. Creating notification...");
 
         //Sets the icon
-        Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_temp_launcher_round);
+        Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher_round);
         //Show a big text - Allow user to see a great part of the message
         NotificationCompat.BigTextStyle bigText = new NotificationCompat.BigTextStyle().bigText(message.getMessage());
 
@@ -60,7 +60,7 @@ public class NotificationCreator {
         //Create the notification
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, Constants.MESSAGES_CHANNEL)
                 .setAutoCancel(true)
-                .setSmallIcon(R.mipmap.ic_temp_launcher_round)
+                .setSmallIcon(R.mipmap.ic_launcher_round)
                 .setLargeIcon(largeIcon)
                 .setContentTitle(message.getClassName())
                 .setContentText(message.getMessage())
@@ -101,7 +101,7 @@ public class NotificationCreator {
         Log.i(APP_TAG, "Grade alteration, generation notification");
 
         //Sets the icon
-        Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_temp_launcher_round);
+        Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher_round);
         //Setup to open app when select the notification [Improve this to go strait to the message]
         Intent resultIntent = new Intent(context, LoginActivity.class);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
@@ -122,7 +122,7 @@ public class NotificationCreator {
         //Create the notification
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, Constants.MESSAGES_CHANNEL)
                 .setAutoCancel(true)
-                .setSmallIcon(R.mipmap.ic_temp_launcher_round)
+                .setSmallIcon(R.mipmap.ic_launcher_round)
                 .setLargeIcon(largeIcon)
                 .setStyle(bigText)
                 .setContentTitle(context.getString(R.string.grade_posted))
