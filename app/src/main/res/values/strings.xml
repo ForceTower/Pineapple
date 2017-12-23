@@ -166,4 +166,5 @@
     <string name="pref_detect_missed_auto">Auto missed class</string>
     <string name="pref_detect_missed_auto_disabled">App won\'t try to detect if you missed a class automatically</string>
     <string name="pref_detect_missed_auto_enabled">App will try to detect if you missed a class automatically</string>
+    <string name="days_and_classes">Days and Classes</string>
 </resources>

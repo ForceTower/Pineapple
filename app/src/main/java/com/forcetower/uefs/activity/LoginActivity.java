@@ -22,6 +22,8 @@ import com.forcetower.uefs.sagres_sdk.managers.SagresLoginManager;
 
 import okhttp3.Call;
 
+import static com.forcetower.uefs.Constants.APP_TAG;
+
 public class LoginActivity extends UEFSBaseActivity {
     private Button btn_login;
     private EditText et_username;
@@ -39,6 +41,7 @@ public class LoginActivity extends UEFSBaseActivity {
         if (!PrefUtils.getPrefs(this).contains("purge_profile_205")) {
             SagresPortalSDK.logout();
             PrefUtils.save(this, "purge_profile_205", false);
+            Log.i(APP_TAG, "Profile purged for update!");
         }
 
         btn_login = findViewById(R.id.btn_login);
@@ -95,7 +98,7 @@ public class LoginActivity extends UEFSBaseActivity {
         SagresLoginManager.getInstance().login(username, password, new SagresLoginManager.SagresLoginCallback() {
             @Override
             public void onSuccess() {
-                Log.i(Constants.APP_TAG, "LoginActivity::ParseSuccess()");
+                Log.i(APP_TAG, "LoginActivity::ParseSuccess()");
                 Intent intent = new Intent(LoginActivity.this, NConnectedActivity.class);
                 startActivity(intent);
                 finish();
@@ -104,11 +107,11 @@ public class LoginActivity extends UEFSBaseActivity {
             @Override
             public void onFailure(boolean failedConnection) {
                 if (failedConnection) {
-                    Log.i(Constants.APP_TAG, "LoginActivity::Network Error");
+                    Log.i(APP_TAG, "LoginActivity::Network Error");
                     returnUiToDefault(false);
                     runOnUiThread(() -> Toast.makeText(LoginActivity.this, R.string.connection_failed, Toast.LENGTH_SHORT).show());
                 } else {
-                    Log.i(Constants.APP_TAG, "LoginActivity::Invalid Login");
+                    Log.i(APP_TAG, "LoginActivity::Invalid Login");
                     returnUiToDefault(true);
                 }
             }

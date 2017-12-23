@@ -71,12 +71,13 @@
 
     <TextView
         android:id="@+id/about_app"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/login_progress"
         android:text="@string/click_to_know_about"
         android:textAlignment="center"
         android:fontFamily="@font/roboto_regular"
+        android:layout_centerHorizontal="true"
         android:textSize="14sp"
         android:onClick="about"
         android:textColor="@color/primaryText"/>

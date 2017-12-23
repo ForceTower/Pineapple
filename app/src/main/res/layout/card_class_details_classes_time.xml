@@ -2,7 +2,7 @@
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/card_grades"
+    android:id="@+id/card_classes_time"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="4dp"
@@ -14,24 +14,22 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/tv_grades"
+            android:id="@+id/tv_class_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:textAlignment="center"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
             android:textColor="@color/colorAccent"
             android:fontFamily="@font/roboto_medium"
-            android:text="@string/title_grades"/>
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/days_and_classes"/>
 
         <android.support.v7.widget.RecyclerView
-            android:layout_below="@id/tv_grades"
-            android:id="@+id/rv_discipline_grades"
+            android:id="@+id/rv_class_time"
+            android:layout_below="@id/tv_class_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         </android.support.v7.widget.RecyclerView>
-
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>

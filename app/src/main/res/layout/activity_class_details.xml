@@ -48,6 +48,7 @@
             <include android:id="@+id/missed_card" layout="@layout/card_class_details_misses"/>
             <include android:id="@+id/classes_pn_card" layout="@layout/card_class_details_prev_and_next"/>
             <include layout="@layout/card_class_details_grades"/>
+            <include android:id="@+id/class_day_and_time_card" layout="@layout/card_class_details_classes_time"/>
         </LinearLayout>
     </ScrollView>
 

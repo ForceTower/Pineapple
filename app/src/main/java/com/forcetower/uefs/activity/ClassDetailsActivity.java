@@ -3,6 +3,7 @@ package com.forcetower.uefs.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.activity.base.UEFSBaseActivity;
+import com.forcetower.uefs.adapters.ui.DaysAndClassesAdapter;
 import com.forcetower.uefs.adapters.ui.GradesAdapter;
 import com.forcetower.uefs.helpers.Utils;
 import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
@@ -59,6 +61,9 @@ public class ClassDetailsActivity extends UEFSBaseActivity {
     private TextView classGroup;
     //View References card grades
     private RecyclerView classGrades;
+    //View References card classes and day
+    private CardView cardViewClassesDay;
+    private RecyclerView classDayAndTime;
 
     private String semester;
     private String classCode;
@@ -116,6 +121,9 @@ public class ClassDetailsActivity extends UEFSBaseActivity {
         classGroup = findViewById(R.id.tv_class_group);
 
         classGrades = findViewById(R.id.rv_discipline_grades);
+
+        cardViewClassesDay = findViewById(R.id.class_day_and_time_card);
+        classDayAndTime = findViewById(R.id.rv_class_time);
 
         if (detailsGroup == null) {
             detailsGroup = new SagresClassGroup(null, null, null, null, null, null);
@@ -175,6 +183,17 @@ public class ClassDetailsActivity extends UEFSBaseActivity {
         classGrades.setLayoutManager(new LinearLayoutManager(this));
         classGrades.setAdapter(new GradesAdapter(this, grade));
         classGrades.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+
+
+        if (details != null && detailsGroup != null && !detailsGroup.isDraft()) {
+            cardViewClassesDay.setVisibility(View.VISIBLE);
+            classDayAndTime.setLayoutManager(new LinearLayoutManager(this));
+            classDayAndTime.setAdapter(new DaysAndClassesAdapter(this, detailsGroup.getClassTimeList()));
+            classDayAndTime.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        } else {
+            cardViewClassesDay.setVisibility(View.GONE);
+        }
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         if (Utils.isLollipop()) {
