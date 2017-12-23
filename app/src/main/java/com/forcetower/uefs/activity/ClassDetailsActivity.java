@@ -189,7 +189,6 @@ public class ClassDetailsActivity extends UEFSBaseActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-
     }
 
     @Override

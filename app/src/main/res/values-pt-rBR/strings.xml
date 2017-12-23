@@ -161,4 +161,7 @@
     <string name="that_s_embarrassing">Bem... Isso é constrangedor</string>
     <string name="classes">Aulas</string>
     <string name="all_classes">Todas as aulas</string>
+    <string name="pref_detect_missed_auto">Falta automática</string>
+    <string name="pref_detect_missed_auto_disabled">O aplicativo não irá tentar detectar se você faltou uma aula</string>
+    <string name="pref_detect_missed_auto_enabled">O aplicativo irá tentar detectar se você faltou uma aula</string>
 </resources>

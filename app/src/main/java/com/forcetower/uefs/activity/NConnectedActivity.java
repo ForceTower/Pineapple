@@ -84,7 +84,7 @@ public class NConnectedActivity extends UEFSBaseActivity implements NavigationDr
             }
         }
 
-        if (doubleBack || !PreferenceManager.getDefaultSharedPreferences(this).getBoolean("double_back", true)) {
+        if (doubleBack || !PreferenceManager.getDefaultSharedPreferences(this).getBoolean("double_back", false)) {
             super.onBackPressed();
             return;
         }

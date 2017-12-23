@@ -38,8 +38,8 @@ public class GradesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         created = new ArrayList<>();
 
         if (grades == null) {
-            created.add(new GradeView("Sem notas divulgadas"));
-            created.add(new GradeView("Você trancou essa matéria?"));
+            created.add(new GradeView("As notas desta matéria ainda não foram baixadas"));
+            created.add(new GradeView("Vá até notas e baixe todas elas :)"));
             created.add(new GradeView("Isso pode ser um erro! Me avise :)"));
             return;
         }

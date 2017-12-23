@@ -106,12 +106,7 @@ public class LoginActivity extends UEFSBaseActivity {
                 if (failedConnection) {
                     Log.i(Constants.APP_TAG, "LoginActivity::Network Error");
                     returnUiToDefault(false);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(LoginActivity.this, R.string.connection_failed, Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    runOnUiThread(() -> Toast.makeText(LoginActivity.this, R.string.connection_failed, Toast.LENGTH_SHORT).show());
                 } else {
                     Log.i(Constants.APP_TAG, "LoginActivity::Invalid Login");
                     returnUiToDefault(true);
@@ -127,20 +122,17 @@ public class LoginActivity extends UEFSBaseActivity {
 
     private void returnUiToDefault(final boolean error) {
         currentCall = null;
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                btn_login.setClickable(true);
-                btn_login.setAlpha(1f);
-                btn_login.setText(R.string.login_btn);
-                progressBar.setVisibility(View.INVISIBLE);
-                et_username.setEnabled(true);
-                et_password.setEnabled(true);
-                Utils.fadeIn(aboutApp, LoginActivity.this);
+        runOnUiThread(() -> {
+            btn_login.setClickable(true);
+            btn_login.setAlpha(1f);
+            btn_login.setText(R.string.login_btn);
+            progressBar.setVisibility(View.INVISIBLE);
+            et_username.setEnabled(true);
+            et_password.setEnabled(true);
+            Utils.fadeIn(aboutApp, LoginActivity.this);
 
-                if (error)
-                    et_password.setError(getString(R.string.incorrect_credentials));
-            }
+            if (error)
+                et_password.setError(getString(R.string.incorrect_credentials));
         });
     }
 

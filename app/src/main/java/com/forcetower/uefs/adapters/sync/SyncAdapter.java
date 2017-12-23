@@ -53,12 +53,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         if (!SagresPortalSDK.isSdkInitialized()) {
             Log.i(Constants.APP_TAG, "SDK not initialized on service context");
             SagresPortalSDK.setContext(getContext());
-            SagresPortalSDK.initializeSdk(getContext(), new SagresPortalSDK.SagresSDKInitializationCallback() {
-                @Override
-                public void onFinishInit() {
-                    fetchData();
-                }
-            });
+            SagresPortalSDK.initializeSdk(getContext(), this::fetchData);
         } else {
             fetchData();
         }
