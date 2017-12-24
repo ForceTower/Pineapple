@@ -21,8 +21,10 @@ public class Utils {
         StringBuilder sb = new StringBuilder();
 
         for (String anArr : arr) {
-            if (anArr.length() < 3)
+            if (anArr.length() < 3) {
+                sb.append(anArr).append(" ");
                 continue;
+            }
 
             sb.append(Character.toUpperCase(anArr.charAt(0)))
                     .append(anArr.substring(1)).append(" ");
