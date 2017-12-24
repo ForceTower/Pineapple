@@ -28,7 +28,7 @@
             android:layout_toRightOf="@id/sender_icon"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            android:fontFamily="@font/roboto_bold"
+            android:fontFamily="@font/roboto_medium"
             android:textColor="@color/primaryText"
             android:layout_toLeftOf="@id/date_received"
             android:layout_toStartOf="@id/date_received"
