@@ -38,6 +38,7 @@ public class DisciplinesFragment extends Fragment {
         rvAllDisciplines = view.findViewById(R.id.rv_all_disciplines);
 
         setupAllDisciplines();
+        setHasOptionsMenu(true);
         return view;
     }
 

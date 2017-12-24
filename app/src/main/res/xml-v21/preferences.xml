@@ -83,6 +83,12 @@
             android:summaryOn="@string/pref_double_back_on"
             android:summaryOff="@string/pref_double_back_off"/>
 
+        <SwitchPreference
+            android:icon="@drawable/ic_brush_accent_30dp"
+            android:key="lucas_layout"
+            android:defaultValue="true"
+            android:title="@string/pref_use_new_layout"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory

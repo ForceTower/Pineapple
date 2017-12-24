@@ -2,6 +2,7 @@ package com.forcetower.uefs.view.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
@@ -13,6 +14,7 @@ import com.forcetower.uefs.helpers.PrefUtils;
 import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
 import com.forcetower.uefs.sagres_sdk.domain.SagresAccess;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
+import com.forcetower.uefs.view.connected.ConnectedActivity;
 
 import static com.forcetower.uefs.Constants.APP_TAG;
 
@@ -93,7 +95,10 @@ public class LoginActivity extends UEFSBaseActivity implements LoginViewCallback
     @Override
     public void onLoginSuccess() {
         if (SagresAccess.getCurrentAccess() != null && SagresProfile.getCurrentProfile() != null) {
-            Intent intent = new Intent(LoginActivity.this, NConnectedActivity.class);
+            Intent intent = new Intent(LoginActivity.this, ConnectedActivity.class);
+            if (!PreferenceManager.getDefaultSharedPreferences(this).getBoolean("lucas_layout", true))
+                intent = new Intent(LoginActivity.this, NConnectedActivity.class);
+
             startActivity(intent);
             finish();
         }

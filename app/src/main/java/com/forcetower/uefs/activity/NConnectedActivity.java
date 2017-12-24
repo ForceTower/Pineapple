@@ -74,14 +74,14 @@ public class NConnectedActivity extends UEFSBaseActivity implements NavigationDr
         if (navigationDrawerFragment != null && !navigationDrawerFragment.isDetached() && navigationDrawerFragment.isVisible()) {
             if (navigationDrawerFragment.onBackPressed())
                 return;
+        }
 
-            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-            if (!(fragment instanceof ScheduleFragment)) {
-                 if (Utils.isLollipop()) fragment.setExitTransition(new Fade(Fade.OUT));
-                switchToFragment(ScheduleFragment.class, true);
-                navigationDrawerFragment.selectItem(0);
-                return;
-            }
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        if (!(fragment instanceof ScheduleFragment)) {
+            if (Utils.isLollipop()) fragment.setExitTransition(new Fade(Fade.OUT));
+            switchToFragment(ScheduleFragment.class, true);
+            navigationDrawerFragment.selectItem(0);
+            return;
         }
 
         if (doubleBack || !PreferenceManager.getDefaultSharedPreferences(this).getBoolean("double_back", false)) {

@@ -157,4 +157,7 @@
     <string name="suggestions">Sugestões</string>
     <string name="failed_connect_to_portal">Conexão com o portal falhou</string>
     <string name="finished">Concluído</string>
+    <string name="drawer_open">Abrir</string>
+    <string name="drawer_close">Fechar</string>
+    <string name="pref_use_new_layout">Usar novo layout</string>
 </resources>
