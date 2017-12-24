@@ -63,20 +63,17 @@ public class SagresPortalSDK {
         applicationContext = context;
 
         //TODO This will be moved to a new section where all this stuff can happen syncronous
-        FutureTask<Void> futureTask = new FutureTask<>(new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                SagresAccessManager.getInstance().loadCurrentAccess();
-                SagresProfileManager.getInstance().loadCurrentProfile();
+        FutureTask<Void> futureTask = new FutureTask<>(() -> {
+            SagresAccessManager.getInstance().loadCurrentAccess();
+            SagresProfileManager.getInstance().loadCurrentProfile();
 
-                if (SagresAccess.getCurrentAccess() != null && SagresProfile.getCurrentProfile() == null) {
-                    Log.i(SAGRES_SDK_TAG, "Attempt to load user profile");
-                    SagresProfile.fetchProfileForCurrentAccess();
-                }
-
-                callback.onFinishInit();
-                return null;
+            if (SagresAccess.getCurrentAccess() != null && SagresProfile.getCurrentProfile() == null) {
+                Log.i(SAGRES_SDK_TAG, "Attempt to load user profile");
+                SagresProfile.fetchProfileForCurrentAccess();
             }
+
+            callback.onFinishInit();
+            return null;
         });
 
         getExecutor().execute(futureTask);
