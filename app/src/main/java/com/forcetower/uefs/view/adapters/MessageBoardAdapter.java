@@ -1,4 +1,4 @@
-package com.forcetower.uefs.adapters.ui;
+package com.forcetower.uefs.view.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -18,18 +18,13 @@ import java.util.List;
  */
 
 public class MessageBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
     private Context context;
     private List<SagresMessage> messages;
-    private OnMessageClickListener onMessageClickListener;
+
     public MessageBoardAdapter(Context context, List<SagresMessage> messages) {
         this.context = context;
         this.messages = messages;
         notifyDataSetChanged();
-    }
-
-    public void setOnMessageClickListener(OnMessageClickListener onMessageClickListener) {
-        this.onMessageClickListener = onMessageClickListener;
     }
 
     @Override
@@ -83,7 +78,7 @@ public class MessageBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         void onMessageClicked(View view, int position, SagresMessage message);
     }
 
-    public class MessageHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class MessageHolder extends RecyclerView.ViewHolder {
         TextView tv_class_name;
         TextView tv_message;
         TextView tv_sender;
@@ -92,21 +87,12 @@ public class MessageBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         MessageHolder(View itemView) {
             super(itemView);
-            //itemView.setOnClickListener(this);
 
             tv_class_name = itemView.findViewById(R.id.cod_class);
             tv_message = itemView.findViewById(R.id.message);
             tv_sender = itemView.findViewById(R.id.sender);
             tv_date_received = itemView.findViewById(R.id.date_received);
             iv_icon = itemView.findViewById(R.id.sender_icon);
-        }
-
-        @Override
-        public void onClick(View view) {
-            if (onMessageClickListener != null) {
-                int position = getAdapterPosition();
-                onMessageClickListener.onMessageClicked(view, position, getItem(position));
-            }
         }
     }
 }

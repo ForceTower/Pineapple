@@ -12,7 +12,7 @@ import android.view.MenuItem;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.view.UEFSBaseActivity;
-import com.forcetower.uefs.adapters.ui.ClassesAdapter;
+import com.forcetower.uefs.view.adapters.ClassesAdapter;
 import com.forcetower.uefs.helpers.Utils;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassItem;
 

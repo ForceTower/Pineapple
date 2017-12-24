@@ -16,8 +16,8 @@ import android.view.ViewGroup;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.view.settings.SettingsActivity;
-import com.forcetower.uefs.adapters.ui.NavDrawerItem;
-import com.forcetower.uefs.adapters.ui.NavigationDrawerAdapter;
+import com.forcetower.uefs.view.adapters.NavDrawerItem;
+import com.forcetower.uefs.view.adapters.NavigationDrawerAdapter;
 import com.forcetower.uefs.helpers.PrefUtils;
 
 import java.util.ArrayList;

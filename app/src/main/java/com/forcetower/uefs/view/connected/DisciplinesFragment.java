@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.view.class_details.ClassDetailsActivity;
-import com.forcetower.uefs.adapters.ui.AllDisciplinesAdapter;
+import com.forcetower.uefs.view.adapters.AllDisciplinesAdapter;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassDetails;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassGroup;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;

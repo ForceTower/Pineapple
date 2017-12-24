@@ -20,8 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.activity.MessageActivity;
-import com.forcetower.uefs.adapters.ui.MessageBoardAdapter;
+import com.forcetower.uefs.view.adapters.MessageBoardAdapter;
 import com.forcetower.uefs.helpers.Utils;
 import com.forcetower.uefs.sagres_sdk.domain.SagresMessage;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
@@ -43,12 +42,6 @@ public class MessageBoardFragment extends Fragment {
     private View rootView;
     private boolean canRefresh = true;
     private Handler handler;
-    private MessageBoardAdapter.OnMessageClickListener onMessageClickListener = new MessageBoardAdapter.OnMessageClickListener() {
-        @Override
-        public void onMessageClicked(View view, int position, SagresMessage message) {
-            MessageActivity.startActivity(context, message);
-        }
-    };
     private Runnable refreshDelay = () -> canRefresh = true;
     private SwipeRefreshLayout.OnRefreshListener refreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
@@ -148,7 +141,6 @@ public class MessageBoardFragment extends Fragment {
         List<SagresMessage> messages = SagresProfile.getCurrentProfile().getMessages();
 
         messageAdapter = new MessageBoardAdapter(context, messages);
-        messageAdapter.setOnMessageClickListener(onMessageClickListener);
 
         if (Utils.isLollipop()) relativeLayout.setElevation(2);
         relativeLayout.setBackgroundResource(android.R.color.white);

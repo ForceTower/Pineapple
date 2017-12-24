@@ -20,8 +20,8 @@ import android.widget.Toast;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.view.UEFSBaseActivity;
-import com.forcetower.uefs.adapters.ui.DaysAndClassesAdapter;
-import com.forcetower.uefs.adapters.ui.GradesAdapter;
+import com.forcetower.uefs.view.adapters.DaysAndClassesAdapter;
+import com.forcetower.uefs.view.adapters.GradesAdapter;
 import com.forcetower.uefs.helpers.Utils;
 import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassDetails;

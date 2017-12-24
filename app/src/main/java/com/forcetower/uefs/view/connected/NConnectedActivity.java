@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.view.UEFSBaseActivity;
-import com.forcetower.uefs.adapters.ui.NavDrawerItem;
+import com.forcetower.uefs.view.adapters.NavDrawerItem;
 import com.forcetower.uefs.helpers.SyncUtils;
 import com.forcetower.uefs.helpers.Utils;
 
