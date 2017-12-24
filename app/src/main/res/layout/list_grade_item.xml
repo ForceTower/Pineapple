@@ -15,6 +15,11 @@
         android:textSize="14sp"
         android:textColor="@color/primaryText"
         android:fontFamily="@font/roboto_regular"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@id/tv_grade"
+        android:maxLines="1"
+        android:layout_toStartOf="@id/tv_grade"
         tools:text="AV01 - Avaliação de Personalidade"/>
 
     <TextView

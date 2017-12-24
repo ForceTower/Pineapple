@@ -123,7 +123,6 @@ public class DayScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         TextView tv_class_name;
         TextView tv_class_time;
         TextView tv_class_location;
-        Button btn_details;
 
         ClassHolder(View itemView) {
             super(itemView);
@@ -131,7 +130,6 @@ public class DayScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             tv_class_name = itemView.findViewById(R.id.tv_class_name);
             tv_class_time = itemView.findViewById(R.id.tv_class_time);
             tv_class_location = itemView.findViewById(R.id.tv_class_location);
-            btn_details = itemView.findViewById(R.id.btn_open);
         }
 
         @Override
