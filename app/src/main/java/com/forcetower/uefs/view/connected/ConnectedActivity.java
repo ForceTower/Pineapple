@@ -70,6 +70,7 @@ public class ConnectedActivity extends UEFSBaseActivity {
             }
 
             switchToFragment(ScheduleFragment.class);
+            changeToolbarText(R.string.title_schedule);
         }
     }
 

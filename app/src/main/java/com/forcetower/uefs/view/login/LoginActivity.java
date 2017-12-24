@@ -3,6 +3,7 @@ package com.forcetower.uefs.view.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
@@ -99,7 +100,8 @@ public class LoginActivity extends UEFSBaseActivity implements LoginViewCallback
             if (!PreferenceManager.getDefaultSharedPreferences(this).getBoolean("lucas_layout", true))
                 intent = new Intent(LoginActivity.this, NConnectedActivity.class);
 
-            startActivity(intent);
+            Bundle bundle = ActivityOptionsCompat.makeCustomAnimation(this, android.R.anim.fade_in, android.R.anim.fade_out).toBundle();
+            startActivity(intent, bundle);
             finish();
         }
     }
