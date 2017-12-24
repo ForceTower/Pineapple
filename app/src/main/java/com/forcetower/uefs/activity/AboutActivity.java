@@ -7,11 +7,19 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.helpers.Utils;
+import com.mikepenz.aboutlibraries.Libs;
+import com.mikepenz.aboutlibraries.LibsBuilder;
+
+import butterknife.OnClick;
+
+import static com.forcetower.uefs.Constants.APP_TAG;
 
 public class AboutActivity extends AppCompatActivity {
 
@@ -52,5 +60,13 @@ public class AboutActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void thirdParty(View view) {
+        new LibsBuilder()
+                .withActivityStyle(Libs.ActivityStyle.LIGHT)
+                .withAboutIconShown(true)
+                .withAboutVersionShown(true)
+                .start(this);
     }
 }

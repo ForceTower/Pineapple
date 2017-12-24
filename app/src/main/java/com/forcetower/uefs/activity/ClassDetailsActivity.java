@@ -183,6 +183,7 @@ public class ClassDetailsActivity extends UEFSBaseActivity {
         classGrades.setLayoutManager(new LinearLayoutManager(this));
         classGrades.setAdapter(new GradesAdapter(this, grade));
         classGrades.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        classGrades.setNestedScrollingEnabled(false);
 
 
         if (details != null && detailsGroup != null && !detailsGroup.isDraft()) {
@@ -190,6 +191,7 @@ public class ClassDetailsActivity extends UEFSBaseActivity {
             classDayAndTime.setLayoutManager(new LinearLayoutManager(this));
             classDayAndTime.setAdapter(new DaysAndClassesAdapter(this, detailsGroup.getClassTimeList()));
             classDayAndTime.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+            classDayAndTime.setNestedScrollingEnabled(false);
         } else {
             cardViewClassesDay.setVisibility(View.GONE);
         }

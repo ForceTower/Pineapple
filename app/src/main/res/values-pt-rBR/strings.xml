@@ -160,4 +160,6 @@
     <string name="drawer_open">Abrir</string>
     <string name="drawer_close">Fechar</string>
     <string name="pref_use_new_layout">Usar novo layout</string>
+    <string name="third_party_licenses_btn">Licenças de código aberto</string>
+    <string name="pref_title_about_and_feedback">Sobre e Feedback</string>
 </resources>

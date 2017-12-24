@@ -164,4 +164,5 @@
     <string name="drawer_close">Close Drawer</string>
     <string name="pref_use_new_layout">Use new layout</string>
     <string name="pref_title_about_and_feedback">About and Feedback</string>
+    <string name="third_party_licenses_btn">Third party licenses</string>
 </resources>

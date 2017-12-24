@@ -259,6 +259,17 @@
                 android:textColor="@color/primaryText"
                 android:textSize="14sp"
                 android:text="@string/credits_string"/>
+
+            <Button
+                android:id="@+id/third_party_licenses"
+                android:onClick="thirdParty"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_margin="16dp"
+                android:background="@color/colorAccent"
+                android:textColor="@color/white"
+                android:text="@string/third_party_licenses_btn"
+                android:fontFamily="@font/roboto_regular"/>
         </LinearLayout>
 
     </ScrollView>
