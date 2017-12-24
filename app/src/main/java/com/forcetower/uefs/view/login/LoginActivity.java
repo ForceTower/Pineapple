@@ -30,7 +30,7 @@ public class LoginActivity extends UEFSBaseActivity implements LoginViewCallback
 
         if (!PrefUtils.getPrefs(this).contains("purge_profile_205")) {
             SagresPortalSDK.logout();
-            PrefUtils.save(this, "purge_profile_205", false);
+            PrefUtils.save(this, "purge_profile_205", true);
             Log.i(APP_TAG, "Profile purged for update!");
         }
 

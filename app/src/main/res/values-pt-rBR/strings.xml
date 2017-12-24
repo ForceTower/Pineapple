@@ -106,7 +106,7 @@
     <string name="about_app_bugs_title">Bugs</string>
     <string name="final_score_text">Média Final</string>
     <string name="score_is">Score: %1$s</string>
-    <string name="connection_failed">Conexão falhou. Se você está na UEFS, tente colocar o proxy 10.65.16.2 porta 3128</string>
+    <string name="connection_failed">Conexão falhou. Verifique as suas informações ou a conexão e tente novamente</string>
     <string name="retrying_connection">Tentando conexão %1$s de 3</string>
     <string name="grades_not_downloaded_yet">As notas ainda não foram baixadas</string>
     <string name="grades_image">Imagem Notas</string>

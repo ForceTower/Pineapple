@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.sagres_sdk.managers.SagresProfileManager;
 import com.forcetower.uefs.view.class_details.ClassDetailsActivity;
 import com.forcetower.uefs.view.adapters.DayScheduleAdapter;
 import com.forcetower.uefs.helpers.Utils;
@@ -57,6 +58,11 @@ public class ScheduleFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         context = getActivity();
+
+        if (SagresProfile.getCurrentProfile() == null) {
+            SagresProfileManager.getInstance().loadCurrentProfile();
+        }
+
         HashMap<String, List<SagresClassDay>> classPerDay = SagresProfile.getCurrentProfile().getClasses();
         System.out.println(classPerDay);
         if (classPerDay == null || classPerDay.isEmpty()) {
