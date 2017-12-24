@@ -1,12 +1,12 @@
 package com.forcetower.uefs.sagres_sdk.managers;
 
+import android.support.annotation.NonNull;
+
 import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
 import com.forcetower.uefs.sagres_sdk.domain.SagresAccess;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
 import com.forcetower.uefs.sagres_sdk.exception.SagresLoginException;
 import com.forcetower.uefs.sagres_sdk.utility.SagresUtility;
-
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by João Paulo on 18/11/2017.
@@ -24,7 +24,7 @@ public class SagresLoginManager {
         return instance;
     }
 
-    public void login(final String username, final String password, @NotNull final SagresLoginCallback callback) {
+    public void login(final String username, final String password, @NonNull final SagresLoginCallback callback) {
         SagresPortalSDK.getExecutor().execute(() -> {
             final SagresAccess access = createAccess(username, password);
             SagresProfile.fetchProfileForSagresAccess(access, new SagresUtility.AllInformationFetchWithCacheCallback() {
