@@ -8,8 +8,8 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.activity.NConnectedActivity;
-import com.forcetower.uefs.activity.base.UEFSBaseActivity;
+import com.forcetower.uefs.view.connected.NConnectedActivity;
+import com.forcetower.uefs.view.UEFSBaseActivity;
 import com.forcetower.uefs.exception.LoginException;
 import com.forcetower.uefs.helpers.PrefUtils;
 import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;

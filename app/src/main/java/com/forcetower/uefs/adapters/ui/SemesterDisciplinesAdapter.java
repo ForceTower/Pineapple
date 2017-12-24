@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.fragments.DisciplinesFragment;
+import com.forcetower.uefs.view.connected.DisciplinesFragment;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassDetails;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassGroup;
 

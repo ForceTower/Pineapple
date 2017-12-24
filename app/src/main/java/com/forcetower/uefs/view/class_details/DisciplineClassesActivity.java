@@ -1,4 +1,4 @@
-package com.forcetower.uefs.activity;
+package com.forcetower.uefs.view.class_details;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +11,7 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.activity.base.UEFSBaseActivity;
+import com.forcetower.uefs.view.UEFSBaseActivity;
 import com.forcetower.uefs.adapters.ui.ClassesAdapter;
 import com.forcetower.uefs.helpers.Utils;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassItem;

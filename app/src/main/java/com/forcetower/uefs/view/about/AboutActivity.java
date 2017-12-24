@@ -1,4 +1,4 @@
-package com.forcetower.uefs.activity;
+package com.forcetower.uefs.view.about;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -16,10 +15,6 @@ import com.forcetower.uefs.R;
 import com.forcetower.uefs.helpers.Utils;
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
-
-import butterknife.OnClick;
-
-import static com.forcetower.uefs.Constants.APP_TAG;
 
 public class AboutActivity extends AppCompatActivity {
 

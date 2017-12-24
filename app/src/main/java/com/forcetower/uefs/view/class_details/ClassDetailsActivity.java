@@ -1,4 +1,4 @@
-package com.forcetower.uefs.activity;
+package com.forcetower.uefs.view.class_details;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.activity.base.UEFSBaseActivity;
+import com.forcetower.uefs.view.UEFSBaseActivity;
 import com.forcetower.uefs.adapters.ui.DaysAndClassesAdapter;
 import com.forcetower.uefs.adapters.ui.GradesAdapter;
 import com.forcetower.uefs.helpers.Utils;

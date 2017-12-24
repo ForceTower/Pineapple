@@ -1,4 +1,4 @@
-package com.forcetower.uefs.fragments;
+package com.forcetower.uefs.view.settings;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,8 +12,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.activity.AboutActivity;
-import com.forcetower.uefs.activity.SuggestionActivity;
+import com.forcetower.uefs.view.about.AboutActivity;
+import com.forcetower.uefs.view.suggestion.SuggestionActivity;
 import com.forcetower.uefs.helpers.SyncUtils;
 import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;

@@ -1,4 +1,4 @@
-package com.forcetower.uefs.fragments;
+package com.forcetower.uefs.view.connected;
 
 import android.content.Context;
 import android.os.Bundle;

@@ -11,7 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.fragments.DisciplinesFragment;
+import com.forcetower.uefs.view.connected.DisciplinesFragment;
 import com.forcetower.uefs.helpers.Utils;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassDetails;
 

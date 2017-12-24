@@ -7,7 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/light_gray"
     android:animateLayoutChanges="true"
-    tools:context="com.forcetower.uefs.activity.ClassDetailsActivity">
+    tools:context="com.forcetower.uefs.view.class_details.ClassDetailsActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"

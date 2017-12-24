@@ -40,7 +40,7 @@
 
         <fragment
             android:id="@+id/navigation_drawer_fragment"
-            class="com.forcetower.uefs.fragments.NavigationDrawerFragment"
+            class="com.forcetower.uefs.view.connected.NavigationDrawerFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:layout="@layout/fragment_navigation_drawer"/>

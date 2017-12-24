@@ -1,4 +1,4 @@
-package com.forcetower.uefs.fragments;
+package com.forcetower.uefs.view.connected;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -15,7 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.activity.SettingsActivity;
+import com.forcetower.uefs.view.settings.SettingsActivity;
 import com.forcetower.uefs.adapters.ui.NavDrawerItem;
 import com.forcetower.uefs.adapters.ui.NavigationDrawerAdapter;
 import com.forcetower.uefs.helpers.PrefUtils;

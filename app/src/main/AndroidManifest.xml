@@ -32,7 +32,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.NConnectedActivity"
+            android:name=".view.connected.NConnectedActivity"
             android:theme="@style/AppTheme.NavigationDrawer"
             android:windowSoftInputMode="adjustPan"/>
 
@@ -54,14 +54,14 @@
         <activity android:name=".activity.MessageActivity">
         </activity>
         <activity
-            android:name=".activity.SettingsActivity"
+            android:name=".view.settings.SettingsActivity"
             android:theme="@style/AppTheme.PreferencesStyle">
         </activity>
-        <activity android:name=".activity.ClassDetailsActivity">
+        <activity android:name=".view.class_details.ClassDetailsActivity">
         </activity>
-        <activity android:name=".activity.DisciplineClassesActivity">
+        <activity android:name=".view.class_details.DisciplineClassesActivity">
         </activity>
-        <activity android:name=".activity.AboutActivity">
+        <activity android:name=".view.about.AboutActivity">
         </activity>
 
         <service
@@ -93,7 +93,7 @@
             android:label="@string/sagres_sync"
             android:syncable="true"/>
 
-        <activity android:name=".activity.SuggestionActivity">
+        <activity android:name=".view.suggestion.SuggestionActivity">
         </activity>
     </application>
 

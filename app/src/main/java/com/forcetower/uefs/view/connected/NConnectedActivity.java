@@ -1,4 +1,4 @@
-package com.forcetower.uefs.activity;
+package com.forcetower.uefs.view.connected;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,14 +14,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.activity.base.UEFSBaseActivity;
+import com.forcetower.uefs.view.UEFSBaseActivity;
 import com.forcetower.uefs.adapters.ui.NavDrawerItem;
-import com.forcetower.uefs.fragments.CalendarFragment;
-import com.forcetower.uefs.fragments.DisciplinesFragment;
-import com.forcetower.uefs.fragments.GradesFragment;
-import com.forcetower.uefs.fragments.MessageBoardFragment;
-import com.forcetower.uefs.fragments.NavigationDrawerFragment;
-import com.forcetower.uefs.fragments.ScheduleFragment;
 import com.forcetower.uefs.helpers.SyncUtils;
 import com.forcetower.uefs.helpers.Utils;
 

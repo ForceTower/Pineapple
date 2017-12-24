@@ -1,4 +1,4 @@
-package com.forcetower.uefs.fragments;
+package com.forcetower.uefs.view.connected;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.activity.ClassDetailsActivity;
+import com.forcetower.uefs.view.class_details.ClassDetailsActivity;
 import com.forcetower.uefs.adapters.ui.DayScheduleAdapter;
 import com.forcetower.uefs.helpers.Utils;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassDay;

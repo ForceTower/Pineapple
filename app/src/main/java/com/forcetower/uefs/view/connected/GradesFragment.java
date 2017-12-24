@@ -1,4 +1,4 @@
-package com.forcetower.uefs.fragments;
+package com.forcetower.uefs.view.connected;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

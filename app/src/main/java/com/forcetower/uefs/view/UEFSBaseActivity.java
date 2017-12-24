@@ -1,4 +1,4 @@
-package com.forcetower.uefs.activity.base;
+package com.forcetower.uefs.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

@@ -1,4 +1,4 @@
-package com.forcetower.uefs.fragments;
+package com.forcetower.uefs.view.connected;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.activity.ClassDetailsActivity;
+import com.forcetower.uefs.view.class_details.ClassDetailsActivity;
 import com.forcetower.uefs.adapters.ui.AllDisciplinesAdapter;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassDetails;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassGroup;
