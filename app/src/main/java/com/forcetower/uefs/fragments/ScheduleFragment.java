@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.activity.ClassDetailsActivity;
 import com.forcetower.uefs.adapters.ui.DayScheduleAdapter;

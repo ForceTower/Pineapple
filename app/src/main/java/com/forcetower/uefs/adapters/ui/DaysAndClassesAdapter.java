@@ -8,11 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.activity.ClassDetailsActivity;
 import com.forcetower.uefs.helpers.Utils;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassTime;
-import com.forcetower.uefs.sagres_sdk.utility.SagresDayUtils;
-import com.forcetower.uefs.sagres_sdk.utility.SagresUtility;
 
 import java.util.ArrayList;
 import java.util.List;

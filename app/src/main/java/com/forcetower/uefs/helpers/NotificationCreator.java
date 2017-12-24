@@ -16,10 +16,10 @@ import android.util.Log;
 
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.view.login.LoginActivity;
 import com.forcetower.uefs.sagres_sdk.domain.GradeInfo;
 import com.forcetower.uefs.sagres_sdk.domain.SagresGrade;
 import com.forcetower.uefs.sagres_sdk.domain.SagresMessage;
+import com.forcetower.uefs.view.login.LoginActivity;
 
 import static com.forcetower.uefs.Constants.APP_TAG;
 

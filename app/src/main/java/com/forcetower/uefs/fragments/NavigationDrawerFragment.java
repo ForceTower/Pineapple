@@ -15,9 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.activity.AboutActivity;
 import com.forcetower.uefs.activity.SettingsActivity;
-import com.forcetower.uefs.activity.SuggestionActivity;
 import com.forcetower.uefs.adapters.ui.NavDrawerItem;
 import com.forcetower.uefs.adapters.ui.NavigationDrawerAdapter;
 import com.forcetower.uefs.helpers.PrefUtils;

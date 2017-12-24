@@ -10,7 +10,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -25,9 +24,6 @@ import com.forcetower.uefs.fragments.NavigationDrawerFragment;
 import com.forcetower.uefs.fragments.ScheduleFragment;
 import com.forcetower.uefs.helpers.SyncUtils;
 import com.forcetower.uefs.helpers.Utils;
-import com.forcetower.uefs.sagres_sdk.managers.SagresProfileManager;
-
-import static com.forcetower.uefs.Constants.APP_TAG;
 
 /**
  * Created by João Paulo on 29/11/2017.

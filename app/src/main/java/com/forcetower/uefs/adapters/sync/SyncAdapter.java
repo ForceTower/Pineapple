@@ -21,7 +21,6 @@ import com.forcetower.uefs.sagres_sdk.domain.SagresGrade;
 import com.forcetower.uefs.sagres_sdk.domain.SagresMessage;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
 import com.forcetower.uefs.sagres_sdk.exception.SagresInfoFetchException;
-import com.forcetower.uefs.sagres_sdk.managers.SagresProfileManager;
 import com.forcetower.uefs.sagres_sdk.utility.SagresUtility;
 
 import java.util.ArrayList;

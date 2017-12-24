@@ -11,7 +11,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,16 +23,12 @@ import com.forcetower.uefs.R;
 import com.forcetower.uefs.activity.MessageActivity;
 import com.forcetower.uefs.adapters.ui.MessageBoardAdapter;
 import com.forcetower.uefs.helpers.Utils;
-import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
 import com.forcetower.uefs.sagres_sdk.domain.SagresMessage;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
 import com.forcetower.uefs.sagres_sdk.exception.SagresInfoFetchException;
-import com.forcetower.uefs.sagres_sdk.managers.SagresProfileManager;
 import com.forcetower.uefs.sagres_sdk.utility.SagresUtility;
 
 import java.util.List;
-
-import static com.forcetower.uefs.Constants.APP_TAG;
 
 /**
  * Created by João Paulo on 18/11/2017.

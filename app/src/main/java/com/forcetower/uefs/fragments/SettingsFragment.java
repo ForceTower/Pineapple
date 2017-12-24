@@ -14,15 +14,12 @@ import android.widget.Toast;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.activity.AboutActivity;
 import com.forcetower.uefs.activity.SuggestionActivity;
-import com.forcetower.uefs.view.login.LoginActivity;
 import com.forcetower.uefs.helpers.SyncUtils;
 import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
-import com.forcetower.uefs.sagres_sdk.domain.SagresGrade;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
-import com.forcetower.uefs.sagres_sdk.domain.SagresSemester;
+import com.forcetower.uefs.view.login.LoginActivity;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener, Preference.OnPreferenceClickListener {
 
