@@ -1,31 +1,18 @@
-package com.forcetower.uefs.activity;
+package com.forcetower.uefs.view.login;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.activity.NConnectedActivity;
 import com.forcetower.uefs.activity.base.UEFSBaseActivity;
-import com.forcetower.uefs.activity.interfaces.LoginViewCallback;
 import com.forcetower.uefs.exception.LoginException;
-import com.forcetower.uefs.fragments.ConnectingFragment;
-import com.forcetower.uefs.fragments.LoginFormFragment;
 import com.forcetower.uefs.helpers.PrefUtils;
-import com.forcetower.uefs.helpers.Utils;
 import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
 import com.forcetower.uefs.sagres_sdk.domain.SagresAccess;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
-import com.forcetower.uefs.sagres_sdk.managers.SagresLoginManager;
-
-import okhttp3.Call;
 
 import static com.forcetower.uefs.Constants.APP_TAG;
 

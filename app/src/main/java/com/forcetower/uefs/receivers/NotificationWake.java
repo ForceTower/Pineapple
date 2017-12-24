@@ -12,7 +12,7 @@ import android.util.Log;
 
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.activity.LoginActivity;
+import com.forcetower.uefs.view.login.LoginActivity;
 
 /**
  * Created by João Paulo on 11/11/2017.

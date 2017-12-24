@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.activity.LoginActivity;
+import com.forcetower.uefs.view.login.LoginActivity;
 import com.forcetower.uefs.helpers.SyncUtils;
 import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
 import com.forcetower.uefs.sagres_sdk.domain.SagresGrade;
@@ -94,17 +94,14 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         return true;
     }
 
-    private Preference.OnPreferenceClickListener resetGradesListener = new Preference.OnPreferenceClickListener() {
-        @Override
-        public boolean onPreferenceClick(Preference preference) {
-            if (SagresProfile.getCurrentProfile() == null)
-                return true;
-
-            SagresProfile.getCurrentProfile().setAllSemestersGrades(new HashMap<SagresSemester, List<SagresGrade>>());
-            SagresProfile.saveProfile();
-            if (getActivity()!= null)
-                Toast.makeText(getActivity(), R.string.grades_cleared, Toast.LENGTH_SHORT).show();
+    private Preference.OnPreferenceClickListener resetGradesListener = preference -> {
+        if (SagresProfile.getCurrentProfile() == null)
             return true;
-        }
+
+        SagresProfile.getCurrentProfile().setAllSemestersGrades(new HashMap<>());
+        SagresProfile.saveProfile();
+        if (getActivity()!= null)
+            Toast.makeText(getActivity(), R.string.grades_cleared, Toast.LENGTH_SHORT).show();
+        return true;
     };
 }

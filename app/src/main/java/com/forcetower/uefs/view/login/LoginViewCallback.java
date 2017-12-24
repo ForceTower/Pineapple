@@ -1,4 +1,4 @@
-package com.forcetower.uefs.activity.interfaces;
+package com.forcetower.uefs.view.login;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
