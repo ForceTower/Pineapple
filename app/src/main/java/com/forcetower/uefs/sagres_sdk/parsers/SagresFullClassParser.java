@@ -3,6 +3,7 @@ package com.forcetower.uefs.sagres_sdk.parsers;
 import android.util.Log;
 import android.util.Pair;
 
+import com.forcetower.uefs.helpers.Utils;
 import com.forcetower.uefs.sagres_sdk.SagresConstants;
 import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
 import com.forcetower.uefs.sagres_sdk.domain.SagresAccess;
@@ -12,7 +13,6 @@ import com.forcetower.uefs.sagres_sdk.domain.SagresClassItem;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassTime;
 import com.forcetower.uefs.sagres_sdk.utility.SagresConnector;
 
-import org.apache.commons.lang3.text.WordUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
@@ -308,7 +308,7 @@ public class SagresFullClassParser {
                 }
 
                 else if (bText.equalsIgnoreCase("Departamento:")) {
-                    department = WordUtils.capitalizeFully(element.child(1).text());
+                    department = Utils.toTitleCase(element.child(1).text());
                     classGroup.setDepartment(department);
                 }
 
@@ -326,7 +326,7 @@ public class SagresFullClassParser {
             Element element = document.selectFirst("div[class=\"cabecalho-dado nome-capitalizars\"]");
             if (element != null) {
                 element = element.selectFirst("span");
-                if (element != null) teacher = WordUtils.capitalizeFully(element.text());
+                if (element != null) teacher = Utils.toTitleCase(element.text());
             }
             classGroup.setTeacher(teacher);
 

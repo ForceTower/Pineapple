@@ -14,10 +14,16 @@ import com.forcetower.uefs.R;
 
 public class Utils {
     public static String toTitleCase(String givenString) {
+        if (givenString == null)
+            return null;
+
         String[] arr = givenString.split(" ");
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
 
         for (String anArr : arr) {
+            if (anArr.length() < 3)
+                continue;
+
             sb.append(Character.toUpperCase(anArr.charAt(0)))
                     .append(anArr.substring(1)).append(" ");
         }
