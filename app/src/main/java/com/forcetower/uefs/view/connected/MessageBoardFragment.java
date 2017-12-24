@@ -20,12 +20,12 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.view.adapters.MessageBoardAdapter;
 import com.forcetower.uefs.helpers.Utils;
 import com.forcetower.uefs.sagres_sdk.domain.SagresMessage;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
 import com.forcetower.uefs.sagres_sdk.exception.SagresInfoFetchException;
 import com.forcetower.uefs.sagres_sdk.utility.SagresUtility;
+import com.forcetower.uefs.view.adapters.MessageBoardAdapter;
 
 import java.util.List;
 

@@ -21,13 +21,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.view.adapters.AllGradesAdapter;
 import com.forcetower.uefs.helpers.Utils;
 import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
 import com.forcetower.uefs.sagres_sdk.domain.SagresGrade;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
 import com.forcetower.uefs.sagres_sdk.domain.SagresSemester;
 import com.forcetower.uefs.sagres_sdk.utility.SagresUtility;
+import com.forcetower.uefs.view.adapters.AllGradesAdapter;
 
 import java.util.HashMap;
 import java.util.List;

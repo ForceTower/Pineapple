@@ -15,10 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.view.settings.SettingsActivity;
+import com.forcetower.uefs.helpers.PrefUtils;
 import com.forcetower.uefs.view.adapters.NavDrawerItem;
 import com.forcetower.uefs.view.adapters.NavigationDrawerAdapter;
-import com.forcetower.uefs.helpers.PrefUtils;
+import com.forcetower.uefs.view.settings.SettingsActivity;
 
 import java.util.ArrayList;
 import java.util.List;

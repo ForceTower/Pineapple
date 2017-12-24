@@ -17,12 +17,12 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.sagres_sdk.managers.SagresProfileManager;
-import com.forcetower.uefs.view.class_details.ClassDetailsActivity;
-import com.forcetower.uefs.view.adapters.DayScheduleAdapter;
 import com.forcetower.uefs.helpers.Utils;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassDay;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
+import com.forcetower.uefs.sagres_sdk.managers.SagresProfileManager;
+import com.forcetower.uefs.view.adapters.DayScheduleAdapter;
+import com.forcetower.uefs.view.class_details.ClassDetailsActivity;
 
 import java.util.HashMap;
 import java.util.List;

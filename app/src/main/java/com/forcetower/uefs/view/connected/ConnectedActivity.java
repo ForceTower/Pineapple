@@ -16,10 +16,10 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.view.settings.SettingsActivity;
-import com.forcetower.uefs.view.UEFSBaseActivity;
 import com.forcetower.uefs.helpers.SyncUtils;
 import com.forcetower.uefs.helpers.Utils;
+import com.forcetower.uefs.view.UEFSBaseActivity;
+import com.forcetower.uefs.view.settings.SettingsActivity;
 
 public class ConnectedActivity extends UEFSBaseActivity {
     private static final String SCHEDULE_TAG = "schedule";

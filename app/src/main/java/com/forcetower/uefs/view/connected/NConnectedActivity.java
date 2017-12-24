@@ -14,10 +14,10 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.view.UEFSBaseActivity;
-import com.forcetower.uefs.view.adapters.NavDrawerItem;
 import com.forcetower.uefs.helpers.SyncUtils;
 import com.forcetower.uefs.helpers.Utils;
+import com.forcetower.uefs.view.UEFSBaseActivity;
+import com.forcetower.uefs.view.adapters.NavDrawerItem;
 
 /**
  * Created by João Paulo on 29/11/2017.

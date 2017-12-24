@@ -7,8 +7,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.view.UEFSBaseActivity;
 import com.forcetower.uefs.helpers.Utils;
+import com.forcetower.uefs.view.UEFSBaseActivity;
 
 public class SettingsActivity extends UEFSBaseActivity {
 
