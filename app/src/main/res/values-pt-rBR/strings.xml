@@ -174,4 +174,6 @@
     <string name="suggestion">Sugestão</string>
     <string name="send_email">Enviar email...</string>
     <string name="suggestions">Sugestões</string>
+    <string name="failed_connect_to_portal">Conexão com o portal falhou</string>
+    <string name="finished">Concluído</string>
 </resources>
