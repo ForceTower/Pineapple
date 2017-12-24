@@ -30,11 +30,12 @@
             android:layout_marginStart="8dp"
             android:fontFamily="@font/roboto_bold"
             android:textColor="@color/primaryText"
+            android:layout_toLeftOf="@id/date_received"
+            android:layout_toStartOf="@id/date_received"
             android:textSize="16sp"
             android:maxLines="1"
-            android:maxLength="30"
             android:layout_centerInParent="true"
-            tools:text="COD 123"/>
+            tools:text="COD123 - MI Projeto de Ciruicots Eletricos"/>
 
         <TextView
             android:id="@+id/date_received"
