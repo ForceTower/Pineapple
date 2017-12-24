@@ -5,14 +5,9 @@
     <string name="login_btn">Login</string>
     <string name="invalid_username">Invalid Username</string>
     <string name="invalid_password">Invalid Password</string>
-    <string name="connecting">Connecting</string>
-    <string name="login_failed_response">Connection error</string>
     <string name="incorrect_credentials">Incorrect Credentials</string>
     <string name="processing_info">Processing information</string>
     <string name="welcome">Hello %1$s</string>
-    <string name="finding_class_structure">Finding classes</string>
-    <string name="finding_class_details">Finding class details</string>
-    <string name="completed">Completed</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_schedule">Schedule</string>
     <string name="monday">Monday</string>
@@ -25,7 +20,6 @@
     <string name="this_is_and_error">Error Item - Report</string>
     <string name="class_about_to_start">Class about to begin</string>
     <string name="class_notification_display">The class %1$s is at %2$s, %3$s</string>
-    <string name="alarm_manager_null">AlarmManager is null. Notifications won\'t work. Report.</string>
     <string name="title_messages">Messages</string>
     <string name="sent_at">Received: %1$s</string>
     <string name="title_message">Message</string>
@@ -51,7 +45,6 @@
     </string-array>
 
     <!-- Notifications Preferences -->
-    <string name="pref_header_notifications">Notifications</string>
     <string name="pref_show_class_notification">Classes</string>
     <string name="pref_show_class_notification_enabled">You\'ll be notified when classes are about to start</string>
     <string name="pref_show_class_notification_disabled">You\'ll not be notified when classes are about to start</string>
@@ -68,7 +61,6 @@
     <string name="pref_sync_frequency_enabled">Every %1$s</string>
     <string name="settings">Settings</string>
     <string name="pref_account_settings">Account</string>
-    <string name="pref_not_working_still">Not working, not even try</string>
     <string name="pref_new_message_vibration_enabled">Vibrate on notification</string>
     <string name="pref_new_message_vibration_disabled">Do not vibrate on notification</string>
     <string name="pref_notification_sound_summary">Change the notification sound</string>
@@ -78,19 +70,12 @@
     <string name="sagres_sync">Sagres Sync</string>
     <string name="wait_before_updating_again">Wait before updating again</string>
     <string name="network_error">Network Error</string>
-    <string name="class_details_grades">Grades</string>
-    <string name="class_details_recent_messages">Recent messages</string>
     <string name="class_details">Class details</string>
     <string name="unable_to_fetch_grades">Unable to fetch grades</string>
     <string name="grade_posted">New grade posted</string>
     <string name="new_grade_notification">The grade of %1$s from %2$s is available.\nGo check it out!</string>
     <string name="new_grade_notification_great">The grade of %1$s from %2$s is available.\nGo check it out!\n\nIt's a good one!</string>
-    <string name="class_details_cod_name">%1$s - %2$s</string>
-    <string name="initializing_app">Initializing App</string>
     <string name="prepare_to_fetch_grades">Preparing to fetch info</string>
-    <string name="fetching_grades_for_semester">Fetching information from %1$s</string>
-    <string name="drawer_open">Open Drawer</string>
-    <string name="drawer_close">Close Drawer</string>
     <string name="title_grades">Grades</string>
     <string name="title_calendar">Calendar</string>
     <string name="creator">Created by João Paulo [facebook.com/ForceTower]\n[github.com/ForceTower]\nVersion: %1$s</string>
@@ -112,7 +97,6 @@
     <string name="about_app_exit">At any moment you can logout by clicking at Settings>Logoff, this action will erase all the saved data related to your Sagres account from the device. You can login again at any time and return receiving notifications.</string>
     <string name="about_app_bugs">For some stupid mistake, if your Android version is 8.0+ (Oreo) you\'ll not receive any notifications, I\'m working on fixing it :^)\nThere's also a notification bug where you receive notifications for messages you already got</string>
     <string name="final_score_text">Final Mean</string>
-    <string name="connecting_you_dont_need_to_relog">Connecting, you don\'t need to relog</string>
     <string name="score_is">Score: %1$s</string>
     <string name="show_score">Score</string>
     <string name="pref_do_not_show_score">Don\'t show on start page</string>
@@ -120,10 +104,7 @@
     <string name="pref_show_grades_notification">Grades</string>
     <string name="pref_show_grades_notification_disabled">You\'ll not be notified when a new grade arrive</string>
     <string name="pref_show_grades_notification_enabled">You\'ll be notified when a new grade arrive</string>
-    <string name="temporary_layout">Temporary Layout, it will be updated next week prob</string>
     <string name="connection_failed">Connection Failed</string>
-    <string name="class_is_undefined">Class Undefined (will be solved next version around 16/12</string>
-    <string name="going_to_student_portal">Going to the Student Portal</string>
     <string name="retrying_connection">Retrying connection %1$s of 3</string>
     <string name="grades_not_downloaded_yet">The grades were not downloaded yet</string>
     <string name="grades_image">Grades Image</string>

@@ -6,14 +6,9 @@
     <string name="login_btn">Entrar</string>
     <string name="invalid_username">Usuário Inválido</string>
     <string name="invalid_password">Senha Inválida</string>
-    <string name="connecting">Entrando</string>
-    <string name="login_failed_response">Erro de conexão</string>
     <string name="incorrect_credentials">Login Incorreto</string>
     <string name="processing_info">Processando informações</string>
     <string name="welcome">Olá %1$s</string>
-    <string name="finding_class_structure">Encontrando aulas</string>
-    <string name="finding_class_details">Encontrando detalhes das aulas</string>
-    <string name="completed">Finalizado!</string>
     <string name="title_notifications">Notificações</string>
     <string name="title_schedule">Horários</string>
     <string name="monday">Segunda</string>
@@ -26,12 +21,10 @@
     <string name="this_is_and_error">Erro no item - Reporte</string>
     <string name="class_about_to_start">Aula vai começar</string>
     <string name="class_notification_display">A aula %1$s é na sala %2$s, %3$s</string>
-    <string name="alarm_manager_null">O controlador de alarmes é null. Notificações de aula não irão funcionar. Reporte</string>
     <string name="title_messages">Recados</string>
     <string name="sent_at">Recebida: %1$s</string>
     <string name="title_message">Recado</string>
     <string name="title_activity_settings">Configurações</string>
-    <string name="pref_header_notifications">Notificações</string>
     <string name="pref_show_class_notification">Aulas</string>
     <string name="pref_show_class_notification_enabled">Notificar quando a aula for começar</string>
     <string name="pref_show_class_notification_disabled">Não notificar quando a aula for começar</string>
@@ -52,7 +45,6 @@
     <string name="settings">Configurações</string>
     <string name="pref_account_settings">Conta</string>
     <string name="show_score">Score</string>
-    <string name="pref_not_working_still">Não funciona, nem tenta</string>
     <string name="pref_new_message_vibration_enabled">Vibrar na notificação</string>
     <string name="pref_new_message_vibration_disabled">Não vibrar na notificação</string>
     <string name="pref_notification_sound_summary">Mudar som de notificação</string>
@@ -79,8 +71,6 @@
     <string name="sagres_sync">Atualização Sagres</string>
     <string name="wait_before_updating_again">Espere para atualizar novamente</string>
     <string name="network_error">Erro de conexão</string>
-    <string name="class_details_grades">Notas</string>
-    <string name="class_details_recent_messages">Últimos recados</string>
     <string name="class_details">Detalhes da disciplina</string>
     <string name="unable_to_fetch_grades">Não foi possível obter as notas</string>
     <string name="grade_posted">Nova nota postada</string>
@@ -88,12 +78,7 @@
     <!-- Other Again -->
     <string name="new_grade_notification">A nota da %1$s de %2$s está disponível. Vá olhar!</string>
     <string name="new_grade_notification_great">A nota da %1$s de %2$s está disponível. Vá olhar!\n\nParabéns!!</string>
-    <string name="class_details_cod_name">%1$s - %2$s</string>
-    <string name="initializing_app">Iniciando Aplicativo</string>
     <string name="prepare_to_fetch_grades">Preparando baixar as informações</string>
-    <string name="fetching_grades_for_semester">Baixando informações do semestre %1$s</string>
-    <string name="drawer_open">Abrir gaveta</string>
-    <string name="drawer_close">Fechar gaveta</string>
     <string name="title_grades">Notas</string>
     <string name="title_calendar">Calendário</string>
     <string name="creator">Criado por João Paulo\n[facebook.com/ForceTower]\n[github.com/ForceTower]\nVersão: %1$s</string>
@@ -120,12 +105,8 @@
     <string name="about_app_title">Sobre o aplicativo</string>
     <string name="about_app_bugs_title">Bugs</string>
     <string name="final_score_text">Média Final</string>
-    <string name="connecting_you_dont_need_to_relog">Conectando, você não precisa entrar novamente</string>
     <string name="score_is">Score: %1$s</string>
-    <string name="temporary_layout">Tela temporária, ainda não acabada. Será atualizada provavelmente semana que vem depois das minhas provas (15/12)</string>
     <string name="connection_failed">Conexão falhou. Se você está na UEFS, tente colocar o proxy 10.65.16.2 porta 3128</string>
-    <string name="class_is_undefined">Aula Indefinida (Este bug será resolvido junto com os detalhes completos da turma, provavelmente dia 16/12)</string>
-    <string name="going_to_student_portal">Indo para o portal do estudante</string>
     <string name="retrying_connection">Tentando conexão %1$s de 3</string>
     <string name="grades_not_downloaded_yet">As notas ainda não foram baixadas</string>
     <string name="grades_image">Imagem Notas</string>
