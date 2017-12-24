@@ -107,8 +107,6 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         items.add(new NavDrawerItem(getString(R.string.title_calendar), R.drawable.ic_calendar_black_24dp, 4));
         items.add(new NavDrawerItem(getString(R.string.title_disciplines), R.drawable.ic_book_open_black_24dp, 5));
         items.add(new NavDrawerItem(getString(R.string.settings), R.drawable.ic_settings_black_24dp, settingsListener));
-        items.add(new NavDrawerItem(getString(R.string.about_app_title), R.drawable.ic_info_black_24dp, aboutListener));
-        items.add(new NavDrawerItem(getString(R.string.suggestions), R.drawable.ic_feedback_black_24dp, suggestionListener));
 
         return items;
     }
@@ -191,8 +189,6 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     }
 
     private NavigationDrawerAdapter.NavDrawerItemClickListener settingsListener = () -> SettingsActivity.startActivity(getContext());
-    private NavigationDrawerAdapter.NavDrawerItemClickListener aboutListener = () -> AboutActivity.startActivity(getContext());
-    private NavigationDrawerAdapter.NavDrawerItemClickListener suggestionListener = () -> SuggestionActivity.startActivity(getContext());
 
     public interface Callbacks {
         void onNavigationDrawerItemSelected(NavDrawerItem item);

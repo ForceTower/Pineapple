@@ -27,6 +27,30 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:title="@string/pref_account_settings">
+
+        <SwitchPreference
+            android:icon="@drawable/ic_grades_accent_30dp"
+            android:key="show_score"
+            android:title="@string/show_score"
+            android:defaultValue="false"
+            android:summaryOff="@string/pref_do_not_show_score"
+            android:summaryOn="@string/pref_do_show_score"/>
+
+        <Preference
+            android:icon="@drawable/ic_sync_accent_30dp"
+            android:key="reset_grades"
+            android:title="@string/pref_clear_all_semesters_grades"
+            android:summary="@string/pref_clear_all_semesters_grades_summary"/>
+
+        <Preference
+            android:icon="@drawable/ic_logoff_accent_30dp"
+            android:key="logoff_key"
+            android:summary="@string/pref_logoff_summary"
+            android:title="@string/pref_logoff"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:key="notification_category"
         android:title="@string/pref_notification_header">
 
@@ -88,31 +112,21 @@
             android:key="lucas_layout"
             android:defaultValue="true"
             android:title="@string/pref_use_new_layout"/>
-
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/pref_account_settings">
-
-        <SwitchPreference
-            android:icon="@drawable/ic_grades_accent_30dp"
-            android:key="show_score"
-            android:title="@string/show_score"
-            android:defaultValue="false"
-            android:summaryOff="@string/pref_do_not_show_score"
-            android:summaryOn="@string/pref_do_show_score"/>
+        android:title="@string/pref_title_about_and_feedback">
 
         <Preference
-            android:icon="@drawable/ic_sync_accent_30dp"
-            android:key="reset_grades"
-            android:title="@string/pref_clear_all_semesters_grades"
-            android:summary="@string/pref_clear_all_semesters_grades_summary"/>
+            android:key="feedback_key"
+            android:icon="@drawable/ic_feedback_accent_30dp"
+            android:title="@string/suggestions"/>
 
         <Preference
-            android:icon="@drawable/ic_logoff_accent_30dp"
-            android:key="logoff_key"
-            android:summary="@string/pref_logoff_summary"
-            android:title="@string/pref_logoff"/>
+            android:key="about_app_key"
+            android:icon="@drawable/ic_info_accent_30dp"
+            android:title="@string/about_app_title"/>
+
     </PreferenceCategory>
 
 </PreferenceScreen>

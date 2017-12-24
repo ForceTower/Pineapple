@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.activity.AboutActivity;
+import com.forcetower.uefs.activity.SuggestionActivity;
 import com.forcetower.uefs.view.login.LoginActivity;
 import com.forcetower.uefs.helpers.SyncUtils;
 import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
@@ -46,6 +48,20 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         if (logoff != null) logoff.setOnPreferenceClickListener(this);
         Preference cleanGrades = findPreference("reset_grades");
         if (cleanGrades != null) cleanGrades.setOnPreferenceClickListener(resetGradesListener);
+        Preference feedback = findPreference("feedback_key");
+        if (feedback != null) feedback.setOnPreferenceClickListener(this::feedback);
+        Preference about = findPreference("about_app_key");
+        if (feedback != null) about.setOnPreferenceClickListener(this::about);
+    }
+
+    private boolean about(Preference preference) {
+        AboutActivity.startActivity(getActivity());
+        return true;
+    }
+
+    private boolean feedback(Preference preference) {
+        SuggestionActivity.startActivity(getActivity());
+        return true;
     }
 
     @Override

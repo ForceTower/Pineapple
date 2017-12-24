@@ -145,12 +145,12 @@ public class ConnectedActivity extends UEFSBaseActivity {
 
     @Override
     public void onBackPressed() {
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        /*Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
         if (!(fragment instanceof ScheduleFragment)) {
             if (Utils.isLollipop()) fragment.setExitTransition(new Fade(Fade.OUT));
             switchToFragment(ScheduleFragment.class);
             return;
-        }
+        }*/
 
         if (doubleBack || !PreferenceManager.getDefaultSharedPreferences(this).getBoolean("double_back", false)) {
             super.onBackPressed();
