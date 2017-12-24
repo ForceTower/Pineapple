@@ -32,6 +32,10 @@ public class Utils {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O;
     }
 
+    public static boolean isNougat() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N;
+    }
+
     public static void fadeIn(View v, Context context) {
         if (v.getVisibility() == View.VISIBLE) return;
         Animation fadeInAnim = AnimationUtils.loadAnimation(context, android.R.anim.fade_in);

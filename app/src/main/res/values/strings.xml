@@ -176,4 +176,6 @@
     <string name="credits_string">
         App Icon: Lokisley Oliveira\nhttps://www.facebook.com/Lokisley\n\n
     </string>
+    <string name="failed_connect_to_portal">Connection to portal failed...</string>
+    <string name="finished">Finished</string>
 </resources>

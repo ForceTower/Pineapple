@@ -2,6 +2,9 @@ package com.forcetower.uefs.activity.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
@@ -34,5 +37,12 @@ public abstract class UEFSBaseActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (SagresProfile.getCurrentProfile() == null) SagresProfileManager.getInstance().loadCurrentProfile();
+    }
+
+    public void replaceFragmentContainer(FragmentManager manager, Fragment fragment, int id, String tag) {
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
+        transaction.replace(id, fragment, tag);
+        transaction.commit();
     }
 }

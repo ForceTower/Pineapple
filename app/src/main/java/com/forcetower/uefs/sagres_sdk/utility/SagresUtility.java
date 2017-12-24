@@ -84,7 +84,7 @@ public class SagresUtility {
             String score = SagresParser.getScore(html);
             SagresPortalSDK.alertConnectionListeners(1, studentName);
 
-            SagresPortalSDK.alertConnectionListeners(5, null);
+            SagresPortalSDK.alertConnectionListeners(2, null);
             Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Going to student page");
             String studentPageHtml = null;
             for (int i = 0; i < 3; i++) {
@@ -93,15 +93,17 @@ public class SagresUtility {
                     Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Connected to student page");
                     break;
                 } else {
-                    SagresPortalSDK.alertConnectionListeners(6, ""+(i + 1));
+                    SagresPortalSDK.alertConnectionListeners(3, ""+(i + 1));
                 }
             }
+
 
             HashMap<String, List<SagresClassDay>> classes;
             List<SagresMessage> messages;
             List<SagresCalendarItem> calendar;
             List<SagresClassDetails> classDetails;
             if (studentPageHtml != null) {
+                SagresPortalSDK.alertConnectionListeners(4, null);
                 Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Parsing information in student page");
                 classes = SagresClassParser.getCompleteSchedule(studentPageHtml);
                 messages = SagresMessagesParser.getStartPageMessages(studentPageHtml);
@@ -112,12 +114,14 @@ public class SagresUtility {
                 classes = SagresClassParser.getCompleteSchedule(html);
                 messages = SagresMessagesParser.getStartPageMessages(html);
                 calendar = SagresCalendarParser.getCalendar(html);
+                SagresPortalSDK.alertConnectionListeners(5, null);
                 classDetails = SagresFullClassParser.connectAndGetClassesDetails("20172", null, null,  true);
+                SagresPortalSDK.alertConnectionListeners(6, null);
             }
 
             Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Getting grades");
             JSONObject gradesResponse = SagresConnector.getStudentGrades();
-
+            SagresPortalSDK.alertConnectionListeners(7, null);
 
             HashMap<String, SagresGrade> grades = new HashMap<>();
             HashMap<SagresSemester, List<SagresGrade>> semesterGrades = new HashMap<>();
@@ -146,7 +150,6 @@ public class SagresUtility {
                 e.printStackTrace();
                 Log.e(SagresPortalSDK.SAGRES_SDK_TAG, e.getLocalizedMessage());
             }
-            SagresPortalSDK.alertConnectionListeners(2, null);
 
             Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Grades obtained and set");
 

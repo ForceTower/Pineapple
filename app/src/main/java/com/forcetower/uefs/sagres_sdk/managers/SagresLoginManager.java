@@ -25,32 +25,29 @@ public class SagresLoginManager {
     }
 
     public void login(final String username, final String password, @NotNull final SagresLoginCallback callback) {
-        SagresPortalSDK.getExecutor().execute(new Runnable() {
-            @Override
-            public void run() {
-                final SagresAccess access = createAccess(username, password);
-                SagresProfile.fetchProfileForSagresAccess(access, new SagresUtility.AllInformationFetchWithCacheCallback() {
-                    @Override
-                    public void onSuccess(SagresProfile profile) {
-                        SagresProfile.setCurrentProfile(profile);
-                        callback.onSuccess();
-                    }
+        SagresPortalSDK.getExecutor().execute(() -> {
+            final SagresAccess access = createAccess(username, password);
+            SagresProfile.fetchProfileForSagresAccess(access, new SagresUtility.AllInformationFetchWithCacheCallback() {
+                @Override
+                public void onSuccess(SagresProfile profile) {
+                    SagresProfile.setCurrentProfile(profile);
+                    callback.onSuccess();
+                }
 
-                    @Override
-                    public void onFailure(SagresLoginException e) {
-                        if (e.failedConnection())
-                            callback.onFailure(false);
-                        else
-                            callback.onFailure(true);
-                    }
+                @Override
+                public void onFailure(SagresLoginException e) {
+                    if (e.failedConnection())
+                        callback.onFailure(false);
+                    else
+                        callback.onFailure(true);
+                }
 
-                    @Override
-                    public void onLoginSuccess() {
-                        SagresAccess.setCurrentAccess(access);
-                        callback.onLoginSuccess();
-                    }
-                });
-            }
+                @Override
+                public void onLoginSuccess() {
+                    SagresAccess.setCurrentAccess(access);
+                    callback.onLoginSuccess();
+                }
+            });
         });
     }
 
