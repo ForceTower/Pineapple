@@ -39,20 +39,6 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts"/>
-
-        <receiver
-            android:name=".receivers.NotificationWake"
-            android:enabled="true"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="Class Notification"/>
-
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
-        </receiver>
-
-        <activity android:name=".activity.MessageActivity">
-        </activity>
         <activity
             android:name=".view.settings.SettingsActivity"
             android:theme="@style/AppTheme.PreferencesStyle">
