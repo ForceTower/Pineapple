@@ -16,12 +16,12 @@ public class DisciplineRepository {
         this.dao = dao;
     }
 
-    public List<ADiscipline> getAllClasses() {
-        return dao.getAllClasses();
+    public List<ADiscipline> getAllDisciplines() {
+        return dao.getAllDisciplines();
     }
 
-    public List<ADiscipline> getClassesFromSemester(String semester) {
-        return dao.getClassesFromSemester(semester);
+    public List<ADiscipline> getDisciplinesFromSemester(String semester) {
+        return dao.getDisciplinesFromSemester(semester);
     }
 
     public List<ADiscipline> getDisciplinesByCode(String code) {

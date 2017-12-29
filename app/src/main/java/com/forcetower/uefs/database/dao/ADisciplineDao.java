@@ -15,10 +15,10 @@ import java.util.List;
 @Dao
 public interface ADisciplineDao {
     @Query("SELECT * FROM ADiscipline")
-    List<ADiscipline> getAllClasses();
+    List<ADiscipline> getAllDisciplines();
 
     @Query("SELECT * FROM ADiscipline WHERE semester = :semester")
-    List<ADiscipline> getClassesFromSemester(String semester);
+    List<ADiscipline> getDisciplinesFromSemester(String semester);
 
     @Query("SELECT * FROM ADiscipline WHERE code = :code")
     List<ADiscipline> getDisciplinesByCode(String code);

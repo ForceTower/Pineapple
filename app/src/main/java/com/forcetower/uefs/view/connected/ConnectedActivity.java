@@ -50,10 +50,6 @@ public class ConnectedActivity extends UEFSBaseActivity {
         setContentView(R.layout.activity_connected);
         ((UEFSApplication) getApplication()).getApplicationComponent().inject(this);
 
-        if (!PrefUtils.contains(this, "migrate_database_att_2")) {
-            new MigrateToLocalDatabaseTask(((UEFSApplication) getApplication()).getApplicationComponent()).execute();
-        }
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
 

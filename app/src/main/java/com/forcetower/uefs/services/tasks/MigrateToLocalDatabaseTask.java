@@ -3,8 +3,6 @@ package com.forcetower.uefs.services.tasks;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.forcetower.uefs.UEFSApplication;
-import com.forcetower.uefs.database.AppDatabase;
 import com.forcetower.uefs.database.entities.AAccess;
 import com.forcetower.uefs.database.entities.ACalendarItem;
 import com.forcetower.uefs.database.entities.ADiscipline;
@@ -31,6 +29,7 @@ import java.util.Set;
 import javax.inject.Inject;
 
 import static com.forcetower.uefs.Constants.APP_TAG;
+import static com.forcetower.uefs.helpers.Utils.parseIntOrZero;
 
 /**
  * Created by João Paulo on 29/12/2017.
@@ -59,7 +58,6 @@ public class MigrateToLocalDatabaseTask extends AsyncTask<Void, Void, Void> {
             calendarRepository.deleteCalendar();
             accessRepository.deleteAllAccesses();
             semesterRepository.removeAllSemesters();
-
 
             SagresAccess access = SagresAccess.getCurrentAccess();
             accessRepository.insertAccess(new AAccess(access.getUsername(), access.getPassword()));
@@ -107,8 +105,31 @@ public class MigrateToLocalDatabaseTask extends AsyncTask<Void, Void, Void> {
         List<SagresClassDetails> classesDetails = profile.getClassesDetails();
         if (classesDetails != null && classesDetails.size() > 0) {
             ADiscipline[] disciplines = new ADiscipline[classesDetails.size()];
-
+            transformDiscipline(classesDetails).toArray(disciplines);
+            disciplineRepository.insertDiscipline(disciplines);
+            Log.d(APP_TAG, "Inserted disciplines: " + Arrays.toString(disciplines));
         }
+        Log.d(APP_TAG, "All disciplines: " + disciplineRepository.getAllDisciplines());
+
+    }
+
+    private List<ADiscipline> transformDiscipline(List<SagresClassDetails> before) {
+        List<ADiscipline> after = new ArrayList<>();
+        if (before == null) {
+            return after;
+        }
+
+        for (SagresClassDetails old : before) {
+            ADiscipline created = new ADiscipline(old.getSemester(), old.getName(), old.getCode());
+            created.setLastClass(old.getLastClass());
+            created.setNextClass(old.getNextClass());
+            created.setCredits(parseIntOrZero(old.getCredits()));
+            created.setMissedClasses(parseIntOrZero(old.getMissedClasses()));
+            created.setMissedClassesInformed(parseIntOrZero(old.getMissedClassesInformed()));
+            after.add(created);
+        }
+
+        return after;
     }
 
     private List<ASemester> transformSemester(Set<SagresSemester> before) {
@@ -137,7 +158,7 @@ public class MigrateToLocalDatabaseTask extends AsyncTask<Void, Void, Void> {
     }
 
 
-    private List<ACalendarItem> transformCalendar(List<SagresCalendarItem> before) {
+    public static List<ACalendarItem> transformCalendar(List<SagresCalendarItem> before) {
         List<ACalendarItem> after = new ArrayList<>();
         if (before == null) {
             return after;

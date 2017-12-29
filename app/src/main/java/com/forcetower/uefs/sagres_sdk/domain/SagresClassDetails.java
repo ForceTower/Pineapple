@@ -177,4 +177,8 @@ public class SagresClassDetails {
     public String getNextClass() {
         return nextClass;
     }
+
+    public String getMissedClassesInformed() {
+        return missedClassesInformed;
+    }
 }

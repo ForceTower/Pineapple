@@ -100,4 +100,9 @@ public class ADiscipline {
     public void setCredits(int credits) {
         this.credits = credits;
     }
+
+    @Override
+    public String toString() {
+        return semester + " " + code + " " + name;
+    }
 }

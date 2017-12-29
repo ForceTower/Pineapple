@@ -75,7 +75,8 @@ public class ConnectingFragment extends Fragment {
 
         Bundle login = getArguments();
         if (login == null) {
-            callback.onLoginFailed(new NullPointerException("Bundle is null"));
+            //callback.onLoginFailed(new NullPointerException("Bundle is null"));
+            Log.i(APP_TAG, "Login bundle is null... Activity is not going to end AAAAAAAA");
             return;
         }
         String username = login.getString("username");

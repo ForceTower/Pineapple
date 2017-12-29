@@ -2,6 +2,8 @@ package com.forcetower.uefs.view.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
@@ -16,6 +18,7 @@ import com.forcetower.uefs.helpers.PrefUtils;
 import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
 import com.forcetower.uefs.sagres_sdk.domain.SagresAccess;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
+import com.forcetower.uefs.services.tasks.MigrateToLocalDatabaseTask;
 import com.forcetower.uefs.view.UEFSBaseActivity;
 import com.forcetower.uefs.view.connected.ConnectedActivity;
 import com.forcetower.uefs.view.connected.NConnectedActivity;
@@ -45,7 +48,7 @@ public class LoginActivity extends UEFSBaseActivity implements LoginViewCallback
         if (savedInstanceState != null)
             return;
 
-        if (SagresAccess.getCurrentAccess() != null && SagresProfile.getCurrentProfile() == null) {
+        if (SagresAccess.getCurrentAccess() != null) {
             replaceFragmentContainer(getSupportFragmentManager(), new ConnectingFragment(), R.id.fragment_container, CONNECTING_TAG);
             return;
         }
@@ -66,7 +69,16 @@ public class LoginActivity extends UEFSBaseActivity implements LoginViewCallback
     protected void onFinishInitializing() {
         super.onFinishInitializing();
         if (SagresAccess.getCurrentAccess() != null && SagresProfile.getCurrentProfile() != null) {
-            onLoginSuccess();
+            if (!PrefUtils.contains(this, "migrate_database_att_2")) {
+                new Thread(()->{
+                    try {
+                        new MigrateToLocalDatabaseTask(((UEFSApplication) getApplication()).getApplicationComponent()).execute().get();
+                    } catch (Exception e) {e.printStackTrace();}
+                    onLoginSuccess();
+                }).start();
+            } else {
+                onLoginSuccess();
+            }
         }
     }
 

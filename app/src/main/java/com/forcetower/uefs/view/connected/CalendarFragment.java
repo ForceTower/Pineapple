@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.database.repository.CalendarRepository;
 import com.forcetower.uefs.helpers.Utils;
 import com.forcetower.uefs.sagres_sdk.domain.SagresCalendarItem;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
@@ -28,6 +29,8 @@ import com.forcetower.uefs.sagres_sdk.utility.SagresUtility;
 import com.forcetower.uefs.view.adapters.CalendarAdapter;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 /**
  * Created by João Paulo on 02/12/2017.
@@ -41,12 +44,7 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
     private boolean canRefresh = true;
     private Handler handler;
     private Context context;
-    private Runnable refreshDelay = new Runnable() {
-        @Override
-        public void run() {
-            canRefresh = true;
-        }
-    };
+    private Runnable refreshDelay = () -> canRefresh = true;
 
     public CalendarFragment() {
     }
