@@ -26,16 +26,16 @@ import com.forcetower.uefs.database.entities.ASemester;
  * Created by João Paulo on 29/12/2017.
  */
 @Database(entities = {
-        AAccess.class,
-        ACalendarItem.class,
-        ASemester.class,
-        ADiscipline.class,
-        AGrade.class,
-        AGradeSection.class,
-        AGradeInfo.class,
-        AScrap.class,
-        ADisciplineGroup.class},
-        version = 1, exportSchema = false)
+            AAccess.class,
+            ACalendarItem.class,
+            ASemester.class,
+            ADiscipline.class,
+            AGrade.class,
+            AGradeSection.class,
+            AGradeInfo.class,
+            AScrap.class,
+            ADisciplineGroup.class
+        }, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract AAccessDao aAccessDao();
     public abstract ACalendarItemDao aCalendarItemDao();
