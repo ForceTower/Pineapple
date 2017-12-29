@@ -64,4 +64,9 @@ public class AScrap {
     public void setUid(int uid) {
         this.uid = uid;
     }
+
+    @Override
+    public String toString() {
+        return "uid: " + uid + " - sender: " + sender + " - r_at: " + receivedAt;
+    }
 }

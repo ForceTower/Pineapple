@@ -41,4 +41,13 @@ public class AAccess {
     public void setUid(int uid) {
         this.uid = uid;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof AAccess) {
+            AAccess o = (AAccess) obj;
+            return o.username.equalsIgnoreCase(username);
+        }
+        return false;
+    }
 }

@@ -14,8 +14,13 @@ import com.forcetower.uefs.database.entities.AAccess;
 public interface AAccessDao {
     @Query("SELECT * FROM AAccess LIMIT 1")
     AAccess getUser();
+
     @Insert
     void insertAccess(AAccess... access);
+
     @Delete
     void deleteAccess(AAccess aAccess);
+
+    @Query("DELETE FROM AAccess")
+    void deleteAllAccesses();
 }

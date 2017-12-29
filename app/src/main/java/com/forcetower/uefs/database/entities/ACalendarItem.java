@@ -41,4 +41,18 @@ public class ACalendarItem {
     public void setUid(int uid) {
         this.uid = uid;
     }
+
+    @Override
+    public String toString() {
+        return "Day: " + day;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof ACalendarItem) {
+            ACalendarItem o = (ACalendarItem) obj;
+            return o.day.equalsIgnoreCase(day) && o.message.equalsIgnoreCase(message);
+        }
+        return false;
+    }
 }
