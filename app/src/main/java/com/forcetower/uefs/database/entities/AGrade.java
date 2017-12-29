@@ -9,6 +9,7 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
 
 /**
  * Created by João Paulo on 29/12/2017.
+ * This is prob a useless class
  */
 @Entity
 @ForeignKey(entity = ADiscipline.class, parentColumns = "uid", childColumns = "discipline", onDelete = CASCADE, onUpdate = CASCADE)
