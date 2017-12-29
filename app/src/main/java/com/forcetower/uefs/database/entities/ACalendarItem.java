@@ -37,4 +37,8 @@ public class ACalendarItem {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
 }

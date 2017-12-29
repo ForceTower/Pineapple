@@ -8,7 +8,8 @@ import android.arch.persistence.room.PrimaryKey;
  */
 @Entity
 public class AAccess {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    private int uid;
     private String username;
     private String password;
 
@@ -31,5 +32,13 @@ public class AAccess {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
     }
 }

@@ -20,6 +20,12 @@ public interface ADisciplineDao {
     @Query("SELECT * FROM ADiscipline WHERE semester = :semester")
     List<ADiscipline> getClassesFromSemester(String semester);
 
+    @Query("SELECT * FROM ADiscipline WHERE code = :code")
+    List<ADiscipline> getDisciplinesByCode(String code);
+
+    @Query("SELECT * FROM ADiscipline WHERE code = :code AND semester = :semester")
+    List<ADiscipline> getDisciplinesBySemesterAndCode(String semester, String code);
+
     @Insert
     void insertDiscipline(ADiscipline... disciplines);
 

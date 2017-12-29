@@ -4,11 +4,13 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
 
+import static android.arch.persistence.room.ForeignKey.CASCADE;
+
 /**
  * Created by João Paulo on 29/12/2017.
  */
 @Entity
-@ForeignKey(entity = ASemester.class, parentColumns = "uefs_id", childColumns = "semester", onUpdate = ForeignKey.CASCADE)
+@ForeignKey(entity = ASemester.class, parentColumns = "uefs_id", childColumns = "semester", onUpdate = CASCADE, onDelete = CASCADE)
 public class ADiscipline {
     @PrimaryKey(autoGenerate = true)
     private int uid;
