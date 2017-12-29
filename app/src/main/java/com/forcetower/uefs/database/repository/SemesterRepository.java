@@ -3,6 +3,8 @@ package com.forcetower.uefs.database.repository;
 import com.forcetower.uefs.database.dao.ASemesterDao;
 import com.forcetower.uefs.database.entities.ASemester;
 
+import java.util.List;
+
 /**
  * Created by João Paulo on 29/12/2017.
  */
@@ -28,5 +30,9 @@ public class SemesterRepository {
 
     public void removeAllSemesters() {
         dao.removeAllSemesters();
+    }
+
+    public List<ASemester> getAllSemesters() {
+        return dao.getAllSemesters();
     }
 }

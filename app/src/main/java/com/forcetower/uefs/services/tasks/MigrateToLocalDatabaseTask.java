@@ -9,20 +9,24 @@ import com.forcetower.uefs.database.entities.AAccess;
 import com.forcetower.uefs.database.entities.ACalendarItem;
 import com.forcetower.uefs.database.entities.ADiscipline;
 import com.forcetower.uefs.database.entities.AScrap;
+import com.forcetower.uefs.database.entities.ASemester;
 import com.forcetower.uefs.database.repository.AccessRepository;
 import com.forcetower.uefs.database.repository.CalendarRepository;
 import com.forcetower.uefs.database.repository.DisciplineRepository;
 import com.forcetower.uefs.database.repository.ScrapRepository;
+import com.forcetower.uefs.database.repository.SemesterRepository;
 import com.forcetower.uefs.dependency_injection.component.ApplicationComponent;
 import com.forcetower.uefs.sagres_sdk.domain.SagresAccess;
 import com.forcetower.uefs.sagres_sdk.domain.SagresCalendarItem;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassDetails;
 import com.forcetower.uefs.sagres_sdk.domain.SagresMessage;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
+import com.forcetower.uefs.sagres_sdk.domain.SagresSemester;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -41,6 +45,8 @@ public class MigrateToLocalDatabaseTask extends AsyncTask<Void, Void, Void> {
     ScrapRepository scrapRepository;
     @Inject
     CalendarRepository calendarRepository;
+    @Inject
+    SemesterRepository semesterRepository;
 
     public MigrateToLocalDatabaseTask(ApplicationComponent appComponent) {
         appComponent.inject(this);
@@ -52,11 +58,11 @@ public class MigrateToLocalDatabaseTask extends AsyncTask<Void, Void, Void> {
             scrapRepository.deleteAllScraps();
             calendarRepository.deleteCalendar();
             accessRepository.deleteAllAccesses();
-            disciplineRepository.deleteAllDisciplines();
+            semesterRepository.removeAllSemesters();
 
-            /*
+
             SagresAccess access = SagresAccess.getCurrentAccess();
-            database.aAccessDao().insertAccess(new AAccess(access.getUsername(), access.getPassword()));
+            accessRepository.insertAccess(new AAccess(access.getUsername(), access.getPassword()));
 
             SagresProfile profile = SagresProfile.getCurrentProfile();
 
@@ -64,23 +70,21 @@ public class MigrateToLocalDatabaseTask extends AsyncTask<Void, Void, Void> {
             if (calendar != null && calendar.size() > 0) {
                 ACalendarItem[] items = new ACalendarItem[calendar.size()];
                 transformCalendar(calendar).toArray(items);
-                database.aCalendarItemDao().insertItems(items);
+                calendarRepository.insertItems(items);
                 Log.d(APP_TAG, "Inserted calendar: " + Arrays.toString(items));
             }
-            Log.d(APP_TAG, "All calendar: " + database.aCalendarItemDao().getCalendar());
+            Log.d(APP_TAG, "All calendar: " + calendarRepository.getCalendar());
 
             List<SagresMessage> messages = profile.getMessages();
             if (messages != null && messages.size() > 0) {
                 AScrap[] items = new AScrap[messages.size()];
                 transformScraps(messages).toArray(items);
-                database.aScrapDao().insertScraps(items);
+                scrapRepository.insertScraps(items);
                 Log.d(APP_TAG, "Inserted messages: " + Arrays.toString(items));
             }
-            Log.d(APP_TAG, "All messages: " + database.aScrapDao().getAllScraps());
+            Log.d(APP_TAG, "All messages: " + scrapRepository.getAllScraps());
 
             handleDisciplines();
-
-            */
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -89,8 +93,35 @@ public class MigrateToLocalDatabaseTask extends AsyncTask<Void, Void, Void> {
 
     private void handleDisciplines() {
         SagresProfile profile = SagresProfile.getCurrentProfile();
+        if (profile.getAllSemestersGrades() != null) {
+            Set<SagresSemester> semesterSet = profile.getAllSemestersGrades().keySet();
+            if (semesterSet.size() > 0) {
+                ASemester[] items = new ASemester[semesterSet.size()];
+                transformSemester(semesterSet).toArray(items);
+                semesterRepository.insertSemesters(items);
+                Log.d(APP_TAG, "Inserted semesters: " + Arrays.toString(items));
+            }
+        }
+        Log.d(APP_TAG, "All semesters: " + semesterRepository.getAllSemesters());
 
+        List<SagresClassDetails> classesDetails = profile.getClassesDetails();
+        if (classesDetails != null && classesDetails.size() > 0) {
+            ADiscipline[] disciplines = new ADiscipline[classesDetails.size()];
 
+        }
+    }
+
+    private List<ASemester> transformSemester(Set<SagresSemester> before) {
+        List<ASemester> after = new ArrayList<>();
+        if (before == null) {
+            return after;
+        }
+
+        for (SagresSemester old : before) {
+            after.add(new ASemester(old.getSemesterCode(), old.getName()));
+        }
+
+        return after;
     }
 
     private List<AScrap> transformScraps(List<SagresMessage> before) {

@@ -43,4 +43,10 @@ public class ASemester {
     public void setUid(int uid) {
         this.uid = uid;
     }
+
+
+    @Override
+    public String toString() {
+        return name + " " + uefsId;
+    }
 }
