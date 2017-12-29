@@ -15,6 +15,7 @@ import com.forcetower.uefs.database.dao.ASemesterDao;
 import com.forcetower.uefs.database.entities.AAccess;
 import com.forcetower.uefs.database.entities.ACalendarItem;
 import com.forcetower.uefs.database.entities.ADiscipline;
+import com.forcetower.uefs.database.entities.ADisciplineClassItem;
 import com.forcetower.uefs.database.entities.ADisciplineGroup;
 import com.forcetower.uefs.database.entities.AGrade;
 import com.forcetower.uefs.database.entities.AGradeInfo;
@@ -34,7 +35,8 @@ import com.forcetower.uefs.database.entities.ASemester;
             AGradeSection.class,
             AGradeInfo.class,
             AScrap.class,
-            ADisciplineGroup.class
+            ADisciplineGroup.class,
+            ADisciplineClassItem.class
         }, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract AAccessDao aAccessDao();
