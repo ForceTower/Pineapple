@@ -5,6 +5,7 @@ import android.arch.persistence.room.RoomDatabase;
 
 import com.forcetower.uefs.database.dao.AAccessDao;
 import com.forcetower.uefs.database.dao.ACalendarItemDao;
+import com.forcetower.uefs.database.dao.ADisciplineClassLocationDao;
 import com.forcetower.uefs.database.dao.ADisciplineDao;
 import com.forcetower.uefs.database.dao.ADisciplineGroupDao;
 import com.forcetower.uefs.database.dao.AGradeDao;
@@ -16,6 +17,7 @@ import com.forcetower.uefs.database.entities.AAccess;
 import com.forcetower.uefs.database.entities.ACalendarItem;
 import com.forcetower.uefs.database.entities.ADiscipline;
 import com.forcetower.uefs.database.entities.ADisciplineClassItem;
+import com.forcetower.uefs.database.entities.ADisciplineClassLocation;
 import com.forcetower.uefs.database.entities.ADisciplineGroup;
 import com.forcetower.uefs.database.entities.AGrade;
 import com.forcetower.uefs.database.entities.AGradeInfo;
@@ -36,7 +38,8 @@ import com.forcetower.uefs.database.entities.ASemester;
             AGradeInfo.class,
             AScrap.class,
             ADisciplineGroup.class,
-            ADisciplineClassItem.class
+            ADisciplineClassItem.class,
+            ADisciplineClassLocation.class
         }, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract AAccessDao aAccessDao();
@@ -48,4 +51,5 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract AGradeInfoDao aGradeInfoDao();
     public abstract AScrapDao aScrapDao();
     public abstract ADisciplineGroupDao aDisciplineGroupDao();
+    public abstract ADisciplineClassLocationDao aDisciplineClassLocationDao();
 }
