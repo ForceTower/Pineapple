@@ -17,6 +17,7 @@ public class ADiscipline {
     private String semester;
     private String name;
     private String code;
+    private int credits;
     private int missedClasses;
     private int missedClassesInformed;
     private String lastClass = "0";
@@ -90,5 +91,13 @@ public class ADiscipline {
 
     public void setMissedClassesInformed(int missedClassesInformed) {
         this.missedClassesInformed = missedClassesInformed;
+    }
+
+    public int getCredits() {
+        return credits;
+    }
+
+    public void setCredits(int credits) {
+        this.credits = credits;
     }
 }
