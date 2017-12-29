@@ -24,11 +24,11 @@ public interface AGradeDao {
     List<AGrade> getDisciplineGrades(String code, String semester);
 
     @Insert
-    void insertDiscipline(AGrade... grades);
+    void insertGrade(AGrade... grades);
 
     @Delete
-    void deleteDiscipline(AGrade grade);
+    void deleteGrade(AGrade grade);
 
     @Query("DELETE FROM AGrade")
-    void deleteAllDisciplines();
+    void deleteAllGrades();
 }

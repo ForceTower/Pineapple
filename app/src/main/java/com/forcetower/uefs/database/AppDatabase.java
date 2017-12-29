@@ -23,7 +23,7 @@ import com.forcetower.uefs.database.entities.ASemester;
         ASemester.class,
         ADiscipline.class,
         AGrade.class},
-        version = 1)
+        version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract AAccessDao aAccessDao();
     public abstract ACalendarItemDao aCalendarItemDao();

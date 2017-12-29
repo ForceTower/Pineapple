@@ -17,10 +17,10 @@ public class ADiscipline {
     private String semester;
     private String name;
     private String code;
-    private String missedClasses = "0";
+    private int missedClasses;
+    private int missedClassesInformed;
     private String lastClass = "0";
     private String nextClass = "0";
-    private String missedClassesInformed = "0";
 
     public ADiscipline(String semester, String name, String code) {
         this.semester = semester;
@@ -60,11 +60,11 @@ public class ADiscipline {
         this.code = code;
     }
 
-    public String getMissedClasses() {
+    public int getMissedClasses() {
         return missedClasses;
     }
 
-    public void setMissedClasses(String missedClasses) {
+    public void setMissedClasses(int missedClasses) {
         this.missedClasses = missedClasses;
     }
 
@@ -84,11 +84,11 @@ public class ADiscipline {
         this.nextClass = nextClass;
     }
 
-    public String getMissedClassesInformed() {
+    public int getMissedClassesInformed() {
         return missedClassesInformed;
     }
 
-    public void setMissedClassesInformed(String missedClassesInformed) {
+    public void setMissedClassesInformed(int missedClassesInformed) {
         this.missedClassesInformed = missedClassesInformed;
     }
 }
