@@ -24,7 +24,6 @@ public class ADisciplineClassItem {
 
     public ADisciplineClassItem(int groupId, int number, String situation, String subject, String date, int numberOfMaterials) {
         this.groupId = groupId;
-
         this.number = number;
         this.situation = situation;
         this.subject = subject;
