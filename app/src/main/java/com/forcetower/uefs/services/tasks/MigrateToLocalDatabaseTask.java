@@ -3,11 +3,17 @@ package com.forcetower.uefs.services.tasks;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.forcetower.uefs.UEFSApplication;
 import com.forcetower.uefs.database.AppDatabase;
 import com.forcetower.uefs.database.entities.AAccess;
 import com.forcetower.uefs.database.entities.ACalendarItem;
 import com.forcetower.uefs.database.entities.ADiscipline;
 import com.forcetower.uefs.database.entities.AScrap;
+import com.forcetower.uefs.database.repository.AccessRepository;
+import com.forcetower.uefs.database.repository.CalendarRepository;
+import com.forcetower.uefs.database.repository.DisciplineRepository;
+import com.forcetower.uefs.database.repository.ScrapRepository;
+import com.forcetower.uefs.dependency_injection.component.ApplicationComponent;
 import com.forcetower.uefs.sagres_sdk.domain.SagresAccess;
 import com.forcetower.uefs.sagres_sdk.domain.SagresCalendarItem;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassDetails;
@@ -18,6 +24,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import static com.forcetower.uefs.Constants.APP_TAG;
 
 /**
@@ -25,21 +33,28 @@ import static com.forcetower.uefs.Constants.APP_TAG;
  */
 
 public class MigrateToLocalDatabaseTask extends AsyncTask<Void, Void, Void> {
-    private AppDatabase database;
+    @Inject
+    AccessRepository accessRepository;
+    @Inject
+    DisciplineRepository disciplineRepository;
+    @Inject
+    ScrapRepository scrapRepository;
+    @Inject
+    CalendarRepository calendarRepository;
 
-    public MigrateToLocalDatabaseTask(AppDatabase database) {
-        this.database = database;
+    public MigrateToLocalDatabaseTask(ApplicationComponent appComponent) {
+        appComponent.inject(this);
     }
 
     @Override
     protected Void doInBackground(Void... voids) {
         try {
-            database.aScrapDao().deleteAllScraps();
-            database.aCalendarItemDao().deleteCalendar();
-            database.aAccessDao().deleteAllAccesses();
-            database.aDisciplineDao().deleteAllDisciplines();
+            scrapRepository.deleteAllScraps();
+            calendarRepository.deleteCalendar();
+            accessRepository.deleteAllAccesses();
+            disciplineRepository.deleteAllDisciplines();
 
-
+            /*
             SagresAccess access = SagresAccess.getCurrentAccess();
             database.aAccessDao().insertAccess(new AAccess(access.getUsername(), access.getPassword()));
 
@@ -64,6 +79,8 @@ public class MigrateToLocalDatabaseTask extends AsyncTask<Void, Void, Void> {
             Log.d(APP_TAG, "All messages: " + database.aScrapDao().getAllScraps());
 
             handleDisciplines();
+
+            */
         } catch (Exception ex) {
             ex.printStackTrace();
         }

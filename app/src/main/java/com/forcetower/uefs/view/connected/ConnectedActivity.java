@@ -51,7 +51,7 @@ public class ConnectedActivity extends UEFSBaseActivity {
         ((UEFSApplication) getApplication()).getApplicationComponent().inject(this);
 
         if (!PrefUtils.contains(this, "migrate_database_att_2")) {
-            new MigrateToLocalDatabaseTask(database).execute();
+            new MigrateToLocalDatabaseTask(((UEFSApplication) getApplication()).getApplicationComponent()).execute();
         }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
