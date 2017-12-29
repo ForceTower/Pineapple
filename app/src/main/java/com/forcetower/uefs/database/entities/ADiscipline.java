@@ -9,7 +9,7 @@ import android.arch.persistence.room.PrimaryKey;
  */
 @Entity
 @ForeignKey(entity = ASemester.class, parentColumns = "uefs_id", childColumns = "semester", onUpdate = ForeignKey.CASCADE)
-public class AClass {
+public class ADiscipline {
     @PrimaryKey(autoGenerate = true)
     private int uid;
     private String semester;
@@ -20,7 +20,7 @@ public class AClass {
     private String nextClass = "0";
     private String missedClassesInformed = "0";
 
-    public AClass(String semester, String name, String code) {
+    public ADiscipline(String semester, String name, String code) {
         this.semester = semester;
         this.name = name;
         this.code = code;
