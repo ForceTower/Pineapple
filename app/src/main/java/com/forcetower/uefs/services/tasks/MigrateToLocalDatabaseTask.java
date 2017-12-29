@@ -71,7 +71,9 @@ public class MigrateToLocalDatabaseTask extends AsyncTask<Void, Void, Void> {
     }
 
     private void handleDisciplines() {
-        
+        SagresProfile profile = SagresProfile.getCurrentProfile();
+
+
     }
 
     private List<AScrap> transformScraps(List<SagresMessage> before) {

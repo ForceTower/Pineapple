@@ -21,6 +21,7 @@ public interface ADisciplineClassLocationDao {
     List<ADisciplineClassLocation> getDisciplineClassLocations(int groupId);
 
     @Query("SELECT * FROM ADisciplineClassLocation WHERE groupId IN (SELECT uid FROM ADisciplineGroup WHERE discipline IN (SELECT uid FROM ADiscipline WHERE semester = :semester_uefs_id))")
+    //@Query("SELECT * FROM ADisciplineClassLocation AS LOC INNER JOIN ADisciplineGroup AS GRP ON LOC.groupId = GRP.uid ")
     List<ADisciplineClassLocation> getClassesFromSemester(String semester_uefs_id);
 
     @Insert

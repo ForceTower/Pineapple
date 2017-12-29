@@ -25,7 +25,11 @@ public class AccessRepository {
         dao.insertAccess(access);
     }
 
-    void deleteAccess(AAccess access) {
+    public void deleteAccess(AAccess access) {
         dao.deleteAccess(access);
+    }
+
+    public void deleteAllAccesses() {
+        dao.deleteAllAccesses();
     }
 }
