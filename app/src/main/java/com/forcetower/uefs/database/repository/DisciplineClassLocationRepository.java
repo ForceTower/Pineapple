@@ -9,10 +9,10 @@ import java.util.List;
  * Created by João Paulo on 29/12/2017.
  */
 
-public class DisciplineClassLocation {
+public class DisciplineClassLocationRepository {
     private final ADisciplineClassLocationDao dao;
 
-    public DisciplineClassLocation(ADisciplineClassLocationDao dao) {
+    public DisciplineClassLocationRepository(ADisciplineClassLocationDao dao) {
         this.dao = dao;
     }
 

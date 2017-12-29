@@ -5,6 +5,7 @@ import android.arch.persistence.room.RoomDatabase;
 
 import com.forcetower.uefs.database.dao.AAccessDao;
 import com.forcetower.uefs.database.dao.ACalendarItemDao;
+import com.forcetower.uefs.database.dao.ADisciplineClassItemDao;
 import com.forcetower.uefs.database.dao.ADisciplineClassLocationDao;
 import com.forcetower.uefs.database.dao.ADisciplineDao;
 import com.forcetower.uefs.database.dao.ADisciplineGroupDao;
@@ -51,5 +52,6 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract AGradeInfoDao aGradeInfoDao();
     public abstract AScrapDao aScrapDao();
     public abstract ADisciplineGroupDao aDisciplineGroupDao();
+    public abstract ADisciplineClassItemDao aDisciplineClassItemDao();
     public abstract ADisciplineClassLocationDao aDisciplineClassLocationDao();
 }
