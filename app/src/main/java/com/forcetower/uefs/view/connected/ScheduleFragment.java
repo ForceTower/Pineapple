@@ -64,7 +64,6 @@ public class ScheduleFragment extends Fragment {
         }
 
         HashMap<String, List<SagresClassDay>> classPerDay = SagresProfile.getCurrentProfile().getClasses();
-        System.out.println(classPerDay);
         if (classPerDay == null || classPerDay.isEmpty()) {
             rootView = inflater.inflate(R.layout.fragment_schedule_empty, container, false);
         } else {

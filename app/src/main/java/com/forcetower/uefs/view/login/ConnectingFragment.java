@@ -17,10 +17,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.UEFSApplication;
 import com.forcetower.uefs.exception.LoginException;
 import com.forcetower.uefs.helpers.Utils;
 import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
 import com.forcetower.uefs.sagres_sdk.managers.SagresLoginManager;
+import com.forcetower.uefs.services.tasks.MigrateToLocalDatabaseTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -74,13 +76,14 @@ public class ConnectingFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         Bundle login = getArguments();
+        SagresPortalSDK.addLoginListener(this::receiveUpdate);
         if (login == null) {
-            callback.onLoginFailed(new NullPointerException("Bundle is null"));
+            //callback.onLoginFailed(new NullPointerException("Bundle is null"));
+            Log.i(APP_TAG, "Login bundle is null... Activity will only end by async interference");
             return;
         }
         String username = login.getString("username");
         String password = login.getString("password");
-        SagresPortalSDK.addLoginListener(this::receiveUpdate);
         connectToPortal(username, password);
     }
 
@@ -101,6 +104,12 @@ public class ConnectingFragment extends Fragment {
             @Override
             public void onSuccess() {
                 Log.i(APP_TAG, "LoginActivity::ParseSuccess()");
+                //new Thread(()->{
+                    try {
+                        new MigrateToLocalDatabaseTask(((UEFSApplication) getActivity().getApplicationContext()).getApplicationComponent()).execute().get();
+                    } catch (Exception e) {e.printStackTrace();}
+                    //onLoginSuccess();
+                //}).start();
                 callback.onLoginSuccess();
             }
 

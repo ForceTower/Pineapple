@@ -16,14 +16,25 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.UEFSApplication;
+import com.forcetower.uefs.database.AppDatabase;
+import com.forcetower.uefs.database.entities.AAccess;
+import com.forcetower.uefs.database.repository.AccessRepository;
+import com.forcetower.uefs.helpers.PrefUtils;
 import com.forcetower.uefs.helpers.SyncUtils;
 import com.forcetower.uefs.helpers.Utils;
+import com.forcetower.uefs.services.tasks.MigrateToLocalDatabaseTask;
 import com.forcetower.uefs.view.UEFSBaseActivity;
 import com.forcetower.uefs.view.settings.SettingsActivity;
+
+import javax.inject.Inject;
 
 public class ConnectedActivity extends UEFSBaseActivity {
     private static final String SCHEDULE_TAG = "schedule";
     private boolean doubleBack = false;
+
+    @Inject
+    AppDatabase database;
 
     public static void startActivity(Context context) {
         Intent intent = new Intent(context, ConnectedActivity.class);
@@ -37,6 +48,7 @@ public class ConnectedActivity extends UEFSBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connected);
+        ((UEFSApplication) getApplication()).getApplicationComponent().inject(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));

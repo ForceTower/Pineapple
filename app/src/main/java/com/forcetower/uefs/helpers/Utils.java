@@ -98,4 +98,12 @@ public class Utils {
 
         return "???";
     }
+
+    public static int parseIntOrZero(String value) {
+        try {
+            return Integer.parseInt(value);
+        } catch (Exception e) {
+            return 0;
+        }
+    }
 }

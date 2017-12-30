@@ -78,7 +78,6 @@ public class SagresProfile {
         SagresUtility.getInformationFromUserWithCacheAsync(access, new SagresUtility.AllInformationFetchWithCacheCallback() {
             @Override
             public void onSuccess(SagresProfile profile) {
-                System.out.println("Profile fetch");
                 setCurrentProfile(profile);
             }
 
@@ -145,13 +144,15 @@ public class SagresProfile {
             for (int i = 1; i <= 7; i++) {
                 List<SagresClassDay> classesDay = new ArrayList<>();
                 String day = SagresDayUtils.getDayOfWeek(i);
-                JSONArray dayObject = classesObject.getJSONArray(day);
+                JSONArray dayObject = classesObject.optJSONArray(day);
 
-                for (int j = 0; j < dayObject.length(); j++) {
-                    SagresClassDay classDay = SagresClassDay.fromJSONObject(dayObject.getJSONObject(j));
-                    classesDay.add(classDay);
+                if (dayObject != null) {
+                    for (int j = 0; j < dayObject.length(); j++) {
+                        SagresClassDay classDay = SagresClassDay.fromJSONObject(dayObject.getJSONObject(j));
+                        classesDay.add(classDay);
+                    }
+                    classes.put(day, classesDay);
                 }
-                classes.put(day, classesDay);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -435,7 +436,6 @@ public class SagresProfile {
             for (Map.Entry<SagresSemester, List<SagresGrade>> entry : allSemestersGrades.entrySet()) {
                 if (entry.getValue().containsAll(mergeList)) {
                     allSemestersGrades.put(entry.getKey(), mergeList);
-                    Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Changed grades of semester: " + entry.getKey().getName());
                     break;
                 }
             }
@@ -515,7 +515,6 @@ public class SagresProfile {
                 correspondent.setNextClass(updated.getNextClass());
                 updateGroups(correspondent, updated);
             } else {
-                Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Didn't exists before, but it's all ogre now: " + updated.getCode() + ": " + updated.getSemester());
                 classDetails.add(updated);
             }
         }
@@ -559,19 +558,17 @@ public class SagresProfile {
                 if (corGroup == null) {
                     group.setDraft(false);
                     correspondent.addGroup(group);
-                    Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "updateGroups: " + correspondent.getName() + " added group");
                 } else {
-                    Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "updateGroups: " + correspondent.getName() + " updated to new version");
                     corGroup.updateFrom(group);
                 }
             }
         }
-
+        /*
         for (SagresClassGroup oldGroups : correspondent.getGroups()) {
             if (getCorrespondingGroup(updated, oldGroups.getType()) == null) {
-                Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Possible that user moved groups... check that later");
             }
         }
+        */
     }
 
     private SagresClassGroup getCorrespondingGroup(SagresClassDetails correspondent, String type) {

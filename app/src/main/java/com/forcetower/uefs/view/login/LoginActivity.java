@@ -2,26 +2,37 @@ package com.forcetower.uefs.view.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.UEFSApplication;
+import com.forcetower.uefs.database.entities.AAccess;
+import com.forcetower.uefs.database.repository.AccessRepository;
 import com.forcetower.uefs.exception.LoginException;
 import com.forcetower.uefs.helpers.PrefUtils;
 import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
 import com.forcetower.uefs.sagres_sdk.domain.SagresAccess;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
+import com.forcetower.uefs.services.tasks.MigrateToLocalDatabaseTask;
 import com.forcetower.uefs.view.UEFSBaseActivity;
 import com.forcetower.uefs.view.connected.ConnectedActivity;
 import com.forcetower.uefs.view.connected.NConnectedActivity;
+
+import javax.inject.Inject;
 
 import static com.forcetower.uefs.Constants.APP_TAG;
 
 public class LoginActivity extends UEFSBaseActivity implements LoginViewCallback {
     private static final String LOGIN_FORM_TAG = "login form";
     private static final String CONNECTING_TAG = "connecting";
+
+    @Inject
+    AccessRepository accessRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +48,7 @@ public class LoginActivity extends UEFSBaseActivity implements LoginViewCallback
         if (savedInstanceState != null)
             return;
 
-        if (SagresAccess.getCurrentAccess() != null && SagresProfile.getCurrentProfile() == null) {
+        if (SagresAccess.getCurrentAccess() != null) {
             replaceFragmentContainer(getSupportFragmentManager(), new ConnectingFragment(), R.id.fragment_container, CONNECTING_TAG);
             return;
         }
@@ -58,7 +69,16 @@ public class LoginActivity extends UEFSBaseActivity implements LoginViewCallback
     protected void onFinishInitializing() {
         super.onFinishInitializing();
         if (SagresAccess.getCurrentAccess() != null && SagresProfile.getCurrentProfile() != null) {
-            onLoginSuccess();
+            if (!PrefUtils.contains(this, "migrate_database_att_2")) {
+                new Thread(()->{
+                    try {
+                        new MigrateToLocalDatabaseTask(((UEFSApplication) getApplication()).getApplicationComponent()).execute().get();
+                    } catch (Exception e) {e.printStackTrace();}
+                    onLoginSuccess();
+                }).start();
+            } else {
+                onLoginSuccess();
+            }
         }
     }
 
@@ -96,9 +116,11 @@ public class LoginActivity extends UEFSBaseActivity implements LoginViewCallback
     @Override
     public void onLoginSuccess() {
         if (SagresAccess.getCurrentAccess() != null && SagresProfile.getCurrentProfile() != null) {
-            Intent intent = new Intent(LoginActivity.this, ConnectedActivity.class);
+            Intent intent;
             if (!PreferenceManager.getDefaultSharedPreferences(this).getBoolean("lucas_layout", true))
                 intent = new Intent(LoginActivity.this, NConnectedActivity.class);
+            else
+                intent = new Intent(LoginActivity.this, ConnectedActivity.class);
 
             Bundle bundle = ActivityOptionsCompat.makeCustomAnimation(this, android.R.anim.fade_in, android.R.anim.fade_out).toBundle();
             startActivity(intent, bundle);
