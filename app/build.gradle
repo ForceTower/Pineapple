@@ -59,7 +59,7 @@ dependencies {
     annotationProcessor "android.arch.lifecycle:compiler:1.0.0"
     implementation "android.arch.lifecycle:common-java8:1.0.0"
     implementation "android.arch.lifecycle:reactivestreams:1.0.0"
-    
+
     implementation('com.mikepenz:aboutlibraries:6.0.1@aar') {
         transitive = true
     }

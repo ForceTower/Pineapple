@@ -1,5 +1,6 @@
 package com.forcetower.uefs.database.dao;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
@@ -15,10 +16,10 @@ import java.util.List;
 @Dao
 public interface ATodoItemDao {
     @Query("SELECT * FROM ATodoItem")
-    List<ATodoItem> getAllTodoItems();
+    LiveData<List<ATodoItem>> getAllTodoItems();
 
     @Query("SELECT * FROM ATodoItem WHERE disciplineCode = :disciplineCode")
-    List<ATodoItem> getTodoForDiscipline(String disciplineCode);
+    LiveData<List<ATodoItem>> getTodoForDiscipline(String disciplineCode);
 
     @Insert
     long insertTodoItem(ATodoItem item);

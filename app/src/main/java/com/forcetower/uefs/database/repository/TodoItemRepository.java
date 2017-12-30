@@ -1,5 +1,7 @@
 package com.forcetower.uefs.database.repository;
 
+import android.arch.lifecycle.LiveData;
+
 import com.forcetower.uefs.database.dao.ATodoItemDao;
 import com.forcetower.uefs.database.entities.ATodoItem;
 
@@ -16,11 +18,11 @@ public class TodoItemRepository {
         this.dao = dao;
     }
 
-    public List<ATodoItem> getAllTodoItems() {
+    public LiveData<List<ATodoItem>> getAllTodoItems() {
         return dao.getAllTodoItems();
     }
 
-    public List<ATodoItem> getTodoForDiscipline(String disciplineCode) {
+    public LiveData<List<ATodoItem>> getTodoForDiscipline(String disciplineCode) {
         return dao.getTodoForDiscipline(disciplineCode);
     }
 
