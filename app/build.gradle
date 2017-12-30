@@ -6,7 +6,7 @@ android {
         applicationId "com.forcetower.uefs"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 8
+        versionCode 9
         versionName "2.1.1b"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
