@@ -20,7 +20,8 @@ public class AGradeSection {
     @ColumnInfo(name = "partial_mean")
     private String partialMean;
 
-    public AGradeSection(String name) {
+    public AGradeSection(int discipline, String name) {
+        this.discipline = discipline;
         this.name = name;
     }
 
@@ -54,5 +55,10 @@ public class AGradeSection {
 
     public void setDiscipline(int discipline) {
         this.discipline = discipline;
+    }
+
+    @Override
+    public String toString() {
+        return name + " " + partialMean;
     }
 }

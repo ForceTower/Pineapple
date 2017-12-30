@@ -32,6 +32,10 @@ public class GradeSectionRepository {
         dao.insertGradeSection(gradeSection);
     }
 
+    public long insertGradeSection(AGradeSection section) {
+        return dao.insertGradeSection(section);
+    }
+
     public void deleteGradeSection(AGradeSection gradeSection) {
         dao.deleteGradeSection(gradeSection);
     }

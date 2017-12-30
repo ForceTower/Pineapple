@@ -102,7 +102,7 @@ public class Utils {
     public static int parseIntOrZero(String value) {
         try {
             return Integer.parseInt(value);
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             return 0;
         }
     }

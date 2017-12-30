@@ -20,12 +20,8 @@ public interface ADisciplineClassLocationDao {
     @Query("SELECT * FROM ADisciplineClassLocation WHERE groupId = :groupId")
     List<ADisciplineClassLocation> getDisciplineClassLocations(int groupId);
 
-    //@Query("SELECT * FROM ADisciplineClassLocation WHERE groupId IN (SELECT uid FROM ADisciplineGroup WHERE discipline IN (SELECT uid FROM ADiscipline WHERE semester = :semester_uefs_id))")
-    @Query("SELECT * FROM ADisciplineClassLocation, ADisciplineGroup, ADiscipline " +
-            "WHERE ADiscipline.semester = :semester_uefs_id " +
-            "AND ADisciplineGroup.discipline = ADiscipline.uid " +
-            "AND ADisciplineClassLocation.groupId = ADisciplineGroup.uid")
-    List<ADisciplineClassLocation> getClassesFromSemester(String semester_uefs_id);
+    @Query("SELECT * FROM ADisciplineClassLocation WHERE groupId IN (SELECT uid FROM ADisciplineGroup WHERE discipline IN (SELECT uid FROM ADiscipline WHERE semester = :semester_uefs_name))")
+    List<ADisciplineClassLocation> getClassesFromSemester(String semester_uefs_name);
 
     @Insert
     void insertClassLocation(ADisciplineClassLocation... classLocations);

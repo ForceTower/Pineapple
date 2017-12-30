@@ -24,8 +24,8 @@ public class DisciplineClassLocationRepository {
         return dao.getDisciplineClassLocations(groupId);
     }
 
-    public List<ADisciplineClassLocation> getClassesFromSemester(String semester_uefs_id) {
-        return dao.getClassesFromSemester(semester_uefs_id);
+    public List<ADisciplineClassLocation> getClassesFromSemester(String semester_uefs_name) {
+        return dao.getClassesFromSemester(semester_uefs_name);
     }
 
     public void insertClassLocation(ADisciplineClassLocation... classLocations) {

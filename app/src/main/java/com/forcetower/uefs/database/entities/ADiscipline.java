@@ -10,7 +10,7 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
  * Created by João Paulo on 29/12/2017.
  */
 @Entity
-@ForeignKey(entity = ASemester.class, parentColumns = "uefs_id", childColumns = "semester", onUpdate = CASCADE, onDelete = CASCADE)
+@ForeignKey(entity = ASemester.class, parentColumns = "name", childColumns = "semester", onUpdate = CASCADE, onDelete = CASCADE)
 public class ADiscipline {
     @PrimaryKey(autoGenerate = true)
     private int uid;

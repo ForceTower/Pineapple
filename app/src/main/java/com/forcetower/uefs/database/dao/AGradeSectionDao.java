@@ -26,6 +26,9 @@ public interface AGradeSectionDao {
     @Insert
     void insertGradeSection(AGradeSection... gradeSection);
 
+    @Insert
+    long insertGradeSection(AGradeSection gradeSection);
+
     @Delete
     void deleteGradeSection(AGradeSection gradeSection);
 

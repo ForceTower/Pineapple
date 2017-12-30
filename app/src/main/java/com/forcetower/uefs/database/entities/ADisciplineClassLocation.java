@@ -99,4 +99,9 @@ public class ADisciplineClassLocation {
     public void setModulo(String modulo) {
         this.modulo = modulo;
     }
+
+    @Override
+    public String toString() {
+        return day + " " + startTime + "~" + endTime;
+    }
 }

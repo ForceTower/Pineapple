@@ -26,6 +26,9 @@ public interface ADisciplineGroupDao {
     @Insert
     void insertDisciplineGroup(ADisciplineGroup... disciplineGroups);
 
+    @Insert
+    long insertDisciplineGroup(ADisciplineGroup disciplineGroups);
+
     @Delete
     void deleteDisciplineGroup(ADisciplineGroup disciplineGroup);
 

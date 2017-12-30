@@ -32,6 +32,10 @@ public class DisciplineGroupRepository {
         dao.insertDisciplineGroup(disciplineGroups);
     }
 
+    public long insertDisciplineGroup(ADisciplineGroup disciplineGroup) {
+        return dao.insertDisciplineGroup(disciplineGroup);
+    }
+
     public void deleteDisciplineGroup(ADisciplineGroup disciplineGroup) {
         dao.deleteDisciplineGroup(disciplineGroup);
     }

@@ -67,4 +67,9 @@ public class AGradeInfo {
     public void setDate(String date) {
         this.date = date;
     }
+
+    @Override
+    public String toString() {
+        return evaluationName + " " + grade;
+    }
 }

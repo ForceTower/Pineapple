@@ -28,7 +28,7 @@ public class DisciplineRepository {
         return dao.getDisciplinesByCode(code);
     }
 
-    public List<ADiscipline> getDisciplinesBySemesterAndCode(String semester, String code) {
+    public ADiscipline getDisciplinesBySemesterAndCode(String semester, String code) {
         return dao.getDisciplinesBySemesterAndCode(semester, code);
     }
 
