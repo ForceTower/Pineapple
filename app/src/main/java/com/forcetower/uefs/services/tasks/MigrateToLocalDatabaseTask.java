@@ -3,6 +3,7 @@ package com.forcetower.uefs.services.tasks;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.forcetower.uefs.content.ObscuredSharedPreferences;
 import com.forcetower.uefs.database.entities.AAccess;
 import com.forcetower.uefs.database.entities.ACalendarItem;
 import com.forcetower.uefs.database.entities.ADiscipline;
@@ -24,6 +25,7 @@ import com.forcetower.uefs.database.repository.GradeSectionRepository;
 import com.forcetower.uefs.database.repository.ScrapRepository;
 import com.forcetower.uefs.database.repository.SemesterRepository;
 import com.forcetower.uefs.dependency_injection.component.ApplicationComponent;
+import com.forcetower.uefs.helpers.PrefUtils;
 import com.forcetower.uefs.sagres_sdk.domain.GradeInfo;
 import com.forcetower.uefs.sagres_sdk.domain.GradeSection;
 import com.forcetower.uefs.sagres_sdk.domain.SagresAccess;
@@ -74,8 +76,11 @@ public class MigrateToLocalDatabaseTask extends AsyncTask<Void, Void, Void> {
     @Inject
     GradeInfoRepository gradeInfoRepository;
 
+    private final ObscuredSharedPreferences preferences;
+
     public MigrateToLocalDatabaseTask(ApplicationComponent appComponent) {
         appComponent.inject(this);
+        preferences = PrefUtils.getPrefs(appComponent.application());
     }
 
     @Override
@@ -102,20 +107,18 @@ public class MigrateToLocalDatabaseTask extends AsyncTask<Void, Void, Void> {
                 ACalendarItem[] items = new ACalendarItem[calendar.size()];
                 transformCalendar(calendar).toArray(items);
                 calendarRepository.insertItems(items);
-                Log.d(APP_TAG, "Inserted calendar: " + Arrays.toString(items));
             }
-            Log.d(APP_TAG, "All calendar: " + calendarRepository.getCalendar());
 
             List<SagresMessage> messages = profile.getMessages();
             if (messages != null && messages.size() > 0) {
                 AScrap[] items = new AScrap[messages.size()];
                 transformScraps(messages).toArray(items);
                 scrapRepository.insertScraps(items);
-                Log.d(APP_TAG, "Inserted messages: " + Arrays.toString(items));
             }
-            Log.d(APP_TAG, "All messages: " + scrapRepository.getAllScraps());
 
             handleDisciplines();
+            preferences.edit().putBoolean("migrate_database_att_2", true).apply();
+            Log.i(APP_TAG, "Successfully migrated!");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -130,17 +133,14 @@ public class MigrateToLocalDatabaseTask extends AsyncTask<Void, Void, Void> {
                 ASemester[] items = new ASemester[semesterSet.size()];
                 transformSemester(semesterSet).toArray(items);
                 semesterRepository.insertSemesters(items);
-                Log.d(APP_TAG, "Inserted semesters: " + Arrays.toString(items));
             }
         }
-        Log.d(APP_TAG, "All semesters: " + semesterRepository.getAllSemesters());
 
         List<SagresClassDetails> classesDetails = profile.getClassesDetails();
         if (classesDetails != null && classesDetails.size() > 0) {
             ADiscipline[] disciplines = new ADiscipline[classesDetails.size()];
             transformDiscipline(classesDetails).toArray(disciplines);
             disciplineRepository.insertDiscipline(disciplines);
-            Log.d(APP_TAG, "Inserted disciplines: " + Arrays.toString(disciplines));
 
             for (SagresClassDetails details : classesDetails) {
                 ADiscipline discipline = disciplineRepository.getDisciplinesBySemesterAndCode(details.getSemester(), details.getCode());
@@ -155,7 +155,6 @@ public class MigrateToLocalDatabaseTask extends AsyncTask<Void, Void, Void> {
                         disciplineGroup.setDraft(group.isDraft());
 
                         Long groupId = disciplineGroupRepository.insertDisciplineGroup(disciplineGroup);
-                        Log.i(APP_TAG, "Inserted Group: " + disciplineGroup.getGroup() + " Teacher: " + disciplineGroup.getTeacher() +" id::" + groupId.intValue());
 
                         if (!group.isDraft()) {
                             List<SagresClassTime> classesTimes = group.getClassTimeList();
@@ -174,8 +173,6 @@ public class MigrateToLocalDatabaseTask extends AsyncTask<Void, Void, Void> {
 
                     }
                 }
-
-                HashMap<String, SagresGrade> actualSemesterGrades = profile.getGrades();
 
                 SagresGrade grades = profile.getGradesOfClass(details.getCode(), details.getSemester());
                 if (grades != null) {
@@ -198,9 +195,6 @@ public class MigrateToLocalDatabaseTask extends AsyncTask<Void, Void, Void> {
                 }
             }
         }
-        Log.d(APP_TAG, "All disciplines: " + disciplineRepository.getAllDisciplines());
-        Log.d(APP_TAG, "All grades info: " + gradeInfoRepository.getAllGradeInfos());
-        Log.d(APP_TAG, "Disciplines in 2k17.2 " + disciplineClassLocationRepository.getClassesFromSemester("20172"));
     }
 
     private List<ADiscipline> transformDiscipline(List<SagresClassDetails> before) {
