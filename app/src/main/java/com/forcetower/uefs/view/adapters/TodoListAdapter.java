@@ -1,4 +1,4 @@
-package com.forcetower.uefs.view.class_details;
+package com.forcetower.uefs.view.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.database.entities.ATodoItem;
+import com.forcetower.uefs.view.class_details.TodoListFragment;
 
 import java.util.List;
 
