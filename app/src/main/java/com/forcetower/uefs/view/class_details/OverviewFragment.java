@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +34,7 @@ import com.forcetower.uefs.view.adapters.GradesAdapter;
 
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.forcetower.uefs.Constants.APP_TAG;
@@ -48,6 +50,9 @@ public class OverviewFragment extends Fragment {
 
     private SagresClassDetails details;
     private SagresClassGroup detailsGroup;
+
+    @BindView(R.id.sv_details_root)
+    ScrollView svRoot;
 
     //View References card details
     private TextView classCredits;
@@ -197,12 +202,29 @@ public class OverviewFragment extends Fragment {
         }
 
         setHasOptionsMenu(true);
+        svRoot.setFocusable(false);
         return fragmentView;
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.class_details, menu);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        svRoot.smoothScrollTo(0,0);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
     }
 
     private void refreshClass() {

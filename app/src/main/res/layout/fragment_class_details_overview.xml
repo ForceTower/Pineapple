@@ -5,14 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/light_gray"
-    android:animateLayoutChanges="true">
+    android:background="@color/light_gray">
 
     <ScrollView
         android:id="@+id/sv_details_root"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:orientation="vertical"
@@ -42,16 +40,4 @@
             <include android:id="@+id/class_day_and_time_card" layout="@layout/card_class_details_classes_time"/>
         </LinearLayout>
     </ScrollView>
-
-    <!--
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:layout_alignParentBottom="true"/>
-    -->
 </RelativeLayout>

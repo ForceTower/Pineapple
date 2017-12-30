@@ -75,7 +75,6 @@ public class TodoListFragment extends Fragment {
         adapter.setOnClickListener(this::onTodoItemClicked);
         rvTodoList.setAdapter(adapter);
         rvTodoList.setNestedScrollingEnabled(false);
-        //rvTodoList.addItemDecoration(new DividerItemDecoration(view.getContext(), DividerItemDecoration.VERTICAL));
         rvTodoList.setItemAnimator(new DefaultItemAnimator());
 
         rvTodoList.addOnScrollListener(new RecyclerView.OnScrollListener() {
