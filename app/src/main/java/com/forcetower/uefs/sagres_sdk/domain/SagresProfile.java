@@ -1,8 +1,5 @@
 package com.forcetower.uefs.sagres_sdk.domain;
 
-import android.util.Log;
-
-import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
 import com.forcetower.uefs.sagres_sdk.exception.SagresLoginException;
 import com.forcetower.uefs.sagres_sdk.managers.SagresProfileManager;
 import com.forcetower.uefs.sagres_sdk.utility.SagresDayUtils;
@@ -424,7 +421,7 @@ public class SagresProfile {
         return grades;
     }
 
-    public void placeNewGrades(HashMap<String, SagresGrade> grades) {
+    public void placeNewGrades(SagresSemester semester, HashMap<String, SagresGrade> grades) {
         this.grades = grades;
 
         if (allSemestersGrades != null) {
@@ -433,10 +430,14 @@ public class SagresProfile {
                 mergeList.add(entry.getValue());
             }
 
-            for (Map.Entry<SagresSemester, List<SagresGrade>> entry : allSemestersGrades.entrySet()) {
-                if (entry.getValue().containsAll(mergeList)) {
-                    allSemestersGrades.put(entry.getKey(), mergeList);
-                    break;
+            if (semester != null) {
+                allSemestersGrades.put(semester, mergeList);
+            } else {
+                for (Map.Entry<SagresSemester, List<SagresGrade>> entry : allSemestersGrades.entrySet()) {
+                    if (entry.getValue().containsAll(mergeList)) {
+                        allSemestersGrades.put(entry.getKey(), mergeList);
+                        break;
+                    }
                 }
             }
         }

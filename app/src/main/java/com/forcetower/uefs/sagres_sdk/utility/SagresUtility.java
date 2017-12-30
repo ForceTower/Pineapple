@@ -127,19 +127,18 @@ public class SagresUtility {
             HashMap<SagresSemester, List<SagresGrade>> semesterGrades = new HashMap<>();
             try {
                 if (gradesResponse.has("error")) {
-
                     Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Grades Error!!!!!");
                     grades = (SagresProfile.getCurrentProfile() != null) ? SagresProfile.getCurrentProfile().getGrades() : null;
                     semesterGrades = null;
                 } else {
                     String gradesHtml = gradesResponse.getString("html");
-                    grades = SagresUtility.getGradeHashMap(SagresGradesParser.extractGrades(gradesHtml));
+                    grades = SagresUtility.getGradeHashMap(SagresGradesParser.extractGrades(gradesHtml).second);
                     if (grades.isEmpty()) {
                         gradesResponse = SagresConnector.getStudentGrades();
                         if (!gradesResponse.has("error")) {
                             Log.e(SagresPortalSDK.SAGRES_SDK_TAG, "RETRYING GRADES");
                             gradesHtml = gradesResponse.getString("html");
-                            grades = SagresUtility.getGradeHashMap(SagresGradesParser.extractGrades(gradesHtml));
+                            grades = SagresUtility.getGradeHashMap(SagresGradesParser.extractGrades(gradesHtml).second);
                         }
                     }
                     semesterGrades = new HashMap<>();
@@ -290,17 +289,19 @@ public class SagresUtility {
                     } else {
                         Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Fetching Grades...");
                         String gradesHtml = gradesResponse.getString("html");
-                        HashMap<String, SagresGrade> grades = getGradeHashMap(SagresGradesParser.extractGrades(gradesHtml));
+                        Pair<SagresSemester, List<SagresGrade>> extraction = SagresGradesParser.extractGrades(gradesHtml);
+                        HashMap<String, SagresGrade> grades = getGradeHashMap(extraction.second);
                         if (grades != null && !grades.isEmpty())
-                            SagresProfile.getCurrentProfile().placeNewGrades(grades);
+                            SagresProfile.getCurrentProfile().placeNewGrades(extraction.first, grades);
                         else {
                             if (grades == null || grades.isEmpty()) {
                                 gradesResponse = SagresConnector.getStudentGrades();
                                 if (!gradesResponse.has("error")) {
                                     Log.e(SagresPortalSDK.SAGRES_SDK_TAG, "RETRYING GRADES");
                                     gradesHtml = gradesResponse.getString("html");
-                                    grades = SagresUtility.getGradeHashMap(SagresGradesParser.extractGrades(gradesHtml));
-                                    SagresProfile.getCurrentProfile().placeNewGrades(grades);
+                                    Pair<SagresSemester, List<SagresGrade>> extraction2 = SagresGradesParser.extractGrades(gradesHtml);
+                                    grades = SagresUtility.getGradeHashMap(extraction2.second);
+                                    SagresProfile.getCurrentProfile().placeNewGrades(extraction2.first, grades);
                                     Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Got'em, grades is set");
                                 }
                             }

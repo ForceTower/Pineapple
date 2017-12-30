@@ -1,6 +1,7 @@
 package com.forcetower.uefs.sagres_sdk.parsers;
 
 import android.util.Log;
+import android.util.Pair;
 
 import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
 import com.forcetower.uefs.sagres_sdk.domain.GradeInfo;
@@ -40,15 +41,13 @@ public class SagresGradesParser {
 
         for (Element element : semestersValues) {
             SagresPortalSDK.alertConnectionListeners(3, element.text());
-            Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Value: " + element.attr("value"));
-            Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Semester: " + element.text());
 
             if (semester == null || semester.equalsIgnoreCase(element.text())) {
                 List<SagresGrade> grades = getGradesFor(element.attr("value"), htmlDocument);
                 if (grades != null && !grades.isEmpty()) {
                     semesterGrades.put(new SagresSemester(element.attr("value"), element.text()), grades);
                 } else {
-                    semesterGrades.put(new SagresSemester(element.attr("value"), element.text()), new ArrayList<SagresGrade>());
+                    semesterGrades.put(new SagresSemester(element.attr("value"), element.text()), new ArrayList<>());
                 }
             }
         }
@@ -81,7 +80,7 @@ public class SagresGradesParser {
         try {
             Response response = SagresPortalSDK.getHttpClient().newCall(request).execute();
             String htmlSemester = response.body().string();
-            return extractGrades(htmlSemester);
+            return extractGrades(htmlSemester).second;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -89,21 +88,27 @@ public class SagresGradesParser {
         return null;
     }
 
-    public static List<SagresGrade> extractGrades(String htmlSemester) {
+    public static Pair<SagresSemester, List<SagresGrade>> extractGrades(String htmlSemester) {
         List<SagresGrade> grades = new ArrayList<>();
 
         Document html = Jsoup.parse(htmlSemester);
         Element gradesDiv = html.selectFirst("div[id=\"divBoletins\"]");
         if (gradesDiv == null) {
             Log.e(SagresPortalSDK.SAGRES_SDK_TAG, "Div boletins not found");
-            return grades;
+            return new Pair<>(null, grades);
         }
 
         Elements classes = gradesDiv.select("div[class=\"boletim-container\"]");
         if (classes == null) {
-            return grades;
+            return new Pair<>(null, grades);
         }
 
+        SagresSemester semester = null;
+        Elements semestersValues = html.select("option[selected=\"selected\"]");
+        if (semestersValues.size() == 1) {
+            semestersValues.get(0).attr("value");
+            semester = new SagresSemester(semestersValues.get(0).attr("value"), semestersValues.get(0).text());
+        }
 
         for (Element element : classes) {
             Element classInfo = element.selectFirst("div[class=\"boletim-item-info\"]");
@@ -167,6 +172,6 @@ public class SagresGradesParser {
             grades.add(clazz);
         }
 
-        return grades;
+        return new Pair<>(semester, grades);
     }
 }
