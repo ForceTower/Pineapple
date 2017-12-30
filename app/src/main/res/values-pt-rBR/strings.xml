@@ -166,4 +166,5 @@
     <string name="show_only_uncompleted_tasks">Mostrar apenas incompletas</string>
     <string name="class_overview">Resumo</string>
     <string name="class_todo_list">Tarefas</string>
+    <string name="grades">Notas</string>
 </resources>

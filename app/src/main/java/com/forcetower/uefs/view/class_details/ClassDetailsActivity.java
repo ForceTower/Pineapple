@@ -38,6 +38,8 @@ public class ClassDetailsActivity extends UEFSBaseActivity implements ClassDetai
     TabLayout tabLayout;
     @BindView(R.id.fragment_container)
     ViewPager viewPager;
+    private OverviewFragment fOverview;
+    private TodoListFragment fTodoList;
 
     public static void startActivity(Context context, String classCode, String semester, String group) {
         Intent intent = new Intent(context, ClassDetailsActivity.class);
@@ -68,6 +70,9 @@ public class ClassDetailsActivity extends UEFSBaseActivity implements ClassDetai
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
+        fOverview = new OverviewFragment();
+        fTodoList = new TodoListFragment();
+
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
@@ -86,16 +91,20 @@ public class ClassDetailsActivity extends UEFSBaseActivity implements ClassDetai
 
                 if (position == 0) {
                     fabActivityActions.setImageDrawable(getResources().getDrawable(R.drawable.ic_create_black_24dp));
+                    //fOverview.scrollToTop();
                 } else if (position == 1) {
                     fabActivityActions.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_black_24dp));
                 }
             }
         });
 
-        viewPager.setAdapter(new SectionsPagerAdapter(getSupportFragmentManager()));
-
+        List<Fragment> fragments = new ArrayList<>();
+        fragments.add(fOverview);
+        fragments.add(fTodoList);
+        viewPager.setAdapter(new SectionsPagerAdapter(getSupportFragmentManager(), fragments));
         tabLayout.getTabAt(0).setText(R.string.class_overview);
         tabLayout.getTabAt(1).setText(R.string.class_todo_list);
+        //tabLayout.getTabAt(2).setText(R.string.grades);
         tabLayout.getTabAt(0).select();
 
         //replaceFragmentContainer(getSupportFragmentManager(), new TodoListFragment(), R.id.fragment_container, "overview");
@@ -131,11 +140,9 @@ public class ClassDetailsActivity extends UEFSBaseActivity implements ClassDetai
     class SectionsPagerAdapter extends FragmentPagerAdapter {
         private List<Fragment> fragments;
 
-        SectionsPagerAdapter(FragmentManager fm) {
+        SectionsPagerAdapter(FragmentManager fm, List<Fragment> fragments) {
             super(fm);
-            fragments = new ArrayList<>();
-            fragments.add(new OverviewFragment());
-            fragments.add(new TodoListFragment());
+            this.fragments = fragments;
         }
 
         @Override

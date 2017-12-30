@@ -1,6 +1,8 @@
 package com.forcetower.uefs.view.class_details;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -217,16 +219,6 @@ public class OverviewFragment extends Fragment {
         svRoot.smoothScrollTo(0,0);
     }
 
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    }
-
     private void refreshClass() {
         if (refreshing) return;
         Log.i(APP_TAG, "Refresh");
@@ -326,4 +318,13 @@ public class OverviewFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    public void scrollToTop() {
+        /*
+        if (svRoot != null) {
+            new Handler(Looper.getMainLooper()).postDelayed(
+                    ()->svRoot.smoothScrollTo(0, 0),
+                    100);
+        }
+        */
+    }
 }
