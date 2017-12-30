@@ -1,10 +1,12 @@
 package com.forcetower.uefs.view.adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.forcetower.uefs.R;
@@ -16,6 +18,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.forcetower.uefs.Constants.APP_TAG;
+
 /**
  * Created by João Paulo on 30/12/2017.
  */
@@ -23,6 +27,7 @@ import butterknife.ButterKnife;
 public class TodoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<ATodoItem> items;
     private TodoListFragment.OnTodoItemClickedListener onClickListener;
+    private boolean onlyIncompleteChecked = false;
 
     public TodoListAdapter(List<ATodoItem> items) {
         setItems(items);
@@ -46,7 +51,10 @@ public class TodoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             todo.tvDateLimit.setText(item.getDate());
         }
         else todo.tvDateLimit.setVisibility(View.GONE);
+    }
 
+    public void setOnlyIncompletedChecked(boolean onlyIncompleteChecked) {
+        this.onlyIncompleteChecked = onlyIncompleteChecked;
     }
 
     @Override
@@ -87,6 +95,16 @@ public class TodoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
+            cbCompleted.setOnClickListener(this::onCheck);
+        }
+
+        private void onCheck(View view) {
+            boolean checked = cbCompleted.isChecked();
+            int position = getAdapterPosition();
+            items.get(position).setCompleted(checked);
+            if (onlyIncompleteChecked && checked) {
+                removeItem(position);
+            }
         }
 
         @Override

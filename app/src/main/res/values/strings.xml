@@ -170,4 +170,10 @@
     <string name="class_overview">Overview</string>
     <string name="class_todo_list">To-Do</string>
     <string name="grades">Grades</string>
+    <string name="todo_title">Task title</string>
+    <string name="todo_description">Description</string>
+    <string name="todo_date">Date</string>
+    <string name="has_date_limit">Has Date Limit</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
 </resources>

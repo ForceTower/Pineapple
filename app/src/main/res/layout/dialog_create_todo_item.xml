@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="16dp">
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/et_task_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
+            android:hint="@string/todo_title"
+            android:maxLength="140"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textSize="15sp"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <!--
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/description_layout"
+        android:layout_below="@id/title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/et_task_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/roboto_regular"
+            android:hint="@string/todo_description"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textSize="15sp"/>
+    </android.support.design.widget.TextInputLayout>
+    -->
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/date_input_layout"
+        android:layout_below="@id/title_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/et_text_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
+            android:hint="@string/todo_date"
+            android:inputType="text"
+            android:editable="false"
+            android:focusable="false"
+            android:maxLength="40"
+            android:maxLines="1"
+            android:textSize="15sp"
+            android:minWidth="100dp"
+            tools:text="12/05/2018"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.v7.widget.AppCompatCheckBox
+        android:id="@+id/cb_has_date_limit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_layout"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:fontFamily="@font/roboto_regular"
+        android:checked="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:textSize="14sp"
+        android:text="@string/has_date_limit"/>
+
+    <Button
+        android:id="@+id/save_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+        android:text="@string/save"
+        android:fontFamily="@font/roboto_medium"
+        android:textSize="13sp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/cb_has_date_limit"/>
+
+    <Button
+        android:id="@+id/cancel_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+        android:text="@string/cancel"
+        android:fontFamily="@font/roboto_medium"
+        android:textSize="13sp"
+        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_toLeftOf="@id/save_btn"
+        android:layout_below="@id/cb_has_date_limit"
+        android:layout_toStartOf="@id/save_btn"/>
+
+</RelativeLayout>

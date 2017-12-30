@@ -16,6 +16,7 @@ import com.forcetower.uefs.database.repository.GradeRepository;
 import com.forcetower.uefs.database.repository.GradeSectionRepository;
 import com.forcetower.uefs.database.repository.ScrapRepository;
 import com.forcetower.uefs.database.repository.SemesterRepository;
+import com.forcetower.uefs.database.repository.TodoItemRepository;
 
 import javax.inject.Singleton;
 
@@ -108,5 +109,11 @@ public class RoomModule {
     @Singleton
     SemesterRepository provideSemesterRep() {
         return new SemesterRepository(database.aSemesterDao());
+    }
+
+    @Provides
+    @Singleton
+    TodoItemRepository provideTodoItemRep() {
+        return new TodoItemRepository(database.aTodoItemDao());
     }
 }

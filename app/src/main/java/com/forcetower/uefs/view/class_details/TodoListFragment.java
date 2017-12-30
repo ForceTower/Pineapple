@@ -19,6 +19,7 @@ import com.forcetower.uefs.database.entities.ATodoItem;
 import com.forcetower.uefs.helpers.MockUtils;
 import com.forcetower.uefs.view.adapters.TodoListAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -37,6 +38,8 @@ public class TodoListFragment extends Fragment {
     Switch swIncompleteFilter;
 
     private String listCriteria;
+    private List<ATodoItem> items;
+
     private TodoListAdapter adapter;
 
     private ClassDetailsCallback callback;
@@ -67,14 +70,16 @@ public class TodoListFragment extends Fragment {
 
         swIncompleteFilter.setOnClickListener(this::swChangedListener);
 
-        List<ATodoItem> todoList = MockUtils.getTodoList();
+        items = MockUtils.getTodoList();
+        List<ATodoItem> visibleItems = new ArrayList<>();
+        visibleItems.addAll(items);
+
         rvTodoList.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new TodoListAdapter(todoList);
+        adapter = new TodoListAdapter(visibleItems);
         adapter.setOnClickListener(this::onTodoItemClicked);
         rvTodoList.setAdapter(adapter);
         rvTodoList.setNestedScrollingEnabled(false);
         rvTodoList.setItemAnimator(new DefaultItemAnimator());
-
         rvTodoList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -95,7 +100,11 @@ public class TodoListFragment extends Fragment {
     }
 
     private void swChangedListener(View view) {
-        List<ATodoItem> items = MockUtils.getTodoList();
+        adapter.setOnlyIncompletedChecked(swIncompleteFilter.isChecked());
+        if (items == null) {
+            Log.i(APP_TAG, "Renewed Todo List");
+            items = MockUtils.getTodoList();
+        }
         if(swIncompleteFilter.isChecked()) {
             for (int i = items.size()-1; i >= 0; i--) {
                 if (items.get(i).isCompleted()) {

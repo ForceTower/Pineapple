@@ -167,4 +167,10 @@
     <string name="class_overview">Resumo</string>
     <string name="class_todo_list">Tarefas</string>
     <string name="grades">Notas</string>
+    <string name="todo_title">Título</string>
+    <string name="todo_description">Descrição</string>
+    <string name="todo_date">Data</string>
+    <string name="has_date_limit">Tem Limite</string>
+    <string name="save">Salvar</string>
+    <string name="cancel">Cancelar</string>
 </resources>

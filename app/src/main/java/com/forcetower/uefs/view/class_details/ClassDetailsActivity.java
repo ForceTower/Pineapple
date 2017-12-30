@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -40,6 +41,7 @@ public class ClassDetailsActivity extends UEFSBaseActivity implements ClassDetai
     ViewPager viewPager;
     private OverviewFragment fOverview;
     private TodoListFragment fTodoList;
+    private int selectedPosition;
 
     public static void startActivity(Context context, String classCode, String semester, String group) {
         Intent intent = new Intent(context, ClassDetailsActivity.class);
@@ -89,6 +91,8 @@ public class ClassDetailsActivity extends UEFSBaseActivity implements ClassDetai
                     fabActivityActions.show();
                 }
 
+                selectedPosition = position;
+
                 if (position == 0) {
                     fabActivityActions.setImageDrawable(getResources().getDrawable(R.drawable.ic_create_black_24dp));
                     //fOverview.scrollToTop();
@@ -106,8 +110,20 @@ public class ClassDetailsActivity extends UEFSBaseActivity implements ClassDetai
         tabLayout.getTabAt(1).setText(R.string.class_todo_list);
         //tabLayout.getTabAt(2).setText(R.string.grades);
         tabLayout.getTabAt(0).select();
+        selectedPosition = 0;
 
-        //replaceFragmentContainer(getSupportFragmentManager(), new TodoListFragment(), R.id.fragment_container, "overview");
+        fabActivityActions.setOnClickListener(this::fabClicked);
+    }
+
+    private void fabClicked(View view) {
+        if (selectedPosition == 1) {
+            addNewTodoItem();
+        }
+    }
+
+    private void addNewTodoItem() {
+        CreateTodoItemDialog dialog = new CreateTodoItemDialog();
+        dialog.show(getSupportFragmentManager(), "create_todo_item");
     }
 
     @Override
@@ -129,6 +145,22 @@ public class ClassDetailsActivity extends UEFSBaseActivity implements ClassDetai
             }
         }
         return true;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt("selected_position", selectedPosition);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState != null) {
+            selectedPosition = savedInstanceState.getInt("selected_position", 0);
+        } else {
+            selectedPosition = 0;
+        }
     }
 
     @Override
