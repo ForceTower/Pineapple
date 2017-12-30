@@ -167,4 +167,6 @@
     <string name="third_party_licenses_btn">Third party licenses</string>
     <string name="to_do_list">To Do List</string>
     <string name="show_only_uncompleted_tasks">Show only not completed tasks</string>
+    <string name="class_overview">Overview</string>
+    <string name="class_todo_list">To-Do</string>
 </resources>

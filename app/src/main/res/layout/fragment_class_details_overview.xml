@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/light_gray"
+    android:animateLayoutChanges="true">
+
+    <ScrollView
+        android:id="@+id/sv_details_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"
+            android:paddingBottom="8dp"
+            android:clipToPadding="false">
+
+            <ProgressBar
+                android:id="@+id/progress_bar_load_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:visibility="gone"
+                android:indeterminate="true"/>
+
+            <include android:id="@+id/draft_card" layout="@layout/card_class_details_draft_class"/>
+            <include android:id="@+id/identification_card" layout="@layout/card_class_details_identification"/>
+            <include android:id="@+id/details_card" layout="@layout/card_class_details_general"/>
+            <include android:id="@+id/missed_card" layout="@layout/card_class_details_misses"/>
+            <include android:id="@+id/classes_pn_card" layout="@layout/card_class_details_prev_and_next"/>
+            <include layout="@layout/card_class_details_grades"/>
+            <include android:id="@+id/class_day_and_time_card" layout="@layout/card_class_details_classes_time"/>
+        </LinearLayout>
+    </ScrollView>
+
+    <!--
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_alignParentBottom="true"/>
+    -->
+</RelativeLayout>

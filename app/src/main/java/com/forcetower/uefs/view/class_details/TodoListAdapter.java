@@ -65,9 +65,9 @@ public class TodoListAdapter extends RecyclerView.Adapter {
         notifyItemRemoved(position);
     }
 
-    public void addItem(ATodoItem item) {
-        this.items.add(0, item);
-        notifyItemInserted(0);
+    public void addItem(ATodoItem item, int position) {
+        this.items.add(position, item);
+        notifyItemInserted(position);
     }
 
     public void setOnClickListener(TodoListFragment.OnTodoItemClickedListener onClickListener) {

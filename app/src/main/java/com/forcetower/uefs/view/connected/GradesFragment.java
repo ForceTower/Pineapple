@@ -184,7 +184,7 @@ public class GradesFragment extends Fragment {
         return list;
     }
 
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    class SectionsPagerAdapter extends FragmentPagerAdapter {
         private List<GradeInnerFragment> fragments;
 
         SectionsPagerAdapter(FragmentManager fm) {

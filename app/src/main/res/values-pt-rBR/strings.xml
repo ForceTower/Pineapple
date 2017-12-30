@@ -164,4 +164,6 @@
     <string name="pref_title_about_and_feedback">Sobre e Feedback</string>
     <string name="to_do_list">Lista de Tarefas</string>
     <string name="show_only_uncompleted_tasks">Mostrar apenas incompletas</string>
+    <string name="class_overview">Resumo</string>
+    <string name="class_todo_list">Tarefas</string>
 </resources>

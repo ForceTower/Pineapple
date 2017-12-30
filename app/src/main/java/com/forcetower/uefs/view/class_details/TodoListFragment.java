@@ -1,5 +1,6 @@
 package com.forcetower.uefs.view.class_details;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -32,8 +33,6 @@ import static com.forcetower.uefs.Constants.APP_TAG;
  */
 
 public class TodoListFragment extends Fragment {
-    @BindView(R.id.fab_add_new_task)
-    FloatingActionButton fabAddTask;
     @BindView(R.id.rv_todo_list)
     RecyclerView rvTodoList;
     @BindView(R.id.sw_show_options)
@@ -42,7 +41,19 @@ public class TodoListFragment extends Fragment {
     private String listCriteria;
     private TodoListAdapter adapter;
 
+    private ClassDetailsCallback callback;
+
     public TodoListFragment() {}
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            callback = (ClassDetailsCallback) context;
+        } catch(ClassCastException e) {
+            Log.e(APP_TAG, "Must implement ClassDetailsCallback");
+        }
+    }
 
     @Nullable
     @Override
@@ -64,14 +75,13 @@ public class TodoListFragment extends Fragment {
         adapter.setOnClickListener(this::onTodoItemClicked);
         rvTodoList.setAdapter(adapter);
         rvTodoList.setNestedScrollingEnabled(false);
-        rvTodoList.addItemDecoration(new DividerItemDecoration(view.getContext(), DividerItemDecoration.VERTICAL));
+        //rvTodoList.addItemDecoration(new DividerItemDecoration(view.getContext(), DividerItemDecoration.VERTICAL));
         rvTodoList.setItemAnimator(new DefaultItemAnimator());
 
         rvTodoList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (dy > 0) fabAddTask.hide();
-                else if (dy < 0) fabAddTask.show();
+                callback.onScrolled(recyclerView, dx, dy);
             }
         });
 
@@ -96,7 +106,12 @@ public class TodoListFragment extends Fragment {
                 }
             }
         } else {
-            adapter.setItems(items);
+            for (int i = 0; i < items.size(); i++) {
+                if (items.get(i).isCompleted()) {
+                    adapter.addItem(items.get(i), i);
+                }
+            }
+            //adapter.setItems(items);
         }
     }
 
