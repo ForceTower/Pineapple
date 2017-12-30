@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
  * Created by João Paulo on 30/12/2017.
  */
 
-public class TodoListAdapter extends RecyclerView.Adapter {
+public class TodoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<ATodoItem> items;
     private TodoListFragment.OnTodoItemClickedListener onClickListener;
 
