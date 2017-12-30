@@ -148,7 +148,6 @@ public class SagresFullClassParser {
                     if (specificSemester == null || period.equalsIgnoreCase(specificSemester)) {
                         if (specificCode == null || code.equalsIgnoreCase(specificCode)) {
                             if (specificGroup == null || type.equalsIgnoreCase(specificGroup)) {
-                                Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Added a builder");
                                 builderList.add(new Pair<>(builderIn, period));
                             }
                         }
@@ -271,8 +270,6 @@ public class SagresFullClassParser {
 
             SagresClassGroup classGroup = getGroupByCode(code, refGroup, semester);
             if (classGroup == null) classGroup = desperateMeasures(code, name, refGroup, semester);
-
-            Log.i(SagresPortalSDK.SAGRES_SDK_TAG,"Details of " + classNameFull);
 
             classGroup.setType(refGroup);
 
