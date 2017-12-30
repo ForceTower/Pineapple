@@ -1,0 +1,87 @@
+package com.forcetower.uefs.database.entities;
+
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.Nullable;
+
+/**
+ * Created by João Paulo on 30/12/2017.
+ */
+@Entity
+public class ATodoItem {
+    @PrimaryKey(autoGenerate = true)
+    private int uid;
+    @Nullable
+    private String disciplineCode;
+    private String title;
+    @Nullable
+    private String date;
+    private boolean hasTimeLimit;
+    private boolean completed;
+    private boolean shown;
+
+    public ATodoItem(@Nullable String disciplineCode, String title, @Nullable String date, boolean hasTimeLimit) {
+        this.disciplineCode = disciplineCode;
+        this.title = title;
+        this.date = date;
+        this.hasTimeLimit = hasTimeLimit;
+    }
+
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
+
+    @Nullable
+    public String getDisciplineCode() {
+        return disciplineCode;
+    }
+
+    public void setDisciplineCode(@Nullable String disciplineCode) {
+        this.disciplineCode = disciplineCode;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    @Nullable
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(@Nullable String date) {
+        this.date = date;
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
+
+    public boolean isShown() {
+        return shown;
+    }
+
+    public void setShown(boolean shown) {
+        this.shown = shown;
+    }
+
+    public boolean hasTimeLimit() {
+        return hasTimeLimit;
+    }
+
+    public void setHasTimeLimit(boolean hasTimeLimit) {
+        this.hasTimeLimit = hasTimeLimit;
+    }
+}

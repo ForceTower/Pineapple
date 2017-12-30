@@ -165,4 +165,6 @@
     <string name="pref_use_new_layout">Use new layout</string>
     <string name="pref_title_about_and_feedback">About and Feedback</string>
     <string name="third_party_licenses_btn">Third party licenses</string>
+    <string name="to_do_list">To Do List</string>
+    <string name="show_only_uncompleted_tasks">Show only not completed tasks</string>
 </resources>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <CheckBox
+        android:id="@+id/cb_finished"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_centerVertical="true"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/cb_finished"
+        android:layout_toEndOf="@id/cb_finished"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp">
+
+    <TextView
+        android:id="@+id/tv_task_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="2"
+        android:textColor="@color/primaryText"
+        android:fontFamily="@font/roboto_regular"
+        tools:text="Estudar para Circuitos Elétricos enquanto ele parece estar de boas"/>
+
+    <TextView
+        android:id="@+id/tv_task_day_limit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_task_name"
+        android:textColor="@color/secondaryText"
+        android:textSize="12sp"
+        android:fontFamily="@font/roboto_regular"
+        tools:text="Até 31/01/2018"/>
+    </RelativeLayout>
+</RelativeLayout>
