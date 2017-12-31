@@ -1,6 +1,7 @@
 package com.forcetower.uefs.dependency_injection.module;
 
 import android.app.Application;
+import android.arch.lifecycle.ViewModelProvider;
 import android.arch.persistence.room.Room;
 
 import com.forcetower.uefs.database.AppDatabase;
@@ -17,6 +18,7 @@ import com.forcetower.uefs.database.repository.GradeSectionRepository;
 import com.forcetower.uefs.database.repository.ScrapRepository;
 import com.forcetower.uefs.database.repository.SemesterRepository;
 import com.forcetower.uefs.database.repository.TodoItemRepository;
+import com.forcetower.uefs.view_models.CustomViewModelFactory;
 
 import javax.inject.Singleton;
 
@@ -31,7 +33,9 @@ public class RoomModule {
     private final AppDatabase database;
 
     public RoomModule(Application application) {
-        database = Room.databaseBuilder(application, AppDatabase.class, "room_database.db").build();
+        database = Room.databaseBuilder(application, AppDatabase.class, "room_database.db")
+                .fallbackToDestructiveMigration()
+                .build();
     }
 
     @Provides
@@ -115,5 +119,11 @@ public class RoomModule {
     @Singleton
     TodoItemRepository provideTodoItemRep() {
         return new TodoItemRepository(database.aTodoItemDao());
+    }
+
+    @Provides
+    @Singleton
+    ViewModelProvider.Factory provideViewModelFactory(TodoItemRepository todo) {
+        return new CustomViewModelFactory(todo);
     }
 }

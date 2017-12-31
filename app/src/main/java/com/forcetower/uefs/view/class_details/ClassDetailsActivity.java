@@ -1,5 +1,7 @@
 package com.forcetower.uefs.view.class_details;
 
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,13 +19,18 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.UEFSApplication;
+import com.forcetower.uefs.database.entities.ATodoItem;
 import com.forcetower.uefs.helpers.Utils;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
 import com.forcetower.uefs.sagres_sdk.managers.SagresProfileManager;
 import com.forcetower.uefs.view.UEFSBaseActivity;
+import com.forcetower.uefs.view_models.TodoItemCollectionViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,6 +46,11 @@ public class ClassDetailsActivity extends UEFSBaseActivity implements ClassDetai
     TabLayout tabLayout;
     @BindView(R.id.fragment_container)
     ViewPager viewPager;
+
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
+    TodoItemCollectionViewModel viewModel;
+
     private OverviewFragment fOverview;
     private TodoListFragment fTodoList;
     private int selectedPosition;
@@ -56,6 +68,7 @@ public class ClassDetailsActivity extends UEFSBaseActivity implements ClassDetai
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class_details);
         ButterKnife.bind(this);
+        ((UEFSApplication)getApplication()).getApplicationComponent().inject(this);
 
         if (!makeSureEverythingIsOkayOrFinish()) return;
 
@@ -71,6 +84,8 @@ public class ClassDetailsActivity extends UEFSBaseActivity implements ClassDetai
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(TodoItemCollectionViewModel.class);
 
         fOverview = new OverviewFragment();
         fTodoList = new TodoListFragment();
@@ -123,7 +138,19 @@ public class ClassDetailsActivity extends UEFSBaseActivity implements ClassDetai
 
     private void addNewTodoItem() {
         CreateTodoItemDialog dialog = new CreateTodoItemDialog();
+        Bundle bundle = new Bundle();
+        String code = getIntent().getStringExtra(CLASS_CODE_KEY);
+        bundle.putString("discipline", code);
+        dialog.setArguments(bundle);
         dialog.show(getSupportFragmentManager(), "create_todo_item");
+    }
+
+    public void updateTodoItem(ATodoItem todoItem) {
+        viewModel.addTodoItem(todoItem);
+    }
+
+    public void removeTodoItem(ATodoItem todoItem) {
+        //TODO finish
     }
 
     @Override
@@ -167,6 +194,16 @@ public class ClassDetailsActivity extends UEFSBaseActivity implements ClassDetai
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         if (dy > 0 && fabActivityActions.getVisibility() == View.VISIBLE) fabActivityActions.hide();
         else if (dy < 0 && fabActivityActions.getVisibility() != View.VISIBLE) fabActivityActions.show();
+    }
+
+    @Override
+    public void onTodoItemUpdated(ATodoItem item, int position) {
+        updateTodoItem(item);
+    }
+
+    @Override
+    public void onTodoItemDeleted(ATodoItem item, int position) {
+        viewModel.deleteItem(item);
     }
 
     class SectionsPagerAdapter extends FragmentPagerAdapter {

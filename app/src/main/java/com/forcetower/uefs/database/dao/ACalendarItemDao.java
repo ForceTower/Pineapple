@@ -3,6 +3,7 @@ package com.forcetower.uefs.database.dao;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
 import com.forcetower.uefs.database.entities.ACalendarItem;
@@ -16,7 +17,7 @@ import java.util.List;
 public interface ACalendarItemDao {
     @Query("SELECT * FROM ACalendarItem")
     List<ACalendarItem> getCalendar();
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertItems(ACalendarItem... items);
     @Delete
     void deleteItem(ACalendarItem item);

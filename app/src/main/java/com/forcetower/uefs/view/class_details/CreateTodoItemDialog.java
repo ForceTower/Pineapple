@@ -1,6 +1,8 @@
 package com.forcetower.uefs.view.class_details;
 
 import android.app.DatePickerDialog;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,6 +20,7 @@ import com.forcetower.uefs.R;
 import com.forcetower.uefs.UEFSApplication;
 import com.forcetower.uefs.database.entities.ATodoItem;
 import com.forcetower.uefs.database.repository.TodoItemRepository;
+import com.forcetower.uefs.view_models.TodoItemCollectionViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -47,7 +50,8 @@ public class CreateTodoItemDialog extends DialogFragment {
     Button bCancel;
 
     @Inject
-    TodoItemRepository repository;
+    ViewModelProvider.Factory viewModelFactory;
+    TodoItemCollectionViewModel viewModel;
 
     private Calendar calendar;
     private String discipline;
@@ -77,14 +81,25 @@ public class CreateTodoItemDialog extends DialogFragment {
         return view;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(TodoItemCollectionViewModel.class);
+    }
+
     private void saveTodoItem(View view) {
         String title = etTitle.getText().toString();
         String date = etDate.getText().toString();
         boolean timeLim = cHasLimit.isChecked();
 
         ATodoItem item = new ATodoItem(discipline, title, date, timeLim);
-        Long value = repository.insertTodoItem(item);
-        Log.i(APP_TAG, "Inserted item: " + value.intValue());
+        viewModel.addTodoItem(item);
+        Log.i(APP_TAG, "Inserted item");
         dismiss();
     }
 

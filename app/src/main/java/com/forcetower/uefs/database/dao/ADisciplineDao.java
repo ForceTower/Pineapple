@@ -3,6 +3,7 @@ package com.forcetower.uefs.database.dao;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
 import com.forcetower.uefs.database.entities.ADiscipline;
@@ -26,7 +27,7 @@ public interface ADisciplineDao {
     @Query("SELECT * FROM ADiscipline WHERE code = :code AND semester = :semester LIMIT 1")
     ADiscipline getDisciplinesBySemesterAndCode(String semester, String code);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertDiscipline(ADiscipline... disciplines);
 
     @Delete

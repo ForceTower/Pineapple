@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="60dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:focusable="true"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground">
@@ -17,33 +18,58 @@
         android:layout_centerVertical="true"/>
 
     <RelativeLayout
+        android:id="@+id/center_focus_enable"
+        android:clickable="true"
+        android:focusable="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/cb_finished"
         android:layout_toEndOf="@id/cb_finished"
+        android:layout_toStartOf="@id/view_delete_todo"
+        android:layout_toLeftOf="@id/view_delete_todo"
         android:layout_centerVertical="true"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp">
 
-    <TextView
-        android:id="@+id/tv_task_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxLines="2"
-        android:textColor="@color/primaryText"
-        android:fontFamily="@font/roboto_regular"
-        tools:text="Estudar para Circuitos Elétricos enquanto ele parece estar de boas"/>
+        <TextView
+            android:id="@+id/tv_task_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:textColor="@color/primaryText"
+            android:fontFamily="@font/roboto_regular"
+            tools:text="Estudar para Circuitos Elétricos enquanto ele parece estar de boas"/>
 
-    <TextView
-        android:id="@+id/tv_task_day_limit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_task_name"
-        android:textColor="@color/secondaryText"
-        android:textSize="12sp"
-        android:fontFamily="@font/roboto_regular"
-        tools:text="Até 31/01/2018"/>
+        <TextView
+            android:id="@+id/tv_task_day_limit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_task_name"
+            android:textColor="@color/secondaryText"
+            android:textSize="12sp"
+            android:fontFamily="@font/roboto_regular"
+            tools:text="Até 31/01/2018"/>
     </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/view_delete_todo"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:clickable="true"
+        android:focusable="true">
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerInParent="true"
+            android:tint="@color/colorPrimaryDark"
+            app:srcCompat="@drawable/ic_delete_black_24dp"/>
+    </RelativeLayout>
+
 </RelativeLayout>

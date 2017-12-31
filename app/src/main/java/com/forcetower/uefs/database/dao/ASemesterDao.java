@@ -3,6 +3,7 @@ package com.forcetower.uefs.database.dao;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
 import com.forcetower.uefs.database.entities.ASemester;
@@ -17,7 +18,7 @@ public interface ASemesterDao {
     @Query("SELECT * FROM ASemester WHERE uefs_id = :uefsId")
     ASemester getSemester(String uefsId);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertSemesters(ASemester... semesters);
 
     @Delete

@@ -3,6 +3,7 @@ package com.forcetower.uefs.database.dao;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
 import com.forcetower.uefs.database.entities.ADisciplineClassLocation;
@@ -23,7 +24,7 @@ public interface ADisciplineClassLocationDao {
     @Query("SELECT * FROM ADisciplineClassLocation WHERE groupId IN (SELECT uid FROM ADisciplineGroup WHERE discipline IN (SELECT uid FROM ADiscipline WHERE semester = :semester_uefs_name))")
     List<ADisciplineClassLocation> getClassesFromSemester(String semester_uefs_name);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertClassLocation(ADisciplineClassLocation... classLocations);
 
     @Delete

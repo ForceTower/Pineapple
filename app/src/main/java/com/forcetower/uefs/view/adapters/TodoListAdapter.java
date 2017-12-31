@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.forcetower.uefs.R;
@@ -27,7 +28,6 @@ import static com.forcetower.uefs.Constants.APP_TAG;
 public class TodoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<ATodoItem> items;
     private TodoListFragment.OnTodoItemClickedListener onClickListener;
-    private boolean onlyIncompleteChecked = false;
 
     public TodoListAdapter(List<ATodoItem> items) {
         setItems(items);
@@ -53,9 +53,6 @@ public class TodoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         else todo.tvDateLimit.setVisibility(View.GONE);
     }
 
-    public void setOnlyIncompletedChecked(boolean onlyIncompleteChecked) {
-        this.onlyIncompleteChecked = onlyIncompleteChecked;
-    }
 
     @Override
     public int getItemCount() {
@@ -67,20 +64,25 @@ public class TodoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         notifyDataSetChanged();
     }
 
-    public void removeItem(int position) {
-        if (position >= 0 && position < items.size())
-            this.items.remove(position);
-
-        notifyItemRemoved(position);
+    public void setOnClickListener(TodoListFragment.OnTodoItemClickedListener onClickListener) {
+        this.onClickListener = onClickListener;
     }
 
-    public void addItem(ATodoItem item, int position) {
-        this.items.add(position, item);
+    public void removeItem(int position) {
+        if (position >= 0 && position < items.size()) {
+            items.remove(position);
+            notifyItemRemoved(position);
+        }
+    }
+
+    public void insertItem(int position, ATodoItem item) {
+        items.add(position, item);
         notifyItemInserted(position);
     }
 
-    public void setOnClickListener(TodoListFragment.OnTodoItemClickedListener onClickListener) {
-        this.onClickListener = onClickListener;
+    public void changeItemAtPos(int position, boolean completed) {
+        items.get(position).setCompleted(completed);
+        notifyItemChanged(position);
     }
 
     class TodoHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -90,27 +92,44 @@ public class TodoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         TextView tvDateLimit;
         @BindView(R.id.cb_finished)
         CheckBox cbCompleted;
+        @BindView(R.id.view_delete_todo)
+        View ivDeleteItem;
+        @BindView(R.id.center_focus_enable)
+        View relativeCenter;
 
         TodoHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
             cbCompleted.setOnClickListener(this::onCheck);
+            relativeCenter.setOnClickListener(this);
+            ivDeleteItem.setOnClickListener(this::delete);
+        }
+
+        private void delete(View view) {
+            int position = getAdapterPosition();
+            ATodoItem item = items.get(position);
+            if (onClickListener != null) {
+                onClickListener.onItemDelete(view, item, position);
+            }
         }
 
         private void onCheck(View view) {
             boolean checked = cbCompleted.isChecked();
             int position = getAdapterPosition();
             items.get(position).setCompleted(checked);
-            if (onlyIncompleteChecked && checked) {
-                removeItem(position);
+
+            if (onClickListener != null) {
+                onClickListener.onItemUpdated(view, items.get(position), position);
             }
         }
 
         @Override
         public void onClick(View v) {
+            int position = getAdapterPosition();
+            cbCompleted.performClick();
+
             if (onClickListener != null) {
-                int position = getAdapterPosition();
                 onClickListener.onItemClicked(v, position);
             }
         }

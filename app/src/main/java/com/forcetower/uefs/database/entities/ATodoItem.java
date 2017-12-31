@@ -84,4 +84,13 @@ public class ATodoItem {
     public void setHasTimeLimit(boolean hasTimeLimit) {
         this.hasTimeLimit = hasTimeLimit;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof ATodoItem) {
+            ATodoItem o = (ATodoItem) obj;
+            return o.uid == uid;
+        }
+        return false;
+    }
 }

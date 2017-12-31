@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
 import com.forcetower.uefs.database.entities.ATodoItem;
@@ -21,7 +22,7 @@ public interface ATodoItemDao {
     @Query("SELECT * FROM ATodoItem WHERE disciplineCode = :disciplineCode")
     LiveData<List<ATodoItem>> getTodoForDiscipline(String disciplineCode);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insertTodoItem(ATodoItem item);
 
     @Delete
