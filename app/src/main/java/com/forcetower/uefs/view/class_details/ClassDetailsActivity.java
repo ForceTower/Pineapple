@@ -149,10 +149,6 @@ public class ClassDetailsActivity extends UEFSBaseActivity implements ClassDetai
         viewModel.addTodoItem(todoItem);
     }
 
-    public void removeTodoItem(ATodoItem todoItem) {
-        //TODO finish
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {

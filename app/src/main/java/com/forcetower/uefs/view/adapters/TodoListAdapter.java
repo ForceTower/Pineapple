@@ -14,6 +14,7 @@ import com.forcetower.uefs.R;
 import com.forcetower.uefs.database.entities.ATodoItem;
 import com.forcetower.uefs.view.class_details.TodoListFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -30,6 +31,7 @@ public class TodoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private TodoListFragment.OnTodoItemClickedListener onClickListener;
 
     public TodoListAdapter(List<ATodoItem> items) {
+        this.items = new ArrayList<>();
         setItems(items);
     }
 
@@ -60,7 +62,8 @@ public class TodoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public void setItems(List<ATodoItem> items) {
-        this.items = items;
+        this.items.clear();
+        this.items.addAll(items);
         notifyDataSetChanged();
     }
 
@@ -76,13 +79,25 @@ public class TodoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public void insertItem(int position, ATodoItem item) {
+        if (items.contains(item))
+            return;
+
         items.add(position, item);
         notifyItemInserted(position);
+    }
+
+    public void removeAll() {
+        items.clear();
     }
 
     public void changeItemAtPos(int position, boolean completed) {
         items.get(position).setCompleted(completed);
         notifyItemChanged(position);
+    }
+
+    public void insertAll(List<ATodoItem> filtered) {
+        items.addAll(filtered);
+        notifyDataSetChanged();
     }
 
     class TodoHolder extends RecyclerView.ViewHolder implements View.OnClickListener{

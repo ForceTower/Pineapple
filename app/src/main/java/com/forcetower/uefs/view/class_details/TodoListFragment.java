@@ -118,68 +118,10 @@ public class TodoListFragment extends Fragment {
     }
 
     private void updateItems(List<ATodoItem> newItems) {
-        if (items != null && items.containsAll(newItems)) {
-            if (items.size() == newItems.size()) { //Change in data
-                for (int i = 0; i < items.size(); i++) {
-                    ATodoItem before = items.get(i);
-                    int index = newItems.indexOf(before);
-                    ATodoItem after = newItems.get(index);
-                    if (after.isCompleted() != before.isCompleted()) {
-                        before.setCompleted(after.isCompleted()); //Since you can not change the title, that's enough
-                    }
-                }
-                this.items = newItems;
-                return;
-            }
-
-        }
-        /*if (items != null && items.containsAll(newItems)) {
-            if (items.size() == newItems.size()) { //Change in data
-                for (int i = 0; i < items.size(); i++) {
-                    ATodoItem before = items.get(i);
-                    int index = newItems.indexOf(before);
-                    ATodoItem after = newItems.get(index);
-                    if (after.isCompleted() != before.isCompleted()) {
-                        before.setCompleted(after.isCompleted()); //Since you can not change the title, that's enough
-                        adapter.changeItemAtPos(i, before.isCompleted());
-                    }
-                }
-            } else { //Some items have been deleted
-                for (int i = items.size() - 1; i >= 0; i++) {
-                    ATodoItem before = items.get(i);
-                    int index = newItems.indexOf(before);
-                    if (index == -1) {
-                        adapter.removeItem(i);
-                    }
-                }
-            }
-        } else if (items != null) { //Some items have been added and/or possibly deleted
-            for (int i = items.size() - 1; i >= 0; i++) { //this handles the possibility of removed
-                ATodoItem before = items.get(i);
-                int index = newItems.indexOf(before);
-                if (index == -1) {
-                    adapter.removeItem(i);
-                }
-            }
-
-            for (int i = 0; i < newItems.size(); i++) { //this one handles the insertion part
-                ATodoItem after = newItems.get(i);
-                int index = items.indexOf(after);
-                if (index == -1) {
-                    adapter.insertItem(i, after);
-                }
-            }
-        } else { //There were no moves
-            for (int i = 0; i < newItems.size(); i++) { //this one handles the insertion part
-                ATodoItem after = newItems.get(i);
-                adapter.insertItem(i, after);
-            }
-        }
-        */
         this.items = newItems;
-        List<ATodoItem> copy = new ArrayList<>();
-        copy.addAll(items);
-        adapter.setItems(copy);
+        adapter.removeAll();
+        adapter.setItems(items);
+        swChangedListener(null);
     }
 
     private void onTodoItemClicked(View view, int position) {
@@ -188,18 +130,17 @@ public class TodoListFragment extends Fragment {
 
     private void swChangedListener(View view) {
         if (items != null) {
+            List<ATodoItem> filtered = new ArrayList<>();
+            adapter.removeAll();
             if (swIncompleteFilter.isChecked()) {
-                for (int i = items.size() - 1; i >= 0; i--) {
-                    if (items.get(i).isCompleted()) {
-                        adapter.removeItem(i);
+                for (ATodoItem item : items) {
+                    if (!item.isCompleted()) {
+                        filtered.add(item);
                     }
                 }
+                adapter.insertAll(filtered);
             } else {
-                for (int i = 0; i < items.size(); i++) {
-                    if (items.get(i).isCompleted()) {
-                        adapter.insertItem(i, items.get(i));
-                    }
-                }
+                adapter.insertAll(items);
             }
         }
     }
