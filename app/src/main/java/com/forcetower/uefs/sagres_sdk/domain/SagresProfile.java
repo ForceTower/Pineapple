@@ -451,6 +451,19 @@ public class SagresProfile {
     }
 
     public HashMap<SagresSemester, List<SagresGrade>> getAllSemestersGrades() {
+        if (allSemestersGrades != null && !allSemestersGrades.isEmpty()) {
+            List<String> semesters = new ArrayList<>();
+            HashMap<SagresSemester, List<SagresGrade>> renewed = new HashMap<>();
+            for (Map.Entry<SagresSemester, List<SagresGrade>> entry : allSemestersGrades.entrySet()) {
+                String semesterName = entry.getKey().getName().trim().toLowerCase();
+                if (!semesters.contains(semesterName)) {
+                    renewed.put(entry.getKey(), entry.getValue());
+                    semesters.add(semesterName);
+                }
+            }
+            allSemestersGrades = renewed;
+        }
+        
         return allSemestersGrades;
     }
 
