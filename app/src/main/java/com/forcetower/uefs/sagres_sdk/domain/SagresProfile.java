@@ -430,16 +430,16 @@ public class SagresProfile {
                 mergeList.add(entry.getValue());
             }
 
-            if (semester != null) {
+            /*if (semester != null) {
                 allSemestersGrades.put(semester, mergeList);
-            } else {
+            } else {*/
                 for (Map.Entry<SagresSemester, List<SagresGrade>> entry : allSemestersGrades.entrySet()) {
-                    if (entry.getValue().containsAll(mergeList)) {
+                    if (entry.getValue().containsAll(mergeList) && entry.getKey().getSemesterCode().trim().equalsIgnoreCase(semester.getSemesterCode().trim())) {
                         allSemestersGrades.put(entry.getKey(), mergeList);
                         break;
                     }
                 }
-            }
+            /*}*/
         }
 
         setCurrentProfile(this);

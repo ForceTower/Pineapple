@@ -25,6 +25,17 @@ public class SagresSemester {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SagresSemester semester = (SagresSemester) o;
+
+        if (!semesterCode.equals(semester.semesterCode)) return false;
+        return name.equals(semester.name);
+    }
+
+    @Override
     public int hashCode() {
         return semesterCode.hashCode();
     }
