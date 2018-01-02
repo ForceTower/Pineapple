@@ -463,7 +463,7 @@ public class SagresProfile {
             }
             allSemestersGrades = renewed;
         }
-        
+
         return allSemestersGrades;
     }
 

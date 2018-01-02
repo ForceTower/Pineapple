@@ -1,5 +1,7 @@
 package com.forcetower.uefs.database.repository;
 
+import android.arch.lifecycle.LiveData;
+
 import com.forcetower.uefs.database.dao.ACalendarItemDao;
 import com.forcetower.uefs.database.entities.ACalendarItem;
 
@@ -16,7 +18,7 @@ public class CalendarRepository {
         this.dao = dao;
     }
 
-    public List<ACalendarItem> getCalendar() {
+    public LiveData<List<ACalendarItem>> getCalendar() {
         return dao.getCalendar();
     }
 

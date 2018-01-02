@@ -25,14 +25,20 @@ public class TodoItemCollectionViewModel extends ViewModel {
     }
 
     public void addTodoItem(ATodoItem item) {
-        new AddItemTask().execute(item);
+        new AddItemTask(repository).execute(item);
     }
 
     public void deleteItem(ATodoItem item) {
-        new DeleteItemTask().execute(item);
+        new DeleteItemTask(repository).execute(item);
     }
 
-    private class AddItemTask extends AsyncTask<ATodoItem, Void, Void> {
+    private static class AddItemTask extends AsyncTask<ATodoItem, Void, Void> {
+        private TodoItemRepository repository;
+
+        AddItemTask(TodoItemRepository repository) {
+            this.repository = repository;
+        }
+
         @Override
         protected Void doInBackground(ATodoItem... aTodoItems) {
             repository.insertTodoItem(aTodoItems[0]);
@@ -40,7 +46,13 @@ public class TodoItemCollectionViewModel extends ViewModel {
         }
     }
 
-    private class DeleteItemTask extends AsyncTask<ATodoItem, Void, Void> {
+    private static class DeleteItemTask extends AsyncTask<ATodoItem, Void, Void> {
+        private TodoItemRepository repository;
+
+        DeleteItemTask(TodoItemRepository repository) {
+            this.repository = repository;
+        }
+
         @Override
         protected Void doInBackground(ATodoItem... aTodoItems) {
             repository.deleteTodoItem(aTodoItems[0]);

@@ -1,5 +1,6 @@
 package com.forcetower.uefs.database.dao;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
@@ -16,7 +17,7 @@ import java.util.List;
 @Dao
 public interface ACalendarItemDao {
     @Query("SELECT * FROM ACalendarItem")
-    List<ACalendarItem> getCalendar();
+    LiveData<List<ACalendarItem>> getCalendar();
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertItems(ACalendarItem... items);
     @Delete
