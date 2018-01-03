@@ -87,8 +87,15 @@ public class ClassDetailsActivity extends UEFSBaseActivity implements ClassDetai
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(TodoItemCollectionViewModel.class);
 
+        fabActivityActions.hide();
+
         fOverview = new OverviewFragment();
         fTodoList = new TodoListFragment();
+        Bundle bundle = new Bundle();
+        if (getIntent().getExtras() != null) {
+            bundle.putString("discipline", getIntent().getStringExtra(CLASS_CODE_KEY));
+        }
+        fTodoList.setArguments(bundle);
 
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
@@ -103,13 +110,14 @@ public class ClassDetailsActivity extends UEFSBaseActivity implements ClassDetai
             @Override
             public void onPageSelected(int position) {
                 if (fabActivityActions.getVisibility() != View.VISIBLE) {
-                    fabActivityActions.show();
+                    if (position == 1) fabActivityActions.show();
                 }
 
                 selectedPosition = position;
 
                 if (position == 0) {
                     fabActivityActions.setImageDrawable(getResources().getDrawable(R.drawable.ic_create_black_24dp));
+                    fabActivityActions.hide();
                     //fOverview.scrollToTop();
                 } else if (position == 1) {
                     fabActivityActions.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_black_24dp));
@@ -189,7 +197,8 @@ public class ClassDetailsActivity extends UEFSBaseActivity implements ClassDetai
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         if (dy > 0 && fabActivityActions.getVisibility() == View.VISIBLE) fabActivityActions.hide();
-        else if (dy < 0 && fabActivityActions.getVisibility() != View.VISIBLE) fabActivityActions.show();
+        else if (dy < 0 && fabActivityActions.getVisibility() != View.VISIBLE)
+            if (selectedPosition == 1) fabActivityActions.show();
     }
 
     @Override

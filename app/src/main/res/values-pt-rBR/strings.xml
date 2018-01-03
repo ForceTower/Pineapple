@@ -173,4 +173,5 @@
     <string name="has_date_limit">Tem Limite</string>
     <string name="save">Salvar</string>
     <string name="cancel">Cancelar</string>
+    <string name="title_tasks">Tarefas</string>
 </resources>

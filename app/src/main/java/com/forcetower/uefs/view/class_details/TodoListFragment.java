@@ -75,7 +75,7 @@ public class TodoListFragment extends Fragment {
         listCriteria = null;
         Bundle arguments = getArguments();
         if (arguments != null) {
-            listCriteria = arguments.getString("list");
+            listCriteria = arguments.getString("discipline");
         }
 
         swIncompleteFilter.setOnClickListener(this::swChangedListener);
@@ -107,7 +107,7 @@ public class TodoListFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(TodoItemCollectionViewModel.class);
 
-        viewModel.getTodoItems().observe(this, items -> {
+        viewModel.getTodoItems(listCriteria).observe(this, items -> {
             if (items != null) {
                 updateItems(items);
             } else {

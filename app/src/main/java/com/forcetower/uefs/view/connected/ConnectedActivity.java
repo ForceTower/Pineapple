@@ -25,6 +25,7 @@ import com.forcetower.uefs.helpers.SyncUtils;
 import com.forcetower.uefs.helpers.Utils;
 import com.forcetower.uefs.services.tasks.MigrateToLocalDatabaseTask;
 import com.forcetower.uefs.view.UEFSBaseActivity;
+import com.forcetower.uefs.view.class_details.TodoListFragment;
 import com.forcetower.uefs.view.settings.SettingsActivity;
 
 import javax.inject.Inject;

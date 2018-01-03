@@ -24,6 +24,14 @@ public class TodoItemCollectionViewModel extends ViewModel {
         return repository.getAllTodoItems();
     }
 
+    public LiveData<List<ATodoItem>> getTodoItems(String disciplineCode) {
+        if (disciplineCode == null) {
+            return getTodoItems();
+        } else {
+            return repository.getTodoForDiscipline(disciplineCode);
+        }
+    }
+
     public void addTodoItem(ATodoItem item) {
         new AddItemTask(repository).execute(item);
     }

@@ -123,7 +123,7 @@ public class RoomModule {
 
     @Provides
     @Singleton
-    ViewModelProvider.Factory provideViewModelFactory(TodoItemRepository todo) {
-        return new CustomViewModelFactory(todo);
+    ViewModelProvider.Factory provideViewModelFactory(TodoItemRepository todo, CalendarRepository calendar) {
+        return new CustomViewModelFactory(todo, calendar);
     }
 }

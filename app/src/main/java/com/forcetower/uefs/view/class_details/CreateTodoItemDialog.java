@@ -72,6 +72,7 @@ public class CreateTodoItemDialog extends DialogFragment {
         etDate.setOnClickListener(this::dateClick);
         bSave.setOnClickListener(this::saveTodoItem);
         bCancel.setOnClickListener((ignored)->dismiss());
+        cHasLimit.setOnClickListener(this::limitClicked);
 
         if (getArguments() != null) {
             discipline = getArguments().getString("discipline", null);
@@ -79,6 +80,10 @@ public class CreateTodoItemDialog extends DialogFragment {
 
         setCancelable(true);
         return view;
+    }
+
+    private void limitClicked(View view) {
+        etDate.setEnabled(cHasLimit.isChecked());
     }
 
     @Override
