@@ -402,7 +402,7 @@ public class SagresProfile {
     }
 
     private void mergeMessages(List<SagresMessage> newMessages) {
-        for(SagresMessage oldMessage : newMessages) {
+        for(SagresMessage oldMessage : messages) {
             if (!newMessages.contains(oldMessage)) {
                 newMessages.add(oldMessage);
             }

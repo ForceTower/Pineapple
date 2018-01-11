@@ -28,6 +28,8 @@ import org.jsoup.Jsoup;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.forcetower.uefs.Constants.APP_TAG;
+
 /**
  * Created by João Paulo on 18/11/2017.
  */
@@ -263,12 +265,14 @@ public class SagresUtility {
                 }
 
                 Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Saving information");
+                Log.d(APP_TAG, "Messages: " + messages);
                 if (SagresProfile.getCurrentProfile() == null) {
                     SagresProfile profile = new SagresProfile(studentName, messages, classes);
                     profile.setScore(score);
                     profile.setCalendar(calendar);
                     profile.setClassDetails(classDetails);
                     SagresProfile.setCurrentProfile(profile);
+                    Log.d(APP_TAG, "Updated profile when none existed");
                 } else {
                     SagresProfile profile = SagresProfile.getCurrentProfile();
                     if (SagresClassParser.failed) classes = profile.getClasses();
@@ -276,6 +280,7 @@ public class SagresUtility {
                     profile.setScore(score);
                     profile.setCalendar(calendar);
                     profile.updateClassDetails(classDetails);
+                    Log.d(APP_TAG, "Updated Profile the correct way");
                 }
 
                 try {
