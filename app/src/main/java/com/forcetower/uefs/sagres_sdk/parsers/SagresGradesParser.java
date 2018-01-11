@@ -23,6 +23,8 @@ import okhttp3.FormBody;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static com.forcetower.uefs.Constants.APP_TAG;
+
 /**
  * Created by João Paulo on 25/11/2017.
  */
@@ -148,9 +150,13 @@ public class SagresGradesParser {
                                 Element date = children.get(0);
                                 Element identification = children.get(1);
                                 Element grade = children.get(2);
+                                Element weight = children.get(3);
                                 GradeInfo gradeInfo = new GradeInfo(identification.text(), grade.text(), date.text());
+                                gradeInfo.setWeight(weight.text());
                                 section.addGradeInfo(gradeInfo);
                             }
+                        } else if (children.size() == 3) {
+                            section.addPartialMean(children.get(1).text());
                         }
                     }
 

@@ -174,4 +174,13 @@
     <string name="save">Salvar</string>
     <string name="cancel">Cancelar</string>
     <string name="title_tasks">Tarefas</string>
+    <string name="class_grades">Notas</string>
+    <string name="situation">Situação</string>
+    <string name="situation_approved">Aprovado</string>
+    <string name="label_final_mean">Média Final</string>
+    <string name="situation_unknown">Desconhecida</string>
+    <string name="experimental_content">Conteúdo Experimental</string>
+    <string name="label_need_final_mean">Nota necessária na Prova Final</string>
+    <string name="label_partial_mean">Média Parcial</string>
+    <string name="label_current_mean">Média Atual</string>
 </resources>

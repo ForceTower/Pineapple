@@ -527,6 +527,7 @@ public class SagresProfile {
                 correspondent.setMissedClasses(updated.getMissedClasses());
                 correspondent.setLastClass(updated.getLastClass());
                 correspondent.setNextClass(updated.getNextClass());
+                correspondent.setSituation(updated.getSituation());
                 updateGroups(correspondent, updated);
             } else {
                 classDetails.add(updated);

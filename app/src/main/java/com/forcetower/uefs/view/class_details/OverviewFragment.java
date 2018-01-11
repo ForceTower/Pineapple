@@ -73,8 +73,6 @@ public class OverviewFragment extends Fragment {
     //View References card identification
     private TextView className;
     private TextView classGroup;
-    //View References card grades
-    private RecyclerView classGrades;
     //View References card classes and day
     private CardView cardViewClassesDay;
     private RecyclerView classDayAndTime;
@@ -126,8 +124,6 @@ public class OverviewFragment extends Fragment {
 
         className = fragmentView.findViewById(R.id.tv_class_name);
         classGroup = fragmentView.findViewById(R.id.tv_class_group);
-
-        classGrades = fragmentView.findViewById(R.id.rv_discipline_grades);
 
         cardViewClassesDay = fragmentView.findViewById(R.id.class_day_and_time_card);
         classDayAndTime = fragmentView.findViewById(R.id.rv_class_time);
@@ -183,15 +179,6 @@ public class OverviewFragment extends Fragment {
 
         classPrevious.setText(getString(R.string.class_details_previous_class, details.getLastClass()));
         classNext.setText(getString(R.string.class_details_next_class, details.getNextClass()));
-
-
-        SagresGrade grade = null;
-        if (details != null) grade = SagresProfile.getCurrentProfile().getGradesOfClass(details.getCode(), details.getSemester());
-        classGrades.setLayoutManager(new LinearLayoutManager(getContext()));
-        classGrades.setAdapter(new GradesAdapter(getContext(), grade));
-        classGrades.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        classGrades.setNestedScrollingEnabled(false);
-
 
         if (details != null && detailsGroup != null && !detailsGroup.isDraft()) {
             cardViewClassesDay.setVisibility(View.VISIBLE);

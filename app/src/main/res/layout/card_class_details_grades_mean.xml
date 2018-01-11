@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_grades_mean"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
+    app:cardCornerRadius="2dp"
+    app:cardElevation="2dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/tv_partial_mean_un"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_centerVertical="true"
+                tools:text="Média Parcial"
+                android:textColor="@color/primaryText"
+                android:textSize="15sp"
+                android:fontFamily="@font/roboto_medium"/>
+
+            <TextView
+                android:id="@+id/tv_partial_mean_sc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tv_partial_mean_un"
+                android:layout_toEndOf="@id/tv_partial_mean_un"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_centerVertical="true"
+                tools:text="6.0"
+                android:textColor="@color/primaryText"
+                android:textSize="24sp"
+                android:fontFamily="@font/roboto_medium"/>
+        </RelativeLayout>
+
+        <ProgressBar
+            android:id="@+id/pb_mean"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            tools:progress="60"/>
+
+        <RelativeLayout
+            android:id="@+id/rl_nec_mean"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:id="@+id/tv_needed_mean_un"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_centerVertical="true"
+                tools:text="Média necessária na Final"
+                android:textColor="@color/primaryText"
+                android:textSize="15sp"
+                android:fontFamily="@font/roboto_medium"/>
+
+            <TextView
+                android:id="@+id/tv_needed_mean_sc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tv_needed_mean_un"
+                android:layout_toEndOf="@id/tv_needed_mean_un"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_centerVertical="true"
+                tools:text="3.0"
+                android:textColor="@color/primaryText"
+                android:textSize="24sp"
+                android:fontFamily="@font/roboto_medium"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

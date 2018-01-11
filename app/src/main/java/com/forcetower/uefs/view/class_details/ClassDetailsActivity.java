@@ -53,6 +53,8 @@ public class ClassDetailsActivity extends UEFSBaseActivity implements ClassDetai
 
     private OverviewFragment fOverview;
     private TodoListFragment fTodoList;
+    private GradesDetailsFragment fGrades;
+
     private int selectedPosition;
 
     public static void startActivity(Context context, String classCode, String semester, String group) {
@@ -91,11 +93,9 @@ public class ClassDetailsActivity extends UEFSBaseActivity implements ClassDetai
 
         fOverview = new OverviewFragment();
         fTodoList = new TodoListFragment();
-        Bundle bundle = new Bundle();
-        if (getIntent().getExtras() != null) {
-            bundle.putString("discipline", getIntent().getStringExtra(CLASS_CODE_KEY));
-        }
-        fTodoList.setArguments(bundle);
+        fGrades = new GradesDetailsFragment();
+
+        fTodoList.setArguments(bundleForTodoList());
 
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
@@ -128,9 +128,11 @@ public class ClassDetailsActivity extends UEFSBaseActivity implements ClassDetai
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(fOverview);
         fragments.add(fTodoList);
+        fragments.add(fGrades);
         viewPager.setAdapter(new SectionsPagerAdapter(getSupportFragmentManager(), fragments));
         tabLayout.getTabAt(0).setText(R.string.class_overview);
         tabLayout.getTabAt(1).setText(R.string.class_todo_list);
+        tabLayout.getTabAt(2).setText(R.string.class_grades);
         //tabLayout.getTabAt(2).setText(R.string.grades);
         tabLayout.getTabAt(0).select();
         selectedPosition = 0;
@@ -228,5 +230,13 @@ public class ClassDetailsActivity extends UEFSBaseActivity implements ClassDetai
         public int getCount() {
             return fragments.size();
         }
+    }
+
+    private Bundle bundleForTodoList() {
+        Bundle bundle = new Bundle();
+        if (getIntent().getExtras() != null) {
+            bundle.putString("discipline", getIntent().getStringExtra(CLASS_CODE_KEY));
+        }
+        return bundle;
     }
 }

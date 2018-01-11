@@ -30,6 +30,8 @@ import okhttp3.FormBody;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static com.forcetower.uefs.Constants.APP_TAG;
+
 /**
  * Created by João Paulo on 14/12/2017.
  */
@@ -97,6 +99,19 @@ public class SagresFullClassParser {
             Element missesSpan = misses.selectFirst("span");
             String missedClasses = missesSpan.text();
 
+            String situation = null;
+            Element situationPart = classDet.selectFirst("div[class=\"webpart-aluno-resultado\"]");
+            if (situationPart == null) situationPart = classDet.selectFirst("div[class=\"webpart-aluno-resultado estado-sim\"]");
+            if (situationPart == null) situationPart = classDet.selectFirst("div[class=\"webpart-aluno-resultado estado-nao\"]");
+            if (situationPart != null && situationPart.children().size() == 2) {
+                situation = situationPart.children().get(1).text();
+                situation = situation.toLowerCase();
+                situation = Utils.toTitleCase(situation);
+                if (situation.equalsIgnoreCase("Não existe resultado final divulgado pelo professor.")) {
+                    situation = "Em aberto";
+                }
+            }
+
             String last = "";
             String next = "";
             Elements lastAndNextClasses = classDet.select("div[class=\"webpart-aluno-detalhe\"]");
@@ -120,6 +135,7 @@ public class SagresFullClassParser {
             details.setMissedClasses(missedClasses);
             details.setLastClass(last);
             details.setNextClass(next);
+            details.setSituation(situation);
 
             Elements elements = document.select("input[value][type=\"hidden\"]");
             Element ul = classDet.selectFirst("ul");

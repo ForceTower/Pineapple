@@ -21,7 +21,7 @@ public class Utils {
         StringBuilder sb = new StringBuilder();
 
         for (String anArr : arr) {
-            if (anArr.length() < 3) {
+            if (anArr.length() < 4 && !anArr.endsWith(".")) {
                 sb.append(anArr).append(" ");
                 continue;
             }

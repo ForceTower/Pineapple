@@ -177,4 +177,13 @@
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="title_tasks">To-Do</string>
+    <string name="class_grades">Grades</string>
+    <string name="situation">Situation</string>
+    <string name="situation_approved">Approved</string>
+    <string name="label_final_mean">Final Mean</string>
+    <string name="situation_unknown">Unknown Situation</string>
+    <string name="experimental_content">Experimental Content</string>
+    <string name="label_need_final_mean">Grade needed in final test</string>
+    <string name="label_partial_mean">Partial Mean</string>
+    <string name="label_current_mean">Mean</string>
 </resources>

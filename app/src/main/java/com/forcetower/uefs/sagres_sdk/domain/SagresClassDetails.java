@@ -22,6 +22,7 @@ public class SagresClassDetails {
     public static final String MISSED_CLASSES_INF_KEY = "missed_classes_inf";
     public static final String LAST_CLASS_KEY = "last_class";
     public static final String NEXT_CLASS_KEY = "next_class";
+    public static final String SITUATION_KEY = "situation";
 
     private String name;
     private String code;
@@ -33,6 +34,7 @@ public class SagresClassDetails {
     private String lastClass = "0";
     private String nextClass = "0";
     private String missedClassesInformed = "0";
+    private String situation;
 
     public SagresClassDetails(String name, String code) {
         this.name = name.trim();
@@ -89,6 +91,14 @@ public class SagresClassDetails {
         fullCredits = fullCredits.replaceAll("[^\\d]", "").trim();
     }
 
+    public String getSituation() {
+        return situation;
+    }
+
+    public void setSituation(String situation) {
+        this.situation = situation;
+    }
+
     public String getCredits() {
         return fullCredits;
     }
@@ -104,6 +114,7 @@ public class SagresClassDetails {
         jsonObject.put(LAST_CLASS_KEY, lastClass);
         jsonObject.put(NEXT_CLASS_KEY, nextClass);
         jsonObject.put(MISSED_CLASSES_INF_KEY, missedClassesInformed);
+        jsonObject.put(SITUATION_KEY, situation);
         jsonObject.put(GROUPS_KEY, groupsToJSONArray());
         return jsonObject;
     }
@@ -126,6 +137,7 @@ public class SagresClassDetails {
         String lastClass = jsonObject.optString(LAST_CLASS_KEY, "");
         String nextClass = jsonObject.optString(NEXT_CLASS_KEY, "");
         String missedClassesInformed = jsonObject.optString(MISSED_CLASSES_INF_KEY, "0");
+        String situation = jsonObject.optString(SITUATION_KEY, null);
         List<SagresClassGroup> groups = groupsFromJSONArray(jsonObject);
 
         SagresClassDetails details = new SagresClassDetails(name, code);
@@ -137,6 +149,7 @@ public class SagresClassDetails {
         details.setLastClass(lastClass);
         details.setNextClass(nextClass);
         details.setMissedClassesInformed(missedClassesInformed);
+        details.setSituation(situation);
         return details;
     }
 
