@@ -92,8 +92,8 @@ public class ClassDetailsActivity extends UEFSBaseActivity implements ClassDetai
         fabActivityActions.hide();
 
         fOverview = new OverviewFragment();
-        fTodoList = new TodoListFragment();
         fGrades = new GradesDetailsFragment();
+        fTodoList = new TodoListFragment();
 
         fTodoList.setArguments(bundleForTodoList());
 
@@ -110,16 +110,16 @@ public class ClassDetailsActivity extends UEFSBaseActivity implements ClassDetai
             @Override
             public void onPageSelected(int position) {
                 if (fabActivityActions.getVisibility() != View.VISIBLE) {
-                    if (position == 1) fabActivityActions.show();
+                    if (position == 2) fabActivityActions.show();
                 }
 
                 selectedPosition = position;
 
-                if (position == 0) {
+                if (position == 0 || position == 1) {
                     fabActivityActions.setImageDrawable(getResources().getDrawable(R.drawable.ic_create_black_24dp));
                     fabActivityActions.hide();
                     //fOverview.scrollToTop();
-                } else if (position == 1) {
+                } else if (position == 2) {
                     fabActivityActions.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_black_24dp));
                 }
             }
@@ -127,13 +127,12 @@ public class ClassDetailsActivity extends UEFSBaseActivity implements ClassDetai
 
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(fOverview);
-        fragments.add(fTodoList);
         fragments.add(fGrades);
+        fragments.add(fTodoList);
         viewPager.setAdapter(new SectionsPagerAdapter(getSupportFragmentManager(), fragments));
         tabLayout.getTabAt(0).setText(R.string.class_overview);
-        tabLayout.getTabAt(1).setText(R.string.class_todo_list);
-        tabLayout.getTabAt(2).setText(R.string.class_grades);
-        //tabLayout.getTabAt(2).setText(R.string.grades);
+        tabLayout.getTabAt(1).setText(R.string.class_grades);
+        tabLayout.getTabAt(2).setText(R.string.class_todo_list);
         tabLayout.getTabAt(0).select();
         selectedPosition = 0;
 
@@ -141,7 +140,7 @@ public class ClassDetailsActivity extends UEFSBaseActivity implements ClassDetai
     }
 
     private void fabClicked(View view) {
-        if (selectedPosition == 1) {
+        if (selectedPosition == 2) {
             addNewTodoItem();
         }
     }
@@ -200,7 +199,7 @@ public class ClassDetailsActivity extends UEFSBaseActivity implements ClassDetai
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         if (dy > 0 && fabActivityActions.getVisibility() == View.VISIBLE) fabActivityActions.hide();
         else if (dy < 0 && fabActivityActions.getVisibility() != View.VISIBLE)
-            if (selectedPosition == 1) fabActivityActions.show();
+            if (selectedPosition == 2) fabActivityActions.show();
     }
 
     @Override
