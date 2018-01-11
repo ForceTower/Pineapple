@@ -104,7 +104,7 @@ public class GradesDetailsFragment extends Fragment {
                 pbMean.setProgress(((int) (grade.getPartialMeanValue() * 10)));
             }
 
-            if (grade.getPartialMeanValue() >= 0 && grade.getPartialMeanValue() < 7) {
+            if (grade.getPartialMeanValue() >= 3 && grade.getPartialMeanValue() < 7) {
                 tvNeededMeanLabel.setText(R.string.label_need_final_mean);
                 Double needed = 12.5 - (1.5 * grade.getPartialMeanValue());
                 String display = needed.toString();
