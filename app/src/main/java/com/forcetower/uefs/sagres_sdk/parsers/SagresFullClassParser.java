@@ -41,7 +41,7 @@ public class SagresFullClassParser {
 
     public static List<SagresClassDetails> loginConnectAndGetClassesDetails(String specificSemester, String specificCode, String specificGroup, boolean draftOnly) {
         if (SagresAccess.getCurrentAccess() == null) {
-            Log.e(SagresPortalSDK.SAGRES_SDK_TAG, "Invalid Acess");
+            Log.e(SagresPortalSDK.SAGRES_SDK_TAG, "Invalid Access");
             return new ArrayList<>();
         }
         SagresAccess access = SagresAccess.getCurrentAccess();
