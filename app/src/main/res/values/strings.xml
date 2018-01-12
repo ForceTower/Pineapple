@@ -186,4 +186,8 @@
     <string name="label_need_final_mean">Grade needed in final test</string>
     <string name="label_partial_mean">Partial Mean</string>
     <string name="label_current_mean">Mean</string>
+    <string name="refresh">Refresh</string>
+    <string name="download_all">Download All</string>
+    <string name="dialog_download_all_classes_conf">Download details of all classes?</string>
+    <string name="sure">Sure!</string>
 </resources>

@@ -3,12 +3,14 @@ package com.forcetower.uefs.view.connected;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,10 +45,27 @@ public class DisciplinesFragment extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.disciplines_menu, menu);
+    }
+
+    @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        MenuItem item = menu.findItem(R.id.menu_refresh);
-        if (item != null) item.setVisible(false);
+        MenuItem ref = menu.findItem(R.id.menu_refresh);
+        if (ref != null) ref.setVisible(false);
+        MenuItem down = menu.findItem(R.id.menu_download_all);
+        if (down != null) down.setVisible(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_download_all:
+                new DownloadAllDisciplinesDialog().show(getFragmentManager(), "DownloadAllConfirmationFragment");
+                break;
+        }
+        return false;
     }
 
     private void setupAllDisciplines() {
@@ -63,12 +82,7 @@ public class DisciplinesFragment extends Fragment {
         rvAllDisciplines.setNestedScrollingEnabled(false);
     }
 
-    private OnDisciplineClickListener classClicked = new OnDisciplineClickListener() {
-        @Override
-        public void onDisciplineClick(SagresClassDetails details, SagresClassGroup group) {
-            ClassDetailsActivity.startActivity(getContext(), details.getCode(), details.getSemester(), group.getType());
-        }
-    };
+    private OnDisciplineClickListener classClicked = (details, group) -> ClassDetailsActivity.startActivity(getContext(), details.getCode(), details.getSemester(), group.getType());
 
     public interface OnDisciplineClickListener {
         void onDisciplineClick(SagresClassDetails details, SagresClassGroup group);

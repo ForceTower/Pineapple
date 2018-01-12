@@ -183,4 +183,8 @@
     <string name="label_need_final_mean">Nota necessária na Prova Final</string>
     <string name="label_partial_mean">Média Parcial</string>
     <string name="label_current_mean">Média Atual</string>
+    <string name="refresh">Atualizar</string>
+    <string name="download_all">Baixar todos</string>
+    <string name="dialog_download_all_classes_conf">Baixar detalhes de todas as disciplinas? Isso demora um pouco e não há barra de progresso</string>
+    <string name="sure">Claro!</string>
 </resources>

@@ -4,9 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menu_refresh"
-        android:icon="@drawable/ic_refresh_white_24dp"
+        android:id="@+id/menu_download_all"
+        android:icon="@drawable/ic_download_black_24dp"
         android:orderInCategory="1"
-        android:title="@string/refresh"
+        android:title="@string/download_all"
         app:showAsAction="always"/>
 </menu>
