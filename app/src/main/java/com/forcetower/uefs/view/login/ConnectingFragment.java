@@ -90,12 +90,12 @@ public class ConnectingFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+        SagresPortalSDK.removeLoginListener(this::receiveUpdate);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        SagresPortalSDK.removeLoginListener(this::receiveUpdate);
     }
 
     private void connectToPortal(final String username, final String password) {
