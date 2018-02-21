@@ -125,8 +125,6 @@ public class ConnectedActivity extends UEFSBaseActivity {
 
     }
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.connected, menu);
