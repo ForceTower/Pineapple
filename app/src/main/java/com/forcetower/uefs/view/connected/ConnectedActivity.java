@@ -11,6 +11,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -30,9 +31,12 @@ import com.forcetower.uefs.view.settings.SettingsActivity;
 
 import javax.inject.Inject;
 
+import static com.forcetower.uefs.Constants.APP_TAG;
+
 public class ConnectedActivity extends UEFSBaseActivity {
     private static final String SCHEDULE_TAG = "schedule";
     private boolean doubleBack = false;
+    private boolean recreateRequest = false;
 
     @Inject
     AppDatabase database;

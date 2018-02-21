@@ -377,6 +377,31 @@ public class SagresUtility {
         return new Pair<>(-5, null);
     }
 
+    public static List<SagresMessage> connectAndGetMessages(SagresAccess access) {
+        String username = access.getUsername();
+        String password = access.getPassword();
+
+        try {
+            JSONObject loginResponse = SagresConnector.login(username, password);
+            if (loginResponse.has("error")) {
+                Log.i(SagresPortalSDK.SAGRES_SDK_TAG, "Login has error - Time out or no network");
+                return null;
+            }
+
+            String html = loginResponse.getString("html");
+            html = SagresParser.changeCharset(html);
+
+            boolean connected = SagresParser.connected(html);
+            if (!connected) {
+                return null;
+            }
+            //messages.add(new SagresMessage("It's me, mario", "Hello there", "21/02/3018", "ApplicationDebug"));
+            return SagresMessagesParser.getStartPageMessages(html);
+        } catch (JSONException e) {
+            return null;
+        }
+    }
+
     public interface AllInformationFetchWithCacheCallback {
         void onSuccess(SagresProfile profile);
         void onFailure(SagresLoginException e);

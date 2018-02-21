@@ -671,4 +671,12 @@ public class SagresProfile {
 
         return null;
     }
+
+    public static List<SagresMessage> syncFetchMessages() {
+        if (SagresAccess.getCurrentAccess() == null) {
+            return null;
+        }
+        SagresAccess access = SagresAccess.getCurrentAccess();
+        return SagresUtility.connectAndGetMessages(access);
+    }
 }

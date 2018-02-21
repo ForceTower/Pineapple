@@ -34,7 +34,7 @@ public abstract class UEFSBaseActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (SagresProfile.getCurrentProfile() == null) SagresProfileManager.getInstance().loadCurrentProfile();
+        SagresProfileManager.getInstance().loadCurrentProfile();
     }
 
     public void replaceFragmentContainer(FragmentManager manager, Fragment fragment, int id, String tag) {

@@ -28,12 +28,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.forcetower.uefs.Constants.APP_TAG;
+
 /**
  * Created by João Paulo on 20/11/2017.
  */
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
     private ContentResolver resolver;
+    private boolean messagesWarned = false;
 
     public SyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
@@ -47,10 +50,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     @Override
     public void onPerformSync(Account account, Bundle bundle, String s, ContentProviderClient contentProviderClient, SyncResult syncResult) {
-        Log.i(Constants.APP_TAG, "Performing Synchronization");
+        Log.i(APP_TAG, "Performing Synchronization");
 
         if (!SagresPortalSDK.isSdkInitialized()) {
-            Log.i(Constants.APP_TAG, "SDK not initialized on service context");
+            Log.i(APP_TAG, "SDK not initialized on service context");
             SagresPortalSDK.setContext(getContext());
             SagresPortalSDK.initializeSdk(getContext(), this::fetchData);
         } else {
@@ -68,7 +71,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         final List<SagresMessage> actualBefore = new ArrayList<>();
         if (messagesBefore != null) {
             actualBefore.addAll(messagesBefore);
-            Log.i(Constants.APP_TAG, "Before not null");
+            Log.i(APP_TAG, "Before not null");
         }
 
         final HashMap<String, SagresGrade> gradesHashMap = (profile == null) ? null : profile.getGrades();
@@ -79,11 +82,20 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             }
         }
 
+        //Part of new code
+        List<SagresMessage> newMessages = SagresProfile.syncFetchMessages();
+        if (newMessages == null) {
+            Log.d(APP_TAG, "fetchData: epic fail");
+        } else {
+            messagesNewWay(newMessages);
+            messagesWarned = true;
+        }
+
         //SagresProfile.fetchProfileForCurrentAccess();
         SagresProfile.asyncFetchProfileInformationWithCallback(new SagresUtility.AsyncFetchProfileInformationCallback() {
             @Override
             public void onSuccess(SagresProfile profile) {
-                successMeasures(profile, actualBefore, beforeGrades);
+                successMeasures(actualBefore, beforeGrades);
             }
 
             @Override
@@ -105,28 +117,53 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         //NotificationCreator.createNewMessageNotification(getContext(), new SagresMessage("João Paulo", "Hey there,\n\nThis is a test notification to check if everything works out.\n\nThanks!", "20/11/2017", "The Developer"));
     }
 
-    private void successMeasures(SagresProfile profile, List<SagresMessage> messagesBefore, HashMap<String, SagresGrade> grades) {
+    private void messagesNewWay(List<SagresMessage> newMessages) {
+        Log.d(APP_TAG, "messagesNewWay: DO YOU KNOW THE WAY?");
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        SagresProfile profile = SagresProfile.getCurrentProfile();
+        List<SagresMessage> messagesBefore = profile.getMessages();
+
+        boolean showMessageNotification = preferences.getBoolean("show_message_notification", true);
+        if (showMessageNotification) {
+            if (messagesBefore != null) {
+                for (SagresMessage message : newMessages) {
+                    if (!messagesBefore.contains(message)) {
+                        Log.i(APP_TAG, "New message arrived");
+                        NotificationCreator.createNewMessageNotification(getContext(), message);
+                    } else {
+                        Log.i(APP_TAG, "Message already there");
+                    }
+                }
+            } else {
+                Log.i(APP_TAG, "Auto Sync Fetch a new profile[Messages], interesting");
+            }
+        } else {
+            Log.i(APP_TAG, "Messages notifications skipped");
+        }
+    }
+
+    private void successMeasures(List<SagresMessage> messagesBefore, HashMap<String, SagresGrade> grades) {
         SagresProfile profileUpdated = SagresProfile.getCurrentProfile();
         profileUpdated.saveProfileNonStatic();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 
         boolean showMessageNotification = preferences.getBoolean("show_message_notification", true);
-        if (showMessageNotification) {
+        if (showMessageNotification && !messagesWarned) {
             List<SagresMessage> messagesAfter = profileUpdated.getMessages();
             if (messagesBefore != null) {
                 for (SagresMessage message : messagesAfter) {
                     if (!messagesBefore.contains(message)) {
-                        Log.i(Constants.APP_TAG, "New message arrived");
+                        Log.i(APP_TAG, "New message arrived");
                         NotificationCreator.createNewMessageNotification(getContext(), message);
                     } else {
-                        Log.i(Constants.APP_TAG, "Message already there");
+                        Log.i(APP_TAG, "Message already there");
                     }
                 }
             } else {
-                Log.i(Constants.APP_TAG, "Auto Sync Fetch a new profile[Messages], interesting");
+                Log.i(APP_TAG, "Auto Sync Fetch a new profile[Messages], interesting");
             }
         } else {
-            Log.i(Constants.APP_TAG, "Messages notifications skipped");
+            Log.i(APP_TAG, "Messages notifications skipped");
         }
 
         //NotificationCreator.createNewMessageNotification(getContext(), new SagresMessage("My_Self", "Testando... 1 2 3\nSanca postou e nao recebi!!!", "11:59", "TEC709"));
@@ -142,21 +179,21 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
             if (grades != null) {
                 if (updatedGrades == null) {
-                    Log.e(Constants.APP_TAG, "Updated grades is null... Prob timed out");
+                    Log.e(APP_TAG, "Updated grades is null... Prob timed out");
                 } else {
                     for (String key : updatedGrades.keySet()) {
-                        Log.i(Constants.APP_TAG, "Current Key: " + key);
+                        Log.i(APP_TAG, "Current Key: " + key);
                         SagresGrade before = grades.get(key);
                         SagresGrade after = updatedGrades.get(key);
 
                         if (after == null) {
-                            Log.i(Constants.APP_TAG, "Lost track of a grade... [" + key + "]");
+                            Log.i(APP_TAG, "Lost track of a grade... [" + key + "]");
                             continue;
                         }
 
                         if (before == null) {
                             //NotificationCreator.createNewGradeMessage(getContext(), after, NotificationCreator.GENERATED_GRADE);
-                            Log.i(Constants.APP_TAG, "Now it's tracking a new class...??? " + after.getClassCode());
+                            Log.i(APP_TAG, "Now it's tracking a new class...??? " + after.getClassCode());
                             continue;
                         }
 
@@ -170,7 +207,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                                     }
                                 }
                             } else {
-                                Log.i(Constants.APP_TAG, "Class " + after.getClassCode() + " has a new section!");
+                                Log.i(APP_TAG, "Class " + after.getClassCode() + " has a new section!");
                                 for (GradeInfo nInfo : nSection.getGrades()) {
                                     NotificationCreator.createNewGradeNotification(getContext(), nInfo, after, NotificationCreator.ADDED_GRADE);
                                 }
@@ -179,10 +216,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                     }
                 }
             } else {
-                Log.i(Constants.APP_TAG, "Auto Sync Fetch a new profile[Grades], interesting");
+                Log.i(APP_TAG, "Auto Sync Fetch a new profile[Grades], interesting");
             }
         } else {
-            Log.i(Constants.APP_TAG, "Grades notifications skipped");
+            Log.i(APP_TAG, "Grades notifications skipped");
         }
     }
 }
