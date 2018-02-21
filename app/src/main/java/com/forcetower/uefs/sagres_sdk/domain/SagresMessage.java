@@ -62,7 +62,7 @@ public class SagresMessage {
 
     @Override
     public String toString() {
-        return "Class: " + class_receive + " --- " + "Message: " + message + "\nReceived: " + received_at + ", from: " + sender + "\n";
+        return "\n\nClass: " + class_receive + "\n" + "Message: " + message + "\nReceived: " + received_at + ", from: " + sender;
     }
 
     @Override
