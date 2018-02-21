@@ -30,8 +30,13 @@ public class SuggestionActivity extends AppCompatActivity {
         editText = findViewById(R.id.et_suggestion);
 
         findViewById(R.id.btn_submit).setOnClickListener(view -> {
-            composeEmail(editText.getText().toString());
-            finish();
+            String body = editText.getText().toString();
+            if (body.trim().isEmpty()) {
+                Toast.makeText(this, R.string.empty_suggestion_field, Toast.LENGTH_SHORT).show();
+            } else {
+                composeEmail(body);
+                finish();
+            }
         });
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -47,11 +52,6 @@ public class SuggestionActivity extends AppCompatActivity {
     }
 
     public void composeEmail(String body) {
-        if (body.trim().isEmpty()) {
-            Toast.makeText(this, R.string.empty_suggestion_field, Toast.LENGTH_SHORT).show();
-            return;
-        }
-
         try {
             PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
             String version = pInfo.versionName;
