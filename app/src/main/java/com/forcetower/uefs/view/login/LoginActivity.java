@@ -2,8 +2,6 @@ package com.forcetower.uefs.view.login;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
@@ -11,7 +9,6 @@ import android.util.Log;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.UEFSApplication;
-import com.forcetower.uefs.database.entities.AAccess;
 import com.forcetower.uefs.database.repository.AccessRepository;
 import com.forcetower.uefs.exception.LoginException;
 import com.forcetower.uefs.helpers.PrefUtils;

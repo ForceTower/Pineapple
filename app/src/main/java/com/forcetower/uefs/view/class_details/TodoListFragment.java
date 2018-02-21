@@ -19,7 +19,6 @@ import android.widget.Switch;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.UEFSApplication;
 import com.forcetower.uefs.database.entities.ATodoItem;
-import com.forcetower.uefs.helpers.MockUtils;
 import com.forcetower.uefs.view.adapters.TodoListAdapter;
 import com.forcetower.uefs.view_models.TodoItemCollectionViewModel;
 

@@ -13,13 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.UEFSApplication;
 import com.forcetower.uefs.database.entities.ATodoItem;
-import com.forcetower.uefs.database.repository.TodoItemRepository;
 import com.forcetower.uefs.view_models.TodoItemCollectionViewModel;
 
 import java.text.SimpleDateFormat;

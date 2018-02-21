@@ -11,7 +11,6 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -19,24 +18,15 @@ import android.widget.Toast;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.UEFSApplication;
 import com.forcetower.uefs.database.AppDatabase;
-import com.forcetower.uefs.database.entities.AAccess;
-import com.forcetower.uefs.database.repository.AccessRepository;
-import com.forcetower.uefs.helpers.PrefUtils;
 import com.forcetower.uefs.helpers.SyncUtils;
 import com.forcetower.uefs.helpers.Utils;
-import com.forcetower.uefs.services.tasks.MigrateToLocalDatabaseTask;
 import com.forcetower.uefs.view.UEFSBaseActivity;
-import com.forcetower.uefs.view.class_details.TodoListFragment;
 import com.forcetower.uefs.view.settings.SettingsActivity;
 
 import javax.inject.Inject;
 
-import static com.forcetower.uefs.Constants.APP_TAG;
-
 public class ConnectedActivity extends UEFSBaseActivity {
-    private static final String SCHEDULE_TAG = "schedule";
     private boolean doubleBack = false;
-    private boolean recreateRequest = false;
 
     @Inject
     AppDatabase database;

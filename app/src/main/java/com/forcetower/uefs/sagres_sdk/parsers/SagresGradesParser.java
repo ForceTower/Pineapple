@@ -23,8 +23,6 @@ import okhttp3.FormBody;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import static com.forcetower.uefs.Constants.APP_TAG;
-
 /**
  * Created by João Paulo on 25/11/2017.
  */

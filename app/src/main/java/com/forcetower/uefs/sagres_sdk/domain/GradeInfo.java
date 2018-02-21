@@ -6,7 +6,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import static com.forcetower.uefs.Constants.APP_TAG;
-import static com.forcetower.uefs.helpers.Utils.parseIntOrZero;
 
 /**
  * Created by João Paulo on 25/11/2017.

@@ -1,8 +1,6 @@
 package com.forcetower.uefs.view.class_details;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -28,11 +26,9 @@ import com.forcetower.uefs.helpers.Utils;
 import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassDetails;
 import com.forcetower.uefs.sagres_sdk.domain.SagresClassGroup;
-import com.forcetower.uefs.sagres_sdk.domain.SagresGrade;
 import com.forcetower.uefs.sagres_sdk.domain.SagresProfile;
 import com.forcetower.uefs.sagres_sdk.parsers.SagresFullClassParser;
 import com.forcetower.uefs.view.adapters.DaysAndClassesAdapter;
-import com.forcetower.uefs.view.adapters.GradesAdapter;
 
 import java.util.List;
 

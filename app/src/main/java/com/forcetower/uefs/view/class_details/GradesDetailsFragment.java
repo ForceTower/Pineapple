@@ -8,7 +8,6 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,8 +26,6 @@ import com.forcetower.uefs.view.adapters.GradesAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static com.forcetower.uefs.Constants.APP_TAG;
 
 /**
  * Created by João Paulo on 11/01/2018.
