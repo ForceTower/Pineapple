@@ -2,12 +2,15 @@ package com.forcetower.uefs.view.suggestion;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.helpers.Utils;
@@ -44,6 +47,21 @@ public class SuggestionActivity extends AppCompatActivity {
     }
 
     public void composeEmail(String body) {
+        if (body.trim().isEmpty()) {
+            Toast.makeText(this, R.string.empty_suggestion_field, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        try {
+            PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
+            String version = pInfo.versionName;
+            int code = pInfo.versionCode;
+            body = body.concat("\n\nVersion Name: " + version);
+            body = body.concat("\nVersion Code: " + code);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
                 "mailto","joaopaulo761@gmail.com", null));
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "[UNES]App_Feedback");
