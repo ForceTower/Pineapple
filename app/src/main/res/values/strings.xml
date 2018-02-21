@@ -190,4 +190,5 @@
     <string name="download_all">Download All</string>
     <string name="dialog_download_all_classes_conf">Download details of all classes?</string>
     <string name="sure">Sure!</string>
+    <string name="labs">Labs</string>
 </resources>

@@ -19,7 +19,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.login.LoginActivity">
+        <activity android:name=".view.login.LoginActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -34,6 +36,8 @@
         <activity
             android:name=".view.connected.NConnectedActivity"
             android:theme="@style/AppTheme.NavigationDrawer"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"/>
 
         <meta-data
@@ -41,13 +45,21 @@
             android:resource="@array/preloaded_fonts"/>
         <activity
             android:name=".view.settings.SettingsActivity"
-            android:theme="@style/AppTheme.PreferencesStyle">
+            android:theme="@style/AppTheme.PreferencesStyle"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".view.class_details.ClassDetailsActivity">
+        <activity android:name=".view.class_details.ClassDetailsActivity"
+                  android:configChanges="orientation"
+                  android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".view.class_details.DisciplineClassesActivity">
+        <activity android:name=".view.class_details.DisciplineClassesActivity"
+                  android:configChanges="orientation"
+                  android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".view.about.AboutActivity">
+        <activity android:name=".view.about.AboutActivity"
+                  android:configChanges="orientation"
+                  android:screenOrientation="portrait">
         </activity>
 
         <service
@@ -79,7 +91,9 @@
             android:label="@string/sagres_sync"
             android:syncable="true"/>
 
-        <activity android:name=".view.suggestion.SuggestionActivity">
+        <activity android:name=".view.suggestion.SuggestionActivity"
+                  android:configChanges="orientation"
+                  android:screenOrientation="portrait">
         </activity>
     </application>
 

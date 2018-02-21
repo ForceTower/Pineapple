@@ -104,7 +104,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         items.add(new NavDrawerItem(getString(R.string.title_grades), R.drawable.ic_grades_black_24dp, 3));
         items.add(new NavDrawerItem(getString(R.string.title_calendar), R.drawable.ic_calendar_black_24dp, 4));
         items.add(new NavDrawerItem(getString(R.string.title_disciplines), R.drawable.ic_book_open_black_24dp, 5));
-        items.add(new NavDrawerItem(getString(R.string.settings), R.drawable.ic_settings_black_24dp, settingsListener));
+        items.add(new NavDrawerItem(getString(R.string.settings), R.drawable.ic_settings_white_24dp, settingsListener));
 
         return items;
     }
