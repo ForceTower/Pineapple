@@ -76,7 +76,8 @@ public class GradeInfo {
         if (evalName != null ? !evalName.equals(gradeInfo.evalName) : gradeInfo.evalName != null)
             return false;
         if (grade != null ? !grade.equals(gradeInfo.grade) : gradeInfo.grade != null) return false;
-        return date != null ? date.equals(gradeInfo.date) : gradeInfo.date == null;
+        //return date != null ? date.equals(gradeInfo.date) : gradeInfo.date == null;
+        return true;
     }
 
     @Override
