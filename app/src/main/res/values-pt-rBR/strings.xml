@@ -189,4 +189,7 @@
     <string name="sure">Claro!</string>
     <string name="labs">Laboratórios</string>
     <string name="empty_suggestion_field">Campo de sugestão está vazio</string>
+    <string name="class_review">Estatísticas de Aula</string>
+    <string name="class_review_discover_title">Barril de Boas</string>
+    <string name="menu_class_review_discover_text">Descubra estatísticas sobre aulas e professores e decida se vai pegar a materia ou não :v</string>
 </resources>

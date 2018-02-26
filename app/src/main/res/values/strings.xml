@@ -192,4 +192,7 @@
     <string name="sure">Sure!</string>
     <string name="labs">Labs</string>
     <string name="empty_suggestion_field">Suggestion field is empty</string>
+    <string name="class_review">Class Review</string>
+    <string name="class_review_discover_title">Class Review</string>
+    <string name="menu_class_review_discover_text">Discover statistics about classes, teachers and decide about taking a class before applying for it</string>
 </resources>
