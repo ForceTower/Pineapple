@@ -1,10 +1,16 @@
 package com.forcetower.uefs.sagres_sdk.utility;
 
+import android.util.Log;
+
 import com.forcetower.uefs.sagres_sdk.SagresConstants;
 import com.forcetower.uefs.sagres_sdk.SagresPortalSDK;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
 
@@ -44,7 +50,16 @@ public class SagresConnector {
         try {
             Response response = call.execute();
             if (response.isSuccessful()) {
-                jsonObject.put("html", response.body().string());
+                String currentLocation = response.request().url().url().getHost() + response.request().url().url().getPath();
+                Log.d(SagresPortalSDK.SAGRES_SDK_TAG, "Current location: " + currentLocation);
+
+                String body = response.body().string();
+                body = checkApprovalNeeded(body, currentLocation);
+                if (body == null) {
+                    jsonObject.put("error", 1);
+                } else {
+                    jsonObject.put("html", body);
+                }
                 return jsonObject;
             } else {
                 jsonObject.put("error", 1);
@@ -54,6 +69,59 @@ public class SagresConnector {
         }
 
         return jsonObject;
+    }
+
+    private static String checkApprovalNeeded(String body, String url) {
+        Document document = Jsoup.parse(body);
+
+        Element approval = document.selectFirst("div[class=\"acesso-externo-pagina-login\"]");
+        if (approval != null) {
+            return approve(document, url);
+        } else {
+            approval = document.selectFirst("input[value=\"Acessar o SAGRES Portal\"]");
+            if (approval == null)
+                return body;
+            else {
+                return approve(document, url);
+            }
+        }
+    }
+
+    private static String approve(Document document, String url) {
+        Log.d(SagresPortalSDK.SAGRES_SDK_TAG, "Approval needed");
+        FormBody.Builder formBody = new FormBody.Builder();
+
+        Elements elements = document.select("input[value][type=\"hidden\"]");
+        for (Element element : elements) {
+            String key = element.attr("id");
+            String value = element.attr("value");
+            Log.d(SagresPortalSDK.SAGRES_SDK_TAG, "K: " + key + " V: " + value);
+            formBody.add(key, value);
+        }
+
+        formBody.add("ctl00$btnLogin", "Acessar o SAGRES Portal");
+
+        Request request = new Request.Builder()
+                .url("http://" + url)
+                .post(formBody.build())
+                .addHeader("x-requested-with", "XMLHttpRequest")
+                .addHeader("content-type", "application/x-www-form-urlencoded")
+                .addHeader("cache-control", "no-cache")
+                .build();
+
+        Call call = SagresPortalSDK.getHttpClient().newCall(request);
+
+        try {
+            Response response = call.execute();
+            if (response.isSuccessful()) {
+                return response.body().string();
+            } else {
+                return null;
+            }
+        } catch (IOException e) {
+            return null;
+        }
+
     }
 
     static JSONObject getStudentGrades () throws JSONException {
