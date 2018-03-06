@@ -15,7 +15,6 @@ public class ADisciplineClassItem {
     @PrimaryKey(autoGenerate = true)
     private int uid;
     private int groupId;
-
     private int number;
     private String situation;
     private String subject;

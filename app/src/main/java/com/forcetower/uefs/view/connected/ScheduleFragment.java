@@ -37,7 +37,8 @@ public class ScheduleFragment extends Fragment {
     private DayScheduleAdapter.OnClassClickListener classClickListener = new DayScheduleAdapter.OnClassClickListener() {
         @Override
         public void onClassClicked(View view, int position, SagresClassDay classDay) {
-            ClassDetailsActivity.startActivity(context, classDay.getClassCode(), "20172", null);
+            String semester = SagresProfile.getCurrentProfile().getCurrentSemester();
+            ClassDetailsActivity.startActivity(context, classDay.getClassCode(), semester, null);
         }
     };
 
@@ -58,6 +59,7 @@ public class ScheduleFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         context = getActivity();
+        SagresProfile.getCurrentProfile().getCurrentSemester();
 
         if (SagresProfile.getCurrentProfile() == null) {
             SagresProfileManager.getInstance().loadCurrentProfile();

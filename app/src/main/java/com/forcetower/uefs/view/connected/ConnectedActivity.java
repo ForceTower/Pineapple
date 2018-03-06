@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.StringRes;
 import android.support.design.widget.BottomNavigationView;
@@ -13,10 +12,8 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.forcetower.uefs.R;
@@ -25,6 +22,7 @@ import com.forcetower.uefs.database.AppDatabase;
 import com.forcetower.uefs.helpers.SyncUtils;
 import com.forcetower.uefs.helpers.Utils;
 import com.forcetower.uefs.view.UEFSBaseActivity;
+import com.forcetower.uefs.view.experiments.class_reviews.ClassReviewActivity;
 import com.forcetower.uefs.view.settings.SettingsActivity;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
@@ -87,7 +85,8 @@ public class ConnectedActivity extends UEFSBaseActivity {
             switchToFragment(ScheduleFragment.class);
             changeToolbarText(R.string.title_schedule);
         }
-        Log.d(TAG, "onCreate: ");
+
+        new Handler(getMainLooper()).postDelayed(this::featureDiscovery, 1000);
     }
 
     private boolean onItemSelected(MenuItem item) {
@@ -142,16 +141,12 @@ public class ConnectedActivity extends UEFSBaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.connected, menu);
-        Log.d(TAG, "onCreateOptionsMenu: ");
         return true;
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(TAG, "onResume: ");
-
-        new Handler(getMainLooper()).postDelayed(this::featureDiscovery, 500);
     }
 
     @Override
@@ -160,6 +155,8 @@ public class ConnectedActivity extends UEFSBaseActivity {
 
         if (id == R.id.menu_settings) {
             SettingsActivity.startActivity(this);
+        } else if (id == R.id.menu_class_review) {
+            ClassReviewActivity.startActivity(this);
         }
 
         return super.onOptionsItemSelected(item);
@@ -190,9 +187,10 @@ public class ConnectedActivity extends UEFSBaseActivity {
                         .outerCircleColor(R.color.colorPrimary)      // Specify a color for the outer circle
                         .outerCircleAlpha(0.96f)            // Specify the alpha amount for the outer circle
                         .targetCircleColor(R.color.white)   // Specify a color for the target circle
-                        .titleTextSize(20)                  // Specify the size (in sp) of the title text
+                        .dimColor(R.color.white)
+                        //.titleTextSize(20)                  // Specify the size (in sp) of the title text
                         .titleTextColor(R.color.white)      // Specify the color of the title text
-                        .descriptionTextSize(10)            // Specify the size (in sp) of the description text
+                        //.descriptionTextSize(10)            // Specify the size (in sp) of the description text
                         .descriptionTextColor(R.color.white)  // Specify the color of the description text
                         .textColor(R.color.white)            // Specify a color for both the title and description text
                         .textTypeface(Typeface.SANS_SERIF)  // Specify a typeface for the text

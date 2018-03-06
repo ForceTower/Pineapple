@@ -1,5 +1,7 @@
 package com.forcetower.uefs.sagres_sdk.domain;
 
+import android.util.Log;
+
 import com.forcetower.uefs.sagres_sdk.exception.SagresLoginException;
 import com.forcetower.uefs.sagres_sdk.managers.SagresProfileManager;
 import com.forcetower.uefs.sagres_sdk.utility.SagresDayUtils;
@@ -14,6 +16,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.forcetower.uefs.Constants.APP_TAG;
 
 /**
  * Created by João Paulo on 17/11/2017.
@@ -678,5 +682,45 @@ public class SagresProfile {
         }
         SagresAccess access = SagresAccess.getCurrentAccess();
         return SagresUtility.connectAndGetMessages(access);
+    }
+
+    public String getCurrentSemester() {
+        String greatest = "20181";
+        int gVal = -1;
+        for (SagresClassDetails details : classDetails) {
+            String semester = details.getSemester();
+            String year = "0";
+            String div = "0";
+            boolean special;
+            boolean functional = false;
+            if (semester.length() >= 5) {
+                year = semester.substring(0, 4);
+                div = semester.charAt(4) + "";
+                functional = true;
+            }
+
+            special = semester.length() > 5;
+            if (functional) {
+                try {
+                    int i_y = Integer.parseInt(year)*100;
+                    int i_d = Integer.parseInt(div)*10;
+                    int i_s = special ? 1 : 0;
+
+                    int val = i_y + i_d + i_s;
+                    Log.d(APP_TAG, "getCurrentSemester: " + val);
+                    if (val > gVal) {
+                        greatest = semester;
+                        Log.d(APP_TAG, "getCurrentSemester: gVal set " + semester);
+                        gVal = val;
+                    }
+                } catch (NumberFormatException e) {}
+            } else {
+                Log.e(APP_TAG, "getCurrentSemester: Semester is not functional" + semester);
+            }
+
+
+        }
+        Log.d(APP_TAG, "getCurrentSemester: returning " + greatest);
+        return greatest;
     }
 }

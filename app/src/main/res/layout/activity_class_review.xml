@@ -5,6 +5,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.forcetower.uefs.view.class_reviews.ClassReviewActivity">
+    tools:context=".view.experiments.class_reviews.ClassReviewActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        app:contentInsetStart="72dp"
+        android:minHeight="?attr/actionBarSize"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:fitsSystemWindows="true"
+        android:clipToPadding="false"
+        android:background="@color/colorPrimary"
+        app:layout_scrollFlags="scroll|enterAlways"/>
+
+    <RelativeLayout
+        android:id="@+id/loading_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar">
+
+        <ProgressBar
+            android:id="@+id/pb_loading_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/pb_loading_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/loading_content"
+            android:textColor="@color/primaryText"
+            android:textAlignment="center"
+            android:textSize="13sp"
+            android:fontFamily="@font/roboto_regular"/>
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar">
+    </FrameLayout>
 
 </RelativeLayout>

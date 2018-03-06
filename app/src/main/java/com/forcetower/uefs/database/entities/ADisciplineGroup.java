@@ -15,7 +15,6 @@ public class ADisciplineGroup {
     @PrimaryKey(autoGenerate = true)
     private int uid;
     private int discipline;
-
     private String teacher;
     private String group;
     private int credits;

@@ -61,6 +61,8 @@ dependencies {
     implementation "android.arch.lifecycle:reactivestreams:1.0.0"
 
     compile 'com.getkeepsafe.taptargetview:taptargetview:1.11.0'
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
 
     implementation('com.mikepenz:aboutlibraries:6.0.1@aar') {
         transitive = true
