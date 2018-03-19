@@ -10,6 +10,10 @@
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
     android:layout_marginTop="4dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginLeft="8dp"
     app:cardCornerRadius="2dp"
     app:cardElevation="2dp">
 
@@ -21,7 +25,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginLeft="8dp"
-        android:paddingBottom="8dp">
+        android:paddingBottom="8dp"
+        android:animateLayoutChanges="false">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -76,6 +81,7 @@
         </LinearLayout>
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/tv_show_all_classes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

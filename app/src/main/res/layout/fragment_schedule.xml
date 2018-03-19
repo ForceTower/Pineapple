@@ -1,138 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/sv_view_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
-        android:id="@+id/classes_ll_view"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/light_gray"
+        android:layout_height="match_parent"
+        android:paddingBottom="8dp"
         android:clipToPadding="false"
-        android:orientation="vertical"
-        android:paddingBottom="4dp">
+        android:visibility="visible">
+    </android.support.v7.widget.RecyclerView>
 
-        <RelativeLayout
-            android:id="@+id/rl_mon"
+    <ScrollView
+        android:id="@+id/vg_no_schedule"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp">
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:gravity="center">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_schedule_mon"
+            <TextView
+                android:id="@+id/tv_awkward"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </android.support.v7.widget.RecyclerView>
-        </RelativeLayout>
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="@color/primaryText"
+                android:textSize="14sp"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:layout_marginTop="36dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:text="@string/that_s_embarrassing"/>
 
-        <RelativeLayout
-            android:id="@+id/rl_tue"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp">
+            <ImageView
+                android:id="@+id/iv_sad_face"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/ic_emoticon_very_sad"
+                android:contentDescription="@string/sad"/>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_schedule_tue"
+            <TextView
+                android:id="@+id/tv_classes_not_found"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </android.support.v7.widget.RecyclerView>
-        </RelativeLayout>
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:textColor="@color/primaryText"
+                android:textSize="18sp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:text="@string/classes_not_found"/>
 
-        <RelativeLayout
-            android:id="@+id/rl_wed"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_schedule_wed"
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </android.support.v7.widget.RecyclerView>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rl_thu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_schedule_thu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </android.support.v7.widget.RecyclerView>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rl_fri"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_schedule_fri"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </android.support.v7.widget.RecyclerView>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rl_sat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_schedule_sat"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </android.support.v7.widget.RecyclerView>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rl_sun"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_schedule_sun"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </android.support.v7.widget.RecyclerView>
-        </RelativeLayout>
-
-    </LinearLayout>
-</ScrollView>
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="@color/primaryText"
+                android:textSize="14sp"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="36dp"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:text="@string/check_schedule_in_official_page"/>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

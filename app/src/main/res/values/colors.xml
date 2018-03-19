@@ -14,11 +14,5 @@
     <color name="lighter_gray">#EEEEEE</color>
     <color name="little_darker_gray">#C7C7C7</color>
 
-    <!-- Nav drawer colors -->
-    <color name="nav_drawer_color">#FFFFFF</color>
-    <color name="nav_drawer_selected_bg">#EEEEEE</color>
-    <color name="nav_drawer_focused_bg">#EEEEEE</color>
-    <color name="nav_drawer_pressed_bg">#FFFFFF</color>
-    <color name="nav_drawer_deselected">#FFFFFF</color>
-    <color name="trans_white">#99FFFFFF</color>
+    <color name="android_green">#A4C639</color>
 </resources>

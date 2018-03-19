@@ -268,7 +268,7 @@
                 android:layout_margin="16dp"
                 android:background="@color/colorAccent"
                 android:textColor="@color/white"
-                android:text="@string/third_party_licenses_btn"
+                android:text="@string/btn_third_party_licenses"
                 android:fontFamily="@font/roboto_regular"/>
         </LinearLayout>
 

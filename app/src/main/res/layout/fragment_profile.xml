@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_logo_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="32dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_weight=".4"
+                android:src="@drawable/ic_unes_large_image_512"/>
+
+            <TextView
+                android:id="@+id/tv_std_name"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".6"
+                android:padding="8dp"
+                android:text="..??? ??? ???????"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:fontFamily="@font/roboto_medium"/>
+        </LinearLayout>
+
+
+
+        <TextView
+            android:id="@+id/tv_std_semester"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            tools:text="@string/student_semester"
+            android:textColor="@color/white"
+            android:fontFamily="@font/roboto_regular"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/tv_std_semester_hide"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="@string/everything_is_all_right"
+            android:textColor="@color/white"
+            android:fontFamily="@font/roboto_regular"
+            android:textSize="15sp"
+            tools:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/tv_std_score"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:text="@string/student_score"
+            android:textColor="@color/white"
+            android:fontFamily="@font/roboto_regular"/>
+
+        <TextView
+            android:id="@+id/tv_last_update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="@string/last_information_update"
+            android:textColor="@color/white"
+            android:fontFamily="@font/roboto_regular"/>
+
+        <TextView
+            android:id="@+id/tv_last_update_attempt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="@string/last_information_update_attempt"
+            android:textColor="@color/white"
+            android:fontFamily="@font/roboto_regular"/>
+
+        <LinearLayout
+            android:layout_marginTop="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/card_calendar_option"/>
+            <include layout="@layout/card_update_control"/>
+            <include layout="@layout/card_good_barrel"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

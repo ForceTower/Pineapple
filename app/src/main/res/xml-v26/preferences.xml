@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:key="data_and_sync_category"
+        android:title="@string/pref_header_data_sync">
+
+        <ListPreference
+            android:defaultValue="60"
+            android:entries="@array/pref_sync_frequency_titles"
+            android:entryValues="@array/pref_sync_frequency_values"
+            android:icon="@drawable/ic_sync_accent_30dp"
+            android:key="sync_frequency"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            android:summary="@string/pref_sync_frequency_enabled"
+            android:title="@string/pref_sync_frequency"/>
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="sync_wifi_only"
+            android:title="@string/pref_sync_only_wifi"
+            android:icon="@drawable/ic_network_wifi_accent_30dp"
+            android:summaryOff="@string/pref_sync_only_wifi_disabled"
+            android:summaryOn="@string/pref_sync_only_wifi_enabled"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_notification_header">
+        <Preference
+            android:key="notification_message_posted"
+            android:title="@string/title_messages"
+            android:summary="@string/pref_notification_message_summary"
+            android:icon="@drawable/ic_message_accent_30dp"/>
+        <Preference
+            android:key="notification_grades_posted"
+            android:title="@string/pref_grades_posted"
+            android:summary="@string/pref_notification_grade_posted"
+            android:icon="@drawable/ic_grades_accent_30dp"/>
+        <Preference
+            android:key="notification_grades_created"
+            android:title="@string/pref_grades_created"
+            android:summary="@string/pref_notification_grade_created"
+            android:icon="@drawable/ic_create_accent_30dp"/>
+        <Preference
+            android:key="notification_grades_date_change"
+            android:title="@string/pref_grades_date_changed"
+            android:summary="@string/pref_notification_grade_date_changed"
+            android:icon="@drawable/ic_date_accent_30dp"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/application_settings">
+
+        <SwitchPreference
+            android:icon="@drawable/ic_back_accent_30dp"
+            android:key="double_back"
+            android:defaultValue="false"
+            android:title="@string/pref_double_back"
+            android:summaryOn="@string/pref_double_back_on"
+            android:summaryOff="@string/pref_double_back_off"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_account_settings">
+
+        <SwitchPreference
+            android:icon="@drawable/ic_grades_accent_30dp"
+            android:key="show_score"
+            android:title="@string/show_score"
+            android:defaultValue="false"
+            android:summaryOff="@string/pref_do_not_show_score"
+            android:summaryOn="@string/pref_do_show_score"/>
+
+        <SwitchPreference
+            android:icon="@drawable/ic_timetable_accent_30dp"
+            android:key="show_current_semester"
+            android:title="@string/show_current_semester"
+            android:defaultValue="true"
+            android:summaryOff="@string/pref_do_not_show_semester"
+            android:summaryOn="@string/pref_do_show_semester"/>
+
+        <Preference
+            android:icon="@drawable/ic_logoff_accent_30dp"
+            android:key="logoff_key"
+            android:summary="@string/pref_logoff_summary"
+            android:title="@string/pref_logoff"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_title_about_and_feedback">
+
+        <Preference
+            android:key="feedback_key"
+            android:icon="@drawable/ic_feedback_accent_30dp"
+            android:title="@string/suggestions"/>
+
+        <Preference
+            android:key="about_app_key"
+            android:icon="@drawable/ic_info_accent_30dp"
+            android:title="@string/about_app_title"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

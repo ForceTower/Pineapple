@@ -3,26 +3,22 @@
           package="com.forcetower.uefs">
 
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.READ_SYNC_STATS"/>
-    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:name=".UEFSApplication"
-        android:allowBackup="true"
-        android:fullBackupContent="true"
-        android:hardwareAccelerated="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".view.login.LoginActivity"
-            android:configChanges="orientation"
-            android:screenOrientation="portrait">
+        <activity android:name=".view.login.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -35,40 +31,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.connected.NConnectedActivity"
-            android:configChanges="orientation"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NavigationDrawer"
-            android:windowSoftInputMode="adjustPan"/>
-
-        <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts"/>
-
-        <activity
             android:name=".view.settings.SettingsActivity"
-            android:configChanges="orientation"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.PreferencesStyle">
         </activity>
-        <activity
-            android:name=".view.class_details.ClassDetailsActivity"
-            android:configChanges="orientation"
-            android:screenOrientation="portrait">
+        <activity android:name=".view.about.AboutActivity">
         </activity>
-        <activity
-            android:name=".view.class_details.DisciplineClassesActivity"
-            android:configChanges="orientation"
-            android:screenOrientation="portrait">
+        <activity android:name=".view.suggestion.SuggestionActivity">
         </activity>
-        <activity
-            android:name=".view.about.AboutActivity"
-            android:configChanges="orientation"
-            android:screenOrientation="portrait">
+        <activity android:name=".view.discipline.DisciplineDetailsActivity">
         </activity>
 
         <service
-            android:name=".services.SyncService"
+            android:name=".sync.SyncAdapterService"
             android:exported="true"
             android:process=":sync">
             <intent-filter>
@@ -79,7 +53,7 @@
                 android:name="android.content.SyncAdapter"
                 android:resource="@xml/syncadapter"/>
         </service>
-        <service android:name=".services.GenericAccountService">
+        <service android:name=".sync.GenericAccountService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator"/>
             </intent-filter>
@@ -90,18 +64,32 @@
         </service>
 
         <provider
-            android:name=".providers.SagresProvider"
-            android:authorities="com.forcetower.uefs.providers"
+            android:name=".sync.SagresProvider"
+            android:authorities="@string/authority"
             android:exported="false"
             android:label="@string/sagres_sync"
             android:syncable="true"/>
 
-        <activity
-            android:name=".view.suggestion.SuggestionActivity"
-            android:configChanges="orientation"
-            android:screenOrientation="portrait">
+        <receiver android:name=".alm.RefreshBroadcastReceiver">
+            <intent-filter>
+                <action android:name="com.forcetower.uefs.REFRESH"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".alm.BootOptionsBroadcastReceiver"
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".view.discipline.DisciplineClassesActivity">
         </activity>
-        <activity android:name=".view.experiments.class_reviews.ClassReviewActivity">
+        <activity android:name=".view.control_room.ControlRoomActivity">
+        </activity>
+        <activity android:name=".view.experimental.good_barrel.GoodBarrelActivity">
         </activity>
     </application>
 

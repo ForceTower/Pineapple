@@ -1,40 +1,105 @@
 package com.forcetower.uefs;
 
+import android.app.Activity;
 import android.app.Application;
+import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.support.v7.app.AppCompatDelegate;
 
-import com.forcetower.uefs.content.UNEService;
-import com.forcetower.uefs.dependency_injection.component.ApplicationComponent;
-import com.forcetower.uefs.dependency_injection.component.DaggerApplicationComponent;
-import com.forcetower.uefs.dependency_injection.module.ApplicationModule;
-import com.forcetower.uefs.dependency_injection.module.RoomModule;
-import com.forcetower.uefs.dependency_injection.module.ServicesModule;
+import com.forcetower.uefs.di.AppInjector;
+import com.forcetower.uefs.ntf.NotificationHelper;
+import com.forcetower.uefs.sync.SyncConfiguration;
+import com.squareup.picasso.Picasso;
 
-import retrofit2.Retrofit;
+import java.io.File;
+
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.HasActivityInjector;
+import dagger.android.HasBroadcastReceiverInjector;
+import dagger.android.HasServiceInjector;
+import timber.log.Timber;
 
 /**
- * Created by João Paulo on 09/11/2017.
+ * Created by João Paulo on 05/03/2018.
+ * Application Class. The android kick start
  */
-
-public class UEFSApplication extends Application {
-    private ApplicationComponent component;
-
-    public UEFSApplication() {
-        super();
-    }
+public class UEFSApplication extends Application implements HasActivityInjector, HasServiceInjector, HasBroadcastReceiverInjector {
+    @Inject
+    DispatchingAndroidInjector<Activity> dispatchingActivityAndroidInjector;
+    @Inject
+    DispatchingAndroidInjector<Service> dispatchingServiceAndroidInjector;
+    @Inject
+    DispatchingAndroidInjector<BroadcastReceiver> dispatchingBroadcastAndroidInjector;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        }
+
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-        component = DaggerApplicationComponent.builder()
-                .applicationModule(new ApplicationModule(this))
-                .roomModule(new RoomModule(this))
-                .servicesModule(new ServicesModule())
-                .build();
+        AppInjector.init(this);
+
+        configureFeatures();
+
+        Picasso.Builder builder = new Picasso.Builder(this);
+        Picasso.setSingletonInstance(builder.build());
     }
 
-    public ApplicationComponent getApplicationComponent() {
-        return component;
+    private void configureFeatures() {
+        SyncConfiguration.initializeSyncAdapter(this);
+        new NotificationHelper(this).createChannels();
+    }
+
+    public void clearApplicationData() {
+        /*if (VersionUtils.isKitkat()) {
+            ((ActivityManager)getSystemService(ACTIVITY_SERVICE)).clearApplicationUserData();
+        } else {*/
+            File cacheDirectory = getCacheDir();
+            File applicationDirectory = new File(cacheDirectory.getParent());
+            if (applicationDirectory.exists()) {
+                String[] fileNames = applicationDirectory.list();
+                for (String fileName : fileNames) {
+                    if (!fileName.equals("lib")) {
+                        deleteFile(new File(applicationDirectory, fileName));
+                    }
+                }
+            }
+        //}
+    }
+
+    public static boolean deleteFile(File file) {
+        boolean deletedAll = true;
+        if (file != null) {
+            if (file.isDirectory()) {
+                String[] children = file.list();
+                for (int i = 0; i < children.length; i++) {
+                    deletedAll = deleteFile(new File(file, children[i])) && deletedAll;
+                }
+            } else {
+                deletedAll = file.delete();
+            }
+        }
+
+        return deletedAll;
+    }
+
+    @Override
+    public AndroidInjector<Activity> activityInjector() {
+        return dispatchingActivityAndroidInjector;
+    }
+
+    @Override
+    public AndroidInjector<Service> serviceInjector() {
+        return dispatchingServiceAndroidInjector;
+    }
+
+    @Override
+    public AndroidInjector<BroadcastReceiver> broadcastReceiverInjector() {
+        return dispatchingBroadcastAndroidInjector;
     }
 }

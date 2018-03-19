@@ -18,26 +18,17 @@
             android:title="@string/pref_sync_frequency"/>
 
         <SwitchPreference
-            android:enabled="false"
             android:defaultValue="false"
-            android:key="automatic_class_miss"
-            android:title="@string/pref_detect_missed_auto"
-            android:summaryOff="@string/pref_detect_missed_auto_disabled"
-            android:summaryOn="@string/pref_detect_missed_auto_enabled"/>
+            android:key="sync_wifi_only"
+            android:title="@string/pref_sync_only_wifi"
+            android:icon="@drawable/ic_network_wifi_accent_30dp"
+            android:summaryOff="@string/pref_sync_only_wifi_disabled"
+            android:summaryOn="@string/pref_sync_only_wifi_enabled"/>
     </PreferenceCategory>
 
     <PreferenceCategory
         android:key="notification_category"
         android:title="@string/pref_notification_header">
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:icon="@drawable/ic_book_accent_30dp"
-            android:key="show_class_notification"
-            android:summaryOff="@string/pref_show_class_notification_disabled"
-            android:summaryOn="@string/pref_show_class_notification_enabled"
-            android:enabled="false"
-            android:title="@string/pref_show_class_notification"/>
 
         <SwitchPreference
             android:defaultValue="true"
@@ -50,10 +41,26 @@
         <SwitchPreference
             android:defaultValue="true"
             android:icon="@drawable/ic_grades_accent_30dp"
-            android:key="show_grades_notification"
+            android:key="show_grades_posted_notification"
             android:summaryOff="@string/pref_show_grades_notification_disabled"
             android:summaryOn="@string/pref_show_grades_notification_enabled"
-            android:title="@string/pref_show_grades_notification"/>
+            android:title="@string/pref_grades_posted"/>
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_create_accent_30dp"
+            android:key="show_grades_created_notification"
+            android:summaryOff="@string/pref_show_grades_created_notification_disabled"
+            android:summaryOn="@string/pref_show_grades_created_notification_enabled"
+            android:title="@string/pref_grades_created"/>
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_date_accent_30dp"
+            android:key="show_grades_changed_notification"
+            android:summaryOff="@string/pref_show_grades_changed_notification_disabled"
+            android:summaryOn="@string/pref_show_grades_changed_notification_enabled"
+            android:title="@string/pref_grades_date_changed"/>
 
         <SwitchPreference
             android:defaultValue="true"
@@ -82,12 +89,6 @@
             android:title="@string/pref_double_back"
             android:summaryOn="@string/pref_double_back_on"
             android:summaryOff="@string/pref_double_back_off"/>
-
-        <SwitchPreference
-            android:icon="@drawable/ic_brush_accent_30dp"
-            android:key="lucas_layout"
-            android:defaultValue="true"
-            android:title="@string/pref_use_new_layout"/>
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -101,11 +102,13 @@
             android:summaryOff="@string/pref_do_not_show_score"
             android:summaryOn="@string/pref_do_show_score"/>
 
-        <Preference
-            android:icon="@drawable/ic_sync_accent_30dp"
-            android:key="reset_grades"
-            android:title="@string/pref_clear_all_semesters_grades"
-            android:summary="@string/pref_clear_all_semesters_grades_summary"/>
+        <SwitchPreference
+            android:icon="@drawable/ic_timetable_accent_30dp"
+            android:key="show_current_semester"
+            android:title="@string/show_current_semester"
+            android:defaultValue="true"
+            android:summaryOff="@string/pref_do_not_show_semester"
+            android:summaryOn="@string/pref_do_show_semester"/>
 
         <Preference
             android:icon="@drawable/ic_logoff_accent_30dp"

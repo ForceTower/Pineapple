@@ -1,35 +1,43 @@
 package com.forcetower.uefs.view.suggestion;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.helpers.Utils;
+import com.forcetower.uefs.util.VersionUtils;
+import com.forcetower.uefs.view.UBaseActivity;
 
-public class SuggestionActivity extends AppCompatActivity {
+import butterknife.BindView;
+
+public class SuggestionActivity extends UBaseActivity {
+    @BindView(R.id.et_suggestion)
+    EditText editText;
+    @BindView(R.id.btn_submit)
+    Button btnSubmit;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
     public static void startActivity(Context context) {
         Intent intent = new Intent(context, SuggestionActivity.class);
         context.startActivity(intent);
     }
 
-    private EditText editText;
+    @SuppressLint("MissingSuperCall")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_suggestion);
+        super.onCreate(R.layout.activity_suggestion, savedInstanceState);
 
-        editText = findViewById(R.id.et_suggestion);
-
-        findViewById(R.id.btn_submit).setOnClickListener(view -> {
+        btnSubmit.setOnClickListener(view -> {
             String body = editText.getText().toString();
             if (body.trim().isEmpty()) {
                 Toast.makeText(this, R.string.empty_suggestion_field, Toast.LENGTH_SHORT).show();
@@ -39,9 +47,8 @@ public class SuggestionActivity extends AppCompatActivity {
             }
         });
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
-        if (Utils.isLollipop()) toolbar.setElevation(10);
+        if (VersionUtils.isLollipop()) toolbar.setElevation(10);
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {

@@ -1,15 +1,32 @@
 <resources>
     <string name="app_name">UNES</string>
-    <string name="form_username">Username</string>
-    <string name="form_password">Password</string>
-    <string name="login_btn">Login</string>
-    <string name="invalid_username">Invalid Username</string>
-    <string name="invalid_password">Invalid Password</string>
-    <string name="incorrect_credentials">Incorrect Credentials</string>
-    <string name="processing_info">Processing information</string>
-    <string name="welcome">Hello %1$s</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="logo">Logo</string>
+    <string name="login_username">Username</string>
+    <string name="login_password">Password</string>
+    <string name="login_connect">Connect</string>
+    <string name="connecting">Connecting</string>
+    <string name="completed">Completed</string>
+    <string name="failed_to_connect">Failed to Connect</string>
+    <string name="invalid_login">Invalid Login</string>
+    <string name="going_to_student_page">Navigating to Student Page</string>
+    <string name="accessing_portal">Accessing Portal</string>
+    <string name="username_too_short">Username too short</string>
+    <string name="password_too_short">Password too short</string>
+    <string name="processing_information">Processing Information</string>
+    <string name="going_to_grades_page">Going to grades page</string>
+    <string name="grades_obtained">Grades Obtained</string>
     <string name="title_schedule">Schedule</string>
+    <string name="title_messages">Messages</string>
+    <string name="title_grades">Grades</string>
+    <string name="title_disciplines">Disciplines</string>
+    <string name="title_calendar">Calendar</string>
+    <string name="title_more">More</string>
+
+    <string name="classes_not_found">Schedule was not found on start page</string>
+    <string name="check_schedule_in_official_page">Go to official Sagres page and check if the schedule is visible</string>
+    <string name="that_s_embarrassing">That\'s embarrassing</string>
+    <string name="sad">Sad</string>
+
     <string name="monday">Monday</string>
     <string name="tuesday">Tuesday</string>
     <string name="wednesday">Wednesday</string>
@@ -17,71 +34,113 @@
     <string name="friday">Friday</string>
     <string name="saturday">Saturday</string>
     <string name="sunday">Sunday</string>
-    <string name="this_is_and_error">Error Item - Report</string>
-    <string name="class_about_to_start">Class about to begin</string>
-    <string name="class_notification_display">The class %1$s is at %2$s, %3$s</string>
-    <string name="title_messages">Messages</string>
-    <string name="sent_at">Received: %1$s</string>
-    <string name="title_message">Message</string>
-    <string name="lorem_ipsum" translatable="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque iaculis lorem mauris, in lobortis sem dignissim et. Morbi nec pretium tellus, sit amet dignissim urna. Nunc dignissim luctus massa ut viverra. Suspendisse dapibus quis nulla sed vulputate. Vivamus dignissim, leo eu viverra congue, lorem dui semper massa, sit amet consequat dui tortor at mi. Integer pulvinar eros justo, et rutrum nulla tempor vel. Vestibulum malesuada dui a lectus tincidunt, sed fermentum felis rhoncus. Nulla varius, arcu et fringilla tincidunt, nulla magna cursus lorem, vel vestibulum sem lectus a diam. Cras imperdiet nunc at neque viverra pretium. Aenean mattis, dui ac commodo vulputate, tellus urna pharetra odio, eu rutrum eros risus sit amet justo. Aliquam cursus neque dui. Curabitur quis mattis justo, et tincidunt sapien.  Vivamus eu laoreet mauris. Donec dui nibh, gravida nec dapibus quis, tincidunt vel nibh. Interdum et malesuada fames ac ante ipsum primis in faucibus. Suspendisse potenti. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas lacinia semper libero sit amet egestas. Integer suscipit turpis quis nunc aliquet fringilla. Pellentesque tincidunt enim ligula, nec convallis ipsum luctus at. Aliquam vitae nulla ac purus rutrum iaculis. Etiam in aliquam urna, nec viverra ante. Duis placerat enim aliquam, dignissim eros sed, volutpat libero. Suspendisse lobortis massa vitae diam faucibus, eu hendrerit felis interdum. Nam egestas tellus in lacus sagittis, non pellentesque libero ultrices.  Cras ullamcorper a odio non molestie. Nam vestibulum vel ipsum ut volutpat. Morbi laoreet pellentesque nisi in volutpat. In semper metus vel neque elementum, id pellentesque nunc tempus. Etiam mattis, quam sit amet interdum pulvinar, ipsum ligula volutpat erat, quis dapibus nisl erat in magna. Fusce metus diam, convallis in placerat ut, dictum at erat. Ut vitae mauris quis tellus tincidunt dapibus sit amet vitae quam. Sed a vehicula diam, id molestie est. Donec lectus purus, efficitur vel ultrices maximus, fringilla id orci. Proin iaculis justo et nisi vestibulum ornare. Duis eleifend interdum semper.  Donec euismod odio in elit blandit, sed venenatis enim varius. Donec non sagittis sapien. Duis erat neque, gravida at hendrerit et, sollicitudin et purus. Donec vitae maximus metus. Sed feugiat cursus justo. Sed et odio erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec vulputate tempor risus sit amet suscipit. Aenean posuere orci non dui rhoncus rutrum vitae vitae diam. Curabitur mollis finibus quam ac ultricies. Aliquam volutpat viverra risus, quis iaculis felis luctus vitae. Nam et ullamcorper felis, id porta ligula. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed vehicula fermentum massa, quis imperdiet lectus egestas quis. Curabitur rutrum, dolor aliquet sollicitudin pretium, magna nunc laoreet sem, sed euismod leo odio sit amet libero.  Suspendisse eu efficitur ligula. Ut ullamcorper a dui vitae semper. Integer vulputate, arcu vitae varius tempus, felis nulla placerat purus, eget malesuada lorem lacus vitae eros. Morbi lacinia ultrices tristique. Nullam cursus sodales ipsum hendrerit condimentum. Mauris luctus augue molestie, suscipit felis ut, tincidunt sapien. Nam pellentesque augue eget libero mattis, a vulputate lorem dignissim. Curabitur porta suscipit mauris ut blandit. Vestibulum placerat lacus metus, non mollis ipsum feugiat id. Donec consequat dolor lorem, vitae auctor massa imperdiet a. Donec velit neque, hendrerit pharetra quam vel, hendrerit sollicitudin nisi. Praesent nisi lorem, varius sed ipsum in, gravida porttitor leo. Integer quis lorem magna.</string>
-    <string name="title_activity_settings">Settings</string>
+    <string name="discipline_start_end_time">%1$s ~ %2$s</string>
+    <string name="draft_class">Draft Class</string>
 
-    <!-- Strings related to Settings -->
+    <string name="class_additional_info_format">%1$s - %2$d hours - %3$d missed classes</string>
+    <string name="final_score_text">Final Score</string>
+    <string name="partial_mean">Partial Mean</string>
+    <string name="all_semester_part_completed">Got grade of a new semester</string>
+    <string name="disconnected">Disconnected! Did you change yor password?</string>
+    <string name="data_deleted">Data Deleted</string>
+    <string name="retrieving_data">Retrieving Data...</string>
+
+    <string name="account_name">Sagres Sync</string>
+    <string name="account_type" translatable="false">com.forcetower.uefs.sync</string>
+    <string name="authority" translatable="false">com.forcetower.uefs.provider</string>
+    <string name="sagres_sync">Sagres Updater</string>
+    <string name="title_auto_sync">Auto Sync</string>
+    <string name="auto_sync_warning">UNES uses Android\'s auto sync feature to frequently update your data from Sagres\n\nIt seems like this feature is disabled in your phone\n\nWith auto sync disabled the app will not get information from Sagres automatically, thus you will never receive any notification when something new is posted</string>
+    <string name="android">Android</string>
+    <string name="continue_anyway">Continue</string>
+    <string name="change_config">Enable</string>
+    <string name="channel_messages">Messages</string>
+    <string name="channel_group_grades">Grades</string>
+    <string name="grade_posted_notification">The grade of %1$s from %2$s is available.\nGo check it out!</string>
+    <string name="new_grade_notification_great">The grade of %1$s from %2$s is available.\nGo check it out!\n\nIt's a good one!</string>
+    <string name="grade_create_notification">The evaluation of %1$s from %2$s was created, but there\'s no new grade</string>
+    <string name="grade_change_notification">The evaluation of %1$s from %2$s changed date</string>
+    <string name="new_grade_posted">New grade posted</string>
+    <string name="channel_grades_posted">Grades Posted</string>
+    <string name="channel_grades_date_changed">Grades date changes</string>
+    <string name="channel_grades_created">Grades creation</string>
+    <string name="grade_evaluation_date_change">Evaluation date change</string>
+    <string name="new_grade_created">New grade created</string>
+    <string name="channel_group_messages">Messages</string>
+    <string name="title_calendar_desc">Check out the academic calendar</string>
+    <string name="student_freshman">Are you a new? Never seen you here before</string>
+    <string name="student_semester">You are on the %1$dº semester</string>
+    <string name="student_score">Your score is: %1$.1f</string>
+    <string name="last_information_update">Last data update: %1$s</string>
+    <string name="updated">Updated!</string>
+
+
+    <string name="settings">Settings</string>
+    <string name="pref_header_data_sync">Data and sync</string>
+    <string name="pref_sync_frequency">Sync frequency</string>
+    <string name="pref_sync_frequency_enabled">Every %1$s</string>
+    <string name="pref_sync_frequency_never">Never update</string>
+    <string name="pref_sync_only_wifi">Wifi only</string>
+    <string name="pref_sync_only_wifi_disabled">App will sync using any network</string>
+    <string name="pref_sync_only_wifi_enabled">App will sync only if on wifi</string>
+
     <string-array name="pref_sync_frequency_titles">
+        <item>15 minutes</item>
+        <item>30 minutes</item>
         <item>1 hour</item>
         <item>2 hours</item>
         <item>3 hours</item>
         <item>6 hours</item>
         <item>Never</item>
-        <item>60Hz</item>
     </string-array>
     <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
         <item>60</item>
         <item>120</item>
         <item>180</item>
         <item>360</item>
         <item>-1</item>
-        <item>-2</item>
     </string-array>
 
-    <!-- Notifications Preferences -->
-    <string name="pref_show_class_notification">Classes</string>
-    <string name="pref_show_class_notification_enabled">You\'ll be notified when classes are about to start</string>
-    <string name="pref_show_class_notification_disabled">You\'ll not be notified when classes are about to start</string>
+    <string name="pref_notification_header">Notifications</string>
+    <string name="pref_notifications_summary">Opens notification control panel</string>
     <string name="pref_show_message_notification">Messages</string>
     <string name="pref_show_message_notification_enabled">You\'ll be notified when a new message arrive</string>
     <string name="pref_show_message_notification_disabled">You\'ll not be notified when a new message arrive</string>
-    <string name="pref_notification_sound">Ringtone</string>
-    <string name="pref_notification_header">Notifications</string>
+    <string name="pref_show_grades_notification">Grades</string>
+    <string name="pref_show_grades_notification_disabled">You\'ll not be notified when a new grade arrive</string>
+    <string name="pref_show_grades_notification_enabled">You\'ll be notified when a new grade arrive</string>
     <string name="pref_title_vibrate">Vibrate</string>
-
-    <!-- Data Sync -->
-    <string name="pref_header_data_sync">Data and sync</string>
-    <string name="pref_sync_frequency">Sync frequency</string>
-    <string name="pref_sync_frequency_enabled">Every %1$s</string>
-    <string name="settings">Settings</string>
-    <string name="pref_account_settings">Account</string>
     <string name="pref_new_message_vibration_enabled">Vibrate on notification</string>
     <string name="pref_new_message_vibration_disabled">Do not vibrate on notification</string>
+    <string name="pref_notification_sound">Ringtone</string>
     <string name="pref_notification_sound_summary">Change the notification sound</string>
+    <string name="pref_grades_posted">Grade posted</string>
+    <string name="pref_grades_date_changed">Date changes</string>
+    <string name="pref_grades_created">Grade created</string>
+    <string name="pref_notification_grade_date_changed">Control notifications when date changes</string>
+    <string name="pref_notification_grade_created">Control notifications when a grade is created</string>
+    <string name="pref_notification_grade_posted">Control notifications when a grade is posted</string>
+
+    <string name="application_settings">Application</string>
+    <string name="pref_double_back">Double back</string>
+    <string name="pref_double_back_on">You need to press back twice to exit</string>
+    <string name="pref_double_back_off">You need to press back once to exit</string>
+
+    <string name="pref_account_settings">Account</string>
+    <string name="show_score">Score</string>
+    <string name="pref_do_not_show_score">Don\'t show on profile page</string>
+    <string name="pref_do_show_score">Show on profile page</string>
     <string name="pref_logoff">Logoff</string>
-    <string name="pref_sync_frequency_never">Never update</string>
     <string name="pref_logoff_summary">Exit and clean information</string>
-    <string name="sagres_sync">Sagres Sync</string>
-    <string name="wait_before_updating_again">Wait before updating again</string>
-    <string name="network_error">Network Error</string>
-    <string name="class_details">Class details</string>
-    <string name="unable_to_fetch_grades">Unable to fetch grades</string>
-    <string name="grade_posted">New grade posted</string>
-    <string name="new_grade_notification">The grade of %1$s from %2$s is available.\nGo check it out!</string>
-    <string name="new_grade_notification_great">The grade of %1$s from %2$s is available.\nGo check it out!\n\nIt's a good one!</string>
-    <string name="prepare_to_fetch_grades">Preparing to fetch info</string>
-    <string name="title_grades">Grades</string>
-    <string name="title_calendar">Calendar</string>
-    <string name="creator">Created by João Paulo [facebook.com/ForceTower]\n[github.com/ForceTower]\nVersion: %1$s</string>
-    <string name="click_to_know_about">Click to know about the App</string>
-    <string name="about_app_bugs_title">Bugs</string>
+
+    <string name="pref_title_about_and_feedback">About and Feedback</string>
+    <string name="suggestions">Suggestions</string>
     <string name="about_app_title">About App</string>
+
+    <string name="creator">Created by João Paulo [facebook.com/ForceTower]\n[github.com/ForceTower]\nVersion: %1$s</string>
+    <string name="about_app_bugs_title">Bugs</string>
     <string name="about_app_exit_title">Exit</string>
     <string name="about_app_notifications_title">Notifications</string>
     <string name="about_app_features_title">Features and Benefits</string>
@@ -95,105 +154,76 @@
     <string name="about_app_features">After the first login you will have access to you schedule, grades and messages. These data are stored on your smartphone, so even when you have no connection you\'ll still be able to read the data and when your connection returns it will update the data again. The app updates your information periodically and you can control the frequency this happens</string>
     <string name="about_app_notifications">You will receive a notification whenever someone posts a new Grade or a Message on the website (with some delay, based on the selected frequency)</string>
     <string name="about_app_exit">At any moment you can logout by clicking at Settings>Logoff, this action will erase all the saved data related to your Sagres account from the device. You can login again at any time and return receiving notifications.</string>
-    <string name="about_app_bugs">For some stupid mistake, if your Android version is 8.0+ (Oreo) you\'ll not receive any notifications, I\'m working on fixing it :^)\nThere's also a notification bug where you receive notifications for messages you already got</string>
-    <string name="final_score_text">Final Mean</string>
-    <string name="score_is">Score: %1$s</string>
-    <string name="show_score">Score</string>
-    <string name="pref_do_not_show_score">Don\'t show on start page</string>
-    <string name="pref_do_show_score">Show on start page</string>
-    <string name="pref_show_grades_notification">Grades</string>
-    <string name="pref_show_grades_notification_disabled">You\'ll not be notified when a new grade arrive</string>
-    <string name="pref_show_grades_notification_enabled">You\'ll be notified when a new grade arrive</string>
-    <string name="connection_failed">Connection Failed</string>
-    <string name="retrying_connection">Retrying connection %1$s of 3</string>
-    <string name="grades_not_downloaded_yet">The grades were not downloaded yet</string>
-    <string name="grades_image">Grades Image</string>
-    <string name="download">Download</string>
-    <string name="get_grades_failed">Failed getting grades</string>
-    <string name="downloading_grades">Downloading Grades...</string>
-    <string name="semester_grades_not_downloaded">Semester Grades not downloaded</string>
-    <string name="download_grades">Download</string>
-    <string name="pref_clear_all_semesters_grades">Clean Grades</string>
-    <string name="pref_clear_all_semesters_grades_summary">Refresh in case of error</string>
-    <string name="grades_cleared">Grades Reset. You might need to restart the app</string>
-    <string name="partial_mean">Partial Mean</string>
-    <string name="class_not_found_dev_error">Class not found. This is prob a dev error</string>
-    <string name="class_details_credits">Class Credits: %1$s hours</string>
-    <string name="class_details_class_period">Class Period: %1$s</string>
-    <string name="class_details_teacher">Teacher: %1$s</string>
-    <string name="class_details_department">Department: %1$s</string>
-    <string name="class_details_miss_limit">Fault Limit: %1$s</string>
-    <string name="class_details_classes_missed">You missed %1$s classes</string>
-    <string name="class_details_miss_remain">You still can miss %1$s classes</string>
-    <string name="class_details_previous_class">Previous Class: %1$s</string>
-    <string name="class_details_next_class">Next Class: %1$s</string>
-    <string name="card_class_details_this_is_a_draft">This is a draft class, update the class to get full information</string>
-    <string name="draft_class">This is a draft class. Full info is not available</string>
-    <string name="title_disciplines">Disciplines</string>
-    <string name="class_name_list_format">%1$s %2$s</string>
-    <string name="class_additional_info_format">%1$s - %2$s hours - %3$s missed classes</string>
-    <string name="class_details_failed_by_lack">You failed for lack</string>
-    <string name="class_details_can_not_miss_anymore">You can not miss any class</string>
-    <string name="press_back_twice">Press back again to exit the app</string>
-    <string name="application_settings">Application</string>
-    <string name="pref_double_back">Double back</string>
-    <string name="pref_double_back_on">You need to press back twice to exit</string>
-    <string name="pref_double_back_off">You need to press back once to exit</string>
-    <string name="classes_not_found">Schedule was not found on start page</string>
-    <string name="check_schedule_in_official_page">Go to official Sagres page and check if the schedule is visible</string>
-    <string name="that_s_embarrassing">That\'s embarrassing</string>
-    <string name="classes">Classes</string>
-    <string name="all_classes">All classes</string>
-    <string name="pref_detect_missed_auto">Auto missed class</string>
-    <string name="pref_detect_missed_auto_disabled">App won\'t try to detect if you missed a class automatically</string>
-    <string name="pref_detect_missed_auto_enabled">App will try to detect if you missed a class automatically</string>
-    <string name="days_and_classes">Days and Classes</string>
-    <string name="submit">Submit</string>
-    <string name="write_a_suggestion">Write a suggestion for the app</string>
-    <string name="suggestion">Suggestion</string>
-    <string name="send_email">Send email...</string>
-    <string name="suggestions">Suggestions</string>
+    <string name="about_app_bugs">I don\'t know any for now. But there must be some</string>
+
     <string name="credits">Credits</string>
     <string name="credits_string">
         App Icon: Lokisley Oliveira\nhttps://www.facebook.com/Lokisley\n\n
     </string>
-    <string name="failed_connect_to_portal">Connection to portal failed...</string>
-    <string name="finished">Finished</string>
+    <string name="btn_third_party_licenses">Third party licences</string>
 
-    <string name="drawer_open">Open Drawer</string>
-    <string name="drawer_close">Close Drawer</string>
-    <string name="pref_use_new_layout">Use new layout</string>
-    <string name="pref_title_about_and_feedback">About and Feedback</string>
-    <string name="third_party_licenses_btn">Third party licenses</string>
-    <string name="to_do_list">To Do List</string>
-    <string name="show_only_uncompleted_tasks">Show only not completed tasks</string>
-    <string name="class_overview">Overview</string>
-    <string name="class_todo_list">To-Do</string>
-    <string name="grades">Grades</string>
-    <string name="todo_title">Task title</string>
-    <string name="todo_description">Description</string>
-    <string name="todo_date">Date</string>
-    <string name="has_date_limit">Has Date Limit</string>
-    <string name="save">Save</string>
-    <string name="cancel">Cancel</string>
-    <string name="title_tasks">To-Do</string>
-    <string name="class_grades">Grades</string>
-    <string name="situation">Situation</string>
-    <string name="situation_approved">Approved</string>
-    <string name="label_final_mean">Final Mean</string>
-    <string name="situation_unknown">Unknown Situation</string>
+    <string name="write_a_suggestion">Write a suggestion</string>
+    <string name="suggestion">Suggestion</string>
+    <string name="submit">Submit</string>
+    <string name="send_email">Send Email</string>
+    <string name="empty_suggestion_field">Suggestion field is empty</string>
+    <string name="pref_notification_message_summary">Control notifications when new message is posted</string>
+
+    <string name="discipline_details">Discipline Details</string>
+    <string name="discipline_overview">Overview</string>
+    <string name="discipline_grades">Grades</string>
+    <string name="card_class_details_this_is_a_draft">This is a draft class, update the class to get full information</string>
+    <string name="all_classes">All classes</string>
+    <string name="days_and_classes">Days and classes</string>
+    <string name="class_details_credits">Class Credits: %1$d hours</string>
+    <string name="class_details_class_period">Class Period: %1$s</string>
+    <string name="class_details_teacher">Teacher: %1$s</string>
+    <string name="class_details_department">Department: %1$s</string>
+    <string name="class_details_miss_limit">Fault Limit: %1$d</string>
+    <string name="class_details_classes_missed">You missed %1$d classes</string>
+    <string name="class_details_miss_remain">You still can miss %1$d classes</string>
+    <string name="class_details_previous_class">Previous Class: %1$s</string>
+    <string name="class_details_next_class">Next Class: %1$s</string>
+    <string name="class_details_can_not_miss_anymore">You can not miss any class</string>
+    <string name="class_details_failed_by_lack">You failed for lack</string>
     <string name="experimental_content">Experimental Content</string>
+    <string name="situation">Situation</string>
+    <string name="situation_unknown">Unknown Situation</string>
+    <string name="label_current_mean">Mean</string>
+    <string name="label_final_mean">Final mean</string>
     <string name="label_need_final_mean">Grade needed in final test</string>
     <string name="label_partial_mean">Partial Mean</string>
-    <string name="label_current_mean">Mean</string>
-    <string name="refresh">Refresh</string>
-    <string name="download_all">Download All</string>
-    <string name="dialog_download_all_classes_conf">Download details of all classes?</string>
-    <string name="sure">Sure!</string>
-    <string name="labs">Labs</string>
-    <string name="empty_suggestion_field">Suggestion field is empty</string>
-    <string name="class_review">Class Review</string>
-    <string name="class_review_discover_title">Class Review</string>
-    <string name="menu_class_review_discover_text">Discover statistics about classes, teachers and decide about taking a class before applying for it</string>
-    <string name="loading_content">Loading content...</string>
+    <string name="class_name_list_format">%1$s %2$s</string>
+    <string name="press_back_twice">Press back again to exit the app</string>
+    <string name="pref_show_grades_created_notification_disabled">You\'ll not be notified when an evaluation is created without grades</string>
+    <string name="pref_show_grades_created_notification_enabled">You\'ll be notified when an evaluation is created without grades</string>
+    <string name="pref_show_grades_changed_notification_disabled">You\'ll not be notified when the evaluation date changes</string>
+    <string name="pref_show_grades_changed_notification_enabled">You\'ll be notified when the evaluation date changes</string>
+    <string name="attachments">%1$d</string>
+    <string name="discipline_classes">Classes</string>
+    <string name="you_are_not_connected">You are not connected</string>
+    <string name="login">Login</string>
+    <string name="select_a_class">Select a class</string>
+    <string name="cancel">Cancel</string>
+    <string name="ignore_class">Ignore Class</string>
+    <string name="ignore_class_description">This will silent all notifications from this class. Are you sure?</string>
+    <string name="ignored_class_format">%1$s (Ignored)</string>
+    <string name="last_information_update_attempt">Last attempt of data sync: %1$s</string>
+    <string name="title_messages_long">Open the messages</string>
+    <string name="title_grades_long">Open the grades</string>
+    <string name="title_update_control_desc">Control UNES master sync</string>
+    <string name="title_update_control">Update control</string>
+    <string name="master_update_status_message">Master Update status is: %1$s</string>
+    <string name="enable">Enable</string>
+    <string name="disable">Disable</string>
+    <string name="master_sync_enabled">Master sync enabled</string>
+    <string name="master_sync_disabled">Master sync disabled</string>
+    <string name="master_update_connections">Number of connections: %1$d</string>
+    <string name="title_barrel_experimental">Barrel</string>
+    <string name="title_barrel_desc">Good Barrel Experimental</string>
+    <string name="select_a_link">Open link</string>
+    <string name="show_current_semester">Semester</string>
+    <string name="pref_do_not_show_semester">Won\'t show current semester</string>
+    <string name="pref_do_show_semester">Show current semester</string>
+    <string name="everything_is_all_right">Everything is all right!</string>
 </resources>

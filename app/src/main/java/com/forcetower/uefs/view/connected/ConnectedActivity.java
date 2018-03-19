@@ -1,176 +1,244 @@
 package com.forcetower.uefs.view.connected;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
+import android.content.SharedPreferences;
+import android.content.pm.ShortcutInfo;
+import android.content.pm.ShortcutManager;
+import android.graphics.drawable.Icon;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.ActivityOptionsCompat;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.UEFSApplication;
-import com.forcetower.uefs.database.AppDatabase;
-import com.forcetower.uefs.helpers.SyncUtils;
-import com.forcetower.uefs.helpers.Utils;
-import com.forcetower.uefs.view.UEFSBaseActivity;
-import com.forcetower.uefs.view.experiments.class_reviews.ClassReviewActivity;
+import com.forcetower.uefs.alm.RefreshAlarmTrigger;
+import com.forcetower.uefs.db.entity.Access;
+import com.forcetower.uefs.db.entity.Semester;
+import com.forcetower.uefs.rep.helper.Resource;
+import com.forcetower.uefs.rep.helper.Status;
+import com.forcetower.uefs.util.AnimUtils;
+import com.forcetower.uefs.util.VersionUtils;
+import com.forcetower.uefs.view.UBaseActivity;
+import com.forcetower.uefs.view.connected.fragments.AllSemestersGradeFragment;
+import com.forcetower.uefs.view.connected.fragments.AutoSyncFragment;
+import com.forcetower.uefs.view.connected.fragments.CalendarFragment;
+import com.forcetower.uefs.view.connected.fragments.DisciplinesFragment;
+import com.forcetower.uefs.view.connected.fragments.MessagesFragment;
+import com.forcetower.uefs.view.connected.fragments.ProfileFragment;
+import com.forcetower.uefs.view.connected.fragments.ScheduleFragment;
+import com.forcetower.uefs.view.login.MainActivity;
 import com.forcetower.uefs.view.settings.SettingsActivity;
-import com.getkeepsafe.taptargetview.TapTarget;
-import com.getkeepsafe.taptargetview.TapTargetView;
+import com.forcetower.uefs.vm.GradesViewModel;
+
+import java.util.Arrays;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
+import timber.log.Timber;
 
-public class ConnectedActivity extends UEFSBaseActivity {
-    private static final String TAG = "ConnectedActivity";
-    private boolean doubleBack = false;
+import static com.forcetower.uefs.ntf.NotificationCreator.GRADES_FRAGMENT;
+import static com.forcetower.uefs.ntf.NotificationCreator.MESSAGES_FRAGMENT;
+import static com.forcetower.uefs.util.PixelUtils.getPixelsFromDp;
 
-    @Inject
-    AppDatabase database;
-
+public class ConnectedActivity extends UBaseActivity implements HasSupportFragmentInjector, NavigationController {
+    public static final String NOTIFICATION_INTENT_EXTRA = "notification_intent_extra";
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.app_bar_layout)
+    AppBarLayout appBarLayout;
+    @BindView(R.id.navigation)
+    BottomNavigationView bottomNavigationView;
+    @BindView(R.id.tab_layout)
+    TabLayout tabLayout;
+    @BindView(R.id.pb_loading)
+    ProgressBar pbLoading;
 
-    public static void startActivity(Context context) {
+    @Inject
+    DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
+    private GradesViewModel gradesViewModel;
+
+    private FragmentManager fragmentManager;
+    @IdRes
+    private int containerId;
+    @StringRes
+    private int titleText;
+    private boolean afterLogin;
+    private boolean showingTab;
+    private int numberOfLoadings = 0;
+    private int numberOfSemesters = -1;
+
+    private boolean doubleBack;
+
+    public static void startActivity(Context context, boolean afterLogin) {
         Intent intent = new Intent(context, ConnectedActivity.class);
-        Bundle bundle = ActivityOptionsCompat.makeCustomAnimation(context,
-                android.R.anim.fade_in, android.R.anim.fade_out).toBundle();
-
-        context.startActivity(intent, bundle);
+        intent.putExtra("after_login", afterLogin);
+        Timber.d("Start connected activity!");
+        context.startActivity(intent);
     }
 
+    @SuppressLint("MissingSuperCall")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_connected);
-        ButterKnife.bind(this);
-        ((UEFSApplication) getApplication()).getApplicationComponent().inject(this);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(R.layout.activity_connected, savedInstanceState);
 
-        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        setupToolbar();
+        elevate();
+        gradesViewModel = ViewModelProviders.of(this, viewModelFactory).get(GradesViewModel.class);
 
-        BottomNavigationView navigation = findViewById(R.id.navigation);
+        fragmentManager = getSupportFragmentManager();
+        containerId = R.id.container;
 
-        if (Utils.isLollipop()) {
-            toolbar.setElevation(10);
-            navigation.setElevation(10);
-        }
-        
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeButtonEnabled(true);
-        }
-
-        setSupportActionBar(toolbar);
-        SyncUtils.createSyncAccount(this);
-
-        navigation.setOnNavigationItemSelectedListener(this::onItemSelected);
-
-        if (findViewById(R.id.fragment_container) != null) {
-            if (savedInstanceState != null) {
-                return;
+        afterLogin = getIntent().getBooleanExtra("after_login", false);
+        if (afterLogin && gradesViewModel.isAllGradesRunning()) {
+            afterLogin = false;
+        } else {
+            if (!afterLogin && savedInstanceState != null) {
+                afterLogin = savedInstanceState.getBoolean("after_login", false);
             }
-
-            switchToFragment(ScheduleFragment.class);
-            changeToolbarText(R.string.title_schedule);
         }
+        Timber.d("After Login is %s", afterLogin);
+        Timber.d("Is all grades completed? " + gradesViewModel.isAllGradesCompleted() + " is all grades running? " + gradesViewModel.isAllGradesRunning());
 
-        new Handler(getMainLooper()).postDelayed(this::featureDiscovery, 1000);
-    }
+        bottomNavigationView.setOnNavigationItemSelectedListener(this::onNavigationOptionSelected);
 
-    private boolean onItemSelected(MenuItem item) {
-        int id = item.getItemId();
+        if (savedInstanceState == null) {
+            setupAlarmManager();
+            RefreshAlarmTrigger.enableBootComponent(this);
+            setupShortcuts();
 
-        if (id == R.id.navigation_home) {
-            changeToolbarText(R.string.title_schedule);
-            switchToFragment(ScheduleFragment.class);
-            return true;
-        } else if (id == R.id.navigation_dashboard) {
-            changeToolbarText(R.string.title_messages);
-            switchToFragment(MessageBoardFragment.class);
-            return true;
-        } else if (id == R.id.navigation_grades) {
-            changeToolbarText(R.string.title_grades);
-            switchToFragment(GradesFragment.class);
-            return true;
-        } else if (id == R.id.navigation_disciplines) {
-            changeToolbarText(R.string.title_disciplines);
-            switchToFragment(DisciplinesFragment.class);
-            return true;
-        } else if (id == R.id.navigation_calendar) {
-            changeToolbarText(R.string.title_calendar);
-            switchToFragment(CalendarFragment.class);
-            return true;
-        }
-        return false;
-    }
+            boolean autoSync = ContentResolver.getMasterSyncAutomatically();
+            boolean shown = PreferenceManager.getDefaultSharedPreferences(this)
+                    .getBoolean(AutoSyncFragment.PREF_AUTO_SYNC_SHOWN, false);
 
-    private void changeToolbarText(@StringRes int resId) {
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(resId);
-        }
-    }
+            PreferenceManager.getDefaultSharedPreferences(this).edit()
+                    .putBoolean("show_not_connected_notification", false).apply();
 
-    private void switchToFragment(Class clazz) {
-        String tag = clazz.getName();
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag(tag);
-        if (fragment == null) {
-            try {
-                fragment = (Fragment) clazz.newInstance();
-                getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, fragment, tag).commit();
-            } catch (Exception e) {
-                e.printStackTrace();
+            String value = getIntent().getStringExtra(NOTIFICATION_INTENT_EXTRA);
+            if (value == null) {
+                Timber.d("Default open");
+                if (!autoSync && !shown) {
+                    navigateToAutoSync();
+                } else {
+                    navigateToSchedule();
+                }
+            } else {
+                Timber.d("Action asks for: %s", value);
+                if (value.equalsIgnoreCase(MESSAGES_FRAGMENT)) {
+                    bottomNavigationView.setSelectedItemId(R.id.navigation_messages);
+                    //navigateToMessages();
+                } else if (value.equalsIgnoreCase(GRADES_FRAGMENT)) {
+                    bottomNavigationView.setSelectedItemId(R.id.navigation_grades);
+                    //navigateToGrades();
+                } else {
+                    navigateToSchedule();
+                }
             }
         } else {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).commit();
+            titleText = savedInstanceState.getInt("title_text", R.string.title_schedule);
+            showingTab = savedInstanceState.getBoolean("tab_showing", false);
+            numberOfLoadings = savedInstanceState.getInt("number_of_loadings", 0);
+            setTabShowing(showingTab);
+            changeTitle(titleText);
         }
 
+        afterLogin = afterLogin && !gradesViewModel.isAllGradesRunning();
+
+        gradesViewModel.getAllSemestersGrade(afterLogin).observe(this, this::onReceiveGrades);
+        gradesViewModel.getAllSemesters().observe(this, this::receiveListOfSemesters);
+        gradesViewModel.getAccess().observe(this, this::accessObserver);
+        if (afterLogin) {
+            if (!gradesViewModel.isAllGradesCompleted())
+                enableBottomLoading();
+            else
+                disableBottomLoading();
+            //clearAllNotifications();
+            afterLogin = false;
+        }
+    }
+
+    private void setupShortcuts() {
+        if (!VersionUtils.isNougatMR1()) {
+            return;
+        }
+
+        ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
+        //if (shortcutManager.getDynamicShortcuts().size() == 0) {
+            Intent messages = new Intent(this, ConnectedActivity.class);
+            messages.putExtra(NOTIFICATION_INTENT_EXTRA, MESSAGES_FRAGMENT);
+            messages.setAction("android.intent.action.VIEW");
+            messages.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+            Intent grades = new Intent(this, ConnectedActivity.class);
+            grades.putExtra(NOTIFICATION_INTENT_EXTRA, GRADES_FRAGMENT);
+            grades.setAction("android.intent.action.VIEW");
+            grades.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+            ShortcutInfo msgSrt = new ShortcutInfo.Builder(this, "messages")
+                    .setShortLabel(getString(R.string.title_messages))
+                    .setIcon(Icon.createWithResource(this, R.drawable.ic_shortcut_message))
+                    .setIntent(messages)
+                    .build();
+
+            ShortcutInfo grdSrt = new ShortcutInfo.Builder(this, "grades")
+                    .setShortLabel(getString(R.string.title_grades))
+                    .setIcon(Icon.createWithResource(this, R.drawable.ic_shortcut_school))
+                    .setIntent(grades)
+                    .build();
+
+            shortcutManager.setDynamicShortcuts(Arrays.asList(msgSrt, grdSrt));
+        //}
+
+    }
+
+    private void setupAlarmManager() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String strFrequency = preferences.getString("sync_frequency", "60");
+        int frequency = 60;
+        try {
+            frequency = Integer.parseInt(strFrequency);
+        } catch (Exception ignored) {}
+
+        if (frequency != -1) RefreshAlarmTrigger.create(this, frequency);
+        else                 RefreshAlarmTrigger.removeAlarm(this);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.connected, menu);
+        getMenuInflater().inflate(R.menu.connected_top, menu);
         return true;
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.menu_settings) {
-            SettingsActivity.startActivity(this);
-        } else if (id == R.id.menu_class_review) {
-            ClassReviewActivity.startActivity(this);
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public void onBackPressed() {
-        /*Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-        if (!(fragment instanceof ScheduleFragment)) {
-            if (Utils.isLollipop()) fragment.setExitTransition(new Fade(Fade.OUT));
-            switchToFragment(ScheduleFragment.class);
-            return;
-        }*/
-
         if (doubleBack || !PreferenceManager.getDefaultSharedPreferences(this).getBoolean("double_back", false)) {
             super.onBackPressed();
             return;
@@ -181,30 +249,206 @@ public class ConnectedActivity extends UEFSBaseActivity {
         new Handler().postDelayed(() -> doubleBack = false, 2000);
     }
 
-    public void featureDiscovery() {
-        TapTargetView.showFor(this,                 // `this` is an Activity
-                TapTarget.forToolbarMenuItem(toolbar, R.id.menu_class_review, getString(R.string.class_review_discover_title), getString(R.string.menu_class_review_discover_text))
-                        .outerCircleColor(R.color.colorPrimary)      // Specify a color for the outer circle
-                        .outerCircleAlpha(0.96f)            // Specify the alpha amount for the outer circle
-                        .targetCircleColor(R.color.white)   // Specify a color for the target circle
-                        .dimColor(R.color.white)
-                        //.titleTextSize(20)                  // Specify the size (in sp) of the title text
-                        .titleTextColor(R.color.white)      // Specify the color of the title text
-                        //.descriptionTextSize(10)            // Specify the size (in sp) of the description text
-                        .descriptionTextColor(R.color.white)  // Specify the color of the description text
-                        .textColor(R.color.white)            // Specify a color for both the title and description text
-                        .textTypeface(Typeface.SANS_SERIF)  // Specify a typeface for the text
-                        .drawShadow(true)                   // Whether to draw a drop shadow or not
-                        .cancelable(true)                  // Whether tapping outside the outer circle dismisses the view
-                        .tintTarget(true)                   // Whether to tint the target view's color
-                        .transparentTarget(false)           // Specify whether the target is transparent (displays the content underneath)
-                        //.icon(Drawable)                     // Specify a custom drawable to draw as the target
-                        .targetRadius(60),                  // Specify the target radius (in dp)
-                new TapTargetView.Listener() {          // The listener can listen for regular clicks, long clicks or cancels
-                    @Override
-                    public void onTargetClick(TapTargetView view) {
-                        super.onTargetClick(view);      // This call is optional
-                    }
-                });
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.menu_settings) {
+            setTabShowing(false);
+            SettingsActivity.startActivity(this);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void clearAllNotifications() {
+        gradesViewModel.clearAllNotifications();
+    }
+
+    private void accessObserver(Access access) {
+        if (access == null) {
+            gradesViewModel.logout().observe(this, this::logoutObserver);
+            Toast.makeText(this, R.string.disconnected, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void logoutObserver(Resource<Integer> resource) {
+        if (resource.status == Status.SUCCESS) {
+            Timber.d("Finished erasing data");
+            MainActivity.startActivity(this);
+            finish();
+        }
+    }
+
+    private boolean onNavigationOptionSelected(MenuItem menuItem) {
+        int id = menuItem.getItemId();
+
+        if      (id == R.id.navigation_home)        navigateToSchedule();
+        else if (id == R.id.navigation_grades)      navigateToGrades();
+        else if (id == R.id.navigation_messages)    navigateToMessages();
+        else if (id == R.id.navigation_disciplines) navigateToDisciplines();
+        else if (id == R.id.navigation_more)        navigateToMore();
+
+        return true;
+    }
+
+    private void receiveListOfSemesters(List<Semester> semesters) {
+        if (semesters == null) {
+            Timber.d("Database returned a invalid list... Awkward");
+            disableBottomLoading();
+            return;
+        }
+
+        numberOfSemesters = semesters.size();
+    }
+
+    private void onReceiveGrades(Resource<Integer> resource) {
+        if (resource == null) {
+            Timber.d("Resource is null, maybe after login is false");
+            disableBottomLoading();
+            gradesViewModel.setAllGradesCompleted(true);
+            return;
+        }
+        
+        if (resource.status == Status.LOADING) {
+            Timber.d("A new grade just finished!");
+            numberOfLoadings++;
+        } else if (resource.status == Status.ERROR) {
+            Timber.d("A grade failed to download!");
+            numberOfLoadings++;
+        }
+
+        if (numberOfSemesters != -1) {
+            if (numberOfLoadings >= numberOfSemesters) {
+                disableBottomLoading();
+                gradesViewModel.setAllGradesCompleted(true);
+                afterLogin = false;
+            }
+        }
+    }
+
+    @Override
+    public void navigateToSchedule() {
+        changeTitle(R.string.title_schedule);
+        setTabShowing(false);
+        changeFragment(new ScheduleFragment());
+    }
+
+    @Override
+    public void navigateToMessages() {
+        changeTitle(R.string.title_messages);
+        setTabShowing(false);
+        changeFragment(new MessagesFragment());
+    }
+
+    @Override
+    public void navigateToGrades() {
+        changeTitle(R.string.title_grades);
+        setTabShowing(true);
+        changeFragment(new AllSemestersGradeFragment());
+    }
+
+    @Override
+    public void navigateToDisciplines() {
+        changeTitle(R.string.title_disciplines);
+        setTabShowing(false);
+        changeFragment(new DisciplinesFragment());
+    }
+
+    @Override
+    public void navigateToMore() {
+        changeTitle(R.string.title_more);
+        setTabShowing(false);
+        changeFragment(new ProfileFragment());
+    }
+
+    private void navigateToAutoSync() {
+        changeTitle(R.string.title_auto_sync);
+        setTabShowing(false);
+        changeFragment(new AutoSyncFragment());
+    }
+
+    @Override
+    public void navigateToCalendar() {
+        changeTitle(R.string.title_calendar);
+        setTabShowing(false);
+        changeFragment(new CalendarFragment());
+    }
+
+    private void changeFragment(@NonNull Fragment fragment) {
+        Fragment current = fragmentManager.findFragmentByTag(fragment.getClass().getSimpleName());
+        if (current != null) fragment = current;
+
+        fragmentManager.beginTransaction()
+                .replace(containerId, fragment, fragment.getClass().getSimpleName())
+                .commit();
+    }
+
+    private void changeTitle(@StringRes int idRes) {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(idRes);
+        }
+
+        if (idRes == R.string.title_auto_sync) {
+            appBarLayout.setVisibility(View.GONE);
+            bottomNavigationView.setVisibility(View.GONE);
+        } else {
+            appBarLayout.setVisibility(View.VISIBLE);
+            bottomNavigationView.setVisibility(View.VISIBLE);
+        }
+
+        titleText = idRes;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean("after_login", afterLogin);
+        outState.putInt("title_text", titleText);
+        outState.putBoolean("tab_showing", showingTab);
+        outState.putInt("number_of_loadings", numberOfLoadings);
+        super.onSaveInstanceState(outState);
+    }
+
+
+    private void elevate() {
+        if (VersionUtils.isLollipop()) {
+            if (getSupportActionBar() != null)
+                getSupportActionBar().setElevation(getPixelsFromDp(this, 10));
+
+            bottomNavigationView.setElevation(getPixelsFromDp(this, 10));
+        }
+    }
+
+    private void setupToolbar() {
+        setSupportActionBar(toolbar);
+    }
+
+    private void setTabShowing(boolean b) {
+        if (!b) {
+            //AnimUtils.fadeOutGone(this, tabLayout);
+            tabLayout.setVisibility(View.GONE);
+        }
+        else AnimUtils.fadeIn(this, tabLayout);
+
+        showingTab = b;
+    }
+
+    @Override
+    public TabLayout getTabLayout() {
+        return tabLayout;
+    }
+
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return dispatchingAndroidInjector;
+    }
+
+    private void enableBottomLoading() {
+        AnimUtils.fadeIn(this, pbLoading);
+    }
+
+
+    private void disableBottomLoading() {
+        AnimUtils.fadeOutGone(this, pbLoading);
     }
 }
