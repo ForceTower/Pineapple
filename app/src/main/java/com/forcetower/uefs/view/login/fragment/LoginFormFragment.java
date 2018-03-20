@@ -115,11 +115,15 @@ public class LoginFormFragment extends Fragment implements Injectable {
             fragment.setSharedElementEnterTransition(new ChangeBoundsTransition());
             fragment.setSharedElementReturnTransition(new ChangeBoundsTransition());
             setExitTransition(new Fade());
-        }
 
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, fragment, ConnectingFragment.TAG)
-                .addSharedElement(ivLogo, "transition_logo")
-                .commit();
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, fragment, ConnectingFragment.TAG)
+                    .addSharedElement(ivLogo, "transition_logo")
+                    .commit();
+        } else {
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, fragment, ConnectingFragment.TAG)
+                    .commit();
+        }
     }
 }

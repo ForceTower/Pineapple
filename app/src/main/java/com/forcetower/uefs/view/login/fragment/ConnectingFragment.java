@@ -138,12 +138,16 @@ public class ConnectingFragment extends Fragment implements Injectable {
             fragment.setSharedElementEnterTransition(new ChangeBoundsTransition());
             fragment.setSharedElementReturnTransition(new ChangeBoundsTransition());
             setExitTransition(new Fade());
-        }
 
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .addSharedElement(ivLogo, "transition_logo")
-                .replace(R.id.container, fragment, LoginFormFragment.TAG)
-                .commit();
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .addSharedElement(ivLogo, "transition_logo")
+                    .replace(R.id.container, fragment, LoginFormFragment.TAG)
+                    .commit();
+        } else {
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, fragment, LoginFormFragment.TAG)
+                    .commit();
+        }
     }
 
     @Override
