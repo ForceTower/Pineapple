@@ -100,22 +100,21 @@ public class LoginRepository {
                     //noinspection ConstantConditions
                     if (grades.status == Status.SUCCESS) {
                         values.removeSource(gradesLive);
-                        executors.diskIO().execute(() -> {
-                            LiveData<Profile> profData = database.profileDao().getProfile();
-                            values.addSource(profData, profile -> {
-                                values.removeSource(profData);
-                                Calendar now = Calendar.getInstance();
-                                //noinspection ConstantConditions
-                                if (profile != null) {
-                                    profile.setLastSync(now.getTimeInMillis());
-                                    Timber.d("Profile updated with new update time");
-                                    executors.diskIO().execute(() -> {
-                                        database.profileDao().insertProfile(profile);
-                                        values.postValue(Resource.success(R.string.completed));
-                                    });
-                                }
-                            });
+                        LiveData<Profile> profData = database.profileDao().getProfile();
+                        values.addSource(profData, profile -> {
+                            values.removeSource(profData);
+                            Calendar now = Calendar.getInstance();
+
+                            if (profile != null) {
+                                profile.setLastSync(now.getTimeInMillis());
+                                Timber.d("Profile updated with new update time");
+                                executors.diskIO().execute(() -> {
+                                    database.profileDao().insertProfile(profile);
+                                    values.postValue(Resource.success(R.string.completed));
+                                });
+                            }
                         });
+
                     } else {
                         values.postValue(grades);
                     }

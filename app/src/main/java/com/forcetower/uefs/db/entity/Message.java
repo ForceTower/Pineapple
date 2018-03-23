@@ -109,23 +109,17 @@ public class Message implements Comparable<Message>{
                     e.printStackTrace();
                 }
             } else {
-                if (getReceivedAt().contains("hora") && o.getReceivedAt().contains("hora")) {
-                    String thS = getReceivedAt().replaceAll("[^\\d]", "").trim();
-                    String ohS = o.getReceivedAt().replaceAll("[^\\d]", "").trim();
-                    int th = Integer.parseInt(thS);
-                    int oh = Integer.parseInt(ohS);
-                    return Integer.compare(th, oh);
-                } else if (!getReceivedAt().contains("hora") && !o.getReceivedAt().contains("hora")){
-                    String thS = getReceivedAt().replaceAll("[^\\d]", "").trim();
-                    String ohS = o.getReceivedAt().replaceAll("[^\\d]", "").trim();
-                    int th = Integer.parseInt(thS);
-                    int oh = Integer.parseInt(ohS);
-                    return Integer.compare(th, oh) * -1;
-                } else if (!getReceivedAt().contains("hora")){
-                    return -1;
-                } else {
-                    return 1;
-                }
+                String tts = getReceivedAt().replaceAll("[^\\d]", "").trim();
+                String oos = o.getReceivedAt().replaceAll("[^\\d]", "").trim();
+                int tth = Integer.parseInt(tts) + 1;
+                int ooh = Integer.parseInt(oos) + 1;
+
+                if (getReceivedAt().contains("dia"))
+                    tth *= 100;
+                if (o.getReceivedAt().contains("dia"))
+                    ooh *= 100;
+
+                return Integer.compare(tth, ooh);
             }
         }
 

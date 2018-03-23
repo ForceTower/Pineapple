@@ -106,6 +106,13 @@ public class MessagesFragment extends Fragment implements Injectable {
     }
 
     private void openLink(String url) {
+        if (!url.startsWith("http://")
+                && !url.startsWith("HTTP://")
+                && !url.startsWith("HTTPS://")
+                && !url.startsWith("https://")) {
+            url = "http://" + url;
+        }
+
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(url));
         startActivity(intent);
