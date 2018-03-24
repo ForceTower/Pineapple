@@ -235,4 +235,5 @@
     <string name="wait_until_download_finishes">Wait until it finishes</string>
     <string name="no_pdf_reader">No PDF reader installed, please install one from the Play Store</string>
     <string name="offline">Offline</string>
+    <string name="cant_open_link">Can\'t open link</string>
 </resources>
