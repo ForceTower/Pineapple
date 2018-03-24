@@ -21,4 +21,4 @@ Também espera-se que possua algumas funcionalidades extras como mostrar no mapa
 - [x] Guia de Matrícula
 
 ## Disclaimer
-Este aplicativo não é lincenciado nem tem qualquer ligação com a Tecnotrends, a empresa que mantêm o Website e o serviço Sagres da UEFS. O aplicativo utiliza as informações disponibilizadas pelo portal do estudante que se conecta para filtrar e então exibir no aplicativo.
+Este aplicativo não é lincenciado nem tem qualquer ligação com a Tecnotrends, a empresa que mantêm o Website e o serviço Sagres da UEFS. O aplicativo filtra as informações disponibilizadas pelo portal do estudante e então exibe no aplicativo.
