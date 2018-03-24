@@ -233,4 +233,5 @@
     <string name="open_file">Open file</string>
     <string name="file_not_found">File not found</string>
     <string name="wait_until_download_finishes">Wait until it finishes</string>
+    <string name="no_pdf_reader">No PDF reader installed, please install one from the Play Store</string>
 </resources>

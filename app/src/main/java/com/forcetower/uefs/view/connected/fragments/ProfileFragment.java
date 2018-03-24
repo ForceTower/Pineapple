@@ -197,7 +197,7 @@ public class ProfileFragment extends Fragment implements Injectable {
         try {
             startActivity(intent);
         } catch (ActivityNotFoundException e) {
-            // Instruct the user to install a PDF reader here, or something
+            Toast.makeText(getContext(), R.string.no_pdf_reader, Toast.LENGTH_SHORT).show();
         }
     }
 
