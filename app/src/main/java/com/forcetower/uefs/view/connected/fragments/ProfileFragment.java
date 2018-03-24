@@ -230,5 +230,6 @@ public class ProfileFragment extends Fragment implements Injectable {
 
     private void certificateDownload() {
         downloadsViewModel.triggerDownloadCertificate();
+        Toast.makeText(getContext(), R.string.wait_until_download_finishes, Toast.LENGTH_SHORT).show();
     }
 }

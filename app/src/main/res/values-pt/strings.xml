@@ -225,4 +225,5 @@
     <string name="link_to_resource_not_found">Link para a guia não foi encontrada</string>
     <string name="open_file">Abrir arquivo</string>
     <string name="file_not_found">Arquivo não encontrado</string>
+    <string name="wait_until_download_finishes">Estará disponível assim que o download terminar</string>
 </resources>
