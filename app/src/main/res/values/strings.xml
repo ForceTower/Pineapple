@@ -231,4 +231,5 @@
     <string name="title_enrollment_cert_desc">Download or view certificate</string>
     <string name="link_to_resource_not_found">Link to resource not found</string>
     <string name="open_file">Open file</string>
+    <string name="file_not_found">File not found</string>
 </resources>

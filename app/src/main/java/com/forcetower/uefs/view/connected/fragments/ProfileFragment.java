@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.forcetower.uefs.BuildConfig;
 import com.forcetower.uefs.R;
@@ -101,6 +102,7 @@ public class ProfileFragment extends Fragment implements Injectable {
         cvCalendar.setOnClickListener(v -> controller.navigateToCalendar());
         cvUpdateControl.setOnClickListener(v -> goToUpdateControl());
         cvGoodBarrel.setOnClickListener(v -> goToBarrel());
+        cvEnrollmentCertificate.setOnClickListener(v -> openPDF(true));
         btnDownloadEnrollCert.setOnClickListener(v -> certificateDownload());
 
         if (BuildConfig.DEBUG) {
@@ -172,15 +174,21 @@ public class ProfileFragment extends Fragment implements Injectable {
                 Timber.d(resource.message);
             else {
                 Timber.d(getString(R.string.completed));
-                openPDF();
+                openPDF(false);
             }
         }
     }
 
-    private void openPDF() {
+    private void openPDF(boolean clicked) {
         //noinspection ConstantConditions
         File file = new File(getActivity().getExternalCacheDir(), ENROLLMENT_CERTIFICATE_FILE_NAME);
-        Timber.d("Length: %s", file.length());
+        if (!file.exists()) {
+            if (!clicked) {
+                Toast.makeText(getContext(), R.string.file_not_found, Toast.LENGTH_SHORT).show();
+            }
+            else certificateDownload();
+            return;
+        }
         Intent target = new Intent(Intent.ACTION_VIEW);
         target.setDataAndType(Uri.fromFile(file),"application/pdf");
         target.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
