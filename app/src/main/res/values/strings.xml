@@ -226,4 +226,9 @@
     <string name="pref_do_not_show_semester">Won\'t show current semester</string>
     <string name="pref_do_show_semester">Show current semester</string>
     <string name="everything_is_all_right">Everything is all right!</string>
+    <string name="going_to_enrollment_page">Going to enrollment certificate page</string>
+    <string name="title_enrollment_certificate">Enrollment Certificate</string>
+    <string name="title_enrollment_cert_desc">Download or view certificate</string>
+    <string name="link_to_resource_not_found">Link to resource not found</string>
+    <string name="open_file">Open file</string>
 </resources>

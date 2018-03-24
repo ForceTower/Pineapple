@@ -104,7 +104,9 @@ public class Message implements Comparable<Message>{
                 try {
                     date1 = format.parse(tS);
                     date2 = format.parse(oS);
-                    return date1.compareTo(date2) *-1;
+                    int r1 =  date1.compareTo(date2) *-1;
+                    if (r1 == 0) r1 = Integer.compare(getUid(), o.getUid()) * -1;
+                    return r1;
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -119,7 +121,9 @@ public class Message implements Comparable<Message>{
                 if (o.getReceivedAt().contains("dia"))
                     ooh *= 100;
 
-                return Integer.compare(tth, ooh);
+                int r1 = Integer.compare(tth, ooh);
+                if (r1 == 0) r1 = Integer.compare(getUid(), o.getUid())*-1;
+                return r1;
             }
         }
 

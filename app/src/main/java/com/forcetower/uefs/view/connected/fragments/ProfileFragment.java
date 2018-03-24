@@ -2,8 +2,11 @@ package com.forcetower.uefs.view.connected.fragments;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -13,6 +16,8 @@ import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.forcetower.uefs.BuildConfig;
@@ -20,12 +25,17 @@ import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.Profile;
 import com.forcetower.uefs.db.entity.Semester;
 import com.forcetower.uefs.di.Injectable;
+import com.forcetower.uefs.rep.helper.Resource;
+import com.forcetower.uefs.rep.helper.Status;
+import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.util.DateUtils;
 import com.forcetower.uefs.view.connected.NavigationController;
 import com.forcetower.uefs.view.control_room.ControlRoomActivity;
 import com.forcetower.uefs.view.experimental.good_barrel.GoodBarrelActivity;
+import com.forcetower.uefs.vm.DownloadsViewModel;
 import com.forcetower.uefs.vm.ProfileViewModel;
 
+import java.io.File;
 import java.util.Calendar;
 import java.util.List;
 
@@ -34,6 +44,8 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
+
+import static com.forcetower.uefs.Constants.ENROLLMENT_CERTIFICATE_FILE_NAME;
 
 /**
  * Created by João Paulo on 08/03/2018.
@@ -54,14 +66,21 @@ public class ProfileFragment extends Fragment implements Injectable {
     TextView tvLastUpdateAttempt;
     @BindView(R.id.cv_calendar)
     CardView cvCalendar;
+    @BindView(R.id.cv_enrollment_certificate)
+    CardView cvEnrollmentCertificate;
     @BindView(R.id.cv_update_control)
     CardView cvUpdateControl;
     @BindView(R.id.cv_good_barrel)
     CardView cvGoodBarrel;
+    @BindView(R.id.btn_download_enrollment_cert)
+    ImageButton btnDownloadEnrollCert;
+    @BindView(R.id.pb_download_enrollment_cert)
+    ProgressBar pbDownloadEnrollCert;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
 
+    private DownloadsViewModel downloadsViewModel;
     private NavigationController controller;
 
     @Override
@@ -82,6 +101,7 @@ public class ProfileFragment extends Fragment implements Injectable {
         cvCalendar.setOnClickListener(v -> controller.navigateToCalendar());
         cvUpdateControl.setOnClickListener(v -> goToUpdateControl());
         cvGoodBarrel.setOnClickListener(v -> goToBarrel());
+        btnDownloadEnrollCert.setOnClickListener(v -> certificateDownload());
 
         if (BuildConfig.DEBUG) {
             tvLastUpdateAttempt.setVisibility(View.VISIBLE);
@@ -104,8 +124,10 @@ public class ProfileFragment extends Fragment implements Injectable {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ProfileViewModel profileViewModel = ViewModelProviders.of(this, viewModelFactory).get(ProfileViewModel.class);
+        downloadsViewModel = ViewModelProviders.of(this, viewModelFactory).get(DownloadsViewModel.class);
         profileViewModel.getProfile().observe(this, this::onReceiveProfile);
         profileViewModel.getSemesters().observe(this, this::onReceiveSemesters);
+        downloadsViewModel.getDownloadCertificate().observe(this, this::onCertificateDownload);
     }
 
     private void onReceiveProfile(Profile profile) {
@@ -137,6 +159,40 @@ public class ProfileFragment extends Fragment implements Injectable {
         }
     }
 
+    private void onCertificateDownload(Resource<Integer> resource) {
+        if (resource == null) return;
+        if (resource.status == Status.LOADING) {
+            //noinspection ConstantConditions
+            Timber.d(getString(resource.data));
+            AnimUtils.fadeIn(getContext(), pbDownloadEnrollCert);
+        }
+        else {
+            AnimUtils.fadeOut(getContext(), pbDownloadEnrollCert);
+            if (resource.status == Status.ERROR)
+                Timber.d(resource.message);
+            else {
+                Timber.d(getString(R.string.completed));
+                openPDF();
+            }
+        }
+    }
+
+    private void openPDF() {
+        //noinspection ConstantConditions
+        File file = new File(getActivity().getExternalCacheDir(), ENROLLMENT_CERTIFICATE_FILE_NAME);
+        Timber.d("Length: %s", file.length());
+        Intent target = new Intent(Intent.ACTION_VIEW);
+        target.setDataAndType(Uri.fromFile(file),"application/pdf");
+        target.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+        Intent intent = Intent.createChooser(target, getString(R.string.open_file));
+        try {
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            // Instruct the user to install a PDF reader here, or something
+        }
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -162,5 +218,9 @@ public class ProfileFragment extends Fragment implements Injectable {
 
     private void goToBarrel() {
         GoodBarrelActivity.startActivity(getContext());
+    }
+
+    private void certificateDownload() {
+        downloadsViewModel.triggerDownloadCertificate();
     }
 }

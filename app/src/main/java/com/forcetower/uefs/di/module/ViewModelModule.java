@@ -7,6 +7,7 @@ import com.forcetower.uefs.di.annotation.ViewModelKey;
 import com.forcetower.uefs.vm.CalendarViewModel;
 import com.forcetower.uefs.vm.ControlRoomViewModel;
 import com.forcetower.uefs.vm.DisciplinesViewModel;
+import com.forcetower.uefs.vm.DownloadsViewModel;
 import com.forcetower.uefs.vm.GradesViewModel;
 import com.forcetower.uefs.vm.LoginViewModel;
 import com.forcetower.uefs.vm.MessagesViewModel;
@@ -63,6 +64,11 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ControlRoomViewModel.class)
     abstract ViewModel bindControlRoomViewModel(ControlRoomViewModel controlRoomViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(DownloadsViewModel.class)
+    abstract ViewModel bindDownloadsViewModel(DownloadsViewModel downloadsViewModel);
 
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(UEFSViewModelFactory factory);

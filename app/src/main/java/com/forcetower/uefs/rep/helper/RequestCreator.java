@@ -151,4 +151,14 @@ public class RequestCreator {
                 .url(Constants.MAIN_UPDATER_CONTROL)
                 .build();
     }
+
+    public static Request makeRequestForEnrollmentCertificate() {
+        return new Request.Builder()
+                .url(Constants.SAGRES_ENROLL_CERT)
+                .build();
+    }
+
+    public static Request makeRequestForURL(String url) {
+        return new Request.Builder().url(url).build();
+    }
 }
