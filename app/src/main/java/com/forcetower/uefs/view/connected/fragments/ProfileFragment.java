@@ -30,6 +30,7 @@ import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.util.DateUtils;
+import com.forcetower.uefs.util.NetworkUtils;
 import com.forcetower.uefs.view.connected.NavigationController;
 import com.forcetower.uefs.view.control_room.ControlRoomActivity;
 import com.forcetower.uefs.view.experimental.good_barrel.GoodBarrelActivity;
@@ -170,9 +171,10 @@ public class ProfileFragment extends Fragment implements Injectable {
         }
         else {
             AnimUtils.fadeOut(getContext(), pbDownloadEnrollCert);
-            if (resource.status == Status.ERROR)
-                Timber.d(resource.message);
-            else {
+            if (resource.status == Status.ERROR) {
+                //noinspection ConstantConditions
+                Toast.makeText(getContext(), resource.data, Toast.LENGTH_SHORT).show();
+            } else {
                 Timber.d(getString(R.string.completed));
                 openPDF(false);
             }
@@ -229,6 +231,11 @@ public class ProfileFragment extends Fragment implements Injectable {
     }
 
     private void certificateDownload() {
+        if (!NetworkUtils.isNetworkAvailable(getContext())) {
+            Toast.makeText(getContext(), R.string.offline, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         downloadsViewModel.triggerDownloadCertificate();
         Toast.makeText(getContext(), R.string.wait_until_download_finishes, Toast.LENGTH_SHORT).show();
     }

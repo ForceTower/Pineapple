@@ -227,4 +227,5 @@
     <string name="file_not_found">Arquivo não encontrado</string>
     <string name="wait_until_download_finishes">Estará disponível assim que o download terminar</string>
     <string name="no_pdf_reader">Nenhum Leitor de PDF instalado, por favor, instale algum disponível na PlayStore</string>
+    <string name="offline">Desconectado</string>
 </resources>
