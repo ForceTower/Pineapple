@@ -23,4 +23,8 @@ public class VersionUtils {
     public static boolean isNougatMR1() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1;
     }
+
+    public static boolean isNougat() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N;
+    }
 }

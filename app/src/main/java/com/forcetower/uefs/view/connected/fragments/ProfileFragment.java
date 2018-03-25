@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,11 +27,13 @@ import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.Profile;
 import com.forcetower.uefs.db.entity.Semester;
 import com.forcetower.uefs.di.Injectable;
+import com.forcetower.uefs.provider.AppFileProvider;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.util.DateUtils;
 import com.forcetower.uefs.util.NetworkUtils;
+import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.connected.NavigationController;
 import com.forcetower.uefs.view.control_room.ControlRoomActivity;
 import com.forcetower.uefs.view.experimental.good_barrel.GoodBarrelActivity;
@@ -192,7 +195,18 @@ public class ProfileFragment extends Fragment implements Injectable {
             return;
         }
         Intent target = new Intent(Intent.ACTION_VIEW);
-        target.setDataAndType(Uri.fromFile(file),"application/pdf");
+
+        Uri uri;
+        if (VersionUtils.isNougat()) {
+            //Nougat and after has different ways
+            //noinspection ConstantConditions
+            uri = AppFileProvider.getUriForFile(getContext(), getString(R.string.authority), file);
+            target.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        } else {
+            uri = Uri.fromFile(file);
+        }
+
+        target.setDataAndType(uri,"application/pdf");
         target.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
         Intent intent = Intent.createChooser(target, getString(R.string.open_file));

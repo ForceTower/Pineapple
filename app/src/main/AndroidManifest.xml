@@ -94,6 +94,16 @@
         </activity>
         <activity android:name=".view.experimental.good_barrel.GoodBarrelActivity">
         </activity>
+        
+        <provider
+            android:authorities="@string/authority"
+            android:name=".provider.AppFileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
     </application>
 
 </manifest>
