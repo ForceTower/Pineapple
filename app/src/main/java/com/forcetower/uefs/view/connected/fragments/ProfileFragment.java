@@ -200,7 +200,7 @@ public class ProfileFragment extends Fragment implements Injectable {
         if (VersionUtils.isNougat()) {
             //Nougat and after has different ways
             //noinspection ConstantConditions
-            uri = AppFileProvider.getUriForFile(getContext(), getString(R.string.authority), file);
+            uri = FileProvider.getUriForFile(getContext(), getString(R.string.authority), file);
             target.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         } else {
             uri = Uri.fromFile(file);
