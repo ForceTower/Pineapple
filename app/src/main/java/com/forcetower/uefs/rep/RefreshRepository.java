@@ -53,7 +53,7 @@ public class RefreshRepository {
         this.executors = executors;
         this.loginRepository = loginRepository;
         this.client = client;
-        this.externalCacheDir = context.getExternalCacheDir();
+        this.externalCacheDir = context.getCacheDir();
     }
 
     public LiveData<Resource<Integer>> refreshData() {

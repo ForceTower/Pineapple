@@ -97,7 +97,7 @@
         
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="@string/authority"
+            android:authorities="com.forcetower.uefs.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

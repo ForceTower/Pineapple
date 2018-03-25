@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
@@ -27,7 +28,6 @@ import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.Profile;
 import com.forcetower.uefs.db.entity.Semester;
 import com.forcetower.uefs.di.Injectable;
-import com.forcetower.uefs.provider.AppFileProvider;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
 import com.forcetower.uefs.util.AnimUtils;
@@ -100,7 +100,7 @@ public class ProfileFragment extends Fragment implements Injectable {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
         cvCalendar.setOnClickListener(v -> controller.navigateToCalendar());
@@ -186,7 +186,7 @@ public class ProfileFragment extends Fragment implements Injectable {
 
     private void openPDF(boolean clicked) {
         //noinspection ConstantConditions
-        File file = new File(getActivity().getExternalCacheDir(), ENROLLMENT_CERTIFICATE_FILE_NAME);
+        File file = new File(getActivity().getCacheDir(), ENROLLMENT_CERTIFICATE_FILE_NAME);
         if (!file.exists()) {
             if (!clicked) {
                 Toast.makeText(getContext(), R.string.file_not_found, Toast.LENGTH_SHORT).show();
@@ -196,18 +196,21 @@ public class ProfileFragment extends Fragment implements Injectable {
         }
         Intent target = new Intent(Intent.ACTION_VIEW);
 
-        Uri uri;
-        if (VersionUtils.isNougat()) {
+        //noinspection ConstantConditions
+        Uri uri = FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID + ".fileprovider", file);
+        target.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        /*if (VersionUtils.isNougat()) {
             //Nougat and after has different ways
             //noinspection ConstantConditions
-            uri = FileProvider.getUriForFile(getContext(), getString(R.string.authority), file);
+            uri = FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID + ".fileprovider", file);
             target.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         } else {
             uri = Uri.fromFile(file);
-        }
-
+        }*/
+        
+        Timber.d("Uri %s", uri);
         target.setDataAndType(uri,"application/pdf");
-        target.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        target.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
         Intent intent = Intent.createChooser(target, getString(R.string.open_file));
         try {
