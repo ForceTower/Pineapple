@@ -121,7 +121,9 @@
             android:layout_marginTop="24dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="16dp"
+            android:clipToPadding="false">
 
             <include layout="@layout/card_calendar_option"/>
             <include layout="@layout/card_enrollment_download"/>
