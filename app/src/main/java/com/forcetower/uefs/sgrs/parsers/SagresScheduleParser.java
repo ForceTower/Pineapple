@@ -14,6 +14,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
+import okhttp3.OkHttpClient;
 import timber.log.Timber;
 
 import static com.forcetower.uefs.util.DateUtils.generateCalendar;
@@ -152,8 +153,12 @@ public class SagresScheduleParser {
 
                 currentCode = code;
                 SagresClass lesson = codePerLessons.get(code);
-                lesson.setName(name);
-                codePerLessons.put(code, lesson);
+                if (lesson != null) {
+                    lesson.setName(name);
+                    codePerLessons.put(code, lesson);
+                } else {
+                    Timber.d("Something was ignored due to a bug. Since this might be changed leave as is");
+                }
             }
         }
     }
