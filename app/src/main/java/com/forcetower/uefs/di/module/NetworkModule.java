@@ -41,9 +41,9 @@ public class NetworkModule {
         return new OkHttpClient.Builder()
                 .followRedirects(true)
                 .cookieJar(cookieJar)
-                .connectTimeout(45, TimeUnit.SECONDS)
-                .readTimeout(45, TimeUnit.SECONDS)
-                .writeTimeout(45, TimeUnit.SECONDS)
+                .connectTimeout(1, TimeUnit.MINUTES)
+                .readTimeout(1, TimeUnit.MINUTES)
+                .writeTimeout(1, TimeUnit.MINUTES)
                 .build();
     }
 
