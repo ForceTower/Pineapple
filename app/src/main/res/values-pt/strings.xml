@@ -230,4 +230,6 @@
     <string name="offline">Sem conexão com a internet</string>
 
     <string name="cant_open_link">Não é possível abrir este link</string>
+    <string name="channel_group_general">Geral</string>
+    <string name="warnings">Avisos</string>
 </resources>

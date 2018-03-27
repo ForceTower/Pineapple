@@ -29,13 +29,14 @@ public class Constants {
 
     public static final String CHANNEL_GROUP_MESSAGES_ID  = "com.forcetower.uefs.MESSAGES";
     public static final String CHANNEL_GROUP_GRADES_ID    = "com.forcetower.uefs.GRADES";
+    public static final String CHANNEL_GROUP_GENERAL_ID   = "com.forcetower.uefs.GENERAL";
 
     public static final String CHANNEL_MESSAGES_ID        = "com.forcetower.uefs.MESSAGES.POST";
     public static final String CHANNEL_GRADES_POSTED_ID   = "com.forcetower.uefs.GRADES.POSTED";
     public static final String CHANNEL_GRADES_CREATED_ID  = "com.forcetower.uefs.GRADES.CREATE";
     public static final String CHANNEL_GRADES_CHANGED_ID  = "com.forcetower.uefs.GRADES.CHANGE";
 
-    public static final String CHANNEL_GENERAL_ID = "com.forcetower.uefs.GENERAL";
+    public static final String CHANNEL_GENERAL_WARNINGS_ID = "com.forcetower.uefs.GENERAL.WARNINGS";
 
     public static final String MAIN_UPDATER_CONTROL = "http://oqv.comlu.com/unes_update";
     public static final String UNES_SERVICE_BASE = "http://oqv.comlu.com";

@@ -111,7 +111,7 @@ public class NotificationCreator {
         }
 
         PendingIntent pendingIntent = getPendingIntent(context, MainActivity.class, "Login");
-        NotificationCompat.Builder builder = notificationBuilder(context, Constants.CHANNEL_GENERAL_ID)
+        NotificationCompat.Builder builder = notificationBuilder(context, Constants.CHANNEL_GENERAL_WARNINGS_ID)
                 .setContentTitle(context.getString(R.string.login));
 
         String message = context.getString(R.string.you_are_not_connected);
