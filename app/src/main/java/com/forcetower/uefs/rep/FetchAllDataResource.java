@@ -16,7 +16,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import okhttp3.Call;
-import okhttp3.Response;
 import timber.log.Timber;
 
 /**

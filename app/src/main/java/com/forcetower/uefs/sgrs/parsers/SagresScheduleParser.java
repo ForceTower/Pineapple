@@ -14,7 +14,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
-import okhttp3.OkHttpClient;
 import timber.log.Timber;
 
 import static com.forcetower.uefs.util.DateUtils.generateCalendar;

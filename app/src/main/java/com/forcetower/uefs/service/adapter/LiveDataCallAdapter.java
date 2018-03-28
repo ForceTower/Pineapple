@@ -3,7 +3,6 @@ package com.forcetower.uefs.service.adapter;
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
-
 import com.forcetower.uefs.service.ApiResponse;
 
 import java.lang.reflect.Type;

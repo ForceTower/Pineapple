@@ -9,7 +9,6 @@ import android.support.annotation.WorkerThread;
 
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.alm.RefreshAlarmTrigger;
 import com.forcetower.uefs.db.AppDatabase;
 import com.forcetower.uefs.db.dao.AccessDao;
 import com.forcetower.uefs.db.dao.CalendarItemDao;

@@ -7,7 +7,6 @@ import com.forcetower.uefs.db.dao.AccessDao;
 import com.forcetower.uefs.db.dao.SemesterDao;
 import com.forcetower.uefs.db.entity.Access;
 import com.forcetower.uefs.db.entity.Discipline;
-import com.forcetower.uefs.db.entity.Grade;
 import com.forcetower.uefs.db.entity.Semester;
 import com.forcetower.uefs.rep.GradesRepository;
 import com.forcetower.uefs.rep.LoginRepository;

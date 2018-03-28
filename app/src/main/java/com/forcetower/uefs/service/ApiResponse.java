@@ -1,7 +1,6 @@
 package com.forcetower.uefs.service;
 
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import java.io.IOException;
 

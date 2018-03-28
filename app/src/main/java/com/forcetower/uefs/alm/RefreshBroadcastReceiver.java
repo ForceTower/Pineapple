@@ -19,7 +19,6 @@ import com.forcetower.uefs.db.entity.GradeSection;
 import com.forcetower.uefs.db.entity.Message;
 import com.forcetower.uefs.db.entity.Semester;
 import com.forcetower.uefs.ntf.NotificationCreator;
-import com.forcetower.uefs.ntf.NotificationHelper;
 import com.forcetower.uefs.rep.RefreshRepository;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
