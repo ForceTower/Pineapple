@@ -73,6 +73,7 @@ public class MessagesFragment extends Fragment implements Injectable {
         messagesViewModel = ViewModelProviders.of(this, viewModelFactory).get(MessagesViewModel.class);
         messagesViewModel.getMessages().observe(this, this::onMessagesReceived);
         messagesViewModel.refresh(false).observe(this, this::onUpdateReceived);
+        refreshLayout.setRefreshing(messagesViewModel.isRefreshing());
     }
 
     private void onMessagesReceived(List<Message> messages) {
@@ -80,7 +81,6 @@ public class MessagesFragment extends Fragment implements Injectable {
             Timber.d("Messages Received");
             Collections.sort(messages);
             adapter.setMessages(messages);
-            refreshLayout.setRefreshing(false);
         }
     }
 
@@ -92,7 +92,6 @@ public class MessagesFragment extends Fragment implements Injectable {
     }
 
     private void setupRefreshLayout() {
-        refreshLayout.setRefreshing(messagesViewModel.isRefreshing());
         refreshLayout.setOnRefreshListener(() -> {
             if (messagesViewModel.isRefreshing()) return;
 
