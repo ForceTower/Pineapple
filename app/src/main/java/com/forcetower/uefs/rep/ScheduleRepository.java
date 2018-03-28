@@ -31,7 +31,7 @@ public class ScheduleRepository {
     private MediatorLiveData<List<DisciplineClassLocation>> schedule;
 
     @Inject
-    public ScheduleRepository(DisciplineClassLocationDao classLocationDao, AppExecutors executors,
+    ScheduleRepository(DisciplineClassLocationDao classLocationDao, AppExecutors executors,
                               LoginRepository loginRepository, AccessDao accessDao, SemesterDao semesterDao) {
         this.classLocationDao = classLocationDao;
         this.executors = executors;

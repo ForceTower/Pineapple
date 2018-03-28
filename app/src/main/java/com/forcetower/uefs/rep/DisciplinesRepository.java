@@ -57,7 +57,7 @@ public class DisciplinesRepository {
     private final OkHttpClient client;
 
     @Inject
-    public DisciplinesRepository(AppExecutors executors, AppDatabase database, OkHttpClient client) {
+    DisciplinesRepository(AppExecutors executors, AppDatabase database, OkHttpClient client) {
         this.executors = executors;
         this.database = database;
         this.client = client;
@@ -72,7 +72,6 @@ public class DisciplinesRepository {
             result.removeSource(acsSrc);
             if (access == null) {
                 result.postValue(Resource.error("You are disconnected", 401, R.string.disconnected));
-                return;
             } else {
                 String username = access.getUsername();
                 String password = access.getPassword();
