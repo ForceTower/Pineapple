@@ -7,10 +7,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +23,14 @@ import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.DisciplineGroup;
 import com.forcetower.uefs.db.entity.Message;
 import com.forcetower.uefs.di.Injectable;
+import com.forcetower.uefs.rep.helper.Resource;
+import com.forcetower.uefs.rep.helper.Status;
 import com.forcetower.uefs.view.connected.adapters.MessagesAdapter;
 import com.forcetower.uefs.vm.MessagesViewModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Matcher;
 
@@ -35,7 +40,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-import static com.forcetower.uefs.Constants.URL_PATTERN;
 import static com.forcetower.uefs.util.WordUtils.getLinksOnText;
 
 /**
@@ -45,6 +49,8 @@ import static com.forcetower.uefs.util.WordUtils.getLinksOnText;
 public class MessagesFragment extends Fragment implements Injectable {
     @BindView(R.id.recycler_view)
     RecyclerView rvMessages;
+    @BindView(R.id.swipe_refresh)
+    SwipeRefreshLayout refreshLayout;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -53,10 +59,11 @@ public class MessagesFragment extends Fragment implements Injectable {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_messages, container, false);
         ButterKnife.bind(this, view);
         setupRecyclerView();
+        setupRefreshLayout();
         return view;
     }
 
@@ -65,6 +72,7 @@ public class MessagesFragment extends Fragment implements Injectable {
         super.onActivityCreated(savedInstanceState);
         messagesViewModel = ViewModelProviders.of(this, viewModelFactory).get(MessagesViewModel.class);
         messagesViewModel.getMessages().observe(this, this::onMessagesReceived);
+        messagesViewModel.refresh(false).observe(this, this::onUpdateReceived);
     }
 
     private void onMessagesReceived(List<Message> messages) {
@@ -72,6 +80,7 @@ public class MessagesFragment extends Fragment implements Injectable {
             Timber.d("Messages Received");
             Collections.sort(messages);
             adapter.setMessages(messages);
+            refreshLayout.setRefreshing(false);
         }
     }
 
@@ -80,6 +89,33 @@ public class MessagesFragment extends Fragment implements Injectable {
         adapter = new MessagesAdapter(new ArrayList<>());
         adapter.setOnClickListener(this::onMessageClicked);
         rvMessages.setAdapter(adapter);
+    }
+
+    private void setupRefreshLayout() {
+        refreshLayout.setRefreshing(messagesViewModel.isRefreshing());
+        refreshLayout.setOnRefreshListener(() -> {
+            if (messagesViewModel.isRefreshing()) return;
+
+            messagesViewModel.refresh(true).observe(this, this::onUpdateReceived);
+            refreshLayout.setRefreshing(true);
+            messagesViewModel.setRefreshing(true);
+        });
+    }
+
+    private void onUpdateReceived(Resource<Integer> resource) {
+        if (resource == null) return;
+
+        if (resource.status == Status.SUCCESS) {
+            refreshLayout.setRefreshing(false);
+            messagesViewModel.setRefreshing(false);
+        } else if (resource.status == Status.ERROR) {
+            refreshLayout.setRefreshing(false);
+            messagesViewModel.setRefreshing(false);
+            Toast.makeText(getContext(), resource.message, Toast.LENGTH_SHORT).show();
+        } else {
+            //noinspection ConstantConditions
+            Timber.d("Updating.. Received Status: %s", getString(resource.data));
+        }
     }
 
     private void onMessageClicked(Message message) {
@@ -108,6 +144,8 @@ public class MessagesFragment extends Fragment implements Injectable {
     }
 
     private void openLink(String url) {
+        if (url == null) return;
+
         if (!url.startsWith("http://")
                 && !url.startsWith("HTTP://")
                 && !url.startsWith("HTTPS://")
