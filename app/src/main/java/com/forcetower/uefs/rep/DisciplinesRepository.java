@@ -16,6 +16,8 @@ import com.forcetower.uefs.db.entity.DisciplineClassItem;
 import com.forcetower.uefs.db.entity.DisciplineGroup;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
+import com.forcetower.uefs.rep.resources.FetchAllDataResource;
+import com.forcetower.uefs.rep.resources.FetchClassDetailsResource;
 import com.forcetower.uefs.sgrs.SagresResponse;
 import com.forcetower.uefs.sgrs.parsers.SagresDisciplineDetailsParser;
 

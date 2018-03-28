@@ -13,6 +13,7 @@ import com.forcetower.uefs.db.AppDatabase;
 import com.forcetower.uefs.db.entity.Access;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
+import com.forcetower.uefs.rep.resources.FetchEnrollCertResource;
 import com.forcetower.uefs.sgrs.parsers.SagresLinkFinder;
 
 import org.jsoup.nodes.Document;

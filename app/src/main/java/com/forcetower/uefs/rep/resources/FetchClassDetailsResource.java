@@ -1,4 +1,4 @@
-package com.forcetower.uefs.rep;
+package com.forcetower.uefs.rep.resources;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
@@ -42,7 +42,7 @@ public abstract class FetchClassDetailsResource {
     private final List<Pair<FormBody.Builder,String>> builderList = new ArrayList<>();
 
     @MainThread
-    FetchClassDetailsResource(AppExecutors executors, @Nullable String semester, @Nullable String classCode, @Nullable String classType, @NonNull Document document) {
+    public FetchClassDetailsResource(AppExecutors executors, @Nullable String semester, @Nullable String classCode, @Nullable String classType, @NonNull Document document) {
         this.executors = executors;
         this.semester = semester;
         this.classCode = classCode;

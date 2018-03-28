@@ -1,4 +1,4 @@
-package com.forcetower.uefs.rep;
+package com.forcetower.uefs.rep.resources;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;

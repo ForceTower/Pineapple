@@ -1,4 +1,4 @@
-package com.forcetower.uefs.rep;
+package com.forcetower.uefs.rep.resources;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
@@ -27,7 +27,7 @@ public abstract class FetchAllDataResource {
     private final MediatorLiveData<Resource<Integer>> result;
 
     @MainThread
-    FetchAllDataResource(AppExecutors executors) {
+    public FetchAllDataResource(AppExecutors executors) {
         this.executors = executors;
         result = new MediatorLiveData<>();
         Timber.d("Fetch all data called");

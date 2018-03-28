@@ -15,6 +15,7 @@ import com.forcetower.uefs.db.entity.Grade;
 import com.forcetower.uefs.db.entity.GradeInfo;
 import com.forcetower.uefs.db.entity.GradeSection;
 import com.forcetower.uefs.rep.helper.Resource;
+import com.forcetower.uefs.rep.resources.FetchAllGradesResource;
 import com.forcetower.uefs.sgrs.parsers.SagresGradeParser;
 
 import org.jsoup.nodes.Document;

@@ -1,4 +1,4 @@
-package com.forcetower.uefs.rep;
+package com.forcetower.uefs.rep.resources;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
@@ -25,7 +25,7 @@ public abstract class LoginOnlyResource {
     private final MediatorLiveData<Resource<Integer>> result;
 
     @MainThread
-    LoginOnlyResource(AppExecutors executors) {
+    public LoginOnlyResource(AppExecutors executors) {
         this.executors = executors;
         result = new MediatorLiveData<>();
 
