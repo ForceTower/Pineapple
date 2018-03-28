@@ -126,6 +126,31 @@ public class LoginRepository {
         return values;
     }
 
+    public LiveData<Resource<Integer>> loginOnly(String username, String password) {
+        return new LoginOnlyResource(executors) {
+            @Override
+            public Call createCall() {
+                Timber.d("Creating Call...");
+                RequestBody body = makeRequestBody(username, password);
+                Request request = makeLoginRequest(body);
+                return client.newCall(request);
+            }
+
+            @Override
+            public Call approvalCall(SagresResponse sgrResponse) {
+                Timber.d("Creating Approval Call");
+
+                Response response = sgrResponse.getResponse();
+                Document document = sgrResponse.getDocument();
+                String url = response.request().url().url().getHost() + response.request().url().url().getPath();
+
+                RequestBody body = makeApprovalRequestBody(document);
+                Request request = makeApprovalRequest(url, body);
+                return client.newCall(request);
+            }
+        }.asLiveData();
+    }
+
     private LiveData<Resource<Integer>> createInformationLiveData(String username, String password) {
         return new FetchAllDataResource(executors) {
             @Override

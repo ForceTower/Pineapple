@@ -62,6 +62,10 @@ public class RefreshRepository {
         refresh.addSource(accessSrc, access -> {
             refresh.removeSource(accessSrc);
             //noinspection ConstantConditions
+            if (access == null) {
+                refresh.postValue(Resource.error("User is disconnected", 401, R.string.disconnected));
+                return;
+            }
             LiveData<Resource<Integer>> loginRes = loginRepository.login(access.getUsername(), access.getPassword());
             refresh.addSource(loginRes, integerResource -> {
                 //noinspection ConstantConditions
@@ -86,27 +90,36 @@ public class RefreshRepository {
 
     public LiveData<Resource<Integer>> loginAndDownloadEnrollmentCertificate() {
         MediatorLiveData<Resource<Integer>> progress = new MediatorLiveData<>();
-        LiveData<Resource<Integer>> refreshSrc = refreshData();
-        progress.addSource(refreshSrc, resource -> {
-            //noinspection ConstantConditions
-            if (resource.status == Status.LOADING) {
-                progress.postValue(resource);
-            } else {
-                progress.removeSource(refreshSrc);
-                if (resource.status == Status.ERROR) {
+        LiveData<Access> accessSrc = database.accessDao().getAccess();
+        progress.addSource(accessSrc, access -> {
+            progress.removeSource(accessSrc);
+            if (access == null) {
+                progress.postValue(Resource.error("User is disconnected", 401, R.string.disconnected));
+                return;
+            }
+
+            LiveData<Resource<Integer>> loginSrc = loginRepository.loginOnly(access.getUsername(), access.getPassword());
+            progress.addSource(loginSrc, resource -> {
+                //noinspection ConstantConditions
+                if (resource.status == Status.LOADING) {
                     progress.postValue(resource);
                 } else {
-                    progress.postValue(Resource.loading(R.string.going_to_enrollment_page));
-                    LiveData<Resource<Integer>> enrollSrc = fetchEnrollmentCertificate();
-                    progress.addSource(enrollSrc, enrollRsc -> {
-                        //noinspection ConstantConditions
-                        if (enrollRsc.status != Status.LOADING) {
-                            progress.removeSource(enrollSrc);
-                        }
-                        progress.postValue(enrollRsc);
-                    });
+                    progress.removeSource(loginSrc);
+                    if (resource.status == Status.ERROR) {
+                        progress.postValue(resource);
+                    } else {
+                        progress.postValue(Resource.loading(R.string.going_to_enrollment_page));
+                        LiveData<Resource<Integer>> enrollSrc = fetchEnrollmentCertificate();
+                        progress.addSource(enrollSrc, enrollRsc -> {
+                            //noinspection ConstantConditions
+                            if (enrollRsc.status != Status.LOADING) {
+                                progress.removeSource(enrollSrc);
+                            }
+                            progress.postValue(enrollRsc);
+                        });
+                    }
                 }
-            }
+            });
         });
 
         return progress;

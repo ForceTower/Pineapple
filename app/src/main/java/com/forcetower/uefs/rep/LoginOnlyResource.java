@@ -3,7 +3,6 @@ package com.forcetower.uefs.rep;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 import android.support.annotation.MainThread;
-import android.support.annotation.NonNull;
 
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.R;
@@ -16,30 +15,24 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import okhttp3.Call;
-import okhttp3.Response;
 import timber.log.Timber;
 
 /**
- * Created by João Paulo on 06/03/2018.
+ * Created by João Paulo on 28/03/2018.
  */
-
-public abstract class FetchAllDataResource {
+public abstract class LoginOnlyResource {
     private final AppExecutors executors;
     private final MediatorLiveData<Resource<Integer>> result;
 
     @MainThread
-    FetchAllDataResource(AppExecutors executors) {
+    LoginOnlyResource(AppExecutors executors) {
         this.executors = executors;
         result = new MediatorLiveData<>();
-        Timber.d("Fetch all data called");
 
-        executors.diskIO().execute(() -> {
-            result.postValue(Resource.loading(R.string.connecting));
-            fetchFromSagres();
-        });
+        loginOnSagres();
     }
 
-    private void fetchFromSagres() {
+    private void loginOnSagres() {
         Call call = createCall();
         LiveData<SagresResponse> sgrRspLive = LiveDataCallAdapter.adapt(call);
 
@@ -58,23 +51,15 @@ public abstract class FetchAllDataResource {
                             //noinspection ConstantConditions
                             if (documentResource.status == Status.SUCCESS) {
                                 Timber.d("Success on approval!");
-                                executors.diskIO().execute(() -> {
-                                    initialPage(documentResource.data);
-                                    executors.mainThread().execute(this::navigateToStudentPage);
-                                });
-
-                                //navigateToStudentPage();
+                                setValue(Resource.success(R.string.completed));
                             } else {
                                 Timber.d("Failed on approval...");
+                                setValue(Resource.error("Failed on approval", 500, R.string.failed_to_connect));
                             }
                         });
-                        //navigateToStudentPage();
                     } else {
                         Timber.d("Don't need approval!");
-                        executors.diskIO().execute(() -> {
-                            initialPage(document);
-                            executors.mainThread().execute(this::navigateToStudentPage);
-                        });
+                        setValue(Resource.success(R.string.completed));
                     }
                 } else {
                     onFetchFailed();
@@ -87,8 +72,6 @@ public abstract class FetchAllDataResource {
             }
         });
     }
-
-    protected abstract void initialPage(Document data);
 
     private LiveData<Resource<Document>> approve(SagresResponse sgrResponse) {
         MediatorLiveData<Resource<Document>> docLive = new MediatorLiveData<>();
@@ -111,33 +94,16 @@ public abstract class FetchAllDataResource {
 
     }
 
-    private void navigateToStudentPage() {
-        result.postValue(Resource.loading(R.string.going_to_student_page));
-        Call call = createStudentPageCall();
-        LiveData<SagresResponse> sgrResp = LiveDataCallAdapter.adapt(call);
+    @MainThread
+    private void setValue(Resource<Integer> b) {
+        Resource<Integer> a = result.getValue();
+        if (!((a == b) || (a != null && a.equals(b)))) {
+            result.setValue(b);
+        }
+    }
 
-        result.addSource(sgrResp, response -> {
-            result.removeSource(sgrResp);
-
-            //noinspection ConstantConditions
-            if (response.isSuccessful()) {
-                Document document = response.getDocument();
-                executors.diskIO().execute(() -> {
-                    result.postValue(Resource.loading(R.string.processing_information));
-                    if (document != null) {
-                        saveResult(document);
-                        executors.mainThread().execute(() -> setValue(Resource.success(R.string.completed)));
-                    } else {
-                        executors.mainThread().execute(() ->
-                                setValue(Resource.error("Response is fine, but document is null", 500, R.string.failed_to_connect)));
-                    }
-
-                });
-
-            } else {
-                result.postValue(Resource.error(response.getMessage(), response.getCode(), R.string.failed_to_connect));
-            }
-        });
+    public LiveData<Resource<Integer>> asLiveData() {
+        return result;
     }
 
     private boolean needApproval(Document document) {
@@ -165,22 +131,7 @@ public abstract class FetchAllDataResource {
         }
     }
 
-    public LiveData<Resource<Integer>> asLiveData() {
-        return result;
-    }
-
-    @MainThread
-    private void setValue(Resource<Integer> b) {
-        Resource<Integer> a = result.getValue();
-        if (!((a == b) || (a != null && a.equals(b)))) {
-            result.setValue(b);
-        }
-    }
-
     public void onFetchFailed() {}
     public abstract Call createCall();
     public abstract Call approvalCall(SagresResponse sgrResponse);
-    public abstract Call createStudentPageCall();
-    public abstract void saveResult(@NonNull Document document);
-
 }
