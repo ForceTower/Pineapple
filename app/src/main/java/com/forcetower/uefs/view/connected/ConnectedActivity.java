@@ -188,32 +188,31 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
         }
 
         ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
-        //if (shortcutManager.getDynamicShortcuts().size() == 0) {
-            Intent messages = new Intent(this, ConnectedActivity.class);
-            messages.putExtra(NOTIFICATION_INTENT_EXTRA, MESSAGES_FRAGMENT);
-            messages.setAction("android.intent.action.VIEW");
-            messages.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-            Intent grades = new Intent(this, ConnectedActivity.class);
-            grades.putExtra(NOTIFICATION_INTENT_EXTRA, GRADES_FRAGMENT);
-            grades.setAction("android.intent.action.VIEW");
-            grades.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        Intent messages = new Intent(this, ConnectedActivity.class);
+        messages.putExtra(NOTIFICATION_INTENT_EXTRA, MESSAGES_FRAGMENT);
+        messages.setAction("android.intent.action.VIEW");
+        messages.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-            ShortcutInfo msgSrt = new ShortcutInfo.Builder(this, "messages")
-                    .setShortLabel(getString(R.string.title_messages))
-                    .setIcon(Icon.createWithResource(this, R.drawable.ic_shortcut_message))
-                    .setIntent(messages)
-                    .build();
+        Intent grades = new Intent(this, ConnectedActivity.class);
+        grades.putExtra(NOTIFICATION_INTENT_EXTRA, GRADES_FRAGMENT);
+        grades.setAction("android.intent.action.VIEW");
+        grades.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-            ShortcutInfo grdSrt = new ShortcutInfo.Builder(this, "grades")
-                    .setShortLabel(getString(R.string.title_grades))
-                    .setIcon(Icon.createWithResource(this, R.drawable.ic_shortcut_school))
-                    .setIntent(grades)
-                    .build();
+        ShortcutInfo msgSrt = new ShortcutInfo.Builder(this, "messages")
+                .setShortLabel(getString(R.string.title_messages))
+                .setIcon(Icon.createWithResource(this, R.drawable.ic_shortcut_message))
+                .setIntent(messages)
+                .build();
 
-            shortcutManager.setDynamicShortcuts(Arrays.asList(msgSrt, grdSrt));
-        //}
+        ShortcutInfo grdSrt = new ShortcutInfo.Builder(this, "grades")
+                .setShortLabel(getString(R.string.title_grades))
+                .setIcon(Icon.createWithResource(this, R.drawable.ic_shortcut_school))
+                .setIntent(grades)
+                .build();
 
+        //noinspection ConstantConditions
+        shortcutManager.setDynamicShortcuts(Arrays.asList(msgSrt, grdSrt));
     }
 
     private void setupAlarmManager() {
