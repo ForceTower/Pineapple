@@ -228,7 +228,11 @@ public class LoginRepository {
                 if (defineSemester(SagresSemesterParser.getSemesters(document))) {
                     if (defineDisciplines(SagresDisciplineParser.getDisciplines(document))) {
                         defineDcpGroups(SagresDcpGroupsParser.getGroups(document));
-                        defineSchedule(SagresScheduleParser.getSchedule(document));
+                        try {
+                            defineSchedule(SagresScheduleParser.getSchedule(document));
+                        } catch (NullPointerException e) {
+                            Timber.d("This person has a problem on parser");
+                        }
                     }
                 }
             }
