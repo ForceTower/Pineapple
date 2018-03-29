@@ -122,7 +122,6 @@ public class SagresScheduleParser {
     }
 
     private static void findDetails(Element subtitle) {
-        //Element body = subtitle.selectFirst("tbody");
         Elements trs = subtitle.select("tr");
 
         String currentCode = "undef";
@@ -137,12 +136,14 @@ public class SagresScheduleParser {
                 if (parts.length == 2) {
                     if (!currentCode.equals("undef")) {
                         SagresClass lesson = codePerLessons.get(currentCode);
-                        lesson.addAtToAllClasses(parts[0].trim(), parts[1].trim());
+                        if (lesson != null) lesson.addAtToAllClasses(parts[0].trim(), parts[1].trim());
+                        else Timber.d("Something wrong is happening here...");
                     }
                 } else if (parts.length == 3) {
                     if (!currentCode.equals("undef")) {
                         SagresClass lesson = codePerLessons.get(currentCode);
-                        lesson.addAtToSpecificClass(parts[2].trim(), parts[1].trim(), parts[0].trim());
+                        if (lesson != null) lesson.addAtToSpecificClass(parts[2].trim(), parts[1].trim(), parts[0].trim());
+                        else Timber.d("Something wrong is happening here...");
                     }
                 }
             } else {
