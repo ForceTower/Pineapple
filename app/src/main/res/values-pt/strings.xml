@@ -232,4 +232,6 @@
     <string name="cant_open_link">Não é possível abrir este link</string>
     <string name="channel_group_general">Geral</string>
     <string name="warnings">Avisos</string>
+
+    <string name="no_automatic_update_yet">Ainda não houve atualização automática</string>
 </resources>

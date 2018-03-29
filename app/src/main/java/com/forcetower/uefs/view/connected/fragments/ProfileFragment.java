@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.forcetower.uefs.BuildConfig;
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.db.entity.Access;
 import com.forcetower.uefs.db.entity.Profile;
 import com.forcetower.uefs.db.entity.Semester;
 import com.forcetower.uefs.di.Injectable;
@@ -36,6 +37,7 @@ import com.forcetower.uefs.view.connected.NavigationController;
 import com.forcetower.uefs.view.control_room.ControlRoomActivity;
 import com.forcetower.uefs.view.experimental.good_barrel.GoodBarrelActivity;
 import com.forcetower.uefs.vm.DownloadsViewModel;
+import com.forcetower.uefs.vm.LoginViewModel;
 import com.forcetower.uefs.vm.ProfileViewModel;
 
 import java.io.File;
@@ -107,13 +109,8 @@ public class ProfileFragment extends Fragment implements Injectable {
         btnDownloadEnrollCert.setOnClickListener(v -> certificateDownload());
 
         if (BuildConfig.DEBUG) {
-            tvLastUpdateAttempt.setVisibility(View.VISIBLE);
             cvUpdateControl.setVisibility(View.VISIBLE);
             cvGoodBarrel.setVisibility(View.VISIBLE);
-        } else {
-            tvLastUpdateAttempt.setVisibility(View.GONE);
-            cvUpdateControl.setVisibility(View.GONE);
-            cvGoodBarrel.setVisibility(View.GONE);
         }
 
         if (PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("show_score", false)) {
@@ -131,6 +128,16 @@ public class ProfileFragment extends Fragment implements Injectable {
         profileViewModel.getProfile().observe(this, this::onReceiveProfile);
         profileViewModel.getSemesters().observe(this, this::onReceiveSemesters);
         downloadsViewModel.getDownloadCertificate().observe(this, this::onCertificateDownload);
+        profileViewModel.getAccess().observe(this, this::onReceiveAccess);
+    }
+
+    private void onReceiveAccess(Access access) {
+        if (access == null) return;
+
+        if (access.getUsername().equalsIgnoreCase("jpssena")) {
+            cvUpdateControl.setVisibility(View.VISIBLE);
+            cvGoodBarrel.setVisibility(View.VISIBLE);
+        }
     }
 
     private void onReceiveProfile(Profile profile) {
@@ -145,7 +152,11 @@ public class ProfileFragment extends Fragment implements Injectable {
         String date = DateUtils.convertTime(profile.getLastSync());
         String attempt = DateUtils.convertTime(profile.getLastSyncAttempt());
         tvLastUpdate.setText(getString(R.string.last_information_update, date));
-        tvLastUpdateAttempt.setText(getString(R.string.last_information_update_attempt, attempt));
+        if (profile.getLastSyncAttempt() != 0) {
+            tvLastUpdateAttempt.setText(getString(R.string.last_information_update_attempt, attempt));
+        } else {
+            tvLastUpdateAttempt.setText(R.string.no_automatic_update_yet);
+        }
     }
 
     private void onReceiveSemesters(List<Semester> semesters) {
@@ -196,14 +207,6 @@ public class ProfileFragment extends Fragment implements Injectable {
         //noinspection ConstantConditions
         Uri uri = FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID + ".fileprovider", file);
         target.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        /*if (VersionUtils.isNougat()) {
-            //Nougat and after has different ways
-            //noinspection ConstantConditions
-            uri = FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID + ".fileprovider", file);
-            target.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        } else {
-            uri = Uri.fromFile(file);
-        }*/
         
         Timber.d("Uri %s", uri);
         target.setDataAndType(uri,"application/pdf");

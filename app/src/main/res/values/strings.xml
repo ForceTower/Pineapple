@@ -238,4 +238,5 @@
     <string name="cant_open_link">Can\'t open link</string>
     <string name="channel_group_general">General</string>
     <string name="warnings">Announcements</string>
+    <string name="no_automatic_update_yet">Auto synchronization did not fire yet</string>
 </resources>
