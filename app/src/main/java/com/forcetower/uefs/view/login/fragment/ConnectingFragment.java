@@ -122,7 +122,7 @@ public class ConnectingFragment extends Fragment implements Injectable {
                 Toast.makeText(getContext(), R.string.invalid_login, Toast.LENGTH_SHORT).show();
             }
 
-            new Handler().postDelayed(this::goToLoginPage, 1500);
+            new Handler().postDelayed(this::goToLoginPage, 1000);
         }
     }
 

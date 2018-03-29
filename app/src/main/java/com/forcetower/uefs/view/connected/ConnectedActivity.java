@@ -251,8 +251,8 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
         int id = item.getItemId();
 
         if (id == R.id.menu_settings) {
-            setTabShowing(false);
             SettingsActivity.startActivity(this);
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
