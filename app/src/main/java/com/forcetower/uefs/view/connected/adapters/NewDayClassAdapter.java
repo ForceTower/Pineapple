@@ -121,7 +121,7 @@ public class NewDayClassAdapter extends RecyclerView.Adapter {
 
         void bind(NewScheduleAdapter.InnerLocation location) {
             classCode.setText(location.location.getClassCode());
-            classGroup.setText(location.location.getClassGroup());
+            classGroup.setText(location.location.getClassType());
         }
     }
 

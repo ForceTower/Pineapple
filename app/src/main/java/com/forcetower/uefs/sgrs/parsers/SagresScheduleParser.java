@@ -61,7 +61,9 @@ public class SagresScheduleParser {
                         classDay.room,
                         classDay.campus,
                         classDay.modulo,
-                        classDay.class_code
+                        classDay.class_code,
+                        classDay.class_code,
+                        classDay.class_type
                 );
                 Timber.d("Class Code %s, Class Name: %s, Room %s", classDay.class_code, classDay.class_name, classDay.room);
                 Timber.d("Class type: %s", classDay.class_type);

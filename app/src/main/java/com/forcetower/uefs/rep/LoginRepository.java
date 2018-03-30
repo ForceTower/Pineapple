@@ -442,7 +442,7 @@ public class LoginRepository {
             locationDao.deleteLocationsFromSemester(semester);
 
             for (DisciplineClassLocation location : schedule) {
-                String code = location.getClassName();
+                String code = location.getClassCode();
                 List<DisciplineGroup> groups = groupDao.getDisciplineGroupsDirect(semester, code);
                 if (groups.isEmpty()) {
                     Timber.d("It's sad how the code %s at semester %s has no groups, wow", code, semester);
@@ -455,17 +455,33 @@ public class LoginRepository {
                         location.setGroupId(groupId);
                         locationDao.insertClassLocation(location);
                     } else {
-                        //TODO Assign to correct class
-                        //Not sure yet.
-                        //Since there's no info right now, classes may be assigned to the incorrect group.
-                        //This will be fixed as soon as i get to see a new schedule on sagres
-                        Timber.d("Might have been assigned to invalid group");
-                        int groupId = groups.get(0).getUid();
-                        int disciplineId = groups.get(0).getDiscipline();
+                        DisciplineGroup selected = null;
+                        for (DisciplineGroup group : groups) {
+                            if (group.getGroup().trim().equalsIgnoreCase(location.getClassType())) {
+                                selected = group;
+                                break;
+                            }
+                        }
+                        if (selected == null) {
+                            Timber.d("Might have been assigned to invalid group");
+                            selected = groups.get(0);
+                            int groupId = groups.get(0).getUid();
+                            int disciplineId = groups.get(0).getDiscipline();
+                            Discipline discipline = disciplineDao.getDisciplinesByIdDirect(disciplineId);
+                            location.setClassName(discipline.getName());
+                            location.setGroupId(groupId);
+                            locationDao.insertClassLocation(location);
+                        } else {
+                            Timber.d("Found the partner for discipline! %s to %s", code, selected.getGroup());
+                        }
+
+                        int groupId = selected.getUid();
+                        int disciplineId = selected.getDiscipline();
                         Discipline discipline = disciplineDao.getDisciplinesByIdDirect(disciplineId);
                         location.setClassName(discipline.getName());
                         location.setGroupId(groupId);
                         locationDao.insertClassLocation(location);
+
                     }
                 }
             }
