@@ -25,10 +25,12 @@ import static com.forcetower.uefs.util.WordUtils.validString;
 class DayClassAdapter extends RecyclerView.Adapter<DayClassAdapter.DisciplineHolder> {
     private Context context;
     private List<DisciplineClassLocation> disciplines;
+    private boolean style;
 
-    DayClassAdapter(@NonNull Context context, @NonNull List<DisciplineClassLocation> disciplines) {
+    DayClassAdapter(@NonNull Context context, @NonNull List<DisciplineClassLocation> disciplines, boolean style) {
         this.context = context;
         this.disciplines = disciplines;
+        this.style = style;
     }
 
     @NonNull
@@ -81,10 +83,11 @@ class DayClassAdapter extends RecyclerView.Adapter<DayClassAdapter.DisciplineHol
                 else location = location + " - " + discipline.getRoom().trim();
             }
 
-            tvClassLocation.setText(location);
-            tvClassTime.setText(context.getString(R.string.discipline_start_end_time,
-                    discipline.getStartTime(), discipline.getEndTime()));
             tvClassName.setText(discipline.getClassName().trim());
+            tvClassLocation.setText(location);
+
+            if (!style) tvClassTime.setText(context.getString(R.string.discipline_start_end_time, discipline.getStartTime(), discipline.getEndTime()));
+            else tvClassTime.setText(context.getString(R.string.discipline_code_group, discipline.getClassCode(), discipline.getClassGroup()));
         }
     }
 }

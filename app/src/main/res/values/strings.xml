@@ -35,6 +35,7 @@
     <string name="saturday">Saturday</string>
     <string name="sunday">Sunday</string>
     <string name="discipline_start_end_time">%1$s ~ %2$s</string>
+    <string name="discipline_code_group">%1$s - %2$s</string>
     <string name="draft_class">Draft Class</string>
 
     <string name="class_additional_info_format">%1$s - %2$d hours - %3$d missed classes</string>

@@ -35,6 +35,7 @@
     <string name="that_s_embarrassing">Bem... Isso é constrangedor</string>
     <string name="sad">Triste</string>
     <string name="discipline_start_end_time">%1$s ~ %2$s</string>
+    <string name="discipline_code_group">%1$s - %2$s</string>
     <string name="draft_class">Rascunho de Aula</string>
     <string name="final_score_text">Nota final</string>
     <string name="partial_mean">Média Parcial</string>

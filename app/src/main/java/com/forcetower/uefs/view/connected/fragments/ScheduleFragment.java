@@ -76,7 +76,7 @@ public class ScheduleFragment extends Fragment implements Injectable {
     }
 
     private void initializeRecyclerView() {
-        scheduleAdapter = new ScheduleAdapter(getContext(), new ArrayList<>());
+        scheduleAdapter = new ScheduleAdapter(getContext(), new ArrayList<>(), false);
         rvSchedule.setLayoutManager(new LinearLayoutManager(getContext()));
         rvSchedule.setAdapter(scheduleAdapter);
     }

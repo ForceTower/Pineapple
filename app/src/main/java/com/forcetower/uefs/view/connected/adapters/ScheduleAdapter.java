@@ -34,10 +34,12 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
     private List<Pair<String, List<DisciplineClassLocation>>> mapped;
     private RecyclerView.RecycledViewPool viewPool;
     private Context context;
+    private boolean style;
 
-    public ScheduleAdapter(Context context, @NonNull List<DisciplineClassLocation> locations) {
+    public ScheduleAdapter(Context context, @NonNull List<DisciplineClassLocation> locations, boolean style) {
         this.context = context;
         this.locations = locations;
+        this.style = style;
         createMap();
         viewPool = new RecyclerView.RecycledViewPool();
     }
@@ -108,7 +110,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
             super(itemView);
             ButterKnife.bind(this, itemView);
             innerRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-            adapter = new DayClassAdapter(context, new ArrayList<>());
+            adapter = new DayClassAdapter(context, new ArrayList<>(), style);
             innerRecyclerView.setAdapter(adapter);
         }
 

@@ -73,7 +73,7 @@ public class NewScheduleFragment extends Fragment implements Injectable {
     }
 
     private void setupSubtitles() {
-        subtitleAdapter = new ScheduleAdapter(getContext(), new ArrayList<>());
+        subtitleAdapter = new ScheduleAdapter(getContext(), new ArrayList<>(), true);
         rvScheduleSubtitle.setLayoutManager(new LinearLayoutManager(getContext()));
         rvScheduleSubtitle.setAdapter(subtitleAdapter);
         rvScheduleSubtitle.setNestedScrollingEnabled(false);
