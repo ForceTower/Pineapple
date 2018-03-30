@@ -241,4 +241,7 @@
     <string name="channel_group_general">General</string>
     <string name="warnings">Announcements</string>
     <string name="no_automatic_update_yet">Auto synchronization did not fire yet</string>
+    <string name="new_schedule_layout">New Schedule layout</string>
+    <string name="new_schedule_layout_disabled">I prefer the old schedule layout</string>
+    <string name="new_schedule_layout_enabled">I prefer the new schedule layout</string>
 </resources>

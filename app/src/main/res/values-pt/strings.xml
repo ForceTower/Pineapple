@@ -236,4 +236,8 @@
     <string name="warnings">Avisos</string>
 
     <string name="no_automatic_update_yet">Ainda não houve atualização automática</string>
+
+    <string name="new_schedule_layout">Nova tela de horários</string>
+    <string name="new_schedule_layout_disabled">Eu prefiro a tela de horários antiga</string>
+    <string name="new_schedule_layout_enabled">Eu prefiro a nova tela de horários</string>
 </resources>
