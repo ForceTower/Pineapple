@@ -240,4 +240,5 @@
     <string name="new_schedule_layout">Nova tela de horários</string>
     <string name="new_schedule_layout_disabled">Eu prefiro a tela de horários antiga</string>
     <string name="new_schedule_layout_enabled">Eu prefiro a nova tela de horários</string>
+    <string name="changes_apply_after_restart">As mudanças serão aplicadas quando você abrir a tela de horários novamente</string>
 </resources>

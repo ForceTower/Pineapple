@@ -187,6 +187,12 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        newScheduleLayout = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("new_schedule_layout", true);
+    }
+
     private void setupShortcuts() {
         if (!VersionUtils.isNougatMR1()) {
             return;

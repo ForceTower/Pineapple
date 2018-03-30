@@ -9,6 +9,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.widget.Toast;
 
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
@@ -94,8 +95,11 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equalsIgnoreCase("sync_frequency"))
+        if (key.equalsIgnoreCase("sync_frequency")) {
             updateSyncFrequency(sharedPreferences, key);
+        } else if (key.equalsIgnoreCase("new_schedule_layout")) {
+            Toast.makeText(controller.getContext(), R.string.changes_apply_after_restart, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void updateSyncFrequency(SharedPreferences preferences, String key) {

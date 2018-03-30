@@ -241,7 +241,8 @@
     <string name="channel_group_general">General</string>
     <string name="warnings">Announcements</string>
     <string name="no_automatic_update_yet">Auto synchronization did not fire yet</string>
-    <string name="new_schedule_layout">New Schedule layout</string>
-    <string name="new_schedule_layout_disabled">I prefer the old schedule layout</string>
-    <string name="new_schedule_layout_enabled">I prefer the new schedule layout</string>
+    <string name="new_schedule_layout">New schedule layout</string>
+    <string name="new_schedule_layout_disabled">I prefer the old schedule</string>
+    <string name="new_schedule_layout_enabled">I prefer the new schedule</string>
+    <string name="changes_apply_after_restart">The changes will be applied when you reopen the schedule</string>
 </resources>
