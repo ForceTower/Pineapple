@@ -17,7 +17,6 @@ import com.forcetower.uefs.db.entity.DisciplineClassLocation;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.view.connected.adapters.NewScheduleAdapter;
-import com.forcetower.uefs.view.connected.adapters.ScheduleAdapter;
 import com.forcetower.uefs.vm.ScheduleViewModel;
 
 import java.util.ArrayList;
@@ -27,12 +26,11 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 /**
- * Created by João Paulo on 07/03/2018.
+ * Created by João Paulo on 29/03/2018.
  */
-public class ScheduleFragment extends Fragment implements Injectable {
+public class NewScheduleFragment extends Fragment implements Injectable {
     @BindView(R.id.vg_no_schedule)
     ViewGroup vgNoSchedule;
     @BindView(R.id.recycler_view)
@@ -40,15 +38,14 @@ public class ScheduleFragment extends Fragment implements Injectable {
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
-    private ScheduleAdapter scheduleAdapter;
+    private NewScheduleAdapter scheduleAdapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_schedule, container, false);
+        View view = inflater.inflate(R.layout.fragment_schedule_new, container, false);
         ButterKnife.bind(this, view);
-        initializeRecyclerView();
-        setupRecyclerView(null);
+        setupRecycler();
         return view;
     }
 
@@ -56,36 +53,23 @@ public class ScheduleFragment extends Fragment implements Injectable {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ScheduleViewModel scheduleViewModel = ViewModelProviders.of(this, viewModelFactory).get(ScheduleViewModel.class);
-        scheduleViewModel.getSchedule(null).observe(this, this::onReceiveSchedule);
+        scheduleViewModel.getSchedule(null).observe(this, this::onReceiveLocations);
     }
 
-    private void onReceiveSchedule(List<DisciplineClassLocation> disciplineClassLocations) {
-        setupView(disciplineClassLocations);
+    private void setupRecycler() {
+        scheduleAdapter = new NewScheduleAdapter(getContext(), new ArrayList<>());
+        rvSchedule.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        rvSchedule.setAdapter(scheduleAdapter);
     }
 
-    private void setupView(List<DisciplineClassLocation> locations) {
-        if (locations.isEmpty()) {
+    private void onReceiveLocations(List<DisciplineClassLocation> locations) {
+        if (locations == null || locations.isEmpty()) {
             AnimUtils.fadeOut(getContext(), rvSchedule);
             AnimUtils.fadeIn(getContext(), vgNoSchedule);
         } else {
             AnimUtils.fadeOut(getContext(), vgNoSchedule);
             vgNoSchedule.setVisibility(View.GONE);
             rvSchedule.setVisibility(View.VISIBLE);
-            setupRecyclerView(locations);
-        }
-    }
-
-    private void initializeRecyclerView() {
-        scheduleAdapter = new ScheduleAdapter(getContext(), new ArrayList<>());
-        rvSchedule.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvSchedule.setAdapter(scheduleAdapter);
-    }
-
-    private void setupRecyclerView(@Nullable List<DisciplineClassLocation> locations) {
-        if (locations == null) {
-            Timber.d("Locations are null");
-        } else {
-            Timber.d("Locations received");
             scheduleAdapter.setLocations(locations);
         }
     }

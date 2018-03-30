@@ -54,7 +54,6 @@ public class SagresScheduleParser {
                 continue;
 
             for (SagresClassDay classDay : classDays) {
-
                 DisciplineClassLocation location = new DisciplineClassLocation(
                         classDay.starts_at,
                         classDay.ends_at,
@@ -64,7 +63,8 @@ public class SagresScheduleParser {
                         classDay.modulo,
                         classDay.class_code
                 );
-                Timber.d("Class Code %s, Room %s", classDay.class_code, classDay.room);
+                Timber.d("Class Code %s, Class Name: %s, Room %s", classDay.class_code, classDay.class_name, classDay.room);
+                Timber.d("Class type: %s", classDay.class_type);
                 disciplineClassLocations.add(location);
             }
         }

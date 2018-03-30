@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.MainThread;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -64,7 +65,7 @@ public class GradesFragment extends Fragment implements Injectable {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_discipline_grades, container, false);
         ButterKnife.bind(this, view);
         setupRecyclerView();
@@ -75,11 +76,13 @@ public class GradesFragment extends Fragment implements Injectable {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         gradesAdapter = new GradesAdapter(null, null);
         recyclerView.setAdapter(gradesAdapter);
+        recyclerView.setNestedScrollingEnabled(false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        //noinspection ConstantConditions
         disciplineId = getArguments().getInt(INTENT_DISCIPLINE_ID);
         GradesViewModel gradesViewModel = ViewModelProviders.of(this, viewModelFactory).get(GradesViewModel.class);
         gradesViewModel.getGradesOfDiscipline(disciplineId).observe(this, this::onGradeUpdate);

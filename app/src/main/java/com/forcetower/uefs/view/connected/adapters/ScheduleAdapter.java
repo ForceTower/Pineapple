@@ -42,8 +42,9 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
         viewPool = new RecyclerView.RecycledViewPool();
     }
 
+    @NonNull
     @Override
-    public ScheduleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ScheduleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_schedule_day, parent, false);
         ScheduleViewHolder holder = new ScheduleViewHolder(view);
         holder.innerRecyclerView.setRecycledViewPool(viewPool);
@@ -51,7 +52,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
     }
 
     @Override
-    public void onBindViewHolder(ScheduleViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ScheduleViewHolder holder, int position) {
         holder.bind(mapped.get(position));
     }
 

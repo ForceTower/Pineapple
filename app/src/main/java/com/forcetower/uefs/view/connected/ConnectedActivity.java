@@ -43,6 +43,7 @@ import com.forcetower.uefs.view.connected.fragments.AutoSyncFragment;
 import com.forcetower.uefs.view.connected.fragments.CalendarFragment;
 import com.forcetower.uefs.view.connected.fragments.DisciplinesFragment;
 import com.forcetower.uefs.view.connected.fragments.MessagesFragment;
+import com.forcetower.uefs.view.connected.fragments.NewScheduleFragment;
 import com.forcetower.uefs.view.connected.fragments.ProfileFragment;
 import com.forcetower.uefs.view.connected.fragments.ScheduleFragment;
 import com.forcetower.uefs.view.login.MainActivity;
@@ -95,6 +96,8 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
 
     private boolean doubleBack;
 
+    private boolean newScheduleLayout = true;
+
     public static void startActivity(Context context, boolean afterLogin) {
         Intent intent = new Intent(context, ConnectedActivity.class);
         intent.putExtra("after_login", afterLogin);
@@ -110,6 +113,8 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
         setupToolbar();
         elevate();
         gradesViewModel = ViewModelProviders.of(this, viewModelFactory).get(GradesViewModel.class);
+
+        newScheduleLayout = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("new_schedule_layout", true);
 
         fragmentManager = getSupportFragmentManager();
         containerId = R.id.container;
@@ -327,7 +332,8 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
     public void navigateToSchedule() {
         changeTitle(R.string.title_schedule);
         setTabShowing(false);
-        changeFragment(new ScheduleFragment());
+        if (newScheduleLayout) changeFragment(new NewScheduleFragment());
+        else changeFragment(new ScheduleFragment());
     }
 
     @Override

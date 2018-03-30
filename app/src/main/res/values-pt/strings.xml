@@ -140,9 +140,10 @@
     <string name="about_app_bugs">Depois de reescrever grande parte do código do aplicativo, acho que limpei todos os erros. Mas provavelmente deve ter alguns bugs escondidos por ai.\n\nSe encontrar algum me avise :v</string>
     <string name="about_app_enjoy">Aproveite :)</string>
     <string name="about_app_features_title">Funções e Benefícios</string>
-    <string name="credits">Creditos</string>
+    <string name="credits">Créditos</string>
     <string name="credits_string">
         Ícone do Aplicativo: Lokisley Oliveira\nhttps://www.facebook.com/Lokisley
+        Nome do Aplicativo: Lokisley + Matheus Teixeixa\nhttps://www.facebook.com/teixeirista\nOlhem também a página dele (os textos são bons)\nhttps://www.facebook.com/FigurativamenteLiteral/\n\n
     </string>
     <string name="about_app_notifications_title">Notificações</string>
     <string name="about_app_exit_title">Sair</string>

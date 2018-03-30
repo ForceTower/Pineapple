@@ -126,4 +126,12 @@ public class DisciplineClassLocation implements Comparable<DisciplineClassLocati
     public int compareTo(@NonNull DisciplineClassLocation o) {
         return getStartTime().compareTo(o.getStartTime());
     }
+
+    public String getClassCode() {
+        return "code";
+    }
+
+    public String getClassGroup() {
+        return "group";
+    }
 }

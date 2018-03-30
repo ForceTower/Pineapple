@@ -31,14 +31,15 @@ class DayClassAdapter extends RecyclerView.Adapter<DayClassAdapter.DisciplineHol
         this.disciplines = disciplines;
     }
 
+    @NonNull
     @Override
-    public DisciplineHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public DisciplineHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_schedule_class, parent, false);
         return new DisciplineHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(DisciplineHolder holder, int position) {
+    public void onBindViewHolder(@NonNull DisciplineHolder holder, int position) {
         holder.bind(disciplines.get(position));
     }
 
