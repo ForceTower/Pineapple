@@ -37,7 +37,6 @@ import com.forcetower.uefs.view.connected.NavigationController;
 import com.forcetower.uefs.view.control_room.ControlRoomActivity;
 import com.forcetower.uefs.view.experimental.good_barrel.GoodBarrelActivity;
 import com.forcetower.uefs.vm.DownloadsViewModel;
-import com.forcetower.uefs.vm.LoginViewModel;
 import com.forcetower.uefs.vm.ProfileViewModel;
 
 import java.io.File;
