@@ -457,7 +457,7 @@ public class LoginRepository {
                     } else {
                         DisciplineGroup selected = null;
                         for (DisciplineGroup group : groups) {
-                            if (group.getGroup().trim().equalsIgnoreCase(location.getClassType())) {
+                            if (group.getGroup().trim().equalsIgnoreCase(location.getClassGroup())) {
                                 selected = group;
                                 break;
                             }

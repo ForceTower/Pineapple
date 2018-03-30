@@ -17,6 +17,8 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.forcetower.uefs.db.DatabaseMigrations.MIGRATION_1_2;
+
 /**
  * Created by João Paulo on 05/03/2018.
  *
@@ -29,7 +31,7 @@ public class AppModule {
     @Singleton
     AppDatabase provideDatabase(Application application) {
         return Room.databaseBuilder(application, AppDatabase.class, "unes_uefs.db")
-                .fallbackToDestructiveMigration()
+                .addMigrations(MIGRATION_1_2)
                 .build();
     }
 
