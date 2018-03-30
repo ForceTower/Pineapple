@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -41,7 +42,7 @@ public class NewScheduleFragment extends Fragment implements Injectable {
     @BindView(R.id.rv_schedule_subtitle)
     RecyclerView rvScheduleSubtitle;
     @BindView(R.id.sv_schedule)
-    ScrollView svSchedule;
+    NestedScrollView svSchedule;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;

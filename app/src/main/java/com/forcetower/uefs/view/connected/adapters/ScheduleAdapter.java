@@ -50,6 +50,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_schedule_day, parent, false);
         ScheduleViewHolder holder = new ScheduleViewHolder(view);
         holder.innerRecyclerView.setRecycledViewPool(viewPool);
+        holder.innerRecyclerView.setNestedScrollingEnabled(false);
         return holder;
     }
 

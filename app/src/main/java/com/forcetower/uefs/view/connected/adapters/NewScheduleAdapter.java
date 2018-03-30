@@ -47,6 +47,7 @@ public class NewScheduleAdapter extends RecyclerView.Adapter<NewScheduleAdapter.
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_schedule_day_new, parent, false);
         ScheduleHolder holder = new ScheduleHolder(view);
         holder.innerRecycler.setRecycledViewPool(viewPool);
+        holder.innerRecycler.setNestedScrollingEnabled(false);
         return holder;
     }
 
@@ -163,6 +164,7 @@ public class NewScheduleAdapter extends RecyclerView.Adapter<NewScheduleAdapter.
                     return false;
                 }
             });
+            innerRecycler.setNestedScrollingEnabled(false);
 
             adapter = new NewDayClassAdapter(new ArrayList<>());
             innerRecycler.setAdapter(adapter);
