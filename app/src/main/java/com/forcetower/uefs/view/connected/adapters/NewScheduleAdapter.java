@@ -14,6 +14,8 @@ import com.forcetower.uefs.db.entity.DisciplineClassLocation;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -69,6 +71,9 @@ public class NewScheduleAdapter extends RecyclerView.Adapter<NewScheduleAdapter.
     private void createMap() {
         Hashtable<String, List<InnerLocation>> mapping = new Hashtable<>();
         List<ClassTime> times = new ArrayList<>();
+        HashMap<String, Integer> codesColors = new HashMap<>();
+        int indexer = 0;
+
         for (DisciplineClassLocation location : locations) {
             //mapping default
             String day = location.getDay();
@@ -84,8 +89,13 @@ public class NewScheduleAdapter extends RecyclerView.Adapter<NewScheduleAdapter.
             String end = location.getEndTime();
             ClassTime time = new ClassTime(start, end);
 
+            //codes default
+            if (!codesColors.containsKey(location.getClassCode()))
+                codesColors.put(location.getClassCode(), indexer++);
+
             //add stuff
-            classes.add(new InnerLocation(location, time));
+            int color = codesColors.get(location.getClassCode());
+            classes.add(new InnerLocation(location, time, color));
             mapping.put(day, classes);
             if (!times.contains(time)) times.add(time);
         }
@@ -119,8 +129,9 @@ public class NewScheduleAdapter extends RecyclerView.Adapter<NewScheduleAdapter.
                     //noinspection SuspiciousMethodCalls
                     int index = classes.indexOf(time);
                     if (index == -1) {
-                        fullDay.add(new InnerLocation(null, time));
+                        fullDay.add(new InnerLocation(null, time, 0));
                     } else {
+
                         fullDay.add(classes.get(index));
                     }
                 }
@@ -166,13 +177,15 @@ public class NewScheduleAdapter extends RecyclerView.Adapter<NewScheduleAdapter.
         DisciplineClassLocation location;
         ClassTime time;
         String day;
+        int colorIndex;
         boolean header = false;
         boolean timeRow = false;
         boolean nothing = false;
 
-        InnerLocation(DisciplineClassLocation location, ClassTime time) {
+        InnerLocation(DisciplineClassLocation location, ClassTime time, int colorIndex) {
             this.location = location;
             this.time = time;
+            this.colorIndex = colorIndex;
         }
 
         InnerLocation(String header) {

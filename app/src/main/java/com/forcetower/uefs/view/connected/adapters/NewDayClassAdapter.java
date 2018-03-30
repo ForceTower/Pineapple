@@ -1,10 +1,12 @@
 package com.forcetower.uefs.view.connected.adapters;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.forcetower.uefs.R;
@@ -109,19 +111,24 @@ public class NewDayClassAdapter extends RecyclerView.Adapter {
     }
 
     static class ClassHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.ll_container)
+        LinearLayout container;
         @BindView(R.id.tv_code)
         TextView classCode;
         @BindView(R.id.tv_group)
         TextView classGroup;
+        int colors[];
 
         ClassHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            colors = itemView.getContext().getResources().getIntArray(R.array.discipline_colors);
         }
 
         void bind(NewScheduleAdapter.InnerLocation location) {
             classCode.setText(location.location.getClassCode());
             classGroup.setText(location.location.getClassGroup());
+            container.setBackgroundColor(colors[location.colorIndex % colors.length]);
         }
     }
 
