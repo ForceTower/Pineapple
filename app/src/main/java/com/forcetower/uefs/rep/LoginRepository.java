@@ -3,11 +3,13 @@ package com.forcetower.uefs.rep;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.WorkerThread;
 
 import com.forcetower.uefs.AppExecutors;
+import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.AppDatabase;
 import com.forcetower.uefs.db.dao.AccessDao;
@@ -50,6 +52,7 @@ import com.franmontiel.persistentcookiejar.ClearableCookieJar;
 
 import org.jsoup.nodes.Document;
 
+import java.io.File;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -81,13 +84,16 @@ public class LoginRepository {
     private final AppDatabase database;
     private final OkHttpClient client;
     private final ClearableCookieJar cookieJar;
+    private final Context context;
 
     @Inject
-    LoginRepository (AppExecutors executors, AppDatabase database, OkHttpClient client, ClearableCookieJar cookieJar) {
+    LoginRepository (AppExecutors executors, AppDatabase database, OkHttpClient client,
+                     ClearableCookieJar cookieJar, Context context) {
         this.executors = executors;
         this.database = database;
         this.client = client;
         this.cookieJar = cookieJar;
+        this.context = context;
     }
 
     public LiveData<Resource<Integer>> login(String username, String password) {
@@ -636,6 +642,8 @@ public class LoginRepository {
         executors.diskIO().execute(() -> {
             deleteDatabase();
             Timber.d("%s", database.gradeInfoDao().getGradesFromSectionDirect(1));
+            File downloadedFile = new File(context.getCacheDir(), Constants.ENROLLMENT_CERTIFICATE_FILE_NAME);
+            if (downloadedFile.exists()) downloadedFile.delete();
             logout.postValue(Resource.success(R.string.data_deleted));
         });
 

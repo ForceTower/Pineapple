@@ -24,7 +24,7 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recycler_view"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
                     android:paddingBottom="8dp"
                     android:clipToPadding="false">
@@ -34,8 +34,7 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_schedule_subtitle"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="4dp"
+                android:layout_height="wrap_content"
                 android:gravity="center"
                 android:paddingBottom="8dp"
                 android:clipToPadding="false">
