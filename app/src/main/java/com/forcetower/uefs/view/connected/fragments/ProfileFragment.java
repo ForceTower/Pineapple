@@ -141,7 +141,7 @@ public class ProfileFragment extends Fragment implements Injectable {
     private void enablePrivateContent() {
         cvUpdateControl.setVisibility(View.VISIBLE);
         cvGoodBarrel.setVisibility(View.VISIBLE);
-        cvBigTray.setVisibility(View.VISIBLE);
+        cvBigTray.setOnClickListener(v -> controller.navigateToBigTray());
     }
 
     private void onReceiveProfile(Profile profile) {

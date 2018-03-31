@@ -125,9 +125,9 @@
             android:paddingBottom="16dp"
             android:clipToPadding="false">
 
-            <include layout="@layout/card_calendar_option"/>
-            <include layout="@layout/card_enrollment_download"/>
-            <include android:visibility="gone" tools:visibility="visible" layout="@layout/card_big_tray"/>
+            <include android:visibility="visible" layout="@layout/card_calendar_option"/>
+            <include android:visibility="visible" layout="@layout/card_enrollment_download"/>
+            <include android:visibility="visible" layout="@layout/card_big_tray"/>
             <include android:visibility="gone" tools:visibility="visible" layout="@layout/card_update_control"/>
             <include android:visibility="gone" tools:visibility="visible" layout="@layout/card_good_barrel"/>
 
