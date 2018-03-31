@@ -28,35 +28,15 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="4dp"/>
-
-            <!-- About -->
+            <View android:layout_width="match_parent" android:layout_height="4dp"/>
             <include layout="@layout/card_about_me"/>
-
-            <!-- Disclaimer -->
             <include layout="@layout/card_about_disclaimer"/>
-
-            <!-- Features -->
             <include layout="@layout/card_about_features"/>
-
-            <!-- Notifications -->
             <include layout="@layout/card_about_notifications"/>
-
-            <!-- Privacy -->
             <include layout="@layout/card_about_privacy"/>
-
-            <!-- Exit -->
             <include layout="@layout/card_about_exit"/>
-
-            <!-- Bugs -->
             <include layout="@layout/card_about_bugs"/>
-
-            <!-- Enjoy! -->
             <include layout="@layout/card_about_enjoy"/>
-
-            <!-- Credits! -->
             <include layout="@layout/card_about_credits"/>
 
             <Button
@@ -64,7 +44,7 @@
                 android:onClick="thirdParty"
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
-                android:layout_margin="16dp"
+                android:layout_margin="8dp"
                 android:background="@color/colorAccent"
                 android:textColor="@color/white"
                 android:text="@string/btn_third_party_licenses"
