@@ -1,8 +1,14 @@
 package com.forcetower.uefs.util;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.widget.Toast;
+
+import com.forcetower.uefs.R;
 
 import timber.log.Timber;
 
@@ -36,8 +42,25 @@ public class NetworkUtils {
                 if (ni.isConnected())
                     return true;
 
-
-
         return false;
+    }
+
+    public static void openLink(Context context, String url) {
+        if (url == null) return;
+
+        if (!url.startsWith("http://")
+                && !url.startsWith("HTTP://")
+                && !url.startsWith("HTTPS://")
+                && !url.startsWith("https://")) {
+            url = "http://" + url;
+        }
+
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(url));
+            context.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(context, R.string.cant_open_link, Toast.LENGTH_SHORT).show();
+        }
     }
 }

@@ -29,14 +29,15 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
         this.messages = messages;
     }
 
+    @NonNull
     @Override
-    public MessageHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MessageHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_message, parent, false);
         return new MessageHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(MessageHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MessageHolder holder, int position) {
         holder.bind(messages.get(position));
     }
 

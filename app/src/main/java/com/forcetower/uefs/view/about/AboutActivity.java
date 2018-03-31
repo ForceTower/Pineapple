@@ -30,6 +30,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
+import static com.forcetower.uefs.util.NetworkUtils.openLink;
 import static com.forcetower.uefs.util.WordUtils.validString;
 
 public class AboutActivity extends UBaseActivity {
@@ -74,8 +75,8 @@ public class AboutActivity extends UBaseActivity {
         versionInfo.setText(getString(R.string.creator, version));
 
         setupCreditsRecycler();
-        cvAboutMe.setOnClickListener(view -> openLink("https://github.com/ForceTower/UEFS_Sagres_App"));
-        cvEnjoy.setOnClickListener(view -> openLink("https://facebook.com/ForceTower"));
+        cvAboutMe.setOnClickListener(view -> openLink(this, "https://github.com/ForceTower/UEFS_Sagres_App"));
+        cvEnjoy.setOnClickListener(view -> openLink(this, "https://facebook.com/ForceTower"));
     }
 
     private void setupCreditsRecycler() {
@@ -83,7 +84,7 @@ public class AboutActivity extends UBaseActivity {
 
         creditsAdapter = new CreditsAdapter(mentions);
         creditsAdapter.setOnMentionClickListener(mention -> {
-            if (validString(mention.getLink())) openLink(mention.getLink());
+            if (validString(mention.getLink())) openLink(this, mention.getLink());
         });
         rvCredits.setLayoutManager(new LinearLayoutManager(this));
         rvCredits.setAdapter(creditsAdapter);
@@ -106,24 +107,5 @@ public class AboutActivity extends UBaseActivity {
                 .withAboutIconShown(true)
                 .withAboutVersionShown(true)
                 .start(this);
-    }
-
-    private void openLink(String url) {
-        if (url == null) return;
-
-        if (!url.startsWith("http://")
-                && !url.startsWith("HTTP://")
-                && !url.startsWith("HTTPS://")
-                && !url.startsWith("https://")) {
-            url = "http://" + url;
-        }
-
-        try {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse(url));
-            startActivity(intent);
-        } catch (ActivityNotFoundException e) {
-            Toast.makeText(this, R.string.cant_open_link, Toast.LENGTH_SHORT).show();
-        }
     }
 }
