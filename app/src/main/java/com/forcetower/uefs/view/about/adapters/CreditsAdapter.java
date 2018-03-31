@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.CreditsMention;
+import com.forcetower.uefs.view.about.CreditClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ import butterknife.ButterKnife;
 public class CreditsAdapter extends RecyclerView.Adapter<CreditsAdapter.MentionHolder> {
     private final List<CreditsMention> mentions;
     private final RecyclerView.RecycledViewPool pool;
+    private CreditClickListener onMentionClickListener;
 
     public CreditsAdapter(List<CreditsMention> mentions) {
         this.pool = new RecyclerView.RecycledViewPool();
@@ -54,7 +56,11 @@ public class CreditsAdapter extends RecyclerView.Adapter<CreditsAdapter.MentionH
         return mentions.size();
     }
 
-    static class MentionHolder extends RecyclerView.ViewHolder {
+    public void setOnMentionClickListener(CreditClickListener onMentionClickListener) {
+        this.onMentionClickListener = onMentionClickListener;
+    }
+
+    class MentionHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_category_name)
         TextView tvCategoryName;
         @BindView(R.id.rv_mentions)
@@ -66,6 +72,7 @@ public class CreditsAdapter extends RecyclerView.Adapter<CreditsAdapter.MentionH
             super(itemView);
             ButterKnife.bind(this, itemView);
             adapter = new MentionsAdapter(new ArrayList<>());
+            adapter.setOnMentionClickListener(onMentionClickListener);
             rvMentions.setLayoutManager(new LinearLayoutManager(itemView.getContext()));
             rvMentions.setAdapter(adapter);
         }

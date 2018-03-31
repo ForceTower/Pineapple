@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.Mention;
+import com.forcetower.uefs.view.about.CreditClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ import static com.forcetower.uefs.util.WordUtils.validString;
 
 public class MentionsAdapter extends RecyclerView.Adapter<MentionsAdapter.MentionHolder> {
     private final List<Mention> participants;
+    private CreditClickListener onMentionClickListener;
 
     public MentionsAdapter(ArrayList<Mention> participants) {
         this.participants = new ArrayList<>();
@@ -49,7 +51,11 @@ public class MentionsAdapter extends RecyclerView.Adapter<MentionsAdapter.Mentio
         notifyDataSetChanged();
     }
 
-    static class MentionHolder extends RecyclerView.ViewHolder {
+    public void setOnMentionClickListener(CreditClickListener onMentionClickListener) {
+        this.onMentionClickListener = onMentionClickListener;
+    }
+
+    class MentionHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_name)
         TextView tvName;
         @BindView(R.id.tv_link)
@@ -58,6 +64,7 @@ public class MentionsAdapter extends RecyclerView.Adapter<MentionsAdapter.Mentio
         MentionHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(view -> onClicked());
         }
 
         public void bind(Mention mention) {
@@ -66,6 +73,13 @@ public class MentionsAdapter extends RecyclerView.Adapter<MentionsAdapter.Mentio
                 tvLink.setText(mention.getLink());
             else
                 tvLink.setVisibility(View.GONE);
+        }
+
+        private void onClicked() {
+            if (onMentionClickListener != null) {
+                int position = getAdapterPosition();
+                onMentionClickListener.onMentionClicked(participants.get(position));
+            }
         }
     }
 }

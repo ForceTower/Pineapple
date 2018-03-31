@@ -10,7 +10,6 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         app:contentInsetStart="72dp"
-        android:minHeight="?attr/actionBarSize"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:fitsSystemWindows="true"
@@ -30,9 +29,9 @@
 
             <View android:layout_width="match_parent" android:layout_height="4dp"/>
             <include layout="@layout/card_about_me"/>
-            <include layout="@layout/card_about_disclaimer"/>
             <include layout="@layout/card_about_features"/>
             <include layout="@layout/card_about_notifications"/>
+            <include layout="@layout/card_about_disclaimer"/>
             <include layout="@layout/card_about_privacy"/>
             <include layout="@layout/card_about_exit"/>
             <include layout="@layout/card_about_bugs"/>

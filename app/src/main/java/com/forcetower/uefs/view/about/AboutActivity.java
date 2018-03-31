@@ -1,10 +1,12 @@
 package com.forcetower.uefs.view.about;
 
 import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.CreditsMention;
@@ -25,6 +28,8 @@ import com.mikepenz.aboutlibraries.LibsBuilder;
 import java.util.List;
 
 import butterknife.BindView;
+
+import static com.forcetower.uefs.util.WordUtils.validString;
 
 public class AboutActivity extends UBaseActivity {
     @BindView(R.id.version_info)
@@ -70,6 +75,9 @@ public class AboutActivity extends UBaseActivity {
         List<CreditsMention> mentions = MockUtils.getCredits();
 
         creditsAdapter = new CreditsAdapter(mentions);
+        creditsAdapter.setOnMentionClickListener(mention -> {
+            if (validString(mention.getLink())) openLink(mention.getLink());
+        });
         rvCredits.setLayoutManager(new LinearLayoutManager(this));
         rvCredits.setAdapter(creditsAdapter);
         rvCredits.setNestedScrollingEnabled(false);
@@ -91,5 +99,24 @@ public class AboutActivity extends UBaseActivity {
                 .withAboutIconShown(true)
                 .withAboutVersionShown(true)
                 .start(this);
+    }
+
+    private void openLink(String url) {
+        if (url == null) return;
+
+        if (!url.startsWith("http://")
+                && !url.startsWith("HTTP://")
+                && !url.startsWith("HTTPS://")
+                && !url.startsWith("https://")) {
+            url = "http://" + url;
+        }
+
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(url));
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(this, R.string.cant_open_link, Toast.LENGTH_SHORT).show();
+        }
     }
 }

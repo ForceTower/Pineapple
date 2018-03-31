@@ -13,11 +13,10 @@
         tools:text="Nome do aplicativo"
         android:textSize="14sp"
         android:textColor="@color/primaryText"
-        android:fontFamily="@font/roboto_regular"/>
+        android:fontFamily="@font/roboto_medium"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_mentions"
-        android:layout_marginTop="4dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginEnd="8dp"
@@ -25,7 +24,7 @@
         android:layout_below="@id/tv_category_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="4dp"
+        android:paddingBottom="8dp"
         android:clipToPadding="false">
     </android.support.v7.widget.RecyclerView>
 
