@@ -106,7 +106,7 @@ public class ProfileFragment extends Fragment implements Injectable {
         cvCalendar.setOnClickListener(v -> controller.navigateToCalendar());
         cvUpdateControl.setOnClickListener(v -> goToUpdateControl());
         cvGoodBarrel.setOnClickListener(v -> goToBarrel());
-        cvBigTray.setOnClickListener(v -> controller.navigateToBigTray());
+        cvBigTray.setOnClickListener(v -> openLink("https://bit.ly/bandejaouefs"));
         cvEnrollmentCertificate.setOnClickListener(v -> openPDF(true));
         btnDownloadEnrollCert.setOnClickListener(v -> certificateDownload());
 
@@ -259,5 +259,24 @@ public class ProfileFragment extends Fragment implements Injectable {
 
         downloadsViewModel.triggerDownloadCertificate();
         Toast.makeText(getContext(), R.string.wait_until_download_finishes, Toast.LENGTH_SHORT).show();
+    }
+
+    private void openLink(String url) {
+        if (url == null) return;
+
+        if (!url.startsWith("http://")
+                && !url.startsWith("HTTP://")
+                && !url.startsWith("HTTPS://")
+                && !url.startsWith("https://")) {
+            url = "http://" + url;
+        }
+
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(url));
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(getContext(), R.string.cant_open_link, Toast.LENGTH_SHORT).show();
+        }
     }
 }
