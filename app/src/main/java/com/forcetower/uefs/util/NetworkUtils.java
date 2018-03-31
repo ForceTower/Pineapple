@@ -51,7 +51,8 @@ public class NetworkUtils {
         if (!url.startsWith("http://")
                 && !url.startsWith("HTTP://")
                 && !url.startsWith("HTTPS://")
-                && !url.startsWith("https://")) {
+                && !url.startsWith("https://")
+                && !url.contains("//")) {
             url = "http://" + url;
         }
 
