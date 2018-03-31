@@ -84,11 +84,8 @@ public class BigTrayFragment extends Fragment implements Injectable {
     }
 
     private void updateInterface(RUData data) {
-        if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED) && getActivity() != null) {
+        if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED) && getActivity() != null)
             bindData(data);
-        } else {
-            Timber.d("Not on a valid lifecycle state");
-        }
     }
 
     @UiThread

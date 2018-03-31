@@ -1,7 +1,10 @@
 package com.forcetower.uefs.ru;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
 import java.util.List;
 
+@IgnoreExtraProperties
 @SuppressWarnings("SpellCheckingInspection")
 public class RUData {
     private String time;
