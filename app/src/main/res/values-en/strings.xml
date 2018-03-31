@@ -239,4 +239,20 @@
     <string name="new_schedule_layout_disabled">I prefer the old schedule</string>
     <string name="new_schedule_layout_enabled">I prefer the new schedule</string>
     <string name="changes_apply_after_restart">The changes will be applied when you reopen the schedule</string>
+
+    <string name="title_big_tray">University Restaurant</string>
+    <string name="title_big_tray_desc">Checkout the partial meals</string>
+    <string name="ru_coffee">Breakfast</string>
+    <string name="ru_lunch">Lunch</string>
+    <string name="ru_dinner">Dinner</string>
+    <string name="the_big_tray_is_open">The University Restaurant is open!</string>
+    <string name="the_big_tray_is_closed">The University Restaurant is closed</string>
+    <string name="ru_meal_name_partial">Partial %1$s</string>
+    <string name="contribute">Contribute</string>
+    <string name="feedback">Feedback</string>
+    <string name="ru_feedback_desc">What do you think about BandejaoUEFS?</string>
+    <string name="ru_contribute_desc">Help the system get better</string>
+    <string name="ru_last_update">Last update: %1$s</string>
+    <string name="ru_loading">Loading...</string>
+    <string name="ru_owners">This feature comes from bit.ly/bandejaouefs</string>
 </resources>

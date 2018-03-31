@@ -88,6 +88,15 @@
                 android:textColor="@color/primaryText"
                 android:fontFamily="@font/roboto_regular"
                 android:padding="8dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ru_owners"
+                android:gravity="center"
+                android:textColor="@color/primaryText"
+                android:fontFamily="@font/roboto_regular"
+                android:padding="8dp"/>
         </LinearLayout>
     </ScrollView>
 
