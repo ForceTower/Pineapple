@@ -75,6 +75,8 @@ public class ProfileFragment extends Fragment implements Injectable {
     CardView cvUpdateControl;
     @BindView(R.id.cv_good_barrel)
     CardView cvGoodBarrel;
+    @BindView(R.id.cv_big_tray)
+    CardView cvBigTray;
     @BindView(R.id.btn_download_enrollment_cert)
     ImageButton btnDownloadEnrollCert;
     @BindView(R.id.pb_download_enrollment_cert)
@@ -104,13 +106,11 @@ public class ProfileFragment extends Fragment implements Injectable {
         cvCalendar.setOnClickListener(v -> controller.navigateToCalendar());
         cvUpdateControl.setOnClickListener(v -> goToUpdateControl());
         cvGoodBarrel.setOnClickListener(v -> goToBarrel());
+        cvBigTray.setOnClickListener(v -> controller.navigateToBigTray());
         cvEnrollmentCertificate.setOnClickListener(v -> openPDF(true));
         btnDownloadEnrollCert.setOnClickListener(v -> certificateDownload());
 
-        if (BuildConfig.DEBUG) {
-            cvUpdateControl.setVisibility(View.VISIBLE);
-            cvGoodBarrel.setVisibility(View.VISIBLE);
-        }
+        if (BuildConfig.DEBUG) enablePrivateContent();
 
         if (PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("show_score", false)) {
             tvStdScore.setVisibility(View.VISIBLE);
@@ -134,9 +134,14 @@ public class ProfileFragment extends Fragment implements Injectable {
         if (access == null) return;
 
         if (access.getUsername().equalsIgnoreCase("jpssena")) {
-            cvUpdateControl.setVisibility(View.VISIBLE);
-            cvGoodBarrel.setVisibility(View.VISIBLE);
+            enablePrivateContent();
         }
+    }
+
+    private void enablePrivateContent() {
+        cvUpdateControl.setVisibility(View.VISIBLE);
+        cvGoodBarrel.setVisibility(View.VISIBLE);
+        cvBigTray.setVisibility(View.VISIBLE);
     }
 
     private void onReceiveProfile(Profile profile) {

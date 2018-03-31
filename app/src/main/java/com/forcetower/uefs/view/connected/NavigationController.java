@@ -13,5 +13,6 @@ public interface NavigationController {
     void navigateToDisciplines();
     void navigateToMore();
     void navigateToCalendar();
+    void navigateToBigTray();
     TabLayout getTabLayout();
 }

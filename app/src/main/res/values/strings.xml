@@ -243,4 +243,6 @@
 
     <string name="account_type" translatable="false">com.forcetower.uefs.sync</string>
     <string name="authority" translatable="false">com.forcetower.uefs.provider</string>
+    <string name="title_big_tray">Bandejão</string>
+    <string name="title_big_tray_desc">Veja a cota do bandejão</string>
 </resources>

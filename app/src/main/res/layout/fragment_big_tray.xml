@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:locale="pt">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp">
+
+        <TextView
+            android:id="@+id/tv_ru_state"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="O bandejão está aberto!"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@color/primaryText"
+            android:fontFamily="@font/roboto_regular"
+            android:padding="8dp"/>
+
+        <TextView
+            android:id="@+id/tv_ru_meal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Almoço Parcial"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:textColor="@color/primaryText"
+            android:fontFamily="@font/roboto_medium"
+            android:padding="8dp"/>
+
+        <TextView
+            android:id="@+id/tv_ru_amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="1345"
+            android:gravity="center"
+            android:textSize="45sp"
+            android:textColor="@android:color/holo_red_light"
+            android:fontFamily="@font/roboto_bold"
+            android:padding="16dp"/>
+
+        <TextView
+            android:id="@+id/tv_ru_meal_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Almoço: 11h30min às 14h00min"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@color/primaryText"
+            android:fontFamily="@font/roboto_regular"
+            android:padding="8dp"/>
+
+        <TextView
+            android:id="@+id/tv_ru_meal_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="R$ 1,00"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@color/primaryText"
+            android:fontFamily="@font/roboto_regular"
+            android:padding="8dp"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:layout_marginTop="16dp"
+            android:baselineAligned="false">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btn_contribute"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_margin="16dp"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    tools:text="Contribua"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="Melhore a exatidão do sistema"
+                    android:gravity="center"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btn_feedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_margin="16dp"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    tools:text="Feedback"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="O que você acha do BandejãoUEFS"
+                    android:gravity="center"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_ru_last_update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Última atualização: 31/03/2018 12:38:38"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textColor="@color/secondaryText"
+            android:fontFamily="@font/roboto_regular"
+            android:layout_marginTop="24dp"
+            android:padding="8dp"/>
+
+    </LinearLayout>
+
+</ScrollView>

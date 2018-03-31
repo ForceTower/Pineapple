@@ -40,6 +40,7 @@ import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.UBaseActivity;
 import com.forcetower.uefs.view.connected.fragments.AllSemestersGradeFragment;
 import com.forcetower.uefs.view.connected.fragments.AutoSyncFragment;
+import com.forcetower.uefs.view.connected.fragments.BigTrayFragment;
 import com.forcetower.uefs.view.connected.fragments.CalendarFragment;
 import com.forcetower.uefs.view.connected.fragments.DisciplinesFragment;
 import com.forcetower.uefs.view.connected.fragments.MessagesFragment;
@@ -381,6 +382,13 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
         changeTitle(R.string.title_calendar);
         setTabShowing(false);
         changeFragment(new CalendarFragment());
+    }
+
+    @Override
+    public void navigateToBigTray() {
+        changeTitle(R.string.title_big_tray);
+        setTabShowing(false);
+        changeFragment(new BigTrayFragment());
     }
 
     private void changeFragment(@NonNull Fragment fragment) {
