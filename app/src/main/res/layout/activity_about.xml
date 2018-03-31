@@ -28,237 +28,36 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- About -->
-            <TextView
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="16dp"
-                android:textSize="16sp"
-                android:text="@string/about_app_presentation_title"/>
+                android:layout_height="4dp"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/roboto_regular"
-                android:text="@string/about_app_presentation"
-                android:textColor="@color/primaryText"
-                android:textSize="14sp"/>
+            <!-- About -->
+            <include layout="@layout/card_about_me"/>
 
             <!-- Disclaimer -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="16dp"
-                android:textSize="16sp"
-                android:text="@string/about_app_disclaimer_title"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/roboto_bold"
-                android:text="@string/about_app_disclaimer"
-                android:textColor="@color/primaryText"
-                android:textSize="14sp"/>
+            <include layout="@layout/card_about_disclaimer"/>
 
             <!-- Features -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="16dp"
-                android:textSize="16sp"
-                android:text="@string/about_app_features_title"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/roboto_regular"
-                android:text="@string/about_app_features"
-                android:textColor="@color/primaryText"
-                android:textSize="14sp"/>
+            <include layout="@layout/card_about_features"/>
 
             <!-- Notifications -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="16dp"
-                android:textSize="16sp"
-                android:text="@string/about_app_notifications_title"/>
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/roboto_bold"
-                android:text="@string/about_app_notifications"
-                android:textColor="@color/primaryText"
-                android:textSize="14sp"/>
+            <include layout="@layout/card_about_notifications"/>
 
             <!-- Privacy -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="16dp"
-                android:textSize="16sp"
-                android:text="@string/about_app_privacy_title"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/roboto_regular"
-                android:text="@string/about_app_privacy"
-                android:textColor="@color/primaryText"
-                android:textSize="14sp"/>
+            <include layout="@layout/card_about_privacy"/>
 
             <!-- Exit -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="16dp"
-                android:textSize="16sp"
-                android:text="@string/about_app_exit_title"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/roboto_regular"
-                android:text="@string/about_app_exit"
-                android:textColor="@color/primaryText"
-                android:textSize="14sp"/>
+            <include layout="@layout/card_about_exit"/>
 
             <!-- Bugs -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="16dp"
-                android:textSize="16sp"
-                android:text="@string/about_app_bugs_title"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/roboto_regular"
-                android:text="@string/about_app_bugs"
-                android:textColor="@color/primaryText"
-                android:textSize="14sp"/>
+            <include layout="@layout/card_about_bugs"/>
 
             <!-- Enjoy! -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="16dp"
-                android:textSize="16sp"
-                android:text="@string/about_app_enjoy"/>
-
-            <TextView
-                android:id="@+id/version_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="20dp"
-                android:textColor="@color/primaryText"
-                android:textSize="14sp"
-                android:text="@string/creator"/>
+            <include layout="@layout/card_about_enjoy"/>
 
             <!-- Credits! -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="16dp"
-                android:textSize="16sp"
-                android:text="@string/credits"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="20dp"
-                android:textColor="@color/primaryText"
-                android:textSize="14sp"
-                android:text="@string/credits_string"/>
+            <include layout="@layout/card_about_credits"/>
 
             <Button
                 android:id="@+id/third_party_licenses"
