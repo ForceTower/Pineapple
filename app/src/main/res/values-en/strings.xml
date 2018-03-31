@@ -255,4 +255,6 @@
     <string name="ru_last_update">Last update: %1$s</string>
     <string name="ru_loading">Loading...</string>
     <string name="ru_owners">This feature comes from bit.ly/bandejaouefs</string>
+
+    <string name="ru_amount_format">%1$d</string>
 </resources>

@@ -105,7 +105,7 @@ public class BigTrayFragment extends Fragment implements Injectable {
             tvRuState.setText(R.string.the_big_tray_is_open);
             tvRuMeal.setText(getString(R.string.ru_meal_name_partial, RUtils.getNextMeal(requireActivity(), mealType)));
             tvRuAmount.setVisibility(View.VISIBLE);
-            tvRuAmount.setText(amount);
+            tvRuAmount.setText(getString(R.string.ru_amount_format, amount));
             tvRuMealTime.setText(RUtils.getNextMealTime(calendar));
             tvRuPrice.setVisibility(View.VISIBLE);
             tvRuPrice.setText(RUtils.getPrice(mealType, amount));
