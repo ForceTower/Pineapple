@@ -84,8 +84,6 @@ public class RefreshBroadcastReceiver extends BroadcastReceiver {
                 }
             });
         });
-
-
     }
 
     private boolean initialVerifications() {
