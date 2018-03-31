@@ -2,6 +2,7 @@ package com.forcetower.uefs.view.connected.fragments;
 
 import android.arch.lifecycle.Lifecycle;
 import android.os.Bundle;
+import android.support.annotation.AnyThread;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,6 +20,7 @@ import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.ru.RUData;
 import com.forcetower.uefs.ru.RUFirebase;
 import com.forcetower.uefs.ru.RUtils;
+import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.util.DateUtils;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -83,7 +85,7 @@ public class BigTrayFragment extends Fragment implements Injectable {
 
     private void updateInterface(RUData data) {
         if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED) && getActivity() != null) {
-            getActivity().runOnUiThread(() -> bindData(data));
+            bindData(data);
         } else {
             Timber.d("Not on a valid lifecycle state");
         }
@@ -91,9 +93,10 @@ public class BigTrayFragment extends Fragment implements Injectable {
 
     @UiThread
     private void bindData(RUData data) {
-        tvLoading.setVisibility(View.GONE);
-        llBtns.setVisibility(View.VISIBLE);
-        svRUContent.setVisibility(View.VISIBLE);
+        AnimUtils.fadeOutGone(requireContext(), tvLoading);
+        AnimUtils.fadeIn(requireContext(), llBtns);
+        AnimUtils.fadeIn(requireContext(), svRUContent);
+
         boolean open = data.isAberto();
         Integer amount = Integer.parseInt(data.getCotas().get(0));
         String time = data.getTime();
