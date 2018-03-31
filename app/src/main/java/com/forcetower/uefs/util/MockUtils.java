@@ -40,11 +40,12 @@ public class MockUtils {
 
         Mention lokisley = new Mention("Lokisley Oliveira", "https://www.facebook.com/Lokisley");
         Mention teixeira = new Mention("Matheus Teixeira", "https://www.facebook.com/teixeirista");
+        Mention kuchuki  = new Mention("Marcus \"Kuchuki\" Soares", "https://www.facebook.com/marcus.aldrey");
 
         Mention bandejao = new Mention("Fonte dos Dados", "http://bit.ly/bandejaouefs");
 
         mentions.add(new CreditsMention("Ícone do Aplicativo", Collections.singletonList(lokisley)));
-        mentions.add(new CreditsMention("Nome do Aplicativo", Arrays.asList(teixeira, lokisley)));
+        mentions.add(new CreditsMention("Nome do Aplicativo", Arrays.asList(teixeira, lokisley, kuchuki)));
         mentions.add(new CreditsMention("Bandejão UEFS", Collections.singletonList(bandejao)));
 
         return mentions;
