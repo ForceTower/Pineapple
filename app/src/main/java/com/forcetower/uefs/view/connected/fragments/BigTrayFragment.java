@@ -95,7 +95,8 @@ public class BigTrayFragment extends Fragment implements Injectable {
         AnimUtils.fadeIn(requireContext(), svRUContent);
 
         boolean open = data.isAberto();
-        Integer amount = Integer.parseInt(data.getCotas().get(0));
+        Integer amount = 0;
+        try { amount = Integer.parseInt(data.getCotas().get(0)); } catch (Exception ignored) {}
         String time = data.getTime();
         Calendar calendar = RUtils.convertTime(time);
         int mealType = RUtils.getNextMealType(calendar);
