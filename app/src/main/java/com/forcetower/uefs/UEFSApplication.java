@@ -45,35 +45,12 @@ public class UEFSApplication extends Application implements HasActivityInjector,
         }
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-
-        localeConfiguration();
-
         AppInjector.init(this);
 
         configureFeatures();
 
         Picasso.Builder builder = new Picasso.Builder(this);
         Picasso.setSingletonInstance(builder.build());
-    }
-
-    private void localeConfiguration() {
-        Locale current;
-        if (VersionUtils.isNougat()) {
-            current = getResources().getConfiguration().getLocales().get(0);
-        } else {
-            current = getResources().getConfiguration().locale;
-        }
-        Timber.d(current.getLanguage());
-        if (!current.getLanguage().equalsIgnoreCase("en") && !current.getLanguage().equalsIgnoreCase("pt")) {
-            Locale locale = new Locale("pt");
-            Locale.setDefault(locale);
-            Configuration config = new Configuration();
-            if (VersionUtils.isNougat())
-                config.setLocale(locale);
-            else
-                config.locale = locale;
-            getResources().updateConfiguration(config, null);
-        }
     }
 
     private void configureFeatures() {
