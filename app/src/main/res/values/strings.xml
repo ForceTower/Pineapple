@@ -245,4 +245,10 @@
     <string name="authority" translatable="false">com.forcetower.uefs.provider</string>
     <string name="title_big_tray">Bandejão</string>
     <string name="title_big_tray_desc">Veja a cota do bandejão</string>
+    <string name="ru_coffee">Café da Manhã</string>
+    <string name="ru_lunch">Almoço</string>
+    <string name="ru_dinner">Jantar</string>
+    <string name="the_big_tray_is_open">O bandejão está aberto!</string>
+    <string name="the_big_tray_is_closed">O bandejão está fechado</string>
+    <string name="ru_meal_name_partial">%1$s Parcial</string>
 </resources>

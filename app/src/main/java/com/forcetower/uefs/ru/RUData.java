@@ -6,7 +6,7 @@ import java.util.List;
 public class RUData {
     private String time;
     private boolean aberto;
-    private List<Integer> cotas;
+    private List<String> cotas;
 
     public RUData() {}
 
@@ -26,11 +26,11 @@ public class RUData {
         this.aberto = aberto;
     }
 
-    public List<Integer> getCotas() {
+    public List<String> getCotas() {
         return cotas;
     }
 
-    public void setCotas(List<Integer> cotas) {
+    public void setCotas(List<String> cotas) {
         this.cotas = cotas;
     }
 }
