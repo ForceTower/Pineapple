@@ -138,7 +138,7 @@
     <string name="suggestions">Suggestions</string>
     <string name="about_app_title">About App</string>
 
-    <string name="creator">Created by João Paulo [facebook.com/ForceTower]\n[github.com/ForceTower]\nVersion: %1$s</string>
+    <string name="creator">Created by João Paulo Sena\n\nThis is my Facebook, you can message me there, i\'ll read it [facebook.com/ForceTower]\n\nAnd this is my GitHub where I often post codes [github.com/ForceTower]\nVersion: %1$s</string>
     <string name="about_app_bugs_title">Bugs</string>
     <string name="about_app_exit_title">Exit</string>
     <string name="about_app_notifications_title">Notifications</string>
@@ -146,10 +146,10 @@
     <string name="about_app_privacy_title">Privacy</string>
     <string name="about_app_disclaimer_title">Disclaimer</string>
     <string name="about_app_presentation_title">About me</string>
-    <string name="about_app_enjoy">Enjoy :)</string>
-    <string name="about_app_presentation">Hi, I am João Paulo, student of Computer Engineering\nThis is UNES - UNES Não É Sagres, an app to help your student life :)\nThe source code of this app is available at github.com/ForceTower/UEFS_Sagres_App</string>
-    <string name="about_app_disclaimer">This app is not endorsed nor licensed by TecnoTrends and has no connection with the enterprise that offers the Sagres to the university. The app was developed to help the day life of the students. It still has some bugs so don\'t trust your life on it just yet</string>
-    <string name="about_app_privacy">The information gathered by the app are only accessible by you. Your username and password are saved exclusively on YOUR SMARTPHONE(Or at your Google\'s account, in case your smartphone supports backup).</string>
+    <string name="about_app_enjoy">Developer</string>
+    <string name="about_app_presentation">Hi, I am João Paulo and I am student of Computer Engineering\nThis is UNES - UNES Não É Sagres, an app to help your student life :)\n\nI\'ve developed this app after noticing the need we have of something warning us when something new happens in Sagres.\n\nAs the purpose of this is to be an open app, the source code of this app is available at github.com/ForceTower/UEFS_Sagres_App</string>
+    <string name="about_app_disclaimer">This app is not endorsed nor licensed by TecnoTrends and has no connection with the enterprise that offers the Sagres to the university.\n\nThe app was developed to help the day life of the students.\n\nIt still has some bugs so don\'t trust your life on it just yet</string>
+    <string name="about_app_privacy">The information gathered by the app are only accessible by you. Your username and password are saved exclusively on YOUR SMARTPHONE</string>
     <string name="about_app_features">After the first login you will have access to you schedule, grades and messages. These data are stored on your smartphone, so even when you have no connection you\'ll still be able to read the data and when your connection returns it will update the data again. The app updates your information periodically and you can control the frequency this happens</string>
     <string name="about_app_notifications">You will receive a notification whenever someone posts a new Grade or a Message on the website (with some delay, based on the selected frequency)</string>
     <string name="about_app_exit">At any moment you can logout by clicking at Settings>Logoff, this action will erase all the saved data related to your Sagres account from the device. You can login again at any time and return receiving notifications.</string>
