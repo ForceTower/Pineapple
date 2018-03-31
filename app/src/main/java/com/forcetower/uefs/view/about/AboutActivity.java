@@ -8,6 +8,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -36,6 +37,10 @@ public class AboutActivity extends UBaseActivity {
     TextView versionInfo;
     @BindView(R.id.rv_credits)
     RecyclerView rvCredits;
+    @BindView(R.id.cv_about_me)
+    CardView cvAboutMe;
+    @BindView(R.id.cv_enjoy)
+    CardView cvEnjoy;
 
     @SuppressWarnings("FieldCanBeLocal")
     private CreditsAdapter creditsAdapter;
@@ -69,6 +74,8 @@ public class AboutActivity extends UBaseActivity {
         versionInfo.setText(getString(R.string.creator, version));
 
         setupCreditsRecycler();
+        cvAboutMe.setOnClickListener(view -> openLink("https://github.com/ForceTower/UEFS_Sagres_App"));
+        cvEnjoy.setOnClickListener(view -> openLink("https://facebook.com/ForceTower"));
     }
 
     private void setupCreditsRecycler() {

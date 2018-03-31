@@ -4,14 +4,17 @@ import android.app.Activity;
 import android.app.Application;
 import android.app.Service;
 import android.content.BroadcastReceiver;
+import android.content.res.Configuration;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.forcetower.uefs.di.AppInjector;
 import com.forcetower.uefs.ntf.NotificationHelper;
 import com.forcetower.uefs.sync.SyncConfiguration;
+import com.forcetower.uefs.util.VersionUtils;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -42,12 +45,35 @@ public class UEFSApplication extends Application implements HasActivityInjector,
         }
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+
+        localeConfiguration();
+
         AppInjector.init(this);
 
         configureFeatures();
 
         Picasso.Builder builder = new Picasso.Builder(this);
         Picasso.setSingletonInstance(builder.build());
+    }
+
+    private void localeConfiguration() {
+        Locale current;
+        if (VersionUtils.isNougat()) {
+            current = getResources().getConfiguration().getLocales().get(0);
+        } else {
+            current = getResources().getConfiguration().locale;
+        }
+        Timber.d(current.getLanguage());
+        if (!current.getLanguage().equalsIgnoreCase("en") && !current.getLanguage().equalsIgnoreCase("pt")) {
+            Locale locale = new Locale("pt");
+            Locale.setDefault(locale);
+            Configuration config = new Configuration();
+            if (VersionUtils.isNougat())
+                config.setLocale(locale);
+            else
+                config.locale = locale;
+            getResources().updateConfiguration(config, null);
+        }
     }
 
     private void configureFeatures() {

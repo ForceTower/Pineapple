@@ -42,7 +42,7 @@ public class MockUtils {
         Mention teixeira = new Mention("Matheus Teixeira", "https://www.facebook.com/teixeirista");
 
         mentions.add(new CreditsMention("Ícone do Aplicativo", Collections.singletonList(lokisley)));
-        mentions.add(new CreditsMention("Nome do Aplicativo", Arrays.asList(lokisley, teixeira)));
+        mentions.add(new CreditsMention("Nome do Aplicativo", Arrays.asList(teixeira, lokisley)));
 
         return mentions;
     }

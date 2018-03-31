@@ -139,7 +139,7 @@
     <string name="about_app_notifications">Você receberá uma notificação quando algum professor postar uma nota ou colocar um recado no portal.</string>
     <string name="about_app_exit">A qualquer momento, você pode se desconectar da sua conta clicando em Configurações>Sair, isso fará com que todos os dados relacionados à sua conta do Sagres no aplicativo sejam apagados, você voltará a receber notificações quando entrar novamente.</string>
     <string name="about_app_bugs">Depois de reescrever grande parte do código do aplicativo, acho que limpei todos os erros. Mas provavelmente deve ter alguns bugs escondidos por ai.\n\nSe encontrar algum me avise :v</string>
-    <string name="about_app_enjoy">Aproveite :)</string>
+    <string name="about_app_enjoy">Desenvolvedor</string>
     <string name="about_app_features_title">Funções e Benefícios</string>
     <string name="credits">Créditos</string>
     <string name="about_app_notifications_title">Notificações</string>
@@ -147,7 +147,7 @@
     <string name="about_app_presentation_title">Sobre mim</string>
     <string name="about_app_disclaimer_title">Aviso</string>
     <string name="about_app_privacy_title">Privacidade</string>
-    <string name="creator">Criado por João Paulo [facebook.com/ForceTower] [github.com/ForceTower]\nVersão: %1$s</string>
+    <string name="creator">Criado por João Paulo Sena\n\nEste é meu Facebook, pode me mandar mensagem lá, eu leio [facebook.com/ForceTower]\n\nEste é meu GitHub, onde coloco códigos legais [github.com/ForceTower]\n\nVersão do Aplicativo: %1$s</string>
     <string name="about_app_bugs_title">Bugs</string>
 
     <string name="class_details_credits">Carga horária: %1$d horas</string>
