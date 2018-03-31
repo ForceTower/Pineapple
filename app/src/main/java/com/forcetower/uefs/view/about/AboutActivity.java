@@ -6,22 +6,34 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.db.entity.CreditsMention;
+import com.forcetower.uefs.util.MockUtils;
 import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.UBaseActivity;
+import com.forcetower.uefs.view.about.adapters.CreditsAdapter;
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
+
+import java.util.List;
 
 import butterknife.BindView;
 
 public class AboutActivity extends UBaseActivity {
     @BindView(R.id.version_info)
     TextView versionInfo;
+    @BindView(R.id.rv_credits)
+    RecyclerView rvCredits;
+
+    @SuppressWarnings("FieldCanBeLocal")
+    private CreditsAdapter creditsAdapter;
 
     public static void startActivity(Context context) {
         Intent intent = new Intent(context, AboutActivity.class);
@@ -50,6 +62,17 @@ public class AboutActivity extends UBaseActivity {
             version = pInfo.versionName;
         } catch (PackageManager.NameNotFoundException ignored) {}
         versionInfo.setText(getString(R.string.creator, version));
+
+        setupCreditsRecycler();
+    }
+
+    private void setupCreditsRecycler() {
+        List<CreditsMention> mentions = MockUtils.getCredits();
+
+        creditsAdapter = new CreditsAdapter(mentions);
+        rvCredits.setLayoutManager(new LinearLayoutManager(this));
+        rvCredits.setAdapter(creditsAdapter);
+        rvCredits.setNestedScrollingEnabled(false);
     }
 
     @Override

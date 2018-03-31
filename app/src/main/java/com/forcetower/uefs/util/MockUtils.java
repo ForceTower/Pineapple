@@ -2,9 +2,13 @@ package com.forcetower.uefs.util;
 
 import android.support.annotation.NonNull;
 
+import com.forcetower.uefs.db.entity.CreditsMention;
 import com.forcetower.uefs.db.entity.DisciplineClassLocation;
+import com.forcetower.uefs.db.entity.Mention;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -29,5 +33,17 @@ public class MockUtils {
         locations.add(new DisciplineClassLocation("13:30", "15:30", "QUA", "PAT34", "UEFS", "Módulo 3", "Sinais e Sistemas", "TEC402", "T01"));
 
         return locations;
+    }
+
+    public static List<CreditsMention> getCredits() {
+        List<CreditsMention> mentions = new ArrayList<>();
+
+        Mention lokisley = new Mention("Lokisley Oliveira", "https://www.facebook.com/Lokisley");
+        Mention teixeira = new Mention("Matheus Teixeira", "https://www.facebook.com/teixeirista");
+
+        mentions.add(new CreditsMention("Ícone do Aplicativo", Collections.singletonList(lokisley)));
+        mentions.add(new CreditsMention("Nome do Aplicativo", Arrays.asList(lokisley, teixeira)));
+
+        return mentions;
     }
 }
