@@ -10,6 +10,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.forcetower.uefs.R;
@@ -44,6 +46,12 @@ public class BigTrayFragment extends Fragment implements Injectable {
     TextView tvRuPrice;
     @BindView(R.id.tv_ru_last_update)
     TextView tvRuLastUpdate;
+    @BindView(R.id.sv_ru_loaded)
+    ScrollView svRUContent;
+    @BindView(R.id.ll_btns)
+    LinearLayout llBtns;
+    @BindView(R.id.tv_ru_loading)
+    TextView tvLoading;
 
     @Inject
     RUFirebase ruFirebase;
@@ -83,6 +91,9 @@ public class BigTrayFragment extends Fragment implements Injectable {
 
     @UiThread
     private void bindData(RUData data) {
+        tvLoading.setVisibility(View.GONE);
+        llBtns.setVisibility(View.VISIBLE);
+        svRUContent.setVisibility(View.VISIBLE);
         boolean open = data.isAberto();
         Integer amount = Integer.parseInt(data.getCotas().get(0));
         String time = data.getTime();
@@ -105,6 +116,6 @@ public class BigTrayFragment extends Fragment implements Injectable {
             tvRuPrice.setVisibility(View.GONE);
         }
 
-        tvRuLastUpdate.setText(DateUtils.formatDateTime(calendar.getTimeInMillis()));
+        tvRuLastUpdate.setText(getString(R.string.ru_last_update, DateUtils.formatDateTime(calendar.getTimeInMillis())));
     }
 }

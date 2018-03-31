@@ -251,4 +251,10 @@
     <string name="the_big_tray_is_open">O bandejão está aberto!</string>
     <string name="the_big_tray_is_closed">O bandejão está fechado</string>
     <string name="ru_meal_name_partial">%1$s Parcial</string>
+    <string name="contribute">Contribua</string>
+    <string name="feedback">Feedback</string>
+    <string name="ru_feedback_desc">O que você acha do BandejãoUEFS</string>
+    <string name="ru_contribute_desc">Melhore a exatidão do sistema</string>
+    <string name="ru_last_update">Última atualização: %1$s</string>
+    <string name="ru_loading">Carregando</string>
 </resources>
