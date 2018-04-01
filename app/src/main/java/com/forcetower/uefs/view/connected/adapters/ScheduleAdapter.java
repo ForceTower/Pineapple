@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.DisciplineClassLocation;
+import com.forcetower.uefs.view.connected.LocationClickListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,6 +36,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
     private RecyclerView.RecycledViewPool viewPool;
     private Context context;
     private boolean style;
+    private LocationClickListener onClickListener;
 
     public ScheduleAdapter(Context context, @NonNull List<DisciplineClassLocation> locations, boolean style) {
         this.context = context;
@@ -101,6 +103,10 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
 
     }
 
+    public void setOnClickListener(LocationClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
+
     class ScheduleViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.inner_recycler_view)
         RecyclerView innerRecyclerView;
@@ -114,6 +120,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
             ButterKnife.bind(this, itemView);
             innerRecyclerView.setLayoutManager(new LinearLayoutManager(context));
             adapter = new DayClassAdapter(context, new ArrayList<>(), style);
+            adapter.setOnClickListener(onClickListener);
             innerRecyclerView.setAdapter(adapter);
         }
 

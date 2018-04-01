@@ -2,8 +2,10 @@ package com.forcetower.uefs.vm;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
+import android.support.annotation.WorkerThread;
 
 import com.forcetower.uefs.db.entity.DisciplineClassLocation;
+import com.forcetower.uefs.db.entity.DisciplineGroup;
 import com.forcetower.uefs.rep.ScheduleRepository;
 
 import java.util.List;
@@ -30,5 +32,10 @@ public class ScheduleViewModel extends ViewModel {
         }
 
         return disciplineLocations;
+    }
+
+    @WorkerThread
+    public DisciplineGroup getDisciplineGroupDirect(int groupId) {
+        return repository.getDisciplineGroupDirect(groupId);
     }
 }

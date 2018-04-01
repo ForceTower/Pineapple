@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.DisciplineClassLocation;
+import com.forcetower.uefs.view.connected.LocationClickListener;
 
 import java.util.List;
 
@@ -26,6 +27,7 @@ class DayClassAdapter extends RecyclerView.Adapter<DayClassAdapter.DisciplineHol
     private Context context;
     private List<DisciplineClassLocation> disciplines;
     private boolean style;
+    private LocationClickListener onClickListener;
 
     DayClassAdapter(@NonNull Context context, @NonNull List<DisciplineClassLocation> disciplines, boolean style) {
         this.context = context;
@@ -56,6 +58,10 @@ class DayClassAdapter extends RecyclerView.Adapter<DayClassAdapter.DisciplineHol
         notifyDataSetChanged();
     }
 
+    public void setOnClickListener(LocationClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
+
     class DisciplineHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_class_name)
         TextView tvClassName;
@@ -67,6 +73,14 @@ class DayClassAdapter extends RecyclerView.Adapter<DayClassAdapter.DisciplineHol
         DisciplineHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(v -> onClick());
+        }
+
+        private void onClick() {
+            if (onClickListener != null) {
+                int position = getAdapterPosition();
+                onClickListener.onDisciplineGroupClicked(disciplines.get(position));
+            }
         }
 
         public void bind(DisciplineClassLocation discipline) {

@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.view.connected.LocationClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ import butterknife.ButterKnife;
 public class NewDayClassAdapter extends RecyclerView.Adapter {
     private static final int HEADER = 0, TIME = 1, CLASS = 2, NOTHING = 3;
     private final List<NewScheduleAdapter.InnerLocation> locations;
+    private LocationClickListener onClickListener;
 
     public NewDayClassAdapter(List<NewScheduleAdapter.InnerLocation> locations) {
         this.locations = new ArrayList<>();
@@ -78,6 +80,10 @@ public class NewDayClassAdapter extends RecyclerView.Adapter {
         else return NOTHING;
     }
 
+    public void setOnClickListener(LocationClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
+
     static class HeaderHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_header)
         TextView header;
@@ -109,7 +115,7 @@ public class NewDayClassAdapter extends RecyclerView.Adapter {
         }
     }
 
-    static class ClassHolder extends RecyclerView.ViewHolder {
+    class ClassHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.ll_container)
         LinearLayout container;
         @BindView(R.id.tv_code)
@@ -122,6 +128,15 @@ public class NewDayClassAdapter extends RecyclerView.Adapter {
             super(itemView);
             ButterKnife.bind(this, itemView);
             colors = itemView.getContext().getResources().getIntArray(R.array.discipline_colors);
+            itemView.setOnClickListener(v -> onClick());
+        }
+
+        private void onClick() {
+            int position = getAdapterPosition();
+            NewScheduleAdapter.InnerLocation location = locations.get(position);
+            if (location.location != null && onClickListener != null) {
+                onClickListener.onDisciplineGroupClicked(location.location);
+            }
         }
 
         void bind(NewScheduleAdapter.InnerLocation location) {

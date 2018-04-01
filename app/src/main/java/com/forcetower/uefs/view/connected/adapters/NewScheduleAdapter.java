@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.DisciplineClassLocation;
+import com.forcetower.uefs.view.connected.LocationClickListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,6 +31,7 @@ public class NewScheduleAdapter extends RecyclerView.Adapter<NewScheduleAdapter.
     private final List<DisciplineClassLocation> locations;
     private final RecyclerView.RecycledViewPool viewPool;
     private final List<List<InnerLocation>> mapped;
+    private LocationClickListener onClickListener;
 
     public NewScheduleAdapter(@NonNull Context context, @NonNull List<DisciplineClassLocation> locations) {
         this.locations = new ArrayList<>();
@@ -141,7 +143,11 @@ public class NewScheduleAdapter extends RecyclerView.Adapter<NewScheduleAdapter.
         Timber.d("%s", mapped);
     }
 
-    static class ScheduleHolder extends RecyclerView.ViewHolder {
+    public void setOnClickListener(LocationClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
+
+    class ScheduleHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.recycler_view)
         RecyclerView innerRecycler;
 
@@ -165,6 +171,7 @@ public class NewScheduleAdapter extends RecyclerView.Adapter<NewScheduleAdapter.
             innerRecycler.setNestedScrollingEnabled(false);
 
             adapter = new NewDayClassAdapter(new ArrayList<>());
+            adapter.setOnClickListener(onClickListener);
             innerRecycler.setAdapter(adapter);
         }
 

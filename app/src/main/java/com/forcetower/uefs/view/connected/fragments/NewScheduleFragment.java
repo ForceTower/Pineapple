@@ -1,5 +1,6 @@
 package com.forcetower.uefs.view.connected.fragments;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
@@ -13,12 +14,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.DisciplineClassLocation;
+import com.forcetower.uefs.db.entity.DisciplineGroup;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.util.AnimUtils;
+import com.forcetower.uefs.view.connected.LocationClickListener;
 import com.forcetower.uefs.view.connected.adapters.NewScheduleAdapter;
 import com.forcetower.uefs.view.connected.adapters.ScheduleAdapter;
+import com.forcetower.uefs.view.discipline.DisciplineDetailsActivity;
 import com.forcetower.uefs.vm.ScheduleViewModel;
 
 import java.util.ArrayList;
@@ -44,8 +49,14 @@ public class NewScheduleFragment extends Fragment implements Injectable {
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
+    @Inject
+    AppExecutors executors;
+
+    private ScheduleViewModel scheduleViewModel;
+
     private NewScheduleAdapter scheduleAdapter;
     private ScheduleAdapter subtitleAdapter;
+
 
     @Nullable
     @Override
@@ -60,12 +71,13 @@ public class NewScheduleFragment extends Fragment implements Injectable {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ScheduleViewModel scheduleViewModel = ViewModelProviders.of(this, viewModelFactory).get(ScheduleViewModel.class);
+        scheduleViewModel = ViewModelProviders.of(this, viewModelFactory).get(ScheduleViewModel.class);
         scheduleViewModel.getSchedule(null).observe(this, this::onReceiveLocations);
     }
 
     private void setupRecycler() {
-        scheduleAdapter = new NewScheduleAdapter(getContext(), new ArrayList<>());
+        scheduleAdapter = new NewScheduleAdapter(requireContext(), new ArrayList<>());
+        scheduleAdapter.setOnClickListener(locationClickListener);
         rvSchedule.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         rvSchedule.setAdapter(scheduleAdapter);
         rvSchedule.setNestedScrollingEnabled(false);
@@ -73,6 +85,7 @@ public class NewScheduleFragment extends Fragment implements Injectable {
 
     private void setupSubtitles() {
         subtitleAdapter = new ScheduleAdapter(getContext(), new ArrayList<>(), true);
+        subtitleAdapter.setOnClickListener(locationClickListener);
         rvScheduleSubtitle.setLayoutManager(new LinearLayoutManager(getContext()));
         rvScheduleSubtitle.setAdapter(subtitleAdapter);
         rvScheduleSubtitle.setNestedScrollingEnabled(false);
@@ -90,4 +103,13 @@ public class NewScheduleFragment extends Fragment implements Injectable {
             subtitleAdapter.setLocations(locations);
         }
     }
+
+    private LocationClickListener locationClickListener = location -> executors.others().execute(() -> {
+        int groupId = location.getGroupId();
+        DisciplineGroup group = scheduleViewModel.getDisciplineGroupDirect(groupId);
+        int disciplineId = group.getDiscipline();
+        if (getContext() != null) {
+            DisciplineDetailsActivity.startActivity(getContext(), groupId, disciplineId);
+        }
+    });
 }
