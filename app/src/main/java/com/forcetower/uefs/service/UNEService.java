@@ -18,4 +18,7 @@ public interface UNEService {
 
     @GET("/unes_update")
     LiveData<ApiResponse<SyncResponse>> getSyncState();
+
+    @GET("/unes_version")
+    LiveData<ApiResponse<Version>> getLatestVersion();
 }

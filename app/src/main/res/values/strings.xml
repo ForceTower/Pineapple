@@ -259,4 +259,6 @@
     <string name="ru_loading">Carregando...</string>
     <string name="ru_owners">Esta funcionalidade vem do bit.ly/bandejaouefs</string>
     <string name="ru_amount_format">%1$d</string>
+    <string name="new_unes_version_available">A versão %1$s do UNES está disponível</string>
+    <string name="get_unes_new_version">Baixe a nova versão do UNES na Play Store</string>
 </resources>

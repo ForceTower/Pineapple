@@ -7,6 +7,8 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
 import android.graphics.drawable.Icon;
@@ -33,8 +35,11 @@ import com.forcetower.uefs.R;
 import com.forcetower.uefs.alm.RefreshAlarmTrigger;
 import com.forcetower.uefs.db.entity.Access;
 import com.forcetower.uefs.db.entity.Semester;
+import com.forcetower.uefs.ntf.NotificationCreator;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
+import com.forcetower.uefs.service.ApiResponse;
+import com.forcetower.uefs.service.Version;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.UBaseActivity;
@@ -114,6 +119,7 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
         setupToolbar();
         elevate();
         gradesViewModel = ViewModelProviders.of(this, viewModelFactory).get(GradesViewModel.class);
+        gradesViewModel.getUNESLatestVersion().observe(this, this::onReceiveVersion);
 
         newScheduleLayout = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("new_schedule_layout", true);
 
@@ -463,8 +469,32 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
         AnimUtils.fadeIn(this, pbLoading);
     }
 
-
     private void disableBottomLoading() {
         AnimUtils.fadeOutGone(this, pbLoading);
+    }
+
+    private void onReceiveVersion(ApiResponse<Version> versionResponse) {
+        if (versionResponse == null) return;
+        if (versionResponse.isSuccessful()) {
+            Version version = versionResponse.body;
+            if (version == null) {
+                Timber.d("Received version is null");
+                return;
+            }
+
+            try {
+                PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
+                int versionCode   = pInfo.versionCode;
+                if (version.getVersionCode() > versionCode) {
+                    Timber.d("There's an UNES update going on");
+
+                    NotificationCreator.createNewVersionNotification(this, version);
+                } else if (version.getVersionCode() == versionCode) {
+                    Timber.d("UNES is up to date");
+                } else {
+                    Timber.d("This version is ahead of published version");
+                }
+            } catch (PackageManager.NameNotFoundException ignored) {}
+        }
     }
 }
