@@ -39,10 +39,4 @@ public abstract class ActivitiesModule {
 
     @ContributesAndroidInjector(modules = FragmentsModule.class)
     abstract GoodBarrelActivity contributeGoodBarrelActivity();
-
-    @ContributesAndroidInjector
-    abstract SyncAdapterService contributeSyncAdapterService();
-
-    @ContributesAndroidInjector
-    abstract RefreshBroadcastReceiver contributesRefreshBroadcastReceiver();
 }

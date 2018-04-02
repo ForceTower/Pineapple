@@ -17,6 +17,7 @@ import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.connected.ConnectedActivity;
 import com.forcetower.uefs.view.download.DownloadActivity;
 import com.forcetower.uefs.view.login.MainActivity;
+import com.google.firebase.messaging.RemoteMessage;
 
 import timber.log.Timber;
 
@@ -25,6 +26,7 @@ import static com.forcetower.uefs.ntf.NotificationHelper.createBigText;
 import static com.forcetower.uefs.ntf.NotificationHelper.getPendingIntent;
 import static com.forcetower.uefs.ntf.NotificationHelper.notificationBuilder;
 import static com.forcetower.uefs.ntf.NotificationHelper.showNotification;
+import static com.forcetower.uefs.util.WordUtils.validString;
 
 /**
  * Created by João Paulo on 08/03/2018.
@@ -160,5 +162,23 @@ public class NotificationCreator {
             preferences.edit().putBoolean("UPDATE_NOTIFICATION_" + version.getVersionCode(), true).apply();
             Timber.d("Preference for update set");
         }
+    }
+
+    public static void createFirebaseSimpleNotification(Context context, RemoteMessage.Notification notification) {
+        String message = notification.getBody();
+        if (!validString(message)) return;
+
+        Timber.d("Notification is being created");
+
+        NotificationCompat.Builder builder = notificationBuilder(context, Constants.CHANNEL_GENERAL_REMOTE_ID)
+                .setContentTitle(notification.getTitle());
+
+        PendingIntent pendingIntent = getPendingIntent(context, MainActivity.class, null);
+        builder.setContentText(message)
+                .setContentIntent(pendingIntent)
+                .setColor(ContextCompat.getColor(context, R.color.colorPrimary));
+
+        addOptions(context, builder);
+        showNotification(context, message.hashCode(), builder);
     }
 }

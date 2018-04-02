@@ -261,4 +261,6 @@
     <string name="ru_amount_format">%1$d</string>
     <string name="new_unes_version_available">A versão %1$s do UNES está disponível</string>
     <string name="get_unes_new_version">Baixe a nova versão do UNES na Play Store</string>
+    <string name="remote">Remotas</string>
+    <string name="default_firebase_notification_channel_id" translatable="false">com.forcetower.uefs.GENERAL.REMOTE</string>
 </resources>

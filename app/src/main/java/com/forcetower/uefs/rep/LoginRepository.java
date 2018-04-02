@@ -290,8 +290,6 @@ public class LoginRepository {
             String disciplineName = grade.getDisciplineName();
             int pos = disciplineName.indexOf("-");
             String code = disciplineName.substring(0, pos).trim();
-            Timber.d("This is the code %s", code);
-            Timber.d("That's the semester %s", semester);
             Discipline discipline = disciplineDao.getDisciplinesBySemesterAndCodeDirect(semester, code);
             if (discipline == null) {
                 Timber.d("It's a shame that the discipline code %s was not registered... That sucks", code);
@@ -525,10 +523,7 @@ public class LoginRepository {
             } else {
                 String upGroup = group.getGroup();
                 if (upGroup == null) {
-                    Timber.d("Up group is null");
-                    Timber.d("This means there should be only one in list if any");
                     if (currentGrp.size() == 1) {
-                        Timber.d("I was right");
                         DisciplineGroup oldGroup = currentGrp.get(0);
                         if (oldGroup.isDraft()) {
                             group.setUid(oldGroup.getUid());
