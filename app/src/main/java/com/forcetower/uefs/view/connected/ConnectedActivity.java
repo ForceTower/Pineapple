@@ -115,7 +115,6 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(R.layout.activity_connected, savedInstanceState);
-
         setupToolbar();
         elevate();
         gradesViewModel = ViewModelProviders.of(this, viewModelFactory).get(GradesViewModel.class);
