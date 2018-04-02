@@ -16,13 +16,16 @@ public class Version {
     private String downloadLink;
     @SerializedName(value = "disable_code")
     private int disableCode;
+    @SerializedName(value = "new_schedule")
+    private int newSchedule;
 
-    public Version(int versionCode, String versionName, String whatsNew, String downloadLink, int disableCode) {
+    public Version(int versionCode, String versionName, String whatsNew, String downloadLink, int disableCode, int newSchedule) {
         this.versionCode = versionCode;
         this.versionName = versionName;
         this.whatsNew = whatsNew;
         this.downloadLink = downloadLink;
         this.disableCode = disableCode;
+        this.newSchedule = newSchedule;
     }
 
     public int getVersionCode() {
@@ -63,5 +66,17 @@ public class Version {
 
     public void setDisableCode(int disableCode) {
         this.disableCode = disableCode;
+    }
+
+    public int getNewSchedule() {
+        return newSchedule;
+    }
+
+    public void setNewSchedule(int newSchedule) {
+        this.newSchedule = newSchedule;
+    }
+
+    public boolean showNewSchedule() {
+        return newSchedule == 1;
     }
 }

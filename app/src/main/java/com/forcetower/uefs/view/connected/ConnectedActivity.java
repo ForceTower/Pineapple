@@ -125,7 +125,7 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
         gradesViewModel = ViewModelProviders.of(this, viewModelFactory).get(GradesViewModel.class);
         gradesViewModel.getUNESLatestVersion().observe(this, this::onReceiveVersion);
 
-        newScheduleLayout = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("new_schedule_layout", true);
+        newScheduleLayout = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("new_schedule_layout", false);
 
         fragmentManager = getSupportFragmentManager();
         containerId = R.id.container;
@@ -506,12 +506,25 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
                 return;
             }
 
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            boolean scheduleServerSet = preferences.getBoolean("new_schedule_server_set", false);
+
+            if (version.showNewSchedule() && !scheduleServerSet) {
+                preferences.edit().putBoolean("new_schedule_server_set", true).apply();
+                preferences.edit().putBoolean("new_schedule_layout", true).apply();
+                newScheduleLayout = true;
+                Timber.d("The new schedule has been activated by the server");
+            } else if (!version.showNewSchedule() && !scheduleServerSet) {
+                Timber.d("New schedule where not enabled by the server");
+            } else {
+                Timber.d("Status SERVER:%s LOCAL_SET:%s", version.showNewSchedule(), scheduleServerSet);
+            }
+
             try {
                 PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
                 int versionCode   = pInfo.versionCode;
                 if (version.getVersionCode() > versionCode) {
                     Timber.d("There's an UNES update going on");
-
                     NotificationCreator.createNewVersionNotification(this, version);
                 } else if (version.getVersionCode() == versionCode) {
                     Timber.d("UNES is up to date");
