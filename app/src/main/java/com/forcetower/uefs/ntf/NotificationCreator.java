@@ -175,6 +175,7 @@ public class NotificationCreator {
 
         PendingIntent pendingIntent = getPendingIntent(context, MainActivity.class, null);
         builder.setContentText(message)
+                .setStyle(createBigText(message))
                 .setContentIntent(pendingIntent)
                 .setColor(ContextCompat.getColor(context, R.color.colorPrimary));
 
