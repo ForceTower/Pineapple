@@ -263,4 +263,7 @@
     <string name="get_unes_new_version">Baixe a nova versão do UNES na Play Store</string>
     <string name="remote">Remotas</string>
     <string name="default_firebase_notification_channel_id" translatable="false">com.forcetower.uefs.GENERAL.REMOTE</string>
+    <string name="new_schedule_has_errors_on_device_please_feedback">O novo horário provoca erro no aplicativo. O horário padrão será mostrado para que você possa usar o aplicativo</string>
+    <string name="new_schedule_errors">O novo horário provoca erros</string>
+    <string name="send_error">Enviar erro</string>
 </resources>

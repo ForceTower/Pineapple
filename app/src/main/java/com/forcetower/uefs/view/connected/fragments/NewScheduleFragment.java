@@ -3,6 +3,7 @@ package com.forcetower.uefs.view.connected.fragments;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,6 +22,7 @@ import com.forcetower.uefs.db.entity.DisciplineGroup;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.view.connected.LocationClickListener;
+import com.forcetower.uefs.view.connected.NavigationController;
 import com.forcetower.uefs.view.connected.adapters.NewScheduleAdapter;
 import com.forcetower.uefs.view.connected.adapters.ScheduleAdapter;
 import com.forcetower.uefs.view.discipline.DisciplineDetailsActivity;
@@ -33,6 +35,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 /**
  * Created by João Paulo on 29/03/2018.
@@ -57,6 +60,17 @@ public class NewScheduleFragment extends Fragment implements Injectable {
     private NewScheduleAdapter scheduleAdapter;
     private ScheduleAdapter subtitleAdapter;
 
+    private NavigationController controller;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            controller = (NavigationController) context;
+        } catch (ClassCastException e) {
+            Timber.e("Class %s must implement NavigationController", context.getClass().getSimpleName());
+        }
+    }
 
     @Nullable
     @Override
@@ -99,8 +113,12 @@ public class NewScheduleFragment extends Fragment implements Injectable {
             AnimUtils.fadeOut(getContext(), vgNoSchedule);
             vgNoSchedule.setVisibility(View.GONE);
             svSchedule.setVisibility(View.VISIBLE);
-            scheduleAdapter.setLocations(locations);
-            subtitleAdapter.setLocations(locations);
+            try {
+                scheduleAdapter.setLocations(locations);
+                subtitleAdapter.setLocations(locations);
+            } catch (Exception ex) {
+                controller.showNewScheduleError(ex);
+            }
         }
     }
 

@@ -258,4 +258,7 @@
 
     <string name="ru_amount_format">%1$d</string>
     <string name="remote">Remote</string>
+    <string name="send_error">Send error</string>
+    <string name="new_schedule_has_errors_on_device_please_feedback">The new schedule creates errors all over the place. It were disabled so you can use the app</string>
+    <string name="new_schedule_errors">The new schedule provokes errors</string>
 </resources>

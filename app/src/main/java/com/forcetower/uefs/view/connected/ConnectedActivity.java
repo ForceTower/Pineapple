@@ -21,6 +21,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -28,6 +29,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -54,6 +56,7 @@ import com.forcetower.uefs.view.connected.fragments.ProfileFragment;
 import com.forcetower.uefs.view.connected.fragments.ScheduleFragment;
 import com.forcetower.uefs.view.login.MainActivity;
 import com.forcetower.uefs.view.settings.SettingsActivity;
+import com.forcetower.uefs.view.suggestion.SuggestionActivity;
 import com.forcetower.uefs.vm.GradesViewModel;
 
 import java.util.Arrays;
@@ -83,6 +86,8 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
     TabLayout tabLayout;
     @BindView(R.id.pb_loading)
     ProgressBar pbLoading;
+    @BindView(R.id.view_root)
+    ViewGroup viewRoot;
 
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
@@ -344,7 +349,9 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
     public void navigateToSchedule() {
         changeTitle(R.string.title_schedule);
         setTabShowing(false);
-        if (newScheduleLayout) changeFragment(new NewScheduleFragment());
+        if (newScheduleLayout) {
+            changeFragment(new NewScheduleFragment());
+        }
         else changeFragment(new ScheduleFragment());
     }
 
@@ -457,6 +464,24 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
     @Override
     public TabLayout getTabLayout() {
         return tabLayout;
+    }
+
+    @Override
+    public void showNewScheduleError(Exception e) {
+        newScheduleLayout = false;
+
+        PreferenceManager.getDefaultSharedPreferences(this).edit()
+                .putBoolean("new_schedule_layout", false)
+                .apply();
+
+        navigateToSchedule();
+
+        Snackbar snackbar = Snackbar.make(viewRoot, getString(R.string.new_schedule_errors), Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction(R.string.send_error, v -> {
+            SuggestionActivity.startActivity(this, e.getMessage(), e.getStackTrace());
+            snackbar.dismiss();
+        });
+        snackbar.show();
     }
 
     @Override

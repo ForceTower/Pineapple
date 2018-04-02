@@ -82,7 +82,6 @@ public class NewScheduleAdapter extends RecyclerView.Adapter<NewScheduleAdapter.
             List<InnerLocation> classes = mapping.get(day);
             if (classes == null) {
                 classes = new ArrayList<>();
-                Timber.d("Created list for day %s", day);
             }
 
             //times default
@@ -139,8 +138,6 @@ public class NewScheduleAdapter extends RecyclerView.Adapter<NewScheduleAdapter.
                 mapped.add(fullDay);
             }
         }
-        
-        Timber.d("%s", mapped);
     }
 
     public void setOnClickListener(LocationClickListener onClickListener) {
