@@ -272,8 +272,8 @@
     <string name="feature_requires_google_play_services">Esta função requer o Google Play Services. Instale-o e tente novamente</string>
     <string name="loading_schedule">Carregando Horários</string>
     <string name="preparing_schedule_to_export">Preparando para a exportação</string>
-    <string name="export_requires_one_details_loaded_class">Pelo menos uma disciplina do semester não pode ser um rascunho antes de continuar</string>
-    <string name="exporter_not_2_parts">Erro no exportador. Não encontrou inicio/fim do semestre</string>
+    <string name="export_requires_one_details_loaded_class">Pelo menos uma disciplina do semestre não pode ser um rascunho antes de continuar</string>
+    <string name="exporter_not_2_parts">Erro no exportador. Não encontrou início/fim do semestre</string>
     <string name="failed_to_export_class">Falhou ao exportar aula</string>
     <string name="exporting_classes">Exportando aulas</string>
     <string name="export_classes_to_google_calendar">Google Calendar</string>
