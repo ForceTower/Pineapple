@@ -276,8 +276,8 @@
     <string name="exporter_not_2_parts">Erro no exportador. Não encontrou início/fim do semestre</string>
     <string name="failed_to_export_class">Falhou ao exportar aula</string>
     <string name="exporting_classes">Exportando aulas</string>
-    <string name="export_classes_to_google_calendar">Google Calendar</string>
-    <string name="export_classes_to_google_calendar_desc">Exportar os horários para o Google Calendar</string>
+    <string name="export_classes_to_google_calendar">Horários no Google Calendar</string>
+    <string name="export_classes_to_google_calendar_desc">Exportar as aulas para o Google Calendar (Experimental)</string>
     <string name="remove_google_calendar_export">Reiniciar Google Calendar</string>
     <string name="remove_google_calendar_export_desc">Retira todas as aulas exportadas do Google Calendar</string>
     <string name="general_starting">Iniciando...</string>
@@ -285,4 +285,5 @@
     <string name="fd_profile_image">Imagem de Perfil</string>
     <string name="fd_profile_image_desc">Você pode trocar a imagem de perfil!\nBasta tocar na imagem para altera-la!</string>
     <string name="profile_image_unset">Você pode voltar para a imagem padrão a qualquer momento, basta tocar e deixar apertado</string>
+    <string name="new_schedule_takes_an_update">Se você não consegue ver o novo horário corretamente, espere uma sincronização automática ou faça uma.</string>
 </resources>

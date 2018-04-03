@@ -1,5 +1,7 @@
 package com.forcetower.uefs.util;
 
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Build;
 
 /**
@@ -26,5 +28,16 @@ public class VersionUtils {
 
     public static boolean isNougat() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N;
+    }
+
+    public static boolean isFirstInstall(Context context) {
+        try {
+            long firstInstallTime = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).firstInstallTime;
+            long lastUpdateTime = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).lastUpdateTime;
+            return firstInstallTime == lastUpdateTime;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

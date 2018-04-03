@@ -351,6 +351,7 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
         setTabShowing(false);
         if (newScheduleLayout) {
             changeFragment(new NewScheduleFragment());
+            showNewScheduleWarning();
         }
         else changeFragment(new ScheduleFragment());
     }
@@ -532,6 +533,15 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
                     Timber.d("This version is ahead of published version");
                 }
             } catch (PackageManager.NameNotFoundException ignored) {}
+        }
+    }
+
+    private void showNewScheduleWarning() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if (!preferences.getBoolean("warnings_4.0.0_new_schedule", false)) {
+            if (!VersionUtils.isFirstInstall(this))
+                Toast.makeText(this, R.string.new_schedule_takes_an_update, Toast.LENGTH_LONG).show();
+            preferences.edit().putBoolean("warnings_4.0.0_new_schedule", true).apply();
         }
     }
 }
