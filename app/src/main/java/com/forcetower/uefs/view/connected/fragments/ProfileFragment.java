@@ -356,6 +356,7 @@ public class ProfileFragment extends Fragment implements Injectable {
                             .targetCircleColor(R.color.white)
                             .titleTextColor(R.color.white)
                             .descriptionTextColor(R.color.white)
+                            .dimColor(R.color.white)
                             .outerCircleAlpha(0.96f)
                             .descriptionTextSize(12)
                             .titleTextSize(20)
@@ -364,7 +365,14 @@ public class ProfileFragment extends Fragment implements Injectable {
                             .cancelable(true)
                             .tintTarget(true)
                             .transparentTarget(true)
-                            .targetRadius(70)
+                            .targetRadius(70),
+                    new TapTargetView.Listener() {
+                        @Override
+                        public void onTargetClick(TapTargetView view) {
+                            super.onTargetClick(view);
+                            selectPicture();
+                        }
+                    }
             );
             sharedPreferences.edit().putBoolean("feature_discovered_profile_image", true).apply();
         }

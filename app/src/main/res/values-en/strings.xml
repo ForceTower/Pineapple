@@ -280,4 +280,7 @@
 
     <string name="general_starting">Starting...</string>
     <string name="wait_until_operation_completes">Wait until operation finishes</string>
+    <string name="fd_profile_image">Profile Image</string>
+    <string name="fd_profile_image_desc">You can change the profile image! Tap the image to switch it at anytime!</string>
+    <string name="profile_image_unset">You can go back to the default image by tapping and holding the image</string>
 </resources>

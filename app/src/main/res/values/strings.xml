@@ -283,6 +283,6 @@
     <string name="general_starting">Iniciando...</string>
     <string name="wait_until_operation_completes">Espere até a operação terminar</string>
     <string name="fd_profile_image">Imagem de Perfil</string>
-    <string name="fd_profile_image_desc">Você pode trocar a imagem de perfil!\nBasta tocar na imagem para alterar quando quiser</string>
-    <string name="profile_image_unset">Você pode remover a imagem a qualquer momento, basta tocar e deixar apertado!</string>
+    <string name="fd_profile_image_desc">Você pode trocar a imagem de perfil!\nBasta tocar na imagem para altera-la!</string>
+    <string name="profile_image_unset">Você pode voltar para a imagem padrão a qualquer momento, basta tocar e deixar apertado</string>
 </resources>
