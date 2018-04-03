@@ -280,4 +280,6 @@
     <string name="export_classes_to_google_calendar_desc">Exportar os horários para o Google Calendar</string>
     <string name="remove_google_calendar_export">Reiniciar Google Calendar</string>
     <string name="remove_google_calendar_export_desc">Retira todas as aulas exportadas do Google Calendar</string>
+    <string name="general_starting">Iniciando...</string>
+    <string name="wait_until_operation_completes">Espere até a operação terminar</string>
 </resources>

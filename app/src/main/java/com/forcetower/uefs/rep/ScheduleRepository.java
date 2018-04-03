@@ -2,15 +2,19 @@ package com.forcetower.uefs.rep;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
+import android.support.annotation.WorkerThread;
 
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.db.AppDatabase;
+import com.forcetower.uefs.db.dao.CalendarEventDao;
 import com.forcetower.uefs.db.dao.DisciplineClassLocationDao;
 import com.forcetower.uefs.db.dao.DisciplineGroupDao;
 import com.forcetower.uefs.db.dao.SemesterDao;
+import com.forcetower.uefs.db.entity.CalendarEvent;
 import com.forcetower.uefs.db.entity.DisciplineClassLocation;
 import com.forcetower.uefs.db.entity.DisciplineGroup;
 import com.forcetower.uefs.db.entity.Semester;
+import com.google.api.services.calendar.model.Event;
 
 import java.util.List;
 
@@ -26,6 +30,7 @@ import timber.log.Timber;
 public class ScheduleRepository {
     private final DisciplineClassLocationDao classLocationDao;
     private final DisciplineGroupDao disciplineGroupDao;
+    private final CalendarEventDao calendarEventDao;
     private final AppExecutors executors;
     private final SemesterDao semesterDao;
 
@@ -37,6 +42,7 @@ public class ScheduleRepository {
         this.executors = executors;
         this.semesterDao = database.semesterDao();
         this.disciplineGroupDao = database.disciplineGroupDao();
+        this.calendarEventDao = database.calendarEventDao();
         schedule = new MediatorLiveData<>();
     }
 
@@ -110,5 +116,19 @@ public class ScheduleRepository {
         });
 
         return value;
+    }
+
+    public LiveData<List<CalendarEvent>> getExportedCalendar() {
+        return calendarEventDao.getExportedCalendar();
+    }
+
+    @WorkerThread
+    public void deleteCalendarEvent(CalendarEvent event) {
+        calendarEventDao.deleteCalendarEvent(event);
+    }
+
+    @WorkerThread
+    public void insertCalendarEvent(String calendarId, String eventId, String semester) {
+        calendarEventDao.insertCalendarEvent(new CalendarEvent(calendarId, eventId, semester));
     }
 }

@@ -2,6 +2,7 @@ package com.forcetower.uefs.di.module;
 
 import com.forcetower.uefs.db.AppDatabase;
 import com.forcetower.uefs.db.dao.AccessDao;
+import com.forcetower.uefs.db.dao.CalendarEventDao;
 import com.forcetower.uefs.db.dao.CalendarItemDao;
 import com.forcetower.uefs.db.dao.DisciplineClassItemDao;
 import com.forcetower.uefs.db.dao.DisciplineClassLocationDao;
@@ -104,4 +105,9 @@ public class DatabaseModule {
         return database.todoItemDao();
     }
 
+    @Singleton
+    @Provides
+    CalendarEventDao provideCalendarEventDao(AppDatabase database) {
+        return database.calendarEventDao();
+    }
 }

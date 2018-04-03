@@ -277,4 +277,7 @@
     <string name="export_classes_to_google_calendar_desc">Export schedule to Google Calendar</string>
     <string name="remove_google_calendar_export">Reset Google Calendar Schedule</string>
     <string name="remove_google_calendar_export_desc">Removes the exported schedule from Google Calendar</string>
+
+    <string name="general_starting">Starting...</string>
+    <string name="wait_until_operation_completes">Wait until operation finishes</string>
 </resources>

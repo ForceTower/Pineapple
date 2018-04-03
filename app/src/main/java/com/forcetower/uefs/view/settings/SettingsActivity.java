@@ -86,6 +86,7 @@ public class SettingsActivity extends UBaseActivity implements SettingsControlle
         googleCredential = GoogleAccountCredential.usingOAuth2(getApplicationContext(), CalendarScopes.all()).setBackOff(new ExponentialBackOff());
         calendarViewModel = ViewModelProviders.of(this, viewModelFactory).get(GoogleCalendarViewModel.class);
         calendarViewModel.getExportData().observe(this, this::onExportProgress);
+        calendarViewModel.getResetData().observe(this, this::onResetProgress);
 
         if (savedInstanceState != null) {
             currentProgress = savedInstanceState.getInt("PROGRESS");
@@ -147,17 +148,29 @@ public class SettingsActivity extends UBaseActivity implements SettingsControlle
         Timber.d("Export to Calendar");
         if (!calendarViewModel.isExporting()) {
             Timber.d("Triggers Export");
-            exportToGoogleCalendar();
-            AnimUtils.fadeIn(this, pbProgress);
             pbProgress.setIndeterminate(true);
+            pbProgress.setProgress(0);
+            AnimUtils.fadeIn(this, pbProgress);
+            exportToGoogleCalendar();
         } else {
-            Timber.d("Already exporting");
+            Toast.makeText(this, R.string.wait_until_operation_completes, Toast.LENGTH_SHORT).show();
+            Timber.d("An operation is being executed");
         }
     }
 
     @Override
     public void resetExportToCalendar() {
         Timber.d("Reset export to calendar");
+        if (!calendarViewModel.isExporting()) {
+            Timber.d("Triggers Reset");
+            AnimUtils.fadeIn(this, pbProgress);
+            pbProgress.setIndeterminate(false);
+            pbProgress.setProgress(0);
+            calendarViewModel.resetExportedSchedule(googleCredential);
+        } else {
+            Toast.makeText(this, R.string.wait_until_operation_completes, Toast.LENGTH_SHORT).show();
+            Timber.d("An operation is being executed");
+        }
     }
 
     @Override
@@ -193,6 +206,25 @@ public class SettingsActivity extends UBaseActivity implements SettingsControlle
                     pbProgress.startAnimation(anim);
                 }
             }
+        }
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    private void onResetProgress(Resource<Integer> resource) {
+        if (resource.status == Status.LOADING) {
+            pbProgress.setIndeterminate(false);
+            if (resource.data == 1000) {
+                AnimUtils.fadeOut(this, pbProgress);
+                currentProgress = 0;
+            } else {
+                ProgressBarAnimation anim = new ProgressBarAnimation(pbProgress, pbProgress.getProgress(), resource.data);
+                anim.setDuration(500);
+                currentProgress = resource.data;
+                pbProgress.startAnimation(anim);
+            }
+        } else {
+            currentProgress = 0;
+            AnimUtils.fadeOut(this, pbProgress);
         }
     }
 

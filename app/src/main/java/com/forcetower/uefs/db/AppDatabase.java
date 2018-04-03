@@ -4,6 +4,7 @@ import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
 
 import com.forcetower.uefs.db.dao.AccessDao;
+import com.forcetower.uefs.db.dao.CalendarEventDao;
 import com.forcetower.uefs.db.dao.CalendarItemDao;
 import com.forcetower.uefs.db.dao.DisciplineClassItemDao;
 import com.forcetower.uefs.db.dao.DisciplineClassLocationDao;
@@ -17,6 +18,7 @@ import com.forcetower.uefs.db.dao.ProfileDao;
 import com.forcetower.uefs.db.dao.SemesterDao;
 import com.forcetower.uefs.db.dao.TodoItemDao;
 import com.forcetower.uefs.db.entity.Access;
+import com.forcetower.uefs.db.entity.CalendarEvent;
 import com.forcetower.uefs.db.entity.CalendarItem;
 import com.forcetower.uefs.db.entity.Discipline;
 import com.forcetower.uefs.db.entity.DisciplineClassItem;
@@ -46,8 +48,9 @@ import com.forcetower.uefs.db.entity.TodoItem;
         DisciplineClassItem.class,
         DisciplineClassLocation.class,
         TodoItem.class,
-        Profile.class
-}, version = 2)
+        Profile.class,
+        CalendarEvent.class
+}, version = 3)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract AccessDao accessDao();
     public abstract CalendarItemDao calendarItemDao();
@@ -62,4 +65,5 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract DisciplineClassLocationDao disciplineClassLocationDao();
     public abstract TodoItemDao todoItemDao();
     public abstract ProfileDao profileDao();
+    public abstract CalendarEventDao calendarEventDao();
 }

@@ -9,6 +9,7 @@ import android.support.annotation.WorkerThread;
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.AppDatabase;
+import com.forcetower.uefs.db.entity.CalendarEvent;
 import com.forcetower.uefs.db.entity.Discipline;
 import com.forcetower.uefs.db.entity.DisciplineClassLocation;
 import com.forcetower.uefs.db.entity.DisciplineGroup;
@@ -50,6 +51,7 @@ public class GoogleCalendarViewModel extends ViewModel {
     private final ScheduleRepository repository;
 
     private MediatorLiveData<Resource<Integer>> exportData;
+    private MediatorLiveData<Resource<Integer>> resetData;
     private Calendar service;
 
     private boolean exporting = false;
@@ -59,6 +61,7 @@ public class GoogleCalendarViewModel extends ViewModel {
         this.executors = executors;
         this.repository = repository;
         this.exportData = new MediatorLiveData<>();
+        this.resetData = new MediatorLiveData<>();
     }
 
     public LiveData<Resource<Integer>> getExportData() {
@@ -156,11 +159,14 @@ public class GoogleCalendarViewModel extends ViewModel {
             for (Event event : events) {
                 try {
                     Event inserted = service.events().insert(calendarId, event).execute();
-                    if (inserted != null) exported.add(inserted);
-                    Timber.d("Exported class");
+                    if (inserted != null && inserted.getId() != null) {
+                        exported.add(inserted);
+                        executors.diskIO().execute(() -> repository.insertCalendarEvent(calendarId, inserted.getId(), ""));
+                        Timber.d("Exported class, ID: %s", inserted.getId());
+                    }
                     i++;
-                    Timber.d("Percentage: %d", ((i*100)/event.size()));
-                    exportData.postValue(Resource.success((i*100)/event.size()));
+                    Timber.d("Percentage: %d", ((i*100)/events.size()));
+                    exportData.postValue(Resource.success((i*100)/events.size()));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -173,5 +179,39 @@ public class GoogleCalendarViewModel extends ViewModel {
 
     public boolean isExporting() {
         return exporting;
+    }
+
+    public LiveData<Resource<Integer>> getResetData() {
+        return resetData;
+    }
+
+    public void resetExportedSchedule(GoogleAccountCredential credential) {
+        HttpTransport transport = AndroidHttp.newCompatibleTransport();
+        JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+        service = new Calendar.Builder(transport, jsonFactory, credential)
+                .setApplicationName("UNES")
+                .build();
+
+        LiveData<List<CalendarEvent>> eventSrc = repository.getExportedCalendar();
+
+        resetData.addSource(eventSrc, events -> {
+            resetData.removeSource(eventSrc);
+            executors.networkIO().execute(() -> {
+                int i = 0;
+                //noinspection ConstantConditions
+                for (CalendarEvent event : events) {
+                    i++;
+                    try {
+                        service.events().delete(event.getCalendarId(), event.getEventId()).execute();
+                        executors.diskIO().execute(() -> repository.deleteCalendarEvent(event));
+                        Timber.d("Removed event from calendar");
+                        resetData.postValue(Resource.loading((i*100)/events.size()));
+                    } catch (IOException e) {
+                        Timber.d("Failed to delete event due to %s ", e.getMessage());
+                    }
+                }
+                resetData.postValue(Resource.success(1000));
+            });
+        });
     }
 }
