@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
@@ -46,10 +47,13 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     @Override
     public void onResume() {
         super.onResume();
+        SharedPreferences preferences = getPreferenceScreen().getSharedPreferences();
+        boolean newScheduleServer = preferences.getBoolean("new_schedule_server_set", false);
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
         findPreference("logoff_key").setOnPreferenceClickListener(preference -> logout());
         findPreference("feedback_key").setOnPreferenceClickListener(preference -> feedback());
         findPreference("about_app_key").setOnPreferenceClickListener(preference -> about());
+        findPreference("new_schedule_layout").setEnabled(newScheduleServer);
 
         oreoConfiguration();
     }
@@ -105,18 +109,28 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     private void updateSyncFrequency(SharedPreferences preferences, String key) {
         Preference preference = findPreference("sync_frequency");
         Preference notification = findPreference("show_message_notification");
+        Preference gradePosted  = findPreference("show_grades_posted_notification");
+        Preference gradeCreated = findPreference("show_grades_created_notification");
+        Preference gradeChanged = findPreference("show_grades_changed_notification");
         String newValue = preferences.getString(key, "");
         int frequency = Integer.parseInt(newValue);
 
         if (frequency == -1) {
             preference.setSummary(R.string.pref_sync_frequency_never);
             if (notification != null) notification.setEnabled(false);
+            if (gradePosted  != null) gradePosted.setEnabled (false);
+            if (gradeCreated != null) gradeCreated.setEnabled(false);
+            if (gradeChanged != null) gradeChanged.setEnabled(false);
+
             RefreshAlarmTrigger.removeAlarm(getActivity());
             RefreshAlarmTrigger.disableBootComponent(getActivity());
             Timber.d("Frequency set to never update");
         } else if (frequency > 0) {
             preference.setSummary(R.string.pref_sync_frequency_enabled);
             if (notification != null) notification.setEnabled(true);
+            if (gradePosted  != null) gradePosted.setEnabled (true);
+            if (gradeCreated != null) gradeCreated.setEnabled(true);
+            if (gradeChanged != null) gradeChanged.setEnabled(true);
             RefreshAlarmTrigger.create(getActivity(), frequency);
             RefreshAlarmTrigger.enableBootComponent(controller.getContext());
             Timber.d("Frequency set to %d minutes", frequency);
