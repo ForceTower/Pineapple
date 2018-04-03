@@ -68,10 +68,6 @@ public class ControlRoomActivity extends UBaseActivity implements HasSupportFrag
                 .commitAllowingStateLoss();
     }
 
-    private void navigateToNoPermissions() {
-
-    }
-
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return dispatchingAndroidInjector;
