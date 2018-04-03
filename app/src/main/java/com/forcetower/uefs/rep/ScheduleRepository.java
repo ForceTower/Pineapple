@@ -91,4 +91,24 @@ public class ScheduleRepository {
     public DisciplineGroup getDisciplineGroupDirect(int groupId) {
         return disciplineGroupDao.getDisciplineGroupByIdDirect(groupId);
     }
+
+    public LiveData<DisciplineGroup> getDisciplineWithDetailsLoaded() {
+        MediatorLiveData<DisciplineGroup> value = new MediatorLiveData<>();
+        LiveData<List<Semester>> semesterSrc = semesterDao.getAllSemesters();
+        value.addSource(semesterSrc, semesters -> {
+            value.removeSource(semesterSrc);
+            Semester smt = Semester.getCurrentSemester(semesters);
+            if (smt != null) {
+                LiveData<DisciplineGroup> groupData = disciplineGroupDao.getLoadedDisciplineFromSemester(smt.getName());
+                value.addSource(groupData, group -> {
+                    value.removeSource(groupData);
+                    value.postValue(group);
+                });
+            } else {
+                value.postValue(null);
+            }
+        });
+
+        return value;
+    }
 }
