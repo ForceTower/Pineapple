@@ -1,5 +1,6 @@
 package com.forcetower.uefs.view.connected.fragments;
 
+import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.ActivityNotFoundException;
@@ -8,9 +9,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -40,6 +44,8 @@ import com.forcetower.uefs.view.control_room.ControlRoomActivity;
 import com.forcetower.uefs.view.experimental.good_barrel.GoodBarrelActivity;
 import com.forcetower.uefs.vm.DownloadsViewModel;
 import com.forcetower.uefs.vm.ProfileViewModel;
+import com.getkeepsafe.taptargetview.TapTarget;
+import com.getkeepsafe.taptargetview.TapTargetView;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -56,6 +62,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import timber.log.Timber;
 
 import static android.app.Activity.RESULT_OK;
+import static android.os.Looper.getMainLooper;
 import static com.forcetower.uefs.Constants.ENROLLMENT_CERTIFICATE_FILE_NAME;
 import static com.forcetower.uefs.util.NetworkUtils.openLink;
 
@@ -101,6 +108,7 @@ public class ProfileFragment extends Fragment implements Injectable {
 
     private DownloadsViewModel downloadsViewModel;
     private NavigationController controller;
+    private SharedPreferences sharedPreferences;
 
     @Override
     public void onAttach(Context context) {
@@ -126,8 +134,13 @@ public class ProfileFragment extends Fragment implements Injectable {
 
         if (BuildConfig.DEBUG) enablePrivateContent();
 
-        if (PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("show_score", false)) {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        if (sharedPreferences.getBoolean("show_score", false)) {
             tvStdScore.setVisibility(View.VISIBLE);
+        }
+
+        if (!sharedPreferences.getBoolean("feature_discovered_profile_image", false)) {
+            new Handler(getMainLooper()).postDelayed(this::discoverProfilePicture, 500);
         }
 
         return view;
@@ -320,6 +333,10 @@ public class ProfileFragment extends Fragment implements Injectable {
                         AnimUtils.fadeOut(requireContext(), ivProfilePlaceholder);
                         AnimUtils.fadeIn(requireContext(), ivProfileImage);
                         downloadsViewModel.saveBitmap(imageBitmap);
+                        if (!sharedPreferences.getBoolean("first_profile_image_set", false)) {
+                            Toast.makeText(requireContext(), R.string.profile_image_unset, Toast.LENGTH_SHORT).show();
+                            sharedPreferences.edit().putBoolean("first_profile_image_set", true).apply();
+                        }
                     } else {
                         Timber.d("Selected image is null");
                     }
@@ -327,6 +344,29 @@ public class ProfileFragment extends Fragment implements Injectable {
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    @MainThread
+    public void discoverProfilePicture() {
+        if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
+            TapTargetView.showFor(requireActivity(),
+                    TapTarget.forView(ivProfilePlaceholder, getString(R.string.fd_profile_image), getString(R.string.fd_profile_image_desc))
+                            .outerCircleColor(R.color.colorPrimary)
+                            .targetCircleColor(R.color.white)
+                            .titleTextColor(R.color.white)
+                            .descriptionTextColor(R.color.white)
+                            .outerCircleAlpha(0.96f)
+                            .descriptionTextSize(12)
+                            .titleTextSize(20)
+                            .textTypeface(Typeface.SANS_SERIF)
+                            .drawShadow(true)
+                            .cancelable(true)
+                            .tintTarget(true)
+                            .transparentTarget(true)
+                            .targetRadius(70)
+            );
+            sharedPreferences.edit().putBoolean("feature_discovered_profile_image", true).apply();
         }
     }
 }
