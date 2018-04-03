@@ -5,6 +5,8 @@ import com.forcetower.uefs.util.WordUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import timber.log.Timber;
+
 import static com.forcetower.uefs.util.ValueUtils.toDouble;
 
 /**
@@ -28,10 +30,15 @@ public class SagresGenericParser {
             Element score = element.selectFirst("span[class=\"destaque\"]");
             if (score != null) {
                 String text = score.text();
-                if (text.endsWith("*")) text = text.substring(0, text.length() - 1);
+                text = text.replaceAll("[^\\d,]", "");
+                //if (text.endsWith("*")) text = text.substring(0, text.length() - 1);
                 text = text.replace(",", ".");
                 return toDouble(text, -1);
+            } else {
+                Timber.d("Score element is null");
             }
+        } else {
+            Timber.d("Main Score element is null");
         }
         return -1;
     }

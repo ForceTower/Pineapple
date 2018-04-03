@@ -6,6 +6,8 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -40,14 +42,20 @@ import com.forcetower.uefs.vm.DownloadsViewModel;
 import com.forcetower.uefs.vm.ProfileViewModel;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnLongClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 import timber.log.Timber;
 
+import static android.app.Activity.RESULT_OK;
 import static com.forcetower.uefs.Constants.ENROLLMENT_CERTIFICATE_FILE_NAME;
 import static com.forcetower.uefs.util.NetworkUtils.openLink;
 
@@ -56,6 +64,7 @@ import static com.forcetower.uefs.util.NetworkUtils.openLink;
  */
 
 public class ProfileFragment extends Fragment implements Injectable {
+    public static final int REQUEST_SELECT_PROFILE_PICTURE = 5000;
     @BindView(R.id.tv_std_name)
     TextView tvStdName;
     @BindView(R.id.tv_std_semester)
@@ -82,6 +91,10 @@ public class ProfileFragment extends Fragment implements Injectable {
     ImageButton btnDownloadEnrollCert;
     @BindView(R.id.pb_download_enrollment_cert)
     ProgressBar pbDownloadEnrollCert;
+    @BindView(R.id.iv_img_profile)
+    CircleImageView ivProfileImage;
+    @BindView(R.id.iv_img_placeholder)
+    CircleImageView ivProfilePlaceholder;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -120,6 +133,22 @@ public class ProfileFragment extends Fragment implements Injectable {
         return view;
     }
 
+    @OnClick(value = {R.id.iv_img_profile, R.id.iv_img_placeholder})
+    public void selectPicture() {
+        Timber.d("Fired on click listener");
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, REQUEST_SELECT_PROFILE_PICTURE);
+    }
+
+    @OnLongClick(value = R.id.iv_img_profile)
+    public boolean onProfileImageLongClick() {
+        AnimUtils.fadeOut(requireContext(), ivProfileImage);
+        AnimUtils.fadeIn(requireContext(), ivProfilePlaceholder);
+        downloadsViewModel.saveBitmap(null);
+        return true;
+    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -129,6 +158,20 @@ public class ProfileFragment extends Fragment implements Injectable {
         profileViewModel.getSemesters().observe(this, this::onReceiveSemesters);
         downloadsViewModel.getDownloadCertificate().observe(this, this::onCertificateDownload);
         profileViewModel.getAccess().observe(this, this::onReceiveAccess);
+        downloadsViewModel.getProfileImage().observe(this, this::onReceiveProfileImage);
+    }
+
+    private void onReceiveProfileImage(Bitmap bitmap) {
+        if (bitmap == null) {
+            Timber.d("No image set so far");
+            AnimUtils.fadeIn(requireContext(), ivProfilePlaceholder);
+            AnimUtils.fadeOut(requireContext(), ivProfileImage);
+            return;
+        }
+
+        ivProfileImage.setImageBitmap(bitmap);
+        AnimUtils.fadeIn(requireContext(), ivProfileImage);
+        AnimUtils.fadeOut(requireContext(), ivProfilePlaceholder);
     }
 
     private void onReceiveAccess(Access access) {
@@ -253,12 +296,37 @@ public class ProfileFragment extends Fragment implements Injectable {
     }
 
     private void certificateDownload() {
-        if (!NetworkUtils.isNetworkAvailable(getContext())) {
+        if (!NetworkUtils.isNetworkAvailable(requireContext())) {
             Toast.makeText(getContext(), R.string.offline, Toast.LENGTH_SHORT).show();
             return;
         }
 
         downloadsViewModel.triggerDownloadCertificate();
         Toast.makeText(getContext(), R.string.wait_until_download_finishes, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_SELECT_PROFILE_PICTURE) {
+            if (resultCode == RESULT_OK) {
+                Uri selectedImage = data.getData();
+                try {
+                    if (selectedImage != null) {
+                        InputStream imageStream = requireActivity().getContentResolver().openInputStream(selectedImage);
+                        Bitmap imageBitmap = BitmapFactory.decodeStream(imageStream);
+                        ivProfileImage.setImageBitmap(imageBitmap);
+                        AnimUtils.fadeOut(requireContext(), ivProfilePlaceholder);
+                        AnimUtils.fadeIn(requireContext(), ivProfileImage);
+                        downloadsViewModel.saveBitmap(imageBitmap);
+                    } else {
+                        Timber.d("Selected image is null");
+                    }
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }
