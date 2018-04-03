@@ -224,6 +224,7 @@ public class DateUtils {
 
                 int dow = calendar.get(Calendar.DAY_OF_WEEK);
                 int dist = number - dow;
+                if (dist < 0) dist += 7;
                 Timber.d("Distance is %d days to %s", dist, desiredWeek);
                 calendar.add(Calendar.DAY_OF_MONTH, dist);
 
