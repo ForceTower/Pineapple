@@ -52,6 +52,8 @@ public class GoogleCalendarViewModel extends ViewModel {
     private MediatorLiveData<Resource<Integer>> exportData;
     private Calendar service;
 
+    private boolean exporting = false;
+
     @Inject
     public GoogleCalendarViewModel(AppExecutors executors, ScheduleRepository repository) {
         this.executors = executors;
@@ -64,6 +66,7 @@ public class GoogleCalendarViewModel extends ViewModel {
     }
 
     public void exportData(GoogleAccountCredential credential) {
+        exporting = true;
         HttpTransport transport = AndroidHttp.newCompatibleTransport();
         JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
         service = new Calendar.Builder(transport, jsonFactory, credential)
@@ -77,6 +80,7 @@ public class GoogleCalendarViewModel extends ViewModel {
 
             if (group == null) {
                 exportData.postValue(Resource.error("Can only do it when there is at least one class loaded", 500, R.string.export_requires_one_details_loaded_class));
+                exporting = false;
             } else {
                 String[] parts = group.getClassPeriod().split("até");
                 String start = reformatDate(parts[0], false);
@@ -90,6 +94,7 @@ public class GoogleCalendarViewModel extends ViewModel {
                     });
                 } else {
                     exportData.postValue(Resource.error("Invalid amount of stuff", R.string.exporter_not_2_parts));
+                    exporting = false;
                 }
             }
         });
@@ -103,7 +108,7 @@ public class GoogleCalendarViewModel extends ViewModel {
         for (DisciplineClassLocation location : disciplines) {
             try {
                 Event event = new Event();
-                event.setSummary(location.getClassCode() + " - " + location.getClassName());
+                event.setSummary("[" + location.getClassCode() + "] " + location.getClassName());
                 event.setLocation(location.getCampus() + " - " + location.getModulo() + " - " + location.getRoom());
                 event.setDescription("Aula de " + location.getClassName());
 
@@ -147,16 +152,26 @@ public class GoogleCalendarViewModel extends ViewModel {
         String calendarId = "primary";
         executors.networkIO().execute(() -> {
             List<Event> exported = new ArrayList<>();
+            int i = 0;
             for (Event event : events) {
                 try {
                     Event inserted = service.events().insert(calendarId, event).execute();
                     if (inserted != null) exported.add(inserted);
                     Timber.d("Exported class");
+                    i++;
+                    Timber.d("Percentage: %d", ((i*100)/event.size()));
+                    exportData.postValue(Resource.success((i*100)/event.size()));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
+            exporting = false;
+            exportData.postValue(Resource.success(1000));
             Timber.d("Number of exported events: %d", exported.size());
         });
+    }
+
+    public boolean isExporting() {
+        return exporting;
     }
 }

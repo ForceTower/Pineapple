@@ -8,5 +8,7 @@ import android.content.Context;
 
 public interface SettingsController {
     void logout();
+    void exportToCalendar();
+    void resetExportToCalendar();
     Context getContext();
 }

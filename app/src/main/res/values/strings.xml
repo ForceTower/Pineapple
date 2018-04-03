@@ -276,4 +276,8 @@
     <string name="exporter_not_2_parts">Erro no exportador. Não encontrou inicio/fim do semestre</string>
     <string name="failed_to_export_class">Falhou ao exportar aula</string>
     <string name="exporting_classes">Exportando aulas</string>
+    <string name="export_classes_to_google_calendar">Google Calendar</string>
+    <string name="export_classes_to_google_calendar_desc">Exportar os horários para o Google Calendar</string>
+    <string name="remove_google_calendar_export">Reiniciar Google Calendar</string>
+    <string name="remove_google_calendar_export_desc">Retira todas as aulas exportadas do Google Calendar</string>
 </resources>

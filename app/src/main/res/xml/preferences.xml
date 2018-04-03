@@ -98,6 +98,18 @@
             android:defaultValue="false"
             android:summaryOff="@string/new_schedule_layout_disabled"
             android:summaryOn="@string/new_schedule_layout_enabled"/>
+
+        <Preference
+            android:icon="@drawable/ic_calendar_range_accent_30dp"
+            android:key="export_to_google_calendar"
+            android:title="@string/export_classes_to_google_calendar"
+            android:summary="@string/export_classes_to_google_calendar_desc"/>
+
+        <Preference
+            android:icon="@drawable/ic_calendar_remove_accent_30dp"
+            android:key="reset_calendar_export"
+            android:title="@string/remove_google_calendar_export"
+            android:summary="@string/remove_google_calendar_export_desc"/>
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -118,7 +130,6 @@
             android:defaultValue="true"
             android:summaryOff="@string/pref_do_not_show_semester"
             android:summaryOn="@string/pref_do_show_semester"/>
-
 
         <Preference
             android:icon="@drawable/ic_logoff_accent_30dp"

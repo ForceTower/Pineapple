@@ -273,4 +273,8 @@
     <string name="exporter_not_2_parts">Error on exporter. It didn\'t find the start or end of semester</string>
     <string name="failed_to_export_class">Failed to export the class</string>
     <string name="exporting_classes">Exporting classes</string>
+    <string name="export_classes_to_google_calendar">Google Calendar</string>
+    <string name="export_classes_to_google_calendar_desc">Export schedule to Google Calendar</string>
+    <string name="remove_google_calendar_export">Reset Google Calendar Schedule</string>
+    <string name="remove_google_calendar_export_desc">Removes the exported schedule from Google Calendar</string>
 </resources>

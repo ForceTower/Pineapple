@@ -17,4 +17,14 @@
         android:layout_below="@id/inc_toolbar">
     </FrameLayout>
 
+    <ProgressBar
+        android:id="@+id/pb_progress"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        tools:progress="50"
+        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+        tools:visibility="visible"/>
+
 </RelativeLayout>
