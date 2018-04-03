@@ -15,38 +15,4 @@
     <color name="little_darker_gray">#C7C7C7</color>
 
     <color name="android_green">#A4C639</color>
-
-    <color name="dis_01">#18ffff</color>
-    <color name="dis_02">#64dd17</color>
-    <color name="dis_03">#f5bf8a</color>
-    <color name="dis_04">#c7e5f9</color>
-    <color name="dis_05">#FFFF00</color>
-    <color name="dis_06">#ccff90</color>
-    <color name="dis_07">#bd7cff</color>
-    <color name="dis_08">#76ff03</color>
-    <color name="dis_09">#536dfe</color>
-    <color name="dis_10">#ff4e4e</color>
-    <color name="dis_11">#f55d93</color>
-    <color name="dis_12">#45b4f9</color>
-    <color name="dis_13">#b9f9ac</color>
-    <color name="dis_14">#ffcf0e</color>
-    <color name="dis_15">#ffb0ff</color>
-
-    <array name="discipline_colors">
-        <item>@color/dis_01</item>
-        <item>@color/dis_02</item>
-        <item>@color/dis_03</item>
-        <item>@color/dis_04</item>
-        <item>@color/dis_05</item>
-        <item>@color/dis_06</item>
-        <item>@color/dis_07</item>
-        <item>@color/dis_08</item>
-        <item>@color/dis_09</item>
-        <item>@color/dis_10</item>
-        <item>@color/dis_11</item>
-        <item>@color/dis_12</item>
-        <item>@color/dis_13</item>
-        <item>@color/dis_14</item>
-        <item>@color/dis_15</item>
-    </array>
 </resources>

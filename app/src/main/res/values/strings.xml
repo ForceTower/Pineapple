@@ -1,130 +1,98 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:locale="pt">
-
+<resources>
     <string name="app_name">UNES</string>
     <string name="logo">Logo</string>
-    <string name="login_username">Usuário</string>
-    <string name="login_password">Senha</string>
-    <string name="login_connect">Conectar</string>
-    <string name="connecting">Conectando</string>
-    <string name="completed">Completo</string>
-    <string name="failed_to_connect">Falha de conexão</string>
-    <string name="invalid_login">Login incorreto</string>
-    <string name="going_to_student_page">Indo para o Portal do Aluno</string>
-    <string name="accessing_portal">Acessando o portal</string>
-    <string name="username_too_short">Usuário muito curto</string>
-    <string name="password_too_short">Senha muito curta</string>
-    <string name="processing_information">Processando informações</string>
-    <string name="going_to_grades_page">Indo para página de notas</string>
-    <string name="grades_obtained">Notas obtidas</string>
+    <string name="login_username">Username</string>
+    <string name="login_password">Password</string>
+    <string name="login_connect">Connect</string>
+    <string name="connecting">Connecting</string>
+    <string name="completed">Completed</string>
+    <string name="failed_to_connect">Failed to Connect</string>
+    <string name="invalid_login">Invalid Login</string>
+    <string name="going_to_student_page">Navigating to Student Page</string>
+    <string name="accessing_portal">Accessing Portal</string>
+    <string name="username_too_short">Username too short</string>
+    <string name="password_too_short">Password too short</string>
+    <string name="processing_information">Processing Information</string>
+    <string name="going_to_grades_page">Going to grades page</string>
+    <string name="grades_obtained">Grades Obtained</string>
+    <string name="title_schedule">Schedule</string>
+    <string name="title_messages">Messages</string>
+    <string name="title_grades">Grades</string>
+    <string name="title_disciplines">Disciplines</string>
+    <string name="title_calendar">Calendar</string>
+    <string name="title_more">More</string>
 
-    <string name="monday">Segunda</string>
-    <string name="tuesday">Terça</string>
-    <string name="wednesday">Quarta</string>
-    <string name="thursday">Quinta</string>
-    <string name="friday">Sexta</string>
-    <string name="saturday">Sábado</string>
-    <string name="sunday">Domingo</string>
-    <string name="title_schedule">Horário</string>
-    <string name="title_messages">Mensagens</string>
-    <string name="title_grades">Notas</string>
-    <string name="title_disciplines">Disciplinas</string>
-    <string name="title_calendar">Calendário</string>
-    <string name="title_more">Mais</string>
-    <string name="classes_not_found">O horário do semestre não foi encontrado</string>
-    <string name="check_schedule_in_official_page">Vá ao site oficial e verifique se os horários estão disponíveis. Tentaremos buscar essa informação mais tarde</string>
-    <string name="that_s_embarrassing">Bem... Isso é constrangedor</string>
-    <string name="sad">Triste</string>
+    <string name="classes_not_found">Schedule was not found on start page</string>
+    <string name="check_schedule_in_official_page">Go to official Sagres page and check if the schedule is visible</string>
+    <string name="that_s_embarrassing">That\'s embarrassing</string>
+    <string name="sad">Sad</string>
+
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
     <string name="discipline_start_end_time">%1$s ~ %2$s</string>
-    <string name="discipline_code_group">%1$s - %2$s</string>
-    <string name="draft_class">Rascunho de Aula</string>
-    <string name="final_score_text">Nota final</string>
-    <string name="partial_mean">Média Parcial</string>
-    <string name="all_semester_part_completed">Obteve notas de um novo semestre</string>
-    <string name="disconnected">Desconectado! Você mudou sua senha?</string>
-    <string name="data_deleted">Dados apagados</string>
-    <string name="retrieving_data">Recuperando dados...</string>
-    <string name="account_name">Sincronização Sagres</string>
-    <string name="sagres_sync">Atualização Sagres</string>
-    <string name="title_auto_sync">Atualização Automática</string>
-    <string name="auto_sync_warning">UNES usa o recurso de atualização automática do Android para manter os dados atualizados com o Sagres.\n\nParece que este recurso está desativado\n\nCom a atualização automática desligada você não irá receber notificações quando algo novo for postado</string>
-    <string name="class_additional_info_format">%1$s - %2$d horas - %3$d faltas</string>
-    <string name="android">Android</string>
-    <string name="continue_anyway">Continuar</string>
-    <string name="change_config">Ativar</string>
-    <string name="channel_messages">Mensagens</string>
-    <string name="channel_group_grades">Notas</string>
-    <string name="grade_create_notification">Foi criada a avaliação %1$s da disciplina %2$s, mas a nota ainda não foi postada</string>
-    <string name="grade_change_notification">A avaliação %1$s da disciplina %2$s mudou de data</string>
-    <string name="new_grade_posted">Nova nota postada</string>
-    <string name="grade_posted_notification">A nota da avaliação %1$s da disciplina %2$s está disponível.\nVá olhar!</string>
-    <string name="new_grade_notification_great">A nota da avaliação %1$s da disciplina %2$s está disponível.\Vá olhar!\n\Parabéns!</string>
-    <string name="channel_grades_posted">Notas postadas</string>
-    <string name="channel_grades_date_changed">Data de avaliação</string>
-    <string name="channel_grades_created">Criação de notas</string>
-    <string name="grade_evaluation_date_change">Data de avaliação mudou</string>
-    <string name="new_grade_created">Nova nota criada</string>
-    <string name="channel_group_messages">Mensagens</string>
-    <string name="student_freshman">Você é um calouro? Não tem semestres</string>
-    <string name="student_semester">Você está no %1$dº semestre</string>
-    <string name="student_score">Seu score é: %1$.1f</string>
-    <string name="last_information_update">Última atualização dos dados: %1$s</string>
-    <string name="title_calendar_desc">Veja o calendário acadêmico</string>
-    <string name="updated">Atualizado!</string>
-    <string name="pref_sync_only_wifi">Somente Wifi</string>
-    <string name="pref_sync_only_wifi_disabled">App irá sincronizar em qualquer rede</string>
-    <string name="pref_sync_only_wifi_enabled">App irá sincronizar apenas no wifi</string>
-    <string name="pref_notifications_summary">Abre o controle de notificações</string>
+    <string name="draft_class">Draft Class</string>
 
-    <string name="pref_show_message_notification">Recados</string>
-    <string name="pref_show_message_notification_enabled">Notificar ao receber uma mensagem</string>
-    <string name="pref_show_message_notification_disabled">Não notificar ao receber uma mensagem</string>
-    <string name="pref_do_not_show_score">Não mostrar na tela do perfil</string>
-    <string name="pref_do_show_score">Mostrar na tela do perfil</string>
-    <string name="pref_show_grades_notification">Notas</string>
-    <string name="pref_show_grades_notification_disabled">Não notificar quando receber uma nota</string>
-    <string name="pref_show_grades_notification_enabled">Notificar quando receber uma nota</string>
-    <string name="pref_notification_sound">Som</string>
-    <string name="pref_notification_header">Notificações</string>
-    <string name="pref_title_vibrate">Vibrar</string>
-    <string name="pref_header_data_sync">Dados e sincronização</string>
-    <string name="pref_sync_frequency">Frequência de atualização</string>
-    <string name="pref_sync_frequency_enabled">A cada %1$s</string>
-    <string name="settings">Configurações</string>
-    <string name="pref_account_settings">Conta</string>
-    <string name="show_score">Score</string>
-    <string name="pref_new_message_vibration_enabled">Vibrar na notificação</string>
-    <string name="pref_new_message_vibration_disabled">Não vibrar na notificação</string>
-    <string name="pref_notification_sound_summary">Mudar som de notificação</string>
-    <string name="pref_sync_frequency_never">Nunca atualizar</string>
-    <string name="pref_grades_posted">Notas postadas</string>
-    <string name="pref_grades_date_changed">Datas de avaliação</string>
-    <string name="pref_grades_created">Avaliação criada</string>
-    <string name="pref_notification_grade_date_changed">Controle notificações quando a data da avaliação mudar</string>
-    <string name="pref_notification_grade_created">Controle notificações quando uma avaliação for criada</string>
-    <string name="pref_notification_grade_posted">Controle  notificações quando a nota for postada</string>
-    <string name="application_settings">Aplicativo</string>
-    <string name="pref_double_back">Duas vezes para sair</string>
-    <string name="pref_double_back_on">Aperte voltar duas vezes para sair</string>
-    <string name="pref_double_back_off">Aperte voltar uma vez para sair</string>
-    <string name="pref_logoff">Desconectar</string>
-    <string name="pref_logoff_summary">Sair e limpar informações</string>
-    <string name="pref_title_about_and_feedback">Sobre e Feedback</string>
-    <string name="suggestions">Sugestões e críticas</string>
-    <string name="about_app_title">Sobre o aplicativo</string>
+    <string name="class_additional_info_format">%1$s - %2$d hours - %3$d missed classes</string>
+    <string name="final_score_text">Final Score</string>
+    <string name="partial_mean">Partial Mean</string>
+    <string name="all_semester_part_completed">Got grade of a new semester</string>
+    <string name="disconnected">Disconnected! Did you change yor password?</string>
+    <string name="data_deleted">Data Deleted</string>
+    <string name="retrieving_data">Retrieving Data...</string>
+
+    <string name="account_name">Sagres Sync</string>
+    <string name="account_type" translatable="false">com.forcetower.uefs.sync</string>
+    <string name="authority" translatable="false">com.forcetower.uefs.provider</string>
+    <string name="sagres_sync">Sagres Updater</string>
+    <string name="title_auto_sync">Auto Sync</string>
+    <string name="auto_sync_warning">UNES uses Android\'s auto sync feature to frequently update your data from Sagres\n\nIt seems like this feature is disabled in your phone\n\nWith auto sync disabled the app will not get information from Sagres automatically, thus you will never receive any notification when something new is posted</string>
+    <string name="android">Android</string>
+    <string name="continue_anyway">Continue</string>
+    <string name="change_config">Enable</string>
+    <string name="channel_messages">Messages</string>
+    <string name="channel_group_grades">Grades</string>
+    <string name="grade_posted_notification">The grade of %1$s from %2$s is available.\nGo check it out!</string>
+    <string name="new_grade_notification_great">The grade of %1$s from %2$s is available.\nGo check it out!\n\nIt's a good one!</string>
+    <string name="grade_create_notification">The evaluation of %1$s from %2$s was created, but there\'s no new grade</string>
+    <string name="grade_change_notification">The evaluation of %1$s from %2$s changed date</string>
+    <string name="new_grade_posted">New grade posted</string>
+    <string name="channel_grades_posted">Grades Posted</string>
+    <string name="channel_grades_date_changed">Grades date changes</string>
+    <string name="channel_grades_created">Grades creation</string>
+    <string name="grade_evaluation_date_change">Evaluation date change</string>
+    <string name="new_grade_created">New grade created</string>
+    <string name="channel_group_messages">Messages</string>
+    <string name="title_calendar_desc">Check out the academic calendar</string>
+    <string name="student_freshman">Are you a new? Never seen you here before</string>
+    <string name="student_semester">You are on the %1$dº semester</string>
+    <string name="student_score">Your score is: %1$.1f</string>
+    <string name="last_information_update">Last data update: %1$s</string>
+    <string name="updated">Updated!</string>
+
+
+    <string name="settings">Settings</string>
+    <string name="pref_header_data_sync">Data and sync</string>
+    <string name="pref_sync_frequency">Sync frequency</string>
+    <string name="pref_sync_frequency_enabled">Every %1$s</string>
+    <string name="pref_sync_frequency_never">Never update</string>
+    <string name="pref_sync_only_wifi">Wifi only</string>
+    <string name="pref_sync_only_wifi_disabled">App will sync using any network</string>
+    <string name="pref_sync_only_wifi_enabled">App will sync only if on wifi</string>
 
     <string-array name="pref_sync_frequency_titles">
-        <item>15 minutos</item>
-        <item>30 minutos</item>
-        <item>1 hora</item>
-        <item>2 horas</item>
-        <item>3 horas</item>
-        <item>6 horas</item>
-        <item>Nunca</item>
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>2 hours</item>
+        <item>3 hours</item>
+        <item>6 hours</item>
+        <item>Never</item>
     </string-array>
-
     <string-array name="pref_sync_frequency_values">
         <item>15</item>
         <item>30</item>
@@ -135,145 +103,139 @@
         <item>-1</item>
     </string-array>
 
-    <string name="about_app_presentation">Oi, meu nome é João Paulo e sou estudante de Engenharia de Computação na UEFS.\nEste é o UNES - UNES Não É Sagres, um aplicativo para ajudar você na sua vida acadêmica :)\n\nEu criei este aplicativo após notar nossa necessidade como estudantes de algo que nos avisasse quando um professor postasse uma mensagem ou uma nota no Sagres.\n\nComo o propósito é que o aplicativo seja aberto, o código fonte está disponível em: https://github.com/ForceTower/UEFS_Sagres_App</string>
-    <string name="about_app_disclaimer">Este aplicativo não foi endorsado ou licenciado pela TecnoTrends e não tem nenhuma ligação com a empresa que fornece o serviço do Sagres à universidade.\n\nO aplicativo foi desenvolvido para auxiliar o dia a dia dos estudantes da UEFS.\n\nEle ainda não está perfeito, alguns bugs inesperados podem acontecer, por isso não confie sua vida a ele ainda.\n\nO aplicativo é um reflexo do SAGRES, então em caso de algo inesperado no Sagres, o aplicativo pode não funcionar corretamente.</string>
-    <string name="about_app_privacy">As informações adquiridas pelo aplicativo não são transmitidas para mais ninguém além de você. O usuário e senha digitados aqui ficam salvos APENAS no seu SMARTPHONE</string>
-    <string name="about_app_features">Após o login, você terá acesso ao seu horário, notas, recados e outras coisas.\n\nEstes dados ficam salvos no seu smartphone, então caso você esteja sem internet você ainda poderá visualizar os dados, e quando você voltar à internet os dados serão atualizados.\n\nO aplicativo também atualiza as informações de forma automática de certo em certo tempo se houver conexão com a internet :)</string>
-    <string name="about_app_notifications">Você receberá uma notificação quando algum professor postar uma nota ou colocar um recado no portal.</string>
-    <string name="about_app_exit">A qualquer momento, você pode se desconectar da sua conta clicando em Configurações>Sair, isso fará com que todos os dados relacionados à sua conta do Sagres no aplicativo sejam apagados, você voltará a receber notificações quando entrar novamente.</string>
-    <string name="about_app_bugs">Depois de reescrever grande parte do código do aplicativo, acho que limpei todos os erros. Mas provavelmente deve ter alguns bugs escondidos por ai.\n\nSe encontrar algum me avise :v</string>
-    <string name="about_app_enjoy">Desenvolvedor</string>
-    <string name="about_app_features_title">Funções e Benefícios</string>
-    <string name="credits">Créditos</string>
-    <string name="about_app_notifications_title">Notificações</string>
-    <string name="about_app_exit_title">Sair</string>
-    <string name="about_app_presentation_title">Sobre mim</string>
-    <string name="about_app_disclaimer_title">Aviso</string>
-    <string name="about_app_privacy_title">Privacidade</string>
-    <string name="creator">Criado por João Paulo Sena\n\nEste é meu Facebook, pode me mandar mensagem lá, eu leio [facebook.com/ForceTower]\n\nEste é meu GitHub, onde coloco códigos legais [github.com/ForceTower]\n\nVersão do Aplicativo: %1$s</string>
+    <string name="pref_notification_header">Notifications</string>
+    <string name="pref_notifications_summary">Opens notification control panel</string>
+    <string name="pref_show_message_notification">Messages</string>
+    <string name="pref_show_message_notification_enabled">You\'ll be notified when a new message arrive</string>
+    <string name="pref_show_message_notification_disabled">You\'ll not be notified when a new message arrive</string>
+    <string name="pref_show_grades_notification">Grades</string>
+    <string name="pref_show_grades_notification_disabled">You\'ll not be notified when a new grade arrive</string>
+    <string name="pref_show_grades_notification_enabled">You\'ll be notified when a new grade arrive</string>
+    <string name="pref_title_vibrate">Vibrate</string>
+    <string name="pref_new_message_vibration_enabled">Vibrate on notification</string>
+    <string name="pref_new_message_vibration_disabled">Do not vibrate on notification</string>
+    <string name="pref_notification_sound">Ringtone</string>
+    <string name="pref_notification_sound_summary">Change the notification sound</string>
+    <string name="pref_grades_posted">Grade posted</string>
+    <string name="pref_grades_date_changed">Date changes</string>
+    <string name="pref_grades_created">Grade created</string>
+    <string name="pref_notification_grade_date_changed">Control notifications when date changes</string>
+    <string name="pref_notification_grade_created">Control notifications when a grade is created</string>
+    <string name="pref_notification_grade_posted">Control notifications when a grade is posted</string>
+
+    <string name="application_settings">Application</string>
+    <string name="pref_double_back">Double back</string>
+    <string name="pref_double_back_on">You need to press back twice to exit</string>
+    <string name="pref_double_back_off">You need to press back once to exit</string>
+
+    <string name="pref_account_settings">Account</string>
+    <string name="show_score">Score</string>
+    <string name="pref_do_not_show_score">Don\'t show on profile page</string>
+    <string name="pref_do_show_score">Show on profile page</string>
+    <string name="pref_logoff">Logoff</string>
+    <string name="pref_logoff_summary">Exit and clean information</string>
+
+    <string name="pref_title_about_and_feedback">About and Feedback</string>
+    <string name="suggestions">Suggestions</string>
+    <string name="about_app_title">About App</string>
+
+    <string name="creator">Created by João Paulo [facebook.com/ForceTower]\n[github.com/ForceTower]\nVersion: %1$s</string>
     <string name="about_app_bugs_title">Bugs</string>
+    <string name="about_app_exit_title">Exit</string>
+    <string name="about_app_notifications_title">Notifications</string>
+    <string name="about_app_features_title">Features and Benefits</string>
+    <string name="about_app_privacy_title">Privacy</string>
+    <string name="about_app_disclaimer_title">Disclaimer</string>
+    <string name="about_app_presentation_title">About me</string>
+    <string name="about_app_enjoy">Enjoy :)</string>
+    <string name="about_app_presentation">Hi, I am João Paulo, student of Computer Engineering\nThis is UNES - UNES Não É Sagres, an app to help your student life :)\n The source code of this app is available at github.com/ForceTower/UEFS_Sagres_App</string>
+    <string name="about_app_disclaimer">This app is not endorsed nor licensed by TecnoTrends and has no connection with the enterprise that offers the Sagres to the university. The app was developed to help the day life of the students. It still has some bugs so don\'t trust your life on it just yet</string>
+    <string name="about_app_privacy">The information gathered by the app are only accessible by you. Your username and password are saved exclusively on YOUR SMARTPHONE(Or at your Google\'s account, in case your smartphone supports backup).</string>
+    <string name="about_app_features">After the first login you will have access to you schedule, grades and messages. These data are stored on your smartphone, so even when you have no connection you\'ll still be able to read the data and when your connection returns it will update the data again. The app updates your information periodically and you can control the frequency this happens</string>
+    <string name="about_app_notifications">You will receive a notification whenever someone posts a new Grade or a Message on the website (with some delay, based on the selected frequency)</string>
+    <string name="about_app_exit">At any moment you can logout by clicking at Settings>Logoff, this action will erase all the saved data related to your Sagres account from the device. You can login again at any time and return receiving notifications.</string>
+    <string name="about_app_bugs">I don\'t know any for now. But there must be some</string>
 
-    <string name="class_details_credits">Carga horária: %1$d horas</string>
-    <string name="class_details_class_period">Período de aulas: %1$s</string>
-    <string name="class_details_teacher">Professor: %1$s</string>
-    <string name="class_details_department">Departamento: %1$s</string>
-    <string name="class_details_miss_limit">Limite de Faltas: %1$d</string>
-    <string name="class_details_classes_missed">Você faltou %1$d aulas</string>
-    <string name="class_details_miss_remain">Você ainda pode faltar %1$d vezes</string>
-    <string name="class_details_previous_class">Aula anterior: %1$s</string>
-    <string name="class_details_next_class">Próxima aula: %1$s</string>
-    <string name="card_class_details_this_is_a_draft">Este é um rascunho, atualize a aula para ter informação completa</string>
+    <string name="credits">Credits</string>
+    <string name="credits_string">
+        App Icon: Lokisley Oliveira\nhttps://www.facebook.com/Lokisley\n\n
+    </string>
+    <string name="btn_third_party_licenses">Third party licences</string>
+
+    <string name="write_a_suggestion">Write a suggestion</string>
+    <string name="suggestion">Suggestion</string>
+    <string name="submit">Submit</string>
+    <string name="send_email">Send Email</string>
+    <string name="empty_suggestion_field">Suggestion field is empty</string>
+    <string name="pref_notification_message_summary">Control notifications when new message is posted</string>
+
+    <string name="discipline_details">Discipline Details</string>
+    <string name="discipline_overview">Overview</string>
+    <string name="discipline_grades">Grades</string>
+    <string name="card_class_details_this_is_a_draft">This is a draft class, update the class to get full information</string>
+    <string name="all_classes">All classes</string>
+    <string name="days_and_classes">Days and classes</string>
+    <string name="class_details_credits">Class Credits: %1$d hours</string>
+    <string name="class_details_class_period">Class Period: %1$s</string>
+    <string name="class_details_teacher">Teacher: %1$s</string>
+    <string name="class_details_department">Department: %1$s</string>
+    <string name="class_details_miss_limit">Fault Limit: %1$d</string>
+    <string name="class_details_classes_missed">You missed %1$d classes</string>
+    <string name="class_details_miss_remain">You still can miss %1$d classes</string>
+    <string name="class_details_previous_class">Previous Class: %1$s</string>
+    <string name="class_details_next_class">Next Class: %1$s</string>
+    <string name="class_details_can_not_miss_anymore">You can not miss any class</string>
+    <string name="class_details_failed_by_lack">You failed for lack</string>
+    <string name="experimental_content">Experimental Content</string>
+    <string name="situation">Situation</string>
+    <string name="situation_unknown">Unknown Situation</string>
+    <string name="label_current_mean">Mean</string>
+    <string name="label_final_mean">Final mean</string>
+    <string name="label_need_final_mean">Grade needed in final test</string>
+    <string name="label_partial_mean">Partial Mean</string>
     <string name="class_name_list_format">%1$s %2$s</string>
-    <string name="class_details_failed_by_lack">Você foi reprovado por falta</string>
-    <string name="class_details_can_not_miss_anymore">Você não pode mais faltar</string>
-    <string name="press_back_twice">Pressione voltar novamente para sair do aplicativo</string>
-    <string name="label_partial_mean">Média parcial</string>
-    <string name="label_need_final_mean">Nota necessária na final</string>
-    <string name="label_final_mean">Média final</string>
-    <string name="label_current_mean">Média</string>
-    <string name="situation">Situação</string>
-    <string name="experimental_content">Conteúdo experimental</string>
-    <string name="situation_unknown">Situação desconhecida</string>
-    <string name="all_classes">Todas as aulas</string>
-    <string name="days_and_classes">Dias de aula</string>
-    <string name="btn_third_party_licenses">Licenças de Código Aberto</string>
-    <string name="write_a_suggestion">Escreva uma sugestão</string>
-    <string name="suggestion">Sugestão</string>
-    <string name="submit">Enviar</string>
-    <string name="send_email">Enviar email</string>
-    <string name="empty_suggestion_field">O campo de sugestão está vazio</string>
-    <string name="pref_notification_message_summary">Controle notificações quando uma mensagem chegar</string>
-    <string name="discipline_details">Detalhes da disciplina</string>
-    <string name="discipline_overview">Resumo</string>
-    <string name="discipline_grades">Notas</string>
-    <string name="pref_show_grades_created_notification_disabled">Você não será notificado quando uma avaliação for criada sem notas</string>
-    <string name="pref_show_grades_created_notification_enabled">Você será notificado quando uma avaliação for criada sem notas</string>
-    <string name="pref_show_grades_changed_notification_disabled">Você não será notificado quando a data de uma avaliação mudar</string>
-    <string name="pref_show_grades_changed_notification_enabled">Você será notificado quando a data de uma avaliação mudar</string>
-    <string name="discipline_classes">Aulas</string>
-    <string name="you_are_not_connected">Você não está conectado</string>
-    <string name="login">Login</string>
+    <string name="press_back_twice">Press back again to exit the app</string>
+    <string name="pref_show_grades_created_notification_disabled">You\'ll not be notified when an evaluation is created without grades</string>
+    <string name="pref_show_grades_created_notification_enabled">You\'ll be notified when an evaluation is created without grades</string>
+    <string name="pref_show_grades_changed_notification_disabled">You\'ll not be notified when the evaluation date changes</string>
+    <string name="pref_show_grades_changed_notification_enabled">You\'ll be notified when the evaluation date changes</string>
     <string name="attachments">%1$d</string>
-    <string name="select_a_class">Selecione uma turma</string>
-    <string name="cancel">Cancelar</string>
-    <string name="ignore_class">Ignorar turma</string>
-    <string name="ignore_class_description">Esta ação irá silenciar todas as notificações desta turma. Tem certeza?</string>
-    <string name="ignored_class_format">%1$s (Ignorado)</string>
-    <string name="last_information_update_attempt">Última tentativa de atualização dos dados: %1$s</string>
-    <string name="title_messages_long">Abre as mensagens</string>
-    <string name="title_grades_long">Abre as notas</string>
-
-    <string name="title_update_control_desc">Controlar o mestre de sincronização</string>
-    <string name="title_update_control">Mestre da Sincronia</string>
-    <string name="master_update_status_message">Estado do Sincronizador é: %1$s</string>
-    <string name="enable">Ativar</string>
-    <string name="disable">Desativar</string>
-    <string name="master_sync_enabled">Sincronizador principal está ativado</string>
-    <string name="master_sync_disabled">Sincronizador principal está desativado</string>
-    <string name="master_update_connections">Número de conexões: %1$d</string>
-    <string name="select_a_link">Abrir Link</string>
-    <string name="title_barrel_desc">Barril de Boas - Experimento</string>
-    <string name="title_barrel_experimental">Barril</string>
-    <string name="show_current_semester">Semestre</string>
-    <string name="pref_do_not_show_semester">Não mostre meu semestre atual, é ofensivo</string>
-    <string name="pref_do_show_semester">Mostre meu semestre atual, não é ofensivo</string>
-
-    <string name="everything_is_all_right">Está tudo sob controle!</string>
-
-    <string name="going_to_enrollment_page">Procurando pela guia de matrícula</string>
-    <string name="title_enrollment_certificate">Guia de Matrícula</string>
-    <string name="title_enrollment_cert_desc">Baixe ou veja a Guia de Matrícula</string>
-    <string name="link_to_resource_not_found">Link para a guia não foi encontrada</string>
-    <string name="open_file">Abrir arquivo</string>
-    <string name="file_not_found">Arquivo não encontrado</string>
-    <string name="wait_until_download_finishes">Estará disponível assim que o download terminar</string>
-    <string name="no_pdf_reader">Nenhum Leitor de PDF instalado, por favor, instale algum disponível na PlayStore</string>
-    <string name="offline">Sem conexão com a internet</string>
-
-    <string name="cant_open_link">Não é possível abrir este link</string>
-    <string name="channel_group_general">Geral</string>
-    <string name="warnings">Avisos</string>
-
-    <string name="no_automatic_update_yet">Ainda não houve atualização automática</string>
-
-    <string name="new_schedule_layout">Nova tela de horários</string>
-    <string name="new_schedule_layout_disabled">Eu prefiro a tela de horários antiga</string>
-    <string name="new_schedule_layout_enabled">Eu prefiro a nova tela de horários</string>
-    <string name="changes_apply_after_restart">As mudanças serão aplicadas quando você abrir a tela de horários novamente</string>
-
-    <string name="account_type" translatable="false">com.forcetower.uefs.sync</string>
-    <string name="authority" translatable="false">com.forcetower.uefs.provider</string>
-    <string name="title_big_tray">Bandejão</string>
-    <string name="title_big_tray_desc">Veja a cota do bandejão</string>
-    <string name="ru_coffee">Café da Manhã</string>
-    <string name="ru_lunch">Almoço</string>
-    <string name="ru_dinner">Jantar</string>
-    <string name="the_big_tray_is_open">O bandejão está aberto!</string>
-    <string name="the_big_tray_is_closed">O bandejão está fechado</string>
-    <string name="ru_meal_name_partial">%1$s Parcial</string>
-    <string name="contribute">Contribua</string>
-    <string name="feedback">Feedback</string>
-    <string name="ru_feedback_desc">O que você acha do BandejãoUEFS</string>
-    <string name="ru_contribute_desc">Melhore a exatidão do sistema</string>
-    <string name="ru_last_update">Última atualização: %1$s</string>
-    <string name="ru_loading">Carregando...</string>
-    <string name="ru_owners">Esta funcionalidade vem do bit.ly/bandejaouefs</string>
-    <string name="ru_amount_format">%1$d</string>
-    <string name="new_unes_version_available">A versão %1$s do UNES está disponível</string>
-    <string name="get_unes_new_version">Baixe a nova versão do UNES na Play Store</string>
-    <string name="remote">Remotas</string>
-    <string name="default_firebase_notification_channel_id" translatable="false">com.forcetower.uefs.GENERAL.REMOTE</string>
-    <string name="new_schedule_has_errors_on_device_please_feedback">O novo horário provoca erro no aplicativo. O horário padrão será mostrado para que você possa usar o aplicativo</string>
-    <string name="new_schedule_errors">O novo horário provoca erros</string>
-    <string name="send_error">Enviar erro</string>
-    <string name="export_to_calendar">Exportar para Google Calendar</string>
-    <string name="permission_needed_get_accounts">O aplicativo precisa acessar sua conta do Google através dos contatos</string>
-    <string name="no_internet_connection">Sem conexão com a internet</string>
-    <string name="feature_requires_google_play_services">Esta função requer o Google Play Services. Instale-o e tente novamente</string>
-    <string name="loading_schedule">Carregando Horários</string>
-    <string name="preparing_schedule_to_export">Preparando para a exportação</string>
-    <string name="export_requires_one_details_loaded_class">Pelo menos uma disciplina do semester não pode ser um rascunho antes de continuar</string>
-    <string name="exporter_not_2_parts">Erro no exportador. Não encontrou inicio/fim do semestre</string>
-    <string name="failed_to_export_class">Falhou ao exportar aula</string>
-    <string name="exporting_classes">Exportando aulas</string>
+    <string name="discipline_classes">Classes</string>
+    <string name="you_are_not_connected">You are not connected</string>
+    <string name="login">Login</string>
+    <string name="select_a_class">Select a class</string>
+    <string name="cancel">Cancel</string>
+    <string name="ignore_class">Ignore Class</string>
+    <string name="ignore_class_description">This will silent all notifications from this class. Are you sure?</string>
+    <string name="ignored_class_format">%1$s (Ignored)</string>
+    <string name="last_information_update_attempt">Last attempt of data sync: %1$s</string>
+    <string name="title_messages_long">Open the messages</string>
+    <string name="title_grades_long">Open the grades</string>
+    <string name="title_update_control_desc">Control UNES master sync</string>
+    <string name="title_update_control">Update control</string>
+    <string name="master_update_status_message">Master Update status is: %1$s</string>
+    <string name="enable">Enable</string>
+    <string name="disable">Disable</string>
+    <string name="master_sync_enabled">Master sync enabled</string>
+    <string name="master_sync_disabled">Master sync disabled</string>
+    <string name="master_update_connections">Number of connections: %1$d</string>
+    <string name="title_barrel_experimental">Barrel</string>
+    <string name="title_barrel_desc">Good Barrel Experimental</string>
+    <string name="select_a_link">Open link</string>
+    <string name="show_current_semester">Semester</string>
+    <string name="pref_do_not_show_semester">Won\'t show current semester</string>
+    <string name="pref_do_show_semester">Show current semester</string>
+    <string name="everything_is_all_right">Everything is all right!</string>
+    <string name="going_to_enrollment_page">Going to enrollment certificate page</string>
+    <string name="title_enrollment_certificate">Enrollment Certificate</string>
+    <string name="title_enrollment_cert_desc">Download or view certificate</string>
+    <string name="link_to_resource_not_found">Link to resource not found</string>
+    <string name="open_file">Open file</string>
+    <string name="file_not_found">File not found</string>
+    <string name="wait_until_download_finishes">Wait until it finishes</string>
+    <string name="no_pdf_reader">No PDF reader installed, please install one from the Play Store</string>
+    <string name="offline">Offline</string>
+    <string name="cant_open_link">Can\'t open link</string>
+    <string name="channel_group_general">General</string>
+    <string name="warnings">Announcements</string>
 </resources>

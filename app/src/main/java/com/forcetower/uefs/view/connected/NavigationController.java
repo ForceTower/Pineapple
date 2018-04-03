@@ -13,9 +13,5 @@ public interface NavigationController {
     void navigateToDisciplines();
     void navigateToMore();
     void navigateToCalendar();
-    void navigateToBigTray();
     TabLayout getTabLayout();
-
-
-    void showNewScheduleError(Exception e);
 }

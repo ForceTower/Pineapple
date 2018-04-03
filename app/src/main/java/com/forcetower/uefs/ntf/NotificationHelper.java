@@ -24,7 +24,6 @@ import com.forcetower.uefs.view.connected.ConnectedActivity;
 
 import timber.log.Timber;
 
-import static com.forcetower.uefs.Constants.CHANNEL_GENERAL_REMOTE_ID;
 import static com.forcetower.uefs.Constants.CHANNEL_GENERAL_WARNINGS_ID;
 import static com.forcetower.uefs.Constants.CHANNEL_GRADES_CHANGED_ID;
 import static com.forcetower.uefs.Constants.CHANNEL_GRADES_CREATED_ID;
@@ -63,21 +62,18 @@ public class NotificationHelper extends ContextWrapper{
         NotificationChannel changed     = createChannel(CHANNEL_GRADES_CHANGED_ID, getString(R.string.channel_grades_date_changed), NotificationManager.IMPORTANCE_DEFAULT);
         NotificationChannel created     = createChannel(CHANNEL_GRADES_CREATED_ID, getString(R.string.channel_grades_created), NotificationManager.IMPORTANCE_DEFAULT);
         NotificationChannel warnings    = createChannel(CHANNEL_GENERAL_WARNINGS_ID, getString(R.string.warnings), NotificationManager.IMPORTANCE_DEFAULT);
-        NotificationChannel remote      = createChannel(CHANNEL_GENERAL_REMOTE_ID, getString(R.string.remote), NotificationManager.IMPORTANCE_DEFAULT);
 
         messages.setGroup(CHANNEL_GROUP_MESSAGES_ID);
         posted.setGroup(CHANNEL_GROUP_GRADES_ID);
         changed.setGroup(CHANNEL_GROUP_GRADES_ID);
         created.setGroup(CHANNEL_GROUP_GRADES_ID);
         warnings.setGroup(CHANNEL_GROUP_GENERAL_ID);
-        remote.setGroup(CHANNEL_GROUP_GENERAL_ID);
 
         getManager().createNotificationChannel(messages);
         getManager().createNotificationChannel(posted);
         getManager().createNotificationChannel(changed);
         getManager().createNotificationChannel(created);
         getManager().createNotificationChannel(warnings);
-        getManager().createNotificationChannel(remote);
 
     }
 

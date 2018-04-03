@@ -4,12 +4,10 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 
 import com.forcetower.uefs.AppExecutors;
-import com.forcetower.uefs.db.AppDatabase;
+import com.forcetower.uefs.db.dao.AccessDao;
 import com.forcetower.uefs.db.dao.DisciplineClassLocationDao;
-import com.forcetower.uefs.db.dao.DisciplineGroupDao;
 import com.forcetower.uefs.db.dao.SemesterDao;
 import com.forcetower.uefs.db.entity.DisciplineClassLocation;
-import com.forcetower.uefs.db.entity.DisciplineGroup;
 import com.forcetower.uefs.db.entity.Semester;
 
 import java.util.List;
@@ -25,18 +23,21 @@ import timber.log.Timber;
 @Singleton
 public class ScheduleRepository {
     private final DisciplineClassLocationDao classLocationDao;
-    private final DisciplineGroupDao disciplineGroupDao;
     private final AppExecutors executors;
+    private final LoginRepository loginRepository;
+    private final AccessDao accessDao;
     private final SemesterDao semesterDao;
 
     private MediatorLiveData<List<DisciplineClassLocation>> schedule;
 
     @Inject
-    ScheduleRepository(AppDatabase database, AppExecutors executors) {
-        this.classLocationDao = database.disciplineClassLocationDao();
+    ScheduleRepository(DisciplineClassLocationDao classLocationDao, AppExecutors executors,
+                              LoginRepository loginRepository, AccessDao accessDao, SemesterDao semesterDao) {
+        this.classLocationDao = classLocationDao;
         this.executors = executors;
-        this.semesterDao = database.semesterDao();
-        this.disciplineGroupDao = database.disciplineGroupDao();
+        this.loginRepository = loginRepository;
+        this.accessDao = accessDao;
+        this.semesterDao = semesterDao;
         schedule = new MediatorLiveData<>();
     }
 
@@ -86,29 +87,5 @@ public class ScheduleRepository {
                 */
             }
         });
-    }
-
-    public DisciplineGroup getDisciplineGroupDirect(int groupId) {
-        return disciplineGroupDao.getDisciplineGroupByIdDirect(groupId);
-    }
-
-    public LiveData<DisciplineGroup> getDisciplineWithDetailsLoaded() {
-        MediatorLiveData<DisciplineGroup> value = new MediatorLiveData<>();
-        LiveData<List<Semester>> semesterSrc = semesterDao.getAllSemesters();
-        value.addSource(semesterSrc, semesters -> {
-            value.removeSource(semesterSrc);
-            Semester smt = Semester.getCurrentSemester(semesters);
-            if (smt != null) {
-                LiveData<DisciplineGroup> groupData = disciplineGroupDao.getLoadedDisciplineFromSemester(smt.getName());
-                value.addSource(groupData, group -> {
-                    value.removeSource(groupData);
-                    value.postValue(group);
-                });
-            } else {
-                value.postValue(null);
-            }
-        });
-
-        return value;
     }
 }

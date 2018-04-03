@@ -7,8 +7,6 @@ import com.forcetower.uefs.di.module.ActivitiesModule;
 import com.forcetower.uefs.di.module.AppModule;
 import com.forcetower.uefs.di.module.DatabaseModule;
 import com.forcetower.uefs.di.module.NetworkModule;
-import com.forcetower.uefs.di.module.ReceiversModule;
-import com.forcetower.uefs.di.module.ServicesModule;
 
 import javax.inject.Singleton;
 
@@ -26,9 +24,7 @@ import dagger.android.AndroidInjectionModule;
         AppModule.class,
         DatabaseModule.class,
         NetworkModule.class,
-        ActivitiesModule.class,
-        ServicesModule.class,
-        ReceiversModule.class
+        ActivitiesModule.class
 })
 public interface AppComponent {
     @Component.Builder

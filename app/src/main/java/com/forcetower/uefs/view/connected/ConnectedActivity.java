@@ -7,8 +7,6 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
 import android.graphics.drawable.Icon;
@@ -21,7 +19,6 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -29,7 +26,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -37,26 +33,20 @@ import com.forcetower.uefs.R;
 import com.forcetower.uefs.alm.RefreshAlarmTrigger;
 import com.forcetower.uefs.db.entity.Access;
 import com.forcetower.uefs.db.entity.Semester;
-import com.forcetower.uefs.ntf.NotificationCreator;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
-import com.forcetower.uefs.service.ApiResponse;
-import com.forcetower.uefs.service.Version;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.UBaseActivity;
 import com.forcetower.uefs.view.connected.fragments.AllSemestersGradeFragment;
 import com.forcetower.uefs.view.connected.fragments.AutoSyncFragment;
-import com.forcetower.uefs.view.connected.fragments.BigTrayFragment;
 import com.forcetower.uefs.view.connected.fragments.CalendarFragment;
 import com.forcetower.uefs.view.connected.fragments.DisciplinesFragment;
 import com.forcetower.uefs.view.connected.fragments.MessagesFragment;
-import com.forcetower.uefs.view.connected.fragments.NewScheduleFragment;
 import com.forcetower.uefs.view.connected.fragments.ProfileFragment;
 import com.forcetower.uefs.view.connected.fragments.ScheduleFragment;
 import com.forcetower.uefs.view.login.MainActivity;
 import com.forcetower.uefs.view.settings.SettingsActivity;
-import com.forcetower.uefs.view.suggestion.SuggestionActivity;
 import com.forcetower.uefs.vm.GradesViewModel;
 
 import java.util.Arrays;
@@ -86,8 +76,6 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
     TabLayout tabLayout;
     @BindView(R.id.pb_loading)
     ProgressBar pbLoading;
-    @BindView(R.id.view_root)
-    ViewGroup viewRoot;
 
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
@@ -107,8 +95,6 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
 
     private boolean doubleBack;
 
-    private boolean newScheduleLayout = true;
-
     public static void startActivity(Context context, boolean afterLogin) {
         Intent intent = new Intent(context, ConnectedActivity.class);
         intent.putExtra("after_login", afterLogin);
@@ -120,12 +106,10 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(R.layout.activity_connected, savedInstanceState);
+
         setupToolbar();
         elevate();
         gradesViewModel = ViewModelProviders.of(this, viewModelFactory).get(GradesViewModel.class);
-        gradesViewModel.getUNESLatestVersion().observe(this, this::onReceiveVersion);
-
-        newScheduleLayout = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("new_schedule_layout", false);
 
         fragmentManager = getSupportFragmentManager();
         containerId = R.id.container;
@@ -198,43 +182,38 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        newScheduleLayout = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("new_schedule_layout", true);
-    }
-
     private void setupShortcuts() {
         if (!VersionUtils.isNougatMR1()) {
             return;
         }
 
         ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
+        //if (shortcutManager.getDynamicShortcuts().size() == 0) {
+            Intent messages = new Intent(this, ConnectedActivity.class);
+            messages.putExtra(NOTIFICATION_INTENT_EXTRA, MESSAGES_FRAGMENT);
+            messages.setAction("android.intent.action.VIEW");
+            messages.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-        Intent messages = new Intent(this, ConnectedActivity.class);
-        messages.putExtra(NOTIFICATION_INTENT_EXTRA, MESSAGES_FRAGMENT);
-        messages.setAction("android.intent.action.VIEW");
-        messages.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            Intent grades = new Intent(this, ConnectedActivity.class);
+            grades.putExtra(NOTIFICATION_INTENT_EXTRA, GRADES_FRAGMENT);
+            grades.setAction("android.intent.action.VIEW");
+            grades.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-        Intent grades = new Intent(this, ConnectedActivity.class);
-        grades.putExtra(NOTIFICATION_INTENT_EXTRA, GRADES_FRAGMENT);
-        grades.setAction("android.intent.action.VIEW");
-        grades.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            ShortcutInfo msgSrt = new ShortcutInfo.Builder(this, "messages")
+                    .setShortLabel(getString(R.string.title_messages))
+                    .setIcon(Icon.createWithResource(this, R.drawable.ic_shortcut_message))
+                    .setIntent(messages)
+                    .build();
 
-        ShortcutInfo msgSrt = new ShortcutInfo.Builder(this, "messages")
-                .setShortLabel(getString(R.string.title_messages))
-                .setIcon(Icon.createWithResource(this, R.drawable.ic_shortcut_message))
-                .setIntent(messages)
-                .build();
+            ShortcutInfo grdSrt = new ShortcutInfo.Builder(this, "grades")
+                    .setShortLabel(getString(R.string.title_grades))
+                    .setIcon(Icon.createWithResource(this, R.drawable.ic_shortcut_school))
+                    .setIntent(grades)
+                    .build();
 
-        ShortcutInfo grdSrt = new ShortcutInfo.Builder(this, "grades")
-                .setShortLabel(getString(R.string.title_grades))
-                .setIcon(Icon.createWithResource(this, R.drawable.ic_shortcut_school))
-                .setIntent(grades)
-                .build();
+            shortcutManager.setDynamicShortcuts(Arrays.asList(msgSrt, grdSrt));
+        //}
 
-        //noinspection ConstantConditions
-        shortcutManager.setDynamicShortcuts(Arrays.asList(msgSrt, grdSrt));
     }
 
     private void setupAlarmManager() {
@@ -272,8 +251,8 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
         int id = item.getItemId();
 
         if (id == R.id.menu_settings) {
+            setTabShowing(false);
             SettingsActivity.startActivity(this);
-            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -349,10 +328,7 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
     public void navigateToSchedule() {
         changeTitle(R.string.title_schedule);
         setTabShowing(false);
-        if (newScheduleLayout) {
-            changeFragment(new NewScheduleFragment());
-        }
-        else changeFragment(new ScheduleFragment());
+        changeFragment(new ScheduleFragment());
     }
 
     @Override
@@ -394,13 +370,6 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
         changeTitle(R.string.title_calendar);
         setTabShowing(false);
         changeFragment(new CalendarFragment());
-    }
-
-    @Override
-    public void navigateToBigTray() {
-        changeTitle(R.string.title_big_tray);
-        setTabShowing(false);
-        changeFragment(new BigTrayFragment());
     }
 
     private void changeFragment(@NonNull Fragment fragment) {
@@ -467,24 +436,6 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
     }
 
     @Override
-    public void showNewScheduleError(Exception e) {
-        newScheduleLayout = false;
-
-        PreferenceManager.getDefaultSharedPreferences(this).edit()
-                .putBoolean("new_schedule_layout", false)
-                .apply();
-
-        navigateToSchedule();
-
-        Snackbar snackbar = Snackbar.make(viewRoot, getString(R.string.new_schedule_errors), Snackbar.LENGTH_INDEFINITE);
-        snackbar.setAction(R.string.send_error, v -> {
-            SuggestionActivity.startActivity(this, e.getMessage(), e.getStackTrace());
-            snackbar.dismiss();
-        });
-        snackbar.show();
-    }
-
-    @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return dispatchingAndroidInjector;
     }
@@ -493,45 +444,8 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
         AnimUtils.fadeIn(this, pbLoading);
     }
 
+
     private void disableBottomLoading() {
         AnimUtils.fadeOutGone(this, pbLoading);
-    }
-
-    private void onReceiveVersion(ApiResponse<Version> versionResponse) {
-        if (versionResponse == null) return;
-        if (versionResponse.isSuccessful()) {
-            Version version = versionResponse.body;
-            if (version == null) {
-                Timber.d("Received version is null");
-                return;
-            }
-
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-            boolean scheduleServerSet = preferences.getBoolean("new_schedule_server_set", false);
-
-            if (version.showNewSchedule() && !scheduleServerSet) {
-                preferences.edit().putBoolean("new_schedule_server_set", true).apply();
-                preferences.edit().putBoolean("new_schedule_layout", true).apply();
-                newScheduleLayout = true;
-                Timber.d("The new schedule has been activated by the server");
-            } else if (!version.showNewSchedule() && !scheduleServerSet) {
-                Timber.d("New schedule where not enabled by the server");
-            } else {
-                Timber.d("Status SERVER:%s LOCAL_SET:%s", version.showNewSchedule(), scheduleServerSet);
-            }
-
-            try {
-                PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
-                int versionCode   = pInfo.versionCode;
-                if (version.getVersionCode() > versionCode) {
-                    Timber.d("There's an UNES update going on");
-                    NotificationCreator.createNewVersionNotification(this, version);
-                } else if (version.getVersionCode() == versionCode) {
-                    Timber.d("UNES is up to date");
-                } else {
-                    Timber.d("This version is ahead of published version");
-                }
-            } catch (PackageManager.NameNotFoundException ignored) {}
-        }
     }
 }

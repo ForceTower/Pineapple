@@ -1,11 +1,9 @@
 package com.forcetower.uefs.view.login.fragment;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.transition.Fade;
@@ -57,7 +55,7 @@ public class ConnectingFragment extends Fragment implements Injectable {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login_connecting, container, false);
         ButterKnife.bind(this, view);
         animateLogo();
@@ -105,7 +103,7 @@ public class ConnectingFragment extends Fragment implements Injectable {
             } else {
                 Timber.d("Activity already running!");
             }
-            requireActivity().finish();
+            getActivity().finish();
         } else if (resource.status == Status.LOADING) {
             Timber.d("Loading...");
             if (resource.data != null) {
@@ -124,14 +122,14 @@ public class ConnectingFragment extends Fragment implements Injectable {
                 Toast.makeText(getContext(), R.string.invalid_login, Toast.LENGTH_SHORT).show();
             }
 
-            new Handler().postDelayed(this::goToLoginPage, 1000);
+            new Handler().postDelayed(this::goToLoginPage, 1500);
         }
     }
 
     private void goToLoginPage() {
         if (!isAdded() || isDetached()) return;
 
-        Fragment fragment = requireActivity().getSupportFragmentManager().findFragmentByTag(LoginFormFragment.TAG);
+        Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(LoginFormFragment.TAG);
         if (fragment == null) {
             fragment = new LoginFormFragment();
         }
@@ -141,19 +139,19 @@ public class ConnectingFragment extends Fragment implements Injectable {
             fragment.setSharedElementReturnTransition(new ChangeBoundsTransition());
             setExitTransition(new Fade());
 
-            requireActivity().getSupportFragmentManager().beginTransaction()
+            getActivity().getSupportFragmentManager().beginTransaction()
                     .addSharedElement(ivLogo, "transition_logo")
                     .replace(R.id.container, fragment, LoginFormFragment.TAG)
                     .commit();
         } else {
-            requireActivity().getSupportFragmentManager().beginTransaction()
+            getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container, fragment, LoginFormFragment.TAG)
                     .commit();
         }
     }
 
     @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
+    public void onSaveInstanceState(Bundle outState) {
         outState.putBoolean("should_call", shouldCall);
         super.onSaveInstanceState(outState);
     }
