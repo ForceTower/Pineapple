@@ -3,11 +3,13 @@ package com.forcetower.uefs.rep;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.WorkerThread;
 
 import com.forcetower.uefs.AppExecutors;
+import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.AppDatabase;
 import com.forcetower.uefs.db.dao.AccessDao;
@@ -37,6 +39,8 @@ import com.forcetower.uefs.rep.helper.Status;
 import com.forcetower.uefs.rep.resources.FetchAllDataResource;
 import com.forcetower.uefs.rep.resources.FetchGradesResource;
 import com.forcetower.uefs.rep.resources.LoginOnlyResource;
+import com.forcetower.uefs.service.ApiResponse;
+import com.forcetower.uefs.service.Version;
 import com.forcetower.uefs.sgrs.SagresResponse;
 import com.forcetower.uefs.sgrs.parsers.SagresCalendarParser;
 import com.forcetower.uefs.sgrs.parsers.SagresDcpGroupsParser;
@@ -50,6 +54,7 @@ import com.franmontiel.persistentcookiejar.ClearableCookieJar;
 
 import org.jsoup.nodes.Document;
 
+import java.io.File;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -81,13 +86,16 @@ public class LoginRepository {
     private final AppDatabase database;
     private final OkHttpClient client;
     private final ClearableCookieJar cookieJar;
+    private final Context context;
 
     @Inject
-    LoginRepository (AppExecutors executors, AppDatabase database, OkHttpClient client, ClearableCookieJar cookieJar) {
+    LoginRepository (AppExecutors executors, AppDatabase database, OkHttpClient client,
+                     ClearableCookieJar cookieJar, Context context) {
         this.executors = executors;
         this.database = database;
         this.client = client;
         this.cookieJar = cookieJar;
+        this.context = context;
     }
 
     public LiveData<Resource<Integer>> login(String username, String password) {
@@ -282,8 +290,6 @@ public class LoginRepository {
             String disciplineName = grade.getDisciplineName();
             int pos = disciplineName.indexOf("-");
             String code = disciplineName.substring(0, pos).trim();
-            Timber.d("This is the code %s", code);
-            Timber.d("That's the semester %s", semester);
             Discipline discipline = disciplineDao.getDisciplinesBySemesterAndCodeDirect(semester, code);
             if (discipline == null) {
                 Timber.d("It's a shame that the discipline code %s was not registered... That sucks", code);
@@ -442,7 +448,7 @@ public class LoginRepository {
             locationDao.deleteLocationsFromSemester(semester);
 
             for (DisciplineClassLocation location : schedule) {
-                String code = location.getClassName();
+                String code = location.getClassCode();
                 List<DisciplineGroup> groups = groupDao.getDisciplineGroupsDirect(semester, code);
                 if (groups.isEmpty()) {
                     Timber.d("It's sad how the code %s at semester %s has no groups, wow", code, semester);
@@ -455,17 +461,33 @@ public class LoginRepository {
                         location.setGroupId(groupId);
                         locationDao.insertClassLocation(location);
                     } else {
-                        //TODO Assign to correct class
-                        //Not sure yet.
-                        //Since there's no info right now, classes may be assigned to the incorrect group.
-                        //This will be fixed as soon as i get to see a new schedule on sagres
-                        Timber.d("Might have been assigned to invalid group");
-                        int groupId = groups.get(0).getUid();
-                        int disciplineId = groups.get(0).getDiscipline();
+                        DisciplineGroup selected = null;
+                        for (DisciplineGroup group : groups) {
+                            if (group.getGroup().trim().equalsIgnoreCase(location.getClassGroup())) {
+                                selected = group;
+                                break;
+                            }
+                        }
+                        if (selected == null) {
+                            Timber.d("Might have been assigned to invalid group");
+                            selected = groups.get(0);
+                            int groupId = groups.get(0).getUid();
+                            int disciplineId = groups.get(0).getDiscipline();
+                            Discipline discipline = disciplineDao.getDisciplinesByIdDirect(disciplineId);
+                            location.setClassName(discipline.getName());
+                            location.setGroupId(groupId);
+                            locationDao.insertClassLocation(location);
+                        } else {
+                            Timber.d("Found the partner for discipline! %s to %s", code, selected.getGroup());
+                        }
+
+                        int groupId = selected.getUid();
+                        int disciplineId = selected.getDiscipline();
                         Discipline discipline = disciplineDao.getDisciplinesByIdDirect(disciplineId);
                         location.setClassName(discipline.getName());
                         location.setGroupId(groupId);
                         locationDao.insertClassLocation(location);
+
                     }
                 }
             }
@@ -501,10 +523,7 @@ public class LoginRepository {
             } else {
                 String upGroup = group.getGroup();
                 if (upGroup == null) {
-                    Timber.d("Up group is null");
-                    Timber.d("This means there should be only one in list if any");
                     if (currentGrp.size() == 1) {
-                        Timber.d("I was right");
                         DisciplineGroup oldGroup = currentGrp.get(0);
                         if (oldGroup.isDraft()) {
                             group.setUid(oldGroup.getUid());
@@ -620,6 +639,8 @@ public class LoginRepository {
         executors.diskIO().execute(() -> {
             deleteDatabase();
             Timber.d("%s", database.gradeInfoDao().getGradesFromSectionDirect(1));
+            File downloadedFile = new File(context.getCacheDir(), Constants.ENROLLMENT_CERTIFICATE_FILE_NAME);
+            if (downloadedFile.exists()) downloadedFile.delete();
             logout.postValue(Resource.success(R.string.data_deleted));
         });
 

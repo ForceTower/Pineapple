@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.forcetower.uefs.BuildConfig;
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.db.entity.Access;
 import com.forcetower.uefs.db.entity.Profile;
 import com.forcetower.uefs.db.entity.Semester;
 import com.forcetower.uefs.di.Injectable;
@@ -48,6 +49,7 @@ import butterknife.ButterKnife;
 import timber.log.Timber;
 
 import static com.forcetower.uefs.Constants.ENROLLMENT_CERTIFICATE_FILE_NAME;
+import static com.forcetower.uefs.util.NetworkUtils.openLink;
 
 /**
  * Created by João Paulo on 08/03/2018.
@@ -74,6 +76,8 @@ public class ProfileFragment extends Fragment implements Injectable {
     CardView cvUpdateControl;
     @BindView(R.id.cv_good_barrel)
     CardView cvGoodBarrel;
+    @BindView(R.id.cv_big_tray)
+    CardView cvBigTray;
     @BindView(R.id.btn_download_enrollment_cert)
     ImageButton btnDownloadEnrollCert;
     @BindView(R.id.pb_download_enrollment_cert)
@@ -103,18 +107,11 @@ public class ProfileFragment extends Fragment implements Injectable {
         cvCalendar.setOnClickListener(v -> controller.navigateToCalendar());
         cvUpdateControl.setOnClickListener(v -> goToUpdateControl());
         cvGoodBarrel.setOnClickListener(v -> goToBarrel());
+        cvBigTray.setOnClickListener(v -> openLink(requireContext(), "https://bit.ly/bandejaouefs"));
         cvEnrollmentCertificate.setOnClickListener(v -> openPDF(true));
         btnDownloadEnrollCert.setOnClickListener(v -> certificateDownload());
 
-        if (BuildConfig.DEBUG) {
-            tvLastUpdateAttempt.setVisibility(View.VISIBLE);
-            cvUpdateControl.setVisibility(View.VISIBLE);
-            cvGoodBarrel.setVisibility(View.VISIBLE);
-        } else {
-            tvLastUpdateAttempt.setVisibility(View.GONE);
-            cvUpdateControl.setVisibility(View.GONE);
-            cvGoodBarrel.setVisibility(View.GONE);
-        }
+        if (BuildConfig.DEBUG) enablePrivateContent();
 
         if (PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("show_score", false)) {
             tvStdScore.setVisibility(View.VISIBLE);
@@ -131,6 +128,21 @@ public class ProfileFragment extends Fragment implements Injectable {
         profileViewModel.getProfile().observe(this, this::onReceiveProfile);
         profileViewModel.getSemesters().observe(this, this::onReceiveSemesters);
         downloadsViewModel.getDownloadCertificate().observe(this, this::onCertificateDownload);
+        profileViewModel.getAccess().observe(this, this::onReceiveAccess);
+    }
+
+    private void onReceiveAccess(Access access) {
+        if (access == null) return;
+
+        if (access.getUsername().equalsIgnoreCase("jpssena")) {
+            enablePrivateContent();
+        }
+    }
+
+    private void enablePrivateContent() {
+        cvUpdateControl.setVisibility(View.VISIBLE);
+        cvGoodBarrel.setVisibility(View.VISIBLE);
+        cvBigTray.setOnClickListener(v -> controller.navigateToBigTray());
     }
 
     private void onReceiveProfile(Profile profile) {
@@ -145,7 +157,11 @@ public class ProfileFragment extends Fragment implements Injectable {
         String date = DateUtils.convertTime(profile.getLastSync());
         String attempt = DateUtils.convertTime(profile.getLastSyncAttempt());
         tvLastUpdate.setText(getString(R.string.last_information_update, date));
-        tvLastUpdateAttempt.setText(getString(R.string.last_information_update_attempt, attempt));
+        if (profile.getLastSyncAttempt() != 0) {
+            tvLastUpdateAttempt.setText(getString(R.string.last_information_update_attempt, attempt));
+        } else {
+            tvLastUpdateAttempt.setText(R.string.no_automatic_update_yet);
+        }
     }
 
     private void onReceiveSemesters(List<Semester> semesters) {
@@ -196,14 +212,6 @@ public class ProfileFragment extends Fragment implements Injectable {
         //noinspection ConstantConditions
         Uri uri = FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID + ".fileprovider", file);
         target.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        /*if (VersionUtils.isNougat()) {
-            //Nougat and after has different ways
-            //noinspection ConstantConditions
-            uri = FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID + ".fileprovider", file);
-            target.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        } else {
-            uri = Uri.fromFile(file);
-        }*/
         
         Timber.d("Uri %s", uri);
         target.setDataAndType(uri,"application/pdf");

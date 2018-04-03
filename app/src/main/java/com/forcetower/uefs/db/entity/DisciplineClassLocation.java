@@ -28,6 +28,10 @@ public class DisciplineClassLocation implements Comparable<DisciplineClassLocati
     private String modulo;
     @ColumnInfo(name = "class_name")
     private String className;
+    @ColumnInfo(name = "class_group")
+    private String classGroup;
+    @ColumnInfo(name = "class_code")
+    private String classCode;
 
     public DisciplineClassLocation(int groupId, String startTime, String endTime, String day, String room, String campus, String modulo) {
         this.groupId = groupId;
@@ -40,7 +44,7 @@ public class DisciplineClassLocation implements Comparable<DisciplineClassLocati
     }
 
     @Ignore
-    public DisciplineClassLocation(String startTime, String endTime, String day, String room, String campus, String modulo, String className) {
+    public DisciplineClassLocation(String startTime, String endTime, String day, String room, String campus, String modulo, String className, String classCode, String classGroup) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.day = day;
@@ -48,6 +52,8 @@ public class DisciplineClassLocation implements Comparable<DisciplineClassLocati
         this.campus = campus;
         this.modulo = modulo;
         this.className = className;
+        this.classCode = classCode;
+        this.classGroup = classGroup;
     }
 
     public int getUid() {
@@ -125,5 +131,21 @@ public class DisciplineClassLocation implements Comparable<DisciplineClassLocati
     @Override
     public int compareTo(@NonNull DisciplineClassLocation o) {
         return getStartTime().compareTo(o.getStartTime());
+    }
+
+    public void setClassCode(String classCode) {
+        this.classCode = classCode;
+    }
+
+    public String getClassCode() {
+        return classCode;
+    }
+
+    public void setClassGroup(String classGroup) {
+        this.classGroup = classGroup;
+    }
+
+    public String getClassGroup() {
+        return classGroup;
     }
 }

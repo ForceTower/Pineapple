@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.DisciplineClassLocation;
+import com.forcetower.uefs.view.connected.LocationClickListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,24 +35,29 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
     private List<Pair<String, List<DisciplineClassLocation>>> mapped;
     private RecyclerView.RecycledViewPool viewPool;
     private Context context;
+    private boolean style;
+    private LocationClickListener onClickListener;
 
-    public ScheduleAdapter(Context context, @NonNull List<DisciplineClassLocation> locations) {
+    public ScheduleAdapter(Context context, @NonNull List<DisciplineClassLocation> locations, boolean style) {
         this.context = context;
         this.locations = locations;
+        this.style = style;
         createMap();
         viewPool = new RecyclerView.RecycledViewPool();
     }
 
+    @NonNull
     @Override
-    public ScheduleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ScheduleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_schedule_day, parent, false);
         ScheduleViewHolder holder = new ScheduleViewHolder(view);
         holder.innerRecyclerView.setRecycledViewPool(viewPool);
+        holder.innerRecyclerView.setNestedScrollingEnabled(false);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(ScheduleViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ScheduleViewHolder holder, int position) {
         holder.bind(mapped.get(position));
     }
 
@@ -63,6 +69,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
     public void setLocations(List<DisciplineClassLocation> locations) {
         this.locations.clear();
         this.locations.addAll(locations);
+        Timber.d("Locations size: %d", locations.size());
         mapped = new ArrayList<>();
         createMap();
         Timber.d("New map size: %s", mapped.size());
@@ -90,9 +97,14 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
                 List<DisciplineClassLocation> classes = mapping.get(day);
                 Collections.sort(classes);
                 mapped.add(new Pair<>(toWeekLongDay(context, day), classes));
+                Timber.d("Day: %s -> Classes: %s", day, classes);
             }
         }
 
+    }
+
+    public void setOnClickListener(LocationClickListener onClickListener) {
+        this.onClickListener = onClickListener;
     }
 
     class ScheduleViewHolder extends RecyclerView.ViewHolder {
@@ -107,7 +119,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
             super(itemView);
             ButterKnife.bind(this, itemView);
             innerRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-            adapter = new DayClassAdapter(context, new ArrayList<>());
+            adapter = new DayClassAdapter(context, new ArrayList<>(), style);
+            adapter.setOnClickListener(onClickListener);
             innerRecyclerView.setAdapter(adapter);
         }
 

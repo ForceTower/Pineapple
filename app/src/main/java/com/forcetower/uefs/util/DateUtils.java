@@ -11,6 +11,8 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import timber.log.Timber;
+
 /**
  * Created by João Paulo on 17/01/2018.
  */
@@ -35,6 +37,25 @@ public class DateUtils {
         return mContext.getString(R.string.undefined);
     }
     */
+
+    public static int getDayOfWeek(String text) {
+        if (text.equalsIgnoreCase("SEG"))
+            return 1;
+        else if (text.equalsIgnoreCase("TER"))
+            return 2;
+        else if (text.equalsIgnoreCase("QUA"))
+            return 3;
+        else if (text.equalsIgnoreCase("QUI"))
+            return 4;
+        else if (text.equalsIgnoreCase("SEX"))
+            return 5;
+        else if (text.equalsIgnoreCase("SAB"))
+            return 6;
+        else if (text.equalsIgnoreCase("DOM"))
+            return 0;
+
+        return 99;
+    }
 
     public static String getDayOfWeek(int i) {
         if (i == 1)
@@ -78,7 +99,7 @@ public class DateUtils {
      * Gets timestamp in millis and converts it to HH:mm (e.g. 16:44).
      */
     public static String formatTime(long timeInMillis) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
         return dateFormat.format(timeInMillis);
     }
 
@@ -162,5 +183,75 @@ public class DateUtils {
         }
 
         return calendar;
+    }
+
+    public static String reformatDate(String date, boolean style) {
+        date = date.trim();
+        String[] parts = date.split("/");
+        if (parts.length == 3) {
+            if (!style)
+                return parts[2] + "-" + parts[1] + "-" + parts[0];
+            else
+                return parts[2] + parts[1] + parts[0];
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Goes to the closest day of week desired from a date
+     * @param date a date that came from reformatDate
+     * @param desiredWeek day of week like SEG
+     * @return date of day
+     */
+    public static String getNextDay(String date, String desiredWeek) {
+        date = date.trim();
+        String[] parts = date.split("-");
+
+        int number = getDayOfWeek(desiredWeek) + 1;
+
+        if (parts.length == 3) {
+            try {
+                int day = Integer.parseInt(parts[2]);
+                int mon = Integer.parseInt(parts[1]) - 1;
+                int yar = Integer.parseInt(parts[0]);
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.YEAR, yar);
+                calendar.set(Calendar.MONTH, mon);
+                calendar.set(Calendar.DAY_OF_MONTH, day);
+                
+                Timber.d("Date: %s", calendar.getTime().toString());
+
+                int dow = calendar.get(Calendar.DAY_OF_WEEK);
+                int dist = number - dow;
+                if (dist < 0) dist += 7;
+                Timber.d("Distance is %d days to %s", dist, desiredWeek);
+                calendar.add(Calendar.DAY_OF_MONTH, dist);
+
+                day = calendar.get(Calendar.DAY_OF_MONTH);
+                mon = calendar.get(Calendar.MONTH);
+                yar = calendar.get(Calendar.YEAR);
+                String dd = (day < 10) ? "0" + day : day + "";
+                String mm = (mon < 10) ? "0" + mon : mon + "";
+                return yar + "-" + mm + "-" + dd;
+            } catch (Exception e) {
+                Timber.d("Exception on getNextDay due to %s", e.getMessage());
+            }
+        }
+        return null;
+    }
+
+    public static String remakeTime(String remake) {
+        remake = remake.trim();
+        String[] parts = remake.split(":");
+        if (parts.length == 2) {
+            try {
+                Integer hour = Integer.parseInt(parts[0]) + 3;
+                return hour.toString() + ":" + parts[1] + ":00.00Z";
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 }

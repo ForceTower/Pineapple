@@ -8,6 +8,7 @@ import com.forcetower.uefs.vm.CalendarViewModel;
 import com.forcetower.uefs.vm.ControlRoomViewModel;
 import com.forcetower.uefs.vm.DisciplinesViewModel;
 import com.forcetower.uefs.vm.DownloadsViewModel;
+import com.forcetower.uefs.vm.GoogleCalendarViewModel;
 import com.forcetower.uefs.vm.GradesViewModel;
 import com.forcetower.uefs.vm.LoginViewModel;
 import com.forcetower.uefs.vm.MessagesViewModel;
@@ -69,6 +70,11 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(DownloadsViewModel.class)
     abstract ViewModel bindDownloadsViewModel(DownloadsViewModel downloadsViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(GoogleCalendarViewModel.class)
+    abstract ViewModel bindGoogleCalendarViewModel(GoogleCalendarViewModel googleCalendarViewModel);
 
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(UEFSViewModelFactory factory);

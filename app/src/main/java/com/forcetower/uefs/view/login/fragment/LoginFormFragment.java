@@ -3,6 +3,7 @@ package com.forcetower.uefs.view.login.fragment;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.transition.Fade;
@@ -27,6 +28,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 import timber.log.Timber;
 
 /**
@@ -56,7 +58,7 @@ public class LoginFormFragment extends Fragment implements Injectable {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login_form, container, false);
         ButterKnife.bind(this, view);
         btnConnect.setOnClickListener(v -> onConnectButtonClicked());
@@ -116,12 +118,12 @@ public class LoginFormFragment extends Fragment implements Injectable {
             fragment.setSharedElementReturnTransition(new ChangeBoundsTransition());
             setExitTransition(new Fade());
 
-            getActivity().getSupportFragmentManager().beginTransaction()
+            requireActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container, fragment, ConnectingFragment.TAG)
                     .addSharedElement(ivLogo, "transition_logo")
                     .commit();
         } else {
-            getActivity().getSupportFragmentManager().beginTransaction()
+            requireActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container, fragment, ConnectingFragment.TAG)
                     .commit();
         }
