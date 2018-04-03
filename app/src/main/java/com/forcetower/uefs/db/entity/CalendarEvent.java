@@ -54,4 +54,9 @@ public class CalendarEvent {
     public void setUid(int uid) {
         this.uid = uid;
     }
+
+    @Override
+    public String toString() {
+        return calendarId + " - " + eventId;
+    }
 }

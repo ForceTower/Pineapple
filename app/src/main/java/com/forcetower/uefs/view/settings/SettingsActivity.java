@@ -50,9 +50,10 @@ import timber.log.Timber;
 
 public class SettingsActivity extends UBaseActivity implements SettingsController, HasSupportFragmentInjector, EasyPermissions.PermissionCallbacks {
     private static final int REQUEST_ACCOUNT_PICKER = 1000;
-    private static final int REQUEST_AUTHORIZATION = 1001;
-    private static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
-    private static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
+    private static final int REQUEST_ACCOUNT_PICKER_RESET = 1001;
+    private static final int REQUEST_AUTHORIZATION = 1002;
+    private static final int REQUEST_GOOGLE_PLAY_SERVICES = 1003;
+    private static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1004;
     private static final String SHARED_PREF_ACCOUNT_NAME = "com.forcetower.uefs.calendar.ACCOUNT_SELECTED";
 
     @BindView(R.id.toolbar)
@@ -69,6 +70,7 @@ public class SettingsActivity extends UBaseActivity implements SettingsControlle
     private GoogleCalendarViewModel calendarViewModel;
 
     private int currentProgress;
+    private int currentSelect;
 
     public static void startActivity(Context context) {
         Intent intent = new Intent(context, SettingsActivity.class);
@@ -91,6 +93,9 @@ public class SettingsActivity extends UBaseActivity implements SettingsControlle
         if (savedInstanceState != null) {
             currentProgress = savedInstanceState.getInt("PROGRESS");
             pbProgress.setProgress(currentProgress);
+            currentSelect = savedInstanceState.getInt("CURRENT_SELECT");
+        } else {
+            currentSelect = REQUEST_ACCOUNT_PICKER;
         }
     }
 
@@ -151,6 +156,7 @@ public class SettingsActivity extends UBaseActivity implements SettingsControlle
             pbProgress.setIndeterminate(true);
             pbProgress.setProgress(0);
             AnimUtils.fadeIn(this, pbProgress);
+            currentSelect = REQUEST_ACCOUNT_PICKER;
             exportToGoogleCalendar();
         } else {
             Toast.makeText(this, R.string.wait_until_operation_completes, Toast.LENGTH_SHORT).show();
@@ -166,7 +172,8 @@ public class SettingsActivity extends UBaseActivity implements SettingsControlle
             AnimUtils.fadeIn(this, pbProgress);
             pbProgress.setIndeterminate(false);
             pbProgress.setProgress(0);
-            calendarViewModel.resetExportedSchedule(googleCredential);
+            currentSelect = REQUEST_ACCOUNT_PICKER_RESET;
+            resetExportToGoogleCalendar();
         } else {
             Toast.makeText(this, R.string.wait_until_operation_completes, Toast.LENGTH_SHORT).show();
             Timber.d("An operation is being executed");
@@ -234,13 +241,29 @@ public class SettingsActivity extends UBaseActivity implements SettingsControlle
             acquireGooglePlayServices();
         } else if (googleCredential.getSelectedAccountName() == null) {
             Timber.d("Account is not selected yet");
-            chooseGoogleAccount();
+            chooseGoogleAccount(REQUEST_ACCOUNT_PICKER);
         } else if (!NetworkUtils.isNetworkAvailable(this)) {
             Timber.d("No internet");
             Toast.makeText(this, R.string.no_internet_connection, Toast.LENGTH_SHORT).show();
         } else {
             Timber.d("All steps completed. It will do things now");
             calendarViewModel.exportData(googleCredential);
+        }
+    }
+
+    private void resetExportToGoogleCalendar() {
+        if (!GeneralUtils.isGooglePlayServicesAvailable(this)) {
+            Timber.d("Google Play services unavailable");
+            acquireGooglePlayServices();
+        } else if (googleCredential.getSelectedAccountName() == null) {
+            Timber.d("Account is not selected yet");
+            chooseGoogleAccount(REQUEST_ACCOUNT_PICKER_RESET);
+        } else if (!NetworkUtils.isNetworkAvailable(this)) {
+            Timber.d("No internet");
+            Toast.makeText(this, R.string.no_internet_connection, Toast.LENGTH_SHORT).show();
+        } else {
+            Timber.d("All steps completed. It will do things now");
+            calendarViewModel.resetExportedSchedule(googleCredential, false);
         }
     }
 
@@ -260,11 +283,15 @@ public class SettingsActivity extends UBaseActivity implements SettingsControlle
 
     @AfterPermissionGranted(REQUEST_PERMISSION_GET_ACCOUNTS)
     private void chooseGoogleAccount() {
+        chooseGoogleAccount(currentSelect);
+    }
+
+    private void chooseGoogleAccount(int request) {
         if (EasyPermissions.hasPermissions(this, Manifest.permission.GET_ACCOUNTS)) {
             Timber.d("Has permissions");
             String account = getPreferences(Context.MODE_PRIVATE).getString(SHARED_PREF_ACCOUNT_NAME, null);
             if (account == null) {
-                startActivityForResult(googleCredential.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);
+                startActivityForResult(googleCredential.newChooseAccountIntent(), request);
             } else {
                 googleCredential.setSelectedAccountName(account);
                 exportToGoogleCalendar();
@@ -295,7 +322,7 @@ public class SettingsActivity extends UBaseActivity implements SettingsControlle
                 Timber.d("Result code for play services is OK");
                 exportToGoogleCalendar();
             }
-        } else if (requestCode == REQUEST_ACCOUNT_PICKER) {
+        } else if (requestCode == REQUEST_ACCOUNT_PICKER || requestCode == REQUEST_ACCOUNT_PICKER_RESET) {
             if (resultCode == RESULT_OK && data != null && data.getExtras() != null) {
                 String accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
                 Timber.d("Received account name %s", accountName);
@@ -305,7 +332,10 @@ public class SettingsActivity extends UBaseActivity implements SettingsControlle
                     editor.putString(SHARED_PREF_ACCOUNT_NAME, accountName);
                     editor.apply();
                     googleCredential.setSelectedAccountName(accountName);
-                    exportToGoogleCalendar();
+                    if (requestCode == REQUEST_ACCOUNT_PICKER)
+                        exportToGoogleCalendar();
+                    else
+                        resetExportToGoogleCalendar();
                 }
             }
         } else if (requestCode == REQUEST_AUTHORIZATION) {
@@ -324,6 +354,7 @@ public class SettingsActivity extends UBaseActivity implements SettingsControlle
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putInt("PROGRESS", currentProgress);
+        outState.putInt("CURRENT_SELECT", currentSelect);
         super.onSaveInstanceState(outState);
     }
 }

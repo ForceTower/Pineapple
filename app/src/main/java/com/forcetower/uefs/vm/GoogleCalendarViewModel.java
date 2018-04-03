@@ -2,6 +2,7 @@ package com.forcetower.uefs.vm;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.content.Context;
 import android.support.annotation.WorkerThread;
@@ -15,6 +16,7 @@ import com.forcetower.uefs.db.entity.DisciplineClassLocation;
 import com.forcetower.uefs.db.entity.DisciplineGroup;
 import com.forcetower.uefs.rep.ScheduleRepository;
 import com.forcetower.uefs.rep.helper.Resource;
+import com.forcetower.uefs.rep.helper.Status;
 import com.forcetower.uefs.util.AbsentLiveData;
 import com.forcetower.uefs.util.GeneralUtils;
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -92,8 +94,15 @@ public class GoogleCalendarViewModel extends ViewModel {
                     LiveData<List<DisciplineClassLocation>> discSrc = repository.getSchedule(null);
                     exportData.addSource(discSrc, disciplines -> {
                         exportData.removeSource(discSrc);
-                        //noinspection ConstantConditions;
-                        executors.others().execute(() -> literalExport(disciplines, start, end));
+                        LiveData<Resource<Integer>> singleSrc = resetExportedSchedule(credential, true);
+                        exportData.addSource(singleSrc, resource -> {
+                            //noinspection ConstantConditions
+                            if (resource.status != Status.LOADING) {
+                                exportData.removeSource(singleSrc);
+                                //noinspection ConstantConditions;
+                                executors.others().execute(() -> literalExport(disciplines, start, end));
+                            }
+                        });
                     });
                 } else {
                     exportData.postValue(Resource.error("Invalid amount of stuff", R.string.exporter_not_2_parts));
@@ -185,33 +194,41 @@ public class GoogleCalendarViewModel extends ViewModel {
         return resetData;
     }
 
-    public void resetExportedSchedule(GoogleAccountCredential credential) {
+    public LiveData<Resource<Integer>> resetExportedSchedule(GoogleAccountCredential credential, boolean single) {
         HttpTransport transport = AndroidHttp.newCompatibleTransport();
         JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
         service = new Calendar.Builder(transport, jsonFactory, credential)
                 .setApplicationName("UNES")
                 .build();
 
+        MediatorLiveData<Resource<Integer>> value;
+        if (single) value = new MediatorLiveData<>();
+        else value = resetData;
+
         LiveData<List<CalendarEvent>> eventSrc = repository.getExportedCalendar();
 
-        resetData.addSource(eventSrc, events -> {
-            resetData.removeSource(eventSrc);
+        value.addSource(eventSrc, events -> {
+            value.removeSource(eventSrc);
             executors.networkIO().execute(() -> {
                 int i = 0;
                 //noinspection ConstantConditions
+                Timber.d("Events size is %d", events.size());
                 for (CalendarEvent event : events) {
                     i++;
+                    Timber.d("Event %s", event);
                     try {
                         service.events().delete(event.getCalendarId(), event.getEventId()).execute();
                         executors.diskIO().execute(() -> repository.deleteCalendarEvent(event));
                         Timber.d("Removed event from calendar");
-                        resetData.postValue(Resource.loading((i*100)/events.size()));
-                    } catch (IOException e) {
+                        value.postValue(Resource.loading((i*100)/events.size()));
+                    } catch (Exception e) {
                         Timber.d("Failed to delete event due to %s ", e.getMessage());
                     }
                 }
-                resetData.postValue(Resource.success(1000));
+                value.postValue(Resource.success(1000));
             });
         });
+
+        return value;
     }
 }
