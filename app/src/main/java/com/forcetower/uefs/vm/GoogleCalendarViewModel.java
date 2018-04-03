@@ -28,6 +28,9 @@ import com.google.api.client.util.DateTime;
 import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.CalendarScopes;
+import com.google.api.services.calendar.model.ColorDefinition;
+import com.google.api.services.calendar.model.Colors;
+import com.google.api.services.calendar.model.EntryPoint;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.calendar.model.EventReminder;
@@ -35,7 +38,9 @@ import com.google.api.services.calendar.model.EventReminder;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -116,7 +121,19 @@ public class GoogleCalendarViewModel extends ViewModel {
     private void literalExport(List<DisciplineClassLocation> disciplines, String smtStart, String smtEnd) {
         exportData.postValue(Resource.loading(R.string.preparing_schedule_to_export));
 
+        List<String> colorDef = new ArrayList<>();
+        try {
+            Colors colors = service.colors().get().execute();
+            for (Map.Entry<String, ColorDefinition> entry : colors.getCalendar().entrySet()) {
+                colorDef.add(entry.getKey());
+            }
+        } catch (Exception e) {
+            Timber.d("List of colors were rejected");
+        }
+
         List<Event> events = new ArrayList<>();
+        int index = 0;
+        HashMap<String, Integer> classIndexer = new HashMap<>();
         for (DisciplineClassLocation location : disciplines) {
             try {
                 Event event = new Event();
@@ -152,6 +169,19 @@ public class GoogleCalendarViewModel extends ViewModel {
                         .setUseDefault(false)
                         .setOverrides(Arrays.asList(reminderOverrides));
                 event.setReminders(reminders);
+
+                if (colorDef.size() > 1) {
+                    int value;
+                    if (classIndexer.containsKey(location.getClassCode())) {
+                        value = classIndexer.get(location.getClassCode());
+                    } else {
+                        index++;
+                        value = (index%(colorDef.size()-1));
+                        classIndexer.put(location.getClassCode(), value);
+                    }
+                    String def = colorDef.get(value);
+                    event.setColorId(def);
+                }
 
                 Timber.d("Created event for class %s", location.getClassName());
                 events.add(event);
