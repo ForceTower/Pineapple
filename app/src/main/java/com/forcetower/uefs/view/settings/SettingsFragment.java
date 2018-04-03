@@ -112,7 +112,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         Preference gradePosted  = findPreference("show_grades_posted_notification");
         Preference gradeCreated = findPreference("show_grades_created_notification");
         Preference gradeChanged = findPreference("show_grades_changed_notification");
-        String newValue = preferences.getString(key, "");
+        String newValue = preferences.getString(key, "60");
         int frequency = Integer.parseInt(newValue);
 
         if (frequency == -1) {
