@@ -3,7 +3,6 @@ package com.forcetower.uefs.view.connected.fragments;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -43,7 +42,7 @@ public class ScheduleFragment extends Fragment implements Injectable {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_schedule, container, false);
         ButterKnife.bind(this, view);
         initializeRecyclerView();
@@ -63,11 +62,13 @@ public class ScheduleFragment extends Fragment implements Injectable {
     }
 
     private void setupView(List<DisciplineClassLocation> locations) {
+
         if (locations.isEmpty()) {
             AnimUtils.fadeOut(getContext(), rvSchedule);
             AnimUtils.fadeIn(getContext(), vgNoSchedule);
         } else {
             AnimUtils.fadeOut(getContext(), vgNoSchedule);
+            //AnimUtils.fadeIn(getContext(), rvSchedule);
             vgNoSchedule.setVisibility(View.GONE);
             rvSchedule.setVisibility(View.VISIBLE);
             setupRecyclerView(locations);
@@ -75,7 +76,7 @@ public class ScheduleFragment extends Fragment implements Injectable {
     }
 
     private void initializeRecyclerView() {
-        scheduleAdapter = new ScheduleAdapter(getContext(), new ArrayList<>(), false);
+        scheduleAdapter = new ScheduleAdapter(getContext(), new ArrayList<>());
         rvSchedule.setLayoutManager(new LinearLayoutManager(getContext()));
         rvSchedule.setAdapter(scheduleAdapter);
     }

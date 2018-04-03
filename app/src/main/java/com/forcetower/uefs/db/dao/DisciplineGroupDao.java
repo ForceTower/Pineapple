@@ -60,7 +60,4 @@ public interface DisciplineGroupDao {
 
     @Query("UPDATE DisciplineGroup SET ignored = 0 WHERE uid = :groupId")
     void restoreGroup(int groupId);
-
-    @Query("SELECT * FROM DisciplineGroup WHERE draft = 0 AND discipline IN (SELECT uid FROM Discipline WHERE semester = :semester) LIMIT 1")
-    LiveData<DisciplineGroup> getLoadedDisciplineFromSemester(String semester);
 }

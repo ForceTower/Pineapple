@@ -37,7 +37,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-import static com.forcetower.uefs.util.NetworkUtils.openLink;
 import static com.forcetower.uefs.util.WordUtils.getLinksOnText;
 
 /**
@@ -119,7 +118,7 @@ public class MessagesFragment extends Fragment implements Injectable {
         List<String> links = getLinksOnText(message.getMessage());
         Timber.d("Links: %s", links);
         if (links.size() == 1)
-            openLink(requireContext(), links.get(0));
+            openLink(links.get(0));
         else if (links.size() > 1) {
             AlertDialog.Builder selectDialog = new AlertDialog.Builder(getContext());
             selectDialog.setIcon(R.drawable.ic_link_black_24dp);
@@ -133,10 +132,29 @@ public class MessagesFragment extends Fragment implements Injectable {
             selectDialog.setAdapter(arrayAdapter, (dialog, which) -> {
                 String url = arrayAdapter.getItem(which);
                 dialog.dismiss();
-                openLink(requireContext(), url);
+                openLink(url);
             });
 
             selectDialog.show();
+        }
+    }
+
+    private void openLink(String url) {
+        if (url == null) return;
+
+        if (!url.startsWith("http://")
+                && !url.startsWith("HTTP://")
+                && !url.startsWith("HTTPS://")
+                && !url.startsWith("https://")) {
+            url = "http://" + url;
+        }
+
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(url));
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(getContext(), R.string.cant_open_link, Toast.LENGTH_SHORT).show();
         }
     }
 }

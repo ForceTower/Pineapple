@@ -1,11 +1,9 @@
 package com.forcetower.uefs.view.login;
 
 import android.annotation.SuppressLint;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -13,7 +11,6 @@ import android.support.v4.app.Fragment;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.UEFSApplication;
 import com.forcetower.uefs.view.UBaseActivity;
-import com.forcetower.uefs.view.connected.ConnectedActivity;
 import com.forcetower.uefs.view.login.fragment.LoginFormFragment;
 
 import javax.inject.Inject;
@@ -22,8 +19,6 @@ import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 import timber.log.Timber;
-
-import static com.forcetower.uefs.view.connected.ConnectedActivity.NOTIFICATION_INTENT_EXTRA;
 
 public class MainActivity extends UBaseActivity implements HasSupportFragmentInjector {
     @Inject
@@ -39,28 +34,11 @@ public class MainActivity extends UBaseActivity implements HasSupportFragmentInj
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(R.layout.activity_main, savedInstanceState);
 
-        String value = getIntent().getStringExtra(NOTIFICATION_INTENT_EXTRA);
-        if (value == null) {
-            Timber.d("Default open");
-        } else {
-            Timber.d("Value: %s", value);
-            openPlayStore(value);
-        }
-
         if (savedInstanceState == null) {
             updateReset();
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container, new LoginFormFragment())
                     .commit();
-        }
-    }
-
-    private void openPlayStore(String value) {
-        String packageName = getPackageName();
-        try {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + packageName)));
-        } catch (ActivityNotFoundException exception) {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + packageName)));
         }
     }
 

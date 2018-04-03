@@ -60,14 +60,6 @@
             android:title="@string/pref_double_back"
             android:summaryOn="@string/pref_double_back_on"
             android:summaryOff="@string/pref_double_back_off"/>
-
-        <SwitchPreference
-            android:icon="@drawable/ic_timetable_accent_30dp"
-            android:key="new_schedule_layout"
-            android:title="@string/new_schedule_layout"
-            android:defaultValue="false"
-            android:summaryOff="@string/new_schedule_layout_disabled"
-            android:summaryOn="@string/new_schedule_layout_enabled"/>
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -82,7 +74,7 @@
             android:summaryOn="@string/pref_do_show_score"/>
 
         <SwitchPreference
-            android:icon="@drawable/ic_clock_accent_30dp"
+            android:icon="@drawable/ic_timetable_accent_30dp"
             android:key="show_current_semester"
             android:title="@string/show_current_semester"
             android:defaultValue="true"

@@ -20,28 +20,12 @@ import com.forcetower.uefs.view.UBaseActivity;
 import butterknife.BindView;
 
 public class SuggestionActivity extends UBaseActivity {
-    private static final String MESSAGE_CAUSE = "exception_message";
-    private static final String STACK_TRACE = "stack_trace";
     @BindView(R.id.et_suggestion)
     EditText editText;
     @BindView(R.id.btn_submit)
     Button btnSubmit;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
-    public static void startActivity(Context context, String message, StackTraceElement[] stackTrace) {
-        Intent intent = new Intent(context, SuggestionActivity.class);
-        intent.putExtra(MESSAGE_CAUSE, message);
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Stack Trace START\n");
-        for (StackTraceElement trace : stackTrace) {
-            stringBuilder.append("\tat ").append(trace).append("\n");
-        }
-        stringBuilder.append("Stack Trace END");
-        intent.putExtra(STACK_TRACE, stringBuilder.toString());
-
-        context.startActivity(intent);
-    }
 
     public static void startActivity(Context context) {
         Intent intent = new Intent(context, SuggestionActivity.class);
@@ -52,15 +36,6 @@ public class SuggestionActivity extends UBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(R.layout.activity_suggestion, savedInstanceState);
-
-        if (getIntent().hasExtra(STACK_TRACE)) {
-            String message = getIntent().getStringExtra(MESSAGE_CAUSE);
-            String stack   = getIntent().getStringExtra(STACK_TRACE);
-            String finalMessage = "- Não altere abaixo -\nCause: " + message + "\n\n" + stack;
-            editText.setText(finalMessage);
-            editText.setEnabled(false);
-        }
-
 
         btnSubmit.setOnClickListener(view -> {
             String body = editText.getText().toString();

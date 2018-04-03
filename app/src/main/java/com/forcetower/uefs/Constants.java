@@ -37,7 +37,6 @@ public class Constants {
     public static final String CHANNEL_GRADES_CHANGED_ID  = "com.forcetower.uefs.GRADES.CHANGE";
 
     public static final String CHANNEL_GENERAL_WARNINGS_ID = "com.forcetower.uefs.GENERAL.WARNINGS";
-    public static final String CHANNEL_GENERAL_REMOTE_ID   = "com.forcetower.uefs.GENERAL.REMOTE";
 
     public static final String MAIN_UPDATER_CONTROL = "http://oqv.comlu.com/unes_update";
     public static final String UNES_SERVICE_BASE = "http://oqv.comlu.com";

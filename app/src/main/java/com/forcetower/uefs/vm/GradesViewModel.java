@@ -10,10 +10,7 @@ import com.forcetower.uefs.db.entity.Discipline;
 import com.forcetower.uefs.db.entity.Semester;
 import com.forcetower.uefs.rep.GradesRepository;
 import com.forcetower.uefs.rep.LoginRepository;
-import com.forcetower.uefs.rep.ServiceRepository;
 import com.forcetower.uefs.rep.helper.Resource;
-import com.forcetower.uefs.service.ApiResponse;
-import com.forcetower.uefs.service.Version;
 import com.forcetower.uefs.util.AbsentLiveData;
 
 import java.util.List;
@@ -23,18 +20,17 @@ import javax.inject.Inject;
 /**
  * Created by João Paulo on 07/03/2018.
  */
+
 public class GradesViewModel extends ViewModel {
     private final SemesterDao semesterDao;
     private final GradesRepository repository;
     private final LoginRepository loginRepository;
-    private final ServiceRepository serviceRepository;
     private final AccessDao accessDao;
 
     private LiveData<List<Semester>> allSemesters;
     private LiveData<List<Discipline>> result;
     private LiveData<Resource<Integer>> allGrades;
     private LiveData<Access> access;
-    private LiveData<ApiResponse<Version>> versionData;
 
     private LiveData<Discipline> disciplineGradesData;
 
@@ -42,13 +38,11 @@ public class GradesViewModel extends ViewModel {
     private boolean allGradesRunning;
 
     @Inject
-    GradesViewModel(SemesterDao semesterDao, GradesRepository repository, AccessDao accessDao,
-                    LoginRepository loginRep, ServiceRepository serviceRep) {
+    GradesViewModel(SemesterDao semesterDao, GradesRepository repository, AccessDao accessDao, LoginRepository loginRep) {
         this.semesterDao = semesterDao;
         this.accessDao = accessDao;
         this.repository = repository;
         this.loginRepository = loginRep;
-        this.serviceRepository = serviceRep;
     }
 
     public LiveData<List<Semester>> getAllSemesters() {
@@ -120,10 +114,5 @@ public class GradesViewModel extends ViewModel {
 
     public LiveData<List<Discipline>> requestAllDisciplineGrades() {
         return repository.requestAllGrades();
-    }
-
-    public LiveData<ApiResponse<Version>> getUNESLatestVersion() {
-        if (versionData == null) versionData = serviceRepository.getUNESVersion();
-        return versionData;
     }
 }

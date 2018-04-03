@@ -4,17 +4,14 @@ import android.app.Activity;
 import android.app.Application;
 import android.app.Service;
 import android.content.BroadcastReceiver;
-import android.content.res.Configuration;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.forcetower.uefs.di.AppInjector;
 import com.forcetower.uefs.ntf.NotificationHelper;
 import com.forcetower.uefs.sync.SyncConfiguration;
-import com.forcetower.uefs.util.VersionUtils;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
-import java.util.Locale;
 
 import javax.inject.Inject;
 
