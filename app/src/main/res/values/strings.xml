@@ -266,4 +266,14 @@
     <string name="new_schedule_has_errors_on_device_please_feedback">O novo horário provoca erro no aplicativo. O horário padrão será mostrado para que você possa usar o aplicativo</string>
     <string name="new_schedule_errors">O novo horário provoca erros</string>
     <string name="send_error">Enviar erro</string>
+    <string name="export_to_calendar">Exportar para Google Calendar</string>
+    <string name="permission_needed_get_accounts">O aplicativo precisa acessar sua conta do Google através dos contatos</string>
+    <string name="no_internet_connection">Sem conexão com a internet</string>
+    <string name="feature_requires_google_play_services">Esta função requer o Google Play Services. Instale-o e tente novamente</string>
+    <string name="loading_schedule">Carregando Horários</string>
+    <string name="preparing_schedule_to_export">Preparando para a exportação</string>
+    <string name="export_requires_one_details_loaded_class">Pelo menos uma disciplina do semester não pode ser um rascunho antes de continuar</string>
+    <string name="exporter_not_2_parts">Erro no exportador. Não encontrou inicio/fim do semestre</string>
+    <string name="failed_to_export_class">Falhou ao exportar aula</string>
+    <string name="exporting_classes">Exportando aulas</string>
 </resources>

@@ -261,4 +261,16 @@
     <string name="send_error">Send error</string>
     <string name="new_schedule_has_errors_on_device_please_feedback">The new schedule creates errors all over the place. It were disabled so you can use the app</string>
     <string name="new_schedule_errors">The new schedule provokes errors</string>
+    <string name="new_unes_version_available">The version %1$s of UNES is available</string>
+    <string name="get_unes_new_version">Download the new version from the PlayStore</string>
+    <string name="export_to_calendar">Export to Google Calendar</string>
+    <string name="permission_needed_get_accounts">The app need to access your Google account using the Contacts</string>
+    <string name="no_internet_connection">No connection to the internet</string>
+    <string name="feature_requires_google_play_services">This feature requires Google Play Services. Install it and try again</string>
+    <string name="loading_schedule">Loading schedule</string>
+    <string name="preparing_schedule_to_export">Preparing for export</string>
+    <string name="export_requires_one_details_loaded_class">At least one discipline from semester must not be a draft before using this feature</string>
+    <string name="exporter_not_2_parts">Error on exporter. It didn\'t find the start or end of semester</string>
+    <string name="failed_to_export_class">Failed to export the class</string>
+    <string name="exporting_classes">Exporting classes</string>
 </resources>
