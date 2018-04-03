@@ -294,7 +294,10 @@ public class SettingsActivity extends UBaseActivity implements SettingsControlle
                 startActivityForResult(googleCredential.newChooseAccountIntent(), request);
             } else {
                 googleCredential.setSelectedAccountName(account);
-                exportToGoogleCalendar();
+                if (request == REQUEST_ACCOUNT_PICKER)
+                    exportToGoogleCalendar();
+                else
+                    resetExportToGoogleCalendar();
             }
         } else {
             Timber.d("Doesn't have permissions");
