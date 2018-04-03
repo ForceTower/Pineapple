@@ -44,11 +44,7 @@ public class ControlRoomActivity extends UBaseActivity implements HasSupportFrag
         setupToolbar();
 
         if (savedInstanceState == null) {
-            if (BuildConfig.DEBUG) {
-                navigateToSyncControl();
-            } else {
-                navigateToNoPermissions();
-            }
+            navigateToSyncControl();
         }
     }
 
