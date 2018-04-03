@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.Application;
 import android.app.Service;
 import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.res.Configuration;
+import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.forcetower.uefs.di.AppInjector;
@@ -36,6 +38,12 @@ public class UEFSApplication extends Application implements HasActivityInjector,
     DispatchingAndroidInjector<Service> dispatchingServiceAndroidInjector;
     @Inject
     DispatchingAndroidInjector<BroadcastReceiver> dispatchingBroadcastAndroidInjector;
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
 
     @Override
     public void onCreate() {
