@@ -28,6 +28,9 @@ public interface DisciplineClassLocationDao {
     @Query("SELECT * FROM DisciplineClassLocation WHERE groupId IN (SELECT uid FROM DisciplineGroup WHERE discipline IN (SELECT uid FROM Discipline WHERE semester = :semester))")
     LiveData<List<DisciplineClassLocation>> getClassesFromSemester(String semester);
 
+    @Query("SELECT * FROM DisciplineClassLocation WHERE class_group IS NOT NULL AND groupId IN (SELECT uid FROM DisciplineGroup WHERE discipline IN (SELECT uid FROM Discipline WHERE semester = :semester)) LIMIT 1")
+    LiveData<DisciplineClassLocation> getOneLoadedLocationFromSemester(String semester);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertClassLocation(DisciplineClassLocation... classLocations);
 

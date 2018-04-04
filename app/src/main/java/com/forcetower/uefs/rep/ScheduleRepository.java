@@ -118,6 +118,7 @@ public class ScheduleRepository {
         return value;
     }
 
+
     public LiveData<List<CalendarEvent>> getExportedCalendar() {
         return calendarEventDao.getExportedCalendar();
     }
@@ -130,5 +131,22 @@ public class ScheduleRepository {
     @WorkerThread
     public void insertCalendarEvent(String calendarId, String eventId, String semester) {
         calendarEventDao.insertCalendarEvent(new CalendarEvent(calendarId, eventId, semester));
+    }
+
+    public LiveData<DisciplineClassLocation> triggerLocationLoad() {
+        MediatorLiveData<DisciplineClassLocation> locationLoaded = new MediatorLiveData<>();
+        LiveData<List<Semester>> semesterSrc = semesterDao.getAllSemesters();
+        locationLoaded.addSource(semesterSrc, semesters -> {
+            locationLoaded.removeSource(semesterSrc);
+            Semester smt = Semester.getCurrentSemester(semesters);
+            if (smt != null) {
+                LiveData<DisciplineClassLocation> locationSrc = classLocationDao.getOneLoadedLocationFromSemester(smt.getName());
+                locationLoaded.addSource(locationSrc, location -> {
+                    locationLoaded.removeSource(locationSrc);
+                    locationLoaded.postValue(location);
+                });
+            }
+        });
+        return locationLoaded;
     }
 }

@@ -36,6 +36,7 @@ import android.widget.Toast;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.alm.RefreshAlarmTrigger;
 import com.forcetower.uefs.db.entity.Access;
+import com.forcetower.uefs.db.entity.DisciplineClassLocation;
 import com.forcetower.uefs.db.entity.Semester;
 import com.forcetower.uefs.ntf.NotificationCreator;
 import com.forcetower.uefs.rep.helper.Resource;
@@ -58,6 +59,7 @@ import com.forcetower.uefs.view.login.MainActivity;
 import com.forcetower.uefs.view.settings.SettingsActivity;
 import com.forcetower.uefs.view.suggestion.SuggestionActivity;
 import com.forcetower.uefs.vm.GradesViewModel;
+import com.forcetower.uefs.vm.ScheduleViewModel;
 
 import java.util.Arrays;
 import java.util.List;
@@ -124,8 +126,13 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
         elevate();
         gradesViewModel = ViewModelProviders.of(this, viewModelFactory).get(GradesViewModel.class);
         gradesViewModel.getUNESLatestVersion().observe(this, this::onReceiveVersion);
+        ScheduleViewModel scheduleViewModel = ViewModelProviders.of(this, viewModelFactory).get(ScheduleViewModel.class);
+        scheduleViewModel.getSingleLoadedLocation().observe(this, this::onReceiveSingleLocation);
 
-        newScheduleLayout = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("new_schedule_layout", false);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        newScheduleLayout = preferences.getBoolean("new_schedule_layout", false);
+        newScheduleLayout = preferences.getBoolean("new_schedule_user_ready", false) && newScheduleLayout;
+        Timber.d("New schedule (onCreate) %s", newScheduleLayout);
 
         fragmentManager = getSupportFragmentManager();
         containerId = R.id.container;
@@ -201,7 +208,9 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
     @Override
     protected void onResume() {
         super.onResume();
-        newScheduleLayout = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("new_schedule_layout", true);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        newScheduleLayout = preferences.getBoolean("new_schedule_layout", false);
+        newScheduleLayout = preferences.getBoolean("new_schedule_user_ready", false) && newScheduleLayout;
     }
 
     private void setupShortcuts() {
@@ -349,11 +358,14 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
     public void navigateToSchedule() {
         changeTitle(R.string.title_schedule);
         setTabShowing(false);
+        Timber.d("Show new schedule? %s", newScheduleLayout);
         if (newScheduleLayout) {
             changeFragment(new NewScheduleFragment());
             showNewScheduleWarning();
         }
-        else changeFragment(new ScheduleFragment());
+        else {
+            changeFragment(new ScheduleFragment());
+        }
     }
 
     @Override
@@ -513,8 +525,12 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
             if (version.showNewSchedule() && !scheduleServerSet) {
                 preferences.edit().putBoolean("new_schedule_server_set", true).apply();
                 preferences.edit().putBoolean("new_schedule_layout", true).apply();
-                newScheduleLayout = true;
                 Timber.d("The new schedule has been activated by the server");
+                if (preferences.getBoolean("new_schedule_user_ready", false)) {
+                    newScheduleLayout = true;
+                } else {
+                    Timber.d("User were not ready");
+                }
             } else if (!version.showNewSchedule() && !scheduleServerSet) {
                 Timber.d("New schedule where not enabled by the server");
             } else {
@@ -533,6 +549,17 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
                     Timber.d("This version is ahead of published version");
                 }
             } catch (PackageManager.NameNotFoundException ignored) {}
+        }
+    }
+
+    private void onReceiveSingleLocation(DisciplineClassLocation location) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if (location != null) {
+            preferences.edit().putBoolean("new_schedule_user_ready", true).apply();
+            Timber.d("New schedule can be enabled because user already sync'ed stuff");
+        } else {
+            preferences.edit().putBoolean("new_schedule_user_ready", false).apply();
+            Timber.d("User needs to sync stuff before using the new layout");
         }
     }
 

@@ -1,6 +1,7 @@
 package com.forcetower.uefs.vm;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.WorkerThread;
 
@@ -18,6 +19,7 @@ import javax.inject.Inject;
 
 public class ScheduleViewModel extends ViewModel {
     private LiveData<List<DisciplineClassLocation>> disciplineLocations;
+    private LiveData<DisciplineClassLocation> locationLoaded;
     private final ScheduleRepository repository;
 
     @Inject
@@ -37,5 +39,11 @@ public class ScheduleViewModel extends ViewModel {
     @WorkerThread
     public DisciplineGroup getDisciplineGroupDirect(int groupId) {
         return repository.getDisciplineGroupDirect(groupId);
+    }
+
+    public LiveData<DisciplineClassLocation> getSingleLoadedLocation() {
+        if (locationLoaded != null) return locationLoaded;
+        locationLoaded = repository.triggerLocationLoad();
+        return locationLoaded;
     }
 }
