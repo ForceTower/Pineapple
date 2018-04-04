@@ -21,6 +21,8 @@ import java.io.IOException;
 
 import javax.inject.Inject;
 
+import timber.log.Timber;
+
 /**
  * Created by João Paulo on 23/03/2018.
  */
@@ -93,7 +95,7 @@ public class DownloadsViewModel extends ViewModel {
                 data.postValue(bitmap);
             }
             catch (FileNotFoundException e) {
-                e.printStackTrace();
+                Timber.d("File doesn't exists");
                 data.postValue(null);
             }
         });
