@@ -270,11 +270,11 @@
     <string name="loading_schedule">Loading schedule</string>
     <string name="preparing_schedule_to_export">Preparing for export</string>
     <string name="export_requires_one_details_loaded_class">At least one discipline from semester must not be a draft before using this feature</string>
-    <string name="exporter_not_2_parts">Error on exporter. It didn\'t find the start or end of semester</string>
+    <string name="exporter_not_2_parts">Error on exporter. It did not find the start or end of semester</string>
     <string name="failed_to_export_class">Failed to export the class</string>
     <string name="exporting_classes">Exporting classes</string>
-    <string name="export_classes_to_google_calendar">Google Calendar</string>
-    <string name="export_classes_to_google_calendar_desc">Export schedule to Google Calendar</string>
+    <string name="export_classes_to_google_calendar">Schedule on Google Calendar</string>
+    <string name="export_classes_to_google_calendar_desc">Export schedule to Google Calendar(Experimental)</string>
     <string name="remove_google_calendar_export">Reset Google Calendar Schedule</string>
     <string name="remove_google_calendar_export_desc">Removes the exported schedule from Google Calendar</string>
 
@@ -283,4 +283,5 @@
     <string name="fd_profile_image">Profile Image</string>
     <string name="fd_profile_image_desc">You can change the profile image! Tap the image to switch it at anytime!</string>
     <string name="profile_image_unset">You can go back to the default image by tapping and holding the image</string>
+    <string name="new_schedule_takes_an_update">If you can\'t see the schedule correctly, wait for a sync or do one yourself.</string>
 </resources>
