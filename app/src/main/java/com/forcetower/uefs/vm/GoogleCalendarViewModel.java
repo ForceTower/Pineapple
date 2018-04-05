@@ -21,6 +21,8 @@ import com.forcetower.uefs.util.AbsentLiveData;
 import com.forcetower.uefs.util.GeneralUtils;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GooglePlayServicesAvailabilityIOException;
+import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -206,6 +208,12 @@ public class GoogleCalendarViewModel extends ViewModel {
                     i++;
                     Timber.d("Percentage: %d", ((i*100)/events.size()));
                     exportData.postValue(Resource.success((i*100)/events.size()));
+                } catch (GooglePlayServicesAvailabilityIOException e) {
+                    exportData.postValue(Resource.error("GooglePlayServicesAvailabilityIOException Exception", 350, e));
+                    return;
+                } catch (UserRecoverableAuthIOException e) {
+                    exportData.postValue(Resource.error("User recoverable Exception", 360, e));
+                    return;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

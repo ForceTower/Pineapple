@@ -34,6 +34,8 @@ import com.forcetower.uefs.view.login.MainActivity;
 import com.forcetower.uefs.vm.GoogleCalendarViewModel;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GooglePlayServicesAvailabilityIOException;
+import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.services.calendar.CalendarScopes;
 
@@ -191,12 +193,14 @@ public class SettingsActivity extends UBaseActivity implements SettingsControlle
             Timber.d("Null resource");
         } else {
             if (resource.status == Status.ERROR) {
-                Timber.d(getString(resource.data));
-                if (resource.data == R.string.failed_to_export_class)
-                    Toast.makeText(this, getString(R.string.failed_to_export_class) + " " + resource.message, Toast.LENGTH_SHORT).show();
-                else {
-                    Toast.makeText(this, getString(resource.data), Toast.LENGTH_SHORT).show();
-                    AnimUtils.fadeOut(this, pbProgress);
+                if (!handleErrorCorrectly(resource)) {
+                    Timber.d(getString(resource.data));
+                    if (resource.data == R.string.failed_to_export_class)
+                        Toast.makeText(this, getString(R.string.failed_to_export_class) + " " + resource.message, Toast.LENGTH_SHORT).show();
+                    else {
+                        Toast.makeText(this, getString(resource.data), Toast.LENGTH_SHORT).show();
+                        AnimUtils.fadeOut(this, pbProgress);
+                    }
                 }
             } else if (resource.status == Status.LOADING) {
                 Timber.d("Loading");
@@ -206,6 +210,7 @@ public class SettingsActivity extends UBaseActivity implements SettingsControlle
                 if (resource.data == 1000) {
                     AnimUtils.fadeOut(this, pbProgress);
                     currentProgress = 0;
+                    Toast.makeText(this, R.string.completed, Toast.LENGTH_SHORT).show();
                 } else {
                     ProgressBarAnimation anim = new ProgressBarAnimation(pbProgress, pbProgress.getProgress(), resource.data);
                     anim.setDuration(500);
@@ -229,10 +234,29 @@ public class SettingsActivity extends UBaseActivity implements SettingsControlle
                 currentProgress = resource.data;
                 pbProgress.startAnimation(anim);
             }
+        } else if (resource.status == Status.ERROR) {
+            handleErrorCorrectly(resource);
         } else {
+            Toast.makeText(this, R.string.completed, Toast.LENGTH_SHORT).show();
             currentProgress = 0;
             AnimUtils.fadeOut(this, pbProgress);
         }
+    }
+
+    private boolean handleErrorCorrectly(Resource<Integer> resource) {
+        Throwable throwable = resource.throwable;
+        if (resource.code == 350 && throwable != null) {
+            showGooglePlayServicesAvailabilityErrorDialog(((GooglePlayServicesAvailabilityIOException) throwable).getConnectionStatusCode());
+            currentProgress = 0;
+            AnimUtils.fadeOut(this, pbProgress);
+            return true;
+        } else if (resource.code == 360 && throwable != null) {
+            startActivityForResult(((UserRecoverableAuthIOException) throwable).getIntent(), REQUEST_AUTHORIZATION);
+            currentProgress = 0;
+            AnimUtils.fadeOut(this, pbProgress);
+            return true;
+        }
+        return false;
     }
 
     private void exportToGoogleCalendar() {
@@ -343,7 +367,10 @@ public class SettingsActivity extends UBaseActivity implements SettingsControlle
             }
         } else if (requestCode == REQUEST_AUTHORIZATION) {
             if (resultCode == RESULT_OK) {
-                exportToGoogleCalendar();
+                if (currentSelect == REQUEST_ACCOUNT_PICKER)
+                    exportToGoogleCalendar();
+                else
+                    resetExportToGoogleCalendar();
             }
         }
     }

@@ -32,12 +32,15 @@ public class Resource<T> {
     @Nullable
     public final T data;
     public final int code;
+    @Nullable
+    public final Throwable throwable;
 
     public Resource(@NonNull Status status, @Nullable T data, @Nullable String message) {
         this.status = status;
         this.data = data;
         this.message = message;
         this.code = -1;
+        this.throwable = null;
     }
 
     public Resource(@NonNull Status status, @Nullable T data, @Nullable String message, int code) {
@@ -45,6 +48,15 @@ public class Resource<T> {
         this.data = data;
         this.message = message;
         this.code = code;
+        this.throwable = null;
+    }
+
+    public Resource(@NonNull Status status, @Nullable T data, @Nullable String message, int code, @Nullable Throwable throwable) {
+        this.status = status;
+        this.data = data;
+        this.message = message;
+        this.code = code;
+        this.throwable = throwable;
     }
 
     public static <T> Resource<T> success(@Nullable T data) {
@@ -57,6 +69,10 @@ public class Resource<T> {
 
     public static <T> Resource<T> error(String msg, int code, @Nullable T data) {
         return new Resource<>(Status.ERROR, data, msg, code);
+    }
+
+    public static <T> Resource<T> error(String msg, int code, Throwable throwable) {
+        return new Resource<>(Status.ERROR, null, msg, code, throwable);
     }
 
     public static <T> Resource<T> loading(@Nullable T data) {
