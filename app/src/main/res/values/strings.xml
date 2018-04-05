@@ -286,4 +286,5 @@
     <string name="fd_profile_image_desc">Você pode trocar a imagem de perfil!\nBasta tocar na imagem para altera-la!</string>
     <string name="profile_image_unset">Você pode voltar para a imagem padrão a qualquer momento, basta tocar e deixar apertado</string>
     <string name="new_schedule_takes_an_update">Se você não consegue ver o novo horário corretamente, espere uma sincronização automática ou faça uma.</string>
+    <string name="image_could_not_be_loaded">Imagem não pôde ser carregada. Ela é muito grande?</string>
 </resources>

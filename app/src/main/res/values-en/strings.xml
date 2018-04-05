@@ -284,4 +284,5 @@
     <string name="fd_profile_image_desc">You can change the profile image! Tap the image to switch it at anytime!</string>
     <string name="profile_image_unset">You can go back to the default image by tapping and holding the image</string>
     <string name="new_schedule_takes_an_update">If you can\'t see the schedule correctly, wait for a sync or do one yourself.</string>
+    <string name="image_could_not_be_loaded">Image could not be loaded. Is it too big?</string>
 </resources>

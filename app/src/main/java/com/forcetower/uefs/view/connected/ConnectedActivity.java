@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
+import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -307,6 +308,7 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
         }
     }
 
+    @MainThread
     private boolean onNavigationOptionSelected(MenuItem menuItem) {
         int id = menuItem.getItemId();
 
@@ -416,6 +418,7 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
         changeFragment(new BigTrayFragment());
     }
 
+    @MainThread
     private void changeFragment(@NonNull Fragment fragment) {
         Fragment current = fragmentManager.findFragmentByTag(fragment.getClass().getSimpleName());
         if (current != null) fragment = current;

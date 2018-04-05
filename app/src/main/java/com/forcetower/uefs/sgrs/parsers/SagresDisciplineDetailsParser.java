@@ -46,8 +46,8 @@ public class SagresDisciplineDetailsParser {
         DisciplineGroup created = new DisciplineGroup(0, teacher, refGroup, 0, 0,null, null);
 
         String semesterByName = null;
-        String classCredits = "0";
-        String missLimits = "0";
+        String classCredits = "";
+        String missLimits = "";
         String classPeriod = null;
         String department = null;
 
@@ -88,6 +88,9 @@ public class SagresDisciplineDetailsParser {
         created.setDepartment(department);
         created.setClassPeriod(classPeriod);
         created.setDisciplineCodeAndSemester(code, semesterByName);
+
+        if (classCredits.isEmpty()) classCredits = "0";
+        if (missLimits.isEmpty()) missLimits = "0";
         try {
             int credits = Integer.parseInt(classCredits);
             created.setCredits(credits);

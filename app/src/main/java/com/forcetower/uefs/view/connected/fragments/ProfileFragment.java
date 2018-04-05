@@ -340,8 +340,9 @@ public class ProfileFragment extends Fragment implements Injectable {
                     } else {
                         Timber.d("Selected image is null");
                     }
-                } catch (FileNotFoundException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
+                    Toast.makeText(requireContext(), R.string.image_could_not_be_loaded, Toast.LENGTH_SHORT).show();
                 }
             }
         }
