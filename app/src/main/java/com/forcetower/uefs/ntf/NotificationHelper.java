@@ -110,8 +110,8 @@ public class NotificationHelper extends ContextWrapper{
         if (VersionUtils.isLollipop())
             builder.setSmallIcon(R.drawable.ic_unes);
         else {
-            builder.setSmallIcon(R.drawable.ic_unes_large_image_512);
-            builder.setLargeIcon(getIcon(context, R.drawable.ic_unes_large_image_512));
+            builder.setSmallIcon(R.drawable.ic_unes_compat);
+            builder.setLargeIcon(getIcon(context, R.drawable.ic_unes));
         }
 
         return builder;
