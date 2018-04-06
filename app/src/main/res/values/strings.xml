@@ -287,4 +287,26 @@
     <string name="profile_image_unset">Você pode voltar para a imagem padrão a qualquer momento, basta tocar e deixar apertado</string>
     <string name="new_schedule_takes_an_update">Se você não consegue ver o novo horário corretamente, espere uma sincronização automática ou faça uma.</string>
     <string name="image_could_not_be_loaded">Imagem não pôde ser carregada. Ela é muito grande?</string>
+
+    <string name="pref_palette">Cores</string>
+    <string name="pref_palette_desc">Mude as cores do aplicativo (Experimental)</string>
+    <string name="reset_the_app_to_apply">Reinicie o aplicativo para aplicar as mudanças</string>
+
+    <string-array name="pref_palette_theme_names">
+        <item>Azul - Laranja (Padrão)</item>
+        <item>Rosa - Cinza (Ellen)</item>
+        <item>Cinza - Cinza (OmegaLUL)</item>
+        <item>Lilás - Amarelo (Aleatório)</item>
+        <item>Cinza - Verde (Eu)</item>
+    </string-array>
+
+    <string-array name="pref_palette_theme_values">
+        <item>default_theme</item>
+        <item>ellen_theme</item>
+        <item>gray_1_theme</item>
+        <item>random_1_theme</item>
+        <item>random_2_theme</item>
+    </string-array>
+
+
 </resources>

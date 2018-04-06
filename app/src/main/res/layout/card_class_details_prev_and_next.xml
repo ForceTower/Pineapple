@@ -85,7 +85,7 @@
             android:id="@+id/tv_show_all_classes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorAccent"
+            android:textColor="?colorAccent"
             android:fontFamily="@font/roboto_regular"
             android:layout_marginTop="16dp"
             android:layout_gravity="center_horizontal"

@@ -5,6 +5,26 @@
     <color name="colorPrimaryLight">#BBDEFB</color>
     <color name="colorAccent">#FF5722</color>
 
+    <color name="colorPrimaryEllen1">#E91E63</color>
+    <color name="colorPrimaryDarkEllen1">#C2185B</color>
+    <color name="colorPrimaryLightEllen1">#F8BBD0</color>
+    <color name="colorAccentEllen1">#7C4DFF</color>
+
+    <color name="colorPrimaryForce1">#9C27B0</color>
+    <color name="colorPrimaryDarkForce1">#7B1FA2</color>
+    <color name="colorPrimaryLightForce1">#E1BEE7</color>
+    <color name="colorAccentForce1">#FFC107</color>
+
+    <color name="colorPrimaryForce2">#607D8B</color>
+    <color name="colorPrimaryDarkForce2">#455A64</color>
+    <color name="colorPrimaryLightForce2">#CFD8DC</color>
+    <color name="colorAccentForce2">#4CAF50</color>
+
+    <color name="colorPrimaryGray1">#607D8B</color>
+    <color name="colorPrimaryDarkGray1">#455A64</color>
+    <color name="colorPrimaryLightGray1">#CFD8DC</color>
+    <color name="colorAccentGray1">#9E9E9E</color>
+
     <color name="white">#FFFFFF</color>
     <color name="primaryText">#212121</color>
     <color name="secondaryText">#757575</color>

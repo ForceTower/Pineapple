@@ -23,15 +23,16 @@
 
         <ImageView
             android:id="@+id/ivEnrollment"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:layout_centerVertical="true"
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:contentDescription="@string/title_enrollment_certificate"
-            app:srcCompat="@drawable/ic_certificate_icon"/>
+            app:srcCompat="@drawable/ic_certificate_icon"
+            android:tint="?colorAccent"/>
 
         <TextView
             android:id="@+id/tvEnrollment"

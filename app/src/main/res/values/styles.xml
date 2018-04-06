@@ -1,15 +1,38 @@
 <resources>
 
+    <style name="UNESAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:listDivider">@null</item>
+    </style>
+
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
+    <style name="AppTheme" parent="UNESAppTheme">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppTheme.PreferencesStyle" parent="AppTheme">
-        <item name="android:listDivider">@null</item>
+    <style name="AppThemeEllen1" parent="UNESAppTheme">
+        <item name="colorPrimary">@color/colorPrimaryEllen1</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkEllen1</item>
+        <item name="colorAccent">@color/colorAccentEllen1</item>
+    </style>
+
+    <style name="AppThemeForce1" parent="UNESAppTheme">
+        <item name="colorPrimary">@color/colorPrimaryForce1</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkForce1</item>
+        <item name="colorAccent">@color/colorAccentForce1</item>
+    </style>
+
+    <style name="AppThemeForce2" parent="UNESAppTheme">
+        <item name="colorPrimary">@color/colorPrimaryForce2</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkForce2</item>
+        <item name="colorAccent">@color/colorAccentForce2</item>
+    </style>
+
+    <style name="AppThemeGray1" parent="UNESAppTheme">
+        <item name="colorPrimary">@color/colorPrimaryGray1</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkGray1</item>
+        <item name="colorAccent">@color/colorAccentGray1</item>
     </style>
 
 </resources>

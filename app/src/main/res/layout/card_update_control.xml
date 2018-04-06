@@ -25,10 +25,10 @@
 
         <ImageView
             android:id="@+id/ivCalendar"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             app:srcCompat="@drawable/ic_sync_accent_30dp"
-            android:tint="#000"
+            android:tint="?colorAccent"
             android:layout_marginTop="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"

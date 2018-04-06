@@ -99,6 +99,17 @@
             android:summaryOff="@string/new_schedule_layout_disabled"
             android:summaryOn="@string/new_schedule_layout_enabled"/>
 
+        <ListPreference
+            android:defaultValue="default_theme"
+            android:entries="@array/pref_palette_theme_names"
+            android:entryValues="@array/pref_palette_theme_values"
+            android:icon="@drawable/ic_palette_accent_30dp"
+            android:key="unes_selected_theme"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            android:summary="@string/pref_palette_desc"
+            android:title="@string/pref_palette"/>
+
         <Preference
             android:icon="@drawable/ic_calendar_range_accent_30dp"
             android:key="export_to_google_calendar"

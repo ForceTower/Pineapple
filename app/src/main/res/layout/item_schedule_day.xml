@@ -21,7 +21,7 @@
             tools:text="Monday"
             android:padding="8dp"
             android:gravity="center"
-            android:textColor="@color/colorPrimary"
+            android:textColor="?colorAccent"
             android:fontFamily="@font/roboto_medium"/>
 
         <android.support.v7.widget.RecyclerView
