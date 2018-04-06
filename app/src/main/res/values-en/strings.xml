@@ -305,4 +305,6 @@
         <item>random_1_theme</item>
         <item>random_2_theme</item>
     </string-array>
+
+    <string name="no_score_message">I don\'t know your score, sad</string>
 </resources>

@@ -308,5 +308,5 @@
         <item>random_2_theme</item>
     </string-array>
 
-
+    <string name="no_score_message">Eu não sei seu score, não entendi</string>
 </resources>

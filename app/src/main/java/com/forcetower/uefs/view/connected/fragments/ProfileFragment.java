@@ -206,8 +206,11 @@ public class ProfileFragment extends Fragment implements Injectable {
 
         tvStdName.setText(profile.getName());
 
-        if (profile.getScore() >= 0)
+        if (profile.getScore() >= 0) {
             tvStdScore.setText(getString(R.string.student_score, profile.getScore()));
+        } else {
+            tvStdScore.setText(R.string.no_score_message);
+        }
 
         Timber.d("Last Sync: %s", profile.getLastSync());
         String date = DateUtils.convertTime(profile.getLastSync());
