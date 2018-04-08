@@ -11,7 +11,7 @@
         android:layout_height="120dp"
         android:layout_centerHorizontal="true"
         app:srcCompat="@drawable/ic_sync_black_24dp"
-        android:tint="?colorAccent"
+        android:tint="?attr/color_accent"
         android:layout_margin="16dp"/>
 
     <TextView

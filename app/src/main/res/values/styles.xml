@@ -9,30 +9,55 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="color_accent">@color/colorAccent</item>
+        <item name="color_primary">@color/colorPrimary</item>
+        <item name="color_primary_dark">@color/colorPrimaryDark</item>
+        <item name="color_primary_light">@color/colorPrimaryLight</item>
     </style>
 
     <style name="AppThemeEllen1" parent="UNESAppTheme">
         <item name="colorPrimary">@color/colorPrimaryEllen1</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkEllen1</item>
         <item name="colorAccent">@color/colorAccentEllen1</item>
+
+        <item name="color_accent">@color/colorAccentEllen1</item>
+        <item name="color_primary">@color/colorPrimaryEllen1</item>
+        <item name="color_primary_dark">@color/colorPrimaryDarkEllen1</item>
+        <item name="color_primary_light">@color/colorPrimaryLightEllen1</item>
     </style>
 
     <style name="AppThemeForce1" parent="UNESAppTheme">
         <item name="colorPrimary">@color/colorPrimaryForce1</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkForce1</item>
         <item name="colorAccent">@color/colorAccentForce1</item>
+
+        <item name="color_accent">@color/colorAccentForce1</item>
+        <item name="color_primary">@color/colorPrimaryForce1</item>
+        <item name="color_primary_dark">@color/colorPrimaryDarkForce1</item>
+        <item name="color_primary_light">@color/colorPrimaryLightForce1</item>
     </style>
 
     <style name="AppThemeForce2" parent="UNESAppTheme">
         <item name="colorPrimary">@color/colorPrimaryForce2</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkForce2</item>
         <item name="colorAccent">@color/colorAccentForce2</item>
+
+        <item name="color_accent">@color/colorAccentForce2</item>
+        <item name="color_primary">@color/colorPrimaryForce2</item>
+        <item name="color_primary_dark">@color/colorPrimaryDarkForce2</item>
+        <item name="color_primary_light">@color/colorPrimaryLightForce2</item>
     </style>
 
     <style name="AppThemeGray1" parent="UNESAppTheme">
         <item name="colorPrimary">@color/colorPrimaryGray1</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkGray1</item>
         <item name="colorAccent">@color/colorAccentGray1</item>
+
+        <item name="color_accent">@color/colorAccentGray1</item>
+        <item name="color_primary">@color/colorPrimaryGray1</item>
+        <item name="color_primary_dark">@color/colorPrimaryDarkGray1</item>
+        <item name="color_primary_light">@color/colorPrimaryLightGray1</item>
     </style>
 
 </resources>

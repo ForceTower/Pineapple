@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
                 android:layout_margin="8dp"
-                android:background="?colorAccent"
+                android:background="?attr/color_accent"
                 android:textColor="@color/white"
                 android:text="@string/btn_third_party_licenses"
                 android:fontFamily="@font/roboto_regular"/>

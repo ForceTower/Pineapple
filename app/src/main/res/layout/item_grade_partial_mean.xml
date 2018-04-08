@@ -16,7 +16,7 @@
         android:layout_toLeftOf="@id/tv_partial_mean"
         android:layout_toStartOf="@id/tv_partial_mean"
         android:textSize="12sp"
-        android:textColor="?colorPrimary"
+        android:textColor="?attr/color_primary"
         android:fontFamily="@font/roboto_medium"
         android:text="@string/partial_mean"/>
 
@@ -30,7 +30,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginEnd="16dp"
         android:fontFamily="@font/roboto_medium"
-        android:textColor="?colorAccent"
+        android:textColor="?attr/color_accent"
         android:textSize="14sp"
         tools:text="8.7"/>
 </RelativeLayout>

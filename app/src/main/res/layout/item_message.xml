@@ -33,7 +33,7 @@
                 android:layout_height="20dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
-                android:tint="?colorAccent"
+                android:tint="?attr/color_accent"
                 tools:src="@drawable/ic_class_message_black_24dp"/>
 
             <TextView

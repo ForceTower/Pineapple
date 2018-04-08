@@ -32,7 +32,7 @@
             android:layout_marginTop="8dp"
             android:contentDescription="@string/title_enrollment_certificate"
             app:srcCompat="@drawable/ic_certificate_icon"
-            android:tint="?colorAccent"/>
+            android:tint="?attr/color_accent"/>
 
         <TextView
             android:id="@+id/tvEnrollment"

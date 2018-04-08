@@ -24,7 +24,7 @@
             android:layout_height="36dp"
             android:gravity="center"
             tools:text="20181"
-            android:textColor="?colorAccent"
+            android:textColor="?attr/color_accent"
             android:fontFamily="@font/roboto_medium"/>
 
         <android.support.v7.widget.RecyclerView

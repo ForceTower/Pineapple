@@ -21,7 +21,7 @@
             android:id="@+id/tv_class_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="?colorAccent"
+            android:textColor="?attr/color_accent"
             android:fontFamily="@font/roboto_medium"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"

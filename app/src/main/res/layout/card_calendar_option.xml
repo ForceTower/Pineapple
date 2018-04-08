@@ -24,7 +24,7 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             app:srcCompat="@drawable/ic_calendar_black_24dp"
-            android:tint="?colorAccent"
+            android:tint="?attr/color_accent"
             android:layout_marginTop="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"

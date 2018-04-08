@@ -23,7 +23,7 @@
             android:layout_height="36dp"
             android:layout_margin="16dp"
             app:srcCompat="@drawable/ic_experimental_black_24dp"
-            android:tint="?colorPrimary"/>
+            android:tint="?attr/color_primary"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -33,7 +33,7 @@
             android:layout_margin="16dp"
             android:layout_centerVertical="true"
             android:text="@string/experimental_content"
-            android:textColor="@color/colorAccent"
+            android:textColor="?attr/color_accent"
             android:textSize="15sp"
             android:fontFamily="@font/roboto_regular"/>
     </RelativeLayout>

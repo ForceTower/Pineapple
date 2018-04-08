@@ -13,7 +13,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:fontFamily="@font/roboto_medium"
-        android:textColor="?colorPrimary"
+        android:textColor="?attr/color_primary"
         android:textSize="12sp"
         tools:text="Teórico - Prático"/>
 </RelativeLayout>
