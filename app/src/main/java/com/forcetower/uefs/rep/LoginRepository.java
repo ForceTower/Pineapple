@@ -366,6 +366,8 @@ public class LoginRepository {
                                         Timber.d("Equal names is greater than 1");
                                         if (cInfo.getDate().equalsIgnoreCase(info.getDate())) {
                                             verOther = cInfo;
+                                            Timber.d("Found a mate for this guy");
+                                            break;
                                         }
                                     } else {
                                         break;
