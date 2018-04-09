@@ -11,14 +11,16 @@
         android:layout_height="match_parent"
         android:paddingBottom="8dp"
         android:clipToPadding="false"
-        android:visibility="visible">
+        android:visibility="visible"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
     </android.support.v7.widget.RecyclerView>
 
     <ScrollView
         android:id="@+id/vg_no_schedule"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
+        android:visibility="gone"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"

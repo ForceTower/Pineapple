@@ -33,7 +33,8 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 app:srcCompat="@drawable/ic_tag_faces_happy_black_24dp"
-                android:layout_centerVertical="true"/>
+                android:layout_centerVertical="true"
+                android:tint="#000"/>
         </RelativeLayout>
 
         <RelativeLayout

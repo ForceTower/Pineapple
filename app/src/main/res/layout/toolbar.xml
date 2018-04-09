@@ -16,7 +16,9 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:titleTextColor="@color/white">
+            app:titleTextColor="@color/white"
+            app:layout_scrollFlags="scroll|enterAlways"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
         </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.TabLayout
@@ -25,6 +27,7 @@
             android:layout_height="wrap_content"
             app:tabMode="scrollable"
             android:visibility="gone"
+            tools:visibility="visible"
             app:tabSelectedTextColor="@color/white">
         </android.support.design.widget.TabLayout>
     </android.support.design.widget.AppBarLayout>

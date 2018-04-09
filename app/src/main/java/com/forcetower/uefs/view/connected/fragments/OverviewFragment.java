@@ -1,7 +1,8 @@
-package com.forcetower.uefs.view.discipline.fragments;
+package com.forcetower.uefs.view.connected.fragments;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,7 +23,9 @@ import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
 import com.forcetower.uefs.util.AnimUtils;
-import com.forcetower.uefs.view.discipline.DisciplineClassesActivity;
+import com.forcetower.uefs.util.DateUtils;
+import com.forcetower.uefs.view.UBaseActivity;
+import com.forcetower.uefs.view.connected.ActivityController;
 import com.forcetower.uefs.vm.DisciplinesViewModel;
 
 import javax.inject.Inject;
@@ -31,7 +34,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-import static com.forcetower.uefs.view.discipline.DisciplineDetailsActivity.INTENT_DISCIPLINE_GROUP_ID;
+import static com.forcetower.uefs.view.connected.fragments.DisciplineDetailsFragment.INTENT_DISCIPLINE_GROUP_ID;
 
 /**
  * Created by João Paulo on 09/03/2018.
@@ -85,6 +88,16 @@ public class OverviewFragment extends Fragment implements Injectable {
     ViewModelProvider.Factory viewModelFactory;
     private DisciplinesViewModel disciplinesViewModel;
 
+    private Discipline mDiscipline;
+
+    private ActivityController controller;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        controller = (ActivityController) context;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -118,7 +131,7 @@ public class OverviewFragment extends Fragment implements Injectable {
             }
         });
 
-        cvClasses.setOnClickListener(v -> DisciplineClassesActivity.startActivity(getContext(), groupId));
+        cvClasses.setOnClickListener(v -> controller.navigateToDisciplineClasses(groupId));
     }
 
     private void onDisciplineGroupChanged(DisciplineGroup group) {
@@ -126,6 +139,32 @@ public class OverviewFragment extends Fragment implements Injectable {
             Timber.d("Group is null... Thinking...");
             return;
         }
+
+        //Achievement
+        if (!group.isDraft() && mDiscipline != null) {
+            String situation = mDiscipline.getSituation();
+            if (situation == null || situation.equalsIgnoreCase("Em Aberto")) {
+                Timber.d("Ignored because this semester isn't finished yet");
+            } else {
+                String[] dates = group.getClassPeriod().split("até");
+                if (dates.length == 2) {
+                    int monthDifference = DateUtils.getDifference(dates[0], dates[1], 1);
+                    if (monthDifference != -1) {
+                        UBaseActivity activity = ((UBaseActivity) requireActivity());
+                        if (monthDifference <= 6)
+                            activity.unlockAchievements(getString(R.string.achievement_6_month_semester), activity.mPlayGamesInstance);
+                    }
+
+                    int yearDifference = DateUtils.getDifference(dates[0], dates[1], 2);
+                    if (monthDifference != -1) {
+                        UBaseActivity activity = ((UBaseActivity) requireActivity());
+                        if (yearDifference >= 1)
+                            activity.unlockAchievements(getString(R.string.achievement_year_turner_semester), activity.mPlayGamesInstance);
+                    }
+                }
+            }
+        }
+
         if (!group.isDraft()) classCredits.setText(getString(R.string.class_details_credits, group.getCredits()));
         classPeriod.setText(getString(R.string.class_details_class_period, group.isDraft() ? "???" : group.getClassPeriod()));
         classTeacher.setText(getString(R.string.class_details_teacher, group.isDraft() ? "???" : group.getTeacher()));
@@ -172,6 +211,7 @@ public class OverviewFragment extends Fragment implements Injectable {
             return;
         }
 
+        this.mDiscipline = discipline;
         String fullName = discipline.getCode() + " - " + discipline.getName();
         className.setText(fullName);
         classesMissed.setText(getString(R.string.class_details_classes_missed, discipline.getMissedClasses()));

@@ -60,7 +60,7 @@ public class SagresSyncAdapter extends AbstractThreadedSyncAdapter {
         Timber.d("Perform update called");
 
         executors.networkIO().execute(() -> {
-            if (!BuildConfig.DEBUG && !syncCheckMainUpdater(client)) {
+            if (!BuildConfig.DEBUG && !syncCheckMainUpdater(client, 1)) {
                 Timber.d("Application is paused");
                 return;
             }
@@ -105,7 +105,11 @@ public class SagresSyncAdapter extends AbstractThreadedSyncAdapter {
             }
         } else {
             Timber.d("Sync failed");
-            Timber.d("Error: %s", resource.message);
+            if (resource.data != null)
+                Timber.d("Error: %s", context.getString(resource.data));
+            else
+                Timber.d("Error: %s", resource.message);
+
             if (call != null) {
                 Timber.d("Removed observer");
                 call.removeObserver(this::onSyncProgress);

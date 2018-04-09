@@ -20,11 +20,10 @@ import com.forcetower.uefs.db.entity.DisciplineClassLocation;
 import com.forcetower.uefs.db.entity.DisciplineGroup;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.util.AnimUtils;
+import com.forcetower.uefs.view.connected.ActivityController;
 import com.forcetower.uefs.view.connected.LocationClickListener;
-import com.forcetower.uefs.view.connected.NavigationController;
 import com.forcetower.uefs.view.connected.adapters.NewScheduleAdapter;
 import com.forcetower.uefs.view.connected.adapters.ScheduleAdapter;
-import com.forcetower.uefs.view.discipline.DisciplineDetailsActivity;
 import com.forcetower.uefs.vm.ScheduleViewModel;
 
 import java.util.ArrayList;
@@ -54,7 +53,7 @@ public class NewScheduleFragment extends Fragment implements Injectable {
     @Inject
     AppExecutors executors;
 
-    private NavigationController controller;
+    private ActivityController controller;
     private ScheduleViewModel scheduleViewModel;
 
     private NewScheduleAdapter scheduleAdapter;
@@ -64,9 +63,9 @@ public class NewScheduleFragment extends Fragment implements Injectable {
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            controller = (NavigationController) context;
+            controller = (ActivityController) context;
         } catch (ClassCastException e) {
-            Timber.e("Class %s must implement NavigationController", context.getClass().getSimpleName());
+            Timber.e("Class %s must implement MainContentController", context.getClass().getSimpleName());
         }
     }
 
@@ -75,6 +74,8 @@ public class NewScheduleFragment extends Fragment implements Injectable {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_schedule_new, container, false);
         ButterKnife.bind(this, view);
+        controller.getTabLayout().setVisibility(View.GONE);
+        controller.changeTitle(R.string.title_schedule);
         setupRecycler();
         setupSubtitles();
         return view;
@@ -126,7 +127,7 @@ public class NewScheduleFragment extends Fragment implements Injectable {
         DisciplineGroup group = scheduleViewModel.getDisciplineGroupDirect(groupId);
         int disciplineId = group.getDiscipline();
         if (getContext() != null) {
-            DisciplineDetailsActivity.startActivity(getContext(), groupId, disciplineId);
+            executors.mainThread().execute(() -> controller.navigateToDisciplineDetails(groupId, disciplineId));
         }
     });
 }

@@ -12,6 +12,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
         android:name=".UEFSApplication"
@@ -23,6 +25,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.gms.games.APP_ID"
+            android:value="@string/app_id"/>
+
         <activity android:name=".view.login.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -30,19 +36,26 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".view.connected.ConnectedActivity">
+        <activity
+            android:name=".view.connected.LoggedActivity"
+            android:label="@string/title_activity_logged"
+            android:theme="@style/AppTheme.NavigationDrawer">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.settings.SettingsActivity">
+            android:name=".view.settings.SettingsActivity"
+            android:label="@string/settings"
+            android:theme="@style/AppTheme.PreferencesStyle">
         </activity>
-        <activity android:name=".view.about.AboutActivity">
+        <activity
+            android:name=".view.about.AboutActivity"
+            android:label="@string/about_app">
         </activity>
-        <activity android:name=".view.suggestion.SuggestionActivity">
-        </activity>
-        <activity android:name=".view.discipline.DisciplineDetailsActivity">
+        <activity
+            android:name=".view.control_room.ControlRoomActivity"
+            android:label="@string/control_room">
         </activity>
 
         <service
@@ -89,13 +102,6 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".view.discipline.DisciplineClassesActivity">
-        </activity>
-        <activity android:name=".view.control_room.ControlRoomActivity">
-        </activity>
-        <activity android:name=".view.experimental.good_barrel.GoodBarrelActivity">
-        </activity>
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.forcetower.uefs.fileprovider"
@@ -116,18 +122,19 @@
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_firebase_notification_channel_id"/>
 
-        <service
-            android:name=".svc.firebase.UNESFirebaseMessagingService">
+        <service android:name=".svc.firebase.UNESFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
-        <service
-            android:name=".svc.firebase.UNESFirebaseInstanceIDService">
+        <service android:name=".svc.firebase.UNESFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
+
+        <activity android:name=".view.suggestion.SuggestionActivity">
+        </activity>
     </application>
 
 </manifest>

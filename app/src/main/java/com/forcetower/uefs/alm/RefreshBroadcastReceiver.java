@@ -63,7 +63,7 @@ public class RefreshBroadcastReceiver extends BroadcastReceiver {
         }
 
         executors.networkIO().execute(() -> {
-            if (!BuildConfig.DEBUG && !syncCheckMainUpdater(client)) {
+            if (!BuildConfig.DEBUG && !syncCheckMainUpdater(client, 2)) {
                 Timber.d("Application is paused");
                 return;
             }

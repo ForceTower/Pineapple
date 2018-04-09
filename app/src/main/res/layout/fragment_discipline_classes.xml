@@ -5,17 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.forcetower.uefs.view.experimental.good_barrel.GoodBarrelActivity">
+    tools:context="com.forcetower.uefs.view.connected.fragments.DisciplineClassesFragment">
 
-    <include
-        android:id="@+id/inc_toolbar"
-        layout="@layout/toolbar"/>
-
-    <FrameLayout
-        android:id="@+id/container"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_below="@id/inc_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </FrameLayout>
+        android:layout_height="match_parent"
+        android:paddingBottom="8dp"
+        android:clipToPadding="false">
+    </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>

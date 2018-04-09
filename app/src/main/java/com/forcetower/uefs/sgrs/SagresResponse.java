@@ -41,10 +41,10 @@ public class SagresResponse {
                 Timber.d("Failed parsing failed body, %s", ignored.getMessage());
                 message = ignored.getMessage();
                 Timber.e("This happened: %s", ignored.getMessage());
-                code = 500;
                 throwable = ignored;
+            } finally {
+                code = 500;
             }
-
         }
     }
 

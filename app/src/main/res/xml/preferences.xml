@@ -99,17 +99,6 @@
             android:summaryOff="@string/new_schedule_layout_disabled"
             android:summaryOn="@string/new_schedule_layout_enabled"/>
 
-        <ListPreference
-            android:defaultValue="default_theme"
-            android:entries="@array/pref_palette_theme_names"
-            android:entryValues="@array/pref_palette_theme_values"
-            android:icon="@drawable/ic_palette_accent_30dp"
-            android:key="unes_selected_theme"
-            android:negativeButtonText="@null"
-            android:positiveButtonText="@null"
-            android:summary="@string/pref_palette_desc"
-            android:title="@string/pref_palette"/>
-
         <Preference
             android:icon="@drawable/ic_calendar_range_accent_30dp"
             android:key="export_to_google_calendar"
@@ -141,27 +130,6 @@
             android:defaultValue="true"
             android:summaryOff="@string/pref_do_not_show_semester"
             android:summaryOn="@string/pref_do_show_semester"/>
-
-        <Preference
-            android:icon="@drawable/ic_logoff_accent_30dp"
-            android:key="logoff_key"
-            android:summary="@string/pref_logoff_summary"
-            android:title="@string/pref_logoff"/>
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/pref_title_about_and_feedback">
-
-        <Preference
-            android:key="feedback_key"
-            android:icon="@drawable/ic_feedback_accent_30dp"
-            android:title="@string/suggestions"/>
-
-        <Preference
-            android:key="about_app_key"
-            android:icon="@drawable/ic_info_accent_30dp"
-            android:title="@string/about_app_title"/>
-
     </PreferenceCategory>
 
 </PreferenceScreen>

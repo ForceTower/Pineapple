@@ -11,54 +11,74 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/ll_logo_info"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="32dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp">
+            android:layout_height="200dp">
 
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="120dp"
-                android:layout_weight=".4">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/iv_img_placeholder"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_unes_large_image_512"
-                    android:visibility="invisible"
-                    tools:visibility="visible"
-                    android:focusable="true"
-                    android:clickable="true"/>
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/iv_img_profile"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_unes_large_image_512"
-                    android:visibility="invisible"
-                    android:focusable="true"
-                    android:clickable="true"/>
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/tv_std_name"
-                android:layout_width="0dp"
+            <ImageView
+                android:id="@+id/iv_background"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight=".6"
-                android:padding="8dp"
-                android:text="..??? ??? ???????"
-                android:textColor="@color/white"
-                android:gravity="center"
-                android:textSize="18sp"
-                android:fontFamily="@font/roboto_medium"/>
-        </LinearLayout>
+                android:scaleType="centerCrop"/>
+
+            <View
+                android:id="@+id/vw_bg_alpha"
+                android:background="#000"
+                android:alpha=".2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible"
+                tools:visibility="visible"/>
+
+            <LinearLayout
+                android:id="@+id/ll_logo_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="32dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_weight=".4">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/iv_img_placeholder"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_unes_large_image_512"
+                        android:visibility="invisible"
+                        tools:visibility="visible"
+                        android:focusable="true"
+                        android:clickable="true"/>
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/iv_img_profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_unes_large_image_512"
+                        android:visibility="invisible"
+                        android:focusable="true"
+                        android:clickable="true"/>
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tv_std_name"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".6"
+                    android:padding="8dp"
+                    android:text="..??? ??? ???????"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/roboto_medium"/>
+            </LinearLayout>
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/tv_std_semester"
@@ -142,13 +162,7 @@
             android:orientation="vertical"
             android:paddingBottom="16dp"
             android:clipToPadding="false">
-
-            <include android:visibility="visible" layout="@layout/card_calendar_option"/>
-            <include android:visibility="visible" layout="@layout/card_enrollment_download"/>
-            <include android:visibility="visible" layout="@layout/card_big_tray"/>
             <include android:visibility="gone" tools:visibility="visible" layout="@layout/card_update_control"/>
-            <include android:visibility="gone" tools:visibility="visible" layout="@layout/card_good_barrel"/>
-
         </LinearLayout>
 
     </LinearLayout>

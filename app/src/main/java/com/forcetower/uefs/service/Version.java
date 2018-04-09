@@ -18,14 +18,17 @@ public class Version {
     private int disableCode;
     @SerializedName(value = "new_schedule")
     private int newSchedule;
+    @SerializedName(value = "background_image")
+    private String backgroundImage;
 
-    public Version(int versionCode, String versionName, String whatsNew, String downloadLink, int disableCode, int newSchedule) {
+    public Version(int versionCode, String versionName, String whatsNew, String downloadLink, int disableCode, int newSchedule, String backgroundImage) {
         this.versionCode = versionCode;
         this.versionName = versionName;
         this.whatsNew = whatsNew;
         this.downloadLink = downloadLink;
         this.disableCode = disableCode;
         this.newSchedule = newSchedule;
+        this.backgroundImage = backgroundImage;
     }
 
     public int getVersionCode() {
@@ -78,5 +81,9 @@ public class Version {
 
     public boolean showNewSchedule() {
         return newSchedule == 1;
+    }
+
+    public String getBackgroundImage() {
+        return backgroundImage;
     }
 }

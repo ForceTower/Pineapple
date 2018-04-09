@@ -1,9 +1,8 @@
 package com.forcetower.uefs.view.connected.fragments;
 
 import android.arch.lifecycle.Lifecycle;
+import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.AnyThread;
-import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
@@ -22,6 +21,7 @@ import com.forcetower.uefs.ru.RUFirebase;
 import com.forcetower.uefs.ru.RUtils;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.util.DateUtils;
+import com.forcetower.uefs.view.connected.ActivityController;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,7 +33,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 public class BigTrayFragment extends Fragment implements Injectable {
     @BindView(R.id.tv_ru_state)
@@ -58,11 +57,22 @@ public class BigTrayFragment extends Fragment implements Injectable {
     @Inject
     RUFirebase ruFirebase;
 
+    private ActivityController controller;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        controller = (ActivityController) context;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_big_tray, container, false);
         ButterKnife.bind(this, view);
+
+        controller.getTabLayout().setVisibility(View.GONE);
+        controller.changeTitle(R.string.title_big_tray);
         return view;
     }
 

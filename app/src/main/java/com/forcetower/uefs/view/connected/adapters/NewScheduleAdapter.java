@@ -20,7 +20,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 import static com.forcetower.uefs.util.DateUtils.getDayOfWeek;
 

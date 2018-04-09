@@ -5,60 +5,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.forcetower.uefs.view.suggestion.SuggestionActivity">
+    tools:context=".view.suggestion.SuggestionActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        app:contentInsetStart="72dp"
-        android:minHeight="?attr/actionBarSize"
-        android:layout_height="wrap_content"
+    <include
+        android:id="@+id/inc_toolbar"
+        layout="@layout/toolbar"/>
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_below="@id/inc_toolbar"
         android:layout_width="match_parent"
-        android:fitsSystemWindows="true"
-        android:clipToPadding="false"
-        android:background="?colorPrimary"
-        app:layout_scrollFlags="scroll|enterAlways"/>
-
-    <TextView
-        android:id="@+id/tv_write_suggestion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_centerHorizontal="true"
-        android:textColor="@color/primaryText"
-        android:fontFamily="@font/roboto_medium"
-        android:textSize="14sp"
-        android:text="@string/write_a_suggestion"/>
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:hint="@string/suggestion"
-        android:inputType="text|textMultiLine|textCapSentences"
-        android:gravity="top"
-        android:background="@null"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="8dp"
-        android:layout_below="@id/tv_write_suggestion"
-        android:layout_above="@id/btn_submit"
-        android:id="@+id/et_suggestion"/>
-
-    <Button
-        android:id="@+id/btn_submit"
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:layout_alignParentBottom="true"
-        android:background="?colorAccent"
-        android:textColor="@color/white"
-        android:layout_margin="16dp"
-        android:text="@string/submit"/>
+        android:layout_height="match_parent">
+    </FrameLayout>
 
 </RelativeLayout>

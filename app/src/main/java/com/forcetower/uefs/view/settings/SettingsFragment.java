@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
@@ -15,8 +14,6 @@ import android.widget.Toast;
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.alm.RefreshAlarmTrigger;
-import com.forcetower.uefs.view.about.AboutActivity;
-import com.forcetower.uefs.view.suggestion.SuggestionActivity;
 
 import timber.log.Timber;
 
@@ -26,6 +23,7 @@ import timber.log.Timber;
 
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
     private SettingsController controller;
+    private SharedPreferences preferences;
 
     @Override
     public void onAttach(Context context) {
@@ -47,24 +45,13 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     @Override
     public void onResume() {
         super.onResume();
-        SharedPreferences preferences = getPreferenceScreen().getSharedPreferences();
-        boolean newScheduleServer = preferences.getBoolean("new_schedule_server_set", false);
-        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-        findPreference("logoff_key").setOnPreferenceClickListener(preference -> logout());
-        findPreference("feedback_key").setOnPreferenceClickListener(preference -> feedback());
-        findPreference("about_app_key").setOnPreferenceClickListener(preference -> about());
+        preferences = getPreferenceScreen().getSharedPreferences();
+        preferences.registerOnSharedPreferenceChangeListener(this);
+
         findPreference("export_to_google_calendar").setOnPreferenceClickListener(preference -> exportToCalendar());
         findPreference("reset_calendar_export").setOnPreferenceClickListener(preference -> resetExportToCalendar());
-        findPreference("export_to_google_calendar").setEnabled(newScheduleServer);
-        findPreference("new_schedule_layout").setEnabled(newScheduleServer);
-        findPreference("unes_selected_theme").setOnPreferenceChangeListener(((preference, newValue) -> themeSelectionChanged()));
 
         oreoConfiguration();
-    }
-
-    private boolean themeSelectionChanged() {
-        Toast.makeText(controller.getContext(), R.string.reset_the_app_to_apply, Toast.LENGTH_SHORT).show();
-        return true;
     }
 
     private boolean resetExportToCalendar() {
@@ -90,21 +77,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         Preference updated = findPreference("notification_grades_date_change");
         if (updated != null) updated.setOnPreferenceClickListener(preference -> notificationControl(Constants.CHANNEL_GRADES_CHANGED_ID));
-    }
-
-    private boolean about() {
-        AboutActivity.startActivity(getActivity());
-        return true;
-    }
-
-    private boolean feedback() {
-        SuggestionActivity.startActivity(getActivity());
-        return true;
-    }
-
-    private boolean logout() {
-        controller.logout();
-        return true;
     }
 
     @TargetApi(26)

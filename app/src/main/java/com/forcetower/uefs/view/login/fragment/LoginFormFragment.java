@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.alm.RefreshAlarmTrigger;
@@ -21,14 +22,14 @@ import com.forcetower.uefs.db.entity.Access;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.util.VersionUtils;
-import com.forcetower.uefs.view.connected.ConnectedActivity;
+import com.forcetower.uefs.view.about.AboutActivity;
+import com.forcetower.uefs.view.connected.LoggedActivity;
 import com.forcetower.uefs.vm.LoginViewModel;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import de.hdodenhof.circleimageview.CircleImageView;
 import timber.log.Timber;
 
 /**
@@ -44,6 +45,8 @@ public class LoginFormFragment extends Fragment implements Injectable {
     EditText etPassword;
     @BindView(R.id.btn_login_connect)
     Button btnConnect;
+    @BindView(R.id.tv_click_to_know_about)
+    TextView tvClickToKnowAbout;
 
     @BindView(R.id.image_login_logo)
     ImageView ivLogo;
@@ -62,6 +65,7 @@ public class LoginFormFragment extends Fragment implements Injectable {
         View view = inflater.inflate(R.layout.fragment_login_form, container, false);
         ButterKnife.bind(this, view);
         btnConnect.setOnClickListener(v -> onConnectButtonClicked());
+        tvClickToKnowAbout.setOnClickListener(v -> AboutActivity.startActivity(requireContext()));
         return view;
     }
 
@@ -77,14 +81,15 @@ public class LoginFormFragment extends Fragment implements Injectable {
             Timber.d("Access is null. Enabling Login form");
             AnimUtils.fadeOut(getContext(), vgLoading);
             AnimUtils.fadeIn(getContext(), vgForm);
+            AnimUtils.fadeIn(getContext(), tvClickToKnowAbout);
             RefreshAlarmTrigger.disableBootComponent(getContext());
         } else {
             Timber.d("Access is not null. Moving to connected!");
             if (!loginViewModel.isActivityStarted()) {
-                ConnectedActivity.startActivity(getContext(), false);
+                LoggedActivity.startActivity(getContext(), false);
                 loginViewModel.setActivityStarted(true);
             }
-            getActivity().finish();
+            requireActivity().finish();
         }
     }
 

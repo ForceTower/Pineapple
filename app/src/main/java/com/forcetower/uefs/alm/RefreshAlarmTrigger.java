@@ -21,7 +21,13 @@ public class RefreshAlarmTrigger {
 
     public static void create(Context context, int minutes) {
         if (context == null) return;
-
+        /*
+        if (minutes < 30 && minutes != -1 && !BuildConfig.DEBUG) {
+            minutes = 30;
+            Timber.d("Reset to 30 min");
+            PreferenceManager.getDefaultSharedPreferences(context).edit().putString("sync_frequency", "30").apply();
+        }
+        */
         if (VersionUtils.isOreo()) {
             Timber.d("Doing oreo call");
             doOreo(context, minutes);

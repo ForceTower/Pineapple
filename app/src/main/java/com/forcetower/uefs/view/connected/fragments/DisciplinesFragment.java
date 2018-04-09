@@ -2,9 +2,15 @@ package com.forcetower.uefs.view.connected.fragments;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,9 +24,9 @@ import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.Discipline;
 import com.forcetower.uefs.db.entity.DisciplineGroup;
 import com.forcetower.uefs.di.Injectable;
+import com.forcetower.uefs.view.connected.ActivityController;
 import com.forcetower.uefs.view.connected.DisciplineClickListener;
 import com.forcetower.uefs.view.connected.adapters.SemesterAdapter;
-import com.forcetower.uefs.view.discipline.DisciplineDetailsActivity;
 import com.forcetower.uefs.vm.DisciplinesViewModel;
 
 import java.util.ArrayList;
@@ -48,13 +54,21 @@ public class DisciplinesFragment extends Fragment implements Injectable {
     private DisciplinesViewModel disciplinesViewModel;
 
     private SemesterAdapter adapter;
+    private ActivityController controller;
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        controller = (ActivityController) context;
+    }
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_disciplines, container, false);
         ButterKnife.bind(this, view);
+        controller.getTabLayout().setVisibility(View.GONE);
+        controller.changeTitle(R.string.title_disciplines);
         setupRecyclerView();
         return view;
     }
@@ -85,18 +99,20 @@ public class DisciplinesFragment extends Fragment implements Injectable {
         executors.others().execute(() -> {
             Timber.d("Discipline name: %s - %s", discipline.getName(), discipline.getCode());
             List<DisciplineGroup> disciplineGroups = disciplinesViewModel.getDisciplineGroupsDir(discipline.getUid());
+            executors.mainThread().execute(() -> {
             //noinspection ConstantConditions
             if (disciplineGroups.size() == 0) {
                 Timber.d("Well that's odd");
             } else if (disciplineGroups.size() == 1) {
                 Timber.d("Only one group for this discipline");
                 DisciplineGroup group = disciplineGroups.get(0);
-                DisciplineDetailsActivity.startActivity(getContext(), group.getUid(), discipline.getUid());
+                controller.navigateToDisciplineDetails(group.getUid(), discipline.getUid());
             } else {
                 Timber.d("This discipline has %d groups", disciplineGroups.size());
                 Timber.d("The groups are %s", disciplineGroups);
                 showSelectGroupDialog(disciplineGroups);
             }
+            });
         });
 
         /*});*/
@@ -104,11 +120,17 @@ public class DisciplinesFragment extends Fragment implements Injectable {
     };
 
     private void showSelectGroupDialog(List<DisciplineGroup> disciplineGroups) {
-        AlertDialog.Builder selectDialog = new AlertDialog.Builder(getContext());
-        selectDialog.setIcon(R.drawable.ic_book_open_black_24dp);
+        AlertDialog.Builder selectDialog = new AlertDialog.Builder(requireContext());
+        Drawable icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_book_open_black_24dp);
+        if (icon != null) {
+            icon.setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_IN);
+            selectDialog.setIcon(icon);
+        } else {
+            selectDialog.setIcon(R.drawable.ic_book_open_black_24dp);
+        }
         selectDialog.setTitle(R.string.select_a_class);
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.select_dialog_item);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.select_dialog_item);
         for (DisciplineGroup group : disciplineGroups) {
             String text = group.getGroup() != null ? group.getGroup() : "???";
             if (group.getIgnored() == 1) {
@@ -123,7 +145,7 @@ public class DisciplinesFragment extends Fragment implements Injectable {
             String strName = arrayAdapter.getItem(which);
             int position = arrayAdapter.getPosition(strName);
             DisciplineGroup group = disciplineGroups.get(position);
-            DisciplineDetailsActivity.startActivity(getContext(), group.getUid(), group.getDiscipline());
+            controller.navigateToDisciplineDetails(group.getUid(), group.getDiscipline());
             dialog.dismiss();
         });
         executors.mainThread().execute(selectDialog::show);

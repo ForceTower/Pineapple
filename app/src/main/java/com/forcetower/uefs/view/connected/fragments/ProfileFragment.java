@@ -3,7 +3,6 @@ package com.forcetower.uefs.view.connected.fragments;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,37 +17,31 @@ import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.FileProvider;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ProgressBar;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.forcetower.uefs.BuildConfig;
+import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.Access;
 import com.forcetower.uefs.db.entity.Profile;
 import com.forcetower.uefs.db.entity.Semester;
 import com.forcetower.uefs.di.Injectable;
-import com.forcetower.uefs.rep.helper.Resource;
-import com.forcetower.uefs.rep.helper.Status;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.util.DateUtils;
-import com.forcetower.uefs.util.NetworkUtils;
-import com.forcetower.uefs.view.connected.NavigationController;
+import com.forcetower.uefs.view.connected.ActivityController;
 import com.forcetower.uefs.view.control_room.ControlRoomActivity;
-import com.forcetower.uefs.view.experimental.good_barrel.GoodBarrelActivity;
-import com.forcetower.uefs.vm.DownloadsViewModel;
 import com.forcetower.uefs.vm.ProfileViewModel;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.List;
 
@@ -63,8 +56,7 @@ import timber.log.Timber;
 
 import static android.app.Activity.RESULT_OK;
 import static android.os.Looper.getMainLooper;
-import static com.forcetower.uefs.Constants.ENROLLMENT_CERTIFICATE_FILE_NAME;
-import static com.forcetower.uefs.util.NetworkUtils.openLink;
+import static com.forcetower.uefs.view.connected.LoggedActivity.BACKGROUND_IMAGE;
 
 /**
  * Created by João Paulo on 08/03/2018.
@@ -84,20 +76,13 @@ public class ProfileFragment extends Fragment implements Injectable {
     TextView tvLastUpdate;
     @BindView(R.id.tv_last_update_attempt)
     TextView tvLastUpdateAttempt;
-    @BindView(R.id.cv_calendar)
-    CardView cvCalendar;
-    @BindView(R.id.cv_enrollment_certificate)
-    CardView cvEnrollmentCertificate;
+    @BindView(R.id.iv_background)
+    ImageView ivBackground;
+    @BindView(R.id.vw_bg_alpha)
+    View vwBgAlpha;
+
     @BindView(R.id.cv_update_control)
     CardView cvUpdateControl;
-    @BindView(R.id.cv_good_barrel)
-    CardView cvGoodBarrel;
-    @BindView(R.id.cv_big_tray)
-    CardView cvBigTray;
-    @BindView(R.id.btn_download_enrollment_cert)
-    ImageButton btnDownloadEnrollCert;
-    @BindView(R.id.pb_download_enrollment_cert)
-    ProgressBar pbDownloadEnrollCert;
     @BindView(R.id.iv_img_profile)
     CircleImageView ivProfileImage;
     @BindView(R.id.iv_img_placeholder)
@@ -106,31 +91,27 @@ public class ProfileFragment extends Fragment implements Injectable {
     @Inject
     ViewModelProvider.Factory viewModelFactory;
 
-    private DownloadsViewModel downloadsViewModel;
-    private NavigationController controller;
+    private ProfileViewModel profileViewModel;
     private SharedPreferences sharedPreferences;
+
+    private ActivityController controller;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        try {
-            controller = (NavigationController) context;
-        } catch (ClassCastException ignored) {
-            Timber.d("Activity %s must implement NavigationController", context.getClass().getSimpleName());
-        }
+        controller = (ActivityController) context;
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Timber.d(String.valueOf(getParentFragment()));
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
-        cvCalendar.setOnClickListener(v -> controller.navigateToCalendar());
+        controller.getTabLayout().setVisibility(View.GONE);
+        controller.changeTitle(R.string.title_profile);
+
         cvUpdateControl.setOnClickListener(v -> goToUpdateControl());
-        cvGoodBarrel.setOnClickListener(v -> goToBarrel());
-        cvBigTray.setOnClickListener(v -> openLink(requireContext(), "https://bit.ly/bandejaouefs"));
-        cvEnrollmentCertificate.setOnClickListener(v -> openPDF(true));
-        btnDownloadEnrollCert.setOnClickListener(v -> certificateDownload());
 
         if (BuildConfig.DEBUG) enablePrivateContent();
 
@@ -142,6 +123,15 @@ public class ProfileFragment extends Fragment implements Injectable {
         if (!sharedPreferences.getBoolean("feature_discovered_profile_image", false)) {
             new Handler(getMainLooper()).postDelayed(this::discoverProfilePicture, 500);
         }
+
+        String backgroundImage = PreferenceManager.getDefaultSharedPreferences(requireContext())
+                .getString(BACKGROUND_IMAGE, Constants.BACKGROUND_IMAGE_DEFAULT);
+        Picasso.with(requireContext()).load(backgroundImage).into(ivBackground, new Callback() {
+            @Override
+            public void onSuccess() { vwBgAlpha.setVisibility(View.VISIBLE); }
+            @Override
+            public void onError() { vwBgAlpha.setVisibility(View.INVISIBLE); }
+        });
 
         return view;
     }
@@ -158,23 +148,24 @@ public class ProfileFragment extends Fragment implements Injectable {
     public boolean onProfileImageLongClick() {
         AnimUtils.fadeOut(requireContext(), ivProfileImage);
         AnimUtils.fadeIn(requireContext(), ivProfilePlaceholder);
-        downloadsViewModel.saveBitmap(null);
+        profileViewModel.saveProfileImageBitmap(null);
+        controller.onProfileImageChanged(null);
         return true;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ProfileViewModel profileViewModel = ViewModelProviders.of(this, viewModelFactory).get(ProfileViewModel.class);
-        downloadsViewModel = ViewModelProviders.of(this, viewModelFactory).get(DownloadsViewModel.class);
+        profileViewModel = ViewModelProviders.of(this, viewModelFactory).get(ProfileViewModel.class);
         profileViewModel.getProfile().observe(this, this::onReceiveProfile);
         profileViewModel.getSemesters().observe(this, this::onReceiveSemesters);
-        downloadsViewModel.getDownloadCertificate().observe(this, this::onCertificateDownload);
         profileViewModel.getAccess().observe(this, this::onReceiveAccess);
-        downloadsViewModel.getProfileImage().observe(this, this::onReceiveProfileImage);
+        profileViewModel.getProfileImage().observe(this, this::onReceiveProfileImage);
     }
 
     private void onReceiveProfileImage(Bitmap bitmap) {
+        controller.onProfileImageChanged(bitmap);
+
         if (bitmap == null) {
             Timber.d("No image set so far");
             AnimUtils.fadeIn(requireContext(), ivProfilePlaceholder);
@@ -197,8 +188,6 @@ public class ProfileFragment extends Fragment implements Injectable {
 
     private void enablePrivateContent() {
         cvUpdateControl.setVisibility(View.VISIBLE);
-        cvGoodBarrel.setVisibility(View.VISIBLE);
-        cvBigTray.setOnClickListener(v -> controller.navigateToBigTray());
     }
 
     private void onReceiveProfile(Profile profile) {
@@ -237,53 +226,6 @@ public class ProfileFragment extends Fragment implements Injectable {
         }
     }
 
-    private void onCertificateDownload(Resource<Integer> resource) {
-        if (resource == null) return;
-        if (resource.status == Status.LOADING) {
-            //noinspection ConstantConditions
-            Timber.d(getString(resource.data));
-            AnimUtils.fadeIn(getContext(), pbDownloadEnrollCert);
-        }
-        else {
-            AnimUtils.fadeOut(getContext(), pbDownloadEnrollCert);
-            if (resource.status == Status.ERROR) {
-                //noinspection ConstantConditions
-                Toast.makeText(getContext(), resource.data, Toast.LENGTH_SHORT).show();
-            } else {
-                Timber.d(getString(R.string.completed));
-                openPDF(false);
-            }
-        }
-    }
-
-    private void openPDF(boolean clicked) {
-        //noinspection ConstantConditions
-        File file = new File(getActivity().getCacheDir(), ENROLLMENT_CERTIFICATE_FILE_NAME);
-        if (!file.exists()) {
-            if (!clicked) {
-                Toast.makeText(getContext(), R.string.file_not_found, Toast.LENGTH_SHORT).show();
-            }
-            else certificateDownload();
-            return;
-        }
-        Intent target = new Intent(Intent.ACTION_VIEW);
-
-        //noinspection ConstantConditions
-        Uri uri = FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID + ".fileprovider", file);
-        target.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        
-        Timber.d("Uri %s", uri);
-        target.setDataAndType(uri,"application/pdf");
-        target.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-
-        Intent intent = Intent.createChooser(target, getString(R.string.open_file));
-        try {
-            startActivity(intent);
-        } catch (ActivityNotFoundException e) {
-            Toast.makeText(getContext(), R.string.no_pdf_reader, Toast.LENGTH_SHORT).show();
-        }
-    }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -307,20 +249,6 @@ public class ProfileFragment extends Fragment implements Injectable {
         ControlRoomActivity.startActivity(getContext());
     }
 
-    private void goToBarrel() {
-        GoodBarrelActivity.startActivity(getContext());
-    }
-
-    private void certificateDownload() {
-        if (!NetworkUtils.isNetworkAvailable(requireContext())) {
-            Toast.makeText(getContext(), R.string.offline, Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        downloadsViewModel.triggerDownloadCertificate();
-        Toast.makeText(getContext(), R.string.wait_until_download_finishes, Toast.LENGTH_SHORT).show();
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -335,7 +263,8 @@ public class ProfileFragment extends Fragment implements Injectable {
                         ivProfileImage.setImageBitmap(imageBitmap);
                         AnimUtils.fadeOut(requireContext(), ivProfilePlaceholder);
                         AnimUtils.fadeIn(requireContext(), ivProfileImage);
-                        downloadsViewModel.saveBitmap(imageBitmap);
+                        controller.onProfileImageChanged(imageBitmap);
+                        profileViewModel.saveProfileImageBitmap(imageBitmap);
                         if (!sharedPreferences.getBoolean("first_profile_image_set", false)) {
                             Toast.makeText(requireContext(), R.string.profile_image_unset, Toast.LENGTH_SHORT).show();
                             sharedPreferences.edit().putBoolean("first_profile_image_set", true).apply();

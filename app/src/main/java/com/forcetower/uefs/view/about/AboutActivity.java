@@ -1,13 +1,12 @@
 package com.forcetower.uefs.view.about;
 
 import android.annotation.SuppressLint;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +14,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.CreditsMention;
@@ -29,11 +27,13 @@ import com.mikepenz.aboutlibraries.LibsBuilder;
 import java.util.List;
 
 import butterknife.BindView;
+import dagger.android.AndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 
 import static com.forcetower.uefs.util.NetworkUtils.openLink;
 import static com.forcetower.uefs.util.WordUtils.validString;
 
-public class AboutActivity extends UBaseActivity {
+public class AboutActivity extends UBaseActivity implements HasSupportFragmentInjector {
     @BindView(R.id.version_info)
     TextView versionInfo;
     @BindView(R.id.rv_credits)
@@ -75,7 +75,7 @@ public class AboutActivity extends UBaseActivity {
         versionInfo.setText(getString(R.string.creator, version));
 
         setupCreditsRecycler();
-        cvAboutMe.setOnClickListener(view -> openLink(this, "https://github.com/ForceTower/UEFS_Sagres_App"));
+        cvAboutMe.setOnClickListener(view -> openLink(this, "https://facebook.com/ForceTower"));
         cvEnjoy.setOnClickListener(view -> openLink(this, "https://facebook.com/ForceTower"));
     }
 
@@ -107,5 +107,10 @@ public class AboutActivity extends UBaseActivity {
                 .withAboutIconShown(true)
                 .withAboutVersionShown(true)
                 .start(this);
+    }
+
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return null;
     }
 }

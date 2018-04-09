@@ -1,18 +1,22 @@
 package com.forcetower.uefs.di.module;
 
 import com.forcetower.uefs.view.connected.fragments.AllSemestersGradeFragment;
+import com.forcetower.uefs.view.connected.fragments.AutoSyncFragment;
 import com.forcetower.uefs.view.connected.fragments.BigTrayFragment;
 import com.forcetower.uefs.view.connected.fragments.CalendarFragment;
+import com.forcetower.uefs.view.connected.fragments.ConnectedFragment;
+import com.forcetower.uefs.view.connected.fragments.DisciplineClassesFragment;
+import com.forcetower.uefs.view.connected.fragments.DisciplineDetailsFragment;
 import com.forcetower.uefs.view.connected.fragments.DisciplinesFragment;
+import com.forcetower.uefs.view.connected.fragments.GradesFragment;
 import com.forcetower.uefs.view.connected.fragments.MessagesFragment;
 import com.forcetower.uefs.view.connected.fragments.NewScheduleFragment;
+import com.forcetower.uefs.view.connected.fragments.OverviewFragment;
 import com.forcetower.uefs.view.connected.fragments.ProfileFragment;
 import com.forcetower.uefs.view.connected.fragments.ScheduleFragment;
 import com.forcetower.uefs.view.connected.fragments.SemesterGradesFragment;
+import com.forcetower.uefs.view.connected.fragments.TheAdventureFragment;
 import com.forcetower.uefs.view.control_room.fragments.MasterSyncControlFragment;
-import com.forcetower.uefs.view.discipline.fragments.GradesFragment;
-import com.forcetower.uefs.view.discipline.fragments.OverviewFragment;
-import com.forcetower.uefs.view.experimental.good_barrel.fragments.BarrelFragment;
 import com.forcetower.uefs.view.login.fragment.ConnectingFragment;
 import com.forcetower.uefs.view.login.fragment.LoginFormFragment;
 
@@ -28,6 +32,9 @@ public abstract class FragmentsModule {
 
     @ContributesAndroidInjector
     abstract LoginFormFragment contributeLoginFormFragment();
+
+    @ContributesAndroidInjector
+    abstract ConnectedFragment contributeConnectedFragment();
 
     @ContributesAndroidInjector
     abstract ConnectingFragment contributeConnectingFragment();
@@ -66,8 +73,17 @@ public abstract class FragmentsModule {
     abstract BigTrayFragment contributeBigTrayFragment();
 
     @ContributesAndroidInjector
+    abstract DisciplineDetailsFragment contributeDisciplineDetailsFragment();
+
+    @ContributesAndroidInjector
+    abstract DisciplineClassesFragment contributeDisciplineClassesFragment();
+
+    @ContributesAndroidInjector
     abstract MasterSyncControlFragment contributeMasterSyncControlFragment();
 
     @ContributesAndroidInjector
-    abstract BarrelFragment contributeBarrelFragment();
+    abstract AutoSyncFragment contributeAutoSyncFragment();
+
+    @ContributesAndroidInjector
+    abstract TheAdventureFragment contributeTheAdventureFragment();
 }

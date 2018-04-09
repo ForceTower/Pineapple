@@ -292,10 +292,10 @@
 
     <string-array name="pref_palette_theme_names">
         <item>Blue - Orange (Default)</item>
-        <item>Rosa - Gray (Ellen)</item>
-        <item>Gray - Gray (Me)</item>
-        <item>Purple - Yellow (Random)</item>
-        <item>Gray - Green (Random)</item>
+        <item>Rosa - Gray</item>
+        <item>Gray - Gray</item>
+        <item>Purple - Yellow</item>
+        <item>Gray - Green</item>
     </string-array>
 
     <string-array name="pref_palette_theme_values">
@@ -307,4 +307,40 @@
     </string-array>
 
     <string name="no_score_message">I don\'t know your score, sad</string>
+    <string name="play_sign_in_other_error">There was a problem during login, try again later</string>
+    <string name="pref_unes_the_adventure">UNES - The adventure</string>
+    <string name="pref_unes_the_adventure_desc">Unlock UEFS achievements</string>
+    <string name="pref_unes_the_adventure_logout">Disconnect Play Games</string>
+    <string name="pref_unes_the_adventure_achievements">Achievements</string>
+    <string name="play_games_disconnected">Disconnected from adventure</string>
+    <string name="pref_unes_the_adventure_logout_desc">Exit adventure</string>
+    <string name="pref_header_experimental_content">Experimental Contents</string>
+    <string name="pref_header_general">General</string>
+    <string name="pref_header_unes_adventure">Mini Game</string>
+
+    <string name="title_activity_logged">Connected</string>
+    <string name="navigation_drawer_open">Opens navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_desc">Navigation Image</string>
+    <string name="action_settings">Settings</string>
+    <string name="nav_title_profile">Profile</string>
+    <string name="nav_title_unes_adventure">The adventure</string>
+    <string name="nav_title_logout">Logout</string>
+    <string name="nav_title_feedback">Comments and suggestions</string>
+    <string name="nav_title_about">About UNES</string>
+    <string name="title_profile">Profile</string>
+    <string name="click_to_know_about">Click here to know more about the app</string>
+    <string name="auth_activity">Authentication</string>
+    <string name="about_app">About the app</string>
+    <string name="control_room">Control Room</string>
+    <string name="unes_the_adventure">The Adventure</string>
+    <string name="unes_the_adventure_desc">What secrets the UEFS hide? What is the answer for the fundamental questions?\n\nIn this epic adventure you are the main character where your biggest goal is to finish graduation!\n\nAre you ready for the adventure? Start now!</string>
+    <string name="unes_the_adventure_join">Join</string>
+    <string name="unes_the_adventure_logout">Leave adventure</string>
+    <string name="connect_to_the_internet">Connect to the internet and try again</string>
+    <string name="access_fine_location_request">The app needs to access your location in order to use this feature</string>
+    <string name="cant_receive_location">Fail on location receiver</string>
+    <string name="location_is_not_accurate">Location received is not accurate enough</string>
+    <string name="adventure_not_in_a_valid_location">You are not in a valid place</string>
+    <string name="adventure_confirm_location">Click in the circle to confirm your location</string>
 </resources>

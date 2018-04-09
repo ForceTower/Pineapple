@@ -2,9 +2,7 @@ package com.forcetower.uefs.view.connected.fragments;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.ActivityNotFoundException;
-import android.content.Intent;
-import android.net.Uri;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,6 +22,7 @@ import com.forcetower.uefs.db.entity.Message;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
+import com.forcetower.uefs.view.connected.ActivityController;
 import com.forcetower.uefs.view.connected.adapters.MessagesAdapter;
 import com.forcetower.uefs.vm.MessagesViewModel;
 
@@ -55,11 +54,21 @@ public class MessagesFragment extends Fragment implements Injectable {
     private MessagesViewModel messagesViewModel;
     private MessagesAdapter adapter;
 
+    private ActivityController controller;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        controller = (ActivityController) context;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_messages, container, false);
         ButterKnife.bind(this, view);
+        controller.getTabLayout().setVisibility(View.GONE);
+        controller.changeTitle(R.string.title_messages);
         setupRecyclerView();
         setupRefreshLayout();
         return view;
@@ -108,7 +117,10 @@ public class MessagesFragment extends Fragment implements Injectable {
         } else if (resource.status == Status.ERROR) {
             refreshLayout.setRefreshing(false);
             messagesViewModel.setRefreshing(false);
-            Toast.makeText(getContext(), resource.message, Toast.LENGTH_SHORT).show();
+            if (resource.data != null)
+                Toast.makeText(getContext(), resource.data, Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(getContext(), resource.message, Toast.LENGTH_SHORT).show();
         } else {
             //noinspection ConstantConditions
             Timber.d("Updating.. Received Status: %s", getString(resource.data));
@@ -121,11 +133,11 @@ public class MessagesFragment extends Fragment implements Injectable {
         if (links.size() == 1)
             openLink(requireContext(), links.get(0));
         else if (links.size() > 1) {
-            AlertDialog.Builder selectDialog = new AlertDialog.Builder(getContext());
+            AlertDialog.Builder selectDialog = new AlertDialog.Builder(requireContext());
             selectDialog.setIcon(R.drawable.ic_link_black_24dp);
             selectDialog.setTitle(R.string.select_a_link);
 
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.select_dialog_item);
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.select_dialog_item);
             arrayAdapter.addAll(links);
 
             selectDialog.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());

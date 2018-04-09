@@ -1,7 +1,6 @@
 package com.forcetower.uefs.vm;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.WorkerThread;
 

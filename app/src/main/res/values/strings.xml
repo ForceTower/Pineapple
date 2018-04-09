@@ -294,10 +294,10 @@
 
     <string-array name="pref_palette_theme_names">
         <item>Azul - Laranja (Padrão)</item>
-        <item>Rosa - Cinza (Ellen)</item>
-        <item>Cinza - Cinza (OmegaLUL)</item>
-        <item>Lilás - Amarelo (Aleatório)</item>
-        <item>Cinza - Verde (Eu)</item>
+        <item>Rosa - Cinza</item>
+        <item>Cinza - Cinza</item>
+        <item>Lilás - Amarelo</item>
+        <item>Cinza - Verde</item>
     </string-array>
 
     <string-array name="pref_palette_theme_values">
@@ -309,4 +309,39 @@
     </string-array>
 
     <string name="no_score_message">Eu não sei seu score, não entendi</string>
+    <string name="play_sign_in_other_error">Houve um problema durante o Login, tente mais tarde</string>
+    <string name="pref_unes_the_adventure">UNES - A aventura</string>
+    <string name="pref_unes_the_adventure_desc">Desbloqueie as conquistas da UEFS</string>
+    <string name="pref_unes_the_adventure_logout">Desconectar do Play Games</string>
+    <string name="pref_unes_the_adventure_achievements">Conquistas</string>
+    <string name="play_games_disconnected">Desconectado da Aventura</string>
+    <string name="pref_unes_the_adventure_logout_desc">Sair da aventura</string>
+    <string name="pref_header_experimental_content">Conteúdos Experimentais</string>
+    <string name="pref_header_general">Geral</string>
+    <string name="pref_header_unes_adventure">Pequeno Jogo</string>
+    <string name="title_activity_logged">Conectado</string>
+    <string name="navigation_drawer_open">Abrir gaveta de navegação</string>
+    <string name="navigation_drawer_close">Fechar gaveta de navegação</string>
+    <string name="nav_header_desc">Imagem de Navegação</string>
+    <string name="action_settings">Configurações</string>
+    <string name="nav_title_profile">Perfil</string>
+    <string name="nav_title_unes_adventure">A Aventura</string>
+    <string name="nav_title_logout">Sair da conta</string>
+    <string name="nav_title_feedback">Comentários e sugestões</string>
+    <string name="nav_title_about">Sobre o UNES</string>
+    <string name="title_profile">Perfil</string>
+    <string name="click_to_know_about">Clique aqui para informações sobre o aplicativo</string>
+    <string name="auth_activity">Autenticação</string>
+    <string name="about_app">Sobre o aplicativo</string>
+    <string name="control_room">Sala de Controle</string>
+    <string name="unes_the_adventure">A Aventura</string>
+    <string name="unes_the_adventure_desc">Quais segredos a UEFS guarda? Quais são as respostas para as perguntas fundamentais?\n\nNesta épica aventura você é o personagem principal onde seu principal objetivo é concluir a graduação!\n\nVocê está pronto para a aventura? Começe agora!</string>
+    <string name="unes_the_adventure_join">Junte-se</string>
+    <string name="unes_the_adventure_logout">Sair da aventura</string>
+    <string name="connect_to_the_internet">Conecte-se à internet e tente novamente</string>
+    <string name="access_fine_location_request">O aplicativo precisa acessar sua localização para usar este recurso</string>
+    <string name="cant_receive_location">Erro ao receber localização</string>
+    <string name="location_is_not_accurate">A localização não é precisa o suficiente</string>
+    <string name="adventure_not_in_a_valid_location">Você não está num lugar válido</string>
+    <string name="adventure_confirm_location">Clique no circulo para verificar localização</string>
 </resources>

@@ -14,7 +14,7 @@ import com.forcetower.uefs.db.entity.GradeInfo;
 import com.forcetower.uefs.db.entity.Message;
 import com.forcetower.uefs.service.Version;
 import com.forcetower.uefs.util.VersionUtils;
-import com.forcetower.uefs.view.connected.ConnectedActivity;
+import com.forcetower.uefs.view.connected.LoggedActivity;
 import com.forcetower.uefs.view.login.MainActivity;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -26,14 +26,14 @@ import static com.forcetower.uefs.ntf.NotificationHelper.getPendingIntent;
 import static com.forcetower.uefs.ntf.NotificationHelper.notificationBuilder;
 import static com.forcetower.uefs.ntf.NotificationHelper.showNotification;
 import static com.forcetower.uefs.util.WordUtils.validString;
+import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.GRADES_FRAGMENT;
+import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.MESSAGES_FRAGMENT;
 
 /**
  * Created by João Paulo on 08/03/2018.
  */
 
 public class NotificationCreator {
-    public static final String MESSAGES_FRAGMENT = "MessagesFragment";
-    public static final String GRADES_FRAGMENT = "GradesFragment";
 
     public static boolean createMessageNotification(@NonNull Context context, @NonNull Message message) {
         Timber.d("Create notification for message...");
@@ -46,7 +46,7 @@ public class NotificationCreator {
             return true;
         }
 
-        PendingIntent pendingIntent = getPendingIntent(context, ConnectedActivity.class, MESSAGES_FRAGMENT);
+        PendingIntent pendingIntent = getPendingIntent(context, LoggedActivity.class, MESSAGES_FRAGMENT);
         NotificationCompat.Builder builder = notificationBuilder(context, Constants.CHANNEL_MESSAGES_ID)
                 .setContentTitle(message.getClassReceived())
                 .setContentText(message.getMessage())
@@ -64,7 +64,7 @@ public class NotificationCreator {
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-        PendingIntent pendingIntent = getPendingIntent(context, ConnectedActivity.class, GRADES_FRAGMENT);
+        PendingIntent pendingIntent = getPendingIntent(context, LoggedActivity.class, GRADES_FRAGMENT);
         NotificationCompat.Builder builder;
         String message;
         boolean notify;
