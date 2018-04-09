@@ -46,6 +46,7 @@ import com.forcetower.uefs.service.ApiResponse;
 import com.forcetower.uefs.service.Version;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.util.VersionUtils;
+import com.forcetower.uefs.view.AchievementsController;
 import com.forcetower.uefs.view.UBaseActivity;
 import com.forcetower.uefs.view.connected.fragments.AllSemestersGradeFragment;
 import com.forcetower.uefs.view.connected.fragments.AutoSyncFragment;
@@ -61,6 +62,8 @@ import com.forcetower.uefs.view.settings.SettingsActivity;
 import com.forcetower.uefs.view.suggestion.SuggestionActivity;
 import com.forcetower.uefs.vm.GradesViewModel;
 import com.forcetower.uefs.vm.ScheduleViewModel;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.games.Games;
 
 import java.util.Arrays;
 import java.util.List;
@@ -77,7 +80,7 @@ import static com.forcetower.uefs.ntf.NotificationCreator.GRADES_FRAGMENT;
 import static com.forcetower.uefs.ntf.NotificationCreator.MESSAGES_FRAGMENT;
 import static com.forcetower.uefs.util.PixelUtils.getPixelsFromDp;
 
-public class ConnectedActivity extends UBaseActivity implements HasSupportFragmentInjector, NavigationController {
+public class ConnectedActivity extends UBaseActivity implements HasSupportFragmentInjector, NavigationController, AchievementsController {
     public static final String NOTIFICATION_INTENT_EXTRA = "notification_intent_extra";
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -97,8 +100,10 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
     @Inject
     ViewModelProvider.Factory viewModelFactory;
     private GradesViewModel gradesViewModel;
-
     private FragmentManager fragmentManager;
+
+    private SharedPreferences preferences;
+
     @IdRes
     private int containerId;
     @StringRes
@@ -130,7 +135,7 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
         ScheduleViewModel scheduleViewModel = ViewModelProviders.of(this, viewModelFactory).get(ScheduleViewModel.class);
         scheduleViewModel.getSingleLoadedLocation().observe(this, this::onReceiveSingleLocation);
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
         newScheduleLayout = preferences.getBoolean("new_schedule_layout", false);
         newScheduleLayout = preferences.getBoolean("new_schedule_user_ready", false) && newScheduleLayout;
         Timber.d("New schedule (onCreate) %s", newScheduleLayout);
@@ -160,8 +165,7 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
             boolean shown = PreferenceManager.getDefaultSharedPreferences(this)
                     .getBoolean(AutoSyncFragment.PREF_AUTO_SYNC_SHOWN, false);
 
-            PreferenceManager.getDefaultSharedPreferences(this).edit()
-                    .putBoolean("show_not_connected_notification", false).apply();
+            preferences.edit().putBoolean("show_not_connected_notification", false).apply();
 
             String value = getIntent().getStringExtra(NOTIFICATION_INTENT_EXTRA);
             if (value == null) {
@@ -204,12 +208,39 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
             //clearAllNotifications();
             afterLogin = false;
         }
+
+        signInPlayGames();
+    }
+
+    private void signInPlayGames() {
+        if (preferences.getBoolean("google_play_games_enabled", true)) {
+            signInSilently();
+        }
+    }
+
+    private void signInSilently() {
+        mGoogleSignInClient.silentSignIn().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Timber.d("Successfully connected to Google Play Games!");
+                onGooglePlayGamesConnected(task.getResult());
+            } else {
+                Timber.d("Failed to connect to Google Play Games...");
+            }
+        }).addOnFailureListener(failure -> {
+            Timber.d("Exception on connect to Google Play Games! %s", failure.getMessage());
+            failure.printStackTrace();
+        });
+    }
+
+    private void onGooglePlayGamesConnected(GoogleSignInAccount result) {
+        mAchievementsClient = Games.getAchievementsClient(this, result);
+        mLeaderboardsClient = Games.getLeaderboardsClient(this, result);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
         newScheduleLayout = preferences.getBoolean("new_schedule_layout", false);
         newScheduleLayout = preferences.getBoolean("new_schedule_user_ready", false) && newScheduleLayout;
     }
