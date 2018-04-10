@@ -1,6 +1,7 @@
 package com.forcetower.uefs.view.connected;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.ContentResolver;
@@ -27,6 +28,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -62,8 +64,11 @@ import com.forcetower.uefs.view.settings.SettingsActivity;
 import com.forcetower.uefs.view.suggestion.SuggestionActivity;
 import com.forcetower.uefs.vm.GradesViewModel;
 import com.forcetower.uefs.vm.ScheduleViewModel;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.games.Games;
+import com.google.android.gms.tasks.Task;
 
 import java.util.Arrays;
 import java.util.List;
@@ -80,7 +85,7 @@ import static com.forcetower.uefs.ntf.NotificationCreator.GRADES_FRAGMENT;
 import static com.forcetower.uefs.ntf.NotificationCreator.MESSAGES_FRAGMENT;
 import static com.forcetower.uefs.util.PixelUtils.getPixelsFromDp;
 
-public class ConnectedActivity extends UBaseActivity implements HasSupportFragmentInjector, NavigationController, AchievementsController {
+public class ConnectedActivity extends UBaseActivity implements HasSupportFragmentInjector, NavigationController {
     public static final String NOTIFICATION_INTENT_EXTRA = "notification_intent_extra";
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -208,34 +213,8 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
             //clearAllNotifications();
             afterLogin = false;
         }
-
-        signInPlayGames();
     }
 
-    private void signInPlayGames() {
-        if (preferences.getBoolean("google_play_games_enabled", true)) {
-            signInSilently();
-        }
-    }
-
-    private void signInSilently() {
-        mGoogleSignInClient.silentSignIn().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                Timber.d("Successfully connected to Google Play Games!");
-                onGooglePlayGamesConnected(task.getResult());
-            } else {
-                Timber.d("Failed to connect to Google Play Games...");
-            }
-        }).addOnFailureListener(failure -> {
-            Timber.d("Exception on connect to Google Play Games! %s", failure.getMessage());
-            failure.printStackTrace();
-        });
-    }
-
-    private void onGooglePlayGamesConnected(GoogleSignInAccount result) {
-        mAchievementsClient = Games.getAchievementsClient(this, result);
-        mLeaderboardsClient = Games.getLeaderboardsClient(this, result);
-    }
 
     @Override
     protected void onResume() {
@@ -604,5 +583,10 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
                 Toast.makeText(this, R.string.new_schedule_takes_an_update, Toast.LENGTH_LONG).show();
             preferences.edit().putBoolean("warnings_4.0.0_new_schedule", true).apply();
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

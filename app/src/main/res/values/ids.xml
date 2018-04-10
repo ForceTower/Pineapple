@@ -2,4 +2,8 @@
 <resources>
     <string name="app_id">371085821263</string>
     <string name="achievement_journey_start">CgkIz4rBs-YKEAIQAQ</string>
+    <string name="achievement_easy_game">CgkIz4rBs-YKEAIQAg</string>
+    <string name="achievement_10_mean">CgkIz4rBs-YKEAIQAw</string>
+    <string name="achievement_clean_semester">CgkIz4rBs-YKEAIQBA</string>
+    <string name="achievement_mediocre">CgkIz4rBs-YKEAIQBQ</string>
 </resources>

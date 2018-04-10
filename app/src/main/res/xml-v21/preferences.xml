@@ -110,6 +110,12 @@
             android:title="@string/pref_palette"/>
 
         <Preference
+            android:icon="@drawable/ic_gamepad_variant_accent_30dp"
+            android:key="unes_the_adventure_connect"
+            android:title="@string/pref_unes_the_adventure"
+            android:summary="@string/pref_unes_the_adventure_desc"/>
+
+        <Preference
             android:icon="@drawable/ic_calendar_range_accent_30dp"
             android:key="export_to_google_calendar"
             android:title="@string/export_classes_to_google_calendar"
@@ -140,6 +146,12 @@
             android:defaultValue="true"
             android:summaryOff="@string/pref_do_not_show_semester"
             android:summaryOn="@string/pref_do_show_semester"/>
+
+        <Preference
+            android:icon="@drawable/ic_gamepad_variant_accent_30dp"
+            android:key="unes_the_adventure_disconnect"
+            android:title="@string/pref_unes_the_adventure_logout"
+            android:summary="@string/pref_unes_the_adventure_desc"/>
 
         <Preference
             android:icon="@drawable/ic_logoff_accent_30dp"
