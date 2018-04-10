@@ -31,6 +31,9 @@ public interface DisciplineDao {
     @Query("SELECT * FROM Discipline WHERE semester = :semester")
     LiveData<List<Discipline>> getDisciplinesFromSemester(String semester);
 
+    @Query("SELECT * FROM Discipline WHERE semester = :semester")
+    List<Discipline> getDisciplinesFromSemesterDirect(String semester);
+
     @Query("SELECT * FROM Discipline WHERE code = :code")
     LiveData<List<Discipline>> getDisciplinesByCode(String code);
 

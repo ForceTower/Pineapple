@@ -62,6 +62,7 @@ import com.forcetower.uefs.view.connected.fragments.ScheduleFragment;
 import com.forcetower.uefs.view.login.MainActivity;
 import com.forcetower.uefs.view.settings.SettingsActivity;
 import com.forcetower.uefs.view.suggestion.SuggestionActivity;
+import com.forcetower.uefs.vm.AchievementsViewModel;
 import com.forcetower.uefs.vm.GradesViewModel;
 import com.forcetower.uefs.vm.ScheduleViewModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -105,6 +106,7 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
     @Inject
     ViewModelProvider.Factory viewModelFactory;
     private GradesViewModel gradesViewModel;
+    private AchievementsViewModel achievementsViewModel;
     private FragmentManager fragmentManager;
 
     private SharedPreferences preferences;

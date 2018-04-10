@@ -1,9 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_id">371085821263</string>
-    <string name="achievement_journey_start">CgkIz4rBs-YKEAIQAQ</string>
-    <string name="achievement_easy_game">CgkIz4rBs-YKEAIQAg</string>
-    <string name="achievement_10_mean">CgkIz4rBs-YKEAIQAw</string>
-    <string name="achievement_clean_semester">CgkIz4rBs-YKEAIQBA</string>
-    <string name="achievement_mediocre">CgkIz4rBs-YKEAIQBQ</string>
+    <!-- achievement Começou o jogo !-->
+    <string name="achievement_journey_start" translatable="false">CgkIz4rBs-YKEAIQAQ</string>
+    <!-- achievement Achei fácil !-->
+    <string name="achievement_easy_game" translatable="false">CgkIz4rBs-YKEAIQAg</string>
+    <!-- achievement Média 10! !-->
+    <string name="achievement_10_mean" translatable="false">CgkIz4rBs-YKEAIQAw</string>
+    <!-- achievement Semestre Limpo !-->
+    <string name="achievement_clean_semester" translatable="false">CgkIz4rBs-YKEAIQBA</string>
+    <!-- achievement Medíocre !-->
+    <string name="achievement_mediocre" translatable="false">CgkIz4rBs-YKEAIQBQ</string>
+    <!-- achievement Semestre de 6 meses -->
+    <string name="achievement_6_month_semester" translatable="false">CgkIz4rBs-YKEAIQBg</string>
+    <!-- achievement Semestre da virada -->
+    <string name="achievement_year_turner_semester" translatable="false">CgkIz4rBs-YKEAIQBw</string>
+    <!-- achievement Sobrevivente !-->
+    <string name="achievement_survivor" translatable="false">CgkIz4rBs-YKEAIQCA</string>
+    <!-- achievement E ai, forma quando? !-->
+    <string name="achievement_so_when_u_finishing" translatable="false">CgkIz4rBs-YKEAIQCQ</string>
+    <!-- achievement Luta até o fim !-->
+    <string name="achievement_fight_till_the_end" translatable="false">CgkIz4rBs-YKEAIQCg</string>
+    <!-- achievement Veterano !-->
+    <string name="achievement_senior" translatable="false">CgkIz4rBs-YKEAIQCw</string>
+    <!-- achievement Eu estou sempre lá !-->
+    <string name="achievement_always_there" translatable="false">CgkIz4rBs-YKEAIQDA</string>
+    <!-- achievement Quase! !-->
+    <string name="achievement_almost" translatable="false">CgkIz4rBs-YKEAIQDQ</string>
+    <!-- achievement Nunca nem vi !-->
+    <string name="achievement_i_have_never_seen" translatable="false">CgkIz4rBs-YKEAIQDg</string>
+    <!-- achievement Pseudoveterano !-->
+    <string name="achievement_senior_wannabe" translatable="false">CgkIz4rBs-YKEAIQDw</string>
+    <!-- achievement Dora, a Aventureira -->
+    <string name="achievement_dora_the_adventurer" translatable="false">CgkIz4rBs-YKEAIQEA</string>
+    <!-- achievement Dora, a Exploradora -->
+    <string name="achievement_dora_the_explorer" translatable="false">CgkIz4rBs-YKEAIQEQ</string>
+    <!-- achievement Dora, a Estudiosa -->
+    <string name="achievement_dora_the_studious" translatable="false">CgkIz4rBs-YKEAIQEg</string>
+    <!-- achievement Agora eu entendi, agora eu saquei! !-->
+    <string name="achievement_now_i_understand_and_get_it" translatable="false">CgkIz4rBs-YKEAIQFA</string>
+    <!-- achievement Agora todas as peças se encaixaram! -->
+    <string name="achievement_now_all_pieces_come_together" translatable="false">CgkIz4rBs-YKEAIQEw</string>
+    <!-- achievement Tão perto, mas tão longe... !-->
+    <string name="achievement_so_close_yet_so_far" translatable="false">CgkIz4rBs-YKEAIQFQ</string>
 </resources>

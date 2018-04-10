@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
 import com.forcetower.uefs.di.annotation.ViewModelKey;
+import com.forcetower.uefs.vm.AchievementsViewModel;
 import com.forcetower.uefs.vm.CalendarViewModel;
 import com.forcetower.uefs.vm.ControlRoomViewModel;
 import com.forcetower.uefs.vm.DisciplinesViewModel;
@@ -75,6 +76,11 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(GoogleCalendarViewModel.class)
     abstract ViewModel bindGoogleCalendarViewModel(GoogleCalendarViewModel googleCalendarViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AchievementsViewModel.class)
+    abstract ViewModel bindAchievementsViewModel(AchievementsViewModel achievementsViewModel);
 
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(UEFSViewModelFactory factory);
