@@ -43,4 +43,6 @@
     <string name="achievement_now_all_pieces_come_together" translatable="false">CgkIz4rBs-YKEAIQEw</string>
     <!-- achievement Tão perto, mas tão longe... !-->
     <string name="achievement_so_close_yet_so_far" translatable="false">CgkIz4rBs-YKEAIQFQ</string>
+    <!-- achievement MECANIZOU TODO -->
+    <string name="achievement_totally_mechanic" translatable="false">CgkIz4rBs-YKEAIQFg</string>
 </resources>

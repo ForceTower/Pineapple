@@ -105,7 +105,8 @@ public class AchievementsViewModel extends ViewModel {
     private void unlockForDisciplineSemester(@Nullable List<Discipline> disciplines, @NonNull HashSet<Integer> unlocked) {
         if (disciplines == null) return;
 
-        boolean allDisciplines = true;
+        boolean allDisciplinesApproved = true;
+        boolean allDisciplinesMechanic = disciplines.size() > 0;
 
         for (Discipline discipline : disciplines) {
             if (discipline.getMissedClasses() == 0)
@@ -117,7 +118,7 @@ public class AchievementsViewModel extends ViewModel {
             }
 
             if (discipline.getSituation() != null && !discipline.getSituation().equalsIgnoreCase("Aprovado")) {
-                allDisciplines = false;
+                allDisciplinesApproved = false;
             }
 
             Grade grade = database.gradeDao().getDisciplineGradesDirect(discipline.getUid());
@@ -129,6 +130,7 @@ public class AchievementsViewModel extends ViewModel {
                 if (val >= 5 && val < 7) unlocked.add(R.string.achievement_fight_till_the_end);
                 if (val == 5) unlocked.add(R.string.achievement_almost);
                 if (val >= 9.5 && val < 10) unlocked.add(R.string.achievement_so_close_yet_so_far);
+                if (val < 8) allDisciplinesMechanic = false;
             }
 
             List<GradeSection> sections = database.gradeSectionDao().getSectionsFromDisciplineDirect(discipline.getUid());
@@ -159,7 +161,8 @@ public class AchievementsViewModel extends ViewModel {
             }
         }
 
-        if (allDisciplines) unlocked.add(R.string.achievement_clean_semester);
+        if (allDisciplinesApproved) unlocked.add(R.string.achievement_clean_semester);
+        if (allDisciplinesMechanic) unlocked.add(R.string.achievement_totally_mechanic);
     }
 
     private List<GradeInfo> moreThanOne(@NonNull List<GradeSection> sections) {

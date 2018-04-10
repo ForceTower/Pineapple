@@ -316,4 +316,7 @@
     <string name="pref_unes_the_adventure_achievements">Conquistas</string>
     <string name="play_games_disconnected">Desconectado da Aventura</string>
     <string name="pref_unes_the_adventure_logout_desc">Sair da aventura</string>
+    <string name="pref_header_experimental_content">Conteúdos Experimentais</string>
+    <string name="pref_header_general">Geral</string>
+    <string name="pref_header_unes_adventure">Mini game</string>
 </resources>
