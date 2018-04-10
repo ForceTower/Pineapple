@@ -198,6 +198,29 @@ public class DateUtils {
         }
     }
 
+    public static int getDifference(String date1, String date2, int field) {
+        date1 = date1.trim();
+        date2 = date2.trim();
+
+        String[] parts1 = date1.split("/");
+        String[] parts2 = date2.split("/");
+        if (parts1.length == 3 && parts2.length == 3) {
+            int one = ValueUtils.toInteger(parts1[field], -1);
+            int two = ValueUtils.toInteger(parts2[field], -1);
+
+            if (one != -1 && two != -1) {
+                if (one > two && field == 1) {
+                    two += 12;
+                }
+
+                Timber.d("Difference in field is: %d", Math.abs(two - one));
+                return Math.abs(two - one);
+            }
+        }
+
+        return -1;
+    }
+
     /**
      * Goes to the closest day of week desired from a date
      * @param date a date that came from reformatDate

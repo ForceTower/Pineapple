@@ -69,9 +69,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.games.Games;
+import com.google.android.gms.games.achievement.Achievement;
 import com.google.android.gms.tasks.Task;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -141,6 +143,9 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
         gradesViewModel.getUNESLatestVersion().observe(this, this::onReceiveVersion);
         ScheduleViewModel scheduleViewModel = ViewModelProviders.of(this, viewModelFactory).get(ScheduleViewModel.class);
         scheduleViewModel.getSingleLoadedLocation().observe(this, this::onReceiveSingleLocation);
+
+        achievementsViewModel = ViewModelProviders.of(this, viewModelFactory).get(AchievementsViewModel.class);
+        achievementsViewModel.checkAchievements().observe(this, this::onAchievementsUpdate);
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         newScheduleLayout = preferences.getBoolean("new_schedule_layout", false);
@@ -214,6 +219,18 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
                 disableBottomLoading();
             //clearAllNotifications();
             afterLogin = false;
+        }
+
+    }
+
+    private void onAchievementsUpdate(HashSet<Integer> integers) {
+        if (!mPlayGamesInstance.isSignedIn() || integers == null || integers.isEmpty()) {
+            Timber.d("Returned because %s %s", !mPlayGamesInstance.isSignedIn(), integers);
+            return;
+        }
+
+        for (int id : integers) {
+            unlockAchievements(getString(id), mPlayGamesInstance.getAchievementsClient());
         }
     }
 

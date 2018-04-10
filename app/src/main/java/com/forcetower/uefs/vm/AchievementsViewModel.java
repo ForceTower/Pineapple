@@ -11,6 +11,7 @@ import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.AppDatabase;
 import com.forcetower.uefs.db.entity.Discipline;
+import com.forcetower.uefs.db.entity.DisciplineClassLocation;
 import com.forcetower.uefs.db.entity.Grade;
 import com.forcetower.uefs.db.entity.GradeInfo;
 import com.forcetower.uefs.db.entity.GradeSection;
@@ -58,7 +59,6 @@ public class AchievementsViewModel extends ViewModel {
 
                 if (semesters == null) return;
                 executors.diskIO().execute(() -> {
-
                     Profile profile = database.profileDao().getProfileDirect();
                     if (profile != null && profile.getScore() >= 7 && semesters.size() > 5)
                         unlocked.add(R.string.achievement_survivor);
@@ -69,11 +69,36 @@ public class AchievementsViewModel extends ViewModel {
                         List<Discipline> disciplines = database.disciplineDao().getDisciplinesFromSemesterDirect(smt);
                         unlockForDisciplineSemester(disciplines, unlocked);
                     }
+
+                    String currentSmt = Semester.getCurrentSemester(semesters).getName();
+                    LiveData<List<DisciplineClassLocation>> locationsSrc = database.disciplineClassLocationDao().getClassesFromSemester(currentSmt);
+                    checkAch.addSource(locationsSrc, locations -> {
+                        checkAch.removeSource(locationsSrc);
+                        unlockForLocations(locations, unlocked);
+
+                        checkAch.postValue(unlocked);
+                    });
                 });
             });
         });
 
         return checkAch;
+    }
+
+    private void unlockForLocations(@Nullable List<DisciplineClassLocation> locations, @NonNull HashSet<Integer> unlocked) {
+        if (locations == null) return;
+        boolean mod1 = false;
+        boolean mod7 = false;
+
+        for (DisciplineClassLocation location : locations) {
+            String mod = location.getModulo();
+            if (mod != null) {
+                if (!mod1) mod1 = (mod.equalsIgnoreCase("Módulo 1") || mod.equalsIgnoreCase("Modulo 1"));
+                if (!mod7) mod7 = (mod.equalsIgnoreCase("Módulo 7") || mod.equalsIgnoreCase("Modulo 7"));
+            }
+        }
+
+        if (mod1 && mod7) unlocked.add(R.string.achievement_dora_the_explorer);
     }
 
     @WorkerThread
@@ -108,25 +133,27 @@ public class AchievementsViewModel extends ViewModel {
 
             List<GradeSection> sections = database.gradeSectionDao().getSectionsFromDisciplineDirect(discipline.getUid());
             List<GradeInfo> infos;
-            if (sections.size() > 1) {
-                infos = moreThanOne(sections);
-            } else {
-                infos = sections.get(0).getGrades();
-            }
+            if (sections.size() > 0) {
+                if (sections.size() > 1) {
+                    infos = moreThanOne(sections);
+                } else {
+                    infos = database.gradeInfoDao().getGradesFromSectionDirect(sections.get(0).getUid());
+                }
 
-            if (infos.size() == 3) {
-                GradeInfo p1 = infos.get(0);
-                GradeInfo p2 = infos.get(1);
-                GradeInfo p3 = infos.get(2);
+                if (infos.size() == 3) {
+                    GradeInfo p1 = infos.get(0);
+                    GradeInfo p2 = infos.get(1);
+                    GradeInfo p3 = infos.get(2);
 
-                if (p1.hasGrade() && p2.hasGrade() && p3.hasGrade()) {
-                    double v1 = ValueUtils.toDoubleMod(p1.getGrade());
-                    double v2 = ValueUtils.toDoubleMod(p2.getGrade());
-                    double v3 = ValueUtils.toDoubleMod(p3.getGrade());
+                    if (p1.hasGrade() && p2.hasGrade() && p3.hasGrade()) {
+                        double v1 = ValueUtils.toDoubleMod(p1.getGrade());
+                        double v2 = ValueUtils.toDoubleMod(p2.getGrade());
+                        double v3 = ValueUtils.toDoubleMod(p3.getGrade());
 
-                    if (v1 < 7 && v2 >= 8.5 && v3 >= 8.5) {
-                        Timber.d("Well, that worked");
-                        unlocked.add(R.string.achievement_now_all_pieces_come_together);
+                        if (v1 < 7 && v2 >= 8.5 && v3 >= 8.5) {
+                            Timber.d("Well, that worked");
+                            unlocked.add(R.string.achievement_now_all_pieces_come_together);
+                        }
                     }
                 }
             }

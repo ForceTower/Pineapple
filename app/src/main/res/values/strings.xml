@@ -315,4 +315,5 @@
     <string name="pref_unes_the_adventure_logout">Desconectar do Play Games</string>
     <string name="pref_unes_the_adventure_achievements">Conquistas</string>
     <string name="play_games_disconnected">Desconectado da Aventura</string>
+    <string name="pref_unes_the_adventure_logout_desc">Sair da aventura</string>
 </resources>
