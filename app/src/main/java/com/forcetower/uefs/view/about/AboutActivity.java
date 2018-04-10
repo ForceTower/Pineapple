@@ -8,6 +8,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,12 +29,17 @@ import com.mikepenz.aboutlibraries.LibsBuilder;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 
 import static com.forcetower.uefs.util.NetworkUtils.openLink;
 import static com.forcetower.uefs.util.WordUtils.validString;
 
-public class AboutActivity extends UBaseActivity {
+public class AboutActivity extends UBaseActivity implements HasSupportFragmentInjector {
     @BindView(R.id.version_info)
     TextView versionInfo;
     @BindView(R.id.rv_credits)
@@ -107,5 +113,10 @@ public class AboutActivity extends UBaseActivity {
                 .withAboutIconShown(true)
                 .withAboutVersionShown(true)
                 .start(this);
+    }
+
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return null;
     }
 }

@@ -47,7 +47,7 @@ public abstract class UBaseActivity extends AppCompatActivity implements Achieve
         super.onCreate(savedInstanceState);
         setContentView(layout);
         ButterKnife.bind(this);
-        Timber.d("mPlayGamesIs: " + mPlayGamesInstance);
+        Timber.d("mPlayGames Is: " + mPlayGamesInstance);
         mPlayGamesInstance.createGoogleClient();
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
     }

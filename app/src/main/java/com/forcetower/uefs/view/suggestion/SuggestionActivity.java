@@ -7,6 +7,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -18,8 +19,10 @@ import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.UBaseActivity;
 
 import butterknife.BindView;
+import dagger.android.AndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 
-public class SuggestionActivity extends UBaseActivity {
+public class SuggestionActivity extends UBaseActivity implements HasSupportFragmentInjector {
     private static final String MESSAGE_CAUSE = "exception_message";
     private static final String STACK_TRACE = "stack_trace";
     @BindView(R.id.et_suggestion)
@@ -111,5 +114,10 @@ public class SuggestionActivity extends UBaseActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return null;
     }
 }
