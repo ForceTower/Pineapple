@@ -116,7 +116,6 @@
     <string name="about_app_title">Sobre o aplicativo</string>
 
     <string-array name="pref_sync_frequency_titles">
-        <item>15 minutos</item>
         <item>30 minutos</item>
         <item>1 hora</item>
         <item>2 horas</item>
@@ -126,7 +125,6 @@
     </string-array>
 
     <string-array name="pref_sync_frequency_values">
-        <item>15</item>
         <item>30</item>
         <item>60</item>
         <item>120</item>
@@ -294,10 +292,10 @@
 
     <string-array name="pref_palette_theme_names">
         <item>Azul - Laranja (Padrão)</item>
-        <item>Rosa - Cinza (Ellen)</item>
-        <item>Cinza - Cinza (OmegaLUL)</item>
-        <item>Lilás - Amarelo (Aleatório)</item>
-        <item>Cinza - Verde (Eu)</item>
+        <item>Rosa - Cinza</item>
+        <item>Cinza - Cinza</item>
+        <item>Lilás - Amarelo</item>
+        <item>Cinza - Verde</item>
     </string-array>
 
     <string-array name="pref_palette_theme_values">
@@ -318,5 +316,5 @@
     <string name="pref_unes_the_adventure_logout_desc">Sair da aventura</string>
     <string name="pref_header_experimental_content">Conteúdos Experimentais</string>
     <string name="pref_header_general">Geral</string>
-    <string name="pref_header_unes_adventure">Mini game</string>
+    <string name="pref_header_unes_adventure">Pequeno Jogo</string>
 </resources>

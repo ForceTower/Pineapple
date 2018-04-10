@@ -82,7 +82,10 @@ public abstract class UBaseActivity extends AppCompatActivity implements Achieve
         mPlayGamesInstance.onConnected(result);
         mPlayGamesInstance.getGamesClient().setViewForPopups(getWindow().getDecorView().findViewById(android.R.id.content));
         unlockAchievements(getString(R.string.achievement_journey_start), mPlayGamesInstance.getAchievementsClient());
+        checkAchievements();
     }
+
+    protected void checkAchievements() {}
 
     protected void openPlayGamesAchievements() {
         if (!mPlayGamesInstance.isSignedIn()) {

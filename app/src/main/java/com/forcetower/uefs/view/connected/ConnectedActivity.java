@@ -145,7 +145,6 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
         scheduleViewModel.getSingleLoadedLocation().observe(this, this::onReceiveSingleLocation);
 
         achievementsViewModel = ViewModelProviders.of(this, viewModelFactory).get(AchievementsViewModel.class);
-        achievementsViewModel.checkAchievements().observe(this, this::onAchievementsUpdate);
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         newScheduleLayout = preferences.getBoolean("new_schedule_layout", false);
@@ -221,6 +220,13 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
             afterLogin = false;
         }
 
+    }
+
+    @Override
+    protected void checkAchievements() {
+        super.checkAchievements();
+        achievementsViewModel.checkAchievements().observe(this, this::onAchievementsUpdate);
+        Timber.d("This where called");
     }
 
     private void onAchievementsUpdate(HashSet<Integer> integers) {
