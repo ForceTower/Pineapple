@@ -10,5 +10,8 @@ public interface SettingsController {
     void logout();
     void exportToCalendar();
     void resetExportToCalendar();
+    void connectToPlayGames();
+    void disconnectFromPlayGames();
+
     Context getContext();
 }

@@ -1,6 +1,7 @@
 package com.forcetower.uefs.view.connected;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.ContentResolver;
@@ -27,6 +28,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,6 +48,7 @@ import com.forcetower.uefs.service.ApiResponse;
 import com.forcetower.uefs.service.Version;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.util.VersionUtils;
+import com.forcetower.uefs.view.AchievementsController;
 import com.forcetower.uefs.view.UBaseActivity;
 import com.forcetower.uefs.view.connected.fragments.AllSemestersGradeFragment;
 import com.forcetower.uefs.view.connected.fragments.AutoSyncFragment;
@@ -59,10 +62,18 @@ import com.forcetower.uefs.view.connected.fragments.ScheduleFragment;
 import com.forcetower.uefs.view.login.MainActivity;
 import com.forcetower.uefs.view.settings.SettingsActivity;
 import com.forcetower.uefs.view.suggestion.SuggestionActivity;
+import com.forcetower.uefs.vm.AchievementsViewModel;
 import com.forcetower.uefs.vm.GradesViewModel;
 import com.forcetower.uefs.vm.ScheduleViewModel;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.games.Games;
+import com.google.android.gms.games.achievement.Achievement;
+import com.google.android.gms.tasks.Task;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -97,8 +108,11 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
     @Inject
     ViewModelProvider.Factory viewModelFactory;
     private GradesViewModel gradesViewModel;
-
+    private AchievementsViewModel achievementsViewModel;
     private FragmentManager fragmentManager;
+
+    private SharedPreferences preferences;
+
     @IdRes
     private int containerId;
     @StringRes
@@ -130,7 +144,9 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
         ScheduleViewModel scheduleViewModel = ViewModelProviders.of(this, viewModelFactory).get(ScheduleViewModel.class);
         scheduleViewModel.getSingleLoadedLocation().observe(this, this::onReceiveSingleLocation);
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        achievementsViewModel = ViewModelProviders.of(this, viewModelFactory).get(AchievementsViewModel.class);
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
         newScheduleLayout = preferences.getBoolean("new_schedule_layout", false);
         newScheduleLayout = preferences.getBoolean("new_schedule_user_ready", false) && newScheduleLayout;
         Timber.d("New schedule (onCreate) %s", newScheduleLayout);
@@ -160,8 +176,7 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
             boolean shown = PreferenceManager.getDefaultSharedPreferences(this)
                     .getBoolean(AutoSyncFragment.PREF_AUTO_SYNC_SHOWN, false);
 
-            PreferenceManager.getDefaultSharedPreferences(this).edit()
-                    .putBoolean("show_not_connected_notification", false).apply();
+            preferences.edit().putBoolean("show_not_connected_notification", false).apply();
 
             String value = getIntent().getStringExtra(NOTIFICATION_INTENT_EXTRA);
             if (value == null) {
@@ -204,12 +219,32 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
             //clearAllNotifications();
             afterLogin = false;
         }
+
     }
+
+    @Override
+    protected void checkAchievements() {
+        super.checkAchievements();
+        achievementsViewModel.checkAchievements().observe(this, this::onAchievementsUpdate);
+        Timber.d("This where called");
+    }
+
+    private void onAchievementsUpdate(HashSet<Integer> integers) {
+        if (!mPlayGamesInstance.isSignedIn() || integers == null || integers.isEmpty()) {
+            Timber.d("Returned because %s %s", !mPlayGamesInstance.isSignedIn(), integers);
+            return;
+        }
+
+        for (int id : integers) {
+            unlockAchievements(getString(id), mPlayGamesInstance.getAchievementsClient());
+        }
+    }
+
 
     @Override
     protected void onResume() {
         super.onResume();
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
         newScheduleLayout = preferences.getBoolean("new_schedule_layout", false);
         newScheduleLayout = preferences.getBoolean("new_schedule_user_ready", false) && newScheduleLayout;
     }
@@ -573,5 +608,10 @@ public class ConnectedActivity extends UBaseActivity implements HasSupportFragme
                 Toast.makeText(this, R.string.new_schedule_takes_an_update, Toast.LENGTH_LONG).show();
             preferences.edit().putBoolean("warnings_4.0.0_new_schedule", true).apply();
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

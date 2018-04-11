@@ -84,7 +84,6 @@
     <string name="pref_sync_only_wifi_enabled">App will sync only if on wifi</string>
 
     <string-array name="pref_sync_frequency_titles">
-        <item>15 minutes</item>
         <item>30 minutes</item>
         <item>1 hour</item>
         <item>2 hours</item>
@@ -93,7 +92,6 @@
         <item>Never</item>
     </string-array>
     <string-array name="pref_sync_frequency_values">
-        <item>15</item>
         <item>30</item>
         <item>60</item>
         <item>120</item>
@@ -292,10 +290,10 @@
 
     <string-array name="pref_palette_theme_names">
         <item>Blue - Orange (Default)</item>
-        <item>Rosa - Gray (Ellen)</item>
-        <item>Gray - Gray (Me)</item>
-        <item>Purple - Yellow (Random)</item>
-        <item>Gray - Green (Random)</item>
+        <item>Rosa - Gray</item>
+        <item>Gray - Gray</item>
+        <item>Purple - Yellow</item>
+        <item>Gray - Green</item>
     </string-array>
 
     <string-array name="pref_palette_theme_values">
@@ -307,4 +305,14 @@
     </string-array>
 
     <string name="no_score_message">I don\'t know your score, sad</string>
+    <string name="play_sign_in_other_error">There was a problem during login, try again later</string>
+    <string name="pref_unes_the_adventure">UNES - The adventure</string>
+    <string name="pref_unes_the_adventure_desc">Unlock UEFS achievements</string>
+    <string name="pref_unes_the_adventure_logout">Disconnect Play Games</string>
+    <string name="pref_unes_the_adventure_achievements">Achievements</string>
+    <string name="play_games_disconnected">Disconnected from adventure</string>
+    <string name="pref_unes_the_adventure_logout_desc">Exit adventure</string>
+    <string name="pref_header_experimental_content">Experimental Contents</string>
+    <string name="pref_header_general">General</string>
+    <string name="pref_header_unes_adventure">Mini Game</string>
 </resources>

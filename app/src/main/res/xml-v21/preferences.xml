@@ -123,6 +123,22 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:title="@string/pref_header_unes_adventure">
+
+        <Preference
+            android:icon="@drawable/ic_gamepad_variant_accent_30dp"
+            android:key="unes_the_adventure_connect"
+            android:title="@string/pref_unes_the_adventure"
+            android:summary="@string/pref_unes_the_adventure_desc"/>
+
+        <Preference
+            android:icon="@drawable/ic_block_accent_24dp"
+            android:key="unes_the_adventure_disconnect"
+            android:title="@string/pref_unes_the_adventure_logout"
+            android:summary="@string/pref_unes_the_adventure_logout_desc"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/pref_account_settings">
 
         <SwitchPreference

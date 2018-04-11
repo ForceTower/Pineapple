@@ -5,6 +5,7 @@ import android.arch.persistence.room.Room;
 import android.content.Context;
 
 import com.forcetower.uefs.Constants;
+import com.forcetower.uefs.GooglePlayGamesInstance;
 import com.forcetower.uefs.db.AppDatabase;
 import com.forcetower.uefs.ru.RUFirebase;
 import com.forcetower.uefs.service.UNEService;
@@ -59,6 +60,13 @@ public class AppModule {
     @Singleton
     RUFirebase provideRUFirebase(Context context) {
         return new RUFirebase(context);
+    }
+
+
+    @Provides
+    @Singleton
+    GooglePlayGamesInstance provideGooglePlayGamesInstance(Context context) {
+        return new GooglePlayGamesInstance(context);
     }
 
 }
