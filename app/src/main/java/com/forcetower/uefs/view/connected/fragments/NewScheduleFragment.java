@@ -21,7 +21,7 @@ import com.forcetower.uefs.db.entity.DisciplineGroup;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.view.connected.LocationClickListener;
-import com.forcetower.uefs.view.connected.NavigationController;
+import com.forcetower.uefs.view.connected.MainContentController;
 import com.forcetower.uefs.view.connected.adapters.NewScheduleAdapter;
 import com.forcetower.uefs.view.connected.adapters.ScheduleAdapter;
 import com.forcetower.uefs.view.discipline.DisciplineDetailsActivity;
@@ -54,7 +54,7 @@ public class NewScheduleFragment extends Fragment implements Injectable {
     @Inject
     AppExecutors executors;
 
-    private NavigationController controller;
+    private MainContentController controller;
     private ScheduleViewModel scheduleViewModel;
 
     private NewScheduleAdapter scheduleAdapter;
@@ -64,9 +64,9 @@ public class NewScheduleFragment extends Fragment implements Injectable {
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            controller = (NavigationController) context;
+            controller = (MainContentController) context;
         } catch (ClassCastException e) {
-            Timber.e("Class %s must implement NavigationController", context.getClass().getSimpleName());
+            Timber.e("Class %s must implement MainContentController", context.getClass().getSimpleName());
         }
     }
 

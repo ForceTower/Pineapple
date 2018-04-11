@@ -3,12 +3,14 @@ package com.forcetower.uefs.view;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.TypedValue;
 
 import com.forcetower.uefs.GooglePlayGamesInstance;
 import com.forcetower.uefs.R;
@@ -104,6 +106,7 @@ public abstract class UBaseActivity extends AppCompatActivity implements Achieve
 
     //Theme selection
     private void themeSelector() {
+        /*
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String theme = preferences.getString("unes_selected_theme", "default_theme");
 
@@ -121,6 +124,7 @@ public abstract class UBaseActivity extends AppCompatActivity implements Achieve
             else if (theme.equalsIgnoreCase("gray_1_theme"))
                 setTheme(R.style.AppThemeGray1);
         }
+        */
     }
 
     @Override

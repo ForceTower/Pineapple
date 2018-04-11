@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -18,7 +19,8 @@ import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.Semester;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.util.WordUtils;
-import com.forcetower.uefs.view.connected.NavigationController;
+import com.forcetower.uefs.view.connected.MainContentController;
+import com.forcetower.uefs.view.logged.ActivityController;
 import com.forcetower.uefs.vm.GradesViewModel;
 
 import java.util.ArrayList;
@@ -43,21 +45,21 @@ public class AllSemestersGradeFragment extends Fragment implements Injectable {
     ViewModelProvider.Factory viewModelFactory;
 
     private GradesFragmentAdapter fragmentAdapter;
-    private NavigationController controller;
+    private ActivityController controller;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            controller = (NavigationController) context;
+            controller = (ActivityController) context;
         } catch (ClassCastException ignored) {
-            Timber.d("Activity %s must implement NavigationController", context.getClass().getSimpleName());
+            Timber.d("Activity %s must implement MainContentController", context.getClass().getSimpleName());
         }
     }
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_all_semesters_grades, container, false);
 
         ButterKnife.bind(this, view);

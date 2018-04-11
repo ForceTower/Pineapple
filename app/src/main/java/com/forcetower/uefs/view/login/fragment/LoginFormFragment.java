@@ -21,14 +21,13 @@ import com.forcetower.uefs.db.entity.Access;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.util.VersionUtils;
-import com.forcetower.uefs.view.connected.ConnectedActivity;
+import com.forcetower.uefs.view.logged.LoggedActivity;
 import com.forcetower.uefs.vm.LoginViewModel;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import de.hdodenhof.circleimageview.CircleImageView;
 import timber.log.Timber;
 
 /**
@@ -81,10 +80,10 @@ public class LoginFormFragment extends Fragment implements Injectable {
         } else {
             Timber.d("Access is not null. Moving to connected!");
             if (!loginViewModel.isActivityStarted()) {
-                ConnectedActivity.startActivity(getContext(), false);
+                LoggedActivity.startActivity(getContext(), false);
                 loginViewModel.setActivityStarted(true);
             }
-            getActivity().finish();
+            requireActivity().finish();
         }
     }
 

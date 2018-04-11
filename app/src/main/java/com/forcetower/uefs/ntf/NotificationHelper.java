@@ -20,7 +20,7 @@ import android.support.v4.app.NotificationCompat;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.util.VersionUtils;
-import com.forcetower.uefs.view.connected.ConnectedActivity;
+import com.forcetower.uefs.view.connected.ConnectedFragment;
 
 import timber.log.Timber;
 
@@ -134,7 +134,7 @@ public class NotificationHelper extends ContextWrapper{
 
     public static PendingIntent getPendingIntent(Context context, Class resultClass, String argument) {
         Intent resultIntent = new Intent(context, resultClass);
-        if (validString(argument)) resultIntent.putExtra(ConnectedActivity.NOTIFICATION_INTENT_EXTRA, argument);
+        if (validString(argument)) resultIntent.putExtra(ConnectedFragment.FRAGMENT_INTENT_EXTRA, argument);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         stackBuilder.addParentStack(resultClass);
         stackBuilder.addNextIntent(resultIntent);

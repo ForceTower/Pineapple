@@ -1,6 +1,5 @@
 package com.forcetower.uefs.view.login.fragment;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
@@ -25,7 +24,7 @@ import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
 import com.forcetower.uefs.util.VersionUtils;
-import com.forcetower.uefs.view.connected.ConnectedActivity;
+import com.forcetower.uefs.view.logged.LoggedActivity;
 import com.forcetower.uefs.vm.LoginViewModel;
 
 import javax.inject.Inject;
@@ -100,7 +99,7 @@ public class ConnectingFragment extends Fragment implements Injectable {
     private void onLoginProgress(Resource<Integer> resource) {
         if (resource.status == Status.SUCCESS) {
             if (!loginViewModel.isActivityStarted()) {
-                ConnectedActivity.startActivity(getContext(), true);
+                LoggedActivity.startActivity(getContext(), true);
                 loginViewModel.setActivityStarted(true);
             } else {
                 Timber.d("Activity already running!");

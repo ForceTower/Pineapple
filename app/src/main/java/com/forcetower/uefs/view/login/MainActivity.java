@@ -13,7 +13,6 @@ import android.support.v4.app.Fragment;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.UEFSApplication;
 import com.forcetower.uefs.view.UBaseActivity;
-import com.forcetower.uefs.view.connected.ConnectedActivity;
 import com.forcetower.uefs.view.login.fragment.LoginFormFragment;
 
 import javax.inject.Inject;
@@ -23,7 +22,7 @@ import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 import timber.log.Timber;
 
-import static com.forcetower.uefs.view.connected.ConnectedActivity.NOTIFICATION_INTENT_EXTRA;
+import static com.forcetower.uefs.view.connected.ConnectedFragment.FRAGMENT_INTENT_EXTRA;
 
 public class MainActivity extends UBaseActivity implements HasSupportFragmentInjector {
     @Inject
@@ -31,6 +30,8 @@ public class MainActivity extends UBaseActivity implements HasSupportFragmentInj
 
     public static void startActivity(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
     }
 
@@ -39,7 +40,7 @@ public class MainActivity extends UBaseActivity implements HasSupportFragmentInj
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(R.layout.activity_main, savedInstanceState);
 
-        String value = getIntent().getStringExtra(NOTIFICATION_INTENT_EXTRA);
+        String value = getIntent().getStringExtra(FRAGMENT_INTENT_EXTRA);
         if (value == null) {
             Timber.d("Default open");
         } else {

@@ -39,16 +39,15 @@ import com.forcetower.uefs.rep.helper.Status;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.util.DateUtils;
 import com.forcetower.uefs.util.NetworkUtils;
-import com.forcetower.uefs.view.connected.NavigationController;
 import com.forcetower.uefs.view.control_room.ControlRoomActivity;
 import com.forcetower.uefs.view.experimental.good_barrel.GoodBarrelActivity;
+import com.forcetower.uefs.view.logged.ActivityController;
 import com.forcetower.uefs.vm.DownloadsViewModel;
 import com.forcetower.uefs.vm.ProfileViewModel;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.List;
 
@@ -107,25 +106,23 @@ public class ProfileFragment extends Fragment implements Injectable {
     ViewModelProvider.Factory viewModelFactory;
 
     private DownloadsViewModel downloadsViewModel;
-    private NavigationController controller;
     private SharedPreferences sharedPreferences;
+
+    ActivityController controller;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        try {
-            controller = (NavigationController) context;
-        } catch (ClassCastException ignored) {
-            Timber.d("Activity %s must implement NavigationController", context.getClass().getSimpleName());
-        }
+        controller = (ActivityController) context;
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Timber.d(String.valueOf(getParentFragment()));
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
-        cvCalendar.setOnClickListener(v -> controller.navigateToCalendar());
+        cvCalendar.setOnClickListener(v -> controller.getNavigationController().navigateToCalendar());
         cvUpdateControl.setOnClickListener(v -> goToUpdateControl());
         cvGoodBarrel.setOnClickListener(v -> goToBarrel());
         cvBigTray.setOnClickListener(v -> openLink(requireContext(), "https://bit.ly/bandejaouefs"));
@@ -159,6 +156,7 @@ public class ProfileFragment extends Fragment implements Injectable {
         AnimUtils.fadeOut(requireContext(), ivProfileImage);
         AnimUtils.fadeIn(requireContext(), ivProfilePlaceholder);
         downloadsViewModel.saveBitmap(null);
+        controller.onProfileImageChanged(null);
         return true;
     }
 
@@ -171,10 +169,12 @@ public class ProfileFragment extends Fragment implements Injectable {
         profileViewModel.getSemesters().observe(this, this::onReceiveSemesters);
         downloadsViewModel.getDownloadCertificate().observe(this, this::onCertificateDownload);
         profileViewModel.getAccess().observe(this, this::onReceiveAccess);
-        downloadsViewModel.getProfileImage().observe(this, this::onReceiveProfileImage);
+        profileViewModel.getProfileImage().observe(this, this::onReceiveProfileImage);
     }
 
     private void onReceiveProfileImage(Bitmap bitmap) {
+        controller.onProfileImageChanged(bitmap);
+
         if (bitmap == null) {
             Timber.d("No image set so far");
             AnimUtils.fadeIn(requireContext(), ivProfilePlaceholder);
@@ -198,7 +198,7 @@ public class ProfileFragment extends Fragment implements Injectable {
     private void enablePrivateContent() {
         cvUpdateControl.setVisibility(View.VISIBLE);
         cvGoodBarrel.setVisibility(View.VISIBLE);
-        cvBigTray.setOnClickListener(v -> controller.navigateToBigTray());
+        cvBigTray.setOnClickListener(v -> controller.getNavigationController().navigateToBigTray());
     }
 
     private void onReceiveProfile(Profile profile) {
@@ -335,6 +335,7 @@ public class ProfileFragment extends Fragment implements Injectable {
                         ivProfileImage.setImageBitmap(imageBitmap);
                         AnimUtils.fadeOut(requireContext(), ivProfilePlaceholder);
                         AnimUtils.fadeIn(requireContext(), ivProfileImage);
+                        controller.onProfileImageChanged(imageBitmap);
                         downloadsViewModel.saveBitmap(imageBitmap);
                         if (!sharedPreferences.getBoolean("first_profile_image_set", false)) {
                             Toast.makeText(requireContext(), R.string.profile_image_unset, Toast.LENGTH_SHORT).show();

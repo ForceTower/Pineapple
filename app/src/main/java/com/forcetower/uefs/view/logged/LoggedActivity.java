@@ -1,0 +1,554 @@
+package com.forcetower.uefs.view.logged;
+
+import android.annotation.SuppressLint;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ShortcutInfo;
+import android.content.pm.ShortcutManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Icon;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.IdRes;
+import android.support.annotation.MainThread;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.forcetower.uefs.R;
+import com.forcetower.uefs.alm.RefreshAlarmTrigger;
+import com.forcetower.uefs.db.entity.Access;
+import com.forcetower.uefs.db.entity.DisciplineClassLocation;
+import com.forcetower.uefs.db.entity.Profile;
+import com.forcetower.uefs.db.entity.Semester;
+import com.forcetower.uefs.ntf.NotificationCreator;
+import com.forcetower.uefs.rep.helper.Resource;
+import com.forcetower.uefs.rep.helper.Status;
+import com.forcetower.uefs.service.ApiResponse;
+import com.forcetower.uefs.service.Version;
+import com.forcetower.uefs.util.AnimUtils;
+import com.forcetower.uefs.util.VersionUtils;
+import com.forcetower.uefs.view.UBaseActivity;
+import com.forcetower.uefs.view.about.AboutActivity;
+import com.forcetower.uefs.view.connected.ConnectedFragment;
+import com.forcetower.uefs.view.connected.fragments.AutoSyncFragment;
+import com.forcetower.uefs.view.login.MainActivity;
+import com.forcetower.uefs.view.settings.SettingsActivity;
+import com.forcetower.uefs.view.suggestion.SuggestionActivity;
+import com.forcetower.uefs.vm.AchievementsViewModel;
+import com.forcetower.uefs.vm.GradesViewModel;
+import com.forcetower.uefs.vm.ProfileViewModel;
+import com.forcetower.uefs.vm.ScheduleViewModel;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+
+import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
+import de.hdodenhof.circleimageview.CircleImageView;
+import timber.log.Timber;
+
+import static com.forcetower.uefs.view.connected.ConnectedFragment.FRAGMENT_INTENT_EXTRA;
+import static com.forcetower.uefs.view.connected.ConnectedFragment.GRADES_FRAGMENT;
+import static com.forcetower.uefs.view.connected.ConnectedFragment.MESSAGES_FRAGMENT;
+
+public class LoggedActivity extends UBaseActivity implements NavigationView.OnNavigationItemSelectedListener,
+        HasSupportFragmentInjector, ActivityController {
+    private static final String SELECTED_NAV_DRAWER_ID = "selected_nav_drawer";
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.app_bar_layout)
+    AppBarLayout appBarLayout;
+    @BindView(R.id.tab_layout)
+    TabLayout tabLayout;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawer;
+    @BindView(R.id.nav_view)
+    NavigationView navigationView;
+    @BindView(R.id.pb_global_progress)
+    ProgressBar globalLoading;
+
+    private NavigationViews navViews;
+
+    @Inject
+    DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
+    @Inject
+    NavigationController navigationController;
+
+    @StringRes
+    private int titleText;
+    private boolean doubleBack;
+
+    private GradesViewModel gradesViewModel;
+    private AchievementsViewModel achievementsViewModel;
+    private ProfileViewModel profileViewModel;
+
+    private int numberOfLoadings = 0;
+    private int numberOfSemesters = -1;
+    private boolean afterLogin;
+    @IdRes
+    private int selectedNavId;
+
+    private boolean disconnecting = false;
+
+    public static void startActivity(Context context, boolean afterLogin) {
+        Intent intent = new Intent(context, LoggedActivity.class);
+        intent.putExtra("after_login", afterLogin);
+        Timber.d("Start logged activity!");
+        context.startActivity(intent);
+    }
+
+    @SuppressLint("MissingSuperCall")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(R.layout.activity_logged, savedInstanceState);
+        setSupportActionBar(toolbar);
+        navViews = new NavigationViews();
+        ButterKnife.bind(navViews, navigationView.getHeaderView(0));
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
+
+        setupViewModels();
+        setupIds();
+        setupAfterLogin(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            onRestoreActivity(savedInstanceState);
+        } else {
+            onActivityCreated();
+        }
+
+        afterLogin = afterLogin && !gradesViewModel.isAllGradesRunning();
+        loadGradesAndUnset();
+    }
+
+    private void loadGradesAndUnset() {
+        gradesViewModel.getAllSemestersGrade(afterLogin).observe(this, this::onReceiveGrades);
+        gradesViewModel.getAllSemesters().observe(this, this::receiveListOfSemesters);
+        gradesViewModel.getAccess().observe(this, this::accessObserver);
+        if (afterLogin) {
+            if (!gradesViewModel.isAllGradesCompleted())
+                enableBottomLoading();
+            else
+                disableBottomLoading();
+            afterLogin = false;
+        }
+    }
+
+    private void onActivityCreated() {
+        setupAlarmManager();
+        RefreshAlarmTrigger.enableBootComponent(this);
+        setupShortcuts();
+
+        boolean autoSync = ContentResolver.getMasterSyncAutomatically();
+        boolean shown = mPreferences.getBoolean(AutoSyncFragment.PREF_AUTO_SYNC_SHOWN, false);
+        mPreferences.edit().putBoolean("show_not_connected_notification", false).apply();
+        initiateActivity(autoSync, shown);
+    }
+
+    private void initiateActivity(boolean auto, boolean shown) {
+        String value = getIntent().getStringExtra(FRAGMENT_INTENT_EXTRA);
+        if (value == null) {
+            Timber.d("Default open");
+            if (!auto && !shown) {
+                navigationController.navigateToAutoSync();
+            } else {
+                Bundle bundle = new Bundle();
+                bundle.putString(FRAGMENT_INTENT_EXTRA, null);
+                navigationController.navigateToMainContent(bundle);
+            }
+        } else {
+            Timber.d("Action asks for: %s", value);
+            Bundle bundle = new Bundle();
+            bundle.putString(FRAGMENT_INTENT_EXTRA, value);
+            navigationController.navigateToMainContent(bundle);
+        }
+    }
+
+    private void onRestoreActivity(@NonNull Bundle savedInstanceState) {
+        titleText = savedInstanceState.getInt("title_text", R.string.title_schedule);
+        numberOfLoadings = savedInstanceState.getInt("number_of_loadings", 0);
+        selectedNavId = savedInstanceState.getInt(SELECTED_NAV_DRAWER_ID);
+        changeTitle(titleText);
+        navigationView.setCheckedItem(selectedNavId);
+    }
+
+    private void setupAfterLogin(@Nullable Bundle savedInstanceState) {
+        afterLogin = getIntent().getBooleanExtra("after_login", false);
+        if (afterLogin && gradesViewModel.isAllGradesRunning()) {
+            afterLogin = false;
+        } else {
+            if (!afterLogin && savedInstanceState != null) {
+                afterLogin = savedInstanceState.getBoolean("after_login", false);
+            }
+        }
+    }
+
+    private void setupIds() {
+
+    }
+
+    private void setupViewModels() {
+        gradesViewModel = ViewModelProviders.of(this, viewModelFactory).get(GradesViewModel.class);
+        gradesViewModel.getUNESLatestVersion().observe(this, this::onReceiveVersion);
+
+        ScheduleViewModel scheduleViewModel = ViewModelProviders.of(this, viewModelFactory).get(ScheduleViewModel.class);
+        scheduleViewModel.getSingleLoadedLocation().observe(this, this::onReceiveSingleLocation);
+
+        achievementsViewModel = ViewModelProviders.of(this, viewModelFactory).get(AchievementsViewModel.class);
+
+        profileViewModel = ViewModelProviders.of(this, viewModelFactory).get(ProfileViewModel.class);
+        profileViewModel.getProfileImage().observe(this, this::onReceiveProfileImage);
+        profileViewModel.getProfile().observe(this, this::onReceiveProfile);
+    }
+
+    private void onReceiveProfile(Profile profile) {
+        if (profile == null) return;
+
+        navViews.tvNavTitle.setText(profile.getName());
+
+        if (profile.getScore() >= 0) {
+            navViews.tvNavSubtitle.setText(getString(R.string.student_score, profile.getScore()));
+        } else {
+            navViews.tvNavSubtitle.setText(R.string.no_score_message);
+        }
+    }
+
+    private void onReceiveProfileImage(Bitmap bitmap) {
+        if (bitmap == null) {
+            Timber.d("No image set so far");
+            AnimUtils.fadeIn(this, navViews.ivNavUserImagePlaceHolder);
+            AnimUtils.fadeOut(this, navViews.ivNavUserImage);
+            return;
+        }
+
+        navViews.ivNavUserImage.setImageBitmap(bitmap);
+        AnimUtils.fadeIn(this, navViews.ivNavUserImage);
+        AnimUtils.fadeOut(this, navViews.ivNavUserImagePlaceHolder);
+    }
+
+    private void onReceiveVersion(ApiResponse<Version> versionResponse) {
+        if (versionResponse == null) return;
+        if (versionResponse.isSuccessful()) {
+            Version version = versionResponse.body;
+            if (version == null) {
+                Timber.d("Received version is null");
+                return;
+            }
+
+            try {
+                PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
+                int versionCode   = pInfo.versionCode;
+                if (version.getVersionCode() > versionCode) {
+                    Timber.d("There's an UNES update going on");
+                    NotificationCreator.createNewVersionNotification(this, version);
+                } else if (version.getVersionCode() == versionCode) {
+                    Timber.d("UNES is up to date");
+                } else {
+                    Timber.d("This version is ahead of published version");
+                }
+            } catch (PackageManager.NameNotFoundException ignored) {}
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id != selectedNavId) {
+            if (id == R.id.nav_profile) {
+                navigationController.navigateToProfile();
+            } else if (id == R.id.nav_game) {
+                navigationController.navigateToUNESGame();
+            } else if (id == R.id.nav_schedule) {
+                navigationController.navigateToSchedule();
+            } else if (id == R.id.nav_messages) {
+                navigationController.navigateToMessages();
+            } else if (id == R.id.nav_grades) {
+                navigationController.navigateToGrades();
+            } else if (id == R.id.nav_disciplines) {
+                navigationController.navigateToDisciplines();
+            } else if (id == R.id.nav_calendar) {
+                navigationController.navigateToCalendar();
+            } else if (id == R.id.nav_settings) {
+                goToSettings();
+            } else if (id == R.id.nav_logout) {
+                performLogout();
+            } else if (id == R.id.nav_feedback) {
+                goToFeedback();
+            } else if (id == R.id.nav_about) {
+                goToAbout();
+            }
+            selectedNavId = id;
+        }
+
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    private void performLogout() {
+        disconnecting = true;
+        gradesViewModel.logout().observe(this, this::logoutObserver);
+    }
+
+    private void goToFeedback() {
+        SuggestionActivity.startActivity(this);
+    }
+
+    private void goToAbout() {
+        AboutActivity.startActivity(this);
+    }
+
+    private void goToSettings() {
+        SettingsActivity.startActivity(this);
+    }
+
+    private void setupAlarmManager() {
+        String strFrequency = mPreferences.getString("sync_frequency", "60");
+        int frequency = 60;
+        try {
+            frequency = Integer.parseInt(strFrequency);
+        } catch (Exception ignored) {}
+
+        if (frequency != -1) RefreshAlarmTrigger.create(this, frequency);
+        else                 RefreshAlarmTrigger.removeAlarm(this);
+    }
+
+    private void setupShortcuts() {
+        if (!VersionUtils.isNougatMR1()) {
+            return;
+        }
+
+        ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
+
+        Intent messages = new Intent(this, ConnectedFragment.class);
+        messages.putExtra(FRAGMENT_INTENT_EXTRA, MESSAGES_FRAGMENT);
+        messages.setAction("android.intent.action.VIEW");
+        messages.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+        Intent grades = new Intent(this, ConnectedFragment.class);
+        grades.putExtra(FRAGMENT_INTENT_EXTRA, GRADES_FRAGMENT);
+        grades.setAction("android.intent.action.VIEW");
+        grades.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+        ShortcutInfo msgSrt = new ShortcutInfo.Builder(this, "messages")
+                .setShortLabel(getString(R.string.title_messages))
+                .setIcon(Icon.createWithResource(this, R.drawable.ic_shortcut_message))
+                .setIntent(messages)
+                .build();
+
+        ShortcutInfo grdSrt = new ShortcutInfo.Builder(this, "grades")
+                .setShortLabel(getString(R.string.title_grades))
+                .setIcon(Icon.createWithResource(this, R.drawable.ic_shortcut_school))
+                .setIntent(grades)
+                .build();
+
+        //noinspection ConstantConditions
+        shortcutManager.setDynamicShortcuts(Arrays.asList(msgSrt, grdSrt));
+    }
+
+    @MainThread
+    @Override
+    public void changeTitle(@StringRes int idRes) {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(idRes);
+        }
+        titleText = idRes;
+    }
+
+    @Override
+    @MainThread
+    public void selectItemFromNavigation(@IdRes int id) {
+        int idRes = -1;
+
+        if      (id == R.id.navigation_home)        idRes = R.id.nav_schedule;
+        else if (id == R.id.navigation_grades)      idRes = R.id.nav_grades;
+        else if (id == R.id.navigation_messages)    idRes = R.id.nav_messages;
+        else if (id == R.id.navigation_disciplines) idRes = R.id.nav_disciplines;
+        else if (id == R.id.navigation_calendar)    idRes = R.id.nav_calendar;
+        if (idRes != -1) {
+            selectedNavId = idRes;
+            navigationView.setCheckedItem(idRes);
+        }
+    }
+
+    @Override
+    public void onProfileImageChanged(Bitmap bitmap) {
+        onReceiveProfileImage(bitmap);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean("after_login", afterLogin);
+        outState.putInt("title_text", titleText);
+        outState.putInt("number_of_loadings", numberOfLoadings);
+        outState.putInt(SELECTED_NAV_DRAWER_ID, selectedNavId);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return dispatchingAndroidInjector;
+    }
+
+    private void onReceiveGrades(Resource<Integer> resource) {
+        if (resource == null) {
+            Timber.d("Resource is null, maybe after login is false");
+            disableBottomLoading();
+            gradesViewModel.setAllGradesCompleted(true);
+            return;
+        }
+
+        if (resource.status == Status.LOADING) {
+            Timber.d("A new grade just finished!");
+            numberOfLoadings++;
+        } else if (resource.status == Status.ERROR) {
+            Timber.d("A grade failed to download!");
+            numberOfLoadings++;
+        }
+
+        if (numberOfSemesters != -1) {
+            if (numberOfLoadings >= numberOfSemesters) {
+                disableBottomLoading();
+                gradesViewModel.setAllGradesCompleted(true);
+                afterLogin = false;
+            }
+        }
+    }
+
+    private void receiveListOfSemesters(List<Semester> semesters) {
+        if (semesters == null) {
+            Timber.d("Database returned a invalid list... Awkward");
+            disableBottomLoading();
+            return;
+        }
+
+        numberOfSemesters = semesters.size();
+    }
+
+    private void accessObserver(Access access) {
+        if (access == null && !disconnecting) {
+            gradesViewModel.logout().observe(this, this::logoutObserver);
+            Toast.makeText(this, R.string.disconnected, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void logoutObserver(Resource<Integer> resource) {
+        if (resource.status == Status.SUCCESS) {
+            Timber.d("Finished erasing data");
+            MainActivity.startActivity(this);
+            finish();
+        }
+    }
+
+    private void onReceiveSingleLocation(DisciplineClassLocation location) {
+        if (location != null) {
+            mPreferences.edit().putBoolean("new_schedule_user_ready", true).apply();
+            Timber.d("New schedule can be enabled because user already sync'ed stuff");
+        } else {
+            mPreferences.edit().putBoolean("new_schedule_user_ready", false).apply();
+            Timber.d("User needs to sync stuff before using the new layout");
+        }
+    }
+
+    private void enableBottomLoading() {
+        AnimUtils.fadeIn(this, globalLoading);
+    }
+
+    private void disableBottomLoading() {
+        AnimUtils.fadeOutGone(this, globalLoading);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            if (doubleBack || !mPreferences.getBoolean("double_back", false)) {
+                super.onBackPressed();
+                return;
+            }
+
+            this.doubleBack = true;
+            Toast.makeText(this, R.string.press_back_twice, Toast.LENGTH_SHORT).show();
+            new Handler().postDelayed(() -> doubleBack = false, 2000);
+        }
+    }
+
+    @Override
+    protected void checkAchievements() {
+        super.checkAchievements();
+        achievementsViewModel.checkAchievements().observe(this, this::onAchievementsUpdate);
+        Timber.d("This where called");
+    }
+
+    private void onAchievementsUpdate(HashSet<Integer> integers) {
+        if (!mPlayGamesInstance.isSignedIn() || integers == null || integers.isEmpty()) {
+            Timber.d("Returned because %s %s", !mPlayGamesInstance.isSignedIn(), integers);
+            return;
+        }
+
+        for (int id : integers) {
+            unlockAchievements(getString(id), mPlayGamesInstance.getAchievementsClient());
+        }
+    }
+
+    @Override
+    public AppBarLayout getAppBarLayout() {
+        return appBarLayout;
+    }
+
+    @Override
+    public TabLayout getTabLayout() {
+        return tabLayout;
+    }
+
+    @Override
+    public NavigationController getNavigationController() {
+        return navigationController;
+    }
+
+    class NavigationViews {
+        @BindView(R.id.iv_nav_image)
+        CircleImageView ivNavUserImage;
+        @BindView(R.id.iv_nav_image_placeholder)
+        CircleImageView ivNavUserImagePlaceHolder;
+        @BindView(R.id.tv_nav_title)
+        TextView tvNavTitle;
+        @BindView(R.id.tv_nav_subtitle)
+        TextView tvNavSubtitle;
+    }
+}

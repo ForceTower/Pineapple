@@ -23,9 +23,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <meta-data android:name="com.google.android.gms.games.APP_ID"
-                   android:value="@string/app_id" />
+        <meta-data
+            android:name="com.google.android.gms.games.APP_ID"
+            android:value="@string/app_id"/>
 
         <activity android:name=".view.login.MainActivity">
             <intent-filter>
@@ -34,19 +34,29 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".view.connected.ConnectedActivity">
+        <activity
+            android:name=".view.logged.LoggedActivity"
+            android:label="@string/title_activity_logged"
+            android:theme="@style/AppTheme.NavigationDrawer">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.settings.SettingsActivity">
+            android:name=".view.settings.SettingsActivity"
+            android:theme="@style/AppTheme.PreferencesStyle">
         </activity>
         <activity android:name=".view.about.AboutActivity">
         </activity>
         <activity android:name=".view.suggestion.SuggestionActivity">
         </activity>
         <activity android:name=".view.discipline.DisciplineDetailsActivity">
+        </activity>
+        <activity android:name=".view.discipline.DisciplineClassesActivity">
+        </activity>
+        <activity android:name=".view.control_room.ControlRoomActivity">
+        </activity>
+        <activity android:name=".view.experimental.good_barrel.GoodBarrelActivity">
         </activity>
 
         <service
@@ -92,14 +102,6 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
-
-        <activity android:name=".view.discipline.DisciplineClassesActivity">
-        </activity>
-        <activity android:name=".view.control_room.ControlRoomActivity">
-        </activity>
-        <activity android:name=".view.experimental.good_barrel.GoodBarrelActivity">
-        </activity>
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.forcetower.uefs.fileprovider"
@@ -120,14 +122,12 @@
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_firebase_notification_channel_id"/>
 
-        <service
-            android:name=".svc.firebase.UNESFirebaseMessagingService">
+        <service android:name=".svc.firebase.UNESFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
-        <service
-            android:name=".svc.firebase.UNESFirebaseInstanceIDService">
+        <service android:name=".svc.firebase.UNESFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>

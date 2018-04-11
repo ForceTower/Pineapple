@@ -317,4 +317,14 @@
     <string name="pref_header_experimental_content">Conteúdos Experimentais</string>
     <string name="pref_header_general">Geral</string>
     <string name="pref_header_unes_adventure">Pequeno Jogo</string>
+    <string name="title_activity_logged">Conectado</string>
+    <string name="navigation_drawer_open">Abrir gaveta de navegação</string>
+    <string name="navigation_drawer_close">Fechar gaveta de navegação</string>
+    <string name="nav_header_desc">Imagem de Navegação</string>
+    <string name="action_settings">Configurações</string>
+    <string name="nav_title_profile">Perfil</string>
+    <string name="nav_title_unes_adventure">A Aventura</string>
+    <string name="nav_title_logout">Sair da conta</string>
+    <string name="nav_title_feedback">Comentários e sugestões</string>
+    <string name="nav_title_about">Sobre o UNES</string>
 </resources>
