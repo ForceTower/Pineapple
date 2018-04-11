@@ -327,4 +327,6 @@
     <string name="nav_title_logout">Sair da conta</string>
     <string name="nav_title_feedback">Comentários e sugestões</string>
     <string name="nav_title_about">Sobre o UNES</string>
+    <string name="title_profile">Perfil</string>
+    <string name="click_to_know_about">Clique aqui para informações sobre o aplicativo</string>
 </resources>

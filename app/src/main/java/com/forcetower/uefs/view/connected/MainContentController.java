@@ -9,8 +9,6 @@ public interface MainContentController {
     void navigateToMessages();
     void navigateToGrades();
     void navigateToDisciplines();
-    void navigateToMore();
     void navigateToCalendar();
-    void navigateToBigTray();
     void showNewScheduleError(Exception e);
 }

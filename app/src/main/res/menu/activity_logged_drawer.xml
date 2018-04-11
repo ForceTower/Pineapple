@@ -24,26 +24,31 @@
             android:checked="true"
             android:id="@+id/nav_schedule"
             android:icon="@drawable/ic_clock_black_24dp"
-            android:title="@string/title_schedule"/>
+            android:title="@string/title_schedule"
+            app:itemTextColor="@drawable/side_nav_schedule_text"/>
         <item
             android:id="@+id/nav_messages"
             android:icon="@drawable/ic_messages_black_24dp"
-            android:title="@string/title_messages"/>
+            android:title="@string/title_messages"
+            app:itemTextColor="@drawable/side_nav_messages_text"/>
 
         <item
             android:id="@+id/nav_grades"
             android:icon="@drawable/ic_grades_black_24dp"
-            android:title="@string/title_grades"/>
+            android:title="@string/title_grades"
+            app:itemTextColor="@drawable/side_nav_grades_text"/>
 
         <item
             android:id="@+id/nav_disciplines"
             android:icon="@drawable/ic_book_open_black_24dp"
-            android:title="@string/title_disciplines"/>
+            android:title="@string/title_disciplines"
+            app:itemTextColor="@drawable/side_nav_disciplines_text"/>
 
         <item
             android:id="@+id/nav_calendar"
             android:icon="@drawable/ic_calendar_black_24dp"
-            android:title="@string/title_calendar"/>
+            android:title="@string/title_calendar"
+            app:itemTextColor="@drawable/side_nav_calendar_text"/>
     </group>
 
     <group

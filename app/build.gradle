@@ -92,6 +92,8 @@ dependencies {
     implementation 'pub.devrel:easypermissions:0.3.0'
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.11.0'
 
+    implementation 'com.github.armcha:PlayTabLayout:1.2.4'
+
     implementation('com.mikepenz:aboutlibraries:6.0.1@aar') {
         transitive = true
     }

@@ -20,11 +20,22 @@
         </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.TabLayout
+            android:id="@+id/first_tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabMode="scrollable"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:tabSelectedTextColor="@color/white">
+        </android.support.design.widget.TabLayout>
+
+        <android.support.design.widget.TabLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabMode="scrollable"
             android:visibility="gone"
+            tools:visibility="visible"
             app:tabSelectedTextColor="@color/white">
         </android.support.design.widget.TabLayout>
     </android.support.design.widget.AppBarLayout>

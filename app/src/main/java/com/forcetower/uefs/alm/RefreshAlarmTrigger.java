@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
 
+import com.forcetower.uefs.BuildConfig;
 import com.forcetower.uefs.util.VersionUtils;
 
 import java.util.Calendar;
@@ -22,7 +23,7 @@ public class RefreshAlarmTrigger {
 
     public static void create(Context context, int minutes) {
         if (context == null) return;
-        if (minutes < 30 && minutes != -1) {
+        if (minutes < 30 && minutes != -1 && !BuildConfig.DEBUG) {
             minutes = 30;
             Timber.d("Reset to 30 min");
             PreferenceManager.getDefaultSharedPreferences(context).edit().putString("sync_frequency", "30").apply();

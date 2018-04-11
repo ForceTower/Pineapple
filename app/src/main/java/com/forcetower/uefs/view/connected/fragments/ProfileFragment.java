@@ -114,6 +114,7 @@ public class ProfileFragment extends Fragment implements Injectable {
     public void onAttach(Context context) {
         super.onAttach(context);
         controller = (ActivityController) context;
+        controller.changeTitle(R.string.title_profile);
     }
 
     @Nullable

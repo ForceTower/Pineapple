@@ -200,24 +200,10 @@ public class ConnectedFragment extends Fragment implements Injectable, MainConte
     }
 
     @Override
-    public void navigateToMore() {
-        changeTitle(R.string.title_more);
-        setTabShowing(false);
-        changeFragment(new ProfileFragment());
-    }
-
-    @Override
     public void navigateToCalendar() {
         changeTitle(R.string.title_calendar);
         setTabShowing(false);
         changeFragment(new CalendarFragment());
-    }
-
-    @Override
-    public void navigateToBigTray() {
-        changeTitle(R.string.title_big_tray);
-        setTabShowing(false);
-        changeFragment(new BigTrayFragment());
     }
 
     @MainThread

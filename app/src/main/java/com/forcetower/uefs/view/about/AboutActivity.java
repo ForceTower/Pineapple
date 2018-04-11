@@ -81,7 +81,7 @@ public class AboutActivity extends UBaseActivity implements HasSupportFragmentIn
         versionInfo.setText(getString(R.string.creator, version));
 
         setupCreditsRecycler();
-        cvAboutMe.setOnClickListener(view -> openLink(this, "https://github.com/ForceTower/UEFS_Sagres_App"));
+        cvAboutMe.setOnClickListener(view -> openLink(this, "https://facebook.com/ForceTower"));
         cvEnjoy.setOnClickListener(view -> openLink(this, "https://facebook.com/ForceTower"));
     }
 

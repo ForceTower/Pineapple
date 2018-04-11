@@ -12,6 +12,7 @@ public interface ActivityController {
     ActionBar getSupportActionBar();
     AppBarLayout getAppBarLayout();
     TabLayout getTabLayout();
+    TabLayout getFirstTabLayout();
     NavigationController getNavigationController();
     void changeTitle(int idRes);
     void selectItemFromNavigation(int idRes);

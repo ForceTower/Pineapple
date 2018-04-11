@@ -10,7 +10,9 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Icon;
 import android.os.Bundle;
 import android.os.Handler;
@@ -85,6 +87,8 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     AppBarLayout appBarLayout;
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
+    @BindView(R.id.first_tab_layout)
+    TabLayout firstTabLayout;
     @BindView(R.id.drawer_layout)
     DrawerLayout drawer;
     @BindView(R.id.nav_view)
@@ -168,11 +172,50 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         setupAlarmManager();
         RefreshAlarmTrigger.enableBootComponent(this);
         setupShortcuts();
+        setupNavigationItemColors();
 
         boolean autoSync = ContentResolver.getMasterSyncAutomatically();
         boolean shown = mPreferences.getBoolean(AutoSyncFragment.PREF_AUTO_SYNC_SHOWN, false);
         mPreferences.edit().putBoolean("show_not_connected_notification", false).apply();
         initiateActivity(autoSync, shown);
+    }
+
+    private void setupNavigationItemColors() {
+        ColorStateList stateList = navigationView.getItemIconTintList();
+        if (stateList == null) return;
+
+        navigationView.setItemIconTintList(null);
+        navigationView.setItemTextColor(null);
+
+        defaultForAll(stateList);
+
+        MenuItem schedule = navigationView.getMenu().findItem(R.id.nav_schedule);
+        schedule.getIcon().setColorFilter(getResources().getColor(R.color.schedule_color), PorterDuff.Mode.SRC_IN);
+        Timber.d(schedule.getTitle().toString());
+
+        navigationView.getMenu().findItem(R.id.nav_messages).getIcon()
+                .setColorFilter(getResources().getColor(R.color.messages_color), PorterDuff.Mode.SRC_IN);
+
+        navigationView.getMenu().findItem(R.id.nav_grades).getIcon()
+                .setColorFilter(getResources().getColor(R.color.grades_color), PorterDuff.Mode.SRC_IN);
+
+        navigationView.getMenu().findItem(R.id.nav_disciplines).getIcon()
+                .setColorFilter(getResources().getColor(R.color.disciplines_color), PorterDuff.Mode.SRC_IN);
+
+        navigationView.getMenu().findItem(R.id.nav_calendar).getIcon()
+                .setColorFilter(getResources().getColor(R.color.calendar_color), PorterDuff.Mode.SRC_IN);
+    }
+
+    private void defaultForAll(ColorStateList stateList) {
+        for (int i = 0; i < navigationView.getMenu().size(); i++) {
+            MenuItem item = navigationView.getMenu().getItem(i);
+             if (item == null || item.getIcon() == null) continue;
+
+             if (VersionUtils.isLollipop()) item.getIcon().setTintList(stateList);
+             else {
+                 item.getIcon().setColorFilter(stateList.getDefaultColor(), PorterDuff.Mode.SRC_IN);
+             }
+        }
     }
 
     private void initiateActivity(boolean auto, boolean shown) {
@@ -465,7 +508,6 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         if (resource.status == Status.SUCCESS) {
             Timber.d("Finished erasing data");
             MainActivity.startActivity(this);
-            finish();
         }
     }
 
@@ -534,6 +576,11 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     @Override
     public TabLayout getTabLayout() {
         return tabLayout;
+    }
+
+    @Override
+    public TabLayout getFirstTabLayout() {
+        return firstTabLayout;
     }
 
     @Override

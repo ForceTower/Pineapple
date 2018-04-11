@@ -1,6 +1,7 @@
 package com.forcetower.uefs.view.connected.fragments;
 
 import android.arch.lifecycle.Lifecycle;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.AnyThread;
 import android.support.annotation.MainThread;
@@ -22,6 +23,7 @@ import com.forcetower.uefs.ru.RUFirebase;
 import com.forcetower.uefs.ru.RUtils;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.util.DateUtils;
+import com.forcetower.uefs.view.logged.ActivityController;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -57,6 +59,15 @@ public class BigTrayFragment extends Fragment implements Injectable {
 
     @Inject
     RUFirebase ruFirebase;
+
+    private ActivityController controller;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        controller = (ActivityController) context;
+        controller.changeTitle(R.string.title_big_tray);
+    }
 
     @Nullable
     @Override

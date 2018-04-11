@@ -38,6 +38,12 @@
 
     <color name="nav_icon_color">#757575</color>
 
+    <color name="schedule_color">#2196F3</color>
+    <color name="messages_color">#4CAF50</color>
+    <color name="grades_color">#FF9800</color>
+    <color name="disciplines_color">#9C27B0</color>
+    <color name="calendar_color">#F44336</color>
+
     <color name="dis_01">#18ffff</color>
     <color name="dis_02">#64dd17</color>
     <color name="dis_03">#f5bf8a</color>

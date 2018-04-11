@@ -112,5 +112,19 @@
                 </android.support.v7.widget.AppCompatButton>
             </LinearLayout>
         </android.support.v7.widget.CardView>
+
+        <TextView
+            android:id="@+id/tv_click_to_know_about"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_below="@id/cv_login_form_root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:padding="8dp"
+            android:text="@string/click_to_know_about"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:fontFamily="@font/roboto_regular"/>
     </RelativeLayout>
 </ScrollView>

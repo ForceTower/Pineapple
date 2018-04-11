@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.alm.RefreshAlarmTrigger;
@@ -21,6 +22,7 @@ import com.forcetower.uefs.db.entity.Access;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.util.VersionUtils;
+import com.forcetower.uefs.view.about.AboutActivity;
 import com.forcetower.uefs.view.logged.LoggedActivity;
 import com.forcetower.uefs.vm.LoginViewModel;
 
@@ -43,6 +45,8 @@ public class LoginFormFragment extends Fragment implements Injectable {
     EditText etPassword;
     @BindView(R.id.btn_login_connect)
     Button btnConnect;
+    @BindView(R.id.tv_click_to_know_about)
+    TextView tvClickToKnowAbout;
 
     @BindView(R.id.image_login_logo)
     ImageView ivLogo;
@@ -61,6 +65,7 @@ public class LoginFormFragment extends Fragment implements Injectable {
         View view = inflater.inflate(R.layout.fragment_login_form, container, false);
         ButterKnife.bind(this, view);
         btnConnect.setOnClickListener(v -> onConnectButtonClicked());
+        tvClickToKnowAbout.setOnClickListener(v -> AboutActivity.startActivity(requireContext()));
         return view;
     }
 
