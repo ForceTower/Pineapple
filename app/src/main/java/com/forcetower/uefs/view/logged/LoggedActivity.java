@@ -30,6 +30,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,7 +47,9 @@ import com.forcetower.uefs.rep.helper.Status;
 import com.forcetower.uefs.service.ApiResponse;
 import com.forcetower.uefs.service.Version;
 import com.forcetower.uefs.util.AnimUtils;
+import com.forcetower.uefs.util.NetworkUtils;
 import com.forcetower.uefs.util.VersionUtils;
+import com.forcetower.uefs.util.WordUtils;
 import com.forcetower.uefs.view.UBaseActivity;
 import com.forcetower.uefs.view.about.AboutActivity;
 import com.forcetower.uefs.view.connected.ConnectedFragment;
@@ -87,8 +90,6 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     AppBarLayout appBarLayout;
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
-    @BindView(R.id.first_tab_layout)
-    TabLayout firstTabLayout;
     @BindView(R.id.drawer_layout)
     DrawerLayout drawer;
     @BindView(R.id.nav_view)
@@ -111,7 +112,6 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
     private GradesViewModel gradesViewModel;
     private AchievementsViewModel achievementsViewModel;
-    private ProfileViewModel profileViewModel;
 
     private int numberOfLoadings = 0;
     private int numberOfSemesters = -1;
@@ -269,7 +269,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
         achievementsViewModel = ViewModelProviders.of(this, viewModelFactory).get(AchievementsViewModel.class);
 
-        profileViewModel = ViewModelProviders.of(this, viewModelFactory).get(ProfileViewModel.class);
+        ProfileViewModel profileViewModel = ViewModelProviders.of(this, viewModelFactory).get(ProfileViewModel.class);
         profileViewModel.getProfileImage().observe(this, this::onReceiveProfileImage);
         profileViewModel.getProfile().observe(this, this::onReceiveProfile);
     }
@@ -329,18 +329,26 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         if (id != selectedNavId) {
             if (id == R.id.nav_profile) {
                 navigationController.navigateToProfile();
+                tabLayout.setVisibility(View.GONE);
             } else if (id == R.id.nav_game) {
                 navigationController.navigateToUNESGame();
+                tabLayout.setVisibility(View.GONE);
             } else if (id == R.id.nav_schedule) {
                 navigationController.navigateToSchedule();
+                tabLayout.setVisibility(View.GONE);
             } else if (id == R.id.nav_messages) {
                 navigationController.navigateToMessages();
+                tabLayout.setVisibility(View.GONE);
             } else if (id == R.id.nav_grades) {
                 navigationController.navigateToGrades();
             } else if (id == R.id.nav_disciplines) {
                 navigationController.navigateToDisciplines();
+                tabLayout.setVisibility(View.GONE);
             } else if (id == R.id.nav_calendar) {
                 navigationController.navigateToCalendar();
+                tabLayout.setVisibility(View.GONE);
+            } else if (id == R.id.nav_big_tray) {
+                NetworkUtils.openLink(this, "http://bit.ly/bandejaouefs");
             } else if (id == R.id.nav_settings) {
                 goToSettings();
             } else if (id == R.id.nav_logout) {
@@ -569,18 +577,8 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     }
 
     @Override
-    public AppBarLayout getAppBarLayout() {
-        return appBarLayout;
-    }
-
-    @Override
     public TabLayout getTabLayout() {
         return tabLayout;
-    }
-
-    @Override
-    public TabLayout getFirstTabLayout() {
-        return firstTabLayout;
     }
 
     @Override

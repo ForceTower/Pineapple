@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.logged.LoggedActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".view.logged.LoggedActivity"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <include layout="@layout/content_logged"/>
 

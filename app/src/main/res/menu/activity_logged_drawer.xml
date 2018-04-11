@@ -15,6 +15,7 @@
             android:id="@+id/nav_game"
             android:icon="@drawable/ic_gamepad_variant_accent_30dp"
             android:title="@string/nav_title_unes_adventure"/>
+
     </group>
 
     <group
@@ -49,6 +50,18 @@
             android:icon="@drawable/ic_calendar_black_24dp"
             android:title="@string/title_calendar"
             app:itemTextColor="@drawable/side_nav_calendar_text"/>
+
+        <item
+            android:id="@+id/nav_enrollment_certificate"
+            android:title="@string/title_enrollment_certificate"
+            android:icon="@drawable/ic_certificate_icon"
+            android:checkable="false"/>
+
+        <item
+            android:id="@+id/nav_big_tray"
+            android:title="@string/title_big_tray"
+            android:icon="@drawable/ic_food_black_24dp"
+            android:checkable="false"/>
     </group>
 
     <group
@@ -80,20 +93,5 @@
             android:title="@string/nav_title_about"/>
 
     </group>
-
-    <!--
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share"/>
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send"/>
-        </menu>
-    </item>
-    -->
 
 </menu>

@@ -9,10 +9,7 @@ import android.support.v7.app.ActionBar;
  * Created by João Paulo on 11/04/2018.
  */
 public interface ActivityController {
-    ActionBar getSupportActionBar();
-    AppBarLayout getAppBarLayout();
     TabLayout getTabLayout();
-    TabLayout getFirstTabLayout();
     NavigationController getNavigationController();
     void changeTitle(int idRes);
     void selectItemFromNavigation(int idRes);

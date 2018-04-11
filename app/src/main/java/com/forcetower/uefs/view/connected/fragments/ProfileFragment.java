@@ -83,8 +83,7 @@ public class ProfileFragment extends Fragment implements Injectable {
     TextView tvLastUpdate;
     @BindView(R.id.tv_last_update_attempt)
     TextView tvLastUpdateAttempt;
-    @BindView(R.id.cv_calendar)
-    CardView cvCalendar;
+
     @BindView(R.id.cv_enrollment_certificate)
     CardView cvEnrollmentCertificate;
     @BindView(R.id.cv_update_control)
@@ -123,7 +122,6 @@ public class ProfileFragment extends Fragment implements Injectable {
         Timber.d(String.valueOf(getParentFragment()));
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
-        cvCalendar.setOnClickListener(v -> controller.getNavigationController().navigateToCalendar());
         cvUpdateControl.setOnClickListener(v -> goToUpdateControl());
         cvGoodBarrel.setOnClickListener(v -> goToBarrel());
         cvBigTray.setOnClickListener(v -> openLink(requireContext(), "https://bit.ly/bandejaouefs"));
@@ -199,6 +197,7 @@ public class ProfileFragment extends Fragment implements Injectable {
     private void enablePrivateContent() {
         cvUpdateControl.setVisibility(View.VISIBLE);
         cvGoodBarrel.setVisibility(View.VISIBLE);
+        cvBigTray.setVisibility(View.VISIBLE);
         cvBigTray.setOnClickListener(v -> controller.getNavigationController().navigateToBigTray());
     }
 

@@ -53,46 +53,12 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         boolean newScheduleServer = preferences.getBoolean("new_schedule_server_set", false);
 
-        findPreference("logoff_key").setOnPreferenceClickListener(preference -> logout());
-        findPreference("feedback_key").setOnPreferenceClickListener(preference -> feedback());
-        findPreference("about_app_key").setOnPreferenceClickListener(preference -> about());
         findPreference("export_to_google_calendar").setOnPreferenceClickListener(preference -> exportToCalendar());
         findPreference("reset_calendar_export").setOnPreferenceClickListener(preference -> resetExportToCalendar());
-        findPreference("unes_selected_theme").setOnPreferenceChangeListener(((preference, newValue) -> themeSelectionChanged()));
         findPreference("export_to_google_calendar").setEnabled(newScheduleServer);
         findPreference("new_schedule_layout").setEnabled(newScheduleServer);
 
-        configureUNESAdventurePreferences();
         oreoConfiguration();
-    }
-
-    private void configureUNESAdventurePreferences() {
-        boolean connected = preferences.getBoolean("google_play_games_enabled", false);
-        Preference login  = findPreference("unes_the_adventure_connect");
-        Preference logout = findPreference("unes_the_adventure_disconnect");
-
-        login.setTitle(connected ? R.string.pref_unes_the_adventure_achievements : R.string.pref_unes_the_adventure);
-        login.setOnPreferenceClickListener(pref -> loginToPlayGames());
-        logout.setOnPreferenceClickListener(pref -> {
-            login.setTitle(R.string.pref_unes_the_adventure);
-            return logoutFromPlayGames();
-        });
-    }
-
-    private boolean logoutFromPlayGames() {
-        controller.disconnectFromPlayGames();
-        Toast.makeText(controller.getContext(), R.string.play_games_disconnected, Toast.LENGTH_SHORT).show();
-        return true;
-    }
-
-    private boolean loginToPlayGames() {
-        controller.connectToPlayGames();
-        return true;
-    }
-
-    private boolean themeSelectionChanged() {
-        Toast.makeText(controller.getContext(), R.string.reset_the_app_to_apply, Toast.LENGTH_SHORT).show();
-        return true;
     }
 
     private boolean resetExportToCalendar() {
@@ -118,21 +84,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         Preference updated = findPreference("notification_grades_date_change");
         if (updated != null) updated.setOnPreferenceClickListener(preference -> notificationControl(Constants.CHANNEL_GRADES_CHANGED_ID));
-    }
-
-    private boolean about() {
-        AboutActivity.startActivity(getActivity());
-        return true;
-    }
-
-    private boolean feedback() {
-        SuggestionActivity.startActivity(getActivity());
-        return true;
-    }
-
-    private boolean logout() {
-        controller.logout();
-        return true;
     }
 
     @TargetApi(26)
