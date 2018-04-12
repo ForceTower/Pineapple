@@ -3,6 +3,7 @@ package com.forcetower.uefs.view.logged;
 import android.annotation.SuppressLint;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Icon;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.IdRes;
@@ -25,6 +27,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -35,6 +38,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.forcetower.uefs.BuildConfig;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.alm.RefreshAlarmTrigger;
 import com.forcetower.uefs.db.entity.Access;
@@ -58,10 +62,12 @@ import com.forcetower.uefs.view.login.MainActivity;
 import com.forcetower.uefs.view.settings.SettingsActivity;
 import com.forcetower.uefs.view.suggestion.SuggestionActivity;
 import com.forcetower.uefs.vm.AchievementsViewModel;
+import com.forcetower.uefs.vm.DownloadsViewModel;
 import com.forcetower.uefs.vm.GradesViewModel;
 import com.forcetower.uefs.vm.ProfileViewModel;
 import com.forcetower.uefs.vm.ScheduleViewModel;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -76,6 +82,7 @@ import dagger.android.support.HasSupportFragmentInjector;
 import de.hdodenhof.circleimageview.CircleImageView;
 import timber.log.Timber;
 
+import static com.forcetower.uefs.Constants.ENROLLMENT_CERTIFICATE_FILE_NAME;
 import static com.forcetower.uefs.view.connected.ConnectedFragment.FRAGMENT_INTENT_EXTRA;
 import static com.forcetower.uefs.view.connected.ConnectedFragment.GRADES_FRAGMENT;
 import static com.forcetower.uefs.view.connected.ConnectedFragment.MESSAGES_FRAGMENT;
@@ -112,6 +119,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
     private GradesViewModel gradesViewModel;
     private AchievementsViewModel achievementsViewModel;
+    private DownloadsViewModel downloadsViewModel;
 
     private int numberOfLoadings = 0;
     private int numberOfSemesters = -1;
@@ -120,6 +128,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     private int selectedNavId;
 
     private boolean disconnecting = false;
+    private Profile latestProfile;
 
     public static void startActivity(Context context, boolean afterLogin) {
         Intent intent = new Intent(context, LoggedActivity.class);
@@ -272,9 +281,71 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         ProfileViewModel profileViewModel = ViewModelProviders.of(this, viewModelFactory).get(ProfileViewModel.class);
         profileViewModel.getProfileImage().observe(this, this::onReceiveProfileImage);
         profileViewModel.getProfile().observe(this, this::onReceiveProfile);
+
+        downloadsViewModel = ViewModelProviders.of(this, viewModelFactory).get(DownloadsViewModel.class);
+        downloadsViewModel.getDownloadCertificate().observe(this, this::onCertificateDownload);
+    }
+
+    private void onCertificateDownload(Resource<Integer> resource) {
+        if (resource == null) return;
+        if (resource.status == Status.LOADING) {
+            //noinspection ConstantConditions
+            Timber.d(getString(resource.data));
+            globalLoading.setIndeterminate(true);
+            AnimUtils.fadeIn(this, globalLoading);
+        }
+        else {
+            AnimUtils.fadeOut(this, globalLoading);
+            if (resource.status == Status.ERROR) {
+                //noinspection ConstantConditions
+                Toast.makeText(this, resource.data, Toast.LENGTH_SHORT).show();
+            } else {
+                Timber.d(getString(R.string.completed));
+                openCertificatePdf(false);
+            }
+        }
+    }
+
+    private void openCertificatePdf(boolean clicked) {
+        //noinspection ConstantConditions
+        File file = new File(getCacheDir(), ENROLLMENT_CERTIFICATE_FILE_NAME);
+        if (!file.exists()) {
+            if (!clicked) {
+                Toast.makeText(this, R.string.file_not_found, Toast.LENGTH_SHORT).show();
+            }
+            else certificateDownload();
+            return;
+        }
+        Intent target = new Intent(Intent.ACTION_VIEW);
+
+        //noinspection ConstantConditions
+        Uri uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".fileprovider", file);
+        target.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        Timber.d("Uri %s", uri);
+        target.setDataAndType(uri,"application/pdf");
+        target.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+        Intent intent = Intent.createChooser(target, getString(R.string.open_file));
+        try {
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(this, R.string.no_pdf_reader, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void certificateDownload() {
+        if (!NetworkUtils.isNetworkAvailable(this)) {
+            Toast.makeText(this, R.string.offline, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        downloadsViewModel.triggerDownloadCertificate();
+        Toast.makeText(this, R.string.wait_until_download_finishes, Toast.LENGTH_SHORT).show();
     }
 
     private void onReceiveProfile(Profile profile) {
+        latestProfile = profile;
         if (profile == null) return;
 
         navViews.tvNavTitle.setText(profile.getName());
@@ -326,6 +397,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
+        boolean checkable = true;
         if (id != selectedNavId) {
             if (id == R.id.nav_profile) {
                 navigationController.navigateToProfile();
@@ -348,7 +420,12 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
                 navigationController.navigateToCalendar();
                 tabLayout.setVisibility(View.GONE);
             } else if (id == R.id.nav_big_tray) {
-                NetworkUtils.openLink(this, "http://bit.ly/bandejaouefs");
+                if ((latestProfile != null && latestProfile.getName().equalsIgnoreCase("jpssena")) || BuildConfig.DEBUG) {
+                    navigationController.navigateToBigTray();
+                } else {
+                    checkable = false;
+                    NetworkUtils.openLink(this, "http://bit.ly/bandejaouefs");
+                }
             } else if (id == R.id.nav_settings) {
                 goToSettings();
             } else if (id == R.id.nav_logout) {
@@ -357,8 +434,12 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
                 goToFeedback();
             } else if (id == R.id.nav_about) {
                 goToAbout();
+            } else if (id == R.id.nav_enrollment_certificate) {
+                checkable = false;
+                openCertificatePdf(true);
             }
-            selectedNavId = id;
+
+            if (checkable) selectedNavId = id;
         }
 
         drawer.closeDrawer(GravityCompat.START);

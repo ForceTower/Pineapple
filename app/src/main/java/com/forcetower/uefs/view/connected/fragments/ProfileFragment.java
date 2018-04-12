@@ -84,18 +84,8 @@ public class ProfileFragment extends Fragment implements Injectable {
     @BindView(R.id.tv_last_update_attempt)
     TextView tvLastUpdateAttempt;
 
-    @BindView(R.id.cv_enrollment_certificate)
-    CardView cvEnrollmentCertificate;
     @BindView(R.id.cv_update_control)
     CardView cvUpdateControl;
-    @BindView(R.id.cv_good_barrel)
-    CardView cvGoodBarrel;
-    @BindView(R.id.cv_big_tray)
-    CardView cvBigTray;
-    @BindView(R.id.btn_download_enrollment_cert)
-    ImageButton btnDownloadEnrollCert;
-    @BindView(R.id.pb_download_enrollment_cert)
-    ProgressBar pbDownloadEnrollCert;
     @BindView(R.id.iv_img_profile)
     CircleImageView ivProfileImage;
     @BindView(R.id.iv_img_placeholder)
@@ -104,10 +94,10 @@ public class ProfileFragment extends Fragment implements Injectable {
     @Inject
     ViewModelProvider.Factory viewModelFactory;
 
-    private DownloadsViewModel downloadsViewModel;
+    private ProfileViewModel profileViewModel;
     private SharedPreferences sharedPreferences;
 
-    ActivityController controller;
+    private ActivityController controller;
 
     @Override
     public void onAttach(Context context) {
@@ -123,10 +113,6 @@ public class ProfileFragment extends Fragment implements Injectable {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
         cvUpdateControl.setOnClickListener(v -> goToUpdateControl());
-        cvGoodBarrel.setOnClickListener(v -> goToBarrel());
-        cvBigTray.setOnClickListener(v -> openLink(requireContext(), "https://bit.ly/bandejaouefs"));
-        cvEnrollmentCertificate.setOnClickListener(v -> openPDF(true));
-        btnDownloadEnrollCert.setOnClickListener(v -> certificateDownload());
 
         if (BuildConfig.DEBUG) enablePrivateContent();
 
@@ -154,7 +140,7 @@ public class ProfileFragment extends Fragment implements Injectable {
     public boolean onProfileImageLongClick() {
         AnimUtils.fadeOut(requireContext(), ivProfileImage);
         AnimUtils.fadeIn(requireContext(), ivProfilePlaceholder);
-        downloadsViewModel.saveBitmap(null);
+        profileViewModel.saveProfileImageBitmap(null);
         controller.onProfileImageChanged(null);
         return true;
     }
@@ -162,11 +148,9 @@ public class ProfileFragment extends Fragment implements Injectable {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ProfileViewModel profileViewModel = ViewModelProviders.of(this, viewModelFactory).get(ProfileViewModel.class);
-        downloadsViewModel = ViewModelProviders.of(this, viewModelFactory).get(DownloadsViewModel.class);
+        profileViewModel = ViewModelProviders.of(this, viewModelFactory).get(ProfileViewModel.class);
         profileViewModel.getProfile().observe(this, this::onReceiveProfile);
         profileViewModel.getSemesters().observe(this, this::onReceiveSemesters);
-        downloadsViewModel.getDownloadCertificate().observe(this, this::onCertificateDownload);
         profileViewModel.getAccess().observe(this, this::onReceiveAccess);
         profileViewModel.getProfileImage().observe(this, this::onReceiveProfileImage);
     }
@@ -196,9 +180,6 @@ public class ProfileFragment extends Fragment implements Injectable {
 
     private void enablePrivateContent() {
         cvUpdateControl.setVisibility(View.VISIBLE);
-        cvGoodBarrel.setVisibility(View.VISIBLE);
-        cvBigTray.setVisibility(View.VISIBLE);
-        cvBigTray.setOnClickListener(v -> controller.getNavigationController().navigateToBigTray());
     }
 
     private void onReceiveProfile(Profile profile) {
@@ -237,53 +218,6 @@ public class ProfileFragment extends Fragment implements Injectable {
         }
     }
 
-    private void onCertificateDownload(Resource<Integer> resource) {
-        if (resource == null) return;
-        if (resource.status == Status.LOADING) {
-            //noinspection ConstantConditions
-            Timber.d(getString(resource.data));
-            AnimUtils.fadeIn(getContext(), pbDownloadEnrollCert);
-        }
-        else {
-            AnimUtils.fadeOut(getContext(), pbDownloadEnrollCert);
-            if (resource.status == Status.ERROR) {
-                //noinspection ConstantConditions
-                Toast.makeText(getContext(), resource.data, Toast.LENGTH_SHORT).show();
-            } else {
-                Timber.d(getString(R.string.completed));
-                openPDF(false);
-            }
-        }
-    }
-
-    private void openPDF(boolean clicked) {
-        //noinspection ConstantConditions
-        File file = new File(getActivity().getCacheDir(), ENROLLMENT_CERTIFICATE_FILE_NAME);
-        if (!file.exists()) {
-            if (!clicked) {
-                Toast.makeText(getContext(), R.string.file_not_found, Toast.LENGTH_SHORT).show();
-            }
-            else certificateDownload();
-            return;
-        }
-        Intent target = new Intent(Intent.ACTION_VIEW);
-
-        //noinspection ConstantConditions
-        Uri uri = FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID + ".fileprovider", file);
-        target.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        
-        Timber.d("Uri %s", uri);
-        target.setDataAndType(uri,"application/pdf");
-        target.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-
-        Intent intent = Intent.createChooser(target, getString(R.string.open_file));
-        try {
-            startActivity(intent);
-        } catch (ActivityNotFoundException e) {
-            Toast.makeText(getContext(), R.string.no_pdf_reader, Toast.LENGTH_SHORT).show();
-        }
-    }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -311,16 +245,6 @@ public class ProfileFragment extends Fragment implements Injectable {
         GoodBarrelActivity.startActivity(getContext());
     }
 
-    private void certificateDownload() {
-        if (!NetworkUtils.isNetworkAvailable(requireContext())) {
-            Toast.makeText(getContext(), R.string.offline, Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        downloadsViewModel.triggerDownloadCertificate();
-        Toast.makeText(getContext(), R.string.wait_until_download_finishes, Toast.LENGTH_SHORT).show();
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -336,7 +260,7 @@ public class ProfileFragment extends Fragment implements Injectable {
                         AnimUtils.fadeOut(requireContext(), ivProfilePlaceholder);
                         AnimUtils.fadeIn(requireContext(), ivProfileImage);
                         controller.onProfileImageChanged(imageBitmap);
-                        downloadsViewModel.saveBitmap(imageBitmap);
+                        profileViewModel.saveProfileImageBitmap(imageBitmap);
                         if (!sharedPreferences.getBoolean("first_profile_image_set", false)) {
                             Toast.makeText(requireContext(), R.string.profile_image_unset, Toast.LENGTH_SHORT).show();
                             sharedPreferences.edit().putBoolean("first_profile_image_set", true).apply();

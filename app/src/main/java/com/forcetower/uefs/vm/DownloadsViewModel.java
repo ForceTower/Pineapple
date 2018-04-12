@@ -62,43 +62,4 @@ public class DownloadsViewModel extends ViewModel {
         }
     }
 
-    public void saveBitmap(Bitmap bitmap) {
-        executors.diskIO().execute(() -> {
-            File file = new File(cacheDir, "profile_image.jpg");
-            if (bitmap == null) {
-                file.delete();
-                return;
-            }
-
-            FileOutputStream fos = null;
-            try {
-                fos = new FileOutputStream(file);
-                bitmap.compress(Bitmap.CompressFormat.PNG, 50, fos);
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    if (fos != null) fos.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    public LiveData<Bitmap> getProfileImage() {
-        MutableLiveData<Bitmap> data = new MediatorLiveData<>();
-        executors.diskIO().execute(() -> {
-            try {
-                File file = new File(cacheDir, "profile_image.jpg");
-                Bitmap bitmap = BitmapFactory.decodeStream(new FileInputStream(file));
-                data.postValue(bitmap);
-            }
-            catch (FileNotFoundException e) {
-                Timber.d("File doesn't exists");
-                data.postValue(null);
-            }
-        });
-        return data;
-    }
 }
