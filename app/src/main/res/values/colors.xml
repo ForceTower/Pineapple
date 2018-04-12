@@ -40,15 +40,18 @@
 
     <color name="schedule_color">#2196F3</color>
     <color name="messages_color">#4CAF50</color>
-    <color name="grades_color">#FF9800</color>
+    <color name="grades_color">#673AB7</color>
     <color name="disciplines_color">#9C27B0</color>
-    <color name="calendar_color">#F44336</color>
+    <color name="calendar_color">#607D8B</color>
+    <color name="enrollment_color">#FF9800</color>
+    <color name="big_tray_color">#F44336</color>
 
-    <color name="dis_01">#18ffff</color>
-    <color name="dis_02">#64dd17</color>
-    <color name="dis_03">#f5bf8a</color>
-    <color name="dis_04">#c7e5f9</color>
-    <color name="dis_05">#FFFF00</color>
+
+    <color name="dis_01">#2196F3</color>
+    <color name="dis_02">#4CAF50</color>
+    <color name="dis_03">#ffcf0e</color>
+    <color name="dis_04">#607D8B</color>
+    <color name="dis_05">#F44336</color>
     <color name="dis_06">#ccff90</color>
     <color name="dis_07">#bd7cff</color>
     <color name="dis_08">#76ff03</color>

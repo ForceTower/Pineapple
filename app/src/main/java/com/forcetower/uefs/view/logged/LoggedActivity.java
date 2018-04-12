@@ -153,6 +153,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         setupViewModels();
         setupIds();
         setupAfterLogin(savedInstanceState);
+        setupNavigationItemColors();
 
         if (savedInstanceState != null) {
             onRestoreActivity(savedInstanceState);
@@ -181,7 +182,6 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         setupAlarmManager();
         RefreshAlarmTrigger.enableBootComponent(this);
         setupShortcuts();
-        setupNavigationItemColors();
 
         boolean autoSync = ContentResolver.getMasterSyncAutomatically();
         boolean shown = mPreferences.getBoolean(AutoSyncFragment.PREF_AUTO_SYNC_SHOWN, false);
@@ -213,6 +213,12 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
         navigationView.getMenu().findItem(R.id.nav_calendar).getIcon()
                 .setColorFilter(getResources().getColor(R.color.calendar_color), PorterDuff.Mode.SRC_IN);
+
+        navigationView.getMenu().findItem(R.id.nav_enrollment_certificate).getIcon()
+                .setColorFilter(getResources().getColor(R.color.enrollment_color), PorterDuff.Mode.SRC_IN);
+
+        navigationView.getMenu().findItem(R.id.nav_big_tray).getIcon()
+                .setColorFilter(getResources().getColor(R.color.big_tray_color), PorterDuff.Mode.SRC_IN);
     }
 
     private void defaultForAll(ColorStateList stateList) {
@@ -349,11 +355,16 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         if (profile == null) return;
 
         navViews.tvNavTitle.setText(profile.getName());
-
         if (profile.getScore() >= 0) {
             navViews.tvNavSubtitle.setText(getString(R.string.student_score, profile.getScore()));
         } else {
             navViews.tvNavSubtitle.setText(R.string.no_score_message);
+        }
+
+        if (mPreferences.getBoolean("show_score", false)) {
+            navViews.tvNavSubtitle.setVisibility(View.VISIBLE);
+        } else {
+            navViews.tvNavSubtitle.setVisibility(View.GONE);
         }
     }
 
@@ -395,9 +406,20 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (navViews != null) {
+            if (mPreferences.getBoolean("show_score", false)) {
+                navViews.tvNavSubtitle.setVisibility(View.VISIBLE);
+            } else {
+                navViews.tvNavSubtitle.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        boolean checkable = true;
         if (id != selectedNavId) {
             if (id == R.id.nav_profile) {
                 navigationController.navigateToProfile();
@@ -423,7 +445,6 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
                 if ((latestProfile != null && latestProfile.getName().equalsIgnoreCase("jpssena")) || BuildConfig.DEBUG) {
                     navigationController.navigateToBigTray();
                 } else {
-                    checkable = false;
                     NetworkUtils.openLink(this, "http://bit.ly/bandejaouefs");
                 }
             } else if (id == R.id.nav_settings) {
@@ -435,11 +456,10 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
             } else if (id == R.id.nav_about) {
                 goToAbout();
             } else if (id == R.id.nav_enrollment_certificate) {
-                checkable = false;
                 openCertificatePdf(true);
             }
 
-            if (checkable) selectedNavId = id;
+            if (item.isCheckable()) selectedNavId = id;
         }
 
         drawer.closeDrawer(GravityCompat.START);
