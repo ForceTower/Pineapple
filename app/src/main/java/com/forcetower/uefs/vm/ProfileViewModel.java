@@ -19,6 +19,8 @@ import com.forcetower.uefs.db.entity.Semester;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -80,5 +82,29 @@ public class ProfileViewModel extends ViewModel {
             }
         });
         return data;
+    }
+
+    public void saveProfileImageBitmap(Bitmap bitmap) {
+        executors.diskIO().execute(() -> {
+            File file = new File(cacheDir, "profile_image.jpg");
+            if (bitmap == null) {
+                file.delete();
+                return;
+            }
+
+            FileOutputStream fos = null;
+            try {
+                fos = new FileOutputStream(file);
+                bitmap.compress(Bitmap.CompressFormat.PNG, 50, fos);
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (fos != null) fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }
