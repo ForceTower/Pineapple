@@ -51,12 +51,8 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         preferences = getPreferenceScreen().getSharedPreferences();
         preferences.registerOnSharedPreferenceChangeListener(this);
 
-        boolean newScheduleServer = preferences.getBoolean("new_schedule_server_set", false);
-
         findPreference("export_to_google_calendar").setOnPreferenceClickListener(preference -> exportToCalendar());
         findPreference("reset_calendar_export").setOnPreferenceClickListener(preference -> resetExportToCalendar());
-        findPreference("export_to_google_calendar").setEnabled(newScheduleServer);
-        findPreference("new_schedule_layout").setEnabled(newScheduleServer);
 
         oreoConfiguration();
     }
