@@ -18,6 +18,8 @@ public class Version {
     private int disableCode;
     @SerializedName(value = "new_schedule")
     private int newSchedule;
+    @SerializedName(value = "background_image")
+    private String backgroundImage;
 
     public Version(int versionCode, String versionName, String whatsNew, String downloadLink, int disableCode, int newSchedule) {
         this.versionCode = versionCode;
@@ -78,5 +80,9 @@ public class Version {
 
     public boolean showNewSchedule() {
         return newSchedule == 1;
+    }
+
+    public String getBackgroundImage() {
+        return backgroundImage;
     }
 }

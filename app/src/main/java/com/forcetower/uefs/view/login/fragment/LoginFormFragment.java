@@ -81,6 +81,7 @@ public class LoginFormFragment extends Fragment implements Injectable {
             Timber.d("Access is null. Enabling Login form");
             AnimUtils.fadeOut(getContext(), vgLoading);
             AnimUtils.fadeIn(getContext(), vgForm);
+            AnimUtils.fadeIn(getContext(), tvClickToKnowAbout);
             RefreshAlarmTrigger.disableBootComponent(getContext());
         } else {
             Timber.d("Access is not null. Moving to connected!");

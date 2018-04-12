@@ -27,6 +27,8 @@ public class Constants {
     public static final String LOGIN_VIEW_VALID = "/wEdAATbze7D9s63/L1c2atT93YlM4nqN81slLG8uEFL8sVLUjoauXZ8QTl2nEJmPx53FYhjUq3W1Gjeb7bKHHg4dlob4GWO7EiBlTRJt8Yw8hywpn30EZA=";
 
 
+    public static final String BACKGROUND_IMAGE_DEFAULT = "http://hdwpro.com/wp-content/uploads/2017/03/Art-Background-Image-1024x768.png";
+
     public static final String CHANNEL_GROUP_MESSAGES_ID  = "com.forcetower.uefs.MESSAGES";
     public static final String CHANNEL_GROUP_GRADES_ID    = "com.forcetower.uefs.GRADES";
     public static final String CHANNEL_GROUP_GENERAL_ID   = "com.forcetower.uefs.GENERAL";

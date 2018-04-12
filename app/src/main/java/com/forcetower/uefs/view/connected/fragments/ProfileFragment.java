@@ -3,7 +3,6 @@ package com.forcetower.uefs.view.connected.fragments;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,36 +17,32 @@ import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.FileProvider;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ProgressBar;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.forcetower.uefs.BuildConfig;
+import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.Access;
 import com.forcetower.uefs.db.entity.Profile;
 import com.forcetower.uefs.db.entity.Semester;
 import com.forcetower.uefs.di.Injectable;
-import com.forcetower.uefs.rep.helper.Resource;
-import com.forcetower.uefs.rep.helper.Status;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.util.DateUtils;
-import com.forcetower.uefs.util.NetworkUtils;
 import com.forcetower.uefs.view.control_room.ControlRoomActivity;
 import com.forcetower.uefs.view.experimental.good_barrel.GoodBarrelActivity;
 import com.forcetower.uefs.view.logged.ActivityController;
-import com.forcetower.uefs.vm.DownloadsViewModel;
 import com.forcetower.uefs.vm.ProfileViewModel;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
-import java.io.File;
 import java.io.InputStream;
 import java.util.List;
 
@@ -62,8 +57,7 @@ import timber.log.Timber;
 
 import static android.app.Activity.RESULT_OK;
 import static android.os.Looper.getMainLooper;
-import static com.forcetower.uefs.Constants.ENROLLMENT_CERTIFICATE_FILE_NAME;
-import static com.forcetower.uefs.util.NetworkUtils.openLink;
+import static com.forcetower.uefs.view.logged.LoggedActivity.BACKGROUND_IMAGE;
 
 /**
  * Created by João Paulo on 08/03/2018.
@@ -83,6 +77,10 @@ public class ProfileFragment extends Fragment implements Injectable {
     TextView tvLastUpdate;
     @BindView(R.id.tv_last_update_attempt)
     TextView tvLastUpdateAttempt;
+    @BindView(R.id.iv_background)
+    ImageView ivBackground;
+    @BindView(R.id.vw_bg_alpha)
+    View vwBgAlpha;
 
     @BindView(R.id.cv_update_control)
     CardView cvUpdateControl;
@@ -124,6 +122,15 @@ public class ProfileFragment extends Fragment implements Injectable {
         if (!sharedPreferences.getBoolean("feature_discovered_profile_image", false)) {
             new Handler(getMainLooper()).postDelayed(this::discoverProfilePicture, 500);
         }
+
+        String backgroundImage = PreferenceManager.getDefaultSharedPreferences(requireContext())
+                .getString(BACKGROUND_IMAGE, Constants.BACKGROUND_IMAGE_DEFAULT);
+        Picasso.with(requireContext()).load(backgroundImage).into(ivBackground, new Callback() {
+            @Override
+            public void onSuccess() { vwBgAlpha.setVisibility(View.VISIBLE); }
+            @Override
+            public void onError() { vwBgAlpha.setVisibility(View.INVISIBLE); }
+        });
 
         return view;
     }

@@ -18,7 +18,6 @@ import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
@@ -37,11 +36,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.forcetower.uefs.BuildConfig;
+import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.alm.RefreshAlarmTrigger;
 import com.forcetower.uefs.db.entity.Access;
@@ -56,7 +57,6 @@ import com.forcetower.uefs.service.Version;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.util.NetworkUtils;
 import com.forcetower.uefs.util.VersionUtils;
-import com.forcetower.uefs.util.WordUtils;
 import com.forcetower.uefs.view.UBaseActivity;
 import com.forcetower.uefs.view.about.AboutActivity;
 import com.forcetower.uefs.view.connected.ConnectedFragment;
@@ -69,6 +69,7 @@ import com.forcetower.uefs.vm.DownloadsViewModel;
 import com.forcetower.uefs.vm.GradesViewModel;
 import com.forcetower.uefs.vm.ProfileViewModel;
 import com.forcetower.uefs.vm.ScheduleViewModel;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.Arrays;
@@ -93,6 +94,7 @@ import static com.forcetower.uefs.view.connected.ConnectedFragment.MESSAGES_FRAG
 public class LoggedActivity extends UBaseActivity implements NavigationView.OnNavigationItemSelectedListener,
         HasSupportFragmentInjector, ActivityController {
     private static final String SELECTED_NAV_DRAWER_ID = "selected_nav_drawer";
+    public static final String BACKGROUND_IMAGE = "background_server_image";
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -159,6 +161,9 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         setupIds();
         setupAfterLogin(savedInstanceState);
         setupNavigationItemColors();
+
+        String backgroundImage = mPreferences.getString(BACKGROUND_IMAGE, Constants.BACKGROUND_IMAGE_DEFAULT);
+        Picasso.with(this).load(backgroundImage).into(navViews.ivBackground);
 
         if (savedInstanceState != null) {
             onRestoreActivity(savedInstanceState);
@@ -277,7 +282,12 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     }
 
     private void setupIds() {
-
+        navigationView.getHeaderView(0).setOnClickListener(v -> {
+            navigationController.navigateToProfile();
+            drawer.closeDrawer(GravityCompat.START);
+            navigationView.setCheckedItem(R.id.nav_profile);
+            selectedNavId = R.id.nav_profile;
+        });
     }
 
     private void setupViewModels() {
@@ -393,6 +403,12 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
             if (version == null) {
                 Timber.d("Received version is null");
                 return;
+            }
+
+            String backgroundImage = version.getBackgroundImage();
+            if (backgroundImage != null) {
+                mPreferences.edit().putString(BACKGROUND_IMAGE, backgroundImage).apply();
+                Picasso.with(this).load(backgroundImage).into(navViews.ivBackground);
             }
 
             try {
@@ -715,5 +731,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         TextView tvNavTitle;
         @BindView(R.id.tv_nav_subtitle)
         TextView tvNavSubtitle;
+        @BindView(R.id.iv_background)
+        ImageView ivBackground;
     }
 }

@@ -43,7 +43,7 @@ public class MainActivity extends UBaseActivity implements HasSupportFragmentInj
         String value = getIntent().getStringExtra(FRAGMENT_INTENT_EXTRA);
         if (value == null) {
             Timber.d("Default open");
-        } else {
+        } else if (!value.equalsIgnoreCase("LOGIN")){
             Timber.d("Value: %s", value);
             openPlayStore(value);
         }

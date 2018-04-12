@@ -125,6 +125,8 @@
             android:text="@string/click_to_know_about"
             android:gravity="center"
             android:textColor="@color/white"
-            android:fontFamily="@font/roboto_regular"/>
+            android:fontFamily="@font/roboto_regular"
+            android:visibility="invisible"
+            tools:visibility="visible"/>
     </RelativeLayout>
 </ScrollView>
