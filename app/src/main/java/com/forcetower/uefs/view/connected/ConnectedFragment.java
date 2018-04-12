@@ -75,13 +75,6 @@ public class ConnectedFragment extends Fragment implements Injectable, MainConte
 
     private boolean newScheduleLayout = true;
 
-    public static void startActivity(Context context, boolean afterLogin) {
-        Intent intent = new Intent(context, ConnectedFragment.class);
-        intent.putExtra("after_login", afterLogin);
-        Timber.d("Start connected activity!");
-        context.startActivity(intent);
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

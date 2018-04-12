@@ -25,6 +25,7 @@ import com.forcetower.uefs.view.connected.MainContentController;
 import com.forcetower.uefs.view.connected.adapters.NewScheduleAdapter;
 import com.forcetower.uefs.view.connected.adapters.ScheduleAdapter;
 import com.forcetower.uefs.view.discipline.DisciplineDetailsActivity;
+import com.forcetower.uefs.view.logged.ActivityController;
 import com.forcetower.uefs.vm.ScheduleViewModel;
 
 import java.util.ArrayList;
@@ -54,7 +55,7 @@ public class NewScheduleFragment extends Fragment implements Injectable {
     @Inject
     AppExecutors executors;
 
-    private MainContentController controller;
+    private ActivityController controller;
     private ScheduleViewModel scheduleViewModel;
 
     private NewScheduleAdapter scheduleAdapter;
@@ -64,7 +65,7 @@ public class NewScheduleFragment extends Fragment implements Injectable {
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            controller = (MainContentController) context;
+            controller = (ActivityController) context;
         } catch (ClassCastException e) {
             Timber.e("Class %s must implement MainContentController", context.getClass().getSimpleName());
         }

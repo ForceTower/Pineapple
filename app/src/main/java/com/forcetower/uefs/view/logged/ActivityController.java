@@ -14,4 +14,5 @@ public interface ActivityController {
     void changeTitle(int idRes);
     void selectItemFromNavigation(int idRes);
     void onProfileImageChanged(Bitmap bitmap);
+    void showNewScheduleError(Exception ex);
 }

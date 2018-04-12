@@ -18,6 +18,7 @@ import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
@@ -25,6 +26,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
@@ -34,6 +36,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -103,6 +106,8 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     NavigationView navigationView;
     @BindView(R.id.pb_global_progress)
     ProgressBar globalLoading;
+    @BindView(R.id.root_coordinator)
+    ViewGroup rootViewContent;
 
     private NavigationViews navViews;
 
@@ -685,6 +690,20 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     @Override
     public NavigationController getNavigationController() {
         return navigationController;
+    }
+
+    @Override
+    public void showNewScheduleError(Exception e) {
+        mPreferences.edit().putBoolean("new_schedule_layout", false).apply();
+
+        navigationController.navigateToSchedule();
+
+        Snackbar snackbar = Snackbar.make(rootViewContent, getString(R.string.new_schedule_errors), Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction(R.string.send_error, v -> {
+            SuggestionActivity.startActivity(this, e.getMessage(), e.getStackTrace());
+            snackbar.dismiss();
+        });
+        snackbar.show();
     }
 
     class NavigationViews {
