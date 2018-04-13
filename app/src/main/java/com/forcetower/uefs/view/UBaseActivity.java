@@ -11,9 +11,11 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
+import android.widget.Toast;
 
 import com.forcetower.uefs.GooglePlayGamesInstance;
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.util.NetworkUtils;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -45,7 +47,6 @@ public abstract class UBaseActivity extends AppCompatActivity implements Achieve
     protected SharedPreferences mPreferences;
 
     public void onCreate(@LayoutRes int layout, Bundle savedInstanceState) {
-        themeSelector();
         super.onCreate(savedInstanceState);
         setContentView(layout);
         ButterKnife.bind(this);
@@ -63,10 +64,18 @@ public abstract class UBaseActivity extends AppCompatActivity implements Achieve
     }
 
     protected void signIn() {
-        startActivityForResult(mPlayGamesInstance.getGoogleSignInClient().getSignInIntent(), PLAY_GAMES_SIGN_IN);
+        if (NetworkUtils.isNetworkAvailable(this))
+            startActivityForResult(mPlayGamesInstance.getGoogleSignInClient().getSignInIntent(), PLAY_GAMES_SIGN_IN);
+        else
+            Toast.makeText(this, R.string.you_are_not_connected, Toast.LENGTH_SHORT).show();
     }
 
     protected void signInSilently() {
+        if (!NetworkUtils.isNetworkAvailable(this))
+            return;
+
+        mPlayGamesInstance.disconnect();
+
         mPlayGamesInstance.getGoogleSignInClient().silentSignIn().addOnCompleteListener(this, task -> {
             if (task.isSuccessful()) {
                 Timber.d("Successfully connected to Google Play Games!");
@@ -83,7 +92,7 @@ public abstract class UBaseActivity extends AppCompatActivity implements Achieve
     protected void onGooglePlayGamesConnected(GoogleSignInAccount result) {
         mPlayGamesInstance.onConnected(result);
         mPlayGamesInstance.getGamesClient().setViewForPopups(getWindow().getDecorView().findViewById(android.R.id.content));
-        unlockAchievements(getString(R.string.achievement_journey_start), mPlayGamesInstance.getAchievementsClient());
+        unlockAchievements(getString(R.string.achievement_journey_start), mPlayGamesInstance);
         checkAchievements();
     }
 
@@ -102,29 +111,6 @@ public abstract class UBaseActivity extends AppCompatActivity implements Achieve
             else
                 Timber.d("Unsuccessful open Achievements Task");
         });
-    }
-
-    //Theme selection
-    private void themeSelector() {
-        /*
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String theme = preferences.getString("unes_selected_theme", "default_theme");
-
-        if (!theme.equalsIgnoreCase("default_theme")) {
-
-            if (theme.equalsIgnoreCase("ellen_theme"))
-                setTheme(R.style.AppThemeEllen1);
-
-            else if (theme.equalsIgnoreCase("random_1_theme"))
-                setTheme(R.style.AppThemeForce1);
-
-            else if (theme.equalsIgnoreCase("random_2_theme"))
-                setTheme(R.style.AppThemeForce2);
-
-            else if (theme.equalsIgnoreCase("gray_1_theme"))
-                setTheme(R.style.AppThemeGray1);
-        }
-        */
     }
 
     @Override

@@ -143,14 +143,14 @@ public class OverviewFragment extends Fragment implements Injectable {
                     if (monthDifference != -1) {
                         UBaseActivity activity = ((UBaseActivity) requireActivity());
                         if (monthDifference <= 6)
-                            activity.unlockAchievements(getString(R.string.achievement_6_month_semester), activity.mPlayGamesInstance.getAchievementsClient());
+                            activity.unlockAchievements(getString(R.string.achievement_6_month_semester), activity.mPlayGamesInstance);
                     }
 
                     int yearDifference = DateUtils.getDifference(dates[0], dates[1], 2);
                     if (monthDifference != -1) {
                         UBaseActivity activity = ((UBaseActivity) requireActivity());
                         if (yearDifference >= 1)
-                            activity.unlockAchievements(getString(R.string.achievement_year_turner_semester), activity.mPlayGamesInstance.getAchievementsClient());
+                            activity.unlockAchievements(getString(R.string.achievement_year_turner_semester), activity.mPlayGamesInstance);
                     }
                 }
             }
