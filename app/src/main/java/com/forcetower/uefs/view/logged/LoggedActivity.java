@@ -208,9 +208,8 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
         defaultForAll(stateList);
 
-        MenuItem schedule = navigationView.getMenu().findItem(R.id.nav_schedule);
-        schedule.getIcon().setColorFilter(getResources().getColor(R.color.schedule_color), PorterDuff.Mode.SRC_IN);
-        Timber.d(schedule.getTitle().toString());
+        navigationView.getMenu().findItem(R.id.nav_schedule).getIcon()
+                .setColorFilter(getResources().getColor(R.color.schedule_color), PorterDuff.Mode.SRC_IN);
 
         navigationView.getMenu().findItem(R.id.nav_messages).getIcon()
                 .setColorFilter(getResources().getColor(R.color.messages_color), PorterDuff.Mode.SRC_IN);
