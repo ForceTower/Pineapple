@@ -20,6 +20,7 @@ import com.forcetower.uefs.db.entity.Semester;
 import com.forcetower.uefs.util.ValueUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -34,7 +35,7 @@ import timber.log.Timber;
 public class AchievementsViewModel extends ViewModel {
     private final AppDatabase database;
     private final AppExecutors executors;
-    private MediatorLiveData<HashSet<Integer>> checkAch;
+    private MediatorLiveData<HashMap<Integer, Integer>> checkAch;
 
     @Inject
     public AchievementsViewModel(AppDatabase database, AppExecutors executors) {
@@ -42,9 +43,9 @@ public class AchievementsViewModel extends ViewModel {
         this.executors = executors;
     }
 
-    public LiveData<HashSet<Integer>> checkAchievements() {
+    public LiveData<HashMap<Integer, Integer>> checkAchievements() {
         checkAch = new MediatorLiveData<>();
-        HashSet<Integer> unlocked = new HashSet<>();
+        HashMap<Integer, Integer> unlocked = new HashMap<>();
 
         LiveData<List<GradeInfo>> infosSrc = database.gradeInfoDao().getAllGradeInfos();
         checkAch.addSource(infosSrc, infos -> {
@@ -61,7 +62,7 @@ public class AchievementsViewModel extends ViewModel {
                 executors.diskIO().execute(() -> {
                     Profile profile = database.profileDao().getProfileDirect();
                     if (profile != null && profile.getScore() >= 7 && semesters.size() > 5)
-                        unlocked.add(R.string.achievement_survivor);
+                        unlocked.put(R.string.achievement_survivor, -1);
 
                     for (Semester semester : semesters) {
                         String smt = semester.getName();
@@ -69,6 +70,9 @@ public class AchievementsViewModel extends ViewModel {
                         List<Discipline> disciplines = database.disciplineDao().getDisciplinesFromSemesterDirect(smt);
                         unlockForDisciplineSemester(disciplines, unlocked);
                     }
+
+                    List<Discipline> disciplines = database.disciplineDao().getAllDisciplinesDirect();
+                    unlockForAllDisciplines(disciplines, unlocked);
 
                     String currentSmt = Semester.getCurrentSemester(semesters).getName();
                     LiveData<List<DisciplineClassLocation>> locationsSrc = database.disciplineClassLocationDao().getClassesFromSemester(currentSmt);
@@ -85,7 +89,24 @@ public class AchievementsViewModel extends ViewModel {
         return checkAch;
     }
 
-    private void unlockForLocations(@Nullable List<DisciplineClassLocation> locations, @NonNull HashSet<Integer> unlocked) {
+    private void unlockForAllDisciplines(List<Discipline> disciplines, HashMap<Integer, Integer> unlocked) {
+        int count = 0;
+
+        for (Discipline discipline : disciplines) {
+            String name = discipline.getName();
+            if (name == null) continue;
+
+            if (name.matches("(?i)(.*)introdu([cç])([aã])o(.*)")) {
+                count++;
+            } else if (name.matches("(?i)(.*)intr\\.(.*)")) {
+                count++;
+            }
+        }
+
+        unlocked.put(R.string.achievement_introduction_to_introductions, count);
+    }
+
+    private void unlockForLocations(@Nullable List<DisciplineClassLocation> locations, @NonNull HashMap<Integer, Integer> unlocked) {
         if (locations == null) return;
         boolean mod1 = false;
         boolean mod7 = false;
@@ -98,11 +119,11 @@ public class AchievementsViewModel extends ViewModel {
             }
         }
 
-        if (mod1 && mod7) unlocked.add(R.string.achievement_dora_the_explorer);
+        if (mod1 && mod7) unlocked.put(R.string.achievement_dora_the_explorer, -1);
     }
 
     @WorkerThread
-    private void unlockForDisciplineSemester(@Nullable List<Discipline> disciplines, @NonNull HashSet<Integer> unlocked) {
+    private void unlockForDisciplineSemester(@Nullable List<Discipline> disciplines, @NonNull HashMap<Integer, Integer> unlocked) {
         if (disciplines == null) return;
 
         boolean allDisciplinesApproved = true;
@@ -110,11 +131,11 @@ public class AchievementsViewModel extends ViewModel {
 
         for (Discipline discipline : disciplines) {
             if (discipline.getMissedClasses() == 0)
-                unlocked.add(R.string.achievement_always_there);
+                unlocked.put(R.string.achievement_always_there, -1);
 
             if (discipline.getSituation().equalsIgnoreCase("Reprovado por Falta")
                     || discipline.getCredits()/4 >= discipline.getMissedClasses()) {
-                unlocked.add(R.string.achievement_i_have_never_seen);
+                unlocked.put(R.string.achievement_i_have_never_seen, -1);
             }
 
             if (discipline.getSituation() != null && !discipline.getSituation().equalsIgnoreCase("Aprovado")) {
@@ -124,12 +145,12 @@ public class AchievementsViewModel extends ViewModel {
             Grade grade = database.gradeDao().getDisciplineGradesDirect(discipline.getUid());
             if (grade != null && grade.getFinalScore() != null) {
                 String finalScore = grade.getFinalScore();
-                if (finalScore.equalsIgnoreCase("10,0")) unlocked.add(R.string.achievement_10_mean);
+                if (finalScore.equalsIgnoreCase("10,0")) unlocked.put(R.string.achievement_10_mean, -1);
 
                 double val = ValueUtils.toDouble(finalScore.replace(",", "."), -1);
-                if (val >= 5 && val < 7) unlocked.add(R.string.achievement_fight_till_the_end);
-                if (val == 5) unlocked.add(R.string.achievement_almost);
-                if (val >= 9.5 && val < 10) unlocked.add(R.string.achievement_so_close_yet_so_far);
+                if (val >= 5 && val < 7) unlocked.put(R.string.achievement_fight_till_the_end, -1);
+                if (val == 5) unlocked.put(R.string.achievement_almost, -1);
+                if (val >= 9.5 && val < 10) unlocked.put(R.string.achievement_so_close_yet_so_far, -1);
                 if (val < 8) allDisciplinesMechanic = false;
             }
 
@@ -154,15 +175,20 @@ public class AchievementsViewModel extends ViewModel {
 
                         if (v1 < 7 && v2 >= 8.5 && v3 >= 8.5) {
                             Timber.d("Well, that worked");
-                            unlocked.add(R.string.achievement_now_all_pieces_come_together);
+                            unlocked.put(R.string.achievement_now_all_pieces_come_together, -1);
+                        }
+
+                        if (v1 == 7 && v2 == 7 && v3 == 7) {
+                            Timber.d("JACKPOT");
+                            unlocked.put(R.string.achievement_jackpot, -1);
                         }
                     }
                 }
             }
         }
 
-        if (allDisciplinesApproved) unlocked.add(R.string.achievement_clean_semester);
-        if (allDisciplinesMechanic) unlocked.add(R.string.achievement_totally_mechanic);
+        if (allDisciplinesApproved) unlocked.put(R.string.achievement_clean_semester, -1);
+        if (allDisciplinesMechanic) unlocked.put(R.string.achievement_totally_mechanic, -1);
     }
 
     private List<GradeInfo> moreThanOne(@NonNull List<GradeSection> sections) {
@@ -192,23 +218,23 @@ public class AchievementsViewModel extends ViewModel {
         return greatest;
     }
 
-    private void unlockSemesterBased(@Nullable List<Semester> semesters, @NonNull HashSet<Integer> unlocked) {
+    private void unlockSemesterBased(@Nullable List<Semester> semesters, @NonNull HashMap<Integer, Integer> unlocked) {
         if (semesters == null) return;
 
-        if (semesters.size() > 1) unlocked.add(R.string.achievement_senior_wannabe);
-        if (semesters.size() > 4) unlocked.add(R.string.achievement_senior);
-        if (semesters.size() > 7) unlocked.add(R.string.achievement_so_when_u_finishing);
+        if (semesters.size() > 1) unlocked.put(R.string.achievement_senior_wannabe, -1);
+        if (semesters.size() > 4) unlocked.put(R.string.achievement_senior, -1);
+        if (semesters.size() > 7) unlocked.put(R.string.achievement_so_when_u_finishing, -1);
     }
 
-    private void unlockForSingleGrades(@Nullable List<GradeInfo> infos, @NonNull HashSet<Integer> unlocked) {
+    private void unlockForSingleGrades(@Nullable List<GradeInfo> infos, @NonNull HashMap<Integer, Integer> unlocked) {
         if (infos == null) return;
 
         for (GradeInfo info : infos) {
             if (info.getGrade().equalsIgnoreCase("10,0"))
-                unlocked.add(R.string.achievement_easy_game);
+                unlocked.put(R.string.achievement_easy_game, -1);
 
             if (info.getGrade().equalsIgnoreCase("7,0"))
-                unlocked.add(R.string.achievement_mediocre);
+                unlocked.put(R.string.achievement_mediocre, -1);
         }
     }
 }

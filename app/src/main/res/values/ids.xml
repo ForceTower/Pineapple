@@ -33,16 +33,20 @@
     <string name="achievement_senior_wannabe" translatable="false">CgkIz4rBs-YKEAIQDw</string>
     <!-- achievement Dora, a Aventureira -->
     <string name="achievement_dora_the_adventurer" translatable="false">CgkIz4rBs-YKEAIQEA</string>
-    <!-- achievement Dora, a Exploradora -->
+    <!-- achievement Dora, a Exploradora !-->
     <string name="achievement_dora_the_explorer" translatable="false">CgkIz4rBs-YKEAIQEQ</string>
     <!-- achievement Dora, a Estudiosa -->
     <string name="achievement_dora_the_studious" translatable="false">CgkIz4rBs-YKEAIQEg</string>
-    <!-- achievement Agora eu entendi, agora eu saquei! !-->
+    <!-- achievement Agora eu entendi, agora eu saquei! -->
     <string name="achievement_now_i_understand_and_get_it" translatable="false">CgkIz4rBs-YKEAIQFA</string>
-    <!-- achievement Agora todas as peças se encaixaram! -->
+    <!-- achievement Agora todas as peças se encaixaram! !-->
     <string name="achievement_now_all_pieces_come_together" translatable="false">CgkIz4rBs-YKEAIQEw</string>
     <!-- achievement Tão perto, mas tão longe... !-->
     <string name="achievement_so_close_yet_so_far" translatable="false">CgkIz4rBs-YKEAIQFQ</string>
-    <!-- achievement MECANIZOU TODO -->
+    <!-- achievement MECANIZOU TODO !-->
     <string name="achievement_totally_mechanic" translatable="false">CgkIz4rBs-YKEAIQFg</string>
+    <!-- achievement Introdução a Introduções !-->
+    <string name="achievement_introduction_to_introductions" translatable="false">CgkIz4rBs-YKEAIQFw</string>
+    <!-- achievement Jackpot !-->
+    <string name="achievement_jackpot" translatable="false">CgkIz4rBs-YKEAIQGA</string>
 </resources>

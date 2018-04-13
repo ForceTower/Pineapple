@@ -43,6 +43,7 @@ import android.widget.Toast;
 
 import com.forcetower.uefs.BuildConfig;
 import com.forcetower.uefs.Constants;
+import com.forcetower.uefs.GooglePlayGamesInstance;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.alm.RefreshAlarmTrigger;
 import com.forcetower.uefs.db.entity.Access;
@@ -73,6 +74,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -686,14 +688,18 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         Timber.d("This where called");
     }
 
-    private void onAchievementsUpdate(HashSet<Integer> integers) {
+    private void onAchievementsUpdate(HashMap<Integer, Integer> integers) {
         if (!mPlayGamesInstance.isSignedIn() || integers == null || integers.isEmpty()) {
             Timber.d("Returned because %s %s", !mPlayGamesInstance.isSignedIn(), integers);
             return;
         }
 
-        for (int id : integers) {
-            unlockAchievements(getString(id), mPlayGamesInstance.getAchievementsClient());
+        for (int id : integers.keySet()) {
+            int value = integers.get(id);
+            if (value == -1)
+                unlockAchievements(getString(id), mPlayGamesInstance);
+            else
+                publishAchievementProgress(getString(id), value, mPlayGamesInstance);
         }
     }
 

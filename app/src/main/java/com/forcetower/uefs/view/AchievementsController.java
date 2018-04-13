@@ -15,4 +15,10 @@ public interface AchievementsController {
         if (achievementsClient != null && playGamesInstance.isSignedIn())
             achievementsClient.unlock(achievement);
     }
+
+    default void publishAchievementProgress(String achievement, int value, GooglePlayGamesInstance playGamesInstance) {
+        AchievementsClient achievementsClient = playGamesInstance.getAchievementsClient();
+        if (achievementsClient != null && playGamesInstance.isSignedIn())
+            achievementsClient.setSteps(achievement, value);
+    }
 }
