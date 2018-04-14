@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_id">371085821263</string>
+    <string name="app_id" translatable="false">371085821263</string>
     <!-- achievement Começou o jogo !-->
     <string name="achievement_journey_start" translatable="false">CgkIz4rBs-YKEAIQAQ</string>
     <!-- achievement Achei fácil !-->
