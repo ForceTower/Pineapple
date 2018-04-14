@@ -5,11 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.forcetower.uefs.view.discipline.DisciplineDetailsActivity">
-
-    <include
-        android:id="@+id/inc_toolbar"
-        layout="@layout/toolbar"/>
+    tools:context="com.forcetower.uefs.view.connected.fragments.DisciplineDetailsFragment">
 
     <android.support.v4.view.ViewPager
         android:id="@+id/container"

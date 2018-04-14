@@ -24,7 +24,6 @@ import com.forcetower.uefs.view.connected.ActivityController;
 import com.forcetower.uefs.view.connected.LocationClickListener;
 import com.forcetower.uefs.view.connected.adapters.NewScheduleAdapter;
 import com.forcetower.uefs.view.connected.adapters.ScheduleAdapter;
-import com.forcetower.uefs.view.discipline.DisciplineDetailsActivity;
 import com.forcetower.uefs.vm.ScheduleViewModel;
 
 import java.util.ArrayList;
@@ -126,7 +125,7 @@ public class NewScheduleFragment extends Fragment implements Injectable {
         DisciplineGroup group = scheduleViewModel.getDisciplineGroupDirect(groupId);
         int disciplineId = group.getDiscipline();
         if (getContext() != null) {
-            DisciplineDetailsActivity.startActivity(getContext(), groupId, disciplineId);
+            executors.mainThread().execute(() -> controller.navigateToDisciplineDetails(groupId, disciplineId));
         }
     });
 }

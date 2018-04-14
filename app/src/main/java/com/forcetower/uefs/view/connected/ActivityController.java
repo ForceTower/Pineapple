@@ -13,4 +13,5 @@ public interface ActivityController {
     void selectItemFromNavigation(int idRes);
     void onProfileImageChanged(Bitmap bitmap);
     void showNewScheduleError(Exception ex);
+    void navigateToDisciplineDetails(int groupUid, int disciplineUid);
 }

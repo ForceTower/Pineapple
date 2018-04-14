@@ -11,7 +11,8 @@ import com.forcetower.uefs.view.connected.fragments.AutoSyncFragment;
 import com.forcetower.uefs.view.connected.fragments.BigTrayFragment;
 import com.forcetower.uefs.view.connected.fragments.ConnectedFragment;
 import com.forcetower.uefs.view.connected.fragments.ProfileFragment;
-import com.forcetower.uefs.view.suggestion.SuggestionFragment;
+import com.forcetower.uefs.view.connected.fragments.DisciplineDetailsFragment;
+import com.forcetower.uefs.view.connected.fragments.SuggestionFragment;
 
 import javax.inject.Inject;
 
@@ -120,5 +121,9 @@ public class NavigationController {
 
     public void navigateToSuggestion(String message, StackTraceElement[] stackTrace) {
         changeFragment(SuggestionFragment.createFragment(message, stackTrace), "suggestion");
+    }
+
+    public void navigateToDisciplineDetails(int groupUid, int disciplineUid) {
+        changeFragment(DisciplineDetailsFragment.getFragment(groupUid, disciplineUid), "other_arrow");
     }
 }

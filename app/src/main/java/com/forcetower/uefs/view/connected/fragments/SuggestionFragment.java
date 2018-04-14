@@ -1,4 +1,4 @@
-package com.forcetower.uefs.view.suggestion;
+package com.forcetower.uefs.view.connected.fragments;
 
 import android.content.Context;
 import android.content.Intent;

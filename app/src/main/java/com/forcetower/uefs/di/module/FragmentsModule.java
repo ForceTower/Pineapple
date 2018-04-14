@@ -12,11 +12,12 @@ import com.forcetower.uefs.view.connected.fragments.ScheduleFragment;
 import com.forcetower.uefs.view.connected.fragments.SemesterGradesFragment;
 import com.forcetower.uefs.view.connected.fragments.TheAdventureFragment;
 import com.forcetower.uefs.view.control_room.fragments.MasterSyncControlFragment;
-import com.forcetower.uefs.view.discipline.fragments.GradesFragment;
-import com.forcetower.uefs.view.discipline.fragments.OverviewFragment;
+import com.forcetower.uefs.view.connected.fragments.DisciplineDetailsFragment;
+import com.forcetower.uefs.view.connected.fragments.GradesFragment;
+import com.forcetower.uefs.view.connected.fragments.OverviewFragment;
 import com.forcetower.uefs.view.login.fragment.ConnectingFragment;
 import com.forcetower.uefs.view.login.fragment.LoginFormFragment;
-import com.forcetower.uefs.view.suggestion.SuggestionFragment;
+import com.forcetower.uefs.view.connected.fragments.SuggestionFragment;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -69,6 +70,9 @@ public abstract class FragmentsModule {
 
     @ContributesAndroidInjector
     abstract SuggestionFragment contributeSuggestionFragment();
+
+    @ContributesAndroidInjector
+    abstract DisciplineDetailsFragment contributeDisciplineDetailsFragment();
 
     @ContributesAndroidInjector
     abstract MasterSyncControlFragment contributeMasterSyncControlFragment();

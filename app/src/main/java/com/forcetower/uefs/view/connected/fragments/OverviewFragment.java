@@ -1,4 +1,4 @@
-package com.forcetower.uefs.view.discipline.fragments;
+package com.forcetower.uefs.view.connected.fragments;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
@@ -33,7 +33,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-import static com.forcetower.uefs.view.discipline.DisciplineDetailsActivity.INTENT_DISCIPLINE_GROUP_ID;
+import static com.forcetower.uefs.view.connected.fragments.DisciplineDetailsFragment.INTENT_DISCIPLINE_GROUP_ID;
 
 /**
  * Created by João Paulo on 09/03/2018.

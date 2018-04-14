@@ -66,7 +66,6 @@ import com.forcetower.uefs.view.connected.fragments.AutoSyncFragment;
 import com.forcetower.uefs.view.connected.fragments.ConnectedFragment;
 import com.forcetower.uefs.view.login.MainActivity;
 import com.forcetower.uefs.view.settings.SettingsActivity;
-import com.forcetower.uefs.view.suggestion.SuggestionFragment;
 import com.forcetower.uefs.vm.AchievementsViewModel;
 import com.forcetower.uefs.vm.DownloadsViewModel;
 import com.forcetower.uefs.vm.GradesViewModel;
@@ -217,7 +216,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
             FragmentManager.BackStackEntry entry = getSupportFragmentManager().getBackStackEntryAt(count - 1);
             if (entry != null) {
                 String name = entry.getName();
-                if (name != null && name.equalsIgnoreCase("disciplines")) {
+                if (name != null && name.startsWith("other_arrow")) {
                     setHomeAsUp(true);
                 } else {
                     setHomeAsUp(false);
@@ -783,6 +782,13 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
             snackbar.dismiss();
         });
         snackbar.show();
+    }
+
+    @Override
+    public void navigateToDisciplineDetails(int groupUid, int disciplineUid) {
+        navigationView.setCheckedItem(R.id.nav_disciplines);
+        selectedNavId = -1;
+        navigationController.navigateToDisciplineDetails(groupUid, disciplineUid);
     }
 
     class NavigationViews {

@@ -2,6 +2,7 @@ package com.forcetower.uefs.view.connected.fragments;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -23,9 +24,9 @@ import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.Discipline;
 import com.forcetower.uefs.db.entity.DisciplineGroup;
 import com.forcetower.uefs.di.Injectable;
+import com.forcetower.uefs.view.connected.ActivityController;
 import com.forcetower.uefs.view.connected.DisciplineClickListener;
 import com.forcetower.uefs.view.connected.adapters.SemesterAdapter;
-import com.forcetower.uefs.view.discipline.DisciplineDetailsActivity;
 import com.forcetower.uefs.vm.DisciplinesViewModel;
 
 import java.util.ArrayList;
@@ -53,7 +54,13 @@ public class DisciplinesFragment extends Fragment implements Injectable {
     private DisciplinesViewModel disciplinesViewModel;
 
     private SemesterAdapter adapter;
+    private ActivityController controller;
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        controller = (ActivityController) context;
+    }
 
     @Nullable
     @Override
@@ -97,7 +104,7 @@ public class DisciplinesFragment extends Fragment implements Injectable {
             } else if (disciplineGroups.size() == 1) {
                 Timber.d("Only one group for this discipline");
                 DisciplineGroup group = disciplineGroups.get(0);
-                DisciplineDetailsActivity.startActivity(getContext(), group.getUid(), discipline.getUid());
+                controller.navigateToDisciplineDetails(group.getUid(), discipline.getUid());
             } else {
                 Timber.d("This discipline has %d groups", disciplineGroups.size());
                 Timber.d("The groups are %s", disciplineGroups);
@@ -136,7 +143,7 @@ public class DisciplinesFragment extends Fragment implements Injectable {
             String strName = arrayAdapter.getItem(which);
             int position = arrayAdapter.getPosition(strName);
             DisciplineGroup group = disciplineGroups.get(position);
-            DisciplineDetailsActivity.startActivity(getContext(), group.getUid(), group.getDiscipline());
+            controller.navigateToDisciplineDetails(group.getUid(), group.getDiscipline());
             dialog.dismiss();
         });
         executors.mainThread().execute(selectDialog::show);
