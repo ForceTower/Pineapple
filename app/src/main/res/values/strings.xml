@@ -335,4 +335,7 @@
     <string name="about_app">Sobre o aplicativo</string>
     <string name="control_room">Sala de Controle</string>
     <string name="unes_the_adventure">A Aventura</string>
+    <string name="unes_the_adventure_desc">Quais segredos a UEFS guarda? Quais são as respostas para as perguntas fundamentais?\n\nNesta épica aventura, você é o personagem principal onde seu principal objetivo é concluir a graduação!\n\nVocê está pronto para a aventura? Começe agora!</string>
+    <string name="unes_the_adventure_join">Junte-se</string>
+    <string name="unes_the_adventure_logout">Sair da aventura</string>
 </resources>
