@@ -113,6 +113,7 @@ public class NavigationController {
         fragmentManager.beginTransaction()
                 .replace(containerId, fragment/*, fragment.getClass().getSimpleName()*/)
                 .addToBackStack(name)
+                .setReorderingAllowed(true)
                 .commitAllowingStateLoss();
     }
 

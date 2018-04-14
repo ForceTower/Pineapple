@@ -47,8 +47,8 @@ public class DisciplineDetailsFragment extends Fragment implements Injectable {
 
         Fragment fragment = new DisciplineDetailsFragment();
         fragment.setArguments(bundle);
-        fragment.setEnterTransition(new Slide(Gravity.END));
-        fragment.setExitTransition(new Slide(Gravity.END));
+        //fragment.setEnterTransition(new Slide(Gravity.END));
+        //fragment.setExitTransition(new Slide(Gravity.END));
         return fragment;
     }
 

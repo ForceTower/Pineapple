@@ -49,7 +49,7 @@ public class DisciplineClassesFragment extends Fragment implements Injectable {
 
         Fragment fragment = new DisciplineClassesFragment();
         fragment.setArguments(bundle);
-        fragment.setEnterTransition(new Fade());
+        //fragment.setEnterTransition(new Fade());
         return fragment;
     }
 

@@ -1,6 +1,7 @@
 package com.forcetower.uefs.view.connected.adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 /**
  * Created by João Paulo on 10/03/2018.
@@ -30,14 +32,15 @@ public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ClassHol
         this.classItems = classItems;
     }
 
+    @NonNull
     @Override
-    public ClassHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ClassHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_discipline_classes, parent, false);
         return new ClassHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ClassHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ClassHolder holder, int position) {
         holder.bind(classItems.get(position));
     }
 
@@ -106,7 +109,15 @@ public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ClassHol
 
             if (type == 0) {
                 ll_information.setVisibility(View.GONE);
+            } else {
+                ll_information.setVisibility(View.VISIBLE);
             }
         }
+    }
+
+    @Override
+    public boolean onFailedToRecycleView(@NonNull ClassHolder holder) {
+        Timber.e("Failed to recycle class holder");
+        return super.onFailedToRecycleView(holder);
     }
 }

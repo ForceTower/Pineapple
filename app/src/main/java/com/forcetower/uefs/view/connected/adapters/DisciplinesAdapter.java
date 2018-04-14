@@ -1,6 +1,7 @@
 package com.forcetower.uefs.view.connected.adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,14 +32,15 @@ class DisciplinesAdapter extends RecyclerView.Adapter<DisciplinesAdapter.Discipl
         this.context = context;
     }
 
+    @NonNull
     @Override
-    public DisciplineHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public DisciplineHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_disciplines_discipline, parent, false);
         return new DisciplineHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(DisciplineHolder holder, int position) {
+    public void onBindViewHolder(@NonNull DisciplineHolder holder, int position) {
         holder.bind(disciplines.get(position));
     }
 
