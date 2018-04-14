@@ -214,6 +214,9 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
                 return;
             }
 
+            setHomeAsUp(true);
+
+            /*
             FragmentManager.BackStackEntry entry = getSupportFragmentManager().getBackStackEntryAt(count - 1);
             if (entry != null) {
                 String name = entry.getName();
@@ -223,6 +226,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
                     setHomeAsUp(false);
                 }
             }
+            */
         });
     }
 
@@ -530,7 +534,6 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
             } else if (id == R.id.nav_logout) {
                 performLogout();
             } else if (id == R.id.nav_feedback) {
-                setHomeAsUp(true);
                 goToFeedback();
             } else if (id == R.id.nav_about) {
                 goToAbout();
@@ -581,12 +584,12 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
         ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
 
-        Intent messages = new Intent(this, ConnectedFragment.class);
+        Intent messages = new Intent(this, LoggedActivity.class);
         messages.putExtra(FRAGMENT_INTENT_EXTRA, MESSAGES_FRAGMENT);
         messages.setAction("android.intent.action.VIEW");
         messages.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-        Intent grades = new Intent(this, ConnectedFragment.class);
+        Intent grades = new Intent(this, LoggedActivity.class);
         grades.putExtra(FRAGMENT_INTENT_EXTRA, GRADES_FRAGMENT);
         grades.setAction("android.intent.action.VIEW");
         grades.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

@@ -19,9 +19,6 @@ public abstract class ActivitiesModule {
     @ContributesAndroidInjector(modules = FragmentsModule.class)
     abstract MainActivity contributeMainActivity();
 
-    @ContributesAndroidInjector(modules = FragmentsModule.class)
-    abstract ConnectedFragment contributeConnectedActivity();
-
     @ContributesAndroidInjector
     abstract SettingsActivity contributeSettingsActivity();
 

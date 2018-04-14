@@ -79,6 +79,7 @@ public class RefreshRepository {
                         //Disconnects the user because validation failed
                         executors.diskIO().execute(() -> database.accessDao().deleteAllAccesses());
                     }
+                    refresh.postValue(integerResource);
                 } else {
                     refresh.postValue(integerResource);
                 }

@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.view.connected.fragments.AutoSyncFragment;
@@ -14,6 +15,7 @@ import com.forcetower.uefs.view.connected.fragments.ProfileFragment;
 import com.forcetower.uefs.view.connected.fragments.DisciplineDetailsFragment;
 import com.forcetower.uefs.view.connected.fragments.SuggestionFragment;
 import com.forcetower.uefs.view.connected.fragments.DisciplineClassesFragment;
+import com.forcetower.uefs.view.connected.fragments.TheAdventureFragment;
 
 import javax.inject.Inject;
 
@@ -88,11 +90,12 @@ public class NavigationController {
 
     public void navigateToProfile() {
         Fragment fragment = new ProfileFragment();
-        changeFragment(fragment);
+        changeFragment(fragment, "profile", true);
     }
 
     public void navigateToUNESGame() {
-
+        Fragment fragment = new TheAdventureFragment();
+        changeFragment(fragment, "the_adventure", true);
     }
 
     //This method replaces and don't add to back stack
@@ -109,27 +112,34 @@ public class NavigationController {
         changeFragment(fragment, null);
     }
 
-    private void changeFragment(@NonNull Fragment fragment, @Nullable String name) {
-        fragmentManager.beginTransaction()
+    private void changeFragment(@NonNull Fragment fragment, String name, boolean addToStack) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction()
                 .replace(containerId, fragment/*, fragment.getClass().getSimpleName()*/)
-                .addToBackStack(name)
-                .setReorderingAllowed(true)
-                .commitAllowingStateLoss();
+                .setReorderingAllowed(true);
+
+
+        if (addToStack) transaction.addToBackStack(name);
+
+        transaction.commitAllowingStateLoss();
+    }
+
+    public void changeFragment(@NonNull Fragment fragment, @Nullable String name) {
+        changeFragment(fragment, name, false);
     }
 
     public void navigateToSuggestion() {
-        changeFragment(SuggestionFragment.createFragment(), "suggestion");
+        changeFragment(SuggestionFragment.createFragment(), null, true);
     }
 
     public void navigateToSuggestion(String message, StackTraceElement[] stackTrace) {
-        changeFragment(SuggestionFragment.createFragment(message, stackTrace), "suggestion");
+        changeFragment(SuggestionFragment.createFragment(message, stackTrace), null, true);
     }
 
     public void navigateToDisciplineDetails(int groupUid, int disciplineUid) {
-        changeFragment(DisciplineDetailsFragment.getFragment(groupUid, disciplineUid), "other_arrow_class_details");
+        changeFragment(DisciplineDetailsFragment.getFragment(groupUid, disciplineUid), "other_arrow_class_details", true);
     }
 
     public void navigateToDisciplineClasses(int groupId) {
-        changeFragment(DisciplineClassesFragment.getFragment(groupId), "other_arrow_class_classes");
+        changeFragment(DisciplineClassesFragment.getFragment(groupId), "other_arrow_class_classes", true);
     }
 }

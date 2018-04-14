@@ -122,7 +122,6 @@ public class LoginRepository {
                                 });
                             }
                         });
-
                     } else {
                         values.postValue(grades);
                     }

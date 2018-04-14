@@ -88,9 +88,7 @@ public class SuggestionFragment extends Fragment implements Injectable {
                 composeEmail(body);
 
                 if (VersionUtils.isLollipop()) setExitTransition(new Fade());
-
-                if (getFragmentManager() != null)
-                    getFragmentManager().popBackStack();
+                requireActivity().onBackPressed();
             }
         });
 
