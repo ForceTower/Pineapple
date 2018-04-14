@@ -208,6 +208,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     private void setupFragmentStackListener() {
         getSupportFragmentManager().addOnBackStackChangedListener(() -> {
             int count = getSupportFragmentManager().getBackStackEntryCount();
+            Timber.d("Size changed to %d", count);
             if (count == 0) {
                 setHomeAsUp(false);
                 return;

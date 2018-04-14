@@ -66,7 +66,7 @@ public class DisciplineClassesFragment extends Fragment implements Injectable {
         ButterKnife.bind(this, view);
 
         controller.changeTitle(R.string.discipline_classes);
-        controller.getTabLayout().setVisibility(View.INVISIBLE);
+        controller.getTabLayout().setVisibility(View.GONE);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         classesAdapter = new ClassesAdapter(requireContext(), new ArrayList<>());

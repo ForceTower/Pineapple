@@ -63,6 +63,9 @@ public class ConnectedFragment extends Fragment implements Injectable, MainConte
     private int containerId;
     private boolean showingTab;
 
+    @IdRes
+    private int selectedTab;
+
     private boolean newScheduleLayout = true;
 
     @Override
@@ -70,6 +73,7 @@ public class ConnectedFragment extends Fragment implements Injectable, MainConte
         super.onAttach(context);
         try {
             controller = (ActivityController) context;
+            selectedTab = R.id.navigation_home;
         } catch (ClassCastException e) {
             Timber.d("Activity %s must implement ActivityController", context.getClass().getSimpleName());
         }
@@ -119,6 +123,8 @@ public class ConnectedFragment extends Fragment implements Injectable, MainConte
             }
         } else {
             showingTab = savedInstanceState.getBoolean("tab_showing", false);
+            selectedTab = savedInstanceState.getInt("selected_tab", R.id.navigation_home);
+            bottomNavigationView.setSelectedItemId(selectedTab);
             setTabShowing(showingTab);
         }
 
@@ -131,12 +137,14 @@ public class ConnectedFragment extends Fragment implements Injectable, MainConte
         super.onResume();
         newScheduleLayout = preferences.getBoolean("new_schedule_layout", false);
         newScheduleLayout = preferences.getBoolean("new_schedule_user_ready", false) && newScheduleLayout;
+        bottomNavigationView.setSelectedItemId(selectedTab);
     }
 
     @MainThread
     private boolean onNavigationOptionSelected(MenuItem menuItem) {
         int id = menuItem.getItemId();
 
+        selectedTab = id;
         controller.selectItemFromNavigation(id);
         if      (id == R.id.navigation_home)        navigateToSchedule();
         else if (id == R.id.navigation_grades)      navigateToGrades();
@@ -206,6 +214,7 @@ public class ConnectedFragment extends Fragment implements Injectable, MainConte
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putBoolean("tab_showing", showingTab);
+        outState.putInt("selected_tab", selectedTab);
         super.onSaveInstanceState(outState);
     }
 

@@ -72,7 +72,8 @@
                 android:id="@+id/iv_calendar"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                app:srcCompat="@drawable/ic_calendar_black_24dp"/>
+                app:srcCompat="@drawable/ic_calendar_black_24dp"
+                android:tint="#000"/>
 
             <TextView
                 android:id="@+id/tv_class_date"
