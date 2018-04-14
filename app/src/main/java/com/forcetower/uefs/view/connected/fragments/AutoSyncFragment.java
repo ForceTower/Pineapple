@@ -48,6 +48,7 @@ public class AutoSyncFragment extends Fragment implements Injectable {
         ButterKnife.bind(this, view);
 
         controller.getTabLayout().setVisibility(View.GONE);
+        controller.changeTitle(R.string.title_auto_sync);
 
         btnContinue.setOnClickListener(v -> {
             controller.getNavigationController().navigateToSchedule();

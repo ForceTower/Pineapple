@@ -54,6 +54,7 @@ public class TheAdventureFragment extends Fragment implements Injectable {
         ButterKnife.bind(this, view);
 
         actController.changeTitle(R.string.unes_the_adventure);
+        actController.getTabLayout().setVisibility(View.GONE);
         setupInterface();
 
         return view;

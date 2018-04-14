@@ -63,7 +63,6 @@ public class BigTrayFragment extends Fragment implements Injectable {
     public void onAttach(Context context) {
         super.onAttach(context);
         controller = (ActivityController) context;
-        controller.changeTitle(R.string.title_big_tray);
     }
 
     @Nullable
@@ -73,6 +72,7 @@ public class BigTrayFragment extends Fragment implements Injectable {
         ButterKnife.bind(this, view);
 
         controller.getTabLayout().setVisibility(View.GONE);
+        controller.changeTitle(R.string.title_big_tray);
         return view;
     }
 

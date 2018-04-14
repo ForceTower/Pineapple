@@ -57,6 +57,7 @@ public class ScheduleFragment extends Fragment implements Injectable {
         View view = inflater.inflate(R.layout.fragment_schedule, container, false);
         ButterKnife.bind(this, view);
         controller.getTabLayout().setVisibility(View.GONE);
+        controller.changeTitle(R.string.title_schedule);
         initializeRecyclerView();
         setupRecyclerView(null);
         return view;

@@ -100,7 +100,6 @@ public class ProfileFragment extends Fragment implements Injectable {
     public void onAttach(Context context) {
         super.onAttach(context);
         controller = (ActivityController) context;
-        controller.changeTitle(R.string.title_profile);
     }
 
     @Nullable
@@ -110,6 +109,8 @@ public class ProfileFragment extends Fragment implements Injectable {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
         controller.getTabLayout().setVisibility(View.GONE);
+        controller.changeTitle(R.string.title_profile);
+
         cvUpdateControl.setOnClickListener(v -> goToUpdateControl());
 
         if (BuildConfig.DEBUG) enablePrivateContent();

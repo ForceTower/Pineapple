@@ -68,6 +68,7 @@ public class MessagesFragment extends Fragment implements Injectable {
         View view = inflater.inflate(R.layout.fragment_messages, container, false);
         ButterKnife.bind(this, view);
         controller.getTabLayout().setVisibility(View.GONE);
+        controller.changeTitle(R.string.title_messages);
         setupRecyclerView();
         setupRefreshLayout();
         return view;

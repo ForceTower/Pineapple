@@ -47,14 +47,14 @@ public abstract class UBaseActivity extends AppCompatActivity implements Achieve
     @Override
     protected void onStart() {
         super.onStart();
-        if (mPreferences.getBoolean("google_play_games_enabled", false)) {
-            signInSilently();
-        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        if (mPreferences.getBoolean("google_play_games_enabled", false)) {
+            signInSilently();
+        }
     }
 
     public void signIn() {
@@ -80,6 +80,7 @@ public abstract class UBaseActivity extends AppCompatActivity implements Achieve
                 } else {
                     e.printStackTrace();
                 }
+                signIn();
             }
         }).addOnFailureListener(failure -> {
             Timber.d("Exception on connect to Google Play Games! %s", failure.getMessage());

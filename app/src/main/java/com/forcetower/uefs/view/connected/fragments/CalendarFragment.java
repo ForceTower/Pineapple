@@ -62,6 +62,7 @@ public class CalendarFragment extends Fragment implements Injectable {
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
         ButterKnife.bind(this, view);
         controller.getTabLayout().setVisibility(View.GONE);
+        controller.changeTitle(R.string.title_calendar);
         setupRecycler();
         setupRefreshLayout();
         return view;

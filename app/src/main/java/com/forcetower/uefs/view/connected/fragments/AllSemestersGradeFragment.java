@@ -60,8 +60,8 @@ public class AllSemestersGradeFragment extends Fragment implements Injectable {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_all_semesters_grades, container, false);
-
         ButterKnife.bind(this, view);
+        controller.changeTitle(R.string.title_grades);
         fragmentAdapter = new GradesFragmentAdapter(getChildFragmentManager());
         configureViewPager();
         return view;
