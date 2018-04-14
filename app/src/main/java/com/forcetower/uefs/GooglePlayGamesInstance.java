@@ -112,7 +112,7 @@ public class GooglePlayGamesInstance extends ContextWrapper {
     }
 
     public boolean hasPlayerUnlockedSwitchAchievement() {
-        Timber.d("Status of completition: %s", playerUnlockedSwitchAchievement);
+        Timber.d("Status of achievement: %s", playerUnlockedSwitchAchievement);
         return playerUnlockedSwitchAchievement;
     }
 }
