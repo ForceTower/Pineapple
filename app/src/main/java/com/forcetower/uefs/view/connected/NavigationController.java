@@ -2,6 +2,7 @@ package com.forcetower.uefs.view.connected;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
@@ -10,6 +11,7 @@ import com.forcetower.uefs.view.connected.fragments.AutoSyncFragment;
 import com.forcetower.uefs.view.connected.fragments.BigTrayFragment;
 import com.forcetower.uefs.view.connected.fragments.ConnectedFragment;
 import com.forcetower.uefs.view.connected.fragments.ProfileFragment;
+import com.forcetower.uefs.view.suggestion.SuggestionFragment;
 
 import javax.inject.Inject;
 
@@ -102,11 +104,21 @@ public class NavigationController {
     }
 
     private void changeFragment(@NonNull Fragment fragment) {
-        //Fragment current = fragmentManager.findFragmentByTag(fragment.getClass().getSimpleName());
-        //if (current != null) fragment = current;
+        changeFragment(fragment, null);
+    }
+
+    private void changeFragment(@NonNull Fragment fragment, @Nullable String name) {
         fragmentManager.beginTransaction()
                 .replace(containerId, fragment/*, fragment.getClass().getSimpleName()*/)
-                .addToBackStack(null)
+                .addToBackStack(name)
                 .commitAllowingStateLoss();
+    }
+
+    public void navigateToSuggestion() {
+        changeFragment(SuggestionFragment.createFragment(), "suggestion");
+    }
+
+    public void navigateToSuggestion(String message, StackTraceElement[] stackTrace) {
+        changeFragment(SuggestionFragment.createFragment(message, stackTrace), "suggestion");
     }
 }

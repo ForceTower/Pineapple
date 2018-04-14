@@ -27,7 +27,7 @@ import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.connected.ActivityController;
 import com.forcetower.uefs.view.connected.MainContentController;
-import com.forcetower.uefs.view.suggestion.SuggestionActivity;
+import com.forcetower.uefs.view.suggestion.SuggestionFragment;
 
 import javax.inject.Inject;
 
@@ -216,24 +216,6 @@ public class ConnectedFragment extends Fragment implements Injectable, MainConte
         else AnimUtils.fadeIn(requireContext(), controller.getTabLayout());
 
         showingTab = b;
-    }
-
-    @Override
-    public void showNewScheduleError(Exception e) {
-        newScheduleLayout = false;
-
-        PreferenceManager.getDefaultSharedPreferences(requireContext()).edit()
-                .putBoolean("new_schedule_layout", false)
-                .apply();
-
-        navigateToSchedule();
-
-        Snackbar snackbar = Snackbar.make(viewRoot, getString(R.string.new_schedule_errors), Snackbar.LENGTH_INDEFINITE);
-        snackbar.setAction(R.string.send_error, v -> {
-            SuggestionActivity.startActivity(requireContext(), e.getMessage(), e.getStackTrace());
-            snackbar.dismiss();
-        });
-        snackbar.show();
     }
 
     private void showNewScheduleWarning() {

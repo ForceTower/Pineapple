@@ -1,22 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.forcetower.uefs.view.suggestion.SuggestionActivity">
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        app:contentInsetStart="72dp"
-        android:minHeight="?attr/actionBarSize"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:fitsSystemWindows="true"
-        android:clipToPadding="false"
-        android:background="?colorPrimary"
-        app:layout_scrollFlags="scroll|enterAlways"/>
+    tools:context="com.forcetower.uefs.view.suggestion.SuggestionFragment">
 
     <TextView
         android:id="@+id/tv_write_suggestion"

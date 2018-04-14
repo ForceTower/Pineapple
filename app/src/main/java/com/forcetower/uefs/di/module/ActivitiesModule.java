@@ -8,7 +8,6 @@ import com.forcetower.uefs.view.discipline.DisciplineClassesActivity;
 import com.forcetower.uefs.view.discipline.DisciplineDetailsActivity;
 import com.forcetower.uefs.view.login.MainActivity;
 import com.forcetower.uefs.view.settings.SettingsActivity;
-import com.forcetower.uefs.view.suggestion.SuggestionActivity;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -39,9 +38,6 @@ public abstract class ActivitiesModule {
 
     @ContributesAndroidInjector
     abstract AboutActivity contributeAboutActivity();
-
-    @ContributesAndroidInjector
-    abstract SuggestionActivity contributeSuggestionActivity();
 
     @ContributesAndroidInjector(modules = FragmentsModule.class)
     abstract LoggedActivity contributeLoggedActivity();

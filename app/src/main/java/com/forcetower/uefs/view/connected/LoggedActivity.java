@@ -1,5 +1,6 @@
 package com.forcetower.uefs.view.connected;
 
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
@@ -28,6 +29,7 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.FileProvider;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -36,6 +38,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -63,7 +66,7 @@ import com.forcetower.uefs.view.connected.fragments.AutoSyncFragment;
 import com.forcetower.uefs.view.connected.fragments.ConnectedFragment;
 import com.forcetower.uefs.view.login.MainActivity;
 import com.forcetower.uefs.view.settings.SettingsActivity;
-import com.forcetower.uefs.view.suggestion.SuggestionActivity;
+import com.forcetower.uefs.view.suggestion.SuggestionFragment;
 import com.forcetower.uefs.vm.AchievementsViewModel;
 import com.forcetower.uefs.vm.DownloadsViewModel;
 import com.forcetower.uefs.vm.GradesViewModel;
@@ -136,6 +139,8 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
     private boolean disconnecting = false;
     private Profile latestProfile;
+    private ActionBarDrawerToggle toggle;
+    private boolean isHomeAsUp;
 
     public static void startActivity(Context context, boolean afterLogin) {
         Intent intent = new Intent(context, LoggedActivity.class);
@@ -152,7 +157,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         navViews = new NavigationViews();
         ButterKnife.bind(navViews, navigationView.getHeaderView(0));
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
@@ -192,11 +197,62 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         setupAlarmManager();
         RefreshAlarmTrigger.enableBootComponent(this);
         setupShortcuts();
+        setupFragmentStackListener();
+        setupToolbarEvents();
 
         boolean autoSync = ContentResolver.getMasterSyncAutomatically();
         boolean shown = mPreferences.getBoolean(AutoSyncFragment.PREF_AUTO_SYNC_SHOWN, false);
         mPreferences.edit().putBoolean("show_not_connected_notification", false).apply();
         initiateActivity(autoSync, shown);
+    }
+
+    private void setupFragmentStackListener() {
+        getSupportFragmentManager().addOnBackStackChangedListener(() -> {
+            int count = getSupportFragmentManager().getBackStackEntryCount();
+            if (count == 0) {
+                setHomeAsUp(false);
+                return;
+            }
+
+            FragmentManager.BackStackEntry entry = getSupportFragmentManager().getBackStackEntryAt(count - 1);
+            if (entry != null) {
+                String name = entry.getName();
+                if (name != null && name.equalsIgnoreCase("disciplines")) {
+                    setHomeAsUp(true);
+                } else {
+                    setHomeAsUp(false);
+                }
+            }
+        });
+    }
+
+    public void setupToolbarEvents() {
+        toolbar.setNavigationOnClickListener(v -> {
+            if (drawer.isDrawerOpen(GravityCompat.START)){
+                drawer.closeDrawer(GravityCompat.START);
+            } else if (isHomeAsUp){
+                onBackPressed();
+            } else {
+                drawer.openDrawer(GravityCompat.START);
+            }
+        });
+    }
+
+    public void setHomeAsUp(boolean isHomeAsUp){
+        if (this.isHomeAsUp != isHomeAsUp) {
+            this.isHomeAsUp = isHomeAsUp;
+
+            if (isHomeAsUp) toggle.syncState();
+
+            ValueAnimator anim = isHomeAsUp ? ValueAnimator.ofFloat(0, 1) : ValueAnimator.ofFloat(1, 0);
+            anim.addUpdateListener(valueAnimator -> {
+                float slideOffset = (Float) valueAnimator.getAnimatedValue();
+                toggle.onDrawerSlide(drawer, slideOffset);
+            });
+            anim.setInterpolator(new DecelerateInterpolator());
+            anim.setDuration(400);
+            anim.start();
+        }
     }
 
     private void setupNavigationItemColors() {
@@ -474,6 +530,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
             } else if (id == R.id.nav_logout) {
                 performLogout();
             } else if (id == R.id.nav_feedback) {
+                setHomeAsUp(true);
                 goToFeedback();
             } else if (id == R.id.nav_about) {
                 goToAbout();
@@ -495,7 +552,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     }
 
     private void goToFeedback() {
-        SuggestionActivity.startActivity(this);
+        navigationController.navigateToSuggestion();
     }
 
     private void goToAbout() {
@@ -722,7 +779,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
         Snackbar snackbar = Snackbar.make(rootViewContent, getString(R.string.new_schedule_errors), Snackbar.LENGTH_INDEFINITE);
         snackbar.setAction(R.string.send_error, v -> {
-            SuggestionActivity.startActivity(this, e.getMessage(), e.getStackTrace());
+            navigationController.navigateToSuggestion(e.getMessage(), e.getStackTrace());
             snackbar.dismiss();
         });
         snackbar.show();

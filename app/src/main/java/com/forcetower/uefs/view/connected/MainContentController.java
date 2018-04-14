@@ -10,5 +10,4 @@ public interface MainContentController {
     void navigateToGrades();
     void navigateToDisciplines();
     void navigateToCalendar();
-    void showNewScheduleError(Exception e);
 }
