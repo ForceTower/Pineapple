@@ -45,11 +45,16 @@ public abstract class UBaseActivity extends AppCompatActivity implements Achieve
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStart() {
+        super.onStart();
         if (mPreferences.getBoolean("google_play_games_enabled", false)) {
             signInSilently();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     public void signIn() {
@@ -60,10 +65,8 @@ public abstract class UBaseActivity extends AppCompatActivity implements Achieve
     }
 
     public void signInSilently() {
-        if (!NetworkUtils.isNetworkAvailable(this) || mPlayGamesInstance.isSignedIn())
+        if (!NetworkUtils.isNetworkAvailable(this))
             return;
-
-        //mPlayGamesInstance.disconnect();
 
         mPlayGamesInstance.getGoogleSignInClient().silentSignIn().addOnCompleteListener(this, task -> {
             if (task.isSuccessful()) {
@@ -71,6 +74,12 @@ public abstract class UBaseActivity extends AppCompatActivity implements Achieve
                 onGooglePlayGamesConnected(task.getResult());
             } else {
                 Timber.d("Failed to connect to Google Play Games...");
+                Exception e = task.getException();
+                if (e == null) {
+                    Timber.d("Failed and exception is null");
+                } else {
+                    e.printStackTrace();
+                }
             }
         }).addOnFailureListener(failure -> {
             Timber.d("Exception on connect to Google Play Games! %s", failure.getMessage());
