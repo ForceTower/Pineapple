@@ -29,6 +29,7 @@ public class GooglePlayGamesInstance extends ContextWrapper {
     protected GamesClient mGamesClient;
     protected SharedPreferences preferences;
     private MutableLiveData<GameConnectionStatus> mStatus;
+    private boolean playerUnlockedSwitchAchievement = false;
 
     public GooglePlayGamesInstance(Context base) {
         super(base);
@@ -103,15 +104,15 @@ public class GooglePlayGamesInstance extends ContextWrapper {
             change = true;
             playerName = other;
         }
-
-        if (change && isSignedIn() && mAchievementsClient != null) {
-            //todo Highlight this part so i know what is going on
-            mAchievementsClient.unlock(getString(R.string.achievement_now_i_understand_and_get_it));
-        }
-
+        if (change) playerUnlockedSwitchAchievement = true;
     }
 
     public LiveData<GameConnectionStatus> getPlayGameStatus() {
         return mStatus;
+    }
+
+    public boolean hasPlayerUnlockedSwitchAchievement() {
+        Timber.d("Status of completition: %s", playerUnlockedSwitchAchievement);
+        return playerUnlockedSwitchAchievement;
     }
 }
