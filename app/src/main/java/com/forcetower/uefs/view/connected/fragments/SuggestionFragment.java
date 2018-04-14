@@ -70,6 +70,7 @@ public class SuggestionFragment extends Fragment implements Injectable {
         ButterKnife.bind(this, view);
 
         controller.changeTitle(R.string.nav_title_feedback);
+        controller.getTabLayout().setVisibility(View.GONE);
 
         if (getArguments() != null && getArguments().getString(STACK_TRACE) != null) {
             String message = getArguments().getString(MESSAGE_CAUSE);

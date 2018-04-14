@@ -73,6 +73,7 @@ public class NewScheduleFragment extends Fragment implements Injectable {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_schedule_new, container, false);
+        controller.getTabLayout().setVisibility(View.GONE);
         ButterKnife.bind(this, view);
         setupRecycler();
         setupSubtitles();

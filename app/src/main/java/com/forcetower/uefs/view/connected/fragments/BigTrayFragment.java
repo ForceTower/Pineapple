@@ -71,6 +71,8 @@ public class BigTrayFragment extends Fragment implements Injectable {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_big_tray, container, false);
         ButterKnife.bind(this, view);
+
+        controller.getTabLayout().setVisibility(View.GONE);
         return view;
     }
 

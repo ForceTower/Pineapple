@@ -52,18 +52,18 @@ public abstract class UBaseActivity extends AppCompatActivity implements Achieve
         }
     }
 
-    protected void signIn() {
+    public void signIn() {
         if (NetworkUtils.isNetworkAvailable(this))
             startActivityForResult(mPlayGamesInstance.getGoogleSignInClient().getSignInIntent(), PLAY_GAMES_SIGN_IN);
         else
             Toast.makeText(this, R.string.you_are_not_connected, Toast.LENGTH_SHORT).show();
     }
 
-    protected void signInSilently() {
-        if (!NetworkUtils.isNetworkAvailable(this))
+    public void signInSilently() {
+        if (!NetworkUtils.isNetworkAvailable(this) || mPlayGamesInstance.isSignedIn())
             return;
 
-        mPlayGamesInstance.disconnect();
+        //mPlayGamesInstance.disconnect();
 
         mPlayGamesInstance.getGoogleSignInClient().silentSignIn().addOnCompleteListener(this, task -> {
             if (task.isSuccessful()) {
@@ -85,11 +85,11 @@ public abstract class UBaseActivity extends AppCompatActivity implements Achieve
         checkAchievements();
     }
 
-    protected void checkAchievements() {}
+    public void checkAchievements() {}
 
-    protected void openPlayGamesAchievements() {
-        if (!mPlayGamesInstance.isSignedIn()) {
-            Timber.d("Not connected... Thus you can't open this");
+    public void openPlayGamesAchievements() {
+        if (!mPlayGamesInstance.isSignedIn() || !NetworkUtils.isNetworkAvailable(this) || mPlayGamesInstance.getAchievementsClient() == null) {
+            Timber.d("Not connected... Thus you can't open this because of: %s %s %s", !mPlayGamesInstance.isSignedIn(), !NetworkUtils.isNetworkAvailable(this), mPlayGamesInstance.getAchievementsClient() == null);
             mPlayGamesInstance.disconnect();
             return;
         }

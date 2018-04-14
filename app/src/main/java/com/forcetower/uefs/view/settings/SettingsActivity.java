@@ -101,22 +101,6 @@ public class SettingsActivity extends UBaseActivity implements SettingsControlle
     }
 
     @Override
-    public void logout() {
-        RefreshAlarmTrigger.disableBootComponent(this);
-        RefreshAlarmTrigger.removeAlarm(this);
-        repository.logout().observe(this, resource -> {
-            //noinspection ConstantConditions
-            if (resource.status == Status.SUCCESS) {
-                Intent intent = new Intent(this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                ActivityCompat.finishAffinity(this);
-            }
-        });
-    }
-
-    @Override
     public Context getContext() {
         return getApplicationContext();
     }
@@ -181,20 +165,6 @@ public class SettingsActivity extends UBaseActivity implements SettingsControlle
             Toast.makeText(this, R.string.wait_until_operation_completes, Toast.LENGTH_SHORT).show();
             Timber.d("An operation is being executed");
         }
-    }
-
-    @Override
-    public void connectToPlayGames() {
-        if (mPlayGamesInstance.isSignedIn()) {
-            openPlayGamesAchievements();
-        } else {
-            signIn();
-        }
-    }
-
-    @Override
-    public void disconnectFromPlayGames() {
-        mPlayGamesInstance.disconnect();
     }
 
     @Override

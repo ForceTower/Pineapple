@@ -67,6 +67,7 @@ public class DisciplinesFragment extends Fragment implements Injectable {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_disciplines, container, false);
         ButterKnife.bind(this, view);
+        controller.getTabLayout().setVisibility(View.GONE);
         setupRecyclerView();
         return view;
     }

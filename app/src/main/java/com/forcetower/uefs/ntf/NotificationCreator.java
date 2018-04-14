@@ -14,6 +14,7 @@ import com.forcetower.uefs.db.entity.GradeInfo;
 import com.forcetower.uefs.db.entity.Message;
 import com.forcetower.uefs.service.Version;
 import com.forcetower.uefs.util.VersionUtils;
+import com.forcetower.uefs.view.connected.LoggedActivity;
 import com.forcetower.uefs.view.connected.fragments.ConnectedFragment;
 import com.forcetower.uefs.view.login.MainActivity;
 import com.google.firebase.messaging.RemoteMessage;
@@ -46,7 +47,7 @@ public class NotificationCreator {
             return true;
         }
 
-        PendingIntent pendingIntent = getPendingIntent(context, ConnectedFragment.class, MESSAGES_FRAGMENT);
+        PendingIntent pendingIntent = getPendingIntent(context, LoggedActivity.class, MESSAGES_FRAGMENT);
         NotificationCompat.Builder builder = notificationBuilder(context, Constants.CHANNEL_MESSAGES_ID)
                 .setContentTitle(message.getClassReceived())
                 .setContentText(message.getMessage())
@@ -64,7 +65,7 @@ public class NotificationCreator {
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-        PendingIntent pendingIntent = getPendingIntent(context, ConnectedFragment.class, GRADES_FRAGMENT);
+        PendingIntent pendingIntent = getPendingIntent(context, LoggedActivity.class, GRADES_FRAGMENT);
         NotificationCompat.Builder builder;
         String message;
         boolean notify;

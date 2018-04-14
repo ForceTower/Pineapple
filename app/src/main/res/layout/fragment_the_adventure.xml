@@ -17,7 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:animateLayoutChanges="true">
 
             <RelativeLayout
                 android:layout_width="100dp"
@@ -58,6 +59,7 @@
                 android:layout_width="200dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
                 style="@style/Base.Widget.AppCompat.Button.Colored"
                 android:text="@string/unes_the_adventure_join"
                 android:fontFamily="@font/roboto_regular"/>
@@ -67,6 +69,7 @@
                 android:layout_width="200dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:layout_gravity="center_horizontal"
                 style="@style/Base.Widget.AppCompat.Button.Colored"
                 android:text="@string/unes_the_adventure_logout"/>

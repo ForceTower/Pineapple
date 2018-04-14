@@ -109,6 +109,7 @@ public class ProfileFragment extends Fragment implements Injectable {
         Timber.d(String.valueOf(getParentFragment()));
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
+        controller.getTabLayout().setVisibility(View.GONE);
         cvUpdateControl.setOnClickListener(v -> goToUpdateControl());
 
         if (BuildConfig.DEBUG) enablePrivateContent();

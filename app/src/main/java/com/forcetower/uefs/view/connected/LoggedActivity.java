@@ -46,6 +46,7 @@ import android.widget.Toast;
 
 import com.forcetower.uefs.BuildConfig;
 import com.forcetower.uefs.Constants;
+import com.forcetower.uefs.GooglePlayGamesInstance;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.alm.RefreshAlarmTrigger;
 import com.forcetower.uefs.db.entity.Access;
@@ -94,7 +95,7 @@ import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.GRA
 import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.MESSAGES_FRAGMENT;
 
 public class LoggedActivity extends UBaseActivity implements NavigationView.OnNavigationItemSelectedListener,
-        HasSupportFragmentInjector, ActivityController {
+        HasSupportFragmentInjector, ActivityController, GamesAccountController {
     private static final String SELECTED_NAV_DRAWER_ID = "selected_nav_drawer";
     public static final String BACKGROUND_IMAGE = "background_server_image";
 
@@ -551,6 +552,8 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
     private void performLogout() {
         disconnecting = true;
+        RefreshAlarmTrigger.disableBootComponent(this);
+        RefreshAlarmTrigger.removeAlarm(this);
         gradesViewModel.logout().observe(this, this::logoutObserver);
     }
 
@@ -693,6 +696,8 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         if (access == null && !disconnecting) {
             gradesViewModel.logout().observe(this, this::logoutObserver);
             Toast.makeText(this, R.string.disconnected, Toast.LENGTH_SHORT).show();
+        } else if (access != null){
+            mPlayGamesInstance.changePlayerName(access.getUsername());
         }
     }
 
@@ -743,7 +748,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     }
 
     @Override
-    protected void checkAchievements() {
+    public void checkAchievements() {
         super.checkAchievements();
         achievementsViewModel.checkAchievements().observe(this, this::onAchievementsUpdate);
         Timber.d("This where called");
@@ -798,6 +803,11 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     @Override
     public void navigateToDisciplineClasses(int groupId) {
         navigationController.navigateToDisciplineClasses(groupId);
+    }
+
+    @Override
+    public GooglePlayGamesInstance getPlayGamesInstance() {
+        return mPlayGamesInstance;
     }
 
     class NavigationViews {

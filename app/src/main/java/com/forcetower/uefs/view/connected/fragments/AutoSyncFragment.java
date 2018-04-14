@@ -47,6 +47,8 @@ public class AutoSyncFragment extends Fragment implements Injectable {
         View view = inflater.inflate(R.layout.fragment_auto_sync, container, false);
         ButterKnife.bind(this, view);
 
+        controller.getTabLayout().setVisibility(View.GONE);
+
         btnContinue.setOnClickListener(v -> {
             controller.getNavigationController().navigateToSchedule();
             setPreference();

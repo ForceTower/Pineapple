@@ -1,5 +1,7 @@
 package com.forcetower.uefs;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.SharedPreferences;
@@ -20,14 +22,17 @@ import timber.log.Timber;
  * Created by João Paulo on 09/04/2018.
  */
 public class GooglePlayGamesInstance extends ContextWrapper {
+    protected String playerName = null;
     protected GoogleSignInClient mGoogleSignInClient;
     protected AchievementsClient mAchievementsClient;
     protected LeaderboardsClient mLeaderboardsClient;
     protected GamesClient mGamesClient;
     protected SharedPreferences preferences;
+    private MutableLiveData<GameConnectionStatus> mStatus;
 
     public GooglePlayGamesInstance(Context base) {
         super(base);
+        mStatus = new MutableLiveData<>();
         preferences = PreferenceManager.getDefaultSharedPreferences(base);
     }
 
@@ -45,6 +50,7 @@ public class GooglePlayGamesInstance extends ContextWrapper {
         mAchievementsClient = Games.getAchievementsClient(this, result);
         mLeaderboardsClient = Games.getLeaderboardsClient(this, result);
         mGamesClient        = Games.getGamesClient(this, result);
+        mStatus.postValue(GameConnectionStatus.CONNECTED);
         preferences.edit().putBoolean("google_play_games_enabled", true).apply();
     }
 
@@ -52,6 +58,7 @@ public class GooglePlayGamesInstance extends ContextWrapper {
         mGoogleSignInClient.signOut().addOnCompleteListener(task -> {
             boolean successful = task.isSuccessful();
             Timber.d("signOut(): " + (successful ? "success" : "failed"));
+            mStatus.postValue(GameConnectionStatus.DISCONNECTED);
             onDisconnected();
             preferences.edit().putBoolean("google_play_games_enabled", false).apply();
         });
@@ -81,5 +88,30 @@ public class GooglePlayGamesInstance extends ContextWrapper {
 
     public GoogleSignInClient getGoogleSignInClient() {
         return mGoogleSignInClient;
+    }
+
+    public void changePlayerName(String other) {
+        boolean change = false;
+        Timber.d("Old player name: %s", playerName);
+        Timber.d("New player name: %s", other);
+
+        if (other == null)
+            playerName = null;
+        else if (playerName == null)
+            playerName = other;
+        else if (!playerName.equalsIgnoreCase(other)) {
+            change = true;
+            playerName = other;
+        }
+
+        if (change && isSignedIn() && mAchievementsClient != null) {
+            //todo Highlight this part so i know what is going on
+            mAchievementsClient.unlock(getString(R.string.achievement_now_i_understand_and_get_it));
+        }
+
+    }
+
+    public LiveData<GameConnectionStatus> getPlayGameStatus() {
+        return mStatus;
     }
 }
