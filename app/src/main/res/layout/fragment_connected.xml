@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.forcetower.uefs.view.connected.ConnectedFragment">
+    tools:context="com.forcetower.uefs.view.connected.fragments.ConnectedFragment">
 
     <FrameLayout
         android:id="@+id/container"

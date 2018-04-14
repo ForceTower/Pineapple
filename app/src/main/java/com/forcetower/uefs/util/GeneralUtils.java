@@ -1,7 +1,5 @@
 package com.forcetower.uefs.util;
 
-import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 
 import com.google.android.gms.common.ConnectionResult;

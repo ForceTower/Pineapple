@@ -1,12 +1,11 @@
 package com.forcetower.uefs.di.module;
 
 import com.forcetower.uefs.view.about.AboutActivity;
-import com.forcetower.uefs.view.connected.ConnectedFragment;
+import com.forcetower.uefs.view.connected.LoggedActivity;
+import com.forcetower.uefs.view.connected.fragments.ConnectedFragment;
 import com.forcetower.uefs.view.control_room.ControlRoomActivity;
 import com.forcetower.uefs.view.discipline.DisciplineClassesActivity;
 import com.forcetower.uefs.view.discipline.DisciplineDetailsActivity;
-import com.forcetower.uefs.view.experimental.good_barrel.GoodBarrelActivity;
-import com.forcetower.uefs.view.logged.LoggedActivity;
 import com.forcetower.uefs.view.login.MainActivity;
 import com.forcetower.uefs.view.settings.SettingsActivity;
 import com.forcetower.uefs.view.suggestion.SuggestionActivity;
@@ -37,9 +36,6 @@ public abstract class ActivitiesModule {
 
     @ContributesAndroidInjector(modules = FragmentsModule.class)
     abstract ControlRoomActivity contributeControlRoomActivity();
-
-    @ContributesAndroidInjector(modules = FragmentsModule.class)
-    abstract GoodBarrelActivity contributeGoodBarrelActivity();
 
     @ContributesAndroidInjector
     abstract AboutActivity contributeAboutActivity();

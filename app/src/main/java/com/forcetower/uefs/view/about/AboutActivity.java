@@ -1,12 +1,10 @@
 package com.forcetower.uefs.view.about;
 
 import android.annotation.SuppressLint;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -16,7 +14,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.CreditsMention;
@@ -29,11 +26,8 @@ import com.mikepenz.aboutlibraries.LibsBuilder;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import dagger.android.AndroidInjector;
-import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 
 import static com.forcetower.uefs.util.NetworkUtils.openLink;

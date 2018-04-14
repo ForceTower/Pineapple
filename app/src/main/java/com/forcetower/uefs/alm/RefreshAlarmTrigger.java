@@ -6,9 +6,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.preference.PreferenceManager;
 
-import com.forcetower.uefs.BuildConfig;
 import com.forcetower.uefs.util.VersionUtils;
 
 import java.util.Calendar;

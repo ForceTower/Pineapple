@@ -1,4 +1,4 @@
-package com.forcetower.uefs.view.logged;
+package com.forcetower.uefs.view.connected;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -6,22 +6,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.view.connected.ConnectedFragment;
 import com.forcetower.uefs.view.connected.fragments.AutoSyncFragment;
 import com.forcetower.uefs.view.connected.fragments.BigTrayFragment;
+import com.forcetower.uefs.view.connected.fragments.ConnectedFragment;
 import com.forcetower.uefs.view.connected.fragments.ProfileFragment;
-import com.forcetower.uefs.view.logged.LoggedActivity;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
-import static com.forcetower.uefs.view.connected.ConnectedFragment.BIG_TRAY_FRAGMENT;
-import static com.forcetower.uefs.view.connected.ConnectedFragment.CALENDAR_FRAGMENT;
-import static com.forcetower.uefs.view.connected.ConnectedFragment.DISCIPLINES_FRAGMENT;
-import static com.forcetower.uefs.view.connected.ConnectedFragment.FRAGMENT_INTENT_EXTRA;
-import static com.forcetower.uefs.view.connected.ConnectedFragment.GRADES_FRAGMENT;
-import static com.forcetower.uefs.view.connected.ConnectedFragment.MESSAGES_FRAGMENT;
-import static com.forcetower.uefs.view.connected.ConnectedFragment.SCHEDULE_FRAGMENT;
+import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.CALENDAR_FRAGMENT;
+import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.DISCIPLINES_FRAGMENT;
+import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.FRAGMENT_INTENT_EXTRA;
+import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.GRADES_FRAGMENT;
+import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.MESSAGES_FRAGMENT;
+import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.SCHEDULE_FRAGMENT;
 
 /**
  * Created by João Paulo on 11/04/2018.

@@ -1,8 +1,7 @@
-package com.forcetower.uefs.view.connected;
+package com.forcetower.uefs.view.connected.fragments;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -26,15 +25,8 @@ import com.forcetower.uefs.R;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.util.VersionUtils;
-import com.forcetower.uefs.view.connected.fragments.AllSemestersGradeFragment;
-import com.forcetower.uefs.view.connected.fragments.BigTrayFragment;
-import com.forcetower.uefs.view.connected.fragments.CalendarFragment;
-import com.forcetower.uefs.view.connected.fragments.DisciplinesFragment;
-import com.forcetower.uefs.view.connected.fragments.MessagesFragment;
-import com.forcetower.uefs.view.connected.fragments.NewScheduleFragment;
-import com.forcetower.uefs.view.connected.fragments.ProfileFragment;
-import com.forcetower.uefs.view.connected.fragments.ScheduleFragment;
-import com.forcetower.uefs.view.logged.ActivityController;
+import com.forcetower.uefs.view.connected.ActivityController;
+import com.forcetower.uefs.view.connected.MainContentController;
 import com.forcetower.uefs.view.suggestion.SuggestionActivity;
 
 import javax.inject.Inject;

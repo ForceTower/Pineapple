@@ -20,12 +20,11 @@ import com.forcetower.uefs.db.entity.DisciplineClassLocation;
 import com.forcetower.uefs.db.entity.DisciplineGroup;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.util.AnimUtils;
+import com.forcetower.uefs.view.connected.ActivityController;
 import com.forcetower.uefs.view.connected.LocationClickListener;
-import com.forcetower.uefs.view.connected.MainContentController;
 import com.forcetower.uefs.view.connected.adapters.NewScheduleAdapter;
 import com.forcetower.uefs.view.connected.adapters.ScheduleAdapter;
 import com.forcetower.uefs.view.discipline.DisciplineDetailsActivity;
-import com.forcetower.uefs.view.logged.ActivityController;
 import com.forcetower.uefs.vm.ScheduleViewModel;
 
 import java.util.ArrayList;

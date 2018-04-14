@@ -35,7 +35,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.logged.LoggedActivity"
+            android:name=".view.connected.LoggedActivity"
             android:label="@string/title_activity_logged"
             android:theme="@style/AppTheme.NavigationDrawer">
             <intent-filter>
@@ -55,8 +55,6 @@
         <activity android:name=".view.discipline.DisciplineClassesActivity">
         </activity>
         <activity android:name=".view.control_room.ControlRoomActivity">
-        </activity>
-        <activity android:name=".view.experimental.good_barrel.GoodBarrelActivity">
         </activity>
 
         <service

@@ -14,7 +14,7 @@ import com.forcetower.uefs.db.entity.GradeInfo;
 import com.forcetower.uefs.db.entity.Message;
 import com.forcetower.uefs.service.Version;
 import com.forcetower.uefs.util.VersionUtils;
-import com.forcetower.uefs.view.connected.ConnectedFragment;
+import com.forcetower.uefs.view.connected.fragments.ConnectedFragment;
 import com.forcetower.uefs.view.login.MainActivity;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -26,8 +26,8 @@ import static com.forcetower.uefs.ntf.NotificationHelper.getPendingIntent;
 import static com.forcetower.uefs.ntf.NotificationHelper.notificationBuilder;
 import static com.forcetower.uefs.ntf.NotificationHelper.showNotification;
 import static com.forcetower.uefs.util.WordUtils.validString;
-import static com.forcetower.uefs.view.connected.ConnectedFragment.GRADES_FRAGMENT;
-import static com.forcetower.uefs.view.connected.ConnectedFragment.MESSAGES_FRAGMENT;
+import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.GRADES_FRAGMENT;
+import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.MESSAGES_FRAGMENT;
 
 /**
  * Created by João Paulo on 08/03/2018.

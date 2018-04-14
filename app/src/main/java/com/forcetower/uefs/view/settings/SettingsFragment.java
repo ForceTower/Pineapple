@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
@@ -15,8 +14,6 @@ import android.widget.Toast;
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.alm.RefreshAlarmTrigger;
-import com.forcetower.uefs.view.about.AboutActivity;
-import com.forcetower.uefs.view.suggestion.SuggestionActivity;
 
 import timber.log.Timber;
 

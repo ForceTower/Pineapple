@@ -1,9 +1,7 @@
-package com.forcetower.uefs.view.logged;
+package com.forcetower.uefs.view.connected;
 
 import android.graphics.Bitmap;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
-import android.support.v7.app.ActionBar;
 
 /**
  * Created by João Paulo on 11/04/2018.

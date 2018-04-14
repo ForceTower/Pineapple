@@ -22,7 +22,7 @@ import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 import timber.log.Timber;
 
-import static com.forcetower.uefs.view.connected.ConnectedFragment.FRAGMENT_INTENT_EXTRA;
+import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.FRAGMENT_INTENT_EXTRA;
 
 public class MainActivity extends UBaseActivity implements HasSupportFragmentInjector {
     @Inject

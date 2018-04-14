@@ -20,7 +20,7 @@ import android.support.v4.app.NotificationCompat;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.util.VersionUtils;
-import com.forcetower.uefs.view.connected.ConnectedFragment;
+import com.forcetower.uefs.view.connected.fragments.ConnectedFragment;
 
 import timber.log.Timber;
 

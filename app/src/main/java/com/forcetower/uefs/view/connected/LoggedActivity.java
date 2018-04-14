@@ -1,4 +1,4 @@
-package com.forcetower.uefs.view.logged;
+package com.forcetower.uefs.view.connected;
 
 import android.annotation.SuppressLint;
 import android.arch.lifecycle.ViewModelProvider;
@@ -43,7 +43,6 @@ import android.widget.Toast;
 
 import com.forcetower.uefs.BuildConfig;
 import com.forcetower.uefs.Constants;
-import com.forcetower.uefs.GooglePlayGamesInstance;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.alm.RefreshAlarmTrigger;
 import com.forcetower.uefs.db.entity.Access;
@@ -60,8 +59,8 @@ import com.forcetower.uefs.util.NetworkUtils;
 import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.UBaseActivity;
 import com.forcetower.uefs.view.about.AboutActivity;
-import com.forcetower.uefs.view.connected.ConnectedFragment;
 import com.forcetower.uefs.view.connected.fragments.AutoSyncFragment;
+import com.forcetower.uefs.view.connected.fragments.ConnectedFragment;
 import com.forcetower.uefs.view.login.MainActivity;
 import com.forcetower.uefs.view.settings.SettingsActivity;
 import com.forcetower.uefs.view.suggestion.SuggestionActivity;
@@ -75,7 +74,6 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -89,9 +87,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import timber.log.Timber;
 
 import static com.forcetower.uefs.Constants.ENROLLMENT_CERTIFICATE_FILE_NAME;
-import static com.forcetower.uefs.view.connected.ConnectedFragment.FRAGMENT_INTENT_EXTRA;
-import static com.forcetower.uefs.view.connected.ConnectedFragment.GRADES_FRAGMENT;
-import static com.forcetower.uefs.view.connected.ConnectedFragment.MESSAGES_FRAGMENT;
+import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.FRAGMENT_INTENT_EXTRA;
+import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.GRADES_FRAGMENT;
+import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.MESSAGES_FRAGMENT;
 
 public class LoggedActivity extends UBaseActivity implements NavigationView.OnNavigationItemSelectedListener,
         HasSupportFragmentInjector, ActivityController {
@@ -442,6 +440,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
+        boolean ignoreCheckable = false;
         if (id != selectedNavId) {
             if (id == R.id.nav_profile) {
                 navigationController.navigateToProfile();
@@ -466,6 +465,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
             } else if (id == R.id.nav_big_tray) {
                 if ((latestProfile != null && latestProfile.getName().equalsIgnoreCase("jpssena")) || BuildConfig.DEBUG) {
                     navigationController.navigateToBigTray();
+                    ignoreCheckable = true;
                 } else {
                     NetworkUtils.openLink(this, "http://bit.ly/bandejaouefs");
                 }
@@ -481,7 +481,8 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
                 openCertificatePdf(true);
             }
 
-            if (item.isCheckable()) selectedNavId = id;
+            if (item.isCheckable() || ignoreCheckable) selectedNavId = id;
+            if (ignoreCheckable) navigationView.setCheckedItem(id);
         }
 
         drawer.closeDrawer(GravityCompat.START);

@@ -39,8 +39,6 @@ import com.forcetower.uefs.rep.helper.Status;
 import com.forcetower.uefs.rep.resources.FetchAllDataResource;
 import com.forcetower.uefs.rep.resources.FetchGradesResource;
 import com.forcetower.uefs.rep.resources.LoginOnlyResource;
-import com.forcetower.uefs.service.ApiResponse;
-import com.forcetower.uefs.service.Version;
 import com.forcetower.uefs.sgrs.SagresResponse;
 import com.forcetower.uefs.sgrs.parsers.SagresCalendarParser;
 import com.forcetower.uefs.sgrs.parsers.SagresDcpGroupsParser;

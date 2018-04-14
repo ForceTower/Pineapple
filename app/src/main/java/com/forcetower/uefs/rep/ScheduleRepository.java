@@ -14,7 +14,6 @@ import com.forcetower.uefs.db.entity.CalendarEvent;
 import com.forcetower.uefs.db.entity.DisciplineClassLocation;
 import com.forcetower.uefs.db.entity.DisciplineGroup;
 import com.forcetower.uefs.db.entity.Semester;
-import com.google.api.services.calendar.model.Event;
 
 import java.util.List;
 

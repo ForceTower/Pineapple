@@ -34,9 +34,8 @@ import com.forcetower.uefs.db.entity.Semester;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.util.DateUtils;
+import com.forcetower.uefs.view.connected.ActivityController;
 import com.forcetower.uefs.view.control_room.ControlRoomActivity;
-import com.forcetower.uefs.view.experimental.good_barrel.GoodBarrelActivity;
-import com.forcetower.uefs.view.logged.ActivityController;
 import com.forcetower.uefs.vm.ProfileViewModel;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
@@ -57,7 +56,7 @@ import timber.log.Timber;
 
 import static android.app.Activity.RESULT_OK;
 import static android.os.Looper.getMainLooper;
-import static com.forcetower.uefs.view.logged.LoggedActivity.BACKGROUND_IMAGE;
+import static com.forcetower.uefs.view.connected.LoggedActivity.BACKGROUND_IMAGE;
 
 /**
  * Created by João Paulo on 08/03/2018.
@@ -246,10 +245,6 @@ public class ProfileFragment extends Fragment implements Injectable {
 
     private void goToUpdateControl() {
         ControlRoomActivity.startActivity(getContext());
-    }
-
-    private void goToBarrel() {
-        GoodBarrelActivity.startActivity(getContext());
     }
 
     @Override

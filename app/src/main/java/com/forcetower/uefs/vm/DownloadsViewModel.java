@@ -2,11 +2,8 @@ package com.forcetower.uefs.vm;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.rep.RefreshRepository;
@@ -14,14 +11,8 @@ import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 import javax.inject.Inject;
-
-import timber.log.Timber;
 
 /**
  * Created by João Paulo on 23/03/2018.

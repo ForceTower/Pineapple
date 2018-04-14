@@ -10,10 +10,10 @@ import com.forcetower.uefs.view.connected.fragments.NewScheduleFragment;
 import com.forcetower.uefs.view.connected.fragments.ProfileFragment;
 import com.forcetower.uefs.view.connected.fragments.ScheduleFragment;
 import com.forcetower.uefs.view.connected.fragments.SemesterGradesFragment;
+import com.forcetower.uefs.view.connected.fragments.TheAdventureFragment;
 import com.forcetower.uefs.view.control_room.fragments.MasterSyncControlFragment;
 import com.forcetower.uefs.view.discipline.fragments.GradesFragment;
 import com.forcetower.uefs.view.discipline.fragments.OverviewFragment;
-import com.forcetower.uefs.view.experimental.good_barrel.fragments.BarrelFragment;
 import com.forcetower.uefs.view.login.fragment.ConnectingFragment;
 import com.forcetower.uefs.view.login.fragment.LoginFormFragment;
 
@@ -70,8 +70,8 @@ public abstract class FragmentsModule {
     abstract MasterSyncControlFragment contributeMasterSyncControlFragment();
 
     @ContributesAndroidInjector
-    abstract BarrelFragment contributeBarrelFragment();
+    abstract AutoSyncFragment contributeAutoSyncFragment();
 
     @ContributesAndroidInjector
-    abstract AutoSyncFragment contributeAutoSyncFragment();
+    abstract TheAdventureFragment contributeTheAdventureFragment();
 }
