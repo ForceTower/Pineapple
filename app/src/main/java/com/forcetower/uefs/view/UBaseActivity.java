@@ -103,7 +103,11 @@ public abstract class UBaseActivity extends AppCompatActivity implements Achieve
     public void openPlayGamesAchievements() {
         if (!mPlayGamesInstance.isSignedIn() || !NetworkUtils.isNetworkAvailable(this) || mPlayGamesInstance.getAchievementsClient() == null) {
             Timber.d("Not connected... Thus you can't open this because of: %s %s %s", !mPlayGamesInstance.isSignedIn(), !NetworkUtils.isNetworkAvailable(this), mPlayGamesInstance.getAchievementsClient() == null);
-            mPlayGamesInstance.disconnect();
+            if (!NetworkUtils.isNetworkAvailable(this)) {
+                Toast.makeText(this, R.string.connect_to_the_internet, Toast.LENGTH_SHORT).show();
+            } else {
+                mPlayGamesInstance.disconnect();
+            }
             return;
         }
         Task<Intent> allAchievements = mPlayGamesInstance.getAchievementsClient().getAchievementsIntent();

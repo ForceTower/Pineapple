@@ -317,4 +317,25 @@
     <string name="pref_header_experimental_content">Experimental Contents</string>
     <string name="pref_header_general">General</string>
     <string name="pref_header_unes_adventure">Mini Game</string>
+
+    <string name="title_activity_logged">Connected</string>
+    <string name="navigation_drawer_open">Opens navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_desc">Navigation Image</string>
+    <string name="action_settings">Settings</string>
+    <string name="nav_title_profile">Profile</string>
+    <string name="nav_title_unes_adventure">The adventure</string>
+    <string name="nav_title_logout">Logout</string>
+    <string name="nav_title_feedback">Comments and suggestions</string>
+    <string name="nav_title_about">About UNES</string>
+    <string name="title_profile">Profile</string>
+    <string name="click_to_know_about">Click here to know more about the app</string>
+    <string name="auth_activity">Authentication</string>
+    <string name="about_app">About the app</string>
+    <string name="control_room">Control Room</string>
+    <string name="unes_the_adventure">The Adventure</string>
+    <string name="unes_the_adventure_desc">What secrets the UEFS hide? What is the answer for the fundamental questions?\n\nIn this epic adventure you are the main character where your biggest goal is to finish graduation!\n\nAre you ready for the adventure? Start now!</string>
+    <string name="unes_the_adventure_join">Join</string>
+    <string name="unes_the_adventure_logout">Leave adventure</string>
+    <string name="connect_to_the_internet">Connect to the internet and try again</string>
 </resources>
