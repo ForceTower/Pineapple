@@ -4,7 +4,6 @@ import com.forcetower.uefs.view.about.AboutActivity;
 import com.forcetower.uefs.view.connected.LoggedActivity;
 import com.forcetower.uefs.view.connected.fragments.ConnectedFragment;
 import com.forcetower.uefs.view.control_room.ControlRoomActivity;
-import com.forcetower.uefs.view.discipline.DisciplineClassesActivity;
 import com.forcetower.uefs.view.login.MainActivity;
 import com.forcetower.uefs.view.settings.SettingsActivity;
 
@@ -25,9 +24,6 @@ public abstract class ActivitiesModule {
 
     @ContributesAndroidInjector
     abstract SettingsActivity contributeSettingsActivity();
-
-    @ContributesAndroidInjector
-    abstract DisciplineClassesActivity contributeDisciplineClassesActivity();
 
     @ContributesAndroidInjector(modules = FragmentsModule.class)
     abstract ControlRoomActivity contributeControlRoomActivity();

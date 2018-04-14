@@ -1,4 +1,4 @@
-package com.forcetower.uefs.view.discipline.adapters;
+package com.forcetower.uefs.view.connected.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

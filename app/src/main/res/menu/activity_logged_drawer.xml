@@ -81,8 +81,7 @@
     </group>
 
     <group
-        android:id="@+id/nav_group_others"
-        android:checkableBehavior="none">
+        android:id="@+id/nav_group_others">
 
         <item
             android:id="@+id/nav_feedback"
@@ -90,7 +89,8 @@
 
         <item
             android:id="@+id/nav_about"
-            android:title="@string/nav_title_about"/>
+            android:title="@string/nav_title_about"
+            android:checkable="false"/>
 
     </group>
 

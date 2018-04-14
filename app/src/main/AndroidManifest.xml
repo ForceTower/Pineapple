@@ -27,7 +27,9 @@
             android:name="com.google.android.gms.games.APP_ID"
             android:value="@string/app_id"/>
 
-        <activity android:name=".view.login.MainActivity">
+        <activity
+            android:name=".view.login.MainActivity"
+            android:label="@string/auth_activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -43,14 +45,17 @@
             </intent-filter>
         </activity>
         <activity
+            android:label="@string/settings"
             android:name=".view.settings.SettingsActivity"
             android:theme="@style/AppTheme.PreferencesStyle">
         </activity>
-        <activity android:name=".view.about.AboutActivity">
+        <activity
+            android:name=".view.about.AboutActivity"
+            android:label="@string/about_app">
         </activity>
-        <activity android:name=".view.discipline.DisciplineClassesActivity">
-        </activity>
-        <activity android:name=".view.control_room.ControlRoomActivity">
+        <activity
+            android:name=".view.control_room.ControlRoomActivity"
+            android:label="@string/control_room">
         </activity>
 
         <service

@@ -791,6 +791,11 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         navigationController.navigateToDisciplineDetails(groupUid, disciplineUid);
     }
 
+    @Override
+    public void navigateToDisciplineClasses(int groupId) {
+        navigationController.navigateToDisciplineClasses(groupId);
+    }
+
     class NavigationViews {
         @BindView(R.id.iv_nav_image)
         CircleImageView ivNavUserImage;

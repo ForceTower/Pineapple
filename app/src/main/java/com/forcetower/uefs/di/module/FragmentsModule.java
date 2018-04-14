@@ -15,6 +15,7 @@ import com.forcetower.uefs.view.control_room.fragments.MasterSyncControlFragment
 import com.forcetower.uefs.view.connected.fragments.DisciplineDetailsFragment;
 import com.forcetower.uefs.view.connected.fragments.GradesFragment;
 import com.forcetower.uefs.view.connected.fragments.OverviewFragment;
+import com.forcetower.uefs.view.connected.fragments.DisciplineClassesFragment;
 import com.forcetower.uefs.view.login.fragment.ConnectingFragment;
 import com.forcetower.uefs.view.login.fragment.LoginFormFragment;
 import com.forcetower.uefs.view.connected.fragments.SuggestionFragment;
@@ -73,6 +74,9 @@ public abstract class FragmentsModule {
 
     @ContributesAndroidInjector
     abstract DisciplineDetailsFragment contributeDisciplineDetailsFragment();
+
+    @ContributesAndroidInjector
+    abstract DisciplineClassesFragment contributeDisciplineClassesFragment();
 
     @ContributesAndroidInjector
     abstract MasterSyncControlFragment contributeMasterSyncControlFragment();

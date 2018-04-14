@@ -14,4 +14,5 @@ public interface ActivityController {
     void onProfileImageChanged(Bitmap bitmap);
     void showNewScheduleError(Exception ex);
     void navigateToDisciplineDetails(int groupUid, int disciplineUid);
+    void navigateToDisciplineClasses(int groupId);
 }

@@ -2,6 +2,7 @@ package com.forcetower.uefs.view.connected.fragments;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,7 +25,7 @@ import com.forcetower.uefs.rep.helper.Status;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.util.DateUtils;
 import com.forcetower.uefs.view.UBaseActivity;
-import com.forcetower.uefs.view.discipline.DisciplineClassesActivity;
+import com.forcetower.uefs.view.connected.ActivityController;
 import com.forcetower.uefs.vm.DisciplinesViewModel;
 
 import javax.inject.Inject;
@@ -89,6 +90,14 @@ public class OverviewFragment extends Fragment implements Injectable {
 
     private Discipline mDiscipline;
 
+    private ActivityController controller;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        controller = (ActivityController) context;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -122,7 +131,7 @@ public class OverviewFragment extends Fragment implements Injectable {
             }
         });
 
-        cvClasses.setOnClickListener(v -> DisciplineClassesActivity.startActivity(getContext(), groupId));
+        cvClasses.setOnClickListener(v -> controller.navigateToDisciplineClasses(groupId));
     }
 
     private void onDisciplineGroupChanged(DisciplineGroup group) {

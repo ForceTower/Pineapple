@@ -13,6 +13,7 @@ import com.forcetower.uefs.view.connected.fragments.ConnectedFragment;
 import com.forcetower.uefs.view.connected.fragments.ProfileFragment;
 import com.forcetower.uefs.view.connected.fragments.DisciplineDetailsFragment;
 import com.forcetower.uefs.view.connected.fragments.SuggestionFragment;
+import com.forcetower.uefs.view.connected.fragments.DisciplineClassesFragment;
 
 import javax.inject.Inject;
 
@@ -124,6 +125,10 @@ public class NavigationController {
     }
 
     public void navigateToDisciplineDetails(int groupUid, int disciplineUid) {
-        changeFragment(DisciplineDetailsFragment.getFragment(groupUid, disciplineUid), "other_arrow");
+        changeFragment(DisciplineDetailsFragment.getFragment(groupUid, disciplineUid), "other_arrow_class_details");
+    }
+
+    public void navigateToDisciplineClasses(int groupId) {
+        changeFragment(DisciplineClassesFragment.getFragment(groupId), "other_arrow_class_classes");
     }
 }

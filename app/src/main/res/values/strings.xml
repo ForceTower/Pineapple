@@ -331,4 +331,7 @@
     <string name="nav_title_about">Sobre o UNES</string>
     <string name="title_profile">Perfil</string>
     <string name="click_to_know_about">Clique aqui para informações sobre o aplicativo</string>
+    <string name="auth_activity">Autenticação</string>
+    <string name="about_app">Sobre o aplicativo</string>
+    <string name="control_room">Sala de Controle</string>
 </resources>
