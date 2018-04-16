@@ -85,7 +85,8 @@
 
         <item
             android:id="@+id/nav_feedback"
-            android:title="@string/nav_title_feedback"/>
+            android:title="@string/nav_title_feedback"
+            android:checkable="false"/>
 
         <item
             android:id="@+id/nav_about"

@@ -13,7 +13,8 @@ import com.forcetower.uefs.view.connected.fragments.BigTrayFragment;
 import com.forcetower.uefs.view.connected.fragments.ConnectedFragment;
 import com.forcetower.uefs.view.connected.fragments.ProfileFragment;
 import com.forcetower.uefs.view.connected.fragments.DisciplineDetailsFragment;
-import com.forcetower.uefs.view.connected.fragments.SuggestionFragment;
+import com.forcetower.uefs.view.suggestion.SuggestionActivity;
+import com.forcetower.uefs.view.suggestion.SuggestionFragment;
 import com.forcetower.uefs.view.connected.fragments.DisciplineClassesFragment;
 import com.forcetower.uefs.view.connected.fragments.TheAdventureFragment;
 
@@ -125,14 +126,6 @@ public class NavigationController {
 
     public void changeFragment(@NonNull Fragment fragment, @Nullable String name) {
         changeFragment(fragment, name, false);
-    }
-
-    public void navigateToSuggestion() {
-        changeFragment(SuggestionFragment.createFragment(), null, true);
-    }
-
-    public void navigateToSuggestion(String message, StackTraceElement[] stackTrace) {
-        changeFragment(SuggestionFragment.createFragment(message, stackTrace), null, true);
     }
 
     public void navigateToDisciplineDetails(int groupUid, int disciplineUid) {

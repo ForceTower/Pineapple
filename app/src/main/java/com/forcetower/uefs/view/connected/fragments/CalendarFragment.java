@@ -83,8 +83,8 @@ public class CalendarFragment extends Fragment implements Injectable {
 
     private void setupRecycler() {
         calendarAdapter = new CalendarAdapter(getContext(), new ArrayList<>());
-        rvCalendar.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvCalendar.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        rvCalendar.setLayoutManager(new LinearLayoutManager(requireContext()));
+        rvCalendar.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
         rvCalendar.setAdapter(calendarAdapter);
     }
 
@@ -107,8 +107,12 @@ public class CalendarFragment extends Fragment implements Injectable {
         } else if (resource.status == Status.ERROR) {
             refreshLayout.setRefreshing(false);
             calendarViewModel.setRefreshing(false);
-            Toast.makeText(getContext(), resource.message, Toast.LENGTH_SHORT).show();
+            if (resource.data != null)
+                Toast.makeText(getContext(), resource.data, Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(getContext(), resource.message, Toast.LENGTH_SHORT).show();
         } else {
+            //noinspection ConstantConditions
             Timber.d("Updating.. Received Status: %s", getString(resource.data));
         }
     }

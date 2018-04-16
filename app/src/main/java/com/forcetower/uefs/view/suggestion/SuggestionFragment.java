@@ -1,4 +1,4 @@
-package com.forcetower.uefs.view.connected.fragments;
+package com.forcetower.uefs.view.suggestion;
 
 import android.content.Context;
 import android.content.Intent;
@@ -26,27 +26,18 @@ import com.forcetower.uefs.view.connected.ActivityController;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SuggestionFragment extends Fragment implements Injectable {
-    private static final String MESSAGE_CAUSE = "exception_message";
-    private static final String STACK_TRACE = "stack_trace";
+public class SuggestionFragment extends Fragment {
+    public static final String MESSAGE_CAUSE = "exception_message";
+    public static final String STACK_TRACE = "stack_trace";
     @BindView(R.id.et_suggestion)
     EditText editText;
     @BindView(R.id.btn_submit)
     Button btnSubmit;
 
-    private ActivityController controller;
-
-    public static SuggestionFragment createFragment(String message, StackTraceElement[] stackTrace) {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Stack Trace START\n");
-        for (StackTraceElement trace : stackTrace) {
-            stringBuilder.append("\tat ").append(trace).append("\n");
-        }
-        stringBuilder.append("Stack Trace END");
-
+    public static SuggestionFragment createFragment(String message, String stackTrace) {
         Bundle bundle = new Bundle();
         bundle.putString(MESSAGE_CAUSE, message);
-        bundle.putString(STACK_TRACE, stringBuilder.toString());
+        bundle.putString(STACK_TRACE, stackTrace);
 
         SuggestionFragment fragment = new SuggestionFragment();
         fragment.setArguments(bundle);
@@ -60,17 +51,13 @@ public class SuggestionFragment extends Fragment implements Injectable {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        controller = (ActivityController) context;
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_suggestion, container, false);
+        View view = inflater.inflate(R.layout.fragment_suggestion, container, false);
         ButterKnife.bind(this, view);
-
-        controller.changeTitle(R.string.nav_title_feedback);
-        controller.getTabLayout().setVisibility(View.GONE);
 
         if (getArguments() != null && getArguments().getString(STACK_TRACE) != null) {
             String message = getArguments().getString(MESSAGE_CAUSE);

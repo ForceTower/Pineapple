@@ -67,6 +67,7 @@ import com.forcetower.uefs.view.connected.fragments.AutoSyncFragment;
 import com.forcetower.uefs.view.connected.fragments.ConnectedFragment;
 import com.forcetower.uefs.view.login.MainActivity;
 import com.forcetower.uefs.view.settings.SettingsActivity;
+import com.forcetower.uefs.view.suggestion.SuggestionActivity;
 import com.forcetower.uefs.vm.AchievementsViewModel;
 import com.forcetower.uefs.vm.DownloadsViewModel;
 import com.forcetower.uefs.vm.GradesViewModel;
@@ -558,7 +559,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     }
 
     private void goToFeedback() {
-        navigationController.navigateToSuggestion();
+        SuggestionActivity.startActivity(this);
     }
 
     private void goToAbout() {
@@ -787,7 +788,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
         Snackbar snackbar = Snackbar.make(rootViewContent, getString(R.string.new_schedule_errors), Snackbar.LENGTH_INDEFINITE);
         snackbar.setAction(R.string.send_error, v -> {
-            navigationController.navigateToSuggestion(e.getMessage(), e.getStackTrace());
+            SuggestionActivity.startActivity(this, e.getMessage(), e.getStackTrace());
             snackbar.dismiss();
         });
         snackbar.show();

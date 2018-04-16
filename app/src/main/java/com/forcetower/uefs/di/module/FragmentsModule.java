@@ -19,7 +19,7 @@ import com.forcetower.uefs.view.connected.fragments.OverviewFragment;
 import com.forcetower.uefs.view.connected.fragments.DisciplineClassesFragment;
 import com.forcetower.uefs.view.login.fragment.ConnectingFragment;
 import com.forcetower.uefs.view.login.fragment.LoginFormFragment;
-import com.forcetower.uefs.view.connected.fragments.SuggestionFragment;
+import com.forcetower.uefs.view.suggestion.SuggestionFragment;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -72,9 +72,6 @@ public abstract class FragmentsModule {
 
     @ContributesAndroidInjector
     abstract BigTrayFragment contributeBigTrayFragment();
-
-    @ContributesAndroidInjector
-    abstract SuggestionFragment contributeSuggestionFragment();
 
     @ContributesAndroidInjector
     abstract DisciplineDetailsFragment contributeDisciplineDetailsFragment();
