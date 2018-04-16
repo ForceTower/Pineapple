@@ -93,8 +93,6 @@ public class GooglePlayGamesInstance extends ContextWrapper {
 
     public void changePlayerName(String other) {
         boolean change = false;
-        Timber.d("Old player name: %s", playerName);
-        Timber.d("New player name: %s", other);
 
         if (other == null)
             playerName = null;
@@ -112,7 +110,6 @@ public class GooglePlayGamesInstance extends ContextWrapper {
     }
 
     public boolean hasPlayerUnlockedSwitchAchievement() {
-        Timber.d("Status of achievement: %s", playerUnlockedSwitchAchievement);
         return playerUnlockedSwitchAchievement;
     }
 }

@@ -16,7 +16,7 @@ import static com.forcetower.uefs.rep.helper.RequestCreator.makeRequestForMainUp
  */
 public class SyncUtils {
 
-    public static boolean syncCheckMainUpdater(OkHttpClient client) {
+    public static boolean syncCheckMainUpdater(OkHttpClient client, int type) {
         Request request = makeRequestForMainUpdater();
         Call call = client.newCall(request);
         try {
@@ -25,7 +25,10 @@ public class SyncUtils {
                 Gson gson = new Gson();
                 SyncResponse sync = gson.fromJson(response.body().string(), SyncResponse.class);
                 Timber.d("Sync: %s", sync.isUpdate());
-                return sync.isUpdate();
+                if (type == 1)
+                    return sync.isUpdate();
+                else if (type == 2)
+                    return sync.isAlarmEnabled();
             }
         } catch (Exception e) {
             Timber.d("Continue due to server offline");
