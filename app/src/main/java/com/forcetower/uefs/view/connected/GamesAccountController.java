@@ -9,4 +9,5 @@ public interface GamesAccountController {
     GooglePlayGamesInstance getPlayGamesInstance();
     void openPlayGamesAchievements();
     void signIn();
+    void unlockAchievements(String string, GooglePlayGamesInstance playGamesInstance);
 }

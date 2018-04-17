@@ -811,6 +811,11 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         return mPlayGamesInstance;
     }
 
+    @Override
+    public void unlockAchievements(@NonNull String achievement, @NonNull GooglePlayGamesInstance playGamesInstance) {
+        super.unlockAchievements(achievement, playGamesInstance);
+    }
+
     class NavigationViews {
         @BindView(R.id.iv_nav_image)
         CircleImageView ivNavUserImage;

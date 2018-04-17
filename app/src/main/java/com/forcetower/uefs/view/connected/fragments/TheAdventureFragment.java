@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.forcetower.uefs.GameConnectionStatus;
 import com.forcetower.uefs.R;
@@ -173,10 +174,16 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
             try {
                 fusedLocationClient.getLastLocation().addOnSuccessListener(requireActivity(), location -> {
                     if (location != null) {
-                        Timber.d("Location: LAT: %.12f - LOG: %.12f", location.getLatitude(), location.getLongitude());
+                        Timber.d("Location: LAT: %.8f - LOG: %.8f", location.getLatitude(), location.getLongitude());
                         Timber.d("Location: Accuracy: %.4f", location.getAccuracy());
+                        if (location.getAccuracy() > 100) {
+                            Toast.makeText(requireContext(), R.string.location_is_not_accurate, Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        onReceiveLocation(location);
                     } else {
                         Timber.d("Location is null");
+                        Toast.makeText(requireContext(), R.string.cant_receive_location, Toast.LENGTH_SHORT).show();
                     }
                 });
             } catch (SecurityException e) {
@@ -191,12 +198,43 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
                 } catch (Exception ignored) {
                     Timber.d("Ignored exception");
                     ignored.printStackTrace();
+                    Toast.makeText(requireContext(), R.string.cant_receive_location, Toast.LENGTH_SHORT).show();
                 }
             } else {
                 Timber.d("Unresolvable Exception");
                 fail.printStackTrace();
+                Toast.makeText(requireContext(), R.string.cant_receive_location, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void onReceiveLocation(@NonNull Location location) {
+        if (matchesLibrary(location)) {
+            gameController.unlockAchievements(getString(R.string.achievement_dora_the_studious), gameController.getPlayGamesInstance());
+        } else if (matchesZoologyMuseum(location)) {
+            gameController.unlockAchievements(getString(R.string.achievement_dora_the_adventurer), gameController.getPlayGamesInstance());
+        } else {
+            Timber.d("Not in a valid location");
+            Toast.makeText(requireContext(), R.string.adventure_not_in_a_valid_location, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private boolean matchesZoologyMuseum(@NonNull Location location) {
+        if (location.getLatitude() < -12.199053 || location.getLatitude() > -12.198730)
+            return false;
+        if (location.getLongitude() > -38.967865 || location.getLongitude() < -38.968281)
+            return false;
+
+        return true;
+    }
+
+    private boolean matchesLibrary(@NonNull Location location) {
+        if (location.getLatitude() < -12.202489 || location.getLatitude() > -12.201988)
+            return false;
+        if (location.getLongitude() > -38.971906 || location.getLongitude() < -38.972303)
+            return false;
+
+        return true;
     }
 
     @Override
