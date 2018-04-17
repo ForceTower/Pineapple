@@ -1,9 +1,14 @@
 package com.forcetower.uefs.view.connected.fragments;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,17 +22,34 @@ import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.view.connected.ActivityController;
 import com.forcetower.uefs.view.connected.GamesAccountController;
+import com.forcetower.uefs.view.login.MainActivity;
+import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.SettingsClient;
+import com.google.android.gms.tasks.Task;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 import timber.log.Timber;
 
 /**
  * Created by João Paulo on 13/04/2018.
  */
-public class TheAdventureFragment extends Fragment implements Injectable {
+public class TheAdventureFragment extends Fragment implements Injectable, EasyPermissions.PermissionCallbacks {
+    public static final int REQUEST_PERMISSION_FINE_LOCATION = 6000;
+    public static final int REQUEST_CHECK_SETTINGS = 6001;
     @BindView(R.id.tv_adventure_description)
     TextView tvAdventureDescription;
     @BindView(R.id.btn_join_adventure)
@@ -39,12 +61,19 @@ public class TheAdventureFragment extends Fragment implements Injectable {
 
     private ActivityController actController;
     private GamesAccountController gameController;
+    private FusedLocationProviderClient fusedLocationClient;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         actController = (ActivityController) context;
         gameController = (GamesAccountController) context;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext());
     }
 
     @Nullable
@@ -113,7 +142,72 @@ public class TheAdventureFragment extends Fragment implements Injectable {
     }
 
     @OnClick(value = R.id.iv_unes_confirm_location)
+    @AfterPermissionGranted(REQUEST_PERMISSION_FINE_LOCATION)
     public void confirmLocation() {
         Timber.d("Clicked to confirm location");
+        if (EasyPermissions.hasPermissions(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)) {
+            checkLocation();
+        } else {
+            EasyPermissions.requestPermissions(this,
+                    getString(R.string.access_fine_location_request),
+                    REQUEST_PERMISSION_FINE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION);
+        }
     }
+
+
+    private void checkLocation() {
+        LocationRequest mLocationRequest = LocationRequest.create();
+        mLocationRequest.setInterval(10000);
+        mLocationRequest.setFastestInterval(5000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                .addLocationRequest(mLocationRequest);
+
+        SettingsClient client = LocationServices.getSettingsClient(requireContext());
+        Task<LocationSettingsResponse> task = client.checkLocationSettings(builder.build());
+
+        task.addOnCompleteListener(requireActivity(), complete -> {
+            Timber.d("Can make location request");
+
+            try {
+                fusedLocationClient.getLastLocation().addOnSuccessListener(requireActivity(), location -> {
+                    if (location != null) {
+                        Timber.d("Location: LAT: %.12f - LOG: %.12f", location.getLatitude(), location.getLongitude());
+                        Timber.d("Location: Accuracy: %.4f", location.getAccuracy());
+                    } else {
+                        Timber.d("Location is null");
+                    }
+                });
+            } catch (SecurityException e) {
+                Timber.e("What??? How did this happen?");
+            }
+
+        }).addOnFailureListener(requireActivity(), fail -> {
+            if (fail instanceof ResolvableApiException) {
+                try {
+                    ResolvableApiException resolvable = (ResolvableApiException) fail;
+                    resolvable.startResolutionForResult(requireActivity(), REQUEST_CHECK_SETTINGS);
+                } catch (Exception ignored) {
+                    Timber.d("Ignored exception");
+                    ignored.printStackTrace();
+                }
+            } else {
+                Timber.d("Unresolvable Exception");
+                fail.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) { }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) { }
 }

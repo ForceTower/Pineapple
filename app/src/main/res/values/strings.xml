@@ -339,4 +339,5 @@
     <string name="unes_the_adventure_join">Junte-se</string>
     <string name="unes_the_adventure_logout">Sair da aventura</string>
     <string name="connect_to_the_internet">Conecte-se à internet e tente novamente</string>
+    <string name="access_fine_location_request">O aplicativo precisa acessar sua localização para usar este recurso</string>
 </resources>
