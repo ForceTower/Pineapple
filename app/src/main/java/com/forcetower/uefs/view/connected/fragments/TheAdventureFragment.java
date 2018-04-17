@@ -3,9 +3,11 @@ package com.forcetower.uefs.view.connected.fragments;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -13,6 +15,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,10 +63,13 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
     Button btnExit;
     @BindView(R.id.iv_unes_confirm_location)
     CircleImageView ivConfirmLocation;
+    @BindView(R.id.tv_location_explained)
+    TextView tvLocationExplained;
 
     private ActivityController actController;
     private GamesAccountController gameController;
     private FusedLocationProviderClient fusedLocationClient;
+    private SharedPreferences preferences;
 
     @Override
     public void onAttach(Context context) {
@@ -82,6 +89,8 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_the_adventure, container, false);
         ButterKnife.bind(this, view);
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
 
         actController.changeTitle(R.string.unes_the_adventure);
         actController.getTabLayout().setVisibility(View.GONE);
@@ -114,15 +123,25 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
 
     private void showConnectedActions() {
         btnJoin.setText(R.string.pref_unes_the_adventure_achievements);
-        AnimUtils.fadeIn(requireContext(), btnExit);
+        btnExit.setVisibility(View.VISIBLE);
+        //AnimUtils.fadeIn(requireContext(), btnExit);
         tvAdventureDescription.setVisibility(View.GONE);
+
+        if (!preferences.getBoolean("user_learned_confirm_location", false))
+            tvLocationExplained.setVisibility(View.VISIBLE);
+
+        Animation pulse = AnimationUtils.loadAnimation(requireContext(), R.anim.pulse);
+        ivConfirmLocation.startAnimation(pulse);
     }
 
     private void showDisconnectedActions() {
         btnJoin.setText(R.string.unes_the_adventure_join);
-        AnimUtils.fadeIn(requireContext(), btnJoin);
-        AnimUtils.fadeOutGone(requireContext(), btnExit);
+        //AnimUtils.fadeIn(requireContext(), btnJoin);
+        btnExit.setVisibility(View.GONE);
+        tvLocationExplained.setVisibility(View.GONE);
+        //AnimUtils.fadeOutGone(requireContext(), btnExit);
         tvAdventureDescription.setVisibility(View.VISIBLE);
+        ivConfirmLocation.clearAnimation();
     }
 
     @OnClick(value = R.id.btn_join_adventure)
@@ -146,6 +165,13 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
     @AfterPermissionGranted(REQUEST_PERMISSION_FINE_LOCATION)
     public void confirmLocation() {
         Timber.d("Clicked to confirm location");
+        preferences.edit().putBoolean("user_learned_confirm_location", true).apply();
+        AnimUtils.fadeOutGone(requireContext(), tvLocationExplained);
+
+        if (!gameController.getPlayGamesInstance().isSignedIn()) {
+            Timber.d("Not connected to the adventure");
+            return;
+        }
         if (EasyPermissions.hasPermissions(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)) {
             checkLocation();
         } else {
@@ -226,6 +252,7 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
 
         float distance = location.distanceTo(museum);
         Timber.d("Distance to Serpents: %f", distance);
+        Toast.makeText(requireContext(), "[TEST] Distance to Serpents: " + distance, Toast.LENGTH_SHORT).show();
 
         if (distance <= 15) {
             Timber.d("You unlocked by measure");
@@ -247,7 +274,7 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
 
         float distance = location.distanceTo(library);
         Timber.d("Distance to library: %f", distance);
-
+        Toast.makeText(requireContext(), "[TEST] Distance to Library: " + distance, Toast.LENGTH_SHORT).show();
         if (distance <= 15) {
             Timber.d("You unlocked by measure");
             return true;
