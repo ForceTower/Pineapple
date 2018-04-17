@@ -220,6 +220,18 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
     }
 
     private boolean matchesZoologyMuseum(@NonNull Location location) {
+        Location museum = new Location("");
+        museum.setLatitude(-12.198888);
+        museum.setLongitude(-38.967986);
+
+        float distance = location.distanceTo(museum);
+        Timber.d("Distance to Serpents: %f", distance);
+
+        if (distance <= 15) {
+            Timber.d("You unlocked by measure");
+            return true;
+        }
+
         if (location.getLatitude() < -12.199053 || location.getLatitude() > -12.198730)
             return false;
         if (location.getLongitude() > -38.967865 || location.getLongitude() < -38.968281)
@@ -229,6 +241,18 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
     }
 
     private boolean matchesLibrary(@NonNull Location location) {
+        Location library = new Location("");
+        library.setLatitude(-12.202193);
+        library.setLongitude(-38.972065);
+
+        float distance = location.distanceTo(library);
+        Timber.d("Distance to library: %f", distance);
+
+        if (distance <= 15) {
+            Timber.d("You unlocked by measure");
+            return true;
+        }
+
         if (location.getLatitude() < -12.202489 || location.getLatitude() > -12.201988)
             return false;
         if (location.getLongitude() > -38.971906 || location.getLongitude() < -38.972303)
