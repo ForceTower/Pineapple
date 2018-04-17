@@ -15,7 +15,6 @@ import com.forcetower.uefs.db.entity.Message;
 import com.forcetower.uefs.service.Version;
 import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.connected.LoggedActivity;
-import com.forcetower.uefs.view.connected.fragments.ConnectedFragment;
 import com.forcetower.uefs.view.login.MainActivity;
 import com.google.firebase.messaging.RemoteMessage;
 

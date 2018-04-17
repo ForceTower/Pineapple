@@ -2,7 +2,6 @@ package com.forcetower.uefs.di.module;
 
 import com.forcetower.uefs.view.about.AboutActivity;
 import com.forcetower.uefs.view.connected.LoggedActivity;
-import com.forcetower.uefs.view.connected.fragments.ConnectedFragment;
 import com.forcetower.uefs.view.control_room.ControlRoomActivity;
 import com.forcetower.uefs.view.login.MainActivity;
 import com.forcetower.uefs.view.settings.SettingsActivity;

@@ -19,9 +19,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.util.VersionUtils;
-import com.forcetower.uefs.view.connected.ActivityController;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

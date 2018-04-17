@@ -11,11 +11,9 @@ import com.forcetower.uefs.R;
 import com.forcetower.uefs.view.connected.fragments.AutoSyncFragment;
 import com.forcetower.uefs.view.connected.fragments.BigTrayFragment;
 import com.forcetower.uefs.view.connected.fragments.ConnectedFragment;
-import com.forcetower.uefs.view.connected.fragments.ProfileFragment;
-import com.forcetower.uefs.view.connected.fragments.DisciplineDetailsFragment;
-import com.forcetower.uefs.view.suggestion.SuggestionActivity;
-import com.forcetower.uefs.view.suggestion.SuggestionFragment;
 import com.forcetower.uefs.view.connected.fragments.DisciplineClassesFragment;
+import com.forcetower.uefs.view.connected.fragments.DisciplineDetailsFragment;
+import com.forcetower.uefs.view.connected.fragments.ProfileFragment;
 import com.forcetower.uefs.view.connected.fragments.TheAdventureFragment;
 
 import javax.inject.Inject;
