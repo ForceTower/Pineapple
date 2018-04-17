@@ -343,4 +343,5 @@
     <string name="location_is_not_accurate">Location received is not accurate enough</string>
     <string name="adventure_not_in_a_valid_location">You are not in a valid place</string>
     <string name="adventure_confirm_location">Click in the circle to confirm your location</string>
+    <string name="downloading_your_grades">Downloading grades from previous semesters</string>
 </resources>

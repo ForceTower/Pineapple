@@ -1,6 +1,7 @@
 package com.forcetower.uefs.view.connected.adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -42,8 +43,9 @@ public class SemesterAdapter extends RecyclerView.Adapter<SemesterAdapter.Semest
         createMap();
     }
 
+    @NonNull
     @Override
-    public SemesterHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SemesterHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_disciplines_semester, parent, false);
         SemesterHolder holder = new SemesterHolder(view);
         holder.recyclerView.setRecycledViewPool(viewPool);
@@ -51,7 +53,7 @@ public class SemesterAdapter extends RecyclerView.Adapter<SemesterAdapter.Semest
     }
 
     @Override
-    public void onBindViewHolder(SemesterHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SemesterHolder holder, int position) {
         holder.bind(mapped.get(position));
     }
 

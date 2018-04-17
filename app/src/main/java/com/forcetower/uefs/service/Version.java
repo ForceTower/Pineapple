@@ -83,6 +83,10 @@ public class Version {
         return newSchedule == 1;
     }
 
+    public void setBackgroundImage(String backgroundImage) {
+        this.backgroundImage = backgroundImage;
+    }
+
     public String getBackgroundImage() {
         return backgroundImage;
     }

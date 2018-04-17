@@ -138,6 +138,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
     private boolean disconnecting = false;
     private Profile latestProfile;
+    private Access latestAccess;
     private ActionBarDrawerToggle toggle;
     private boolean isHomeAsUp;
 
@@ -184,6 +185,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         gradesViewModel.getAllSemesters().observe(this, this::receiveListOfSemesters);
         gradesViewModel.getAccess().observe(this, this::accessObserver);
         if (afterLogin) {
+            Toast.makeText(this, R.string.downloading_your_grades, Toast.LENGTH_SHORT).show();
             if (!gradesViewModel.isAllGradesCompleted())
                 enableBottomLoading();
             else
@@ -523,7 +525,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
                 navigationController.navigateToCalendar();
                 tabLayout.setVisibility(View.GONE);
             } else if (id == R.id.nav_big_tray) {
-                if ((latestProfile != null && latestProfile.getName().equalsIgnoreCase("jpssena")) || BuildConfig.DEBUG) {
+                if ((latestAccess != null && latestAccess.getUsername().equalsIgnoreCase("jpssena")) || BuildConfig.DEBUG) {
                     navigationController.navigateToBigTray();
                     ignoreCheckable = true;
                 } else {
@@ -692,10 +694,11 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     }
 
     private void accessObserver(Access access) {
+        latestAccess = access;
         if (access == null && !disconnecting) {
             gradesViewModel.logout().observe(this, this::logoutObserver);
             Toast.makeText(this, R.string.disconnected, Toast.LENGTH_SHORT).show();
-        } else if (access != null){
+        } else if (access != null) {
             mPlayGamesInstance.changePlayerName(access.getUsername());
         }
     }

@@ -107,7 +107,6 @@ public class DisciplinesViewModel extends ViewModel {
                 if (resource.status == Status.LOADING)
                     fetchDetails.postValue(resource);
                 else {
-                    Timber.d("This guy is the wrong one, why? ");
                     Timber.d("%s", resource.status.name());
                     detailsFinished = true;
                     fetchDetails.removeSource(repSrc);
@@ -115,11 +114,6 @@ public class DisciplinesViewModel extends ViewModel {
                 }
             });
         }
-        /*if (fetchDetails == null && !detailsStarted) {
-            detailsStarted = true;
-            detailsFinished = false;
-            fetchDetails = repository.getClassDetails(groupId);
-        }*/
         return fetchDetails;
     }
 

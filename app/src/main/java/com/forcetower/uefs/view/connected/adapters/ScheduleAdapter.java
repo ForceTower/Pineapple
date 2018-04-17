@@ -69,10 +69,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
     public void setLocations(List<DisciplineClassLocation> locations) {
         this.locations.clear();
         this.locations.addAll(locations);
-        Timber.d("Locations size: %d", locations.size());
         mapped = new ArrayList<>();
         createMap();
-        Timber.d("New map size: %s", mapped.size());
         notifyDataSetChanged();
     }
 
@@ -84,7 +82,6 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
             List<DisciplineClassLocation> classes = mapping.get(day);
             if (classes == null) {
                 classes = new ArrayList<>();
-                Timber.d("Created list for day %s", day);
             }
             classes.add(location);
             mapping.put(day, classes);
@@ -97,7 +94,6 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
                 List<DisciplineClassLocation> classes = mapping.get(day);
                 Collections.sort(classes);
                 mapped.add(new Pair<>(toWeekLongDay(context, day), classes));
-                Timber.d("Day: %s -> Classes: %s", day, classes);
             }
         }
 
