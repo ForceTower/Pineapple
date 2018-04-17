@@ -64,20 +64,16 @@ public class UEFSApplication extends Application implements HasActivityInjector,
     }
 
     public void clearApplicationData() {
-        /*if (VersionUtils.isKitkat()) {
-            ((ActivityManager)getSystemService(ACTIVITY_SERVICE)).clearApplicationUserData();
-        } else {*/
-            File cacheDirectory = getCacheDir();
-            File applicationDirectory = new File(cacheDirectory.getParent());
-            if (applicationDirectory.exists()) {
-                String[] fileNames = applicationDirectory.list();
-                for (String fileName : fileNames) {
-                    if (!fileName.equals("lib")) {
-                        deleteFile(new File(applicationDirectory, fileName));
-                    }
+        File cacheDirectory = getCacheDir();
+        File applicationDirectory = new File(cacheDirectory.getParent());
+        if (applicationDirectory.exists()) {
+            String[] fileNames = applicationDirectory.list();
+            for (String fileName : fileNames) {
+                if (!fileName.equals("lib")) {
+                    deleteFile(new File(applicationDirectory, fileName));
                 }
             }
-        //}
+        }
     }
 
     public static boolean deleteFile(File file) {
