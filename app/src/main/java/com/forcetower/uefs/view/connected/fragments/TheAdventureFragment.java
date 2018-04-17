@@ -246,7 +246,6 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
 
         float distance = location.distanceTo(museum);
         Timber.d("Distance to Serpents: %f", distance);
-        Toast.makeText(requireContext(), "[TEST] Distance to Serpents: " + distance, Toast.LENGTH_SHORT).show();
 
         if (distance <= 15) {
             Timber.d("You unlocked by measure");
@@ -268,7 +267,6 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
 
         float distance = location.distanceTo(library);
         Timber.d("Distance to library: %f", distance);
-        Toast.makeText(requireContext(), "[TEST] Distance to Library: " + distance, Toast.LENGTH_SHORT).show();
         if (distance <= 15) {
             Timber.d("You unlocked by measure");
             return true;
