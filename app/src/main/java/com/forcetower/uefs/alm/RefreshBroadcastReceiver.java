@@ -107,6 +107,7 @@ public class RefreshBroadcastReceiver extends BroadcastReceiver {
         } else if (resource.status == Status.ERROR) {
             call.removeObserver(this::progressObserver);
             Timber.d("Failed on refresh");
+            createNotifications();
         } else {
             //noinspection ConstantConditions
             Timber.d("Refresh progress on alarm: %s", context.getString(resource.data));

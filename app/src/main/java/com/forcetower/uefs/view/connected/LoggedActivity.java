@@ -158,7 +158,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         ButterKnife.bind(navViews, navigationView.getHeaderView(0));
 
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
+        //drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -166,6 +166,8 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         setupIds();
         setupAfterLogin(savedInstanceState);
         setupNavigationItemColors();
+        setupFragmentStackListener();
+        setupToolbarEvents();
 
         String backgroundImage = mPreferences.getString(BACKGROUND_IMAGE, Constants.BACKGROUND_IMAGE_DEFAULT);
         Picasso.with(this).load(backgroundImage).into(navViews.ivBackground);
@@ -198,8 +200,6 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         setupAlarmManager();
         RefreshAlarmTrigger.enableBootComponent(this);
         setupShortcuts();
-        setupFragmentStackListener();
-        setupToolbarEvents();
 
         boolean autoSync = ContentResolver.getMasterSyncAutomatically();
         boolean shown = mPreferences.getBoolean(AutoSyncFragment.PREF_AUTO_SYNC_SHOWN, false);
@@ -208,6 +208,13 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     }
 
     private void setupFragmentStackListener() {
+        int c = getSupportFragmentManager().getBackStackEntryCount();
+        if (c == 0) {
+            setHomeAsUp(false);
+        } else {
+            setHomeAsUp(true);
+        }
+
         getSupportFragmentManager().addOnBackStackChangedListener(() -> {
             int count = getSupportFragmentManager().getBackStackEntryCount();
             Timber.d("Size changed to %d", count);
@@ -217,18 +224,6 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
             }
 
             setHomeAsUp(true);
-
-            /*
-            FragmentManager.BackStackEntry entry = getSupportFragmentManager().getBackStackEntryAt(count - 1);
-            if (entry != null) {
-                String name = entry.getName();
-                if (name != null && name.startsWith("other_arrow")) {
-                    setHomeAsUp(true);
-                } else {
-                    setHomeAsUp(false);
-                }
-            }
-            */
         });
     }
 
@@ -302,6 +297,12 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
                  item.getIcon().setColorFilter(stateList.getDefaultColor(), PorterDuff.Mode.SRC_IN);
              }
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Timber.d("Clicked on menu options");
+        return super.onOptionsItemSelected(item);
     }
 
     private void initiateActivity(boolean auto, boolean shown) {
@@ -505,26 +506,34 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         boolean ignoreCheckable = false;
         if (id != selectedNavId) {
             if (id == R.id.nav_profile) {
+                clearBackStack();
                 navigationController.navigateToProfile();
                 tabLayout.setVisibility(View.GONE);
             } else if (id == R.id.nav_game) {
+                clearBackStack();
                 navigationController.navigateToUNESGame();
                 tabLayout.setVisibility(View.GONE);
             } else if (id == R.id.nav_schedule) {
+                clearBackStack();
                 navigationController.navigateToSchedule();
                 tabLayout.setVisibility(View.GONE);
             } else if (id == R.id.nav_messages) {
+                clearBackStack();
                 navigationController.navigateToMessages();
                 tabLayout.setVisibility(View.GONE);
             } else if (id == R.id.nav_grades) {
+                clearBackStack();
                 navigationController.navigateToGrades();
             } else if (id == R.id.nav_disciplines) {
+                clearBackStack();
                 navigationController.navigateToDisciplines();
                 tabLayout.setVisibility(View.GONE);
             } else if (id == R.id.nav_calendar) {
+                clearBackStack();
                 navigationController.navigateToCalendar();
                 tabLayout.setVisibility(View.GONE);
             } else if (id == R.id.nav_big_tray) {
+                clearBackStack();
                 if ((latestAccess != null && latestAccess.getUsername().equalsIgnoreCase("jpssena")) || BuildConfig.DEBUG) {
                     navigationController.navigateToBigTray();
                     ignoreCheckable = true;
@@ -549,6 +558,11 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void clearBackStack() {
+        for (int i = 0; i < getSupportFragmentManager().getBackStackEntryCount(); i++)
+            getSupportFragmentManager().popBackStack();
     }
 
     private void performLogout() {
@@ -738,7 +752,8 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            if (doubleBack || !mPreferences.getBoolean("double_back", false)) {
+            int count = getSupportFragmentManager().getBackStackEntryCount();
+            if (doubleBack || !mPreferences.getBoolean("double_back", false) || count != 0) {
                 super.onBackPressed();
                 return;
             }

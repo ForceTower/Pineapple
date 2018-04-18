@@ -113,8 +113,8 @@ public class SagresSyncAdapter extends AbstractThreadedSyncAdapter {
             if (call != null) {
                 Timber.d("Removed observer");
                 call.removeObserver(this::onSyncProgress);
-                createNotifications();
             }
+            createNotifications();
         }
     }
 
