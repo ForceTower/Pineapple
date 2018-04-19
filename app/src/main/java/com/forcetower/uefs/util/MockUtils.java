@@ -39,9 +39,9 @@ public class MockUtils {
     public static List<CreditsMention> getCredits() {
         List<CreditsMention> mentions = new ArrayList<>();
 
-        Mention lokisley = new Mention("Lokisley Oliveira", "https://www.facebook.com/Lokisley");
+        Mention lokisley = new Mention("Lokisley \"Lokisssss\" Oliveira", "https://www.facebook.com/Lokisley");
         Mention teixeira = new Mention("Matheus Teixeira", "https://www.facebook.com/teixeirista");
-        Mention kuchuki  = new Mention("Marcus \"Kuchuki\" Soares", "https://www.facebook.com/marcus.aldrey");
+        Mention kuchuki  = new Mention("Marcus \"Kuchuki\" Aldrey", "https://www.facebook.com/marcus.aldrey");
 
         Mention bandejao = new Mention("Fonte dos Dados", "http://bit.ly/bandejaouefs");
 
