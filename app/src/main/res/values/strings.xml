@@ -341,8 +341,9 @@
     <string name="connect_to_the_internet">Conecte-se à internet e tente novamente</string>
     <string name="access_fine_location_request">O aplicativo precisa acessar sua localização para usar este recurso</string>
     <string name="cant_receive_location">Erro ao receber localização</string>
-    <string name="location_is_not_accurate">A localização não é precisa o suficiente</string>
+    <string name="location_is_not_accurate">A localização não está precisa o suficiente, esperando ficar melhor...</string>
     <string name="adventure_not_in_a_valid_location">Você não está num lugar válido</string>
     <string name="adventure_confirm_location">Clique no círculo para verificar localização</string>
     <string name="downloading_your_grades">Baixando notas dos semestres anteriores</string>
+    <string name="about_app_frequently_asked_questions">Perguntas Frequentes</string>
 </resources>

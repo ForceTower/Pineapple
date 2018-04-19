@@ -11,39 +11,11 @@
         android:id="@+id/inc_toolbar"
         layout="@layout/toolbar"/>
 
-    <ScrollView
+    <FrameLayout
+        android:id="@+id/container"
         android:layout_below="@id/inc_toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <View android:layout_width="match_parent" android:layout_height="4dp"/>
-            <include layout="@layout/card_about_me"/>
-            <include layout="@layout/card_about_features"/>
-            <include layout="@layout/card_about_notifications"/>
-            <include layout="@layout/card_about_disclaimer"/>
-            <include layout="@layout/card_about_privacy"/>
-            <include layout="@layout/card_about_exit"/>
-            <include layout="@layout/card_about_bugs"/>
-            <include layout="@layout/card_about_enjoy"/>
-            <include layout="@layout/card_about_credits"/>
-
-            <Button
-                android:id="@+id/third_party_licenses"
-                android:onClick="thirdParty"
-                android:layout_width="match_parent"
-                android:layout_height="36dp"
-                android:layout_margin="8dp"
-                android:background="?attr/color_accent"
-                android:textColor="@color/white"
-                android:text="@string/btn_third_party_licenses"
-                android:fontFamily="@font/roboto_regular"/>
-        </LinearLayout>
-
-    </ScrollView>
+    </FrameLayout>
 
 </RelativeLayout>

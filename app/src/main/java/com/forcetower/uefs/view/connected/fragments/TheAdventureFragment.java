@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -18,6 +19,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.forcetower.uefs.BuildConfig;
 import com.forcetower.uefs.GameConnectionStatus;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.di.Injectable;
@@ -26,7 +28,9 @@ import com.forcetower.uefs.view.connected.ActivityController;
 import com.forcetower.uefs.view.connected.GamesAccountController;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
@@ -49,6 +53,9 @@ import timber.log.Timber;
 public class TheAdventureFragment extends Fragment implements Injectable, EasyPermissions.PermissionCallbacks {
     public static final int REQUEST_PERMISSION_FINE_LOCATION = 6000;
     public static final int REQUEST_CHECK_SETTINGS = 6001;
+    public static final String SHOW_ACCURACY_MESSAGE_KEY = "showed_message";
+    public static final String REQUESTING_LOCATION_UPDATES_KEY = "requesting_location_updates";
+
     @BindView(R.id.tv_adventure_description)
     TextView tvAdventureDescription;
     @BindView(R.id.btn_join_adventure)
@@ -64,6 +71,11 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
     private GamesAccountController gameController;
     private FusedLocationProviderClient fusedLocationClient;
     private SharedPreferences preferences;
+    private LocationCallback locationCallback;
+    private LocationRequest mLocationRequest;
+
+    private boolean showedMessage = false;
+    private boolean requestingLocationUpdates = false;
 
     @Override
     public void onAttach(Context context) {
@@ -75,7 +87,34 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            showedMessage = savedInstanceState.getBoolean(SHOW_ACCURACY_MESSAGE_KEY, false);
+            requestingLocationUpdates = savedInstanceState.getBoolean(REQUESTING_LOCATION_UPDATES_KEY, false);
+        }
+
+        locationSettings();
+    }
+
+    private void locationSettings() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext());
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult == null) return;
+
+                for (Location location : locationResult.getLocations()) {
+                    if (location.getAccuracy() > 100) {
+                        if (!showedMessage) {
+                            Toast.makeText(requireContext(), R.string.location_is_not_accurate, Toast.LENGTH_SHORT).show();
+                            showedMessage = true;
+                        }
+                        return;
+                    }
+                    onReceiveLocation(location);
+                }
+            }
+        };
     }
 
     @Nullable
@@ -99,11 +138,32 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
         gameController.getPlayGamesInstance().getPlayGameStatus().observe(this, this::onPlayGameConnectionStatusChange);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        stopLocationUpdates();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (requestingLocationUpdates)
+            startLocationUpdates();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(REQUESTING_LOCATION_UPDATES_KEY, requestingLocationUpdates);
+        outState.putBoolean(SHOW_ACCURACY_MESSAGE_KEY, showedMessage);
+    }
+
     private void onPlayGameConnectionStatusChange(GameConnectionStatus status) {
         if (status == GameConnectionStatus.CONNECTED) {
             showConnectedActions();
         } else if (status == GameConnectionStatus.DISCONNECTED) {
             showDisconnectedActions();
+            stopLocationUpdates();
         }
     }
 
@@ -123,9 +183,6 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
 
         if (!preferences.getBoolean("user_learned_confirm_location", false))
             tvLocationExplained.setVisibility(View.VISIBLE);
-
-        Animation pulse = AnimationUtils.loadAnimation(requireContext(), R.anim.pulse);
-        ivConfirmLocation.startAnimation(pulse);
     }
 
     private void showDisconnectedActions() {
@@ -167,7 +224,13 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
             return;
         }
         if (EasyPermissions.hasPermissions(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)) {
-            checkLocation();
+            if (!requestingLocationUpdates) {
+                requestingLocationUpdates = true;
+                checkLocation();
+            } else {
+                stopLocationUpdates();
+                requestingLocationUpdates = false;
+            }
         } else {
             EasyPermissions.requestPermissions(this,
                     getString(R.string.access_fine_location_request),
@@ -177,13 +240,12 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
 
 
     private void checkLocation() {
-        LocationRequest mLocationRequest = LocationRequest.create();
-        mLocationRequest.setInterval(10000);
+        mLocationRequest = LocationRequest.create();
+        mLocationRequest.setInterval(7000);
         mLocationRequest.setFastestInterval(5000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
-                .addLocationRequest(mLocationRequest);
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(mLocationRequest);
 
         SettingsClient client = LocationServices.getSettingsClient(requireContext());
         Task<LocationSettingsResponse> task = client.checkLocationSettings(builder.build());
@@ -192,6 +254,7 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
             Timber.d("Can make location request");
 
             try {
+/*
                 fusedLocationClient.getLastLocation().addOnSuccessListener(requireActivity(), location -> {
                     if (location != null) {
                         Timber.d("Location: LAT: %.8f - LOG: %.8f", location.getLatitude(), location.getLongitude());
@@ -206,6 +269,8 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
                         Toast.makeText(requireContext(), R.string.cant_receive_location, Toast.LENGTH_SHORT).show();
                     }
                 });
+*/
+                startLocationUpdates();
             } catch (SecurityException e) {
                 Timber.e("What??? How did this happen?");
             }
@@ -228,6 +293,23 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
         });
     }
 
+    private void startLocationUpdates() {
+        try {
+            if (mLocationRequest == null) checkLocation();
+
+            fusedLocationClient.requestLocationUpdates(mLocationRequest, locationCallback, null);
+            Animation pulse = AnimationUtils.loadAnimation(requireContext(), R.anim.pulse);
+            ivConfirmLocation.startAnimation(pulse);
+        } catch (SecurityException e) {
+            Timber.d("Method could not be called");
+        }
+    }
+
+    private void stopLocationUpdates() {
+        fusedLocationClient.removeLocationUpdates(locationCallback);
+        ivConfirmLocation.clearAnimation();
+    }
+
     private void onReceiveLocation(@NonNull Location location) {
         if (matchesLibrary(location)) {
             gameController.unlockAchievements(getString(R.string.achievement_dora_the_studious), gameController.getPlayGamesInstance());
@@ -235,7 +317,7 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
             gameController.unlockAchievements(getString(R.string.achievement_dora_the_adventurer), gameController.getPlayGamesInstance());
         } else {
             Timber.d("Not in a valid location");
-            Toast.makeText(requireContext(), R.string.adventure_not_in_a_valid_location, Toast.LENGTH_SHORT).show();
+            if (BuildConfig.DEBUG) Toast.makeText(requireContext(), R.string.adventure_not_in_a_valid_location, Toast.LENGTH_SHORT).show();
         }
     }
 
