@@ -346,4 +346,6 @@
     <string name="adventure_confirm_location">Clique no círculo para verificar localização</string>
     <string name="downloading_your_grades">Baixando notas dos semestres anteriores</string>
     <string name="about_app_frequently_asked_questions">Perguntas Frequentes</string>
+    <string name="cd_icon">icon</string>
+    <string name="cd_download">download</string>
 </resources>

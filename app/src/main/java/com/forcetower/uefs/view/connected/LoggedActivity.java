@@ -31,6 +31,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
@@ -114,6 +115,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     ViewGroup rootViewContent;
 
     private NavigationViews navViews;
+    private NavigationCustomActionViews downloadCert;
 
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
@@ -155,7 +157,10 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         super.onCreate(R.layout.activity_logged, savedInstanceState);
         setSupportActionBar(toolbar);
         navViews = new NavigationViews();
+        downloadCert = new NavigationCustomActionViews();
+
         ButterKnife.bind(navViews, navigationView.getHeaderView(0));
+        ButterKnife.bind(downloadCert, navigationView.getMenu().findItem(R.id.nav_enrollment_certificate).getActionView());
 
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         //drawer.addDrawerListener(toggle);
@@ -168,6 +173,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         setupNavigationItemColors();
         setupFragmentStackListener();
         setupToolbarEvents();
+        setupActionListeners();
 
         String backgroundImage = mPreferences.getString(BACKGROUND_IMAGE, Constants.BACKGROUND_IMAGE_DEFAULT);
         Picasso.with(this).load(backgroundImage).into(navViews.ivBackground);
@@ -180,6 +186,14 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
         afterLogin = afterLogin && !gradesViewModel.isAllGradesRunning();
         loadGradesAndUnset();
+    }
+
+    private void setupActionListeners() {
+        downloadCert.vgRoot.setOnClickListener(v -> {
+            certificateDownload();
+            AnimUtils.fadeOut(this, downloadCert.ivAction);
+            AnimUtils.fadeIn(this, downloadCert.pbAction);
+        });
     }
 
     private void loadGradesAndUnset() {
@@ -374,11 +388,13 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         if (resource.status == Status.LOADING) {
             //noinspection ConstantConditions
             Timber.d(getString(resource.data));
-            globalLoading.setIndeterminate(true);
-            AnimUtils.fadeIn(this, globalLoading);
+            //globalLoading.setIndeterminate(true);
+            downloadCert.pbAction.setIndeterminate(true);
+            AnimUtils.fadeIn(this, downloadCert.pbAction);
         }
         else {
-            AnimUtils.fadeOut(this, globalLoading);
+            AnimUtils.fadeOut(this, downloadCert.pbAction);
+            downloadCert.ivAction.setVisibility(View.VISIBLE);
             if (resource.status == Status.ERROR) {
                 //noinspection ConstantConditions
                 Toast.makeText(this, resource.data, Toast.LENGTH_SHORT).show();
@@ -843,5 +859,14 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         TextView tvNavSubtitle;
         @BindView(R.id.iv_background)
         ImageView ivBackground;
+    }
+
+    class NavigationCustomActionViews {
+        @BindView(R.id.vg_root)
+        ViewGroup vgRoot;
+        @BindView(R.id.iv_action)
+        ImageView ivAction;
+        @BindView(R.id.pb_action)
+        ProgressBar pbAction;
     }
 }

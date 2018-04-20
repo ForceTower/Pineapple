@@ -55,7 +55,8 @@
             android:id="@+id/nav_enrollment_certificate"
             android:title="@string/title_enrollment_certificate"
             android:icon="@drawable/ic_certificate_icon"
-            android:checkable="false"/>
+            android:checkable="false"
+            app:actionLayout="@layout/nav_action_custom"/>
 
         <item
             android:id="@+id/nav_big_tray"
