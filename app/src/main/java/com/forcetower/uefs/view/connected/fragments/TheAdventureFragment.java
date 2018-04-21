@@ -315,10 +315,28 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
             gameController.unlockAchievements(getString(R.string.achievement_dora_the_studious), gameController.getPlayGamesInstance());
         } else if (matchesZoologyMuseum(location)) {
             gameController.unlockAchievements(getString(R.string.achievement_dora_the_adventurer), gameController.getPlayGamesInstance());
+        } else if (matchesBigTray(location)) {
+            gameController.unlockAchievements(getString(R.string.achievement_big_tray_location), gameController.getPlayGamesInstance());
         } else {
             Timber.d("Not in a valid location");
             if (BuildConfig.DEBUG) Toast.makeText(requireContext(), R.string.adventure_not_in_a_valid_location, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private boolean matchesBigTray(@NonNull Location location) {
+        Location museum = new Location("");
+        museum.setLatitude(-12.201868);
+        museum.setLongitude(-38.96974);
+
+        float distance = location.distanceTo(museum);
+        Timber.d("Distance to Serpents: %f", distance);
+
+        if (distance <= 15) {
+            Timber.d("You unlocked by measure");
+            return true;
+        }
+        
+        return false;
     }
 
     private boolean matchesZoologyMuseum(@NonNull Location location) {
