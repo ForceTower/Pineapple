@@ -139,10 +139,10 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     private int selectedNavId;
 
     private boolean disconnecting = false;
-    private Profile latestProfile;
     private Access latestAccess;
     private ActionBarDrawerToggle toggle;
     private boolean isHomeAsUp;
+    private boolean isPDFResultShown;
 
     public static void startActivity(Context context, boolean afterLogin) {
         Intent intent = new Intent(context, LoggedActivity.class);
@@ -342,6 +342,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         titleText = savedInstanceState.getInt("title_text", R.string.title_schedule);
         numberOfLoadings = savedInstanceState.getInt("number_of_loadings", 0);
         selectedNavId = savedInstanceState.getInt(SELECTED_NAV_DRAWER_ID);
+        isPDFResultShown = savedInstanceState.getBoolean("pdf_result_shown", false);
         changeTitle(titleText);
         navigationView.setCheckedItem(selectedNavId);
     }
@@ -400,7 +401,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
                 Toast.makeText(this, resource.data, Toast.LENGTH_SHORT).show();
             } else {
                 Timber.d(getString(R.string.completed));
-                openCertificatePdf(false);
+                if (!isPDFResultShown) openCertificatePdf(false);
             }
         }
     }
@@ -428,6 +429,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         Intent intent = Intent.createChooser(target, getString(R.string.open_file));
         try {
             startActivity(intent);
+            isPDFResultShown = true;
         } catch (ActivityNotFoundException e) {
             Toast.makeText(this, R.string.no_pdf_reader, Toast.LENGTH_SHORT).show();
         }
@@ -438,13 +440,13 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
             Toast.makeText(this, R.string.offline, Toast.LENGTH_SHORT).show();
             return;
         }
+        isPDFResultShown = false;
 
         downloadsViewModel.triggerDownloadCertificate();
         Toast.makeText(this, R.string.wait_until_download_finishes, Toast.LENGTH_SHORT).show();
     }
 
     private void onReceiveProfile(Profile profile) {
-        latestProfile = profile;
         if (profile == null) return;
 
         navViews.tvNavTitle.setText(profile.getName());
@@ -677,6 +679,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putBoolean("after_login", afterLogin);
+        outState.putBoolean("pdf_result_shown", isPDFResultShown);
         outState.putInt("title_text", titleText);
         outState.putInt("number_of_loadings", numberOfLoadings);
         outState.putInt(SELECTED_NAV_DRAWER_ID, selectedNavId);

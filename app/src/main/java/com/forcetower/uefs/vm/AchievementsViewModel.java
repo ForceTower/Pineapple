@@ -150,8 +150,6 @@ public class AchievementsViewModel extends ViewModel {
                 }
             }
 
-            Timber.d("Class duration in %s: %s minutes", day, minutes);
-
             if (minutes >= 480) {
                 unlocked.put(R.string.achievement_marathonist, -1);
                 break;
@@ -227,11 +225,9 @@ public class AchievementsViewModel extends ViewModel {
             }
         }
 
-        Timber.d("Semester hours: %d", semesterHours);
-
         if (allDisciplinesApproved) unlocked.put(R.string.achievement_clean_semester, -1);
         if (allDisciplinesMechanic) unlocked.put(R.string.achievement_totally_mechanic, -1);
-        if (semesterHours >= 500) unlocked.put(R.string.achievement_lend_me_your_time_turner, -1);
+        if (semesterHours >= 480) unlocked.put(R.string.achievement_lend_me_your_time_turner, -1);
         if (semesterHours <= 275) unlocked.put(R.string.achievement_baby_steps, -1);
     }
 

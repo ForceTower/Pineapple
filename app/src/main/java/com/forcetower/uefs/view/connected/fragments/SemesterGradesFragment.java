@@ -62,7 +62,6 @@ public class SemesterGradesFragment extends Fragment implements Injectable {
     }
 
     private void onGradesReceived(List<Discipline> disciplines) {
-        Timber.d("Received stuff: %s", disciplines);
         if (disciplines != null) {
             AnimUtils.fadeOut(getContext(), vgLoading);
             disciplineGradesAdapter.setDisciplines(disciplines);

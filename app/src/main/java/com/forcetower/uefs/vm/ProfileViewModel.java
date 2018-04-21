@@ -15,6 +15,7 @@ import com.forcetower.uefs.db.dao.SemesterDao;
 import com.forcetower.uefs.db.entity.Access;
 import com.forcetower.uefs.db.entity.Profile;
 import com.forcetower.uefs.db.entity.Semester;
+import com.forcetower.uefs.util.ImageUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -95,7 +96,7 @@ public class ProfileViewModel extends ViewModel {
             FileOutputStream fos = null;
             try {
                 fos = new FileOutputStream(file);
-                bitmap.compress(Bitmap.CompressFormat.PNG, 50, fos);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 30, fos);
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
