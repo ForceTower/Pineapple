@@ -131,6 +131,10 @@ public abstract class UBaseActivity extends AppCompatActivity implements Achieve
                 String message = apiException.getMessage();
                 if (message == null || message.isEmpty()) {
                     message = getString(R.string.play_sign_in_other_error);
+                } else if (apiException.getStatusCode() == 12501) {
+                    message = getString(R.string.google_play_games_auth_failed);
+                } else if (apiException.getStatusCode() == 4) {
+                    message = getString(R.string.game_api_failed);
                 }
 
                 mPlayGamesInstance.onDisconnected();

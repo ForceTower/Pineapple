@@ -20,12 +20,19 @@ import com.forcetower.uefs.db.entity.Semester;
 import com.forcetower.uefs.util.ValueUtils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import timber.log.Timber;
+
+import static com.forcetower.uefs.util.DateUtils.generateCalendar;
+import static com.forcetower.uefs.util.DateUtils.getDateDiff;
 
 /**
  * Created by João Paulo on 10/04/2018.
@@ -54,10 +61,11 @@ public class AchievementsViewModel extends ViewModel {
             LiveData<List<Semester>> semestersSrc = database.semesterDao().getAllSemesters();
             checkAch.addSource(semestersSrc, semesters -> {
                 checkAch.removeSource(semestersSrc);
-                unlockSemesterBased(semesters, unlocked);
-
-                if (semesters == null) return;
                 executors.diskIO().execute(() -> {
+                    if (semesters == null) return;
+
+                    unlockSemesterBased(semesters, unlocked);
+
                     Profile profile = database.profileDao().getProfileDirect();
                     if (profile != null && profile.getScore() >= 7 && semesters.size() > 5)
                         unlocked.put(R.string.achievement_survivor, -1);
@@ -76,9 +84,10 @@ public class AchievementsViewModel extends ViewModel {
                     LiveData<List<DisciplineClassLocation>> locationsSrc = database.disciplineClassLocationDao().getClassesFromSemester(currentSmt);
                     checkAch.addSource(locationsSrc, locations -> {
                         checkAch.removeSource(locationsSrc);
-                        unlockForLocations(locations, unlocked);
-
-                        checkAch.postValue(unlocked);
+                        executors.diskIO().execute(() -> {
+                            unlockForLocations(locations, unlocked);
+                            checkAch.postValue(unlocked);
+                        });
                     });
                 });
             });
@@ -96,7 +105,7 @@ public class AchievementsViewModel extends ViewModel {
 
             if (name.matches("(?i)(.*)introdu([cç])([aã])o(.*)")) {
                 count++;
-            } else if (name.matches("(?i)(.*)intr\\.(.*)")) {
+            } else if (name.matches("(?i)(.*)int(r)?\\.(.*)")) {
                 count++;
             }
         }
@@ -104,20 +113,50 @@ public class AchievementsViewModel extends ViewModel {
         unlocked.put(R.string.achievement_introduction_to_introductions, count);
     }
 
+    @WorkerThread
     private void unlockForLocations(@Nullable List<DisciplineClassLocation> locations, @NonNull HashMap<Integer, Integer> unlocked) {
         if (locations == null) return;
         boolean mod1 = false;
         boolean mod7 = false;
 
+        Hashtable<String, List<DisciplineClassLocation>> mapping = new Hashtable<>();
         for (DisciplineClassLocation location : locations) {
             String mod = location.getModulo();
             if (mod != null) {
                 if (!mod1) mod1 = (mod.equalsIgnoreCase("Módulo 1") || mod.equalsIgnoreCase("Modulo 1"));
                 if (!mod7) mod7 = (mod.equalsIgnoreCase("Módulo 7") || mod.equalsIgnoreCase("Modulo 7"));
             }
+
+            String day = location.getDay();
+
+            List<DisciplineClassLocation> classes = mapping.get(day);
+            if (classes == null) classes = new ArrayList<>();
+
+            classes.add(location);
+            mapping.put(day, classes);
         }
 
         if (mod1 && mod7) unlocked.put(R.string.achievement_dora_the_explorer, -1);
+
+        for (String day : mapping.keySet()) {
+            int minutes = 0;
+            List<DisciplineClassLocation> locals = mapping.get(day);
+            for (DisciplineClassLocation local : locals) {
+                Calendar start = generateCalendar(local.getStartTime());
+                Calendar end   = generateCalendar(local.getEndTime());
+                if (start != null && end != null) {
+                    long difference = getDateDiff(start.getTime(), end.getTime(), TimeUnit.MINUTES);
+                    minutes += difference;
+                }
+            }
+
+            Timber.d("Class duration in %s: %s minutes", day, minutes);
+
+            if (minutes >= 480) {
+                unlocked.put(R.string.achievement_marathonist, -1);
+                break;
+            }
+        }
     }
 
     @WorkerThread
@@ -126,12 +165,15 @@ public class AchievementsViewModel extends ViewModel {
 
         boolean allDisciplinesApproved = true;
         boolean allDisciplinesMechanic = disciplines.size() > 0;
+        int semesterHours = 0;
 
         for (Discipline discipline : disciplines) {
+            semesterHours += discipline.getCredits();
+
             if (discipline.getMissedClasses() == 0)
                 unlocked.put(R.string.achievement_always_there, -1);
 
-            if (discipline.getSituation().equalsIgnoreCase("Reprovado por Falta")
+            if (discipline.getSituation() != null && discipline.getSituation().equalsIgnoreCase("Reprovado por Falta")
                     || discipline.getCredits()/4 >= discipline.getMissedClasses()) {
                 unlocked.put(R.string.achievement_i_have_never_seen, -1);
             }
@@ -185,8 +227,12 @@ public class AchievementsViewModel extends ViewModel {
             }
         }
 
+        Timber.d("Semester hours: %d", semesterHours);
+
         if (allDisciplinesApproved) unlocked.put(R.string.achievement_clean_semester, -1);
         if (allDisciplinesMechanic) unlocked.put(R.string.achievement_totally_mechanic, -1);
+        if (semesterHours >= 500) unlocked.put(R.string.achievement_lend_me_your_time_turner, -1);
+        if (semesterHours <= 275) unlocked.put(R.string.achievement_baby_steps, -1);
     }
 
     private List<GradeInfo> moreThanOne(@NonNull List<GradeSection> sections) {
@@ -216,12 +262,64 @@ public class AchievementsViewModel extends ViewModel {
         return greatest;
     }
 
+    @WorkerThread
     private void unlockSemesterBased(@Nullable List<Semester> semesters, @NonNull HashMap<Integer, Integer> unlocked) {
         if (semesters == null) return;
 
         if (semesters.size() > 1) unlocked.put(R.string.achievement_senior_wannabe, -1);
         if (semesters.size() > 4) unlocked.put(R.string.achievement_senior, -1);
         if (semesters.size() > 7) unlocked.put(R.string.achievement_so_when_u_finishing, -1);
+
+        if(semesters.size() >= 3) {
+            List<Semester> sorted = new ArrayList<>(semesters);
+            Collections.sort(sorted);
+            Semester current = Semester.getCurrentSemester(sorted);
+            String curSmt = current != null ? current.getName() : "20181";
+
+            int noFinalCount = 0;
+            for (Semester semester : sorted) {
+                if (semester.getName().equalsIgnoreCase(curSmt)) continue;
+
+                boolean wentToFinal = false;
+                boolean invalidated = false;
+
+                List<Discipline> disciplines = database.disciplineDao().getDisciplinesFromSemesterDirect(semester.getName());
+                for (Discipline discipline : disciplines) {
+                    Grade grade = database.gradeDao().getDisciplineGradesDirect(discipline.getUid());
+                    if (grade != null && grade.getFinalScore() != null) {
+                        String finalScore = grade.getFinalScore();
+                        double val = ValueUtils.toDouble(finalScore.replace(",", "."), -1);
+
+                        if (val < 7 && val != -1) {
+                            wentToFinal = true;
+                            continue;
+                        }
+                    }
+
+                    List<GradeSection> sections = database.gradeSectionDao().getSectionsFromDisciplineDirect(discipline.getUid());
+                    if (sections.size() > 0) {
+                        for (GradeSection section : sections) {
+                            String name = section.getName();
+                            if (name != null && name.equalsIgnoreCase("notas complementares")) {
+                                wentToFinal = true;
+                            }
+                        }
+                    } else {
+                        invalidated = true;
+                    }
+                }
+
+                if (wentToFinal && !invalidated) {
+                    noFinalCount = 0;
+                } else if (!invalidated){
+                    Timber.d("One semester without going to final yay!");
+                    noFinalCount++;
+                    if (noFinalCount == 3) {
+                        unlocked.put(R.string.achievement_killing_spree, -1);
+                    }
+                }
+            }
+        }
     }
 
     private void unlockForSingleGrades(@Nullable List<GradeInfo> infos, @NonNull HashMap<Integer, Integer> unlocked) {

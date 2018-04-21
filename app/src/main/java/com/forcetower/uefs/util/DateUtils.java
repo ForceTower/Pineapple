@@ -172,17 +172,23 @@ public class DateUtils {
     }
 
     public static Calendar generateCalendar(String str) {
-        Calendar calendar = Calendar.getInstance();
-        String[] parts = str.trim().split(":");
-        if (parts.length != 1) {
-            calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(parts[0]));
-            calendar.set(Calendar.MINUTE, Integer.parseInt(parts[1]));
+        try {
+            Calendar calendar = Calendar.getInstance();
+            String[] parts = str.trim().split(":");
+            if (parts.length != 1) {
+                calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(parts[0]));
+                calendar.set(Calendar.MINUTE, Integer.parseInt(parts[1]));
 
-            if (parts.length == 3)
-                calendar.set(Calendar.SECOND, Integer.parseInt(parts[2]));
+                if (parts.length == 3)
+                    calendar.set(Calendar.SECOND, Integer.parseInt(parts[2]));
+
+                return calendar;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        return calendar;
+        return null;
     }
 
     public static String reformatDate(String date, boolean style) {
