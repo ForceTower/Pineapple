@@ -344,4 +344,10 @@
     <string name="adventure_not_in_a_valid_location">You are not in a valid place</string>
     <string name="adventure_confirm_location">Click in the circle to confirm your location</string>
     <string name="downloading_your_grades">Downloading grades from previous semesters</string>
+    <string name="about_app_frequently_asked_questions">Frequently Asked Questions</string>
+    <string name="cd_icon">icon</string>
+    <string name="cd_download">download</string>
+    <string name="google_play_games_auth_failed">Play Games authentication failed</string>
+    <string name="game_api_failed">Failed to connect to Play Games</string>
+    <string name="unable_to_open_achievements">Unable to open achievements, try again later</string>
 </resources>

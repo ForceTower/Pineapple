@@ -112,10 +112,13 @@ public abstract class UBaseActivity extends AppCompatActivity implements Achieve
         }
         Task<Intent> allAchievements = mPlayGamesInstance.getAchievementsClient().getAchievementsIntent();
         allAchievements.addOnCompleteListener(task -> {
-            if (task.isSuccessful())
+            if (task.isSuccessful()) {
+                assert task.getResult() != null;
                 startActivityForResult(task.getResult(), PLAY_GAMES_LEADERBOARD);
-            else
+            } else {
                 Timber.d("Unsuccessful open Achievements Task");
+                Toast.makeText(this, R.string.unable_to_open_achievements, Toast.LENGTH_SHORT).show();
+            }
         });
     }
 

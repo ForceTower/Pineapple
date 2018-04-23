@@ -350,4 +350,5 @@
     <string name="cd_download">download</string>
     <string name="google_play_games_auth_failed">Autenticação com o Play Games falhou</string>
     <string name="game_api_failed">Falhou ao conectar-se ao Play Games</string>
+    <string name="unable_to_open_achievements">Não foi possível mostrar as conquistas, tente novamente mais tarde</string>
 </resources>
