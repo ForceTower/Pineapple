@@ -82,13 +82,13 @@ public class AchievementsViewModel extends ViewModel {
 
                     String currentSmt = Semester.getCurrentSemester(semesters).getName();
                     LiveData<List<DisciplineClassLocation>> locationsSrc = database.disciplineClassLocationDao().getClassesFromSemester(currentSmt);
-                    checkAch.addSource(locationsSrc, locations -> {
+                    executors.mainThread().execute(() -> checkAch.addSource(locationsSrc, locations -> {
                         checkAch.removeSource(locationsSrc);
                         executors.diskIO().execute(() -> {
                             unlockForLocations(locations, unlocked);
                             checkAch.postValue(unlocked);
                         });
-                    });
+                    }));
                 });
             });
         });
