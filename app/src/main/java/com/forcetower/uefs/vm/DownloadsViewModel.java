@@ -3,14 +3,12 @@ package com.forcetower.uefs.vm;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.ViewModel;
-import android.content.Context;
 
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.rep.RefreshRepository;
 import com.forcetower.uefs.rep.helper.Resource;
+import com.forcetower.uefs.rep.helper.SagresDocuments;
 import com.forcetower.uefs.rep.helper.Status;
-
-import java.io.File;
 
 import javax.inject.Inject;
 
@@ -21,36 +19,59 @@ import javax.inject.Inject;
 public class DownloadsViewModel extends ViewModel {
     private final RefreshRepository repository;
     private final AppExecutors executors;
-    private final File cacheDir;
 
     private MediatorLiveData<Resource<Integer>> downloadCertificate;
-    private boolean requestEnrollCertificate = false;
+    private MediatorLiveData<Resource<Integer>> downloadFlowchart;
+    private boolean downloadingDocument = false;
 
     @Inject
-    public DownloadsViewModel(RefreshRepository repository, AppExecutors executors, Context context) {
+    public DownloadsViewModel(RefreshRepository repository, AppExecutors executors) {
         this.repository = repository;
         this.executors = executors;
-        this.cacheDir = context.getCacheDir();
         downloadCertificate = new MediatorLiveData<>();
+        downloadFlowchart = new MediatorLiveData<>();
     }
 
     public MediatorLiveData<Resource<Integer>> getDownloadCertificate() {
         return downloadCertificate;
     }
 
+    public MediatorLiveData<Resource<Integer>> getDownloadFlowchart() {
+        return downloadFlowchart;
+    }
+
     public void triggerDownloadCertificate() {
-        if (!requestEnrollCertificate) {
-            requestEnrollCertificate = true;
-            LiveData<Resource<Integer>> downloadRes = repository.loginAndDownloadEnrollmentCertificate();
+        if (!downloadingDocument) {
+            downloadingDocument = true;
+            LiveData<Resource<Integer>> downloadRes = repository.loginAndDownloadPDFDocument(SagresDocuments.ENROLLMENT_CERTIFICATE);
             downloadCertificate.addSource(downloadRes, resource -> {
                 //noinspection ConstantConditions
                 if (resource.status != Status.LOADING) {
                     downloadCertificate.removeSource(downloadRes);
-                    requestEnrollCertificate = false;
+                    downloadingDocument = false;
                 }
                 downloadCertificate.postValue(resource);
             });
         }
+    }
+
+    public void triggerDownloadFlowchart() {
+        if (!downloadingDocument) {
+            downloadingDocument = true;
+            LiveData<Resource<Integer>> downloadRes = repository.loginAndDownloadPDFDocument(SagresDocuments.FLOWCHART);
+            downloadFlowchart.addSource(downloadRes, resource -> {
+                //noinspection ConstantConditions
+                if (resource.status != Status.LOADING) {
+                    downloadFlowchart.removeSource(downloadRes);
+                    downloadingDocument = false;
+                }
+                downloadFlowchart.postValue(resource);
+            });
+        }
+    }
+
+    public boolean isBusy() {
+        return downloadingDocument;
     }
 
 }

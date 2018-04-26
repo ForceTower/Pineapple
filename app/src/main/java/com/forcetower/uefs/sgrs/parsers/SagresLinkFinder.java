@@ -13,7 +13,7 @@ import org.jsoup.nodes.Element;
 public class SagresLinkFinder {
 
     @Nullable
-    public static String findForEnrollment(@NonNull Document document) {
+    public static String findForDocument(@NonNull Document document) {
         Element element = document.selectFirst("iframe");
         if (element == null) return null;
         return element.attr("src");

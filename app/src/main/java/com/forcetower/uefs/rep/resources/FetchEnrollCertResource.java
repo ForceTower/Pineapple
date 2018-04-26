@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.rep.helper.Resource;
+import com.forcetower.uefs.rep.helper.SagresDocuments;
 import com.forcetower.uefs.sgrs.SagresResponse;
 import com.forcetower.uefs.util.network.LiveDataCallAdapter;
 
@@ -38,7 +39,7 @@ public abstract class FetchEnrollCertResource {
     }
 
     private void fetchFromSagres() {
-        Call call = createEnrollmentCertificateCall();
+        Call call = createCertificateCall();
         LiveData<SagresResponse> gradesRsp = LiveDataCallAdapter.adapt(call);
         result.addSource(gradesRsp, response -> {
             result.removeSource(gradesRsp);
@@ -46,7 +47,7 @@ public abstract class FetchEnrollCertResource {
             if (response.isSuccessful()) {
                 Document document = response.getDocument();
                 executors.diskIO().execute(() -> {
-                    String link = findEnrollmentLink(document);
+                    String link = findDocumentLink(document);
                     if (link == null) {
                         result.postValue(Resource.error("link is invalid", R.string.link_to_resource_not_found));
                     } else {
@@ -73,8 +74,8 @@ public abstract class FetchEnrollCertResource {
 
     protected abstract boolean downloadFile(Response downResp);
     protected abstract Call createDownloadCall(String link);
-    protected abstract String findEnrollmentLink(@NonNull Document document);
-    protected abstract Call createEnrollmentCertificateCall();
+    protected abstract String findDocumentLink(@NonNull Document document);
+    protected abstract Call createCertificateCall();
 
     public LiveData<Resource<Integer>> asLiveData() {
         return result;

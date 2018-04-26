@@ -158,6 +158,12 @@ public class RequestCreator {
                 .build();
     }
 
+    public static Request makeRequestForFlowchart() {
+        return new Request.Builder()
+                .url(Constants.SAGRES_FLOWCHART)
+                .build();
+    }
+
     public static Request makeRequestForURL(String url) {
         return new Request.Builder().url(url).build();
     }

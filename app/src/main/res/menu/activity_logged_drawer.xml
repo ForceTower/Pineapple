@@ -59,6 +59,13 @@
             app:actionLayout="@layout/nav_action_custom"/>
 
         <item
+            android:id="@+id/nav_flowchart_certificate"
+            android:title="@string/title_flowchart"
+            android:icon="@drawable/ic_flowchart_black_24dp"
+            android:checkable="false"
+            app:actionLayout="@layout/nav_action_custom"/>
+
+        <item
             android:id="@+id/nav_big_tray"
             android:title="@string/title_big_tray"
             android:icon="@drawable/ic_food_black_24dp"

@@ -223,7 +223,7 @@
     <string name="going_to_enrollment_page">Procurando pela guia de matrícula</string>
     <string name="title_enrollment_certificate">Guia de Matrícula</string>
     <string name="title_enrollment_cert_desc">Baixe ou veja a Guia de Matrícula</string>
-    <string name="link_to_resource_not_found">Link para a guia não foi encontrada</string>
+    <string name="link_to_resource_not_found">Link para o recurso não foi encontrado</string>
     <string name="open_file">Abrir arquivo</string>
     <string name="file_not_found">Arquivo não encontrado</string>
     <string name="wait_until_download_finishes">Estará disponível assim que o download terminar</string>
@@ -351,4 +351,6 @@
     <string name="google_play_games_auth_failed">Autenticação com o Play Games falhou</string>
     <string name="game_api_failed">Falhou ao conectar-se ao Play Games</string>
     <string name="unable_to_open_achievements">Não foi possível mostrar as conquistas, tente novamente mais tarde</string>
+    <string name="title_flowchart">Fluxograma</string>
+    <string name="downloader_is_busy">O aplicativo está ocupado baixando outra coisa</string>
 </resources>

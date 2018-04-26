@@ -350,4 +350,6 @@
     <string name="google_play_games_auth_failed">Play Games authentication failed</string>
     <string name="game_api_failed">Failed to connect to Play Games</string>
     <string name="unable_to_open_achievements">Unable to open achievements, try again later</string>
+    <string name="title_flowchart">Flowchart</string>
+    <string name="downloader_is_busy">The app is busy downloading something else</string>
 </resources>

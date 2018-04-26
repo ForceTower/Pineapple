@@ -55,6 +55,7 @@ import com.forcetower.uefs.db.entity.Profile;
 import com.forcetower.uefs.db.entity.Semester;
 import com.forcetower.uefs.ntf.NotificationCreator;
 import com.forcetower.uefs.rep.helper.Resource;
+import com.forcetower.uefs.rep.helper.SagresDocuments;
 import com.forcetower.uefs.rep.helper.Status;
 import com.forcetower.uefs.service.ApiResponse;
 import com.forcetower.uefs.service.Version;
@@ -90,6 +91,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import timber.log.Timber;
 
 import static com.forcetower.uefs.Constants.ENROLLMENT_CERTIFICATE_FILE_NAME;
+import static com.forcetower.uefs.Constants.FLOWCHART_FILE_NAME;
 import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.FRAGMENT_INTENT_EXTRA;
 import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.GRADES_FRAGMENT;
 import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.MESSAGES_FRAGMENT;
@@ -116,6 +118,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
     private NavigationViews navViews;
     private NavigationCustomActionViews downloadCert;
+    private NavigationCustomActionViews downloadFlow;
 
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
@@ -158,9 +161,11 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         setSupportActionBar(toolbar);
         navViews = new NavigationViews();
         downloadCert = new NavigationCustomActionViews();
+        downloadFlow = new NavigationCustomActionViews();
 
         ButterKnife.bind(navViews, navigationView.getHeaderView(0));
         ButterKnife.bind(downloadCert, navigationView.getMenu().findItem(R.id.nav_enrollment_certificate).getActionView());
+        ButterKnife.bind(downloadFlow, navigationView.getMenu().findItem(R.id.nav_flowchart_certificate).getActionView());
 
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         //drawer.addDrawerListener(toggle);
@@ -190,9 +195,17 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
     private void setupActionListeners() {
         downloadCert.vgRoot.setOnClickListener(v -> {
+            if (downloadsViewModel.isBusy()) return;
             certificateDownload();
             AnimUtils.fadeOut(this, downloadCert.ivAction);
             AnimUtils.fadeIn(this, downloadCert.pbAction);
+        });
+
+        downloadFlow.vgRoot.setOnClickListener(v -> {
+            if (downloadsViewModel.isBusy()) return;
+            flowchartDownload();
+            AnimUtils.fadeOut(this, downloadFlow.ivAction);
+            AnimUtils.fadeIn(this, downloadFlow.pbAction);
         });
     }
 
@@ -297,6 +310,9 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         navigationView.getMenu().findItem(R.id.nav_enrollment_certificate).getIcon()
                 .setColorFilter(getResources().getColor(R.color.enrollment_color), PorterDuff.Mode.SRC_IN);
 
+        navigationView.getMenu().findItem(R.id.nav_flowchart_certificate).getIcon()
+                .setColorFilter(getResources().getColor(R.color.flowchart_color), PorterDuff.Mode.SRC_IN);
+
         navigationView.getMenu().findItem(R.id.nav_big_tray).getIcon()
                 .setColorFilter(getResources().getColor(R.color.big_tray_color), PorterDuff.Mode.SRC_IN);
     }
@@ -382,6 +398,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
         downloadsViewModel = ViewModelProviders.of(this, viewModelFactory).get(DownloadsViewModel.class);
         downloadsViewModel.getDownloadCertificate().observe(this, this::onCertificateDownload);
+        downloadsViewModel.getDownloadFlowchart().observe(this, this::onFlowchartDownload);
     }
 
     private void onCertificateDownload(Resource<Integer> resource) {
@@ -391,6 +408,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
             Timber.d(getString(resource.data));
             //globalLoading.setIndeterminate(true);
             downloadCert.pbAction.setIndeterminate(true);
+            downloadCert.ivAction.setVisibility(View.INVISIBLE);
             AnimUtils.fadeIn(this, downloadCert.pbAction);
         }
         else {
@@ -401,19 +419,53 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
                 Toast.makeText(this, resource.data, Toast.LENGTH_SHORT).show();
             } else {
                 Timber.d(getString(R.string.completed));
-                if (!isPDFResultShown) openCertificatePdf(false);
+                if (!isPDFResultShown) openCertificatePdf(false, SagresDocuments.ENROLLMENT_CERTIFICATE);
             }
         }
     }
 
-    private void openCertificatePdf(boolean clicked) {
+    private void onFlowchartDownload(Resource<Integer> resource) {
+        if (resource == null) return;
+        if (resource.status == Status.LOADING) {
+            //noinspection ConstantConditions
+            Timber.d(getString(resource.data));
+            //globalLoading.setIndeterminate(true);
+            downloadFlow.pbAction.setIndeterminate(true);
+            downloadFlow.ivAction.setVisibility(View.INVISIBLE);
+            AnimUtils.fadeIn(this, downloadFlow.pbAction);
+        }
+        else {
+            AnimUtils.fadeOut(this, downloadFlow.pbAction);
+            downloadFlow.ivAction.setVisibility(View.VISIBLE);
+            if (resource.status == Status.ERROR) {
+                //noinspection ConstantConditions
+                Toast.makeText(this, resource.data, Toast.LENGTH_SHORT).show();
+            } else {
+                Timber.d(getString(R.string.completed));
+                if (!isPDFResultShown) openCertificatePdf(false, SagresDocuments.FLOWCHART);
+            }
+        }
+    }
+
+    private void openCertificatePdf(boolean clicked, SagresDocuments option) {
         //noinspection ConstantConditions
-        File file = new File(getCacheDir(), ENROLLMENT_CERTIFICATE_FILE_NAME);
+        File file;
+        if (option == SagresDocuments.FLOWCHART) {
+            file = new File(getCacheDir(), FLOWCHART_FILE_NAME);
+        } else {
+            file = new File(getCacheDir(), ENROLLMENT_CERTIFICATE_FILE_NAME);
+        }
+
         if (!file.exists()) {
             if (!clicked) {
                 Toast.makeText(this, R.string.file_not_found, Toast.LENGTH_SHORT).show();
             }
-            else certificateDownload();
+            else {
+                if (option == SagresDocuments.ENROLLMENT_CERTIFICATE)
+                    certificateDownload();
+                else if (option == SagresDocuments.FLOWCHART)
+                    flowchartDownload();
+            }
             return;
         }
         Intent target = new Intent(Intent.ACTION_VIEW);
@@ -440,9 +492,32 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
             Toast.makeText(this, R.string.offline, Toast.LENGTH_SHORT).show();
             return;
         }
+
+        if (downloadsViewModel.isBusy()){
+            Toast.makeText(this, R.string.downloader_is_busy, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         isPDFResultShown = false;
 
         downloadsViewModel.triggerDownloadCertificate();
+        Toast.makeText(this, R.string.wait_until_download_finishes, Toast.LENGTH_SHORT).show();
+    }
+
+    private void flowchartDownload() {
+        if (!NetworkUtils.isNetworkAvailable(this)) {
+            Toast.makeText(this, R.string.offline, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (downloadsViewModel.isBusy()){
+            Toast.makeText(this, R.string.downloader_is_busy, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        isPDFResultShown = false;
+
+        downloadsViewModel.triggerDownloadFlowchart();
         Toast.makeText(this, R.string.wait_until_download_finishes, Toast.LENGTH_SHORT).show();
     }
 
@@ -573,7 +648,9 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
             } else if (id == R.id.nav_about) {
                 goToAbout();
             } else if (id == R.id.nav_enrollment_certificate) {
-                openCertificatePdf(true);
+                openCertificatePdf(true, SagresDocuments.ENROLLMENT_CERTIFICATE);
+            } else if (id == R.id.nav_flowchart_certificate) {
+                openCertificatePdf(true, SagresDocuments.FLOWCHART);
             }
 
             if (item.isCheckable() || ignoreCheckable) selectedNavId = id;

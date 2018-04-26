@@ -12,6 +12,7 @@ import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.AppDatabase;
 import com.forcetower.uefs.db.entity.Access;
 import com.forcetower.uefs.rep.helper.Resource;
+import com.forcetower.uefs.rep.helper.SagresDocuments;
 import com.forcetower.uefs.rep.helper.Status;
 import com.forcetower.uefs.rep.resources.FetchEnrollCertResource;
 import com.forcetower.uefs.sgrs.parsers.SagresLinkFinder;
@@ -32,6 +33,7 @@ import okio.Okio;
 import timber.log.Timber;
 
 import static com.forcetower.uefs.rep.helper.RequestCreator.makeRequestForEnrollmentCertificate;
+import static com.forcetower.uefs.rep.helper.RequestCreator.makeRequestForFlowchart;
 import static com.forcetower.uefs.rep.helper.RequestCreator.makeRequestForURL;
 
 /**
@@ -88,7 +90,7 @@ public class RefreshRepository {
         return refresh;
     }
 
-    public LiveData<Resource<Integer>> loginAndDownloadEnrollmentCertificate() {
+    public LiveData<Resource<Integer>> loginAndDownloadPDFDocument(SagresDocuments option) {
         MediatorLiveData<Resource<Integer>> progress = new MediatorLiveData<>();
         LiveData<Access> accessSrc = database.accessDao().getAccess();
         progress.addSource(accessSrc, access -> {
@@ -109,7 +111,7 @@ public class RefreshRepository {
                         progress.postValue(resource);
                     } else {
                         progress.postValue(Resource.loading(R.string.going_to_enrollment_page));
-                        LiveData<Resource<Integer>> enrollSrc = fetchEnrollmentCertificate();
+                        LiveData<Resource<Integer>> enrollSrc = fetchEnrollmentCertificate(option);
                         progress.addSource(enrollSrc, enrollRsc -> {
                             //noinspection ConstantConditions
                             if (enrollRsc.status != Status.LOADING) {
@@ -125,13 +127,19 @@ public class RefreshRepository {
         return progress;
     }
 
-    private LiveData<Resource<Integer>> fetchEnrollmentCertificate() {
+    private LiveData<Resource<Integer>> fetchEnrollmentCertificate(SagresDocuments option) {
         return new FetchEnrollCertResource(executors) {
 
             @SuppressWarnings("ResultOfMethodCallIgnored")
             @Override
             protected boolean downloadFile(Response response) {
-                File downloadedFile = new File(externalCacheDir, Constants.ENROLLMENT_CERTIFICATE_FILE_NAME);
+                File downloadedFile;
+                if (option == SagresDocuments.FLOWCHART) {
+                    downloadedFile = new File(externalCacheDir, Constants.FLOWCHART_FILE_NAME);
+                } else {
+                    downloadedFile = new File(externalCacheDir, Constants.ENROLLMENT_CERTIFICATE_FILE_NAME);
+                }
+
                 try {
                     if (downloadedFile.exists()) downloadedFile.delete();
                     downloadedFile.createNewFile();
@@ -153,8 +161,8 @@ public class RefreshRepository {
             }
 
             @Override
-            protected String findEnrollmentLink(@NonNull Document document) {
-                String link = SagresLinkFinder.findForEnrollment(document);
+            protected String findDocumentLink(@NonNull Document document) {
+                String link = SagresLinkFinder.findForDocument(document);
                 Timber.d("Found link: %s", link);
                 if (URLUtil.isHttpUrl(link) || URLUtil.isHttpsUrl(link))
                     return link;
@@ -162,8 +170,13 @@ public class RefreshRepository {
             }
 
             @Override
-            protected Call createEnrollmentCertificateCall() {
-                Request request = makeRequestForEnrollmentCertificate();
+            protected Call createCertificateCall() {
+                Request request;
+                if (option == SagresDocuments.FLOWCHART) {
+                    request = makeRequestForFlowchart();
+                } else {
+                    request = makeRequestForEnrollmentCertificate();
+                }
                 return client.newCall(request);
             }
         }.asLiveData();
