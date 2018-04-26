@@ -19,6 +19,10 @@ Também espera-se que possua algumas funcionalidades extras como mostrar no mapa
 - [ ] Localização no mapa de cada sala\laboratório (evitar que calouros se percam)
 - [ ] Momento em que cada laboratório está aberto e nome dos monitores
 - [x] Guia de Matrícula
+- [ ] Disponibilizar pesquisas rapidas dentro do aplicativo
+
+## A Fase 2 (Está próxima)
+- [ ] Iniciar a fase 2 (Detalhes serão postados aqui em breve)
 
 ## Disclaimer
 Este aplicativo não é lincenciado nem tem qualquer ligação com a Tecnotrends, a empresa que mantêm o Website e o serviço Sagres da UEFS. O aplicativo filtra as informações disponibilizadas pelo portal do estudante e então exibe no aplicativo.
