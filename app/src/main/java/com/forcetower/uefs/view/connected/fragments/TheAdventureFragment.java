@@ -180,9 +180,7 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
         btnExit.setVisibility(View.VISIBLE);
         //AnimUtils.fadeIn(requireContext(), btnExit);
         tvAdventureDescription.setVisibility(View.GONE);
-
-        if (!preferences.getBoolean("user_learned_confirm_location", false))
-            tvLocationExplained.setVisibility(View.VISIBLE);
+        tvLocationExplained.setVisibility(View.VISIBLE);
     }
 
     private void showDisconnectedActions() {
@@ -216,8 +214,8 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
     @AfterPermissionGranted(REQUEST_PERMISSION_FINE_LOCATION)
     public void confirmLocation() {
         Timber.d("Clicked to confirm location");
-        preferences.edit().putBoolean("user_learned_confirm_location", true).apply();
-        AnimUtils.fadeOutGone(requireContext(), tvLocationExplained);
+        //preferences.edit().putBoolean("user_learned_confirm_location", true).apply();
+        //AnimUtils.fadeOutGone(requireContext(), tvLocationExplained);
 
         if (!gameController.getPlayGamesInstance().isSignedIn()) {
             Timber.d("Not connected to the adventure");
@@ -324,12 +322,12 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
     }
 
     private boolean matchesBigTray(@NonNull Location location) {
-        Location museum = new Location("");
-        museum.setLatitude(-12.201868);
-        museum.setLongitude(-38.96974);
+        Location bigTray = new Location("");
+        bigTray.setLatitude(-12.201868);
+        bigTray.setLongitude(-38.96974);
 
-        float distance = location.distanceTo(museum);
-        Timber.d("Distance to Serpents: %f", distance);
+        float distance = location.distanceTo(bigTray);
+        Timber.d("Distance to big tray: %f", distance);
 
         if (distance <= 15) {
             Timber.d("You unlocked by measure");
