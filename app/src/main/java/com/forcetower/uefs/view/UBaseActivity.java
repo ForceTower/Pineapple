@@ -14,6 +14,7 @@ import com.forcetower.uefs.R;
 import com.forcetower.uefs.util.NetworkUtils;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
@@ -134,11 +135,21 @@ public abstract class UBaseActivity extends AppCompatActivity implements Achieve
                 String message = apiException.getMessage();
                 if (message == null || message.isEmpty()) {
                     message = getString(R.string.play_sign_in_other_error);
-                } else if (apiException.getStatusCode() == 12501) {
-                    message = getString(R.string.google_play_games_auth_failed);
+                } else if (apiException.getStatusCode() == GoogleSignInStatusCodes.SIGN_IN_CANCELLED) {
+                    message = getString(R.string.google_play_sign_in_cancelled);
                 } else if (apiException.getStatusCode() == 4) {
                     message = getString(R.string.game_api_failed);
+                } else if (apiException.getStatusCode() == 12500) {
+                    message = getString(R.string.you_need_to_update_play_services);
+                } else if (apiException.getStatusCode() == GoogleSignInStatusCodes.SIGN_IN_CURRENTLY_IN_PROGRESS){
+                    message = getString(R.string.google_play_sign_in_currently_in_progress);
+                } else {
+                    message = message.concat("\n")
+                            .concat(GoogleSignInStatusCodes.getStatusCodeString(apiException.getStatusCode()))
+                            .concat("\n")
+                            .concat(getString(R.string.play_services_error));
                 }
+
 
                 mPlayGamesInstance.onDisconnected();
 

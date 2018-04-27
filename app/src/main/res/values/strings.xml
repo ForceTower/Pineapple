@@ -353,4 +353,8 @@
     <string name="unable_to_open_achievements">Não foi possível mostrar as conquistas, tente novamente mais tarde</string>
     <string name="title_flowchart">Fluxograma</string>
     <string name="downloader_is_busy">O aplicativo está ocupado baixando outra coisa</string>
+    <string name="you_need_to_update_play_services">O login falhou. Talvez você precise atualizar o Google Play Services antes de usar este recurso</string>
+    <string name="play_services_error">Erro no Google Play Services, me mande um email com o código do erro para eu saber que este erro existe</string>
+    <string name="google_play_sign_in_cancelled">Login com o Google Play cancelado</string>
+    <string name="google_play_sign_in_currently_in_progress">Já existe um login sendo feito neste momento</string>
 </resources>
