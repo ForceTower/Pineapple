@@ -95,7 +95,7 @@
             android:icon="@drawable/ic_timetable_accent_30dp"
             android:key="new_schedule_layout"
             android:title="@string/new_schedule_layout"
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:summaryOff="@string/new_schedule_layout_disabled"
             android:summaryOn="@string/new_schedule_layout_enabled"/>
 
