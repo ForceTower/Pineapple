@@ -86,7 +86,7 @@ public class ConnectedFragment extends Fragment implements Injectable, MainConte
         ButterKnife.bind(this, view);
 
         preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
-        newScheduleLayout = preferences.getBoolean("new_schedule_layout", false);
+        newScheduleLayout = preferences.getBoolean("new_schedule_layout", true);
         newScheduleLayout = preferences.getBoolean("new_schedule_user_ready", false) && newScheduleLayout;
         Timber.d("New schedule (onCreate) %s", newScheduleLayout);
 
@@ -135,7 +135,7 @@ public class ConnectedFragment extends Fragment implements Injectable, MainConte
     @Override
     public void onResume() {
         super.onResume();
-        newScheduleLayout = preferences.getBoolean("new_schedule_layout", false);
+        newScheduleLayout = preferences.getBoolean("new_schedule_layout", true);
         newScheduleLayout = preferences.getBoolean("new_schedule_user_ready", false) && newScheduleLayout;
         bottomNavigationView.setSelectedItemId(selectedTab);
     }
