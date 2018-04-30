@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
  */
 
 public class Constants {
-    public static final boolean DEBUG = BuildConfig.DEBUG;
+    public static final boolean DEBUG = false;
 
     public static final Pattern URL_PATTERN = Pattern.compile(
             "(?:^|[\\W])((ht|f)tp(s?)://((www)\\.)?)"
