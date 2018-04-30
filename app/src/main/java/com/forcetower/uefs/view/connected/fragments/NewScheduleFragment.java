@@ -24,7 +24,7 @@ import com.forcetower.uefs.view.connected.ActivityController;
 import com.forcetower.uefs.view.connected.LocationClickListener;
 import com.forcetower.uefs.view.connected.adapters.NewScheduleAdapter;
 import com.forcetower.uefs.view.connected.adapters.ScheduleAdapter;
-import com.forcetower.uefs.vm.ScheduleViewModel;
+import com.forcetower.uefs.vm.base.ScheduleViewModel;
 
 import java.util.ArrayList;
 import java.util.List;

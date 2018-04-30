@@ -4,18 +4,19 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
 import com.forcetower.uefs.di.annotation.ViewModelKey;
-import com.forcetower.uefs.vm.AchievementsViewModel;
-import com.forcetower.uefs.vm.CalendarViewModel;
+import com.forcetower.uefs.vm.google.AchievementsViewModel;
+import com.forcetower.uefs.vm.base.CalendarViewModel;
 import com.forcetower.uefs.vm.ControlRoomViewModel;
-import com.forcetower.uefs.vm.DisciplinesViewModel;
-import com.forcetower.uefs.vm.DownloadsViewModel;
-import com.forcetower.uefs.vm.GoogleCalendarViewModel;
-import com.forcetower.uefs.vm.GradesViewModel;
-import com.forcetower.uefs.vm.LoginViewModel;
-import com.forcetower.uefs.vm.MessagesViewModel;
-import com.forcetower.uefs.vm.ProfileViewModel;
-import com.forcetower.uefs.vm.ScheduleViewModel;
+import com.forcetower.uefs.vm.base.DisciplinesViewModel;
+import com.forcetower.uefs.vm.base.DownloadsViewModel;
+import com.forcetower.uefs.vm.google.GoogleCalendarViewModel;
+import com.forcetower.uefs.vm.base.GradesViewModel;
+import com.forcetower.uefs.vm.base.LoginViewModel;
+import com.forcetower.uefs.vm.base.MessagesViewModel;
+import com.forcetower.uefs.vm.base.ProfileViewModel;
+import com.forcetower.uefs.vm.base.ScheduleViewModel;
 import com.forcetower.uefs.vm.UEFSViewModelFactory;
+import com.forcetower.uefs.vm.service.AccountViewModel;
 
 import dagger.Binds;
 import dagger.Module;
@@ -81,6 +82,11 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(AchievementsViewModel.class)
     abstract ViewModel bindAchievementsViewModel(AchievementsViewModel achievementsViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AccountViewModel.class)
+    abstract ViewModel bindAccountViewModel(AccountViewModel accountViewModel);
 
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(UEFSViewModelFactory factory);
