@@ -20,21 +20,27 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
     @MainThread
     public NetworkBoundResource(AppExecutors appExecutors) {
         this.appExecutors = appExecutors;
-        LiveData<ResultType> dbSource = loadFromDb();
-        result.addSource(dbSource, data -> {
-            result.removeSource(dbSource);
-            if (shouldFetch(data)) {
-                preNetworkOperations();
-                fetchFromNetwork(dbSource);
-            } else {
-                result.addSource(dbSource, newData -> setValue(Resource.success(newData)));
-                onSuccess();
-            }
+        appExecutors.diskIO().execute(() -> {
+            if (!preExecute()) return;
+            appExecutors.mainThread().execute(() ->{
+                LiveData<ResultType> dbSource = loadFromDb();
+                result.addSource(dbSource, data -> {
+                    result.removeSource(dbSource);
+                    if (shouldFetch(data)) {
+                        fetchFromNetwork(dbSource);
+                    } else {
+                        result.addSource(dbSource, newData -> setValue(Resource.success(newData)));
+                        onSuccess();
+                    }
+                });
+            });
         });
     }
 
     @MainThread
-    protected void preNetworkOperations() {}
+    protected boolean preExecute() {
+        return true;
+    }
 
     @MainThread
     private void setValue(Resource<ResultType> newValue) {
