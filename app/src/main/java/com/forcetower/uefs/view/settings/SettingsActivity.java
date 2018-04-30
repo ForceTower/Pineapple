@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.anim.ProgressBarAnimation;
-import com.forcetower.uefs.rep.LoginRepository;
+import com.forcetower.uefs.rep.sgrs.LoginRepository;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
 import com.forcetower.uefs.util.AnimUtils;

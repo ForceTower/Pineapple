@@ -7,6 +7,7 @@ import android.content.Context;
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.GooglePlayGamesInstance;
 import com.forcetower.uefs.db.AppDatabase;
+import com.forcetower.uefs.db_service.ServiceDatabase;
 import com.forcetower.uefs.ru.RUFirebase;
 import com.forcetower.uefs.service.UNEService;
 import com.forcetower.uefs.service.adapter.LiveDataCallAdapterFactory;
@@ -35,6 +36,14 @@ public class AppModule {
     AppDatabase provideDatabase(Application application) {
         return Room.databaseBuilder(application, AppDatabase.class, "unes_uefs.db")
                 .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+                .build();
+    }
+
+    @Provides
+    @Singleton
+    ServiceDatabase provideServiceDatabase(Application application) {
+        return Room.databaseBuilder(application, ServiceDatabase.class, "unes_service.db")
+                .fallbackToDestructiveMigration()
                 .build();
     }
 

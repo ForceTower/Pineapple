@@ -5,7 +5,7 @@ import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.ViewModel;
 
 import com.forcetower.uefs.AppExecutors;
-import com.forcetower.uefs.rep.RefreshRepository;
+import com.forcetower.uefs.rep.sgrs.RefreshRepository;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.SagresDocuments;
 import com.forcetower.uefs.rep.helper.Status;

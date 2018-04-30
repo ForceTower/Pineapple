@@ -178,6 +178,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         setupFragmentStackListener();
         setupToolbarEvents();
         setupActionListeners();
+        //setupAccount();
 
         String backgroundImage = mPreferences.getString(BACKGROUND_IMAGE, Constants.BACKGROUND_IMAGE_DEFAULT);
         Picasso.with(this).load(backgroundImage).into(navViews.ivBackground);
