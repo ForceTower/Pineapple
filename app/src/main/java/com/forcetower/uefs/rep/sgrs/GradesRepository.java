@@ -1,4 +1,4 @@
-package com.forcetower.uefs.rep;
+package com.forcetower.uefs.rep.sgrs;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
@@ -32,7 +32,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import timber.log.Timber;
 
-import static com.forcetower.uefs.rep.LoginRepository.defineGrades;
+import static com.forcetower.uefs.rep.sgrs.LoginRepository.defineGrades;
 import static com.forcetower.uefs.rep.helper.RequestCreator.makeGradesRequest;
 import static com.forcetower.uefs.rep.helper.RequestCreator.makeListGradeRequests;
 
