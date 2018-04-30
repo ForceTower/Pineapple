@@ -1,4 +1,4 @@
-package com.forcetower.uefs.vm;
+package com.forcetower.uefs.vm.base;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;

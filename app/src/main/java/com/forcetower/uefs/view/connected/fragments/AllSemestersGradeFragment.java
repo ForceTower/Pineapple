@@ -20,7 +20,7 @@ import com.forcetower.uefs.db.entity.Semester;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.util.WordUtils;
 import com.forcetower.uefs.view.connected.ActivityController;
-import com.forcetower.uefs.vm.GradesViewModel;
+import com.forcetower.uefs.vm.base.GradesViewModel;
 
 import java.util.ArrayList;
 import java.util.Collections;

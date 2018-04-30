@@ -23,7 +23,7 @@ import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
 import com.forcetower.uefs.view.connected.ActivityController;
 import com.forcetower.uefs.view.connected.adapters.CalendarAdapter;
-import com.forcetower.uefs.vm.CalendarViewModel;
+import com.forcetower.uefs.vm.base.CalendarViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
