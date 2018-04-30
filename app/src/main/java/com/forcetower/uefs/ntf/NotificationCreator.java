@@ -12,7 +12,7 @@ import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.GradeInfo;
 import com.forcetower.uefs.db.entity.Message;
-import com.forcetower.uefs.service.Version;
+import com.forcetower.uefs.db_service.entity.Version;
 import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.connected.LoggedActivity;
 import com.forcetower.uefs.view.login.MainActivity;
@@ -133,15 +133,15 @@ public class NotificationCreator {
 
     public static void createNewVersionNotification(@NonNull Context context, @NonNull Version version) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        if (preferences.getBoolean("UPDATE_NOTIFICATION_" + version.getVersionCode(), false)) return;
+        if (preferences.getBoolean("UPDATE_NOTIFICATION_" + version.getCode(), false)) return;
 
         NotificationCompat.Builder builder = notificationBuilder(context, Constants.CHANNEL_GENERAL_WARNINGS_ID)
-                .setContentTitle(context.getString(R.string.new_unes_version_available, version.getVersionName()));
+                .setContentTitle(context.getString(R.string.new_unes_version_available, version.getName()));
 
-        PendingIntent pendingIntent = getPendingIntent(context, MainActivity.class, version.getDownloadLink());
+        PendingIntent pendingIntent = getPendingIntent(context, MainActivity.class, version.getDownload());
         String message = context.getString(R.string.get_unes_new_version);
 
-        String[] stuff = version.getWhatsNew().split("_;_");
+        String[] stuff = version.getDetails().split("_;_");
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < stuff.length; i++) {
             String str = stuff[i];
@@ -158,7 +158,7 @@ public class NotificationCreator {
         addOptions(context, builder);
         boolean notify = showNotification(context, message.hashCode(), builder);
         if (notify) {
-            preferences.edit().putBoolean("UPDATE_NOTIFICATION_" + version.getVersionCode(), true).apply();
+            preferences.edit().putBoolean("UPDATE_NOTIFICATION_" + version.getCode(), true).apply();
             Timber.d("Preference for update set");
         }
     }

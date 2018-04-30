@@ -2,9 +2,9 @@ package com.forcetower.uefs.rep;
 
 import android.arch.lifecycle.LiveData;
 
+import com.forcetower.uefs.db_service.entity.Version;
 import com.forcetower.uefs.service.ApiResponse;
 import com.forcetower.uefs.service.UNEService;
-import com.forcetower.uefs.service.Version;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

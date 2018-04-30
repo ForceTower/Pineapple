@@ -146,12 +146,6 @@ public class RequestCreator {
         return builder;
     }
 
-    public static Request makeRequestForMainUpdater() {
-        return new Request.Builder()
-                .url(Constants.MAIN_UPDATER_CONTROL)
-                .build();
-    }
-
     public static Request makeRequestForEnrollmentCertificate() {
         return new Request.Builder()
                 .url(Constants.SAGRES_ENROLL_CERT)

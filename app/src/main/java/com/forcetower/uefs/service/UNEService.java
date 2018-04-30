@@ -2,6 +2,9 @@ package com.forcetower.uefs.service;
 
 import android.arch.lifecycle.LiveData;
 
+import com.forcetower.uefs.db_service.entity.UpdateStatus;
+import com.forcetower.uefs.db_service.entity.Version;
+
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -12,13 +15,13 @@ import retrofit2.http.POST;
  */
 
 public interface UNEService {
-    @FormUrlEncoded
-    @POST("/unes_update")
-    LiveData<ApiResponse<SimpleResponse>> setupMasterSync(@Field("state") boolean state, @Field("password") String password);
+    @GET("update")
+    LiveData<ApiResponse<UpdateStatus>> getUpdateStatus();
 
-    @GET("/unes_update")
-    LiveData<ApiResponse<SyncResponse>> getSyncState();
-
-    @GET("/unes_version")
+    @GET("version")
     LiveData<ApiResponse<Version>> getLatestVersion();
+
+    @FormUrlEncoded
+    @POST("update")
+    LiveData<ApiResponse<ActionResult<UpdateStatus>>> changeUpdateStatus(@Field("manager") int manager, @Field("alarm") int alarm);
 }

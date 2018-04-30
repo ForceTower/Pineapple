@@ -2,6 +2,8 @@ package com.forcetower.uefs.service;
 
 import android.support.annotation.Nullable;
 
+import com.google.gson.Gson;
+
 import java.io.IOException;
 
 import retrofit2.Response;
@@ -17,11 +19,14 @@ public class ApiResponse<T> {
     public final T body;
     @Nullable
     public final String errorMessage;
+    @Nullable
+    public final ActionError actionError;
 
     public ApiResponse(Throwable error) {
         code = 500;
         body = null;
         errorMessage = error.getMessage();
+        actionError = null;
     }
 
     public ApiResponse(Response<T> response) {
@@ -30,19 +35,22 @@ public class ApiResponse<T> {
         if(response.isSuccessful()) {
             body = response.body();
             errorMessage = null;
-
+            actionError = null;
         } else {
             String message = null;
+            ActionError aError = null;
             if (response.errorBody() != null) {
                 try {
                     message = response.errorBody().string();
-                } catch (IOException ignored) {
+                    if (message != null) aError = new Gson().fromJson(message, ActionError.class);
+                } catch (Exception ignored) {
                     Timber.e(ignored, "error while parsing response");
                 }
             }
             if (message == null || message.trim().length() == 0) {
                 message = response.message();
             }
+            actionError = aError;
             errorMessage = message;
             body = null;
         }

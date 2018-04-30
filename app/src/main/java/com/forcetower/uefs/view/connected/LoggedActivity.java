@@ -31,7 +31,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
@@ -53,12 +52,12 @@ import com.forcetower.uefs.db.entity.Access;
 import com.forcetower.uefs.db.entity.DisciplineClassLocation;
 import com.forcetower.uefs.db.entity.Profile;
 import com.forcetower.uefs.db.entity.Semester;
+import com.forcetower.uefs.db_service.entity.Version;
 import com.forcetower.uefs.ntf.NotificationCreator;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.SagresDocuments;
 import com.forcetower.uefs.rep.helper.Status;
 import com.forcetower.uefs.service.ApiResponse;
-import com.forcetower.uefs.service.Version;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.util.NetworkUtils;
 import com.forcetower.uefs.util.VersionUtils;
@@ -569,10 +568,10 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
             try {
                 PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
                 int versionCode   = pInfo.versionCode;
-                if (version.getVersionCode() > versionCode) {
+                if (version.getCode() > versionCode) {
                     Timber.d("There's an UNES update going on");
                     NotificationCreator.createNewVersionNotification(this, version);
-                } else if (version.getVersionCode() == versionCode) {
+                } else if (version.getCode() == versionCode) {
                     Timber.d("UNES is up to date");
                 } else {
                     Timber.d("This version is ahead of published version");

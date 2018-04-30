@@ -3,9 +3,9 @@ package com.forcetower.uefs.vm;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
+import com.forcetower.uefs.db_service.entity.UpdateStatus;
+import com.forcetower.uefs.service.ActionResult;
 import com.forcetower.uefs.service.ApiResponse;
-import com.forcetower.uefs.service.SimpleResponse;
-import com.forcetower.uefs.service.SyncResponse;
 import com.forcetower.uefs.service.UNEService;
 import com.forcetower.uefs.util.AbsentLiveData;
 
@@ -18,8 +18,8 @@ import javax.inject.Inject;
 public class ControlRoomViewModel extends ViewModel {
     private final UNEService service;
 
-    private LiveData<ApiResponse<SimpleResponse>> updateState;
-    private LiveData<ApiResponse<SyncResponse>> syncState;
+    private LiveData<ApiResponse<ActionResult<UpdateStatus>>> updateState;
+    private LiveData<ApiResponse<UpdateStatus>> syncState;
 
     private boolean fragmentCall = false;
 
@@ -30,21 +30,23 @@ public class ControlRoomViewModel extends ViewModel {
         syncState = AbsentLiveData.create();
     }
 
-    public LiveData<ApiResponse<SimpleResponse>> updateMasterSyncState(boolean state, String password) {
-        updateState = service.setupMasterSync(state, password);
+    public LiveData<ApiResponse<ActionResult<UpdateStatus>>> updateMasterSyncState(boolean manager, boolean alarm) {
+        int m = manager ? 1 : 0;
+        int a = alarm   ? 1 : 0;
+        updateState = service.changeUpdateStatus(m, a);
         return updateState;
     }
 
-    public LiveData<ApiResponse<SimpleResponse>> updateMasterSyncState() {
+    public LiveData<ApiResponse<ActionResult<UpdateStatus>>> updateMasterSyncState() {
         return updateState;
     }
 
-    public LiveData<ApiResponse<SyncResponse>> observeCurrentState() {
+    public LiveData<ApiResponse<UpdateStatus>> observeCurrentState() {
         return syncState;
     }
 
-    public LiveData<ApiResponse<SyncResponse>> getCurrentState() {
-        syncState = service.getSyncState();
+    public LiveData<ApiResponse<UpdateStatus>> getCurrentState() {
+        syncState = service.getUpdateStatus();
         return syncState;
     }
 

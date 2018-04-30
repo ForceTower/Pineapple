@@ -7,6 +7,8 @@ import java.util.regex.Pattern;
  */
 
 public class Constants {
+    public static final boolean DEBUG = BuildConfig.DEBUG;
+
     public static final Pattern URL_PATTERN = Pattern.compile(
             "(?:^|[\\W])((ht|f)tp(s?)://((www)\\.)?)"
                     + "(([\\w\\-]+\\.){1,}?([\\w\\-.~]+\\/?)*"
@@ -42,9 +44,9 @@ public class Constants {
     public static final String CHANNEL_GENERAL_WARNINGS_ID = "com.forcetower.uefs.GENERAL.WARNINGS";
     public static final String CHANNEL_GENERAL_REMOTE_ID   = "com.forcetower.uefs.GENERAL.REMOTE";
 
-    public static final String MAIN_UPDATER_CONTROL = "http://oqv.comlu.com/unes_update";
-    public static final String UNES_SERVICE_BASE = "http://oqv.comlu.com";
-
     public static final String ENROLLMENT_CERTIFICATE_FILE_NAME = "enrollment_certificate.pdf";
     public static final String FLOWCHART_FILE_NAME = "flowchart.pdf";
+
+    public static final String UNES_SERVICE_URL  = DEBUG ? "192.168.15.7" : "unes.herokuapp.com";
+    public static final String UNES_SERVICE_BASE = "http" + (DEBUG ? "" : "s") + "://"+ UNES_SERVICE_URL + "/api/";
 }

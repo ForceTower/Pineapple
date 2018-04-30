@@ -18,10 +18,13 @@ import com.forcetower.uefs.db.entity.GradeInfo;
 import com.forcetower.uefs.db.entity.GradeSection;
 import com.forcetower.uefs.db.entity.Message;
 import com.forcetower.uefs.db.entity.Semester;
+import com.forcetower.uefs.db_service.entity.UpdateStatus;
 import com.forcetower.uefs.ntf.NotificationCreator;
 import com.forcetower.uefs.rep.RefreshRepository;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
+import com.forcetower.uefs.service.ApiResponse;
+import com.forcetower.uefs.service.UNEService;
 import com.forcetower.uefs.util.NetworkUtils;
 
 import java.util.List;
@@ -29,10 +32,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
-import okhttp3.OkHttpClient;
 import timber.log.Timber;
 
-import static com.forcetower.uefs.util.SyncUtils.syncCheckMainUpdater;
 
 /**
  * Created by João Paulo on 09/03/2018.
@@ -46,11 +47,12 @@ public class RefreshBroadcastReceiver extends BroadcastReceiver {
     @Inject
     AppExecutors executors;
     @Inject
-    OkHttpClient client;
+    UNEService service;
 
     private Context context;
     private SharedPreferences preferences;
     private LiveData<Resource<Integer>> call;
+    private LiveData<ApiResponse<UpdateStatus>> updateData;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -63,26 +65,58 @@ public class RefreshBroadcastReceiver extends BroadcastReceiver {
         }
 
         executors.networkIO().execute(() -> {
-            if (!BuildConfig.DEBUG && !syncCheckMainUpdater(client, 2)) {
-                Timber.d("Application is paused");
-                return;
+            if (!BuildConfig.DEBUG) {
+                proceedSync();
+            } else {
+                updateData = service.getUpdateStatus();
+                updateData.observeForever(this::updateAccountObserver);
             }
-            Timber.d("Application is online");
-            executors.diskIO().execute(() -> {
-                Access access = database.accessDao().getAccessDirect();
-                if (access == null) {
-                    Timber.d("Access is null... stop");
-                    NotificationCreator.createNotConnectedNotification(context);
-                } else {
-                    database.profileDao().setLastSyncAttempt(System.currentTimeMillis());
-                    database.messageDao().clearAllNotifications();
-                    database.gradeInfoDao().clearAllNotifications();
-                    executors.mainThread().execute(() -> {
-                        call = repository.refreshData();
-                        call.observeForever(this::progressObserver);
-                    });
-                }
-            });
+        });
+    }
+
+    private void updateAccountObserver(ApiResponse<UpdateStatus> updateResp) {
+        if (updateResp == null) {
+            Timber.d("Won't sync: null response");
+            return;
+        }
+
+        executors.mainThread().execute(() -> updateData.removeObserver(this::updateAccountObserver));
+
+        if (!updateResp.isSuccessful()) {
+            Timber.d("Won't sync: unsuccessful response, code %d", updateResp.code);
+            return;
+        }
+
+        UpdateStatus status = updateResp.body;
+        if (status == null) {
+            Timber.d("Won't sync: object status is null");
+            return;
+        }
+
+        if (!status.isAlarm()) {
+            Timber.d("Won't sync: alarm is disabled");
+            return;
+        }
+
+        proceedSync();
+    }
+
+    private void proceedSync() {
+        Timber.d("Application is online [ALARM]");
+        executors.diskIO().execute(() -> {
+            Access access = database.accessDao().getAccessDirect();
+            if (access == null) {
+                Timber.d("Access is null... stop");
+                NotificationCreator.createNotConnectedNotification(context);
+            } else {
+                database.profileDao().setLastSyncAttempt(System.currentTimeMillis());
+                database.messageDao().clearAllNotifications();
+                database.gradeInfoDao().clearAllNotifications();
+                executors.mainThread().execute(() -> {
+                    call = repository.refreshData();
+                    call.observeForever(this::progressObserver);
+                });
+            }
         });
     }
 

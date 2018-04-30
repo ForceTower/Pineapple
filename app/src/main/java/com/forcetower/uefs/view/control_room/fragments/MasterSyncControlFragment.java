@@ -2,6 +2,8 @@ package com.forcetower.uefs.view.control_room.fragments;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.res.ColorStateList;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,10 +20,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.db_service.entity.UpdateStatus;
 import com.forcetower.uefs.di.Injectable;
+import com.forcetower.uefs.service.ActionResult;
 import com.forcetower.uefs.service.ApiResponse;
-import com.forcetower.uefs.service.SimpleResponse;
-import com.forcetower.uefs.service.SyncResponse;
 import com.forcetower.uefs.vm.ControlRoomViewModel;
 
 import javax.inject.Inject;
@@ -34,22 +36,23 @@ import butterknife.ButterKnife;
  */
 
 public class MasterSyncControlFragment extends Fragment implements Injectable {
-    @BindView(R.id.btn_enable)
-    Button btnEnable;
-    @BindView(R.id.btn_disable)
-    Button btnDisable;
-    @BindView(R.id.et_login_password)
-    EditText etPassword;
-    @BindView(R.id.tv_status_message)
-    TextView tvStatus;
+    @BindView(R.id.btn_toggle_manager)
+    Button btnManager;
+    @BindView(R.id.btn_toggle_alarm)
+    Button btnAlarm;
+    @BindView(R.id.iv_manager_status)
+    ImageView ivManagerStatus;
+    @BindView(R.id.iv_alarm_status)
+    ImageView ivAlarmStatus;
     @BindView(R.id.tv_connections)
     TextView tvAmount;
-    @BindView(R.id.iv_sync_status)
-    ImageView ivStatus;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
     private ControlRoomViewModel controlRoomViewModel;
+
+    private boolean alarm;
+    private boolean manager;
 
     @Nullable
     @Override
@@ -60,14 +63,12 @@ public class MasterSyncControlFragment extends Fragment implements Injectable {
     }
 
     private void setupButtons() {
-        btnEnable.setOnClickListener(v -> {
-            String pass = etPassword.getText().toString();
-            controlRoomViewModel.updateMasterSyncState(true, pass).observe(this, this::stateChangeRequestObserver);
+        btnAlarm.setOnClickListener(v -> {
+            controlRoomViewModel.updateMasterSyncState(manager, !alarm).observe(this, this::stateChangeRequestObserver);
         });
 
-        btnDisable.setOnClickListener(v -> {
-            String pass = etPassword.getText().toString();
-            controlRoomViewModel.updateMasterSyncState(false, pass).observe(this, this::stateChangeRequestObserver);
+        btnManager.setOnClickListener(v -> {
+            controlRoomViewModel.updateMasterSyncState(!manager, alarm).observe(this, this::stateChangeRequestObserver);
         });
     }
 
@@ -75,6 +76,13 @@ public class MasterSyncControlFragment extends Fragment implements Injectable {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         controlRoomViewModel = ViewModelProviders.of(this, viewModelFactory).get(ControlRoomViewModel.class);
+
+        if (savedInstanceState != null) {
+            alarm = savedInstanceState.getBoolean("alarm", false);
+            manager = savedInstanceState.getBoolean("manager", false);
+            updateAlarm(alarm);
+            updateManager(manager);
+        }
 
         setupButtons();
 
@@ -87,48 +95,66 @@ public class MasterSyncControlFragment extends Fragment implements Injectable {
         controlRoomViewModel.updateMasterSyncState().observe(this, this::stateChangeRequestObserver);
     }
 
-    private void stateChangeRequestObserver(ApiResponse<SimpleResponse> simpleResp) {
+    private void stateChangeRequestObserver(ApiResponse<ActionResult<UpdateStatus>> simpleResp) {
         if (simpleResp == null) return;
         if (simpleResp.isSuccessful()) {
-            SimpleResponse simple = simpleResp.body;
+            ActionResult<UpdateStatus> simple = simpleResp.body;
             //noinspection ConstantConditions
-            if (simple.error) {
-                Toast.makeText(getContext(), simple.message, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), simple.getMessage(), Toast.LENGTH_SHORT).show();
+            updateManager(simple.getData().isManager());
+            updateAlarm(simple.getData().isAlarm());
+        } else {
+            if (simpleResp.actionError != null && simpleResp.actionError.getMessage() != null) {
+                Toast.makeText(getContext(), simpleResp.actionError.getMessage(), Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(getContext(), simple.message,Toast.LENGTH_SHORT).show();
-                if (simple.isUpdate()) {
-                    DrawableCompat.setTint(ivStatus.getDrawable(), ContextCompat.getColor(getContext(), R.color.android_green));
-                    tvStatus.setText(R.string.master_sync_enabled);
-                } else {
-                    DrawableCompat.setTint(ivStatus.getDrawable(), ContextCompat.getColor(getContext(), android.R.color.holo_red_dark));
-                    tvStatus.setText(R.string.master_sync_disabled);
-                }
+                Toast.makeText(getContext(), R.string.failed_to_connect, Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    private void stateObserver(ApiResponse<UpdateStatus> updateStsResp) {
+        if (updateStsResp == null) return;
+        if (updateStsResp.isSuccessful()) {
+            UpdateStatus simple = updateStsResp.body;
+            //noinspection ConstantConditions
+            updateManager(simple.isManager());
+            updateAlarm(simple.isAlarm());
+            tvAmount.setText(getString(R.string.master_update_connections, simple.getCount()));
         } else {
             Toast.makeText(getContext(), R.string.failed_to_connect, Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void stateObserver(ApiResponse<SyncResponse> observeResp) {
-        if (observeResp == null) return;
-        if (observeResp.isSuccessful()) {
-            SyncResponse simple = observeResp.body;
-            //noinspection ConstantConditions
-            if (simple.isUpdate()) {
-                DrawableCompat.setTint(ivStatus.getDrawable(), ContextCompat.getColor(getContext(), R.color.android_green));
-                tvStatus.setText(R.string.master_sync_enabled);
-            } else {
-                DrawableCompat.setTint(ivStatus.getDrawable(), ContextCompat.getColor(getContext(), android.R.color.holo_red_dark));
-                tvStatus.setText(R.string.master_sync_disabled);
-            }
-
-            tvAmount.setText(getString(R.string.master_update_connections, simple.count));
+    private void updateManager(boolean manager) {
+        this.manager = manager;
+        if (manager) {
+            int color = ContextCompat.getColor(requireContext(), R.color.android_green);
+            DrawableCompat.setTint(ivManagerStatus.getDrawable(), color);
+            btnManager.setText(R.string.disable);
         } else {
-            Toast.makeText(getContext(), R.string.failed_to_connect, Toast.LENGTH_SHORT).show();
+            int color = ContextCompat.getColor(requireContext(), android.R.color.holo_red_dark);
+            DrawableCompat.setTint(ivManagerStatus.getDrawable(), color);
+            btnManager.setText(R.string.enable);
         }
     }
 
+    private void updateAlarm(boolean alarm) {
+        this.alarm = alarm;
+        if (alarm) {
+            int color = ContextCompat.getColor(requireContext(), R.color.android_green);
+            DrawableCompat.setTint(ivAlarmStatus.getDrawable(), color);
+            btnAlarm.setText(R.string.disable);
+        } else {
+            int color = ContextCompat.getColor(requireContext(), android.R.color.holo_red_dark);
+            DrawableCompat.setTint(ivAlarmStatus.getDrawable(), color);
+            btnAlarm.setText(R.string.enable);
+        }
+    }
 
-
-    //DrawableCompat.setTint(myImageView.getDrawable(), ContextCompat.getColor(context, R.color.another_nice_color));
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("alarm", alarm);
+        outState.putBoolean("manager", manager);
+    }
 }

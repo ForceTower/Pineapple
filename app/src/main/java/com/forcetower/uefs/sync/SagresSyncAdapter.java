@@ -19,19 +19,19 @@ import com.forcetower.uefs.db.entity.GradeInfo;
 import com.forcetower.uefs.db.entity.GradeSection;
 import com.forcetower.uefs.db.entity.Message;
 import com.forcetower.uefs.db.entity.Semester;
+import com.forcetower.uefs.db_service.entity.UpdateStatus;
 import com.forcetower.uefs.ntf.NotificationCreator;
 import com.forcetower.uefs.rep.LoginRepository;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
+import com.forcetower.uefs.service.ApiResponse;
+import com.forcetower.uefs.service.UNEService;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
-import okhttp3.OkHttpClient;
 import timber.log.Timber;
-
-import static com.forcetower.uefs.util.SyncUtils.syncCheckMainUpdater;
 
 /**
  * Created by João Paulo on 08/03/2018.
@@ -42,17 +42,18 @@ public class SagresSyncAdapter extends AbstractThreadedSyncAdapter {
     private final AppDatabase database;
     private final Context context;
     private final AppExecutors executors;
-    private final OkHttpClient client;
+    private final UNEService service;
     private LiveData<Resource<Integer>> call;
+    private LiveData<ApiResponse<UpdateStatus>> updateData;
 
     @Inject
-    public SagresSyncAdapter(Context context, LoginRepository repository, AppDatabase database, AppExecutors executors, OkHttpClient client) {
+    public SagresSyncAdapter(Context context, LoginRepository repository, AppDatabase database, AppExecutors executors, UNEService service) {
         super(context, true);
         this.context = context;
         this.repository = repository;
         this.database = database;
         this.executors = executors;
-        this.client = client;
+        this.service = service;
     }
 
     @Override
@@ -60,31 +61,60 @@ public class SagresSyncAdapter extends AbstractThreadedSyncAdapter {
         Timber.d("Perform update called");
 
         executors.networkIO().execute(() -> {
-            if (!BuildConfig.DEBUG && !syncCheckMainUpdater(client, 1)) {
-                Timber.d("Application is paused");
-                return;
+            if (!BuildConfig.DEBUG) {
+                proceedSync();
+            } else {
+                updateData = service.getUpdateStatus();
+                updateData.observeForever(this::updateAccountObserver);
             }
-
-            Timber.d("Application is running");
-
-            executors.diskIO().execute(() -> {
-                Access access = database.accessDao().getAccessDirect();
-                if (access != null) {
-                    Timber.d("Performing update");
-                    database.profileDao().setLastSyncAttempt(System.currentTimeMillis());
-                    repository.deleteAllMessagesNotifications();
-                    repository.deleteAllGradesNotifications();
-                    executors.mainThread().execute(() -> {
-                        call = repository.login(access.getUsername(), access.getPassword());
-                        call.observeForever(this::onSyncProgress);
-                    });
-                } else {
-                    Timber.d("Sync stopped due to no access");
-                    NotificationCreator.createNotConnectedNotification(context);
-                }
-            });
         });
+    }
 
+    private void updateAccountObserver(ApiResponse<UpdateStatus> updateResp) {
+        if (updateResp == null) {
+            Timber.d("Won't sync: null response");
+            return;
+        }
+
+        executors.mainThread().execute(() -> updateData.removeObserver(this::updateAccountObserver));
+
+        if (!updateResp.isSuccessful()) {
+            Timber.d("Won't sync: unsuccessful response, code %d", updateResp.code);
+            return;
+        }
+
+        UpdateStatus status = updateResp.body;
+        if (status == null) {
+            Timber.d("Won't sync: object status is null");
+            return;
+        }
+
+        if (!status.isManager()) {
+            Timber.d("Won't sync: manager is disabled");
+            return;
+        }
+
+        proceedSync();
+    }
+
+    private void proceedSync () {
+        Timber.d("Application is online");
+        executors.diskIO().execute(() -> {
+            Access access = database.accessDao().getAccessDirect();
+            if (access != null) {
+                Timber.d("Performing update");
+                database.profileDao().setLastSyncAttempt(System.currentTimeMillis());
+                repository.deleteAllMessagesNotifications();
+                repository.deleteAllGradesNotifications();
+                executors.mainThread().execute(() -> {
+                    call = repository.login(access.getUsername(), access.getPassword());
+                    call.observeForever(this::onSyncProgress);
+                });
+            } else {
+                Timber.d("Sync stopped due to no access");
+                NotificationCreator.createNotConnectedNotification(context);
+            }
+        });
     }
 
     private void onSyncProgress(Resource<Integer> resource) {
