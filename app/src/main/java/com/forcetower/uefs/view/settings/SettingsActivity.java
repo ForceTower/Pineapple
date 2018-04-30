@@ -27,7 +27,7 @@ import com.forcetower.uefs.util.GeneralUtils;
 import com.forcetower.uefs.util.NetworkUtils;
 import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.UBaseActivity;
-import com.forcetower.uefs.vm.GoogleCalendarViewModel;
+import com.forcetower.uefs.vm.google.GoogleCalendarViewModel;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GooglePlayServicesAvailabilityIOException;

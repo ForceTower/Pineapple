@@ -36,7 +36,7 @@ import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.util.DateUtils;
 import com.forcetower.uefs.view.connected.ActivityController;
 import com.forcetower.uefs.view.control_room.ControlRoomActivity;
-import com.forcetower.uefs.vm.ProfileViewModel;
+import com.forcetower.uefs.vm.base.ProfileViewModel;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.squareup.picasso.Callback;

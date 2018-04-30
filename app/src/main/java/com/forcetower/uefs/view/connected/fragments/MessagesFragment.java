@@ -24,7 +24,7 @@ import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
 import com.forcetower.uefs.view.connected.ActivityController;
 import com.forcetower.uefs.view.connected.adapters.MessagesAdapter;
-import com.forcetower.uefs.vm.MessagesViewModel;
+import com.forcetower.uefs.vm.base.MessagesViewModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
