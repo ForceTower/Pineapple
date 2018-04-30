@@ -15,6 +15,7 @@ import android.content.pm.ShortcutManager;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.Bundle;
@@ -52,6 +53,8 @@ import com.forcetower.uefs.db.entity.Access;
 import com.forcetower.uefs.db.entity.DisciplineClassLocation;
 import com.forcetower.uefs.db.entity.Profile;
 import com.forcetower.uefs.db.entity.Semester;
+import com.forcetower.uefs.db_service.entity.AccessToken;
+import com.forcetower.uefs.db_service.entity.Account;
 import com.forcetower.uefs.db_service.entity.Version;
 import com.forcetower.uefs.ntf.NotificationCreator;
 import com.forcetower.uefs.rep.helper.Resource;
@@ -59,6 +62,7 @@ import com.forcetower.uefs.rep.helper.SagresDocuments;
 import com.forcetower.uefs.rep.helper.Status;
 import com.forcetower.uefs.service.ApiResponse;
 import com.forcetower.uefs.util.AnimUtils;
+import com.forcetower.uefs.util.ImageUtils;
 import com.forcetower.uefs.util.NetworkUtils;
 import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.util.WordUtils;
@@ -72,6 +76,7 @@ import com.forcetower.uefs.vm.base.DownloadsViewModel;
 import com.forcetower.uefs.vm.base.GradesViewModel;
 import com.forcetower.uefs.vm.base.ProfileViewModel;
 import com.forcetower.uefs.vm.base.ScheduleViewModel;
+import com.forcetower.uefs.vm.service.AccountViewModel;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -133,6 +138,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     private GradesViewModel gradesViewModel;
     private AchievementsViewModel achievementsViewModel;
     private DownloadsViewModel downloadsViewModel;
+    private AccountViewModel accountViewModel;
 
     private int numberOfLoadings = 0;
     private int numberOfSemesters = -1;
@@ -145,6 +151,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     private ActionBarDrawerToggle toggle;
     private boolean isHomeAsUp;
     private boolean isPDFResultShown;
+    private boolean createAccountCalled = false;
 
     public static void startActivity(Context context, boolean afterLogin) {
         Intent intent = new Intent(context, LoggedActivity.class);
@@ -359,6 +366,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         numberOfLoadings = savedInstanceState.getInt("number_of_loadings", 0);
         selectedNavId = savedInstanceState.getInt(SELECTED_NAV_DRAWER_ID);
         isPDFResultShown = savedInstanceState.getBoolean("pdf_result_shown", false);
+        createAccountCalled = savedInstanceState.getBoolean("createAccountCalled", false);
         changeTitle(titleText);
         navigationView.setCheckedItem(selectedNavId);
     }
@@ -399,6 +407,9 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         downloadsViewModel = ViewModelProviders.of(this, viewModelFactory).get(DownloadsViewModel.class);
         downloadsViewModel.getDownloadCertificate().observe(this, this::onCertificateDownload);
         downloadsViewModel.getDownloadFlowchart().observe(this, this::onFlowchartDownload);
+
+        accountViewModel = ViewModelProviders.of(this, viewModelFactory).get(AccountViewModel.class);
+        accountViewModel.getAccessToken(false).observe(this, this::onServiceAccountTokenReceived);
     }
 
     private void onCertificateDownload(Resource<Integer> resource) {
@@ -769,6 +780,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         outState.putInt("title_text", titleText);
         outState.putInt("number_of_loadings", numberOfLoadings);
         outState.putInt(SELECTED_NAV_DRAWER_ID, selectedNavId);
+        outState.putBoolean("createAccountCalled", createAccountCalled);
         super.onSaveInstanceState(outState);
     }
 
@@ -958,5 +970,65 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         ImageView ivAction;
         @BindView(R.id.pb_action)
         ProgressBar pbAction;
+    }
+
+    private void onServiceAccountTokenReceived(Resource<AccessToken> tokenResource) {
+        if (tokenResource == null) return;
+
+        AccessToken token;
+        if (tokenResource.status == Status.LOADING) {
+            Timber.d("Loading token");
+            token = tokenResource.data;
+            if (token != null)
+                Timber.d("Token: %s", token.getAccessToken());
+            else
+                Timber.d("Loading token is null");
+        } else if (tokenResource.status == Status.ERROR) {
+            int code = tokenResource.code;
+            if (code == 401) {
+                //Attempt to create account
+                Timber.d("Attempting to create account");
+                createAccount();
+            } else {
+                Timber.d("Failed to login, error code: %d", code);
+            }
+        } else {
+            if (tokenResource.data != null) {
+                token = tokenResource.data;
+                Timber.d("Token: %s", token.getAccessToken());
+            } else {
+                Timber.e("Token is null but it was recently fetched. Interesting");
+            }
+        }
+    }
+
+    private void createAccount() {
+        if (createAccountCalled) return;
+
+        createAccountCalled = true;
+        if (navViews != null && navViews.ivNavUserImage != null && navViews.ivNavUserImage.getVisibility() == View.VISIBLE) {
+            Bitmap bitmap = ((BitmapDrawable) navViews.ivNavUserImage.getDrawable()).getBitmap();
+            accountViewModel.encodeBitmap(bitmap).observe(this, this::proceedCreateAccount);
+        } else {
+            proceedCreateAccount("no_image");
+        }
+    }
+
+    private void proceedCreateAccount(String image) {
+        accountViewModel.createAccountSilently(image).observe(this, this::onAccountServiceCreated);
+    }
+
+    private void onAccountServiceCreated(Resource<Account> accountResource) {
+        if (accountResource == null) return;
+
+        if (accountResource.status == Status.SUCCESS) {
+            Timber.d("Account created");
+            accountViewModel.getAccessToken(true);
+        } else if (accountResource.status == Status.ERROR) {
+            Timber.d("Account creation error");
+            Timber.d("Error code %d", accountResource.code);
+        } else {
+            Timber.d("Loading account creation");
+        }
     }
 }
