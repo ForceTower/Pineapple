@@ -6,7 +6,7 @@ import android.support.annotation.WorkerThread;
 
 import com.forcetower.uefs.db.entity.DisciplineClassLocation;
 import com.forcetower.uefs.db.entity.DisciplineGroup;
-import com.forcetower.uefs.rep.ScheduleRepository;
+import com.forcetower.uefs.rep.sgrs.ScheduleRepository;
 
 import java.util.List;
 

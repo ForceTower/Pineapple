@@ -1,4 +1,4 @@
-package com.forcetower.uefs.rep;
+package com.forcetower.uefs.rep.service;
 
 import android.arch.lifecycle.LiveData;
 

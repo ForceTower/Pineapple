@@ -1,6 +1,8 @@
 package com.forcetower.uefs.util;
 
 import android.annotation.TargetApi;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.renderscript.Allocation;
@@ -8,6 +10,8 @@ import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.util.Base64;
+
+import com.forcetower.uefs.AppExecutors;
 
 import java.io.ByteArrayOutputStream;
 
@@ -36,8 +40,17 @@ public class ImageUtils {
 
     public static String encode(Bitmap bitmap) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);
         byte[] imageBytes = outputStream.toByteArray();
         return Base64.encodeToString(imageBytes, Base64.DEFAULT);
+    }
+
+    public static LiveData<String> encodeImage(Bitmap bitmap, AppExecutors executors) {
+        MutableLiveData<String> encoderData = new MutableLiveData<>();
+        executors.diskIO().execute(() -> {
+            String encodedImage = ImageUtils.encode(bitmap);
+            encoderData.postValue(encodedImage);
+        });
+        return encoderData;
     }
 }

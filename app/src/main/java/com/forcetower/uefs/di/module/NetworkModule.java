@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.db.dao.AccessDao;
+import com.forcetower.uefs.db_service.dao.AccessTokenDao;
+import com.forcetower.uefs.db_service.entity.AccessToken;
 import com.franmontiel.persistentcookiejar.ClearableCookieJar;
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
@@ -56,16 +58,21 @@ public class NetworkModule {
 
     @Singleton
     @Provides
-    Interceptor provideHttpInterceptor() {
+    Interceptor provideHttpInterceptor(AccessTokenDao accessDao) {
         return chain -> {
             Request oRequest = chain.request();
-            Timber.d("oRequest.url().host(): %s", oRequest.url().host());
+
             if (oRequest.url().host().contains(Constants.UNES_SERVICE_URL)) {
                 Headers.Builder builder = oRequest.headers().newBuilder()
                         .add("Accept", "application/json");
 
+                AccessToken token = accessDao.getAccessTokenDirect();
+                if (token != null && token.isValid()) {
+                    builder.add("Authorization", token.getTokenType() + " " + token.getAccessToken());
+                }
+
                 Headers newHeaders = builder.build();
-                Request request = chain.request().newBuilder().headers(newHeaders).build();
+                Request request = oRequest.newBuilder().headers(newHeaders).build();
 
                 return chain.proceed(request);
             }

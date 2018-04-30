@@ -21,7 +21,7 @@ import com.forcetower.uefs.db.entity.Message;
 import com.forcetower.uefs.db.entity.Semester;
 import com.forcetower.uefs.db_service.entity.UpdateStatus;
 import com.forcetower.uefs.ntf.NotificationCreator;
-import com.forcetower.uefs.rep.LoginRepository;
+import com.forcetower.uefs.rep.sgrs.LoginRepository;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
 import com.forcetower.uefs.service.ApiResponse;
