@@ -409,7 +409,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         downloadsViewModel.getDownloadFlowchart().observe(this, this::onFlowchartDownload);
 
         accountViewModel = ViewModelProviders.of(this, viewModelFactory).get(AccountViewModel.class);
-        accountViewModel.getAccessToken(false).observe(this, this::onServiceAccountTokenReceived);
+        //accountViewModel.getAccessToken(false).observe(this, this::onServiceAccountTokenReceived);
     }
 
     private void onCertificateDownload(Resource<Integer> resource) {
@@ -1004,7 +1004,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     }
 
     private void proceedCreateAccount(String image) {
-        accountViewModel.createAccountSilently(image).observe(this, this::onAccountServiceCreated);
+        //accountViewModel.createAccountSilently(image).observe(this, this::onAccountServiceCreated);
     }
 
     private void onAccountServiceCreated(Resource<Account> accountResource) {
@@ -1012,7 +1012,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
         if (accountResource.status == Status.SUCCESS) {
             Timber.d("Account created");
-            accountViewModel.getAccessToken(true);
+            //accountViewModel.getAccessToken(true);
         } else if (accountResource.status == Status.ERROR) {
             Timber.d("Account creation error");
             Timber.d("Error code %d", accountResource.code);

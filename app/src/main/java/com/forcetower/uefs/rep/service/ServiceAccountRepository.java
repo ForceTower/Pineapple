@@ -54,7 +54,7 @@ public class ServiceAccountRepository {
     public LiveData<Resource<AccessToken>> login() {
         return new NetworkBoundResource<AccessToken, AccessToken>(executors) {
             private String username = "";
-            private String password = "";
+            private String password = "unlimited";
 
             @Override
             protected boolean preExecute() {
@@ -62,7 +62,6 @@ public class ServiceAccountRepository {
                 if (access == null) return false;
 
                 username = access.getUsername();
-                password = access.getPassword();
                 return true;
             }
 
@@ -98,7 +97,7 @@ public class ServiceAccountRepository {
         return new NetworkBoundResource<Account, ActionResult<Account>>(executors) {
             private String name = "";
             private String username = "";
-            private String password = "";
+            private String password = "unlimited";
 
             @Override
             protected boolean preExecute() {
@@ -106,7 +105,6 @@ public class ServiceAccountRepository {
                 if (access == null) return false;
 
                 username = access.getUsername();
-                password = access.getPassword();
 
                 Profile profile = aDatabase.profileDao().getProfileDirect();
                 if (profile == null) {
