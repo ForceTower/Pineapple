@@ -1,5 +1,6 @@
 package com.forcetower.uefs.view.suggestion;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -20,9 +21,11 @@ import android.widget.Toast;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.util.VersionUtils;
+import com.forcetower.uefs.view.connected.ActivityController;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class SuggestionFragment extends Fragment {
     public static final String MESSAGE_CAUSE = "exception_message";
@@ -31,6 +34,8 @@ public class SuggestionFragment extends Fragment {
     EditText editText;
     @BindView(R.id.btn_submit)
     Button btnSubmit;
+
+    private ActivityController controller;
 
     public static SuggestionFragment createFragment(String message, String stackTrace) {
         Bundle bundle = new Bundle();
@@ -49,6 +54,11 @@ public class SuggestionFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        try {
+            controller = (ActivityController) context;
+        } catch (ClassCastException e) {
+            Timber.e("%s must implement ActivityController", context.getClass().getSimpleName());
+        }
     }
 
     @Nullable
@@ -56,6 +66,9 @@ public class SuggestionFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_suggestion, container, false);
         ButterKnife.bind(this, view);
+
+        if (controller.getTabLayout() != null) controller.getTabLayout().setVisibility(View.GONE);
+        controller.changeTitle(R.string.title_suggestion);
 
         if (getArguments() != null && getArguments().getString(STACK_TRACE) != null) {
             String message = getArguments().getString(MESSAGE_CAUSE);

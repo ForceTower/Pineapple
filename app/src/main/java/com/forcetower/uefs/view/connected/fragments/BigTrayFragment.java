@@ -75,7 +75,7 @@ public class BigTrayFragment extends Fragment implements Injectable {
         View view = inflater.inflate(R.layout.fragment_big_tray, container, false);
         ButterKnife.bind(this, view);
 
-        controller.getTabLayout().setVisibility(View.GONE);
+        if (controller.getTabLayout() != null) controller.getTabLayout().setVisibility(View.GONE);
         controller.changeTitle(R.string.title_big_tray);
 
         btnVisitBigTray.setOnClickListener(v -> NetworkUtils.openLink(requireContext(), "http://bit.ly/bandejaouefs"));
