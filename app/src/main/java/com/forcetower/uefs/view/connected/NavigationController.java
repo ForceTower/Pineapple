@@ -15,6 +15,7 @@ import com.forcetower.uefs.view.connected.fragments.DisciplineClassesFragment;
 import com.forcetower.uefs.view.connected.fragments.DisciplineDetailsFragment;
 import com.forcetower.uefs.view.connected.fragments.ProfileFragment;
 import com.forcetower.uefs.view.connected.fragments.TheAdventureFragment;
+import com.forcetower.uefs.view.suggestion.SuggestionFragment;
 
 import javax.inject.Inject;
 
@@ -132,5 +133,15 @@ public class NavigationController {
 
     public void navigateToDisciplineClasses(int groupId) {
         changeFragment(DisciplineClassesFragment.getFragment(groupId), "other_arrow_class_classes", true);
+    }
+
+    public void navigateToSuggestionFragment(String message, String stackTrace) {
+        Fragment fragment;
+        if (message == null && stackTrace == null)
+            fragment = SuggestionFragment.createFragment();
+        else
+            fragment = SuggestionFragment.createFragment(message, stackTrace);
+
+        changeFragment(fragment, "suggestion", true);
     }
 }

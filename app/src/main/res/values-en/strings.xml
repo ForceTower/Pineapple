@@ -356,4 +356,7 @@
     <string name="play_services_error">Google Play Services error, send me an email with the error code so I\'ll know this error exists</string>
     <string name="google_play_sign_in_cancelled">Login cancelled</string>
     <string name="google_play_sign_in_currently_in_progress">There is a sign in currently in progress</string>
+    <string name="control_account_manager_sync">Sync with accounts</string>
+    <string name="control_alarm_sync">Sync with alarm</string>
+    <string name="visit_official_website">Visit official website</string>
 </resources>

@@ -19,18 +19,10 @@ public class SuggestionActivity extends UBaseActivity implements HasSupportFragm
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
-    public static void startActivity(Context context, String message, StackTraceElement[] stackTrace) {
+    public static void startActivity(Context context, String message, String stackTrace) {
         Intent intent = new Intent(context, SuggestionActivity.class);
-
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Stack Trace START\n");
-        for (StackTraceElement trace : stackTrace) {
-            stringBuilder.append("\tat ").append(trace).append("\n");
-        }
-        stringBuilder.append("Stack Trace END");
-
         intent.putExtra(SuggestionFragment.MESSAGE_CAUSE, message);
-        intent.putExtra(SuggestionFragment.STACK_TRACE, stringBuilder.toString());
+        intent.putExtra(SuggestionFragment.STACK_TRACE, stackTrace);
         context.startActivity(intent);
     }
 
