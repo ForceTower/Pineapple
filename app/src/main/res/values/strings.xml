@@ -359,4 +359,5 @@
     <string name="google_play_sign_in_currently_in_progress">Já existe um login sendo feito neste momento</string>
     <string name="control_account_manager_sync">Sincronização por contas</string>
     <string name="control_alarm_sync">Sincronização por Alarme</string>
+    <string name="visit_official_website">Visite o site oficial</string>
 </resources>

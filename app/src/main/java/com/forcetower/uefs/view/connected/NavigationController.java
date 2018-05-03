@@ -83,8 +83,8 @@ public class NavigationController {
     }
 
     public void navigateToBigTray() {
-        Fragment content = new BigTrayFragment();
-        changeFragment(content);
+        Fragment fragment = new BigTrayFragment();
+        changeFragment(fragment);
     }
 
     public void navigateToProfile() {

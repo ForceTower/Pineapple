@@ -69,7 +69,7 @@
             android:id="@+id/nav_big_tray"
             android:title="@string/title_big_tray"
             android:icon="@drawable/ic_food_black_24dp"
-            android:checkable="false"/>
+            android:checkable="true"/>
     </group>
 
     <group

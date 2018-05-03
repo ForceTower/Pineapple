@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import com.forcetower.uefs.ru.RUFirebase;
 import com.forcetower.uefs.ru.RUtils;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.util.DateUtils;
+import com.forcetower.uefs.util.NetworkUtils;
 import com.forcetower.uefs.view.connected.ActivityController;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -53,6 +55,8 @@ public class BigTrayFragment extends Fragment implements Injectable {
     LinearLayout llBtns;
     @BindView(R.id.tv_ru_loading)
     TextView tvLoading;
+    @BindView(R.id.btn_visit_big_tray)
+    Button btnVisitBigTray;
 
     @Inject
     RUFirebase ruFirebase;
@@ -73,6 +77,8 @@ public class BigTrayFragment extends Fragment implements Injectable {
 
         controller.getTabLayout().setVisibility(View.GONE);
         controller.changeTitle(R.string.title_big_tray);
+
+        btnVisitBigTray.setOnClickListener(v -> NetworkUtils.openLink(requireContext(), "http://bit.ly/bandejaouefs"));
         return view;
     }
 
