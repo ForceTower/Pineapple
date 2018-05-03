@@ -1,19 +1,26 @@
 package com.forcetower.uefs.view.login;
 
 import android.annotation.SuppressLint;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.UEFSApplication;
+import com.forcetower.uefs.db.AppDatabase;
+import com.forcetower.uefs.db.entity.Message;
 import com.forcetower.uefs.view.UBaseActivity;
 import com.forcetower.uefs.view.login.fragment.LoginFormFragment;
+
+import java.util.Calendar;
 
 import javax.inject.Inject;
 
@@ -27,6 +34,10 @@ import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.FRA
 public class MainActivity extends UBaseActivity implements HasSupportFragmentInjector {
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
+    @Inject
+    AppDatabase database;
 
     public static void startActivity(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -49,11 +60,39 @@ public class MainActivity extends UBaseActivity implements HasSupportFragmentInj
         }
 
         if (savedInstanceState == null) {
+            checkoutNotification();
             updateReset();
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container, new LoginFormFragment())
                     .commit();
         }
+    }
+
+    private void checkoutNotification() {
+        String notificationExtra = getIntent().getStringExtra("notification_unes_extra");
+
+        Timber.d("Extras: %s", getIntent().getExtras());
+        if (notificationExtra == null) return;
+
+        if (notificationExtra.equalsIgnoreCase("save_message")) {
+            saveMessage(getIntent().getStringExtra("notification_message"));
+        }
+    }
+
+    private void saveMessage(String message) {
+        if (message == null) return;
+
+        String author = getIntent().getStringExtra("notification_author");
+        if (author == null) author = "João Paulo - ForceTower";
+
+        Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int mon = calendar.get(Calendar.MONTH) + 1;
+        int yea = calendar.get(Calendar.YEAR);
+        String received = day + "/" + mon + "/" + yea;
+        Message msg = new Message(author, message, received, "Notificações Gerais");
+        msg.setNotified(1);
+        new Thread(() -> database.messageDao().insertMessages(msg)).start();
     }
 
     private void openPlayStore(String value) {
