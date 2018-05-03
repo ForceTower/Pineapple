@@ -107,6 +107,12 @@ public class LoginFormFragment extends Fragment implements Injectable {
             return;
         }
 
+        if (!username.equalsIgnoreCase("essneto")) {
+            etUsername.setError(getString(R.string.cant_login_on_this_account));
+            etUsername.requestFocus();
+            return;
+        }
+
         login(username, password);
     }
 

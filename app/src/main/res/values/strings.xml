@@ -361,4 +361,5 @@
     <string name="control_alarm_sync">Sincronização por Alarme</string>
     <string name="visit_official_website">Visite o site oficial</string>
     <string name="title_suggestion">Comentários e Sugestões</string>
+    <string name="cant_login_on_this_account">Não é possível conectar</string>
 </resources>
