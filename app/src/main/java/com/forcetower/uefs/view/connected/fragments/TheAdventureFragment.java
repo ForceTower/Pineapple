@@ -330,7 +330,7 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
         float distance = location.distanceTo(bigTray);
         Timber.d("Distance to big tray: %f", distance);
 
-        if (distance <= 50) {
+        if (distance - location.getAccuracy() <= 10) {
             Timber.d("You unlocked by measure");
             return true;
         }
