@@ -14,8 +14,8 @@ import com.forcetower.uefs.view.connected.fragments.ConnectedFragment;
 import com.forcetower.uefs.view.connected.fragments.DisciplineClassesFragment;
 import com.forcetower.uefs.view.connected.fragments.DisciplineDetailsFragment;
 import com.forcetower.uefs.view.connected.fragments.ProfileFragment;
+import com.forcetower.uefs.view.connected.fragments.SuggestionFragment;
 import com.forcetower.uefs.view.connected.fragments.TheAdventureFragment;
-import com.forcetower.uefs.view.suggestion.SuggestionFragment;
 
 import javax.inject.Inject;
 

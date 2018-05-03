@@ -1,6 +1,5 @@
-package com.forcetower.uefs.view.suggestion;
+package com.forcetower.uefs.view.connected.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;

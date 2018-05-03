@@ -633,7 +633,8 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
             } else if (id == R.id.nav_logout) {
                 performLogout();
             } else if (id == R.id.nav_feedback) {
-                goToFeedback();
+                clearBackStack();
+                navigationController.navigateToSuggestionFragment(null, null);
             } else if (id == R.id.nav_about) {
                 goToAbout();
             } else if (id == R.id.nav_enrollment_certificate) {
@@ -664,7 +665,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
     private void goToFeedback() {
         //SuggestionActivity.startActivity(this);
-        navigationController.navigateToSuggestionFragment(null, null);
+
     }
 
     private void goToAbout() {
