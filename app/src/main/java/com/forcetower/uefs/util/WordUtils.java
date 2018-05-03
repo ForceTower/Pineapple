@@ -48,7 +48,7 @@ public class WordUtils {
         return links;
     }
 
-    public static String buildFromStack(StackTraceElement[] stackTrace) {
+    public static String buildFromStackTrace(StackTraceElement[] stackTrace) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Stack Trace START\n");
         for (StackTraceElement trace : stackTrace) {
