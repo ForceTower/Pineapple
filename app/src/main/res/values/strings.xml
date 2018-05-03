@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:locale="pt">
 
-    <string name="app_name">UNES</string>
+    <string name="app_name">UNES - FAT</string>
     <string name="logo">Logo</string>
     <string name="login_username">Usuário</string>
     <string name="login_password">Senha</string>

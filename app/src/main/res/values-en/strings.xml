@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">UNES</string>
+    <string name="app_name">UNES - FAT</string>
     <string name="logo">Logo</string>
     <string name="login_username">Username</string>
     <string name="login_password">Password</string>
