@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.WorkerThread;
+import android.util.SparseArray;
 
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.R;
@@ -51,6 +52,7 @@ public class AchievementsViewModel extends ViewModel {
     public LiveData<HashMap<Integer, Integer>> checkAchievements() {
         checkAch = new MediatorLiveData<>();
         HashMap<Integer, Integer> unlocked = new HashMap<>();
+        //HashMap<String, Integer> kickOutGame = new HashMap<>();
 
         LiveData<List<GradeInfo>> infosSrc = database.gradeInfoDao().getAllGradeInfos();
         checkAch.addSource(infosSrc, infos -> {
@@ -74,7 +76,7 @@ public class AchievementsViewModel extends ViewModel {
                         String smt = semester.getName();
 
                         List<Discipline> disciplines = database.disciplineDao().getDisciplinesFromSemesterDirect(smt);
-                        unlockForDisciplineSemester(disciplines, unlocked);
+                        unlockForDisciplineSemester(disciplines, unlocked/*, kickOutGame*/);
                     }
 
                     List<Discipline> disciplines = database.disciplineDao().getAllDisciplinesDirect();
@@ -158,7 +160,7 @@ public class AchievementsViewModel extends ViewModel {
     }
 
     @WorkerThread
-    private void unlockForDisciplineSemester(@Nullable List<Discipline> disciplines, @NonNull HashMap<Integer, Integer> unlocked) {
+    private void unlockForDisciplineSemester(@Nullable List<Discipline> disciplines, @NonNull HashMap<Integer, Integer> unlocked/*, @NonNull HashMap<String, Integer> kickOutGame*/) {
         if (disciplines == null) return;
 
         boolean allDisciplinesApproved = true;
@@ -175,6 +177,16 @@ public class AchievementsViewModel extends ViewModel {
                     || discipline.getCredits()/4 >= discipline.getMissedClasses()) {
                 unlocked.put(R.string.achievement_i_have_never_seen, -1);
             }
+
+            /*
+            if (discipline.getName().matches("(?i)(.*)aprovado(.*)")) {
+                kickOutGame.put(discipline.getCode(), -1);
+            } else {
+                Integer val = kickOutGame.get(discipline.getCode());
+                if (val == null) kickOutGame.put(discipline.getCode(), 1);
+                else if (val >= 0) kickOutGame.put(discipline.getCode(), val + 1);
+            }
+            */
 
             if (discipline.getSituation() != null && !discipline.getSituation().equalsIgnoreCase("Aprovado")) {
                 allDisciplinesApproved = false;
