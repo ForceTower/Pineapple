@@ -65,7 +65,7 @@ public class RefreshBroadcastReceiver extends BroadcastReceiver {
         }
 
         executors.networkIO().execute(() -> {
-            if (!BuildConfig.DEBUG) {
+            if (BuildConfig.DEBUG) {
                 proceedSync();
             } else {
                 updateData = service.getUpdateStatus();

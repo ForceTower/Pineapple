@@ -61,7 +61,7 @@ public class SagresSyncAdapter extends AbstractThreadedSyncAdapter {
         Timber.d("Perform update called");
 
         executors.networkIO().execute(() -> {
-            if (!BuildConfig.DEBUG) {
+            if (BuildConfig.DEBUG) {
                 proceedSync();
             } else {
                 updateData = service.getUpdateStatus();
