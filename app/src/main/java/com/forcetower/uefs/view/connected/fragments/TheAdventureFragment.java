@@ -1,6 +1,7 @@
 package com.forcetower.uefs.view.connected.fragments;
 
 import android.Manifest;
+import android.arch.lifecycle.Lifecycle;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;

@@ -628,18 +628,6 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
                 clearBackStack();
                 navigationController.navigateToBigTray();
                 tabLayout.setVisibility(View.GONE);
-                /*
-                if ((latestAccess != null && (latestAccess.getUsername().equalsIgnoreCase("jpssena")
-                        || latestAccess.getUsername().equalsIgnoreCase("mdlima1")
-                        || latestAccess.getUsername().equalsIgnoreCase("rrazevedo")
-                        || latestAccess.getUsername().equalsIgnoreCase("mtoliveira1")
-                        || latestAccess.getUsername().equalsIgnoreCase("mbcerqueira3")
-                        ))
-                        || BuildConfig.DEBUG) {
-                    //ignoreCheckable = true;
-                } else {
-                    //NetworkUtils.openLink(this, "http://bit.ly/bandejaouefs");
-                }*/
             } else if (id == R.id.nav_settings) {
                 goToSettings();
             } else if (id == R.id.nav_logout) {
