@@ -105,7 +105,7 @@ public class SuggestionFragment extends Fragment {
         }
 
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                "mailto","joaopaulo761@gmail.com", null));
+                "mailto","forcetowerandroid@gmail.com", null));
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "[UNES]App_Feedback");
         emailIntent.putExtra(Intent.EXTRA_TEXT, body);
         startActivity(Intent.createChooser(emailIntent, getString(R.string.send_email)));
