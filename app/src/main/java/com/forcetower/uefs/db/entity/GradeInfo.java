@@ -118,12 +118,12 @@ public class GradeInfo {
         if (this.getGrade() == null) {
             setGrade(other.getGrade());
             setNotified(other.hasGrade() ? 1 : 2);
-        } else if (other.getGrade() != null && !other.getGrade().trim().equalsIgnoreCase(getGrade().trim()) &&
-                !other.getGrade().trim().equalsIgnoreCase("0.0") && !other.getGrade().trim().equalsIgnoreCase("0,0")
-                && !other.getGrade().trim().equalsIgnoreCase("Não Divulgada")) { //Added condition, can't change grade to not defined
-            Timber.d("Grade changed: Before(%s) After(%s)", getGrade().trim(), other.getGrade().trim());
-            setGrade(other.getGrade());
-            setNotified(1);
+        } else if (other.hasGrade()) { //Added condition, can't change grade to not defined
+            if (!getGrade().trim().equalsIgnoreCase(other.getGrade().trim())) {
+                Timber.d("Grade changed: Before(%s) After(%s)", getGrade().trim(), other.getGrade().trim());
+                setGrade(other.getGrade());
+                setNotified(1);
+            }
         }
     }
 
