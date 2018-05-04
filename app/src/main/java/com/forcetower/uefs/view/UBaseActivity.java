@@ -48,14 +48,14 @@ public abstract class UBaseActivity extends AppCompatActivity implements Achieve
     @Override
     protected void onStart() {
         super.onStart();
+        if (mPreferences.getBoolean("google_play_games_enabled", false)) {
+            signInSilently();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (mPreferences.getBoolean("google_play_games_enabled", false)) {
-            signInSilently();
-        }
     }
 
     public void signIn() {
@@ -143,6 +143,8 @@ public abstract class UBaseActivity extends AppCompatActivity implements Achieve
                     message = getString(R.string.you_need_to_update_play_services);
                 } else if (apiException.getStatusCode() == GoogleSignInStatusCodes.SIGN_IN_CURRENTLY_IN_PROGRESS){
                     message = getString(R.string.google_play_sign_in_currently_in_progress);
+                } else if (apiException.getStatusCode() == GoogleSignInStatusCodes.NETWORK_ERROR){
+                    message = getString(R.string.no_internet_connection);
                 } else {
                     message = message.concat("\n")
                             .concat(GoogleSignInStatusCodes.getStatusCodeString(apiException.getStatusCode()))
