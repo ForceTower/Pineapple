@@ -595,7 +595,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        //boolean ignoreCheckable = false;
+        boolean ignoreCheckable = false;
         if (id != selectedNavId) {
             if (id == R.id.nav_profile) {
                 clearBackStack();
@@ -626,8 +626,19 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
                 tabLayout.setVisibility(View.GONE);
             } else if (id == R.id.nav_big_tray) {
                 clearBackStack();
-                navigationController.navigateToBigTray();
-                tabLayout.setVisibility(View.GONE);
+                if ((latestAccess != null
+                        && (latestAccess.getUsername().equalsIgnoreCase("jpssena")
+                        || latestAccess.getUsername().equalsIgnoreCase("mdlima1")
+                        || latestAccess.getUsername().equalsIgnoreCase("rrazevedo")
+                        || latestAccess.getUsername().equalsIgnoreCase("mtoliveira1")
+                        || latestAccess.getUsername().equalsIgnoreCase("mbcerqueira3")))
+                        || BuildConfig.DEBUG) {
+                    navigationController.navigateToBigTray();
+                    tabLayout.setVisibility(View.GONE);
+                    ignoreCheckable = true;
+                } else {
+                    NetworkUtils.openLink(this, "http://bit.ly/bandejaouefs");
+                }
             } else if (id == R.id.nav_settings) {
                 goToSettings();
             } else if (id == R.id.nav_logout) {
@@ -643,8 +654,8 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
                 openCertificatePdf(true, SagresDocuments.FLOWCHART);
             }
 
-            if (item.isCheckable()/* || ignoreCheckable*/) selectedNavId = id;
-            //if (ignoreCheckable) navigationView.setCheckedItem(id);
+            if (item.isCheckable() || ignoreCheckable) selectedNavId = id;
+            if (ignoreCheckable) navigationView.setCheckedItem(id);
         }
 
         drawer.closeDrawer(GravityCompat.START);

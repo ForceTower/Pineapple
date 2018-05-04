@@ -335,11 +335,11 @@ public class LoginRepository {
                             info.setSection(sectionId);
                             infoDao.insertGradeInfo(info);
                         }
-                    } else {
+                    } else { //This could give me some nice errors
                         List<GradeInfo> marked = new ArrayList<>();
                         for (GradeInfo info : infos) {
                             String infoName = info.getEvaluationName();
-                            info.setSection(sectionId);
+                            info.setSection(sectionId); //sets the id of the current info
                             GradeInfo currentInfo = null;
 
                             int equalNames = 0;
@@ -356,8 +356,11 @@ public class LoginRepository {
                             }
 
                             GradeInfo verOther = null;
-                            for (GradeInfo cInfo : cInfos) {
+                            for (GradeInfo cInfo : cInfos) { //Searches for an info that is nearly equals to the one we are analyzing...
                                 if (cInfo.getEvaluationName().equalsIgnoreCase(infoName)) {
+                                    if (cInfo.hasGrade() && !info.hasGrade() && equalNames > 1) //Can't update something from has grade to no grade
+                                        continue;
+
                                     currentInfo = cInfo;
                                     if (equalNames > 1) {
                                         Timber.d("Equal names is greater than 1");
