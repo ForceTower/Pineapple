@@ -77,12 +77,10 @@ public class MockUtils {
                         "\n" +
                         "Um fato interessante é que eu já consigo mostrar materiais postados de aulas que o usuário falta, mas não consigo das aulas normais..."));
 
-        faq.add(new QuestionAnswer(faq.size(), "Já pensou em colocar anúncios?",
-                "Sim, mas eu como usuário, ODEIO anuncios. Acho que eles estragam um interação legal com um aplicativo, por isso eu decidi não colocar.\n" +
+        faq.add(new QuestionAnswer(faq.size(), "O aplicativo é oficial? É algum projeto de pesquisa da UEFS?",
+                "Não! O aplicativo foi totalmente feito por apenas por mim sem nenhum projeto com relação com a universidade\n" +
                         "\n" +
-                        "Sobre anuncios gerais de pessoas da universidade em forma de notificação, sim, estes são possíveis de ser considerados.\n" +
-                        "\n" +
-                        "Que tal um botão de pague o bandejão do desenvolvedor (Doe 1 real à causa)? Esse é possível :v"));
+                        "Então não é algo oficial da UEFS ou coisa do gênero"));
 
         faq.add(new QuestionAnswer(faq.size(), "Como o aplicativo funciona?",
                 "Bem, de tempos em tempos o aplicativo se conecta à sua conta no Sagres baixa as informações e verifica se ocorreu alguma mudança nos dados.\n" +
@@ -101,14 +99,6 @@ public class MockUtils {
                         "Mas sim, pode sonhar, caso não dê certo, eu vou colocar aqui" + "\n" +
                         "\n" +
                         "Se você quiser me ajudar fazendo o código para essa parte tambem é bem vindo, basta passar lá pelo meu GitHub, olhar as ferramentas utilizadas até agora, e fazer um pull request :)"));
-
-        faq.add(new QuestionAnswer(faq.size(), "Quais são os planos futuros?",
-                "Bem, eu gostaria de criar um mini-forum para as disciplinas onde os alunos poderiam discutir os assuntos das materias e coisas do tipo\n" +
-                        "Isso ajudaria no caso dos materiais postados no Sagres que eu não estou conseguindo trazer para o App\n" +
-                        "\n" +
-                        "Tambem há a ideia de transformar o aplicativo em algo mais social com possibilidade de adicionar amigos e coisas do tipo...\n" +
-                        "\n" +
-                        "Tambem já foi pensado fazer um Pokemon-GO, onde você capturaria os professores... KKK"));
 
         return faq;
     }
