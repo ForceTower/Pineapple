@@ -638,19 +638,19 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
                 tabLayout.setVisibility(View.GONE);
             } else if (id == R.id.nav_big_tray) {
                 clearBackStack();
-                if ((latestAccess != null
+                /*if ((latestAccess != null
                         && (latestAccess.getUsername().equalsIgnoreCase("jpssena")
                         || latestAccess.getUsername().equalsIgnoreCase("mdlima1")
                         || latestAccess.getUsername().equalsIgnoreCase("rrazevedo")
                         || latestAccess.getUsername().equalsIgnoreCase("mtoliveira1")
                         || latestAccess.getUsername().equalsIgnoreCase("mbcerqueira3")))
-                        || BuildConfig.DEBUG) {
+                        || BuildConfig.DEBUG) {*/
                     navigationController.navigateToBigTray();
                     tabLayout.setVisibility(View.GONE);
-                    ignoreCheckable = true;
+                    /*ignoreCheckable = true;
                 } else {
                     NetworkUtils.openLink(this, "http://bit.ly/bandejaouefs");
-                }
+                }*/
             } else if (id == R.id.nav_settings) {
                 goToSettings();
             } else if (id == R.id.nav_logout) {
@@ -666,8 +666,8 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
                 openCertificatePdf(true, SagresDocuments.FLOWCHART);
             }
 
-            if (item.isCheckable() || ignoreCheckable) selectedNavId = id;
-            if (ignoreCheckable) navigationView.setCheckedItem(id);
+            if (item.isCheckable()/* || ignoreCheckable*/) selectedNavId = id;
+            //if (ignoreCheckable) navigationView.setCheckedItem(id);
         }
 
         drawer.closeDrawer(GravityCompat.START);
