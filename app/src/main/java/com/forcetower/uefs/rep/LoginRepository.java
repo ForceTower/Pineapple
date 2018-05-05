@@ -641,8 +641,10 @@ public class LoginRepository {
         executors.diskIO().execute(() -> {
             deleteDatabase();
             Timber.d("%s", database.gradeInfoDao().getGradesFromSectionDirect(1));
-            File downloadedFile = new File(context.getCacheDir(), Constants.ENROLLMENT_CERTIFICATE_FILE_NAME);
-            if (downloadedFile.exists()) downloadedFile.delete();
+            File enrollmentFile = new File(context.getCacheDir(), Constants.ENROLLMENT_CERTIFICATE_FILE_NAME);
+            File flowchartFile = new File(context.getCacheDir(), Constants.FLOWCHART_FILE_NAME);
+            if (enrollmentFile.exists()) enrollmentFile.delete();
+            if (flowchartFile.exists()) flowchartFile.delete();
             logout.postValue(Resource.success(R.string.data_deleted));
         });
 
