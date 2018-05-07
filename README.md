@@ -13,16 +13,23 @@ Também espera-se que possua algumas funcionalidades extras como mostrar no mapa
 - [X] Descrição das aulas
 - [X] Faltas
 - [X] Nome do professor da disciplina
-- [ ] Aviso de aula próxima
+- [X] Aviso de aula próxima (Google Calendar)
 - [x] Aviso de novo recado
 - [x] Aviso de nota postada
 - [ ] Localização no mapa de cada sala\laboratório (evitar que calouros se percam)
 - [ ] Momento em que cada laboratório está aberto e nome dos monitores
 - [x] Guia de Matrícula
-- [ ] Disponibilizar pesquisas rapidas dentro do aplicativo
 
-## A Fase 2 (Está próxima)
-- [ ] Iniciar a fase 2 (Detalhes serão postados aqui em breve)
+## A Fase 2 (Está próxima, bem próxima)
+- [ ] Criação de contas e Login no UNEVerso
+- [ ] Integração Sagres + Facebook
+- [ ] Notícias da Universidade (Quais eventos/reuniões estão acontecendo?)
+- [ ] Achados e Perdidos
+- [ ] Cardápio do Bandejão
+- [ ] Postagens dos estudantes
+- [ ] Pequeno fórum para as disciplinas (grupos de discussão e compartilhamento de informações)
+- [ ] Mecanismo de avaliação dos professores e disciplinas
+- [ ] Quais as matérias, professores com maior indice de reprovação/aprovação?
 
 ## Disclaimer
 Este aplicativo não é lincenciado nem tem qualquer ligação com a Tecnotrends, a empresa que mantêm o Website e o serviço Sagres da UEFS. O aplicativo filtra as informações disponibilizadas pelo portal do estudante e então exibe no aplicativo.
