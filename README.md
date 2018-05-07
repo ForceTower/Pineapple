@@ -22,7 +22,7 @@ Também espera-se que possua algumas funcionalidades extras como mostrar no mapa
 
 ## A Fase 2 (Está próxima, bem próxima)
 - [ ] Criação de contas e Login no UNEVerso
-- [ ] Integração Sagres + Facebook
+- [ ] Integração Sagres + Facebook (+ Google?)
 - [ ] Notícias da Universidade (Quais eventos/reuniões estão acontecendo?)
 - [ ] Achados e Perdidos
 - [ ] Cardápio do Bandejão
