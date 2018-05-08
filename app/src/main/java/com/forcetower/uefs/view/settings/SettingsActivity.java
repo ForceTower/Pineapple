@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.anim.ProgressBarAnimation;
-import com.forcetower.uefs.rep.LoginRepository;
+import com.forcetower.uefs.rep.sgrs.LoginRepository;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
 import com.forcetower.uefs.util.AnimUtils;
@@ -27,7 +27,7 @@ import com.forcetower.uefs.util.GeneralUtils;
 import com.forcetower.uefs.util.NetworkUtils;
 import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.UBaseActivity;
-import com.forcetower.uefs.vm.GoogleCalendarViewModel;
+import com.forcetower.uefs.vm.google.GoogleCalendarViewModel;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GooglePlayServicesAvailabilityIOException;

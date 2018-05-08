@@ -1,4 +1,4 @@
-package com.forcetower.uefs.vm;
+package com.forcetower.uefs.vm.base;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
@@ -9,8 +9,8 @@ import com.forcetower.uefs.db.entity.Access;
 import com.forcetower.uefs.db.entity.Discipline;
 import com.forcetower.uefs.db.entity.Semester;
 import com.forcetower.uefs.db_service.entity.Version;
-import com.forcetower.uefs.rep.GradesRepository;
-import com.forcetower.uefs.rep.LoginRepository;
+import com.forcetower.uefs.rep.sgrs.GradesRepository;
+import com.forcetower.uefs.rep.sgrs.LoginRepository;
 import com.forcetower.uefs.rep.ServiceRepository;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.service.ApiResponse;

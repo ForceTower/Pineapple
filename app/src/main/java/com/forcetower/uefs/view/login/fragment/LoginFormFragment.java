@@ -24,7 +24,7 @@ import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.about.AboutActivity;
 import com.forcetower.uefs.view.connected.LoggedActivity;
-import com.forcetower.uefs.vm.LoginViewModel;
+import com.forcetower.uefs.vm.base.LoginViewModel;
 
 import javax.inject.Inject;
 

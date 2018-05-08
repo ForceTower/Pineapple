@@ -1,4 +1,4 @@
-package com.forcetower.uefs.vm;
+package com.forcetower.uefs.vm.google;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
@@ -10,7 +10,7 @@ import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.CalendarEvent;
 import com.forcetower.uefs.db.entity.DisciplineClassLocation;
 import com.forcetower.uefs.db.entity.DisciplineGroup;
-import com.forcetower.uefs.rep.ScheduleRepository;
+import com.forcetower.uefs.rep.sgrs.ScheduleRepository;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
 import com.google.api.client.extensions.android.http.AndroidHttp;

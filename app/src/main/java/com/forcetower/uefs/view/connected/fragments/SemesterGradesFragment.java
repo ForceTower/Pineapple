@@ -17,7 +17,7 @@ import com.forcetower.uefs.db.entity.Discipline;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.view.connected.adapters.DisciplineGradesAdapter;
-import com.forcetower.uefs.vm.GradesViewModel;
+import com.forcetower.uefs.vm.base.GradesViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 /**
  * Created by João Paulo on 07/03/2018.

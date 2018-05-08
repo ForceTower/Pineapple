@@ -1,11 +1,11 @@
-package com.forcetower.uefs.vm;
+package com.forcetower.uefs.vm.base;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
 import com.forcetower.uefs.db.dao.CalendarItemDao;
 import com.forcetower.uefs.db.entity.CalendarItem;
-import com.forcetower.uefs.rep.RefreshRepository;
+import com.forcetower.uefs.rep.sgrs.RefreshRepository;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.util.AbsentLiveData;
 

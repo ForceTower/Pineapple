@@ -1,4 +1,4 @@
-package com.forcetower.uefs.vm;
+package com.forcetower.uefs.vm.base;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
@@ -11,7 +11,7 @@ import com.forcetower.uefs.db.dao.DisciplineGroupDao;
 import com.forcetower.uefs.db.entity.Discipline;
 import com.forcetower.uefs.db.entity.DisciplineClassItem;
 import com.forcetower.uefs.db.entity.DisciplineGroup;
-import com.forcetower.uefs.rep.DisciplinesRepository;
+import com.forcetower.uefs.rep.sgrs.DisciplinesRepository;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
 

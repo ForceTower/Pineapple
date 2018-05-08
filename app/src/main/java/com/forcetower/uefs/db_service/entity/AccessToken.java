@@ -4,12 +4,15 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+import com.forcetower.uefs.util.WordUtils;
 import com.google.gson.annotations.SerializedName;
+
+import timber.log.Timber;
 
 /**
  * Created by João Paulo on 29/04/2018.
  */
-@Entity(tableName = "access_token")
+@Entity
 public class AccessToken {
     @PrimaryKey(autoGenerate = true)
     private long uid;
@@ -25,6 +28,9 @@ public class AccessToken {
     @SerializedName(value = "refresh_token")
     @ColumnInfo(name = "refresh_token")
     private String refreshToken;
+    private boolean expired;
+    @ColumnInfo(name = "created_at")
+    private long createdAt;
 
     public AccessToken(String accessToken) {
         this.accessToken = accessToken;
@@ -68,5 +74,32 @@ public class AccessToken {
 
     public void setRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
+    }
+
+    public boolean isExpired() {
+        return expired;
+    }
+
+    public void setExpired(boolean expired) {
+        this.expired = expired;
+    }
+
+    public long getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(long createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public boolean isValid() {
+        return WordUtils.validString(accessToken) && WordUtils.validString(tokenType);
+    }
+
+    public boolean isTimeExpired() {
+        long currentTime = System.currentTimeMillis() / 1000;
+        long expireDate = createdAt + expiresIn;
+        Timber.d("CurrentTime: " + currentTime + " ExpireTime: " + expireDate + " ExpiredAcc? " + (currentTime > expireDate) + " Expired? " + expired);
+        return currentTime > expireDate || expired;
     }
 }

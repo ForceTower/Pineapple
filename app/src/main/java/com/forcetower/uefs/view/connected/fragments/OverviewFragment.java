@@ -26,7 +26,7 @@ import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.util.DateUtils;
 import com.forcetower.uefs.view.UBaseActivity;
 import com.forcetower.uefs.view.connected.ActivityController;
-import com.forcetower.uefs.vm.DisciplinesViewModel;
+import com.forcetower.uefs.vm.base.DisciplinesViewModel;
 
 import javax.inject.Inject;
 

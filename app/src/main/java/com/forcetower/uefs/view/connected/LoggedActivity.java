@@ -67,11 +67,11 @@ import com.forcetower.uefs.view.about.AboutActivity;
 import com.forcetower.uefs.view.connected.fragments.AutoSyncFragment;
 import com.forcetower.uefs.view.login.MainActivity;
 import com.forcetower.uefs.view.settings.SettingsActivity;
-import com.forcetower.uefs.vm.AchievementsViewModel;
-import com.forcetower.uefs.vm.DownloadsViewModel;
-import com.forcetower.uefs.vm.GradesViewModel;
-import com.forcetower.uefs.vm.ProfileViewModel;
-import com.forcetower.uefs.vm.ScheduleViewModel;
+import com.forcetower.uefs.vm.google.AchievementsViewModel;
+import com.forcetower.uefs.vm.base.DownloadsViewModel;
+import com.forcetower.uefs.vm.base.GradesViewModel;
+import com.forcetower.uefs.vm.base.ProfileViewModel;
+import com.forcetower.uefs.vm.base.ScheduleViewModel;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;

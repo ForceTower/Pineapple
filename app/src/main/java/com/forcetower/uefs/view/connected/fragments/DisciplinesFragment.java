@@ -27,7 +27,7 @@ import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.view.connected.ActivityController;
 import com.forcetower.uefs.view.connected.DisciplineClickListener;
 import com.forcetower.uefs.view.connected.adapters.SemesterAdapter;
-import com.forcetower.uefs.vm.DisciplinesViewModel;
+import com.forcetower.uefs.vm.base.DisciplinesViewModel;
 
 import java.util.ArrayList;
 import java.util.List;

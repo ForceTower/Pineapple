@@ -23,7 +23,7 @@ import com.forcetower.uefs.db.entity.Discipline;
 import com.forcetower.uefs.db.entity.Grade;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.view.connected.adapters.GradesAdapter;
-import com.forcetower.uefs.vm.GradesViewModel;
+import com.forcetower.uefs.vm.base.GradesViewModel;
 
 import javax.inject.Inject;
 

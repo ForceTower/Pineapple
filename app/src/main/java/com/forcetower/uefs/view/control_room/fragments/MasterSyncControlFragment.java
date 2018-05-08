@@ -2,8 +2,6 @@ package com.forcetower.uefs.view.control_room.fragments;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.res.ColorStateList;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +21,7 @@ import com.forcetower.uefs.db_service.entity.UpdateStatus;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.service.ActionResult;
 import com.forcetower.uefs.service.ApiResponse;
-import com.forcetower.uefs.vm.ControlRoomViewModel;
+import com.forcetower.uefs.vm.admin.ControlRoomViewModel;
 
 import javax.inject.Inject;
 
