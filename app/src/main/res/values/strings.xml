@@ -361,4 +361,17 @@
     <string name="control_alarm_sync">Sincronização por Alarme</string>
     <string name="visit_official_website">Visite o site oficial</string>
     <string name="title_suggestion">Comentários e Sugestões</string>
+    <string name="uneverse_welcome">O UNEVerso</string>
+    <string name="uneverse_know_more">Saiba Mais</string>
+    <string name="uneverse_first_steps">Primeiros Passos</string>
+    <string name="transition_logo">transicao_logo</string>
+    <string name="universe_create_account">Criar conta</string>
+    <string name="login_repeat_password">Repetir Senha</string>
+    <string name="or">Ou</string>
+    <string name="universe_connect_using_facebook">Entre com o Facebook</string>
+    <string name="universe_create_account_next_step">Próximo</string>
+    <string name="universe_create_account_cancel">Cancelar</string>
+    <string name="universe_create_account_description">Esta conta será usada para acessar o UNEVerso</string>
+    <string name="universe_login_account">Login</string>
+    <string name="universe_login_account_description">Use sua conta do UNEVerso para continuar</string>
 </resources>

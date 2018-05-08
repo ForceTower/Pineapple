@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:id="@+id/sv_create_account_form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/dev_rl_buttons_bottom"
+        android:layout_alignParentTop="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/dev_ll_ivs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="16dp">
+
+            <ImageView
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                app:srcCompat="@drawable/ic_unes_colored"
+                android:transitionName="@string/transition_logo"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:layout_margin="8dp"
+                tools:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/dev_iv_anim_1"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    app:srcCompat="@drawable/ic_grades_black_24dp"
+                    android:tint="@color/calendar_color"
+                    android:layout_margin="4dp"
+                    android:visibility="invisible"
+                    tools:visibility="visible"/>
+
+                <ImageView
+                    android:id="@+id/dev_iv_anim_2"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_margin="4dp"
+                    app:srcCompat="@drawable/ic_messages_black_24dp"
+                    android:tint="@color/messages_color"
+                    android:visibility="invisible"
+                    tools:visibility="visible"/>
+
+                <ImageView
+                    android:id="@+id/dev_iv_anim_3"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_margin="4dp"
+                    app:srcCompat="@drawable/ic_account_box_nav_24dp"
+                    android:tint="@color/colorPrimaryDark"
+                    android:visibility="invisible"
+                    tools:visibility="visible"/>
+
+                <ImageView
+                    android:id="@+id/dev_iv_anim_4"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_margin="4dp"
+                    app:srcCompat="@drawable/ic_calendar_black_24dp"
+                    android:tint="@color/big_tray_color"
+                    android:visibility="invisible"
+                    tools:visibility="visible"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_gravity="center">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/universe_create_account"
+                android:textColor="@color/primaryText"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/universe_create_account_description"
+                android:textColor="@color/secondaryText"
+                android:fontFamily="@font/roboto_regular"
+                android:layout_marginTop="4dp"
+                android:textSize="13sp"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/et_universe_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/login_username"
+                    android:inputType="text"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/et_universe_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/login_password"
+                    android:inputType="textPassword"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/et_universe_password_repeat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/login_repeat_password"
+                    android:inputType="textPassword"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:text="@string/or"
+                android:textColor="@color/primaryText"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="4dp"
+                android:text="@string/universe_connect_using_facebook"
+                android:textAllCaps="false"
+                android:drawableStart="@drawable/ic_facebook_white_24dp"
+                android:drawableLeft="@drawable/ic_facebook_white_24dp"
+                app:backgroundTint="@color/facebook_blue"
+                android:textColor="@color/white"
+                android:paddingStart="10dp"
+                android:paddingLeft="10dp"
+                android:paddingEnd="10dp"
+                android:paddingRight="10dp"/>
+        </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/dev_rl_buttons_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:paddingBottom="16dp"
+        android:paddingTop="4dp">
+
+        <android.support.v7.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/universe_create_account_next_step"
+            style="@style/Widget.AppCompat.Button.Colored"
+            tools:ignore="RelativeOverlap"/>
+
+        <android.support.v7.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:text="@string/universe_create_account_cancel"
+            android:textAllCaps="true"
+            style="@style/Widget.AppCompat.ButtonBar.AlertDialog"/>
+    </RelativeLayout>
+</RelativeLayout>
