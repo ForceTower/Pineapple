@@ -11,7 +11,7 @@ import com.forcetower.uefs.db.entity.Semester;
 import com.forcetower.uefs.db_service.entity.Version;
 import com.forcetower.uefs.rep.sgrs.GradesRepository;
 import com.forcetower.uefs.rep.sgrs.LoginRepository;
-import com.forcetower.uefs.rep.ServiceRepository;
+import com.forcetower.uefs.rep.service.ServiceRepository;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.service.ApiResponse;
 import com.forcetower.uefs.util.AbsentLiveData;
