@@ -56,7 +56,7 @@
     <string name="channel_messages">Messages</string>
     <string name="channel_group_grades">Grades</string>
     <string name="grade_posted_notification">The grade of %1$s from %2$s is available.\nGo check it out!</string>
-    <string name="new_grade_notification_great">The grade of %1$s from %2$s is available.\nGo check it out!\n\nIt's a good one!</string>
+    <string name="new_grade_notification_great">The grade of %1$s from %2$s is available.\nGo check it out!\n\nIt\'s a good one!</string>
     <string name="grade_create_notification">The evaluation of %1$s from %2$s was created, but there\'s no new grade</string>
     <string name="grade_change_notification">The evaluation of %1$s from %2$s changed date</string>
     <string name="new_grade_posted">New grade posted</string>

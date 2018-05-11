@@ -149,7 +149,8 @@
                 android:gravity="center"
                 android:textAlignment="center"
                 android:text="@string/or"
-                android:textColor="@color/primaryText"/>
+                android:textColor="@color/primaryText"
+                android:fontFamily="@font/roboto_regular"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:layout_width="match_parent"
