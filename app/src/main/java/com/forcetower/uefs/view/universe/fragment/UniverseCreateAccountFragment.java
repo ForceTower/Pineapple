@@ -58,7 +58,7 @@ public class UniverseCreateAccountFragment extends Fragment implements Injectabl
 
             llAnimation.setVisibility(View.VISIBLE);
             fadeInViews(0);
-        }, 1500);
+        }, 750);
     }
 
     private void fadeInViews(int pos) {
@@ -69,6 +69,6 @@ public class UniverseCreateAccountFragment extends Fragment implements Injectabl
                     fadeInViews(pos + 1);
                 }
             }
-        }, 750);
+        }, 400);
     }
 }
