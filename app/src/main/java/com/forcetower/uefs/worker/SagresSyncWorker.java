@@ -2,6 +2,7 @@ package com.forcetower.uefs.worker;
 
 import android.arch.lifecycle.LiveData;
 import android.content.SharedPreferences;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 
@@ -83,7 +84,7 @@ public class SagresSyncWorker extends Worker {
             return;
         }
 
-        if (!status.isAlarm()) {
+        if (!status.isManager()) {
             Timber.d("Won't sync: alarm is disabled");
             return;
         }
