@@ -6,6 +6,7 @@ import com.forcetower.uefs.UEFSApplication;
 import com.forcetower.uefs.di.module.ActivitiesModule;
 import com.forcetower.uefs.di.module.AppModule;
 import com.forcetower.uefs.di.module.DatabaseModule;
+import com.forcetower.uefs.di.module.DatabaseServiceModule;
 import com.forcetower.uefs.di.module.NetworkModule;
 import com.forcetower.uefs.di.module.ReceiversModule;
 import com.forcetower.uefs.di.module.ServicesModule;
@@ -28,6 +29,7 @@ import dagger.android.AndroidInjectionModule;
         NetworkModule.class,
         ActivitiesModule.class,
         ServicesModule.class,
+        DatabaseServiceModule.class,
         ReceiversModule.class
 })
 public interface AppComponent {

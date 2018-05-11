@@ -47,7 +47,6 @@ import com.forcetower.uefs.BuildConfig;
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.GooglePlayGamesInstance;
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.alm.RefreshAlarmTrigger;
 import com.forcetower.uefs.db.entity.Access;
 import com.forcetower.uefs.db.entity.DisciplineClassLocation;
 import com.forcetower.uefs.db.entity.Profile;
@@ -67,20 +66,26 @@ import com.forcetower.uefs.view.about.AboutActivity;
 import com.forcetower.uefs.view.connected.fragments.AutoSyncFragment;
 import com.forcetower.uefs.view.login.MainActivity;
 import com.forcetower.uefs.view.settings.SettingsActivity;
-import com.forcetower.uefs.vm.google.AchievementsViewModel;
 import com.forcetower.uefs.vm.base.DownloadsViewModel;
 import com.forcetower.uefs.vm.base.GradesViewModel;
 import com.forcetower.uefs.vm.base.ProfileViewModel;
 import com.forcetower.uefs.vm.base.ScheduleViewModel;
+import com.forcetower.uefs.vm.google.AchievementsViewModel;
+import com.forcetower.uefs.worker.SagresSyncWorker;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
+import androidx.work.Constraints;
+import androidx.work.NetworkType;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.AndroidInjector;
@@ -223,14 +228,34 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     }
 
     private void onActivityCreated() {
-        setupAlarmManager();
-        RefreshAlarmTrigger.enableBootComponent(this);
-        setupShortcuts();
+        setupWorker();        setupShortcuts();
 
         boolean autoSync = ContentResolver.getMasterSyncAutomatically();
         boolean shown = mPreferences.getBoolean(AutoSyncFragment.PREF_AUTO_SYNC_SHOWN, false);
         mPreferences.edit().putBoolean("show_not_connected_notification", false).apply();
         initiateActivity(autoSync, shown);
+    }
+
+    private void setupWorker() {
+        String strFrequency = mPreferences.getString("sync_frequency", "60");
+        int frequency = 60;
+        try {
+            frequency = Integer.parseInt(strFrequency);
+        } catch (Exception ignored) {}
+
+        Constraints constraints = new Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build();
+
+        WorkManager.getInstance().cancelAllWorkByTag(Constants.WORKER_SYNC_SAGRES_NAME);
+
+        PeriodicWorkRequest sagresSyncWorker
+                = new PeriodicWorkRequest.Builder(SagresSyncWorker.class, frequency, TimeUnit.MINUTES)
+                .addTag(Constants.WORKER_SYNC_SAGRES_NAME)
+                .setConstraints(constraints)
+                .build();
+
+        WorkManager.getInstance().enqueue(sagresSyncWorker);
     }
 
     private void setupFragmentStackListener() {
@@ -635,7 +660,6 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
                         || !Constants.DEBUG) {
                     navigationController.navigateToBigTray();
                     tabLayout.setVisibility(View.GONE);
-                    //ignoreCheckable = true;
                 } else {
                     NetworkUtils.openLink(this, "http://bit.ly/bandejaouefs");
                 }
@@ -654,8 +678,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
                 openCertificatePdf(true, SagresDocuments.FLOWCHART);
             }
 
-            if (item.isCheckable()/* || ignoreCheckable*/) selectedNavId = id;
-            //if (ignoreCheckable) navigationView.setCheckedItem(id);
+            if (item.isCheckable()) selectedNavId = id;
         }
 
         drawer.closeDrawer(GravityCompat.START);
@@ -669,14 +692,8 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
     private void performLogout() {
         disconnecting = true;
-        RefreshAlarmTrigger.disableBootComponent(this);
-        RefreshAlarmTrigger.removeAlarm(this);
+        WorkManager.getInstance().cancelAllWorkByTag(Constants.WORKER_SYNC_SAGRES_NAME);
         gradesViewModel.logout().observe(this, this::logoutObserver);
-    }
-
-    private void goToFeedback() {
-        //SuggestionActivity.startActivity(this);
-
     }
 
     private void goToAbout() {
@@ -685,17 +702,6 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
     private void goToSettings() {
         SettingsActivity.startActivity(this);
-    }
-
-    private void setupAlarmManager() {
-        String strFrequency = mPreferences.getString("sync_frequency", "60");
-        int frequency = 60;
-        try {
-            frequency = Integer.parseInt(strFrequency);
-        } catch (Exception ignored) {}
-
-        if (frequency != -1) RefreshAlarmTrigger.create(this, frequency);
-        else                 RefreshAlarmTrigger.removeAlarm(this);
     }
 
     private void setupShortcuts() {

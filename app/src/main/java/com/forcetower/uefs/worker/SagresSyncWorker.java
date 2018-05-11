@@ -1,15 +1,12 @@
-package com.forcetower.uefs.alm;
+package com.forcetower.uefs.worker;
 
 import android.arch.lifecycle.LiveData;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 
-import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.BuildConfig;
-import com.forcetower.uefs.db.AppDatabase;
+import com.forcetower.uefs.UEFSApplication;
 import com.forcetower.uefs.db.dao.GradeInfoDao;
 import com.forcetower.uefs.db.dao.MessageDao;
 import com.forcetower.uefs.db.entity.Access;
@@ -20,9 +17,9 @@ import com.forcetower.uefs.db.entity.Message;
 import com.forcetower.uefs.db.entity.Semester;
 import com.forcetower.uefs.db_service.entity.UpdateStatus;
 import com.forcetower.uefs.ntf.NotificationCreator;
-import com.forcetower.uefs.rep.sgrs.RefreshRepository;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
+import com.forcetower.uefs.rep.sgrs.RefreshRepository;
 import com.forcetower.uefs.service.ApiResponse;
 import com.forcetower.uefs.service.UNEService;
 import com.forcetower.uefs.util.NetworkUtils;
@@ -31,44 +28,37 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import dagger.android.AndroidInjection;
+import androidx.work.Worker;
 import timber.log.Timber;
 
-
 /**
- * Created by João Paulo on 09/03/2018.
+ * Created by João Paulo on 10/05/2018.
  */
-
-public class RefreshBroadcastReceiver extends BroadcastReceiver {
-    @Inject
-    RefreshRepository repository;
-    @Inject
-    AppDatabase database;
-    @Inject
-    AppExecutors executors;
-    @Inject
-    UNEService service;
-
-    private Context context;
+public class SagresSyncWorker extends Worker {
+    private UEFSApplication.RefreshObjects objects;
     private SharedPreferences preferences;
     private LiveData<Resource<Integer>> call;
     private LiveData<ApiResponse<UpdateStatus>> updateData;
 
+    @NonNull
     @Override
-    public void onReceive(Context context, Intent intent) {
-        AndroidInjection.inject(this, context);
-        this.context = context;
-        preferences = PreferenceManager.getDefaultSharedPreferences(context);
+    public WorkerResult doWork() {
+        objects = ((UEFSApplication)getApplicationContext()).getRefreshPackage();
+        preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        initiateSync();
+        return WorkerResult.SUCCESS;
+    }
 
+    private void initiateSync() {
         if (!initialVerifications()) {
             return;
         }
 
-        executors.networkIO().execute(() -> {
+        objects.executors.networkIO().execute(() -> {
             if (BuildConfig.DEBUG) {
                 proceedSync();
             } else {
-                updateData = service.getUpdateStatus();
+                updateData = objects.service.getUpdateStatus();
                 updateData.observeForever(this::updateAccountObserver);
             }
         });
@@ -80,7 +70,7 @@ public class RefreshBroadcastReceiver extends BroadcastReceiver {
             return;
         }
 
-        executors.mainThread().execute(() -> updateData.removeObserver(this::updateAccountObserver));
+        objects.executors.mainThread().execute(() -> updateData.removeObserver(this::updateAccountObserver));
 
         if (!updateResp.isSuccessful()) {
             Timber.d("Won't sync: unsuccessful response, code %d", updateResp.code);
@@ -102,18 +92,18 @@ public class RefreshBroadcastReceiver extends BroadcastReceiver {
     }
 
     private void proceedSync() {
-        Timber.d("Application is online [ALARM]");
-        executors.diskIO().execute(() -> {
-            Access access = database.accessDao().getAccessDirect();
+        Timber.d("Application is online [WORKER]");
+        objects.executors.diskIO().execute(() -> {
+            Access access = objects.database.accessDao().getAccessDirect();
             if (access == null) {
                 Timber.d("Access is null... stop");
-                NotificationCreator.createNotConnectedNotification(context);
+                NotificationCreator.createNotConnectedNotification(getApplicationContext());
             } else {
-                database.profileDao().setLastSyncAttempt(System.currentTimeMillis());
-                database.messageDao().clearAllNotifications();
-                database.gradeInfoDao().clearAllNotifications();
-                executors.mainThread().execute(() -> {
-                    call = repository.refreshData();
+                objects.database.profileDao().setLastSyncAttempt(System.currentTimeMillis());
+                objects.database.messageDao().clearAllNotifications();
+                objects.database.gradeInfoDao().clearAllNotifications();
+                objects.executors.mainThread().execute(() -> {
+                    call = objects.repository.refreshData();
                     call.observeForever(this::progressObserver);
                 });
             }
@@ -121,12 +111,12 @@ public class RefreshBroadcastReceiver extends BroadcastReceiver {
     }
 
     private boolean initialVerifications() {
-        if (!NetworkUtils.isNetworkAvailable(context)) {
+        if (!NetworkUtils.isNetworkAvailable(getApplicationContext())) {
             Timber.d("No internet");
             return false;
         }
 
-        if (preferences.getBoolean("sync_wifi_only", false) && !NetworkUtils.isConnectedToWifi(context)) {
+        if (preferences.getBoolean("sync_wifi_only", false) && !NetworkUtils.isConnectedToWifi(getApplicationContext())) {
             Timber.d("Not on a wifi connection");
             return false;
         }
@@ -144,23 +134,23 @@ public class RefreshBroadcastReceiver extends BroadcastReceiver {
             createNotifications();
         } else {
             //noinspection ConstantConditions
-            Timber.d("Refresh progress on alarm: %s", context.getString(resource.data));
+            Timber.d("Refresh progress on alarm: %s", getApplicationContext().getString(resource.data));
         }
     }
 
     private void createNotifications() {
-        executors.diskIO().execute(() -> {
+        objects.executors.diskIO().execute(() -> {
             messagesNotifications();
             gradesNotifications();
         });
     }
 
     private void messagesNotifications() {
-        MessageDao messageDao = database.messageDao();
+        MessageDao messageDao = objects.database.messageDao();
         Timber.d("Generate message notifications");
         List<Message> messages = messageDao.getAllUnnotifiedMessages();
         for (Message message : messages) {
-            boolean notified = NotificationCreator.createMessageNotification(context, message);
+            boolean notified = NotificationCreator.createMessageNotification(getApplicationContext(), message);
             if (notified) {
                 message.setNotified(1);
             }
@@ -173,11 +163,11 @@ public class RefreshBroadcastReceiver extends BroadcastReceiver {
     }
 
     private void gradesNotifications() {
-        List<Semester> semesters = database.semesterDao().getAllSemestersDirect();
+        List<Semester> semesters = objects.database.semesterDao().getAllSemestersDirect();
         Semester semester = Semester.getCurrentSemester(semesters);
         String name = semester.getName();
 
-        GradeInfoDao infoDao = database.gradeInfoDao();
+        GradeInfoDao infoDao = objects.database.gradeInfoDao();
         Timber.d("Generate grades notifications for grades posted");
         gradesNotificationHandler(infoDao, infoDao.getUnnotifiedGrades(name), 1);
         Timber.d("Generate grades notifications for recently created grades");
@@ -190,7 +180,7 @@ public class RefreshBroadcastReceiver extends BroadcastReceiver {
         Timber.d("Number of notifications: %d", infos.size());
         for (GradeInfo info : infos) {
             findClass(info);
-            boolean notified = NotificationCreator.createGradeNotification(context, info, type);
+            boolean notified = NotificationCreator.createGradeNotification(getApplicationContext(), info, type);
             if (notified) info.setNotified(0);
         }
 
@@ -206,8 +196,8 @@ public class RefreshBroadcastReceiver extends BroadcastReceiver {
     }
 
     private void findClass(GradeInfo info) {
-        GradeSection section = database.gradeSectionDao().getSectionByIdDirect(info.getSection());
-        Discipline discipline = database.disciplineDao().getDisciplinesByIdDirect(section.getDiscipline());
+        GradeSection section = objects.database.gradeSectionDao().getSectionByIdDirect(info.getSection());
+        Discipline discipline = objects.database.disciplineDao().getDisciplinesByIdDirect(section.getDiscipline());
         info.setClassName(discipline.getName());
     }
 }

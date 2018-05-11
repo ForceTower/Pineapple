@@ -92,6 +92,8 @@ dependencies {
     implementation 'pub.devrel:easypermissions:0.3.0'
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.11.0'
 
+    implementation 'android.arch.work:work-runtime:1.0.0-alpha01'
+
     implementation('com.mikepenz:aboutlibraries:6.0.1@aar') {
         transitive = true
     }

@@ -8,9 +8,11 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
 
+import com.forcetower.uefs.db.AppDatabase;
 import com.forcetower.uefs.di.AppInjector;
 import com.forcetower.uefs.ntf.NotificationHelper;
-import com.forcetower.uefs.sync.SyncConfiguration;
+import com.forcetower.uefs.rep.sgrs.RefreshRepository;
+import com.forcetower.uefs.service.UNEService;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -28,7 +30,8 @@ import timber.log.Timber;
  * Created by João Paulo on 05/03/2018.
  * Application Class. The android kick start
  */
-public class UEFSApplication extends Application implements HasActivityInjector, HasServiceInjector, HasBroadcastReceiverInjector {
+public class UEFSApplication extends Application implements HasActivityInjector,
+        HasServiceInjector, HasBroadcastReceiverInjector {
     @Inject
     DispatchingAndroidInjector<Activity> dispatchingActivityAndroidInjector;
     @Inject
@@ -59,7 +62,6 @@ public class UEFSApplication extends Application implements HasActivityInjector,
     }
 
     private void configureFeatures() {
-        SyncConfiguration.initializeSyncAdapter(this);
         new NotificationHelper(this).createChannels();
     }
 
@@ -105,5 +107,32 @@ public class UEFSApplication extends Application implements HasActivityInjector,
     @Override
     public AndroidInjector<BroadcastReceiver> broadcastReceiverInjector() {
         return dispatchingBroadcastAndroidInjector;
+    }
+
+    //TODO Temporary code until WorkInjector is created
+    @Inject
+    RefreshRepository repository;
+    @Inject
+    AppDatabase database;
+    @Inject
+    AppExecutors executors;
+    @Inject
+    UNEService service;
+    public RefreshObjects getRefreshPackage() {
+        return new RefreshObjects(repository, database, executors, service);
+    }
+
+    public static final class RefreshObjects {
+        public final RefreshRepository repository;
+        public final AppDatabase database;
+        public final AppExecutors executors;
+        public final UNEService service;
+
+        RefreshObjects(RefreshRepository repository, AppDatabase database, AppExecutors executors, UNEService service) {
+            this.repository = repository;
+            this.database = database;
+            this.executors = executors;
+            this.service = service;
+        }
     }
 }
