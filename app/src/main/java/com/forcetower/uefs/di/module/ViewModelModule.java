@@ -16,9 +16,11 @@ import com.forcetower.uefs.vm.base.MessagesViewModel;
 import com.forcetower.uefs.vm.base.ProfileViewModel;
 import com.forcetower.uefs.vm.base.ScheduleViewModel;
 import com.forcetower.uefs.vm.UEFSViewModelFactory;
+import com.forcetower.uefs.vm.universe.UAccountViewModel;
 
 import dagger.Binds;
 import dagger.Module;
+import dagger.internal.Beta;
 import dagger.multibindings.IntoMap;
 
 /**
@@ -81,6 +83,11 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(AchievementsViewModel.class)
     abstract ViewModel bindAchievementsViewModel(AchievementsViewModel achievementsViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(UAccountViewModel.class)
+    abstract ViewModel bindUAcountViewModel(UAccountViewModel accountViewModel);
 
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(UEFSViewModelFactory factory);
