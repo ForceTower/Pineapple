@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.alm.RefreshAlarmTrigger;
 import com.forcetower.uefs.anim.ChangeBoundsTransition;
 import com.forcetower.uefs.db.entity.Access;
 import com.forcetower.uefs.di.Injectable;
@@ -82,7 +81,6 @@ public class LoginFormFragment extends Fragment implements Injectable {
             AnimUtils.fadeOut(getContext(), vgLoading);
             AnimUtils.fadeIn(getContext(), vgForm);
             AnimUtils.fadeIn(getContext(), tvClickToKnowAbout);
-            RefreshAlarmTrigger.disableBootComponent(getContext());
         } else {
             Timber.d("Access is not null. Moving to connected!");
             if (!loginViewModel.isActivityStarted()) {

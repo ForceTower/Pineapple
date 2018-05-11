@@ -71,20 +71,16 @@ import com.forcetower.uefs.vm.base.GradesViewModel;
 import com.forcetower.uefs.vm.base.ProfileViewModel;
 import com.forcetower.uefs.vm.base.ScheduleViewModel;
 import com.forcetower.uefs.vm.google.AchievementsViewModel;
-import com.forcetower.uefs.worker.SagresSyncWorker;
+import com.forcetower.uefs.worker.WorkerUtils;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
-import androidx.work.Constraints;
-import androidx.work.NetworkType;
-import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -228,7 +224,8 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     }
 
     private void onActivityCreated() {
-        setupWorker();        setupShortcuts();
+        setupWorker();
+        setupShortcuts();
 
         boolean autoSync = ContentResolver.getMasterSyncAutomatically();
         boolean shown = mPreferences.getBoolean(AutoSyncFragment.PREF_AUTO_SYNC_SHOWN, false);
@@ -242,20 +239,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         try {
             frequency = Integer.parseInt(strFrequency);
         } catch (Exception ignored) {}
-
-        Constraints constraints = new Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
-                .build();
-
-        WorkManager.getInstance().cancelAllWorkByTag(Constants.WORKER_SYNC_SAGRES_NAME);
-
-        PeriodicWorkRequest sagresSyncWorker
-                = new PeriodicWorkRequest.Builder(SagresSyncWorker.class, frequency, TimeUnit.MINUTES)
-                .addTag(Constants.WORKER_SYNC_SAGRES_NAME)
-                .setConstraints(constraints)
-                .build();
-
-        WorkManager.getInstance().enqueue(sagresSyncWorker);
+        WorkerUtils.setupSagresSync(frequency);
     }
 
     private void setupFragmentStackListener() {
