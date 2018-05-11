@@ -10,6 +10,7 @@ import android.support.v4.util.Pair;
 import android.view.View;
 
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.anim.ChangeBoundsTransition;
 import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.universe.fragment.UniverseCreateAccountFragment;
 import com.forcetower.uefs.view.universe.fragment.UniverseTokenVerifyFragment;
@@ -26,11 +27,13 @@ import javax.inject.Inject;
 public class UniverseNavigationController {
     private final FragmentManager manager;
     private final int containerId;
+    private final ActivityController controller;
 
     @Inject
     public UniverseNavigationController(UniverseActivity activity) {
         this.manager = activity.getSupportFragmentManager();
         this.containerId = R.id.container;
+        this.controller = activity;
     }
 
     public void initiateNavigation() {
@@ -40,12 +43,14 @@ public class UniverseNavigationController {
     }
 
     public void navigateToStartPage(@Nullable List<Pair<String, View>> shared) {
+        controller.hideToolbar();
         Fragment fragment = new UniverseWelcomeStartFragment();
         navigateToFragment(fragment, false, null, null, shared);
     }
 
     public void navigateToCreateAccount(@Nullable List<Pair<String, View>> shared) {
         Fragment fragment = new UniverseCreateAccountFragment();
+        fragment.setAllowEnterTransitionOverlap(false);
         navigateToFragment(fragment, true, "create account", null, shared, true);
     }
 
@@ -75,8 +80,13 @@ public class UniverseNavigationController {
             if (name == null) throw new IllegalArgumentException("name can not be null");
             transaction.addToBackStack(name);
         }
-        if (VersionUtils.isLollipop() && shared != null && shared.size() > 0)
-            for (Pair<String, View> element : shared) transaction.addSharedElement(element.second, element.first);
+        if (VersionUtils.isLollipop() && shared != null && shared.size() > 0) {
+            fragment.setSharedElementEnterTransition(new ChangeBoundsTransition());
+            fragment.setSharedElementReturnTransition(new ChangeBoundsTransition());
+
+            for (Pair<String, View> element : shared)
+                transaction.addSharedElement(element.second, element.first);
+        }
 
         transaction.commit();
     }

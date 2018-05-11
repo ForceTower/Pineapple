@@ -375,4 +375,5 @@
     <string name="universe_login_account">Login</string>
     <string name="universe_login_account_description">Use sua conta do UNEVerso para continuar</string>
     <string name="universe_loading">Carregando</string>
+    <string name="the_universe">UNEVerso</string>
 </resources>

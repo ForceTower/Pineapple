@@ -66,6 +66,7 @@ import com.forcetower.uefs.view.about.AboutActivity;
 import com.forcetower.uefs.view.connected.fragments.AutoSyncFragment;
 import com.forcetower.uefs.view.login.MainActivity;
 import com.forcetower.uefs.view.settings.SettingsActivity;
+import com.forcetower.uefs.view.universe.UniverseActivity;
 import com.forcetower.uefs.vm.base.DownloadsViewModel;
 import com.forcetower.uefs.vm.base.GradesViewModel;
 import com.forcetower.uefs.vm.base.ProfileViewModel;
@@ -660,6 +661,8 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
                 openCertificatePdf(true, SagresDocuments.ENROLLMENT_CERTIFICATE);
             } else if (id == R.id.nav_flowchart_certificate) {
                 openCertificatePdf(true, SagresDocuments.FLOWCHART);
+            } else if (id == R.id.nav_universe) {
+                UniverseActivity.startActivity(this);
             }
 
             if (item.isCheckable()) selectedNavId = id;
