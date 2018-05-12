@@ -62,6 +62,7 @@ public class BigTrayFragment extends Fragment implements Injectable {
     RUFirebase ruFirebase;
 
     private ActivityController controller;
+    private DatabaseReference reference;
 
     @Override
     public void onAttach(Context context) {
@@ -77,6 +78,7 @@ public class BigTrayFragment extends Fragment implements Injectable {
 
         if (controller.getTabLayout() != null) controller.getTabLayout().setVisibility(View.GONE);
         controller.changeTitle(R.string.title_big_tray);
+        reference = ruFirebase.getFirebaseDatabase().getReference("bandejao");
 
         btnVisitBigTray.setOnClickListener(v -> NetworkUtils.openLink(requireContext(), "http://bit.ly/bandejaouefs"));
         return view;
@@ -85,18 +87,18 @@ public class BigTrayFragment extends Fragment implements Injectable {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        DatabaseReference reference = ruFirebase.getFirebaseDatabase().getReference("bandejao");
+    }
 
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                RUData data = snapshot.getValue(RUData.class);
-                if (data != null) updateInterface(data);
-            }
+    @Override
+    public void onStart() {
+        super.onStart();
+        reference.addValueEventListener(valueListener);
+    }
 
-            @Override
-            public void onCancelled(DatabaseError error) {}
-        });
+    @Override
+    public void onStop() {
+        super.onStop();
+        reference.removeEventListener(valueListener);
     }
 
     private void updateInterface(RUData data) {
@@ -135,4 +137,15 @@ public class BigTrayFragment extends Fragment implements Injectable {
 
         tvRuLastUpdate.setText(getString(R.string.ru_last_update, DateUtils.formatDateTime(calendar.getTimeInMillis())));
     }
+
+    private ValueEventListener valueListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot snapshot) {
+            RUData data = snapshot.getValue(RUData.class);
+            if (data != null) updateInterface(data);
+        }
+
+        @Override
+        public void onCancelled(DatabaseError error) {}
+    };
 }
