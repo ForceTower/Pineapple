@@ -24,7 +24,7 @@ public class WorkerUtils {
         int diffFreq = preferences.getInt("sagres_sync_worker_frequency", -1);
         boolean conf = preferences.getBoolean("sagres_sync_worker_configured", false);
         Timber.d("%s condition", diffFreq == -1 || (conf && diffFreq == frequency));
-        if (diffFreq == -1 || (conf && diffFreq == frequency)) {
+        if (frequency == -1 || (conf && diffFreq == frequency)) {
             Timber.d("Worker Configuration Completed");
             return;
         }
