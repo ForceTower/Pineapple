@@ -240,7 +240,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         try {
             frequency = Integer.parseInt(strFrequency);
         } catch (Exception ignored) {}
-        WorkerUtils.setupSagresSync(frequency);
+        WorkerUtils.setupSagresSync(this, frequency);
     }
 
     private void setupFragmentStackListener() {

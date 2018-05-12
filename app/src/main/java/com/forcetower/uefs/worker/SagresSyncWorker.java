@@ -40,18 +40,27 @@ public class SagresSyncWorker extends Worker {
     private SharedPreferences preferences;
     private LiveData<Resource<Integer>> call;
     private LiveData<ApiResponse<UpdateStatus>> updateData;
+    private boolean completed;
 
     @NonNull
     @Override
     public WorkerResult doWork() {
+        completed = false;
+        int iterations = 0;
         objects = ((UEFSApplication)getApplicationContext()).getRefreshPackage();
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         initiateSync();
+
+        while (!completed && iterations < 300) {
+            iterations++;
+            SystemClock.sleep(3000);
+        }
         return WorkerResult.SUCCESS;
     }
 
     private void initiateSync() {
         if (!initialVerifications()) {
+            completed = true;
             return;
         }
 
@@ -68,6 +77,7 @@ public class SagresSyncWorker extends Worker {
     private void updateAccountObserver(ApiResponse<UpdateStatus> updateResp) {
         if (updateResp == null) {
             Timber.d("Won't sync: null response");
+            completed = true;
             return;
         }
 
@@ -75,17 +85,20 @@ public class SagresSyncWorker extends Worker {
 
         if (!updateResp.isSuccessful()) {
             Timber.d("Won't sync: unsuccessful response, code %d", updateResp.code);
+            completed = true;
             return;
         }
 
         UpdateStatus status = updateResp.body;
         if (status == null) {
             Timber.d("Won't sync: object status is null");
+            completed = true;
             return;
         }
 
         if (!status.isManager()) {
             Timber.d("Won't sync: alarm is disabled");
+            completed = true;
             return;
         }
 
@@ -99,6 +112,7 @@ public class SagresSyncWorker extends Worker {
             if (access == null) {
                 Timber.d("Access is null... stop");
                 NotificationCreator.createNotConnectedNotification(getApplicationContext());
+                completed = true;
             } else {
                 objects.database.profileDao().setLastSyncAttempt(System.currentTimeMillis());
                 objects.database.messageDao().clearAllNotifications();
@@ -143,6 +157,7 @@ public class SagresSyncWorker extends Worker {
         objects.executors.diskIO().execute(() -> {
             messagesNotifications();
             gradesNotifications();
+            completed = true;
         });
     }
 

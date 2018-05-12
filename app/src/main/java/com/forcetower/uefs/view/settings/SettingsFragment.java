@@ -104,7 +104,10 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         Preference gradeCreated = findPreference("show_grades_created_notification");
         Preference gradeChanged = findPreference("show_grades_changed_notification");
         String newValue = preferences.getString(key, "60");
-        int frequency = Integer.parseInt(newValue);
+        int frequency = 60;
+        try {
+            frequency = Integer.parseInt(newValue);
+        } catch (Exception ignored) {}
 
         if (frequency == -1) {
             preference.setSummary(R.string.pref_sync_frequency_never);
@@ -113,8 +116,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             if (gradeCreated != null) gradeCreated.setEnabled(false);
             if (gradeChanged != null) gradeChanged.setEnabled(false);
             Timber.d("Frequency set to never update");
-            WorkerUtils.setupSagresSync(frequency);
-            WorkerUtils.disableSagresSync();
+            WorkerUtils.disableSagresSync(controller.getContext());
         } else if (frequency > 0) {
             preference.setSummary(R.string.pref_sync_frequency_enabled);
             if (notification != null) notification.setEnabled(true);
@@ -122,7 +124,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             if (gradeCreated != null) gradeCreated.setEnabled(true);
             if (gradeChanged != null) gradeChanged.setEnabled(true);
             Timber.d("Frequency set to %d minutes", frequency);
-            WorkerUtils.setupSagresSync(frequency);
+            WorkerUtils.setupSagresSync(controller.getContext(), frequency);
         }
     }
 }
