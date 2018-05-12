@@ -378,5 +378,13 @@
     <string name="the_universe">UNEVerso</string>
     <string name="unable_to_calculate_mean">NaN - Indisponível</string>
     <string name="a_series_of_question_marks">Disney</string>
-    <string name="you_cant_download_materials_yet">Ainda não é possivel baixar materiais</string>
+    <string name="you_cant_download_materials_yet">Ainda não é possível baixar materiais</string>
+    <string name="accessing_universe">Acessando o UNEVerso</string>
+    <string name="configuring_universe">Configurando sua conta do universo UNES</string>
+    <string name="title_outdated_version">Desatualizado</string>
+    <string name="disabled_code_warning">Esta versão do UNES está desatualizada.\nNovas ferramentas foram introduzidas e esta versão não pode acessa-las.\n\nPor favor, atualize o aplicativo na PlayStore para continuar</string>
+    <string name="update_app">Atualizar</string>
+    <string name="universe_account_already_exists">A conta ja foi criada, faça login</string>
+    <string name="universe_connection_error">Erro ao criar conta...</string>
+    <string name="universe_login_btn">Login</string>
 </resources>

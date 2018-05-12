@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.ActivityNotFoundException;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -63,7 +62,6 @@ import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.util.WordUtils;
 import com.forcetower.uefs.view.UBaseActivity;
 import com.forcetower.uefs.view.about.AboutActivity;
-import com.forcetower.uefs.view.connected.fragments.AutoSyncFragment;
 import com.forcetower.uefs.view.login.MainActivity;
 import com.forcetower.uefs.view.settings.SettingsActivity;
 import com.forcetower.uefs.view.universe.UniverseActivity;
@@ -228,10 +226,8 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         setupWorker();
         setupShortcuts();
 
-        boolean autoSync = ContentResolver.getMasterSyncAutomatically();
-        boolean shown = mPreferences.getBoolean(AutoSyncFragment.PREF_AUTO_SYNC_SHOWN, false);
         mPreferences.edit().putBoolean("show_not_connected_notification", false).apply();
-        initiateActivity(autoSync, shown);
+        initiateActivity();
     }
 
     private void setupWorker() {
@@ -344,23 +340,11 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         return super.onOptionsItemSelected(item);
     }
 
-    private void initiateActivity(boolean auto, boolean shown) {
+    private void initiateActivity() {
         String value = getIntent().getStringExtra(FRAGMENT_INTENT_EXTRA);
-        if (value == null) {
-            Timber.d("Default open");
-            if (!auto && !shown) {
-                navigationController.navigateToAutoSync();
-            } else {
-                Bundle bundle = new Bundle();
-                bundle.putString(FRAGMENT_INTENT_EXTRA, null);
-                navigationController.navigateToMainContent(bundle);
-            }
-        } else {
-            Timber.d("Action asks for: %s", value);
-            Bundle bundle = new Bundle();
-            bundle.putString(FRAGMENT_INTENT_EXTRA, value);
-            navigationController.navigateToMainContent(bundle);
-        }
+        Bundle bundle = new Bundle();
+        bundle.putString(FRAGMENT_INTENT_EXTRA, value);
+        navigationController.navigateToMainContent(bundle);
     }
 
     private void onRestoreActivity(@NonNull Bundle savedInstanceState) {
@@ -585,6 +569,12 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
                     Timber.d("UNES is up to date");
                 } else {
                     Timber.d("This version is ahead of published version");
+                }
+
+                if (version.getDisableCode() >= versionCode) {
+                    Timber.d("This version is really outdated");
+                    clearBackStack();
+                    navigationController.navigateToOutdatedVersion();
                 }
             } catch (PackageManager.NameNotFoundException ignored) {}
         }
@@ -928,6 +918,18 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     @Override
     public void unlockAchievements(@NonNull String achievement, @NonNull GooglePlayGamesInstance playGamesInstance) {
         super.unlockAchievements(achievement, playGamesInstance);
+    }
+
+    @Override
+    public void disableDrawer() {
+        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowHomeEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }
+
+        toggle.setDrawerIndicatorEnabled(false);
+
     }
 
     class NavigationViews {

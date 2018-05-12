@@ -15,4 +15,5 @@ public interface ActivityController {
     void showNewScheduleError(Exception ex);
     void navigateToDisciplineDetails(int groupUid, int disciplineUid);
     void navigateToDisciplineClasses(int groupId);
+    void disableDrawer();
 }

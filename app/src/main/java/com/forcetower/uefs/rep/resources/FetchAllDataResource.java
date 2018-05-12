@@ -102,7 +102,7 @@ public abstract class FetchAllDataResource {
                 docLive.postValue(Resource.success(response.getDocument()));
             } else {
                 Timber.d("Approval failed");
-                docLive.postValue(Resource.error(response.getMessage(), response.getCode(), null));
+                docLive.postValue(Resource.error(response.getMessage(), response.getCode(), (Throwable)null));
             }
         });
 

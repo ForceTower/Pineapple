@@ -197,7 +197,7 @@ public class DisciplinesRepository {
             //noinspection ConstantConditions
             if (resource.status == Status.ERROR) {
                 docSrc.removeSource(loginSrc);
-                docSrc.postValue(Resource.error(resource.message, resource.code, null));
+                docSrc.postValue(Resource.error(resource.message, resource.code, (Throwable)null));
             } else if (resource.status == Status.SUCCESS) {
                 docSrc.removeSource(loginSrc);
             }

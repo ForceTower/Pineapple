@@ -1,6 +1,7 @@
 package com.forcetower.uefs.di.module;
 
 import com.forcetower.uefs.view.universe.fragment.UniverseCreateAccountFragment;
+import com.forcetower.uefs.view.universe.fragment.UniverseLoginFragment;
 import com.forcetower.uefs.view.universe.fragment.UniverseTokenVerifyFragment;
 import com.forcetower.uefs.view.universe.fragment.UniverseWelcomeStartFragment;
 
@@ -20,4 +21,7 @@ public abstract class UniverseFragmentsModule {
 
     @ContributesAndroidInjector
     abstract UniverseCreateAccountFragment contributeUniverseCreateAccountFragment();
+
+    @ContributesAndroidInjector
+    abstract UniverseLoginFragment contributeUniverseLoginFragment();
 }

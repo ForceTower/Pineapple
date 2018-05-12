@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
-            android:text="@string/auto_sync_warning"
+            android:text="@string/disabled_code_warning"
             android:gravity="center"
             android:textSize="15sp"
             android:textColor="@color/white"
@@ -54,27 +54,15 @@
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/btn_continue"
-        android:layout_width="100dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="end"
-        android:background="@null"
-        android:text="@string/continue_anyway"
+        android:text="@string/update_app"
         android:textColor="@color/white"
+        style="@style/Base.Widget.AppCompat.Button.Colored"
         android:fontFamily="@font/roboto_medium"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_margin="16dp"/>
-
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/btn_enable_sync"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_gravity="end"
-        style="@style/Base.Widget.AppCompat.Button.Colored"
-        android:text="@string/change_config"
-        android:textColor="@color/white"
-        android:fontFamily="@font/roboto_medium"
-        android:layout_alignParentBottom="true"
         android:layout_margin="16dp"/>
 </RelativeLayout>

@@ -13,6 +13,7 @@ import com.forcetower.uefs.R;
 import com.forcetower.uefs.anim.ChangeBoundsTransition;
 import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.universe.fragment.UniverseCreateAccountFragment;
+import com.forcetower.uefs.view.universe.fragment.UniverseLoginFragment;
 import com.forcetower.uefs.view.universe.fragment.UniverseTokenVerifyFragment;
 import com.forcetower.uefs.view.universe.fragment.UniverseWelcomeStartFragment;
 
@@ -54,6 +55,11 @@ public class UniverseNavigationController {
         navigateToFragment(fragment, true, "create account", null, shared, true);
     }
 
+    public void navigateToLogin(@Nullable List<Pair<String, View>> shared) {
+        Fragment fragment = new UniverseLoginFragment();
+        navigateToFragment(fragment, false, "login account", null, shared, true);
+    }
+
     private void navigateToFragment(Fragment fragment) {
         navigateToFragment(fragment, false, null, null, null);
     }
@@ -63,7 +69,7 @@ public class UniverseNavigationController {
         navigateToFragment(fragment, stack, name, args, shared, false);
     }
 
-    public final void navigateToFragment(@NonNull Fragment fragment, boolean stack, @Nullable String name,
+    private void navigateToFragment(@NonNull Fragment fragment, boolean stack, @Nullable String name,
                                          @Nullable Bundle args, @Nullable List<Pair<String, View>> shared, boolean clearTop) {
         if (args != null) fragment.setArguments(args);
 

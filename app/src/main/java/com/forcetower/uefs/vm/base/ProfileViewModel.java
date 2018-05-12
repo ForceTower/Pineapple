@@ -75,6 +75,12 @@ public class ProfileViewModel extends ViewModel {
             try {
                 File file = new File(cacheDir, "profile_image.jpg");
                 Bitmap bitmap = BitmapFactory.decodeStream(new FileInputStream(file));
+                int height = bitmap.getHeight();
+                int width  = bitmap.getWidth();
+
+                int proportion = height/512;
+                if (proportion == 0) proportion = 1;
+                bitmap = Bitmap.createScaledBitmap(bitmap, width/proportion, height/proportion, false);
                 data.postValue(bitmap);
             }
             catch (FileNotFoundException e) {
@@ -95,8 +101,15 @@ public class ProfileViewModel extends ViewModel {
 
             FileOutputStream fos = null;
             try {
+                int height = bitmap.getHeight();
+                int width  = bitmap.getWidth();
+
+                int proportion = height/512;
+                if (proportion == 0) proportion = 1;
+                Bitmap save = Bitmap.createScaledBitmap(bitmap, width/proportion, height/proportion, false);
+
                 fos = new FileOutputStream(file);
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 30, fos);
+                save.compress(Bitmap.CompressFormat.JPEG, 50, fos);
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {

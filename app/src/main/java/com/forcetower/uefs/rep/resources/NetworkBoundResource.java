@@ -20,17 +20,30 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
     @MainThread
     public NetworkBoundResource(AppExecutors appExecutors) {
         this.appExecutors = appExecutors;
-        LiveData<ResultType> dbSource = loadFromDb();
-        result.addSource(dbSource, data -> {
-            result.removeSource(dbSource);
-            if (shouldFetch(data)) {
-                preNetworkOperations();
-                fetchFromNetwork(dbSource);
-            } else {
-                result.addSource(dbSource, newData -> setValue(Resource.success(newData)));
-                onSuccess();
+        appExecutors.diskIO().execute(() -> {
+            if (!preExecute()) {
+                result.postValue(Resource.error("Pre Execution Failed", 401, new RuntimeException("Pre Execution Condition Failed")));
+                return;
             }
+            appExecutors.mainThread().execute(() -> {
+                LiveData<ResultType> dbSource = loadFromDb();
+                result.addSource(dbSource, data -> {
+                    result.removeSource(dbSource);
+                    if (shouldFetch(data)) {
+                        preNetworkOperations();
+                        fetchFromNetwork(dbSource);
+                    } else {
+                        result.addSource(dbSource, newData -> setValue(Resource.success(newData)));
+                        onSuccess();
+                    }
+                });
+            });
         });
+    }
+
+    @MainThread
+    protected boolean preExecute() {
+        return true;
     }
 
     @MainThread
@@ -61,7 +74,8 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
                 });
             } else {
                 onFetchFailed();
-                result.addSource(dbSource, newData -> setValue(Resource.error(response.errorMessage, response.code, newData)));
+                result.postValue(Resource.error(response.errorMessage, response.code, response.actionError));
+                //result.addSource(dbSource, newData -> setValue(Resource.error(response.errorMessage, response.code, newData)));
             }
         });
     }

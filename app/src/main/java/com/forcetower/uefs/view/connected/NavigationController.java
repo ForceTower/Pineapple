@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.view.connected.fragments.AutoSyncFragment;
+import com.forcetower.uefs.view.connected.fragments.OutdatedFragment;
 import com.forcetower.uefs.view.connected.fragments.BigTrayFragment;
 import com.forcetower.uefs.view.connected.fragments.ConnectedFragment;
 import com.forcetower.uefs.view.connected.fragments.DisciplineClassesFragment;
@@ -37,10 +37,6 @@ public class NavigationController {
     public NavigationController(LoggedActivity activity) {
         containerId = R.id.drawer_container;
         fragmentManager = activity.getSupportFragmentManager();
-    }
-
-    public void navigateToAutoSync() {
-        changeFragment(new AutoSyncFragment());
     }
 
     public void navigateToSchedule() {
@@ -143,5 +139,9 @@ public class NavigationController {
             fragment = SuggestionFragment.createFragment(message, stackTrace);
 
         changeFragment(fragment, "suggestion", true);
+    }
+
+    public void navigateToOutdatedVersion() {
+        changeFragment(new OutdatedFragment());
     }
 }

@@ -13,6 +13,7 @@ import com.forcetower.uefs.di.AppInjector;
 import com.forcetower.uefs.ntf.NotificationHelper;
 import com.forcetower.uefs.rep.sgrs.RefreshRepository;
 import com.forcetower.uefs.service.UNEService;
+import com.squareup.leakcanary.LeakCanary;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -48,6 +49,11 @@ public class UEFSApplication extends Application implements HasActivityInjector,
     @Override
     public void onCreate() {
         super.onCreate();
+        if (LeakCanary.isInAnalyzerProcess(this))
+            return;
+
+        LeakCanary.install(this);
+
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         }

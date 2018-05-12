@@ -1,15 +1,26 @@
 package com.forcetower.uefs.util;
 
 import android.annotation.TargetApi;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MediatorLiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.util.Base64;
 
+import com.forcetower.uefs.AppExecutors;
+
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
+import timber.log.Timber;
 
 /**
  * Created by João Paulo on 05/03/2018.
@@ -39,5 +50,35 @@ public class ImageUtils {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
         byte[] imageBytes = outputStream.toByteArray();
         return Base64.encodeToString(imageBytes, Base64.DEFAULT);
+    }
+
+    public static LiveData<String> encodeImage(Bitmap bitmap, AppExecutors executors) {
+        MutableLiveData<String> encoderData = new MutableLiveData<>();
+        executors.diskIO().execute(() -> {
+            int height = bitmap.getHeight();
+            int width  = bitmap.getWidth();
+
+            int proportion = height/512;
+            if (proportion == 0) proportion = 1;
+            Bitmap save = Bitmap.createScaledBitmap(bitmap, width/proportion, height/proportion, false);
+            String encodedImage = encode(save);
+            encoderData.postValue(encodedImage);
+        });
+        return encoderData;
+    }
+
+    public static LiveData<Bitmap> getImageBitmap(File file, AppExecutors executors) {
+        MutableLiveData<Bitmap> data = new MediatorLiveData<>();
+        executors.diskIO().execute(() -> {
+            try {
+                Bitmap bitmap = BitmapFactory.decodeStream(new FileInputStream(file));
+                data.postValue(bitmap);
+            }
+            catch (FileNotFoundException e) {
+                Timber.d("File doesn't exists");
+                data.postValue(null);
+            }
+        });
+        return data;
     }
 }

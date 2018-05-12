@@ -1,5 +1,8 @@
 package com.forcetower.uefs.service;
 
+import java.util.HashMap;
+import java.util.List;
+
 /**
  * Created by João Paulo on 29/04/2018.
  */
@@ -7,6 +10,7 @@ public class ActionError {
     private int code;
     private String message;
     private boolean error;
+    private HashMap<String, List<String>> errors;
 
     public ActionError(String message) {
         this.message = message;
@@ -34,5 +38,13 @@ public class ActionError {
 
     public void setError(boolean error) {
         this.error = error;
+    }
+
+    public HashMap<String, List<String>> getErrors() {
+        return errors;
+    }
+
+    public void setErrors(HashMap<String, List<String>> errors) {
+        this.errors = errors;
     }
 }

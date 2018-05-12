@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/view_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
@@ -30,6 +31,7 @@
                     android:transitionName="@string/transition_logo"/>
 
                 <LinearLayout
+                    android:id="@+id/ll_animations"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
@@ -166,13 +168,14 @@
         android:paddingTop="4dp">
 
         <android.support.v7.widget.AppCompatButton
-            android:layout_width="wrap_content"
+            android:id="@+id/btn_universe_login"
+            android:layout_width="120dp"
             android:layout_height="50dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="16dp"
             android:layout_marginEnd="16dp"
-            android:text="@string/universe_create_account_next_step"
+            android:text="@string/universe_login_btn"
             style="@style/Widget.AppCompat.Button.Colored"
             tools:ignore="RelativeOverlap"/>
 
@@ -183,7 +186,8 @@
             android:layout_marginStart="16dp"
             android:text="@string/universe_create_account_cancel"
             android:textAllCaps="true"
-            style="@style/Widget.AppCompat.ButtonBar.AlertDialog"/>
+            style="@style/Widget.AppCompat.ButtonBar.AlertDialog"
+            tools:ignore="RelativeOverlap"/>
     </RelativeLayout>
 
 </RelativeLayout>

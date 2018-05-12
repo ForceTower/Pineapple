@@ -19,6 +19,8 @@ package com.forcetower.uefs.rep.helper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.forcetower.uefs.service.ActionError;
+
 /**
  * A generic class that holds a value with its loading status.
  * @param <T>
@@ -34,6 +36,8 @@ public class Resource<T> {
     public final int code;
     @Nullable
     public final Throwable throwable;
+    @Nullable
+    public final ActionError actionError;
 
     public Resource(@NonNull Status status, @Nullable T data, @Nullable String message) {
         this.status = status;
@@ -41,6 +45,7 @@ public class Resource<T> {
         this.message = message;
         this.code = -1;
         this.throwable = null;
+        this.actionError = null;
     }
 
     public Resource(@NonNull Status status, @Nullable T data, @Nullable String message, int code) {
@@ -49,6 +54,7 @@ public class Resource<T> {
         this.message = message;
         this.code = code;
         this.throwable = null;
+        this.actionError = null;
     }
 
     public Resource(@NonNull Status status, @Nullable T data, @Nullable String message, int code, @Nullable Throwable throwable) {
@@ -57,6 +63,16 @@ public class Resource<T> {
         this.message = message;
         this.code = code;
         this.throwable = throwable;
+        this.actionError = null;
+    }
+
+    public Resource(@NonNull Status status, @Nullable T data, @Nullable String message, int code, @Nullable ActionError actionError) {
+        this.status = status;
+        this.data = data;
+        this.message = message;
+        this.code = code;
+        this.throwable = null;
+        this.actionError = actionError;
     }
 
     public static <T> Resource<T> success(@Nullable T data) {
@@ -73,6 +89,10 @@ public class Resource<T> {
 
     public static <T> Resource<T> error(String msg, int code, Throwable throwable) {
         return new Resource<>(Status.ERROR, null, msg, code, throwable);
+    }
+
+    public static <T> Resource<T> error(String msg, int code, @Nullable ActionError actionError) {
+        return new Resource<>(Status.ERROR, null, msg, code, actionError);
     }
 
     public static <T> Resource<T> loading(@Nullable T data) {

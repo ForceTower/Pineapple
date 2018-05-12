@@ -1,7 +1,7 @@
 package com.forcetower.uefs.di.module;
 
 import com.forcetower.uefs.view.connected.fragments.AllSemestersGradeFragment;
-import com.forcetower.uefs.view.connected.fragments.AutoSyncFragment;
+import com.forcetower.uefs.view.connected.fragments.OutdatedFragment;
 import com.forcetower.uefs.view.connected.fragments.BigTrayFragment;
 import com.forcetower.uefs.view.connected.fragments.CalendarFragment;
 import com.forcetower.uefs.view.connected.fragments.ConnectedFragment;
@@ -82,7 +82,7 @@ public abstract class FragmentsModule {
     abstract MasterSyncControlFragment contributeMasterSyncControlFragment();
 
     @ContributesAndroidInjector
-    abstract AutoSyncFragment contributeAutoSyncFragment();
+    abstract OutdatedFragment contributeAutoSyncFragment();
 
     @ContributesAndroidInjector
     abstract TheAdventureFragment contributeTheAdventureFragment();

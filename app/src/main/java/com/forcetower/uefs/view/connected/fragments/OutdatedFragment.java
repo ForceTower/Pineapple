@@ -1,8 +1,10 @@
 package com.forcetower.uefs.view.connected.fragments;
 
+import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
@@ -25,14 +27,11 @@ import butterknife.ButterKnife;
  * Created by João Paulo on 08/03/2018.
  */
 
-public class AutoSyncFragment extends Fragment implements Injectable {
-    public static final String PREF_AUTO_SYNC_SKIPPED = "auto_sync_skipped";
+public class OutdatedFragment extends Fragment implements Injectable {
     public static final String PREF_AUTO_SYNC_SHOWN = "auto_sync_shown";
 
     @BindView(R.id.btn_continue)
     Button btnContinue;
-    @BindView(R.id.btn_enable_sync)
-    Button btnEnableSync;
 
     ActivityController controller;
     @Override
@@ -48,17 +47,10 @@ public class AutoSyncFragment extends Fragment implements Injectable {
         ButterKnife.bind(this, view);
 
         controller.getTabLayout().setVisibility(View.GONE);
-        controller.changeTitle(R.string.title_auto_sync);
+        controller.changeTitle(R.string.title_outdated_version);
+        controller.disableDrawer();
 
-        btnContinue.setOnClickListener(v -> {
-            controller.getNavigationController().navigateToSchedule();
-            setPreference();
-        });
-
-        btnEnableSync.setOnClickListener(v -> {
-            Intent intent = new Intent(Settings.ACTION_SYNC_SETTINGS);
-            requireContext().startActivity(intent);
-        });
+        btnContinue.setOnClickListener(v -> openPlayStore());
 
         return view;
     }
@@ -66,13 +58,14 @@ public class AutoSyncFragment extends Fragment implements Injectable {
     @Override
     public void onResume() {
         super.onResume();
-        boolean autoSync = ContentResolver.getMasterSyncAutomatically();
-        if (autoSync) controller.getNavigationController().navigateToSchedule();
     }
 
-    private void setPreference() {
-        PreferenceManager.getDefaultSharedPreferences(getContext()).edit()
-                .putBoolean(PREF_AUTO_SYNC_SHOWN, true)
-                .apply();
+    private void openPlayStore() {
+        String packageName = requireContext().getPackageName();
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + packageName)));
+        } catch (ActivityNotFoundException exception) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + packageName)));
+        }
     }
 }

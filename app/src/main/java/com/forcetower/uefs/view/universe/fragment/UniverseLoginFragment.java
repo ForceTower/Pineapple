@@ -6,35 +6,26 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
-import android.support.v4.util.Pair;
 import android.transition.ChangeBounds;
 import android.transition.ChangeImageTransform;
-import android.transition.Fade;
 import android.transition.TransitionManager;
 import android.transition.TransitionSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.db_service.entity.AccessToken;
-import com.forcetower.uefs.db_service.entity.Account;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
-import com.forcetower.uefs.service.ActionResult;
-import com.forcetower.uefs.service.ApiResponse;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.universe.UniverseNavigationController;
 import com.forcetower.uefs.vm.UEFSViewModelFactory;
 import com.forcetower.uefs.vm.universe.UAccountViewModel;
-
-import java.util.Collections;
 
 import javax.inject.Inject;
 
@@ -45,19 +36,19 @@ import butterknife.OnClick;
 import timber.log.Timber;
 
 /**
- * Created by João Paulo on 11/05/2018.
+ * Created by João Paulo on 12/05/2018.
  */
-public class UniverseCreateAccountFragment extends Fragment implements Injectable {
+public class UniverseLoginFragment extends Fragment implements Injectable {
     @BindView(R.id.view_root)
     ViewGroup rootContainer;
-    @BindViews({R.id.dev_iv_anim_1, R.id.dev_iv_anim_2, R.id.dev_iv_anim_3, R.id.dev_iv_anim_4})
-    View[] views;
     @BindView(R.id.ll_animations)
     ViewGroup llAnimation;
-    @BindView(R.id.pb_progress)
-    ProgressBar pbProgress;
-    @BindView(R.id.iv_logo)
-    ImageView ivLogo;
+    @BindViews({R.id.dev_iv_anim_1, R.id.dev_iv_anim_2, R.id.dev_iv_anim_3, R.id.dev_iv_anim_4})
+    View[] views;
+    @BindView(R.id.et_universe_username)
+    TextInputEditText etUsername;
+    @BindView(R.id.et_universe_password)
+    TextInputEditText etPassword;
 
     @Inject
     UniverseNavigationController navigation;
@@ -69,7 +60,7 @@ public class UniverseCreateAccountFragment extends Fragment implements Injectabl
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_universe_create_account, container, false);
+        View view = inflater.inflate(R.layout.fragment_universe_login, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -79,12 +70,22 @@ public class UniverseCreateAccountFragment extends Fragment implements Injectabl
         super.onActivityCreated(savedInstanceState);
         beginAnimations();
         accountViewModel = ViewModelProviders.of(this, viewModelFactory).get(UAccountViewModel.class);
-        accountViewModel.login(true).observe(this, this::onLoginProgress);
-        accountViewModel.getCreateAccountSrc().observe(this, this::onCreateAccountProgress);
         accountViewModel.getAccessToken().observe(this, this::onAccessTokenReceived);
+        accountViewModel.getLoginWith().observe(this, this::onLoginProgress);
     }
 
-    private void onLoginProgress(Resource<AccessToken> tokenResource) {}
+    private void onLoginProgress(Resource<AccessToken> tokenResource) {
+        if (tokenResource == null) return;
+
+        if (tokenResource.status == Status.SUCCESS) {
+            Timber.d("Resource Success: Token received!");
+        } else if (tokenResource.status == Status.ERROR) {
+            Timber.d("Resource error code: %d", tokenResource.code);
+            Timber.d("Resource error message: %s", tokenResource.message);
+        } else {
+            Timber.d("Loading resource...");
+        }
+    }
 
     private void onAccessTokenReceived(AccessToken token) {
         if (token != null && token.isValid() && !token.isExpired()) {
@@ -92,37 +93,24 @@ public class UniverseCreateAccountFragment extends Fragment implements Injectabl
         }
     }
 
-    private void onCreateAccountProgress(Resource<Account> responseAccount) {
-        if (responseAccount == null) {
-            Timber.d("responseAccount is null");
+    @OnClick(value = R.id.btn_universe_login)
+    public void onLoginClicked() {
+        String username = etUsername.getText().toString();
+        String password = etPassword.getText().toString();
+
+        if (username.trim().length() < 4) {
+            etUsername.setError(getString(R.string.username_too_short));
+            etUsername.requestFocus();
             return;
         }
-        if (responseAccount.status == Status.LOADING) {
-            Timber.d("Loading message: %s", responseAccount.message);
-            Timber.d("Loading data:    %s", responseAccount.data);
-        } else if (responseAccount.status == Status.ERROR) {
-            Timber.d("Error message: %s", responseAccount.message);
-            Timber.d("Error code: %d", responseAccount.code);
-            Timber.d("Error Action: %s", responseAccount.actionError != null ? responseAccount.actionError.getErrors() : "Action Error is null");
 
-            if (responseAccount.code == 422) {
-                Toast.makeText(requireContext(), R.string.universe_account_already_exists, Toast.LENGTH_SHORT).show();
-                if (VersionUtils.isLollipop()) {
-                    setExitTransition(new Fade());
-                }
-
-                navigation.navigateToLogin(Collections.singletonList(
-                        new Pair<>(getString(R.string.transition_logo), ivLogo))
-                );
-            } else {
-                Toast.makeText(requireContext(), R.string.universe_connection_error, Toast.LENGTH_SHORT).show();
-            }
-            pbProgress.setVisibility(View.INVISIBLE);
-        } else {
-            Timber.d("Success!");
-            Timber.d("Account: %s", responseAccount.data);
-            accountViewModel.login(true);
+        if (password.trim().length() < 4) {
+            etPassword.setError(getString(R.string.password_too_short));
+            etPassword.requestFocus();
+            return;
         }
+
+        accountViewModel.loginWith(username, password);
     }
 
     private void beginAnimations() {
