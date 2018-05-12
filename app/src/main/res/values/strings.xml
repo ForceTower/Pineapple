@@ -378,4 +378,5 @@
     <string name="the_universe">UNEVerso</string>
     <string name="unable_to_calculate_mean">NaN - Indisponível</string>
     <string name="a_series_of_question_marks">Disney</string>
+    <string name="you_cant_download_materials_yet">Ainda não é possivel baixar materiais</string>
 </resources>

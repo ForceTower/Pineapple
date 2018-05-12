@@ -11,7 +11,6 @@
         android:paddingBottom="8dp"
         android:clipToPadding="false">
 
-        <include layout="@layout/card_experimental"/>
         <include layout="@layout/card_class_details_grades_situation"/>
         <include layout="@layout/card_class_details_grades_mean"/>
         <include layout="@layout/card_class_details_grades"/>
