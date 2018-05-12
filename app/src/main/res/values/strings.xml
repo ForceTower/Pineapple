@@ -376,4 +376,6 @@
     <string name="universe_login_account_description">Use sua conta do UNEVerso para continuar</string>
     <string name="universe_loading">Carregando</string>
     <string name="the_universe">UNEVerso</string>
+    <string name="unable_to_calculate_mean">NaN - Indisponível</string>
+    <string name="a_series_of_question_marks">Disney</string>
 </resources>

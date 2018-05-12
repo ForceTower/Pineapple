@@ -22,6 +22,7 @@ import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.Discipline;
 import com.forcetower.uefs.db.entity.Grade;
 import com.forcetower.uefs.di.Injectable;
+import com.forcetower.uefs.view.UBaseActivity;
 import com.forcetower.uefs.view.connected.adapters.GradesAdapter;
 import com.forcetower.uefs.vm.base.GradesViewModel;
 
@@ -107,17 +108,24 @@ public class GradesFragment extends Fragment implements Injectable {
             tvSituation.setText(discipline.getSituation() != null ? discipline.getSituation() : getString(R.string.situation_unknown));
 
             String mean = value.second.toString();
-            if (mean.length() > 5) mean = mean.substring(0, 4);
-
-            if (grade.getPartialMeanValue() < 0) {
-                tvPartialMeanLabel.setText(R.string.label_current_mean);
-                tvPartialMeanValue.setText(value.first ? mean : "???");
-                pbMean.setProgress(((int) (value.second * 10)));
+            if (mean.equalsIgnoreCase("NaN")) {
+                tvPartialMeanLabel.setText(R.string.a_series_of_question_marks);
+                tvPartialMeanValue.setText(R.string.unable_to_calculate_mean);
+                UBaseActivity activity = ((UBaseActivity) requireActivity());
+                activity.unlockAchievements(getString(R.string.achievement_surely_disney), activity.mPlayGamesInstance);
             } else {
-                tvPartialMeanLabel.setText(R.string.label_final_mean);
-                String display = grade.getPartialMeanValue() + "";
-                tvPartialMeanValue.setText(display);
-                pbMean.setProgress(((int) (grade.getPartialMeanValue() * 10)));
+                if (mean.length() > 5) mean = mean.substring(0, 4);
+
+                if (grade.getPartialMeanValue() < 0) {
+                    tvPartialMeanLabel.setText(R.string.label_current_mean);
+                    tvPartialMeanValue.setText(value.first ? mean : "???");
+                    pbMean.setProgress(((int) (value.second * 10)));
+                } else {
+                    tvPartialMeanLabel.setText(R.string.label_final_mean);
+                    String display = grade.getPartialMeanValue() + "";
+                    tvPartialMeanValue.setText(display);
+                    pbMean.setProgress(((int) (grade.getPartialMeanValue() * 10)));
+                }
             }
 
             if (grade.getPartialMeanValue() >= 3 && grade.getPartialMeanValue() < 7) {
