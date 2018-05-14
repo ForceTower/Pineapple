@@ -138,7 +138,7 @@ public abstract class FetchClassDetailsResource {
                 String encoded = Base64.encodeToString(jsonObject.toString().getBytes(), Base64.DEFAULT);
                 Timber.i("Encoded: " + encoded);
 
-                connectAndExtract(document, encoded, item.getNumber());
+                connectAndExtract(document, encoded, item.getUid());
             }
             result.postValue(Resource.success(R.string.completed));
         } catch(JSONException e){

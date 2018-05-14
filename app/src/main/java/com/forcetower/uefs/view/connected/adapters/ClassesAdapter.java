@@ -104,7 +104,10 @@ public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ClassHol
 
         private void onClassClicked() {
             int position = getAdapterPosition();
+            DisciplineClassItem classItem = classItems.get(position);
+            canExpand = classItem.getMaterials() != null && classItem.getMaterials().size() > 0;
             Timber.d("Can expand: %s", canExpand);
+            Timber.d("Clicked class id: %d <> Number: %d", classItem.getUid(), classItem.getNumber());
 
             if (canExpand) {
                 if (VersionUtils.isLollipop()) {
@@ -113,7 +116,6 @@ public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ClassHol
                     TransitionManager.beginDelayedTransition(viewRoot);
                     notifyDataSetChanged();
                 } else {
-                    DisciplineClassItem classItem = classItems.get(position);
                     if (classClickListener != null)
                         classClickListener.onClassClicked(classItem, position);
                 }
