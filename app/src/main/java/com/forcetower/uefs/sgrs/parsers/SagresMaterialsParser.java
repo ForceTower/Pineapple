@@ -27,11 +27,24 @@ public class SagresMaterialsParser {
         for (Element element : elements) {
             elementProcessing(element, materials, classId);
         }
+
+        elements = document.select("label[class=\"material_apoio_aula\"]");
+        for (Element element : elements) {
+            elementProcessing(element, materials, classId);
+        }
+
+        elements = document.select("label[class=\"material_apoio_grid_aula\"]");
+        for (Element element : elements) {
+            elementProcessing(element, materials, classId);
+        }
+        
         return materials;
     }
 
     private static void elementProcessing(Element element, List<DisciplineClassMaterialLink> materials, int classId) {
         Element a = element.selectFirst("a");
+        if (a == null) return;
+
         String link = a.attr("href").isEmpty() ? a.attr("href") : a.attr("HREF");
         Timber.d("Link: " + link);
         String name = "Arquivo";
