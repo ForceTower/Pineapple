@@ -26,9 +26,8 @@ import timber.log.Timber;
 public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.MaterialHolder> {
     private final List<DisciplineClassMaterialLink> materials;
     private final Context context;
-    private OnMaterialLinkClickListener onMaterialLinkClickListener;
 
-    public MaterialAdapter(Context context) {
+    MaterialAdapter(Context context) {
         this.context = context;
         this.materials = new ArrayList<>();
     }
@@ -54,10 +53,6 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.Materi
         this.materials.clear();
         this.materials.addAll(materials);
         notifyDataSetChanged();
-    }
-
-    public void setOnMaterialLinkClickListener(OnMaterialLinkClickListener onMaterialLinkClickListener) {
-        this.onMaterialLinkClickListener = onMaterialLinkClickListener;
     }
 
     public class MaterialHolder extends RecyclerView.ViewHolder {

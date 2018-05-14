@@ -58,7 +58,6 @@ public class DisciplineClassesFragment extends Fragment implements Injectable {
 
         Fragment fragment = new DisciplineClassesFragment();
         fragment.setArguments(bundle);
-        //fragment.setEnterTransition(new Fade());
         return fragment;
     }
 
@@ -80,7 +79,6 @@ public class DisciplineClassesFragment extends Fragment implements Injectable {
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         classesAdapter = new ClassesAdapter(requireContext(), new ArrayList<>());
         classesAdapter.setOnClassClickListener(this::onClassClickListener);
-        classesAdapter.setDelegatedMaterialClickListener(this::onMaterialClickListener);
         recyclerView.setAdapter(classesAdapter);
 
 
@@ -92,10 +90,6 @@ public class DisciplineClassesFragment extends Fragment implements Injectable {
         }
 
         return view;
-    }
-
-    private void onMaterialClickListener(DisciplineClassMaterialLink link, int position) {
-        NetworkUtils.openLink(requireContext(), link.getLink());
     }
 
     private void onClassClickListener(DisciplineClassItem classItem, int position) {

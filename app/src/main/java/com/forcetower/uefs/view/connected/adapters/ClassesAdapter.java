@@ -36,7 +36,6 @@ public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ClassHol
     private final RecyclerView.RecycledViewPool recycledViewPool;
     private int exPosition = -1;
     private OnClassClickListener classClickListener;
-    private OnMaterialLinkClickListener materialLinkClickListener;
 
 
     public ClassesAdapter(Context context, List<DisciplineClassItem> classItems) {
@@ -47,10 +46,6 @@ public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ClassHol
 
     public void setOnClassClickListener(OnClassClickListener classClickListener) {
         this.classClickListener = classClickListener;
-    }
-
-    public void setDelegatedMaterialClickListener(OnMaterialLinkClickListener delegatedMaterialClickListener) {
-        this.materialLinkClickListener = delegatedMaterialClickListener;
     }
 
     @NonNull
@@ -131,7 +126,6 @@ public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ClassHol
         }
 
         public void bind(DisciplineClassItem item, int position) {
-            adapter.setOnMaterialLinkClickListener(materialLinkClickListener);
             canExpand = item.getMaterials() != null && item.getMaterials().size() > 0;
             String subject = item.getSubject();
             if (subject == null || subject.trim().isEmpty()) subject = "???";
