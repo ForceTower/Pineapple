@@ -390,4 +390,6 @@
     <string name="materials_download_failed">Falha ao definir aulas</string>
     <string name="select_a_material">Selecione um material</string>
     <string name="you_can_download_materials_yet">É possivel baixar os materiais!</string>
+    <string name="universe_completed">A sua entrada no uneverso foi garantida. Espere mais atualizações</string>
+    <string name="universe_building">Em construção...</string>
 </resources>

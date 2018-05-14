@@ -70,17 +70,7 @@ public class MockUtils {
                 "\n\n" +
                 "Sinto muito, pessoal do iPhone"));
 
-        faq.add(new QuestionAnswer(faq.size(), "Quando vai ter poder baixar os arquivos enviados pelos professores?",
-                "Essa parte eu tô tentando ainda, eu ainda não entendi como é que o Sagres funciona nessa parte direito porque ele não segue um padrão nessa parte.\n" +
-                        "\n" +
-                        "Mas sim, é um recurso que espero conseguir trazer em breve (até pq é só para isso que eu abro o Sagres recentemente, e também na época da matrícula...)\n" +
-                        "\n" +
-                        "Um fato interessante é que eu já consigo mostrar materiais postados de aulas que o usuário falta, mas não consigo das aulas normais..."));
-
-        faq.add(new QuestionAnswer(faq.size(), "O aplicativo é oficial? É algum projeto de pesquisa da UEFS?",
-                "Não! O aplicativo foi totalmente feito por apenas por mim sem nenhum projeto com relação com a universidade\n" +
-                        "\n" +
-                        "Então não é algo oficial da UEFS ou coisa do gênero"));
+        faq.add(new QuestionAnswer(faq.size(), "Quando vai baixar os materiais do sagres?", "Você ja pode!"));
 
         faq.add(new QuestionAnswer(faq.size(), "Como o aplicativo funciona?",
                 "Bem, de tempos em tempos o aplicativo se conecta à sua conta no Sagres baixa as informações e verifica se ocorreu alguma mudança nos dados.\n" +

@@ -47,13 +47,20 @@ public class UniverseWelcomeStartFragment extends Fragment implements Injectable
     public void onFirstStepsClicked() {
         if (VersionUtils.isLollipop()) {
             setExitTransition(new Slide(GravityCompat.getAbsoluteGravity(GravityCompat.START, getResources().getConfiguration().getLayoutDirection())));
-            setAllowEnterTransitionOverlap(false);
-            setAllowReturnTransitionOverlap(true);
         }
 
         navigation.navigateToCreateAccount(Collections.singletonList(
                 new Pair<>(getString(R.string.transition_logo), ivLogo)
         ));
 
+    }
+
+    @OnClick(value = R.id.btn_know_more)
+    public void onKnowMoreClicked() {
+        if (VersionUtils.isLollipop()) {
+            setExitTransition(new Slide(GravityCompat.getAbsoluteGravity(GravityCompat.START, getResources().getConfiguration().getLayoutDirection())));
+        }
+
+        navigation.navigateToKnowMore(requireContext());
     }
 }

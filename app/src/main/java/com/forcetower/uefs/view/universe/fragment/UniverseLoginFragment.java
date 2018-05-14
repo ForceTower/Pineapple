@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.Pair;
 import android.transition.ChangeBounds;
 import android.transition.ChangeImageTransform;
 import android.transition.TransitionManager;
@@ -15,6 +16,7 @@ import android.transition.TransitionSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.db_service.entity.AccessToken;
@@ -26,6 +28,8 @@ import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.universe.UniverseNavigationController;
 import com.forcetower.uefs.vm.UEFSViewModelFactory;
 import com.forcetower.uefs.vm.universe.UAccountViewModel;
+
+import java.util.Collections;
 
 import javax.inject.Inject;
 
@@ -39,6 +43,8 @@ import timber.log.Timber;
  * Created by João Paulo on 12/05/2018.
  */
 public class UniverseLoginFragment extends Fragment implements Injectable {
+    @BindView(R.id.iv_logo)
+    ImageView ivLogo;
     @BindView(R.id.view_root)
     ViewGroup rootContainer;
     @BindView(R.id.ll_animations)
@@ -79,6 +85,9 @@ public class UniverseLoginFragment extends Fragment implements Injectable {
 
         if (tokenResource.status == Status.SUCCESS) {
             Timber.d("Resource Success: Token received!");
+            navigation.navigateToCompleted(Collections.singletonList(
+                    new Pair<>(getString(R.string.transition_logo), ivLogo)
+            ), requireContext());
         } else if (tokenResource.status == Status.ERROR) {
             Timber.d("Resource error code: %d", tokenResource.code);
             Timber.d("Resource error message: %s", tokenResource.message);

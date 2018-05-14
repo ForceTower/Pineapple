@@ -66,7 +66,9 @@ public class UniverseTokenVerifyFragment extends Fragment implements Injectable 
             ));
         } else {
             Timber.d("Has Access Token. Continue to Universe");
-            //TODO Navigate to Connected
+            navigation.navigateToCompleted(Collections.singletonList(
+                    new Pair<>(getString(R.string.transition_logo), ivLogo)
+            ), requireContext());
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.forcetower.uefs.view.universe;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -7,15 +8,21 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.util.Pair;
+import android.support.v4.view.GravityCompat;
+import android.transition.Slide;
+import android.view.Gravity;
 import android.view.View;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.anim.ChangeBoundsTransition;
+import com.forcetower.uefs.db_service.entity.Version;
 import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.universe.fragment.UniverseCreateAccountFragment;
+import com.forcetower.uefs.view.universe.fragment.UniverseKnowAboutFragment;
 import com.forcetower.uefs.view.universe.fragment.UniverseLoginFragment;
 import com.forcetower.uefs.view.universe.fragment.UniverseTokenVerifyFragment;
 import com.forcetower.uefs.view.universe.fragment.UniverseWelcomeStartFragment;
+import com.forcetower.uefs.view.universe.fragment.YouAreReadyFragment;
 
 import java.util.List;
 
@@ -52,12 +59,28 @@ public class UniverseNavigationController {
     public void navigateToCreateAccount(@Nullable List<Pair<String, View>> shared) {
         Fragment fragment = new UniverseCreateAccountFragment();
         fragment.setAllowEnterTransitionOverlap(false);
-        navigateToFragment(fragment, true, "create account", null, shared, true);
+        navigateToFragment(fragment, true, "create account", null, shared, false);
     }
 
     public void navigateToLogin(@Nullable List<Pair<String, View>> shared) {
         Fragment fragment = new UniverseLoginFragment();
-        navigateToFragment(fragment, false, "login account", null, shared, true);
+        navigateToFragment(fragment, false, "login account", null, shared, false);
+    }
+
+    public void navigateToCompleted(@Nullable List<Pair<String, View>> shared, Context context) {
+        Fragment fragment = new YouAreReadyFragment();
+        if (VersionUtils.isLollipop()) {
+            fragment.setEnterTransition(new Slide(GravityCompat.getAbsoluteGravity(GravityCompat.START, context.getResources().getConfiguration().getLayoutDirection())));
+        }
+        navigateToFragment(fragment, false, "ready", null, shared, true);
+    }
+
+    public void navigateToKnowMore(Context context) {
+        Fragment fragment = new UniverseKnowAboutFragment();
+        if (VersionUtils.isLollipop()) {
+            fragment.setEnterTransition(new Slide(GravityCompat.getAbsoluteGravity(GravityCompat.START, context.getResources().getConfiguration().getLayoutDirection())));
+        }
+        navigateToFragment(fragment, true, "ready", null, null, false);
     }
 
     private void navigateToFragment(Fragment fragment) {

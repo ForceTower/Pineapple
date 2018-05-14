@@ -3,27 +3,34 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/white">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="@string/universe_building"
+        android:textAlignment="center"
+        android:textColor="@color/primaryText"
+        android:textSize="16sp"
+        android:fontFamily="@font/roboto_medium"/>
 
     <ImageView
         android:id="@+id/iv_logo"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        app:srcCompat="@drawable/ic_unes_colored"
         android:layout_centerInParent="true"
-        android:transitionName="@string/transition_logo"/>
-
+        android:transitionName="@string/transition_logo"
+        app:srcCompat="@drawable/ic_unes_colored"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:padding="16dp"
-        android:text="@string/universe_loading"
+        android:text="@string/universe_completed"
         android:textColor="@color/primaryText"
-        android:textSize="20sp"
         android:textAlignment="center"
-        android:fontFamily="@font/roboto_medium"/>
+        android:fontFamily="@font/roboto_regular"/>
+
 </RelativeLayout>

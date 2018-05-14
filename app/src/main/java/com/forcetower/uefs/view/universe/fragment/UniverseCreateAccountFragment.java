@@ -89,6 +89,9 @@ public class UniverseCreateAccountFragment extends Fragment implements Injectabl
 
         if (tokenResource.status == Status.SUCCESS) {
             Timber.d("Resource Success: Token received!");
+            navigation.navigateToCompleted(Collections.singletonList(
+                    new Pair<>(getString(R.string.transition_logo), ivLogo)
+            ), requireContext());
         } else if (tokenResource.status == Status.ERROR) {
             Timber.d("Resource error code: %d", tokenResource.code);
             Timber.d("Resource error message: %s", tokenResource.message);
