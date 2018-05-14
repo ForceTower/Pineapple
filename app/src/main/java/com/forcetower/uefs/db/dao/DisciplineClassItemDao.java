@@ -29,7 +29,7 @@ public interface DisciplineClassItemDao {
     DisciplineClassItem getItemFromGroupAndNumberDirect(int groupId, int number);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertClassItem(DisciplineClassItem... classItems);
+    Long insertClassItem(DisciplineClassItem classItems);
 
     @Delete
     void deleteClassItem(DisciplineClassItem classItem);

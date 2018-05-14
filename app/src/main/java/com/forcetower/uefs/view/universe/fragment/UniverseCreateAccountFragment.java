@@ -84,7 +84,18 @@ public class UniverseCreateAccountFragment extends Fragment implements Injectabl
         accountViewModel.getAccessToken().observe(this, this::onAccessTokenReceived);
     }
 
-    private void onLoginProgress(Resource<AccessToken> tokenResource) {}
+    private void onLoginProgress(Resource<AccessToken> tokenResource) {
+        if (tokenResource == null) return;
+
+        if (tokenResource.status == Status.SUCCESS) {
+            Timber.d("Resource Success: Token received!");
+        } else if (tokenResource.status == Status.ERROR) {
+            Timber.d("Resource error code: %d", tokenResource.code);
+            Timber.d("Resource error message: %s", tokenResource.message);
+        } else {
+            Timber.d("Loading resource...");
+        }
+    }
 
     private void onAccessTokenReceived(AccessToken token) {
         if (token != null && token.isValid() && !token.isExpired()) {

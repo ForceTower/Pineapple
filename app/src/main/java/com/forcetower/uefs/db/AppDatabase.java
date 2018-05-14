@@ -8,6 +8,7 @@ import com.forcetower.uefs.db.dao.CalendarEventDao;
 import com.forcetower.uefs.db.dao.CalendarItemDao;
 import com.forcetower.uefs.db.dao.DisciplineClassItemDao;
 import com.forcetower.uefs.db.dao.DisciplineClassLocationDao;
+import com.forcetower.uefs.db.dao.DisciplineClassMaterialLinkDao;
 import com.forcetower.uefs.db.dao.DisciplineDao;
 import com.forcetower.uefs.db.dao.DisciplineGroupDao;
 import com.forcetower.uefs.db.dao.GradeDao;
@@ -23,6 +24,7 @@ import com.forcetower.uefs.db.entity.CalendarItem;
 import com.forcetower.uefs.db.entity.Discipline;
 import com.forcetower.uefs.db.entity.DisciplineClassItem;
 import com.forcetower.uefs.db.entity.DisciplineClassLocation;
+import com.forcetower.uefs.db.entity.DisciplineClassMaterialLink;
 import com.forcetower.uefs.db.entity.DisciplineGroup;
 import com.forcetower.uefs.db.entity.Grade;
 import com.forcetower.uefs.db.entity.GradeInfo;
@@ -47,10 +49,11 @@ import com.forcetower.uefs.db.entity.TodoItem;
         DisciplineGroup.class,
         DisciplineClassItem.class,
         DisciplineClassLocation.class,
+        DisciplineClassMaterialLink.class,
         TodoItem.class,
         Profile.class,
         CalendarEvent.class
-}, version = 3)
+}, version = 4)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract AccessDao accessDao();
     public abstract CalendarItemDao calendarItemDao();
@@ -63,6 +66,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract DisciplineGroupDao disciplineGroupDao();
     public abstract DisciplineClassItemDao disciplineClassItemDao();
     public abstract DisciplineClassLocationDao disciplineClassLocationDao();
+    public abstract DisciplineClassMaterialLinkDao disciplineClassMaterialLinkDao();
     public abstract TodoItemDao todoItemDao();
     public abstract ProfileDao profileDao();
     public abstract CalendarEventDao calendarEventDao();

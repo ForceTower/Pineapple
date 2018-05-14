@@ -112,7 +112,7 @@ public class SagresDisciplineDetailsParser {
             Elements tds = tr.select("td");
             if (!tds.isEmpty()) {
                 DisciplineClassItem classItem = getFromTDs(tds);
-                if (classItem != null) items.add(classItem);
+                items.add(classItem);
             }
         }
 
@@ -128,10 +128,19 @@ public class SagresDisciplineDetailsParser {
             String strMaterials = tds.get(5).text();
             int number = toInteger(strNumber, -1);
             int materials = toInteger(strMaterials, -1);
-            return new DisciplineClassItem(0, number, situation, description, date, materials);
+
+            //Download Material section
+            Element element = tds.get(5);
+            element = element.selectFirst("a");
+            String href = element.attr("HREF");
+            if (href.isEmpty()) href = element.attr("href");
+            String link = (href.startsWith("link?") ? href.substring(5): href);
+            return new DisciplineClassItem(0, number, situation, description, date, materials, link);
         } catch (Exception e) {
             e.printStackTrace();
+            //I wanna know if this happen
+            throw e;
         }
-        return null;
+        //return null;
     }
 }

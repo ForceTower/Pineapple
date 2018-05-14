@@ -1,5 +1,7 @@
 package com.forcetower.uefs.rep.helper;
 
+import android.support.annotation.NonNull;
+
 import com.forcetower.uefs.Constants;
 
 import org.jsoup.nodes.Document;
@@ -7,7 +9,9 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.FormBody;
 import okhttp3.Request;
@@ -160,5 +164,40 @@ public class RequestCreator {
 
     public static Request makeRequestForURL(String url) {
         return new Request.Builder().url(url).build();
+    }
+
+    public static FormBody.Builder makeFormBodyForDisciplineDetails(@NonNull Document document, @NonNull String encoded) {
+        FormBody.Builder builderIn = new FormBody.Builder();
+
+        HashMap<String, String> values = new HashMap<>();
+        values.put("ctl00$MasterPlaceHolder$RowsPerPage1$ddMostrar", "0");
+
+        Elements elements = document.select("input[value][type=\"hidden\"]");
+
+        for (Element elementIn : elements) {
+            String id = elementIn.attr("id");
+            String val = elementIn.attr("value");
+            values.put(id, val);
+        }
+
+        values.put("__aspnetForm_ClientStateInput", encoded);
+        values.put("ctl00$smpManager", "ctl00$MasterPlaceHolder$UpdatePanel1|ctl00$MasterPlaceHolder$pvMaterialApoio");
+        values.put("_ajax_ctl00_MasterPlaceHolder_dwForm_context", "(objctl00_MasterPlaceHolder_dwForm 0)(21890 )((currentrow 0)(sortString '?'))");
+        values.put("_ajax_ctl00_MasterPlaceHolder_dwForm_client", "(scrollbar 0 0)");
+        values.put("_ajax_ctl00_MasterPlaceHolder_ucPopupConsultaMaterialApoio_dwForm_context", "(objctl00_MasterPlaceHolder_ucPopupConsultaMaterialApoio_dwForm 0)(22022 )((sortString 'anx_ds_anexo A'))");
+        values.put("_ajax_ctl00_MasterPlaceHolder_ucPopupConsultaMaterialApoio_dwForm_client", "(scrollbar 0 0)");
+        values.put("__EVENTTARGET", "ctl00$MasterPlaceHolder$pvMaterialApoio");
+        values.put("__EVENTARGUMENT", "true");
+        values.put("__ctl00_MasterPlaceHolder_pvMaterialApoio_ClientStateInput", "eyJfcmVhbFR5cGUiOnRydWUsInNob3ckX2luc2VydE5ld1JvdyI6ZmFsc2V9");
+        values.put("__ctl00_MasterPlaceHolder_ucPopupConsultaMaterialApoio_ClientStateInput", "eyJfcmVhbFR5cGUiOnRydWV9");
+        values.put("__ctl00_MasterPlaceHolder_ucPopupConsultaPlanoAula_PopupView1_ClientStateInput", "eyJfcmVhbFR5cGUiOnRydWV9");
+        values.put("ctl00$HeaderPlaceHolder$ucCabecalhoClasse$PainelRetratil1_ClientState", "true");
+        values.put("__ASYNCPOST", "false");
+
+        for (Map.Entry<String, String> value : values.entrySet()) {
+            builderIn.add(value.getKey(), value.getValue());
+        }
+
+        return builderIn;
     }
 }

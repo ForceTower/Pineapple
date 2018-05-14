@@ -26,4 +26,13 @@ public class DatabaseMigrations {
             database.execSQL("CREATE TABLE IF NOT EXISTS `CalendarEvent` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `calendar_id` TEXT, `event_id` TEXT, `semester` TEXT)");
         }
     };
+
+    public static final Migration MIGRATION_3_4 = new Migration(3, 4) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            Timber.d("Executing migration 3 -> 4");
+            database.execSQL("ALTER TABLE DisciplineClassItem ADD COLUMN class_material_link TEXT");
+            database.execSQL("CREATE TABLE IF NOT EXISTS `DisciplineClassMaterialLink` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `class_id` INTEGER NOT NULL, `name` TEXT, `link` TEXT)");
+        }
+    };
 }

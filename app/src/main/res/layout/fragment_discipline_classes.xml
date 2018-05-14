@@ -11,7 +11,7 @@
         android:id="@+id/dev_thing"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/you_cant_download_materials_yet"
+        android:text="@string/you_can_download_materials_yet"
         android:textAlignment="center"
         android:textColor="@color/primaryText"
         android:padding="12dp"/>

@@ -6,10 +6,12 @@ import android.arch.lifecycle.ViewModel;
 import android.support.v4.util.Pair;
 
 import com.forcetower.uefs.db.dao.DisciplineClassItemDao;
+import com.forcetower.uefs.db.dao.DisciplineClassMaterialLinkDao;
 import com.forcetower.uefs.db.dao.DisciplineDao;
 import com.forcetower.uefs.db.dao.DisciplineGroupDao;
 import com.forcetower.uefs.db.entity.Discipline;
 import com.forcetower.uefs.db.entity.DisciplineClassItem;
+import com.forcetower.uefs.db.entity.DisciplineClassMaterialLink;
 import com.forcetower.uefs.db.entity.DisciplineGroup;
 import com.forcetower.uefs.rep.sgrs.DisciplinesRepository;
 import com.forcetower.uefs.rep.helper.Resource;
@@ -30,6 +32,7 @@ public class DisciplinesViewModel extends ViewModel {
     private final DisciplineGroupDao groupDao;
     private final DisciplineClassItemDao itemDao;
     private final DisciplinesRepository repository;
+    private final DisciplineClassMaterialLinkDao materialLinkDao;
 
     private LiveData<List<Discipline>> allDisciplines;
 
@@ -45,12 +48,14 @@ public class DisciplinesViewModel extends ViewModel {
 
     @Inject
     DisciplinesViewModel(DisciplineDao disciplineDao, DisciplineGroupDao groupDao,
-                         DisciplinesRepository repository, DisciplineClassItemDao itemDao) {
+                         DisciplinesRepository repository, DisciplineClassItemDao itemDao,
+                         DisciplineClassMaterialLinkDao materialLinkDao) {
         this.disciplineDao = disciplineDao;
         this.groupDao = groupDao;
         this.mediatorAssociative = new MediatorLiveData<>();
         this.repository = repository;
         this.itemDao = itemDao;
+        this.materialLinkDao = materialLinkDao;
         this.fetchDetails = new MediatorLiveData<>();
     }
 
@@ -138,5 +143,9 @@ public class DisciplinesViewModel extends ViewModel {
 
     public void restoreGroup(int groupId) {
         repository.restoreGroup(groupId);
+    }
+
+    public List<DisciplineClassMaterialLink> getClassMaterialsDirect(int classId) {
+        return materialLinkDao.getMaterialsFromClassDirect(classId);
     }
 }

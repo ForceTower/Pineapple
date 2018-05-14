@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.DisciplineClassItem;
+import com.forcetower.uefs.view.connected.OnClassClickListener;
 
 import java.util.List;
 
@@ -26,10 +27,15 @@ import timber.log.Timber;
 public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ClassHolder> {
     private final Context context;
     private final List<DisciplineClassItem> classItems;
+    private OnClassClickListener classClickListener;
 
     public ClassesAdapter(Context context, List<DisciplineClassItem> classItems) {
         this.context = context;
         this.classItems = classItems;
+    }
+
+    public void setOnClassClickListener(OnClassClickListener classClickListener) {
+        this.classClickListener = classClickListener;
     }
 
     @NonNull
@@ -71,7 +77,15 @@ public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ClassHol
 
         ClassHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(v -> onClassClicked());
             ButterKnife.bind(this, itemView);
+        }
+
+        private void onClassClicked() {
+            int position = getAdapterPosition();
+            DisciplineClassItem classItem = classItems.get(position);
+            if (classClickListener != null)
+                classClickListener.onClassClicked(classItem, position);
         }
 
         public void bind(DisciplineClassItem item) {

@@ -8,18 +8,22 @@ import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.AppDatabase;
 import com.forcetower.uefs.db.dao.DisciplineClassItemDao;
+import com.forcetower.uefs.db.dao.DisciplineClassMaterialLinkDao;
 import com.forcetower.uefs.db.dao.DisciplineDao;
 import com.forcetower.uefs.db.dao.DisciplineGroupDao;
 import com.forcetower.uefs.db.entity.Access;
 import com.forcetower.uefs.db.entity.Discipline;
 import com.forcetower.uefs.db.entity.DisciplineClassItem;
+import com.forcetower.uefs.db.entity.DisciplineClassMaterialLink;
 import com.forcetower.uefs.db.entity.DisciplineGroup;
+import com.forcetower.uefs.rep.helper.RequestCreator;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
 import com.forcetower.uefs.rep.resources.FetchAllDataResource;
 import com.forcetower.uefs.rep.resources.FetchClassDetailsResource;
 import com.forcetower.uefs.sgrs.SagresResponse;
 import com.forcetower.uefs.sgrs.parsers.SagresDisciplineDetailsParser;
+import com.forcetower.uefs.sgrs.parsers.SagresMaterialsParser;
 
 import org.jsoup.nodes.Document;
 
@@ -41,6 +45,7 @@ import timber.log.Timber;
 import static com.forcetower.uefs.rep.helper.RequestCreator.makeApprovalRequest;
 import static com.forcetower.uefs.rep.helper.RequestCreator.makeApprovalRequestBody;
 import static com.forcetower.uefs.rep.helper.RequestCreator.makeFormBodyForClassDetails;
+import static com.forcetower.uefs.rep.helper.RequestCreator.makeFormBodyForDisciplineDetails;
 import static com.forcetower.uefs.rep.helper.RequestCreator.makeLoginRequest;
 import static com.forcetower.uefs.rep.helper.RequestCreator.makePostStudentPage;
 import static com.forcetower.uefs.rep.helper.RequestCreator.makeRequestBody;
@@ -106,16 +111,18 @@ public class DisciplinesRepository {
         LiveData<Resource<Integer>> fetch = new FetchClassDetailsResource(executors, semester, code, group, document) {
 
             @Override
-            protected void saveResult(@NonNull Document document) {
+            protected List<DisciplineClassItem> saveResult(@NonNull Document document) {
                 document.charset(Charset.forName("ISO-8859-1"));
                 DisciplineGroup disciplineGroup = SagresDisciplineDetailsParser.parseDisciplineGroup(document);
                 int groupId = defineGroup(disciplineGroup).intValue();
                 if (groupId < 0) {
                     Timber.d("Failed on insertion because of reasons...");
+                    return null;
                 } else {
                     List<DisciplineClassItem> items = SagresDisciplineDetailsParser.parseDisciplineClassItems(document);
                     Timber.d("Group id %d will receive %d class items", groupId, items.size());
                     defineItems(items, groupId);
+                    return items;
                 }
             }
 
@@ -132,6 +139,21 @@ public class DisciplinesRepository {
                 Timber.d("Making request for class details");
                 document.charset(Charset.forName("ISO-8859-1"));
                 FormBody.Builder builder = makeFormBodyForClassDetails(document);
+                Request request = makeRequestClassDetails(builder);
+                return client.newCall(request);
+            }
+
+            @Override
+            protected void extractMaterials(@NonNull Document document, int classId) {
+                document.charset(Charset.forName("ISO-8859-1"));
+                List<DisciplineClassMaterialLink> materials = SagresMaterialsParser.getMaterials(document, classId);
+                defineMaterials(materials);
+            }
+
+            @Override
+            protected Call createMaterialsCall(@NonNull Document document, @NonNull String encoded, int classId) {
+                Timber.d("Making request for material download");
+                FormBody.Builder builder = makeFormBodyForDisciplineDetails(document, encoded);
                 Request request = makeRequestClassDetails(builder);
                 return client.newCall(request);
             }
@@ -212,7 +234,7 @@ public class DisciplinesRepository {
             Timber.d("This is probably a parse fail, so nothing will be changed :)");
             return;
         } else {
-            List<DisciplineClassItem> insertion = new ArrayList<>();
+            //List<DisciplineClassItem> insertion = new ArrayList<>();
             for (DisciplineClassItem item : items) {
                 if (item.getNumber() == -1) {
                     Timber.d("This is a parse error class number, it will be skipped, subject: %s", item.getSubject());
@@ -224,17 +246,47 @@ public class DisciplinesRepository {
                 if (current == null) {
                     current = item;
                     Timber.d("Item %d will be created", item.getNumber());
+                    Long uid = itemDao.insertClassItem(current);
+                    item.setUid(uid.intValue());
                 } else {
                     Timber.d("Item %d will be updated", item.getNumber());
                     current.selectiveCopy(item);
+                    Long uid = itemDao.insertClassItem(current);
+                    item.setUid(uid.intValue());
                 }
-                insertion.add(current);
+                //insertion.add(current);
             }
-
+            /*
             DisciplineClassItem[] insert = new DisciplineClassItem[insertion.size()];
             insertion.toArray(insert);
             itemDao.insertClassItem(insert);
+            */
         }
+    }
+
+    private void defineMaterials(List<DisciplineClassMaterialLink> materials) {
+        DisciplineClassMaterialLinkDao materialLinkDao = database.disciplineClassMaterialLinkDao();
+        List<DisciplineClassMaterialLink> insertion = new ArrayList<>();
+
+        for (DisciplineClassMaterialLink link : materials) {
+            DisciplineClassMaterialLink current;
+            List<DisciplineClassMaterialLink> currentList = materialLinkDao.getMaterialsFromClassDirect(link.getClassId());
+            if (currentList.contains(link)) {
+                Timber.d("Link %s - %s will be updated", link.getName(), link.getLink());
+                current = currentList.get(currentList.indexOf(link));
+                current.selectiveCopy(link);
+            } else {
+                Timber.d("Link %s - %s will be created", link.getName(), link.getLink());
+                current = link;
+            }
+
+            insertion.add(current);
+        }
+
+        DisciplineClassMaterialLink[] insert = new DisciplineClassMaterialLink[insertion.size()];
+        insertion.toArray(insert);
+        materialLinkDao.insert(insert);
+        Timber.d("Links inserted");
     }
 
     private Long defineGroup(DisciplineGroup created) {
@@ -301,97 +353,4 @@ public class DisciplinesRepository {
     public void restoreGroup(int groupId) {
         executors.others().execute(() -> database.disciplineGroupDao().restoreGroup(groupId));
     }
-
-    /*
-    private void defineGroup(Document document, String classSemester, String classCode, String classGroup) {
-        DisciplineDao disciplineDao = database.disciplineDao();
-        DisciplineGroupDao groupDao = database.disciplineGroupDao();
-        Discipline discipline = disciplineDao.getDisciplinesBySemesterAndCodeDirect(classSemester, classCode);
-        if (discipline == null) {
-            Timber.e("It's a real shame that the discipline %s in semester %s doesn't exists in database... Canceling details request", classCode, classSemester);
-            return;
-        }
-
-        Element elementName = document.selectFirst("h2[class=\"cabecalho-titulo\"]");
-        String classNameFull = elementName.text();
-
-        int codePos = classNameFull.indexOf("-");
-        String code = classNameFull.substring(0, codePos).trim();
-        int groupPos = classNameFull.lastIndexOf("(");
-        String group = classNameFull.substring(groupPos);
-        int refGroupPos = group.lastIndexOf("-");
-        String refGroup = group.substring(refGroupPos + 1, group.length() - 1).trim();
-        String name = classNameFull.substring(codePos + 1, groupPos).trim();
-        String teacher = "";
-        Element elementTeacher = document.selectFirst("div[class=\"cabecalho-dado nome-capitalizars\"]");
-        if (elementTeacher != null) {
-            elementTeacher = elementTeacher.selectFirst("span");
-            if (elementTeacher != null) teacher = WordUtils.toTitleCase(elementTeacher.text());
-        }
-
-        DisciplineGroup created = new DisciplineGroup(discipline.getUid(), teacher, group, 0, 0,null, null);
-
-        String semesterByName = null;
-        String classCredits = "0";
-        String missLimits = "0";
-        String classPeriod = null;
-        String department = null;
-
-        for (Element element : document.select("div[class=\"cabecalho-dado\"]")) {
-            Element b = element.child(0);
-            String bText = b.text();
-            if (bText.equalsIgnoreCase("Período:")) {
-                semesterByName = element.child(1).text();
-            }
-
-            else if (bText.equalsIgnoreCase("Carga horária:") && classCredits.isEmpty()) {
-                classCredits = element.child(1).text();
-                classCredits = classCredits.replaceAll("[^\\d]", "").trim();
-            }
-
-            else if (bText.equalsIgnoreCase("Limite de Faltas:")) {
-                missLimits = element.child(1).text();
-                missLimits = missLimits.replaceAll("[^\\d]", "").trim();
-            }
-
-            else if (bText.equalsIgnoreCase("Período de aulas:")) {
-                classPeriod = element.selectFirst("span").text();
-            }
-
-            else if (bText.equalsIgnoreCase("Departamento:")) {
-                department = WordUtils.toTitleCase(element.child(1).text());
-            }
-
-            else if (bText.equalsIgnoreCase("Horário:")) {
-                for (Element classTime : element.select("div[class=\"cabecalho-horario\"]")) {
-                    String day = classTime.child(0).text();
-                    String start = classTime.child(1).text();
-                    String end = classTime.child(3).text();
-                }
-            }
-        }
-
-        created.setDepartment(department);
-        created.setClassPeriod(classPeriod);
-        try {
-            int credits = Integer.parseInt(classCredits);
-            created.setCredits(credits);
-            int maxMiss = Integer.parseInt(missLimits);
-            created.setMissLimit(maxMiss);
-        } catch (Exception e) {
-            Timber.d("Exception in parse int for numbers");
-        }
-
-        DisciplineGroup current = groupDao.getDisciplineGroupByDisciplineIdAndGroupName(discipline.getUid(), classGroup);
-        if (current == null) {
-            Timber.d("A group didn't exist before... Thinking...");
-            current = created;
-        } else {
-            Timber.d("Updating existing group...");
-            current.selectiveCopy(created);
-        }
-        current.setDraft(false);
-        groupDao.insertDisciplineGroup(current);
-    }
-    */
 }

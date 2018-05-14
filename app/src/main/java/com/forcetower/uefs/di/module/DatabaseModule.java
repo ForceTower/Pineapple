@@ -6,6 +6,7 @@ import com.forcetower.uefs.db.dao.CalendarEventDao;
 import com.forcetower.uefs.db.dao.CalendarItemDao;
 import com.forcetower.uefs.db.dao.DisciplineClassItemDao;
 import com.forcetower.uefs.db.dao.DisciplineClassLocationDao;
+import com.forcetower.uefs.db.dao.DisciplineClassMaterialLinkDao;
 import com.forcetower.uefs.db.dao.DisciplineDao;
 import com.forcetower.uefs.db.dao.DisciplineGroupDao;
 import com.forcetower.uefs.db.dao.GradeDao;
@@ -109,5 +110,11 @@ public class DatabaseModule {
     @Provides
     CalendarEventDao provideCalendarEventDao(AppDatabase database) {
         return database.calendarEventDao();
+    }
+
+    @Provides
+    @Singleton
+    DisciplineClassMaterialLinkDao provideDisciplineClassMaterialLinkDao(AppDatabase database) {
+        return database.disciplineClassMaterialLinkDao();
     }
 }

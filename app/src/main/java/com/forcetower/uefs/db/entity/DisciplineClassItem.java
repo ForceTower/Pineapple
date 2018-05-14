@@ -23,14 +23,17 @@ public class DisciplineClassItem {
     private String date;
     @ColumnInfo(name = "number_of_materials")
     private int numberOfMaterials;
+    @ColumnInfo(name = "class_material_link")
+    private String classMaterialLink;
 
-    public DisciplineClassItem(int groupId, int number, String situation, String subject, String date, int numberOfMaterials) {
+    public DisciplineClassItem(int groupId, int number, String situation, String subject, String date, int numberOfMaterials, String classMaterialLink) {
         this.groupId = groupId;
         this.number = number;
         this.situation = situation;
         this.subject = subject;
         this.date = date;
         this.numberOfMaterials = numberOfMaterials;
+        this.classMaterialLink = classMaterialLink;
     }
 
     public int getUid() {
@@ -94,5 +97,14 @@ public class DisciplineClassItem {
         if (validString(other.situation) || situation == null)  situation   = other.situation;
         if (validString(other.date)      || date == null)       date        = other.date;
         if (other.numberOfMaterials != -1) numberOfMaterials = other.numberOfMaterials;
+        if (validString(other.classMaterialLink) || classMaterialLink == null) classMaterialLink = other.classMaterialLink;
+    }
+
+    public String getClassMaterialLink() {
+        return classMaterialLink;
+    }
+
+    public void setClassMaterialLink(String classMaterialLink) {
+        this.classMaterialLink = classMaterialLink;
     }
 }

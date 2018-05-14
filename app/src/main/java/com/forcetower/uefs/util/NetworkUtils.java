@@ -47,7 +47,7 @@ public class NetworkUtils {
 
     public static void openLink(Context context, String url) {
         if (url == null) return;
-/*
+
         if (!url.startsWith("http://")
                 && !url.startsWith("HTTP://")
                 && !url.startsWith("HTTPS://")
@@ -55,7 +55,7 @@ public class NetworkUtils {
                 && !url.contains("//")) {
             url = "http://" + url;
         }
-*/
+
         try {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse(url));

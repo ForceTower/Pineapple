@@ -387,4 +387,7 @@
     <string name="universe_account_already_exists">A conta ja foi criada, faça login</string>
     <string name="universe_connection_error">Erro ao criar conta...</string>
     <string name="universe_login_btn">Login</string>
+    <string name="materials_download_failed">Falha ao definir aulas</string>
+    <string name="select_a_material">Selecione um material</string>
+    <string name="you_can_download_materials_yet">É possivel baixar os materiais!</string>
 </resources>
