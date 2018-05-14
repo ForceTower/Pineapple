@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.forcetower.uefs.view.connected.fragments.DisciplineClassesFragment">
+    tools:context="com.forcetower.uefs.view.connected.fragments.DisciplineClassesFragment"
+    android:animateLayoutChanges="true">
 
     <TextView
         android:id="@+id/dev_thing"

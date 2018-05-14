@@ -132,7 +132,7 @@ public class DisciplinesViewModel extends ViewModel {
 
     public LiveData<List<DisciplineClassItem>> getDisciplineItems(int groupId) {
         if (classItemsLiveData == null) {
-            classItemsLiveData = itemDao.getDisciplineClassItemsFromGroup(groupId);
+            classItemsLiveData = repository.getClassesWithMaterials(groupId);
         }
         return classItemsLiveData;
     }

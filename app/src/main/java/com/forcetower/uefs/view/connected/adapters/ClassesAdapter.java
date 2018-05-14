@@ -2,16 +2,20 @@ package com.forcetower.uefs.view.connected.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.DisciplineClassItem;
+import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.connected.OnClassClickListener;
 
 import java.util.List;
@@ -27,11 +31,14 @@ import timber.log.Timber;
 public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ClassHolder> {
     private final Context context;
     private final List<DisciplineClassItem> classItems;
+    private final RecyclerView.RecycledViewPool recycledViewPool;
+    private int exPosition = -1;
     private OnClassClickListener classClickListener;
 
     public ClassesAdapter(Context context, List<DisciplineClassItem> classItems) {
         this.context = context;
         this.classItems = classItems;
+        this.recycledViewPool = new RecyclerView.RecycledViewPool();
     }
 
     public void setOnClassClickListener(OnClassClickListener classClickListener) {
@@ -47,7 +54,7 @@ public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ClassHol
 
     @Override
     public void onBindViewHolder(@NonNull ClassHolder holder, int position) {
-        holder.bind(classItems.get(position));
+        holder.bind(classItems.get(position), position);
     }
 
     @Override
@@ -62,6 +69,8 @@ public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ClassHol
     }
 
     class ClassHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.view_root)
+        ViewGroup viewRoot;
         @BindView(R.id.tv_class_subject)
         TextView tv_class_subject;
         @BindView(R.id.tv_class_situation)
@@ -74,21 +83,45 @@ public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ClassHol
         ImageView iv_class_situation;
         @BindView(R.id.ll_information)
         LinearLayout ll_information;
+        @BindView(R.id.rl_expanded)
+        RelativeLayout rlExpansion;
+
+        @BindView(R.id.rv_support_material)
+        RecyclerView rvSupportMaterial;
+        private MaterialAdapter adapter;
+
+        private boolean canExpand = true;
 
         ClassHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(v -> onClassClicked());
             ButterKnife.bind(this, itemView);
+            rvSupportMaterial.setRecycledViewPool(recycledViewPool);
+            adapter = new MaterialAdapter(context);
+            rvSupportMaterial.setAdapter(adapter);
+            rvSupportMaterial.setLayoutManager(new LinearLayoutManager(context));
         }
 
         private void onClassClicked() {
             int position = getAdapterPosition();
-            DisciplineClassItem classItem = classItems.get(position);
-            if (classClickListener != null)
-                classClickListener.onClassClicked(classItem, position);
+            Timber.d("Can expand: %s", canExpand);
+
+            if (canExpand) {
+                if (VersionUtils.isLollipop()) {
+                    boolean isExpanded = position == exPosition;
+                    exPosition = isExpanded ? -1 : position;
+                    TransitionManager.beginDelayedTransition(viewRoot);
+                    notifyDataSetChanged();
+                } else {
+                    DisciplineClassItem classItem = classItems.get(position);
+                    if (classClickListener != null)
+                        classClickListener.onClassClicked(classItem, position);
+                }
+            }
         }
 
-        public void bind(DisciplineClassItem item) {
+        public void bind(DisciplineClassItem item, int position) {
+            canExpand = item.getMaterials() != null && item.getMaterials().size() > 0;
             String subject = item.getSubject();
             if (subject == null || subject.trim().isEmpty()) subject = "???";
 
@@ -125,6 +158,13 @@ public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ClassHol
                 ll_information.setVisibility(View.GONE);
             } else {
                 ll_information.setVisibility(View.VISIBLE);
+            }
+
+            adapter.setMaterials(item.getMaterials());
+
+            if (VersionUtils.isLollipop()) {
+                boolean isExpanded = exPosition == position;
+                rlExpansion.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
             }
         }
     }

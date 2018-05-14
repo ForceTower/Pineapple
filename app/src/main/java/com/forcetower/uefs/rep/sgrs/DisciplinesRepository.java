@@ -353,4 +353,21 @@ public class DisciplinesRepository {
     public void restoreGroup(int groupId) {
         executors.others().execute(() -> database.disciplineGroupDao().restoreGroup(groupId));
     }
+
+    public LiveData<List<DisciplineClassItem>> getClassesWithMaterials(int groupId) {
+        MediatorLiveData<List<DisciplineClassItem>> result = new MediatorLiveData<>();
+        LiveData<List<DisciplineClassItem>> classesSrc = database.disciplineClassItemDao().getDisciplineClassItemsFromGroup(groupId);
+        result.addSource(classesSrc, classesList -> {
+            result.removeSource(classesSrc);
+            executors.diskIO().execute(() -> {
+                //noinspection ConstantConditions
+                for (DisciplineClassItem item : classesList) {
+                    List<DisciplineClassMaterialLink> materials = database.disciplineClassMaterialLinkDao().getMaterialsFromClassDirect(item.getUid());
+                    item.setMaterials(materials);
+                }
+                result.postValue(classesList);
+            });
+        });
+        return result;
+    }
 }

@@ -3,7 +3,10 @@ package com.forcetower.uefs.db.entity;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+
+import java.util.List;
 
 import static android.arch.persistence.room.ForeignKey.CASCADE;
 import static com.forcetower.uefs.util.WordUtils.validString;
@@ -25,6 +28,8 @@ public class DisciplineClassItem {
     private int numberOfMaterials;
     @ColumnInfo(name = "class_material_link")
     private String classMaterialLink;
+    @Ignore
+    private List<DisciplineClassMaterialLink> materials;
 
     public DisciplineClassItem(int groupId, int number, String situation, String subject, String date, int numberOfMaterials, String classMaterialLink) {
         this.groupId = groupId;
@@ -106,5 +111,13 @@ public class DisciplineClassItem {
 
     public void setClassMaterialLink(String classMaterialLink) {
         this.classMaterialLink = classMaterialLink;
+    }
+
+    public List<DisciplineClassMaterialLink> getMaterials() {
+        return materials;
+    }
+
+    public void setMaterials(List<DisciplineClassMaterialLink> materials) {
+        this.materials = materials;
     }
 }
