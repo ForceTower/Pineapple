@@ -122,6 +122,11 @@ public class UniverseLoginFragment extends Fragment implements Injectable {
         accountViewModel.loginWith(username, password);
     }
 
+    @OnClick(value = R.id.btn_cancel)
+    public void onCancelClick() {
+        requireActivity().onBackPressed();
+    }
+
     private void beginAnimations() {
         if (!VersionUtils.isLollipop()) {
             llAnimation.setVisibility(View.VISIBLE);

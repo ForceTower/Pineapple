@@ -182,6 +182,7 @@
             tools:ignore="RelativeOverlap"/>
 
         <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_cancel"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_marginLeft="16dp"
