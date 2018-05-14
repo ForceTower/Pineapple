@@ -10,12 +10,15 @@ import android.widget.TextView;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.DisciplineClassMaterialLink;
+import com.forcetower.uefs.util.NetworkUtils;
+import com.forcetower.uefs.view.connected.OnMaterialLinkClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 /**
  * Created by João Paulo on 14/05/2018.
@@ -23,6 +26,7 @@ import butterknife.ButterKnife;
 public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.MaterialHolder> {
     private final List<DisciplineClassMaterialLink> materials;
     private final Context context;
+    private OnMaterialLinkClickListener onMaterialLinkClickListener;
 
     public MaterialAdapter(Context context) {
         this.context = context;
@@ -52,17 +56,32 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.Materi
         notifyDataSetChanged();
     }
 
+    public void setOnMaterialLinkClickListener(OnMaterialLinkClickListener onMaterialLinkClickListener) {
+        this.onMaterialLinkClickListener = onMaterialLinkClickListener;
+    }
+
     public class MaterialHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_material_name)
         TextView tvMaterialName;
+        private String link;
 
         MaterialHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(v -> onItemClick());
+        }
+
+        private void onItemClick() {
+            NetworkUtils.openLink(context, link);
+            /*int position = getAdapterPosition();
+            Timber.d("Position clicked %d", position);
+            if (onMaterialLinkClickListener != null)
+                onMaterialLinkClickListener.onMaterialLinkClick(materials.get(position), position);*/
         }
 
         public void bind(DisciplineClassMaterialLink material) {
             tvMaterialName.setText(material.getName());
+            link = material.getLink();
         }
     }
 }

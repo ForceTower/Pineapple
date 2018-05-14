@@ -15,8 +15,10 @@ import android.widget.TextView;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.DisciplineClassItem;
+import com.forcetower.uefs.db.entity.DisciplineClassMaterialLink;
 import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.connected.OnClassClickListener;
+import com.forcetower.uefs.view.connected.OnMaterialLinkClickListener;
 
 import java.util.List;
 
@@ -34,6 +36,8 @@ public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ClassHol
     private final RecyclerView.RecycledViewPool recycledViewPool;
     private int exPosition = -1;
     private OnClassClickListener classClickListener;
+    private OnMaterialLinkClickListener materialLinkClickListener;
+
 
     public ClassesAdapter(Context context, List<DisciplineClassItem> classItems) {
         this.context = context;
@@ -43,6 +47,10 @@ public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ClassHol
 
     public void setOnClassClickListener(OnClassClickListener classClickListener) {
         this.classClickListener = classClickListener;
+    }
+
+    public void setDelegatedMaterialClickListener(OnMaterialLinkClickListener delegatedMaterialClickListener) {
+        this.materialLinkClickListener = delegatedMaterialClickListener;
     }
 
     @NonNull
@@ -123,6 +131,7 @@ public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ClassHol
         }
 
         public void bind(DisciplineClassItem item, int position) {
+            adapter.setOnMaterialLinkClickListener(materialLinkClickListener);
             canExpand = item.getMaterials() != null && item.getMaterials().size() > 0;
             String subject = item.getSubject();
             if (subject == null || subject.trim().isEmpty()) subject = "???";
