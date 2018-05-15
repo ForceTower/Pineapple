@@ -173,8 +173,9 @@ public class AchievementsViewModel extends ViewModel {
             if (discipline.getMissedClasses() == 0)
                 unlocked.put(R.string.achievement_always_there, -1);
 
-            if (discipline.getSituation() != null && (discipline.getSituation().equalsIgnoreCase("Reprovado por Falta")
-                    || discipline.getCredits()/4 >= discipline.getMissedClasses())) {
+            if (discipline.getSituation() != null && discipline.getCredits() > 0 &&
+                    (discipline.getSituation().equalsIgnoreCase("Reprovado por Falta")
+                    || discipline.getCredits()/4 <= discipline.getMissedClasses())) {
                 unlocked.put(R.string.achievement_i_have_never_seen, -1);
             }
 
