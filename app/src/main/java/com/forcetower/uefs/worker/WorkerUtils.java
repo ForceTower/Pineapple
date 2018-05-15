@@ -22,7 +22,7 @@ public class WorkerUtils {
     public static void setupSagresSync(Context context, int frequency) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         int diffFreq = preferences.getInt("sagres_sync_worker_frequency", -1);
-        boolean conf = preferences.getBoolean("sagres_sync_worker_configured", false);
+        boolean conf = preferences.getBoolean("sagres_sync_worker_configured_R", false);
         Timber.d("%s condition", frequency == -1 || (conf && diffFreq == frequency));
         Timber.d("Frequency: %d", frequency);
         Timber.d("Configured: %s", conf);
@@ -47,7 +47,7 @@ public class WorkerUtils {
 
         WorkManager.getInstance().enqueue(sagresSyncWorker);
         preferences.edit()
-                .putBoolean("sagres_sync_worker_configured", true)
+                .putBoolean("sagres_sync_worker_configured_R", true)
                 .putInt("sagres_sync_worker_frequency", frequency)
                 .apply();
     }
@@ -56,7 +56,7 @@ public class WorkerUtils {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         Timber.d("Configuration erased");
         WorkManager.getInstance().cancelAllWorkByTag(Constants.WORKER_SYNC_SAGRES_NAME);
-        preferences.edit().putBoolean("sagres_sync_worker_configured", false).apply();
+        preferences.edit().putBoolean("sagres_sync_worker_configured_R", false).apply();
         preferences.edit().putInt("sagres_sync_worker_frequency", -1).apply();
     }
 }

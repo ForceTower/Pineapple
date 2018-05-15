@@ -43,7 +43,7 @@ public class AppModule {
     @Provides
     @Singleton
     ServiceDatabase provideServiceDatabase(Application application) {
-        return Room.databaseBuilder(application, ServiceDatabase.class, "unes_service.db")
+        return Room.databaseBuilder(application, ServiceDatabase.class, "unes_svc_tst.db")
                 .fallbackToDestructiveMigration()
                 .build();
     }
