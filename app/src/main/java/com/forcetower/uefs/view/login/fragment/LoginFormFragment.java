@@ -1,11 +1,11 @@
 package com.forcetower.uefs.view.login.fragment;
 
-import android.arch.lifecycle.ViewModelProvider;
-import android.arch.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import android.transition.Fade;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +35,7 @@ import timber.log.Timber;
  * Created by João Paulo on 06/03/2018.
  */
 
-public class LoginFormFragment extends Fragment implements Injectable {
+public class LoginFormFragment extends androidx.fragment.app.Fragment implements Injectable {
     public static final String TAG = "LoginFormFragment";
 
     @BindView(R.id.et_login_username)

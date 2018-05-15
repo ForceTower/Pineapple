@@ -1,16 +1,16 @@
 package com.forcetower.uefs.view.connected.fragments;
 
 import android.Manifest;
-import android.arch.lifecycle.Lifecycle;
+import androidx.lifecycle.Lifecycle;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +51,7 @@ import timber.log.Timber;
 /**
  * Created by João Paulo on 13/04/2018.
  */
-public class TheAdventureFragment extends Fragment implements Injectable, EasyPermissions.PermissionCallbacks {
+public class TheAdventureFragment extends androidx.fragment.app.Fragment implements Injectable, EasyPermissions.PermissionCallbacks {
     public static final int REQUEST_PERMISSION_FINE_LOCATION = 6000;
     public static final int REQUEST_CHECK_SETTINGS = 6001;
     public static final String SHOW_ACCURACY_MESSAGE_KEY = "showed_message";

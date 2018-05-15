@@ -1,8 +1,8 @@
 package com.forcetower.uefs.vm.universe;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MediatorLiveData;
-import android.arch.lifecycle.ViewModel;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.forcetower.uefs.db_service.entity.AccessToken;
 import com.forcetower.uefs.db_service.entity.Account;

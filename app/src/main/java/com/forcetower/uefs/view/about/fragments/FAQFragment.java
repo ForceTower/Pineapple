@@ -1,12 +1,12 @@
 package com.forcetower.uefs.view.about.fragments;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,9 +25,9 @@ import butterknife.ButterKnife;
 /**
  * Created by João Paulo on 18/04/2018.
  */
-public class FAQFragment extends Fragment {
+public class FAQFragment extends androidx.fragment.app.Fragment {
     @BindView(R.id.recycler_view)
-    RecyclerView recyclerView;
+    androidx.recyclerview.widget.RecyclerView recyclerView;
 
     private AboutFAQAdapter faqAdapter;
 
@@ -48,9 +48,9 @@ public class FAQFragment extends Fragment {
 
     private void setupRecycler() {
         faqAdapter = new AboutFAQAdapter(new ArrayList<>());
-        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        recyclerView.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(requireContext()));
         recyclerView.setAdapter(faqAdapter);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setItemAnimator(new androidx.recyclerview.widget.DefaultItemAnimator());
     }
 
     private void insertItems() {

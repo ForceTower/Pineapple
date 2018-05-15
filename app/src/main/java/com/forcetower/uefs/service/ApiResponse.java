@@ -1,6 +1,6 @@
 package com.forcetower.uefs.service;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
 

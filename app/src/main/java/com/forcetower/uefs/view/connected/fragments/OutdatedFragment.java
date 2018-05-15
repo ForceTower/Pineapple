@@ -8,9 +8,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
  * Created by João Paulo on 08/03/2018.
  */
 
-public class OutdatedFragment extends Fragment implements Injectable {
+public class OutdatedFragment extends androidx.fragment.app.Fragment implements Injectable {
     public static final String PREF_AUTO_SYNC_SHOWN = "auto_sync_shown";
 
     @BindView(R.id.btn_continue)

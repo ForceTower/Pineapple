@@ -1,13 +1,13 @@
 package com.forcetower.uefs.view.connected;
 
 import android.graphics.Bitmap;
-import android.support.design.widget.TabLayout;
+import com.google.android.material.tabs.TabLayout;
 
 /**
  * Created by João Paulo on 11/04/2018.
  */
 public interface ActivityController {
-    TabLayout getTabLayout();
+    com.google.android.material.tabs.TabLayout getTabLayout();
     NavigationController getNavigationController();
     void changeTitle(int idRes);
     void selectItemFromNavigation(int idRes);

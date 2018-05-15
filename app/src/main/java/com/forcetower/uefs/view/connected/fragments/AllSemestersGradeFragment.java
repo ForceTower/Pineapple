@@ -1,16 +1,16 @@
 package com.forcetower.uefs.view.connected.fragments;
 
-import android.arch.lifecycle.ViewModelProvider;
-import android.arch.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import com.google.android.material.tabs.TabLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,9 +36,9 @@ import timber.log.Timber;
  * Created by João Paulo on 07/03/2018.
  */
 
-public class AllSemestersGradeFragment extends Fragment implements Injectable {
+public class AllSemestersGradeFragment extends androidx.fragment.app.Fragment implements Injectable {
     @BindView(R.id.view_pager)
-    ViewPager viewPager;
+    androidx.viewpager.widget.ViewPager viewPager;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -78,14 +78,14 @@ public class AllSemestersGradeFragment extends Fragment implements Injectable {
         Timber.d("Received semester list %s", semesters);
 
         //This is a risky call, but since we are in a lifecycle aware method, this should be fine
-        TabLayout tabLayout = controller.getTabLayout();
+        com.google.android.material.tabs.TabLayout tabLayout = controller.getTabLayout();
         if (tabLayout != null) {
             tabLayout.removeAllTabs();
             tabLayout.clearOnTabSelectedListeners();
             tabLayout.setupWithViewPager(viewPager);
             viewPager.clearOnPageChangeListeners();
             viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-            tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
+            tabLayout.addOnTabSelectedListener(new com.google.android.material.tabs.TabLayout.ViewPagerOnTabSelectedListener(viewPager));
         }
         fragmentAdapter.setSemesterList(semesters);
     }
@@ -98,13 +98,13 @@ public class AllSemestersGradeFragment extends Fragment implements Injectable {
         private List<Semester> semesterList;
         private List<SemesterGradesFragment> gradesFragmentList;
 
-        GradesFragmentAdapter(FragmentManager fm) {
+        GradesFragmentAdapter(androidx.fragment.app.FragmentManager fm) {
             super(fm);
             gradesFragmentList = new ArrayList<>();
         }
 
         @Override
-        public Fragment getItem(int position) {
+        public androidx.fragment.app.Fragment getItem(int position) {
             return gradesFragmentList.get(position);
         }
 

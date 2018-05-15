@@ -1,7 +1,7 @@
 package com.forcetower.uefs.db.entity;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.support.annotation.Nullable;
+import androidx.room.ColumnInfo;
+import androidx.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 

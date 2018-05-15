@@ -1,9 +1,9 @@
 package com.forcetower.uefs.view.connected.adapters;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +33,7 @@ import timber.log.Timber;
 public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ClassHolder> {
     private final Context context;
     private final List<DisciplineClassItem> classItems;
-    private final RecyclerView.RecycledViewPool recycledViewPool;
+    private final androidx.recyclerview.widget.RecyclerView.RecycledViewPool recycledViewPool;
     private int exPosition = -1;
     private OnClassClickListener classClickListener;
 
@@ -41,7 +41,7 @@ public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ClassHol
     public ClassesAdapter(Context context, List<DisciplineClassItem> classItems) {
         this.context = context;
         this.classItems = classItems;
-        this.recycledViewPool = new RecyclerView.RecycledViewPool();
+        this.recycledViewPool = new androidx.recyclerview.widget.RecyclerView.RecycledViewPool();
     }
 
     public void setOnClassClickListener(OnClassClickListener classClickListener) {
@@ -102,7 +102,7 @@ public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ClassHol
             rvSupportMaterial.setRecycledViewPool(recycledViewPool);
             adapter = new MaterialAdapter(context);
             rvSupportMaterial.setAdapter(adapter);
-            rvSupportMaterial.setLayoutManager(new LinearLayoutManager(context));
+            rvSupportMaterial.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(context));
         }
 
         private void onClassClicked() {

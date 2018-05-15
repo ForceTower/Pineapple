@@ -1,7 +1,7 @@
 package com.forcetower.uefs.vm.base;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.ViewModel;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.forcetower.uefs.db.dao.CalendarItemDao;
 import com.forcetower.uefs.db.entity.CalendarItem;

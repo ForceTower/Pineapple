@@ -1,19 +1,19 @@
 package com.forcetower.uefs.view.connected.fragments;
 
-import android.arch.lifecycle.ViewModelProvider;
-import android.arch.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,10 +38,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-public class DisciplineClassesFragment extends Fragment implements Injectable {
+public class DisciplineClassesFragment extends androidx.fragment.app.Fragment implements Injectable {
     public static final String INTENT_GROUP_ID = "group_id";
     @BindView(R.id.recycler_view)
-    RecyclerView recyclerView;
+    androidx.recyclerview.widget.RecyclerView recyclerView;
 
     private ClassesAdapter classesAdapter;
     @Inject
@@ -52,11 +52,11 @@ public class DisciplineClassesFragment extends Fragment implements Injectable {
     private ActivityController controller;
     private DisciplinesViewModel disciplinesVM;
 
-    public static Fragment getFragment(int groupId) {
+    public static androidx.fragment.app.Fragment getFragment(int groupId) {
         Bundle bundle = new Bundle();
         bundle.putInt(INTENT_GROUP_ID, groupId);
 
-        Fragment fragment = new DisciplineClassesFragment();
+        androidx.fragment.app.Fragment fragment = new DisciplineClassesFragment();
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -76,7 +76,7 @@ public class DisciplineClassesFragment extends Fragment implements Injectable {
         controller.changeTitle(R.string.discipline_classes);
         controller.getTabLayout().setVisibility(View.GONE);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        recyclerView.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(requireContext()));
         classesAdapter = new ClassesAdapter(requireContext(), new ArrayList<>());
         classesAdapter.setOnClassClickListener(this::onClassClickListener);
         recyclerView.setAdapter(classesAdapter);

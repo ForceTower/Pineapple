@@ -1,8 +1,8 @@
 package com.forcetower.uefs.view.connected.adapters;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +59,7 @@ class DisciplinesAdapter extends RecyclerView.Adapter<DisciplinesAdapter.Discipl
         this.clickListener = clickListener;
     }
 
-    class DisciplineHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class DisciplineHolder extends androidx.recyclerview.widget.RecyclerView.ViewHolder implements View.OnClickListener{
         @BindView(R.id.tv_class_name)
         TextView tvClassName;
         @BindView(R.id.tv_additional_info)

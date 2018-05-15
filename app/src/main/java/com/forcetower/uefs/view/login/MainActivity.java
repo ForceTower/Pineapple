@@ -1,8 +1,8 @@
 package com.forcetower.uefs.view.login;
 
 import android.annotation.SuppressLint;
-import android.arch.lifecycle.ViewModelProvider;
-import android.arch.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +11,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.UEFSApplication;
@@ -33,7 +33,7 @@ import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.FRA
 
 public class MainActivity extends UBaseActivity implements HasSupportFragmentInjector {
     @Inject
-    DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
+    DispatchingAndroidInjector<androidx.fragment.app.Fragment> dispatchingAndroidInjector;
     @Inject
     ViewModelProvider.Factory viewModelFactory;
     @Inject
@@ -116,7 +116,7 @@ public class MainActivity extends UBaseActivity implements HasSupportFragmentInj
     }
 
     @Override
-    public AndroidInjector<Fragment> supportFragmentInjector() {
+    public AndroidInjector<androidx.fragment.app.Fragment> supportFragmentInjector() {
         return dispatchingAndroidInjector;
     }
 }

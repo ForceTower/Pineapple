@@ -1,7 +1,7 @@
 package com.forcetower.uefs.di.module;
 
-import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.forcetower.uefs.di.annotation.ViewModelKey;
 import com.forcetower.uefs.vm.google.AchievementsViewModel;

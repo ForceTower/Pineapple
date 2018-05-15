@@ -1,6 +1,6 @@
 package com.forcetower.uefs.db_service.entity;
 
-import android.arch.persistence.room.Entity;
+import androidx.room.Entity;
 
 /**
  * Created by João Paulo on 29/04/2018.

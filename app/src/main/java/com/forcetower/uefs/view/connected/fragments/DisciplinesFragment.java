@@ -1,19 +1,19 @@
 package com.forcetower.uefs.view.connected.fragments;
 
-import android.arch.lifecycle.ViewModelProvider;
-import android.arch.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,9 +42,9 @@ import timber.log.Timber;
  * Created by João Paulo on 07/03/2018.
  */
 
-public class DisciplinesFragment extends Fragment implements Injectable {
+public class DisciplinesFragment extends androidx.fragment.app.Fragment implements Injectable {
     @BindView(R.id.recycler_view)
-    RecyclerView rvSemesters;
+    androidx.recyclerview.widget.RecyclerView rvSemesters;
 
     @Inject
     AppExecutors executors;
@@ -81,7 +81,7 @@ public class DisciplinesFragment extends Fragment implements Injectable {
     }
 
     private void setupRecyclerView() {
-        rvSemesters.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvSemesters.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext()));
         adapter = new SemesterAdapter(getContext(), new ArrayList<>());
         adapter.setClickListener(disciplineClickListener);
         rvSemesters.setAdapter(adapter);

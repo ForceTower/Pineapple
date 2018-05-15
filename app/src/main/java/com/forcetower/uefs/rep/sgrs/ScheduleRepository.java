@@ -1,8 +1,8 @@
 package com.forcetower.uefs.rep.sgrs;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MediatorLiveData;
-import android.support.annotation.WorkerThread;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
+import androidx.annotation.WorkerThread;
 
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.db.AppDatabase;

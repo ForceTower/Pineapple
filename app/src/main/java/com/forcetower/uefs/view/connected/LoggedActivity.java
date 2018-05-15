@@ -2,8 +2,8 @@ package com.forcetower.uefs.view.connected;
 
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
-import android.arch.lifecycle.ViewModelProvider;
-import android.arch.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -18,21 +18,22 @@ import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.IdRes;
-import android.support.annotation.MainThread;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.FileProvider;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.IdRes;
+import androidx.annotation.MainThread;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
+import androidx.fragment.app.Fragment;
+import androidx.core.content.FileProvider;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,7 +96,7 @@ import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.FRA
 import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.GRADES_FRAGMENT;
 import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.MESSAGES_FRAGMENT;
 
-public class LoggedActivity extends UBaseActivity implements NavigationView.OnNavigationItemSelectedListener,
+public class LoggedActivity extends UBaseActivity implements OnNavigationItemSelectedListener,
         HasSupportFragmentInjector, ActivityController, GamesAccountController {
     private static final String SELECTED_NAV_DRAWER_ID = "selected_nav_drawer";
     public static final String BACKGROUND_IMAGE = "background_server_image";
@@ -103,13 +104,13 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.app_bar_layout)
-    AppBarLayout appBarLayout;
+    com.google.android.material.appbar.AppBarLayout appBarLayout;
     @BindView(R.id.tab_layout)
-    TabLayout tabLayout;
+    com.google.android.material.tabs.TabLayout tabLayout;
     @BindView(R.id.drawer_layout)
     DrawerLayout drawer;
     @BindView(R.id.nav_view)
-    NavigationView navigationView;
+    com.google.android.material.navigation.NavigationView navigationView;
     @BindView(R.id.pb_global_progress)
     ProgressBar globalLoading;
     @BindView(R.id.root_coordinator)
@@ -120,7 +121,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     private NavigationCustomActionViews downloadFlow;
 
     @Inject
-    DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
+    DispatchingAndroidInjector<androidx.fragment.app.Fragment> dispatchingAndroidInjector;
     @Inject
     ViewModelProvider.Factory viewModelFactory;
     @Inject
@@ -755,7 +756,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     }
 
     @Override
-    public AndroidInjector<Fragment> supportFragmentInjector() {
+    public AndroidInjector<androidx.fragment.app.Fragment> supportFragmentInjector() {
         return dispatchingAndroidInjector;
     }
 
@@ -874,7 +875,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     }
 
     @Override
-    public TabLayout getTabLayout() {
+    public com.google.android.material.tabs.TabLayout getTabLayout() {
         return tabLayout;
     }
 
@@ -889,7 +890,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
         navigationController.navigateToSchedule();
 
-        Snackbar snackbar = Snackbar.make(rootViewContent, getString(R.string.new_schedule_errors), Snackbar.LENGTH_INDEFINITE);
+        com.google.android.material.snackbar.Snackbar snackbar = com.google.android.material.snackbar.Snackbar.make(rootViewContent, getString(R.string.new_schedule_errors), Snackbar.LENGTH_INDEFINITE);
         snackbar.setAction(R.string.send_error, v -> {
             navigationController.navigateToSuggestionFragment(e.getMessage(), WordUtils.buildFromStackTrace(e.getStackTrace()));
             //SuggestionActivity.startActivity(this, e.getMessage(), e.getStackTrace());
@@ -922,7 +923,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
     @Override
     public void disableDrawer() {
-        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        drawer.setDrawerLockMode(androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowHomeEnabled(false);
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);

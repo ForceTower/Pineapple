@@ -4,13 +4,13 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.core.view.GravityCompat;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.transition.Slide;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -35,15 +35,15 @@ import static com.forcetower.uefs.util.WordUtils.validString;
 /**
  * Created by João Paulo on 18/04/2018.
  */
-public class AboutFragment extends Fragment {
+public class AboutFragment extends androidx.fragment.app.Fragment {
     @BindView(R.id.version_info)
     TextView versionInfo;
     @BindView(R.id.rv_credits)
     RecyclerView rvCredits;
     @BindView(R.id.cv_about_me)
-    CardView cvAboutMe;
+    androidx.cardview.widget.CardView cvAboutMe;
     @BindView(R.id.cv_enjoy)
-    CardView cvEnjoy;
+    androidx.cardview.widget.CardView cvEnjoy;
     @BindView(R.id.cv_faq)
     CardView cvFaq;
 
@@ -101,7 +101,7 @@ public class AboutFragment extends Fragment {
         creditsAdapter.setOnMentionClickListener(mention -> {
             if (validString(mention.getLink())) openLink(requireContext(), mention.getLink());
         });
-        rvCredits.setLayoutManager(new LinearLayoutManager(requireContext()));
+        rvCredits.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(requireContext()));
         rvCredits.setAdapter(creditsAdapter);
         rvCredits.setNestedScrollingEnabled(false);
     }

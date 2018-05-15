@@ -390,6 +390,6 @@
     <string name="you_can_download_materials_yet">It\'s not possible to download files</string>
     <string name="universe_completed">Your UNEVerse spot is confirmed. wait for new updates</string>
     <string name="universe_building">Building...</string>
-    <string name="universe_alpha_open">The Universe is a set of resources for the students.\nTeacher Evaluation\nLost and Found\nUniversity Events\nDiscussion Forums for Classes.\n\nIt's still under construction, all you see here is a mirage</string>
+    <string name="universe_alpha_open">The Universe is a set of resources for the students.\nTeacher Evaluation\nLost and Found\nUniversity Events\nDiscussion Forums for Classes.\n\nIt\'s still under construction, all you see here is a mirage</string>
     <string name="class_helper_materials">Helper Files</string>
 </resources>

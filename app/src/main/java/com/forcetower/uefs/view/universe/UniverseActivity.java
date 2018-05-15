@@ -5,12 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.annotation.NonNull;
-import android.support.design.widget.AppBarLayout;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
+import androidx.annotation.NonNull;
+import com.google.android.material.appbar.AppBarLayout;
+import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.ActionBar;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.view.UBaseActivity;
@@ -24,7 +24,7 @@ import dagger.android.support.HasSupportFragmentInjector;
 
 public class UniverseActivity extends UBaseActivity implements HasSupportFragmentInjector, ActivityController {
     @Inject
-    DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
+    DispatchingAndroidInjector<androidx.fragment.app.Fragment> dispatchingAndroidInjector;
     @Inject
     UniverseNavigationController navigation;
 
@@ -99,7 +99,7 @@ public class UniverseActivity extends UBaseActivity implements HasSupportFragmen
     }
 
     @Override
-    public AndroidInjector<Fragment> supportFragmentInjector() {
+    public AndroidInjector<androidx.fragment.app.Fragment> supportFragmentInjector() {
         return dispatchingAndroidInjector;
     }
 }

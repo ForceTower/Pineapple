@@ -1,10 +1,10 @@
 package com.forcetower.uefs.view.connected.adapters;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v4.util.Pair;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.core.util.Pair;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +29,7 @@ import static com.forcetower.uefs.util.DateUtils.toWeekLongDay;
  * Created by João Paulo on 07/03/2018.
  */
 
-public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ScheduleViewHolder> {
+public class ScheduleAdapter extends androidx.recyclerview.widget.RecyclerView.Adapter<ScheduleAdapter.ScheduleViewHolder> {
     private List<DisciplineClassLocation> locations;
     private List<Pair<String, List<DisciplineClassLocation>>> mapped;
     private RecyclerView.RecycledViewPool viewPool;
@@ -42,7 +42,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
         this.locations = locations;
         this.style = style;
         createMap();
-        viewPool = new RecyclerView.RecycledViewPool();
+        viewPool = new androidx.recyclerview.widget.RecyclerView.RecycledViewPool();
     }
 
     @NonNull
@@ -104,7 +104,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
 
     class ScheduleViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.inner_recycler_view)
-        RecyclerView innerRecyclerView;
+        androidx.recyclerview.widget.RecyclerView innerRecyclerView;
         @BindView(R.id.tv_day)
         TextView tvDay;
 
@@ -113,7 +113,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
         ScheduleViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            innerRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+            innerRecyclerView.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(context));
             adapter = new DayClassAdapter(context, new ArrayList<>(), style);
             adapter.setOnClickListener(onClickListener);
             innerRecyclerView.setAdapter(adapter);

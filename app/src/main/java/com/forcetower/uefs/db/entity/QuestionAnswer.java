@@ -1,6 +1,6 @@
 package com.forcetower.uefs.db.entity;
 
-import android.arch.persistence.room.Ignore;
+import androidx.room.Ignore;
 
 /**
  * Created by João Paulo on 18/04/2018.

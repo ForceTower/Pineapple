@@ -2,13 +2,13 @@ package com.forcetower.uefs.view.universe;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.util.Pair;
-import android.support.v4.view.GravityCompat;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.core.util.Pair;
+import androidx.core.view.GravityCompat;
 import android.transition.Slide;
 import android.view.Gravity;
 import android.view.View;
@@ -52,7 +52,7 @@ public class UniverseNavigationController {
 
     public void navigateToStartPage(@Nullable List<Pair<String, View>> shared) {
         controller.hideToolbar();
-        Fragment fragment = new UniverseWelcomeStartFragment();
+        androidx.fragment.app.Fragment fragment = new UniverseWelcomeStartFragment();
         navigateToFragment(fragment, false, null, null, shared);
     }
 
@@ -68,7 +68,7 @@ public class UniverseNavigationController {
     }
 
     public void navigateToCompleted(@Nullable List<Pair<String, View>> shared, Context context) {
-        Fragment fragment = new YouAreReadyFragment();
+        androidx.fragment.app.Fragment fragment = new YouAreReadyFragment();
         if (VersionUtils.isLollipop()) {
             fragment.setEnterTransition(new Slide(GravityCompat.getAbsoluteGravity(GravityCompat.START, context.getResources().getConfiguration().getLayoutDirection())));
         }
@@ -102,7 +102,7 @@ public class UniverseNavigationController {
             }
         }
 
-        FragmentTransaction transaction = manager.beginTransaction();
+        androidx.fragment.app.FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(containerId, fragment, fragment.getClass().getSimpleName());
 
         if (stack) {

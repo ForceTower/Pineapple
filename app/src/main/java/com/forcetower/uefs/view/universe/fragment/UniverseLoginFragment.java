@@ -1,14 +1,14 @@
 package com.forcetower.uefs.view.universe.fragment;
 
-import android.arch.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputEditText;
-import android.support.v4.app.Fragment;
-import android.support.v4.util.Pair;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import com.google.android.material.textfield.TextInputEditText;
+import androidx.fragment.app.Fragment;
+import androidx.core.util.Pair;
 import android.transition.ChangeBounds;
 import android.transition.ChangeImageTransform;
 import android.transition.TransitionManager;
@@ -42,7 +42,7 @@ import timber.log.Timber;
 /**
  * Created by João Paulo on 12/05/2018.
  */
-public class UniverseLoginFragment extends Fragment implements Injectable {
+public class UniverseLoginFragment extends androidx.fragment.app.Fragment implements Injectable {
     @BindView(R.id.iv_logo)
     ImageView ivLogo;
     @BindView(R.id.view_root)
@@ -52,7 +52,7 @@ public class UniverseLoginFragment extends Fragment implements Injectable {
     @BindViews({R.id.dev_iv_anim_1, R.id.dev_iv_anim_2, R.id.dev_iv_anim_3, R.id.dev_iv_anim_4})
     View[] views;
     @BindView(R.id.et_universe_username)
-    TextInputEditText etUsername;
+    com.google.android.material.textfield.TextInputEditText etUsername;
     @BindView(R.id.et_universe_password)
     TextInputEditText etPassword;
 

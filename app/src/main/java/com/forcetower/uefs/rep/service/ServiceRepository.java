@@ -1,6 +1,6 @@
 package com.forcetower.uefs.rep.service;
 
-import android.arch.lifecycle.LiveData;
+import androidx.lifecycle.LiveData;
 
 import com.forcetower.uefs.db_service.entity.Version;
 import com.forcetower.uefs.service.ApiResponse;

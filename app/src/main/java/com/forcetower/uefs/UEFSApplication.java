@@ -5,8 +5,8 @@ import android.app.Application;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.support.multidex.MultiDex;
-import android.support.v7.app.AppCompatDelegate;
+import androidx.multidex.MultiDex;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.forcetower.uefs.db.AppDatabase;
 import com.forcetower.uefs.di.AppInjector;

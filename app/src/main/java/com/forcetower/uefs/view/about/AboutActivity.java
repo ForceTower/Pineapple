@@ -4,9 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
-import android.support.v7.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.core.view.GravityCompat;
+import androidx.appcompat.widget.Toolbar;
 import android.transition.Slide;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -46,7 +46,7 @@ public class AboutActivity extends UBaseActivity implements HasSupportFragmentIn
         }
 
         if (savedInstanceState == null) {
-            Fragment fragment = new AboutFragment();
+            androidx.fragment.app.Fragment fragment = new AboutFragment();
             if (VersionUtils.isLollipop()) {
                 fragment.setExitTransition(new Slide(GravityCompat.getAbsoluteGravity(GravityCompat.START, getResources().getConfiguration().getLayoutDirection())));
                 fragment.setEnterTransition(new Slide(GravityCompat.getAbsoluteGravity(GravityCompat.END, getResources().getConfiguration().getLayoutDirection())));
@@ -78,7 +78,7 @@ public class AboutActivity extends UBaseActivity implements HasSupportFragmentIn
     }
 
     @Override
-    public AndroidInjector<Fragment> supportFragmentInjector() {
+    public AndroidInjector<androidx.fragment.app.Fragment> supportFragmentInjector() {
         return null;
     }
 }

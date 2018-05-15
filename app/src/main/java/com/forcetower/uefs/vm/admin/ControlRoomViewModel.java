@@ -1,7 +1,7 @@
 package com.forcetower.uefs.vm.admin;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.ViewModel;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.forcetower.uefs.db_service.entity.UpdateStatus;
 import com.forcetower.uefs.service.ActionResult;

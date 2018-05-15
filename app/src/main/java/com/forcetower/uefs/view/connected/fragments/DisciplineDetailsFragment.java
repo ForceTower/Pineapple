@@ -2,14 +2,14 @@ package com.forcetower.uefs.view.connected.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.util.Pair;
-import android.support.v4.view.ViewPager;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import com.google.android.material.tabs.TabLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.core.util.Pair;
+import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-public class DisciplineDetailsFragment extends Fragment implements Injectable {
+public class DisciplineDetailsFragment extends androidx.fragment.app.Fragment implements Injectable {
     public static final String INTENT_DISCIPLINE_ID = "discipline_id";
     public static final String INTENT_DISCIPLINE_GROUP_ID = "discipline_group_id";
 
@@ -95,17 +95,17 @@ public class DisciplineDetailsFragment extends Fragment implements Injectable {
 
     private void setupPages() {
         controller.getTabLayout().setupWithViewPager(viewPager);
-        controller.getTabLayout().setTabGravity(TabLayout.GRAVITY_CENTER);
+        controller.getTabLayout().setTabGravity(com.google.android.material.tabs.TabLayout.GRAVITY_CENTER);
         controller.getTabLayout().setTabMode(TabLayout.MODE_SCROLLABLE);
-        controller.getTabLayout().addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(controller.getTabLayout()));
+        controller.getTabLayout().addOnTabSelectedListener(new com.google.android.material.tabs.TabLayout.ViewPagerOnTabSelectedListener(viewPager));
+        viewPager.addOnPageChangeListener(new com.google.android.material.tabs.TabLayout.TabLayoutOnPageChangeListener(controller.getTabLayout()));
     }
 
 
-    private class DisciplineSectionFragmentAdapter extends FragmentPagerAdapter {
-        private List<Pair<String, Fragment>> fragments;
+    private class DisciplineSectionFragmentAdapter extends androidx.fragment.app.FragmentPagerAdapter {
+        private List<Pair<String, androidx.fragment.app.Fragment>> fragments;
 
-        DisciplineSectionFragmentAdapter(FragmentManager fm, @NonNull List<Pair<String, Fragment>> fragments) {
+        DisciplineSectionFragmentAdapter(androidx.fragment.app.FragmentManager fm, @NonNull List<Pair<String, Fragment>> fragments) {
             super(fm);
             this.fragments = fragments;
         }

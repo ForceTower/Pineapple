@@ -1,10 +1,10 @@
 package com.forcetower.uefs.view.connected.adapters;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v4.util.Pair;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.core.util.Pair;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,18 +27,18 @@ import butterknife.ButterKnife;
  * Created by João Paulo on 07/03/2018.
  */
 
-public class SemesterAdapter extends RecyclerView.Adapter<SemesterAdapter.SemesterHolder> {
+public class SemesterAdapter extends androidx.recyclerview.widget.RecyclerView.Adapter<SemesterAdapter.SemesterHolder> {
     private Context context;
     private List<Discipline> disciplines;
     private List<Pair<String, List<Discipline>>> mapped;
 
-    private RecyclerView.RecycledViewPool viewPool;
+    private androidx.recyclerview.widget.RecyclerView.RecycledViewPool viewPool;
     private DisciplineClickListener clickListener;
 
     public SemesterAdapter(Context context, List<Discipline> disciplines) {
         this.context = context;
         this.disciplines = disciplines;
-        viewPool = new RecyclerView.RecycledViewPool();
+        viewPool = new androidx.recyclerview.widget.RecyclerView.RecycledViewPool();
         mapped = new ArrayList<>();
         createMap();
     }
@@ -114,7 +114,7 @@ public class SemesterAdapter extends RecyclerView.Adapter<SemesterAdapter.Semest
         @BindView(R.id.tv_semester_name)
         TextView tvSemesterName;
         @BindView(R.id.recycler_view)
-        RecyclerView recyclerView;
+        androidx.recyclerview.widget.RecyclerView recyclerView;
         DisciplinesAdapter adapter;
 
         SemesterHolder(View itemView) {
@@ -122,7 +122,7 @@ public class SemesterAdapter extends RecyclerView.Adapter<SemesterAdapter.Semest
             ButterKnife.bind(this, itemView);
             adapter = new DisciplinesAdapter(context, new ArrayList<>());
             adapter.setClickListener(clickListener);
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            recyclerView.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(context));
             recyclerView.setAdapter(adapter);
         }
 

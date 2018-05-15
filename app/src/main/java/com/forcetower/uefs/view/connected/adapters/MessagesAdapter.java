@@ -1,7 +1,7 @@
 package com.forcetower.uefs.view.connected.adapters;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
  * Created by João Paulo on 07/03/2018.
  */
 
-public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MessageHolder> {
+public class MessagesAdapter extends androidx.recyclerview.widget.RecyclerView.Adapter<MessagesAdapter.MessageHolder> {
     private List<Message> messages;
     private MessageClickListener onClickListener;
 
@@ -56,7 +56,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
         this.onClickListener = onClickListener;
     }
 
-    class MessageHolder extends RecyclerView.ViewHolder {
+    class MessageHolder extends androidx.recyclerview.widget.RecyclerView.ViewHolder {
         @BindView(R.id.cod_class)
         TextView tvClassName;
         @BindView(R.id.message)

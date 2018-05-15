@@ -1,6 +1,6 @@
 package com.forcetower.uefs.view.connected.adapters;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +48,7 @@ public class GradesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(androidx.recyclerview.widget.RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == HEADER) {
             onBindHeaderHolder((HeaderHolder)holder, position);
         } else if(getItemViewType(position) == PARTIAL_MEAN) {
@@ -159,7 +159,7 @@ public class GradesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    class HeaderHolder extends RecyclerView.ViewHolder {
+    class HeaderHolder extends androidx.recyclerview.widget.RecyclerView.ViewHolder {
         @BindView(R.id.tv_grade_info_name)
         TextView tv_section_name;
 
@@ -169,7 +169,7 @@ public class GradesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    class PartialHolder extends RecyclerView.ViewHolder {
+    class PartialHolder extends androidx.recyclerview.widget.RecyclerView.ViewHolder {
         @BindView(R.id.tv_partial_mean)
         TextView tv_partial_mean;
 

@@ -1,9 +1,9 @@
 package com.forcetower.uefs.rep.sgrs;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MediatorLiveData;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.webkit.URLUtil;
 
 import com.forcetower.uefs.AppExecutors;

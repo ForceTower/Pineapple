@@ -1,8 +1,8 @@
 package com.forcetower.uefs.view.about.adapters;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +18,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CreditsAdapter extends RecyclerView.Adapter<CreditsAdapter.MentionHolder> {
+public class CreditsAdapter extends androidx.recyclerview.widget.RecyclerView.Adapter<CreditsAdapter.MentionHolder> {
     private final List<CreditsMention> mentions;
     private final RecyclerView.RecycledViewPool pool;
     private CreditClickListener onMentionClickListener;
@@ -60,7 +60,7 @@ public class CreditsAdapter extends RecyclerView.Adapter<CreditsAdapter.MentionH
         this.onMentionClickListener = onMentionClickListener;
     }
 
-    class MentionHolder extends RecyclerView.ViewHolder {
+    class MentionHolder extends androidx.recyclerview.widget.RecyclerView.ViewHolder {
         @BindView(R.id.tv_category_name)
         TextView tvCategoryName;
         @BindView(R.id.rv_mentions)

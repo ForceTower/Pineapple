@@ -1,7 +1,7 @@
 package com.forcetower.uefs.view.connected.adapters;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,7 +98,7 @@ public class NewDayClassAdapter extends RecyclerView.Adapter {
         }
     }
 
-    static class TimeHolder extends RecyclerView.ViewHolder {
+    static class TimeHolder extends androidx.recyclerview.widget.RecyclerView.ViewHolder {
         @BindView(R.id.tv_start)
         TextView start;
         @BindView(R.id.tv_end)
@@ -115,7 +115,7 @@ public class NewDayClassAdapter extends RecyclerView.Adapter {
         }
     }
 
-    class ClassHolder extends RecyclerView.ViewHolder {
+    class ClassHolder extends androidx.recyclerview.widget.RecyclerView.ViewHolder {
         @BindView(R.id.ll_container)
         LinearLayout container;
         @BindView(R.id.tv_code)
@@ -146,7 +146,7 @@ public class NewDayClassAdapter extends RecyclerView.Adapter {
         }
     }
 
-    static class NothingHolder extends RecyclerView.ViewHolder {
+    static class NothingHolder extends androidx.recyclerview.widget.RecyclerView.ViewHolder {
         NothingHolder(View itemView) {
             super(itemView);
         }

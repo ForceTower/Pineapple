@@ -1,7 +1,7 @@
 package com.forcetower.uefs.view.connected.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 /**
  * Created by João Paulo on 02/12/2017.
  */
-public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ItemHolder>{
+public class CalendarAdapter extends androidx.recyclerview.widget.RecyclerView.Adapter<CalendarAdapter.ItemHolder>{
     private Context context;
     private List<CalendarItem> items;
 
@@ -51,7 +51,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ItemHo
         return items.size();
     }
 
-    class ItemHolder extends RecyclerView.ViewHolder {
+    class ItemHolder extends androidx.recyclerview.widget.RecyclerView.ViewHolder {
         @BindView(R.id.tv_date)
         TextView tvDate;
         @BindView(R.id.tv_event)

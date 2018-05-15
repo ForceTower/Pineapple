@@ -1,6 +1,6 @@
 package com.forcetower.uefs.sgrs.parsers;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.forcetower.uefs.db.entity.Grade;
 import com.forcetower.uefs.db.entity.GradeInfo;

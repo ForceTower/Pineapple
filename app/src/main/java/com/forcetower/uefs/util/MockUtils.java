@@ -1,6 +1,6 @@
 package com.forcetower.uefs.util;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.forcetower.uefs.db.entity.CreditsMention;
 import com.forcetower.uefs.db.entity.DisciplineClassLocation;

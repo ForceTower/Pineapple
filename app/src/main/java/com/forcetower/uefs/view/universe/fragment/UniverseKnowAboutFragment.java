@@ -1,9 +1,9 @@
 package com.forcetower.uefs.view.universe.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 /**
  * Created by João Paulo on 14/05/2018.
  */
-public class UniverseKnowAboutFragment extends Fragment implements Injectable {
+public class UniverseKnowAboutFragment extends androidx.fragment.app.Fragment implements Injectable {
 
     @Inject
     UniverseNavigationController navigation;

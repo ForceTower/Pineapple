@@ -1,9 +1,9 @@
 package com.forcetower.uefs.view.connected.adapters;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,15 +26,15 @@ import static com.forcetower.uefs.util.DateUtils.getDayOfWeek;
 /**
  * Created by João Paulo on 29/03/2018.
  */
-public class NewScheduleAdapter extends RecyclerView.Adapter<NewScheduleAdapter.ScheduleHolder> {
+public class NewScheduleAdapter extends androidx.recyclerview.widget.RecyclerView.Adapter<NewScheduleAdapter.ScheduleHolder> {
     private final List<DisciplineClassLocation> locations;
-    private final RecyclerView.RecycledViewPool viewPool;
+    private final androidx.recyclerview.widget.RecyclerView.RecycledViewPool viewPool;
     private final List<List<InnerLocation>> mapped;
     private LocationClickListener onClickListener;
 
     public NewScheduleAdapter(@NonNull Context context, @NonNull List<DisciplineClassLocation> locations) {
         this.locations = new ArrayList<>();
-        this.viewPool = new RecyclerView.RecycledViewPool();
+        this.viewPool = new androidx.recyclerview.widget.RecyclerView.RecycledViewPool();
         this.mapped = new ArrayList<>();
 
         setLocations(locations);
@@ -143,9 +143,9 @@ public class NewScheduleAdapter extends RecyclerView.Adapter<NewScheduleAdapter.
         this.onClickListener = onClickListener;
     }
 
-    class ScheduleHolder extends RecyclerView.ViewHolder {
+    class ScheduleHolder extends androidx.recyclerview.widget.RecyclerView.ViewHolder {
         @BindView(R.id.recycler_view)
-        RecyclerView innerRecycler;
+        androidx.recyclerview.widget.RecyclerView innerRecycler;
 
         NewDayClassAdapter adapter;
 
@@ -153,7 +153,7 @@ public class NewScheduleAdapter extends RecyclerView.Adapter<NewScheduleAdapter.
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            innerRecycler.setLayoutManager(new LinearLayoutManager(itemView.getContext()) {
+            innerRecycler.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(itemView.getContext()) {
                 @Override
                 public boolean canScrollVertically() {
                     return false;

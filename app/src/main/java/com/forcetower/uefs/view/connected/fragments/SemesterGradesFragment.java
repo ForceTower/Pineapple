@@ -1,13 +1,13 @@
 package com.forcetower.uefs.view.connected.fragments;
 
-import android.arch.lifecycle.ViewModelProvider;
-import android.arch.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +32,7 @@ import butterknife.ButterKnife;
  */
 public class SemesterGradesFragment extends Fragment implements Injectable {
     @BindView(R.id.recycler_view)
-    RecyclerView rvDisciplines;
+    androidx.recyclerview.widget.RecyclerView rvDisciplines;
     @BindView(R.id.vg_loading)
     ViewGroup vgLoading;
 

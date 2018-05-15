@@ -1,7 +1,7 @@
 package com.forcetower.uefs.view.about.adapters;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 
 import static com.forcetower.uefs.util.WordUtils.validString;
 
-public class MentionsAdapter extends RecyclerView.Adapter<MentionsAdapter.MentionHolder> {
+public class MentionsAdapter extends androidx.recyclerview.widget.RecyclerView.Adapter<MentionsAdapter.MentionHolder> {
     private final List<Mention> participants;
     private CreditClickListener onMentionClickListener;
 
@@ -55,7 +55,7 @@ public class MentionsAdapter extends RecyclerView.Adapter<MentionsAdapter.Mentio
         this.onMentionClickListener = onMentionClickListener;
     }
 
-    class MentionHolder extends RecyclerView.ViewHolder {
+    class MentionHolder extends androidx.recyclerview.widget.RecyclerView.ViewHolder {
         @BindView(R.id.tv_name)
         TextView tvName;
         @BindView(R.id.tv_link)
