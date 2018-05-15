@@ -23,11 +23,15 @@ public class WorkerUtils {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         int diffFreq = preferences.getInt("sagres_sync_worker_frequency", -1);
         boolean conf = preferences.getBoolean("sagres_sync_worker_configured", false);
-        Timber.d("%s condition", diffFreq == -1 || (conf && diffFreq == frequency));
+        Timber.d("%s condition", frequency == -1 || (conf && diffFreq == frequency));
+        Timber.d("Frequency: %d", frequency);
+        Timber.d("Configured: %s", conf);
+        Timber.d("Diff Freq: %d", diffFreq);
         if (frequency == -1 || (conf && diffFreq == frequency)) {
             Timber.d("Worker Configuration Completed");
             return;
         }
+        Timber.d("Creating configuration");
 
         Constraints constraints = new Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -50,11 +54,9 @@ public class WorkerUtils {
 
     public static void disableSagresSync(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-
+        Timber.d("Configuration erased");
         WorkManager.getInstance().cancelAllWorkByTag(Constants.WORKER_SYNC_SAGRES_NAME);
-        preferences.edit()
-                .putBoolean("sagres_sync_worker_configured", false)
-                .putInt("sagres_sync_worker_frequency", -1)
-                .apply();
+        preferences.edit().putBoolean("sagres_sync_worker_configured", false).apply();
+        preferences.edit().putInt("sagres_sync_worker_frequency", -1).apply();
     }
 }

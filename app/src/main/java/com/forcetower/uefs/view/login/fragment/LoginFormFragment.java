@@ -24,6 +24,7 @@ import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.about.AboutActivity;
 import com.forcetower.uefs.view.connected.LoggedActivity;
 import com.forcetower.uefs.vm.base.LoginViewModel;
+import com.forcetower.uefs.worker.WorkerUtils;
 
 import javax.inject.Inject;
 
@@ -81,6 +82,7 @@ public class LoginFormFragment extends Fragment implements Injectable {
             AnimUtils.fadeOut(getContext(), vgLoading);
             AnimUtils.fadeIn(getContext(), vgForm);
             AnimUtils.fadeIn(getContext(), tvClickToKnowAbout);
+            WorkerUtils.disableSagresSync(getContext());
         } else {
             Timber.d("Access is not null. Moving to connected!");
             if (!loginViewModel.isActivityStarted()) {
