@@ -2,8 +2,11 @@ package com.forcetower.uefs.db.entity;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.text.SpannableString;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,6 +28,10 @@ public class Message implements Comparable<Message>{
     @ColumnInfo(name = "class_received")
     private String classReceived;
     private int notified;
+
+    @Ignore
+    @Nullable
+    private SpannableString spannable;
 
     public Message(String sender, String message, String receivedAt, String classReceived) {
         this.sender = sender;
@@ -128,5 +135,14 @@ public class Message implements Comparable<Message>{
         }
 
         return Integer.compare(o.getUid(), getUid());
+    }
+
+    public void setSpannable(@Nullable SpannableString spannable) {
+        this.spannable = spannable;
+    }
+
+    @Nullable
+    public SpannableString getSpannable() {
+        return spannable;
     }
 }

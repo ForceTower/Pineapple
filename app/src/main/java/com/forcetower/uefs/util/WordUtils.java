@@ -1,5 +1,7 @@
 package com.forcetower.uefs.util;
 
+import android.util.Patterns;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -35,7 +37,7 @@ public class WordUtils {
     }
 
     public static List<String> getLinksOnText(String string) {
-        Matcher matcher = URL_PATTERN.matcher(string);
+        Matcher matcher = Patterns.WEB_URL.matcher(string);
         List<String> links = new ArrayList<>();
 
         if (!validString(string)) return links;

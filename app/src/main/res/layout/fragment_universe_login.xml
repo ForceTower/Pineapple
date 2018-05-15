@@ -148,8 +148,6 @@
                     android:layout_marginTop="4dp"
                     android:text="@string/universe_connect_using_facebook"
                     android:textAllCaps="false"
-                    android:drawableStart="@drawable/ic_facebook_white_24dp"
-                    android:drawableLeft="@drawable/ic_facebook_white_24dp"
                     app:backgroundTint="@color/facebook_blue"
                     android:textColor="@color/white"
                     android:paddingStart="10dp"

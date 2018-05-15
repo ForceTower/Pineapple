@@ -11,12 +11,15 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.Message;
 import com.forcetower.uefs.di.Injectable;
@@ -51,6 +54,9 @@ public class MessagesFragment extends Fragment implements Injectable {
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
+    @Inject
+    AppExecutors executors;
+
     private MessagesViewModel messagesViewModel;
     private MessagesAdapter adapter;
 
@@ -87,7 +93,14 @@ public class MessagesFragment extends Fragment implements Injectable {
         if (messages != null) {
             Timber.d("Messages Received");
             Collections.sort(messages);
-            adapter.setMessages(messages);
+            executors.others().execute(() -> {
+                for (Message message : messages) {
+                    SpannableString spannable = new SpannableString(message.getMessage());
+                    Linkify.addLinks(spannable, Linkify.WEB_URLS);
+                    message.setSpannable(spannable);
+                }
+                executors.mainThread().execute(() -> adapter.setMessages(messages));
+            });
         }
     }
 

@@ -46,4 +46,13 @@ public class Access {
         setUsername(access.getUsername());
         setPassword(access.getPassword());
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Access) {
+            Access a = (Access) obj;
+            return a.username.equals(username) && a.password.equals(password);
+        }
+        return false;
+    }
 }

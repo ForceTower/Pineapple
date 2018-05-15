@@ -88,9 +88,13 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
             }
 
             tvClassName.setText(message.getClassReceived());
-            tvMessage.setText(message.getMessage());
             tvSender.setText(message.getSender());
             tvDateReceived.setText(message.getReceivedAt());
+
+            if (message.getSpannable() != null)
+                tvMessage.setText(message.getSpannable(), TextView.BufferType.SPANNABLE);
+            else
+                tvMessage.setText(message.getMessage());
         }
     }
 }

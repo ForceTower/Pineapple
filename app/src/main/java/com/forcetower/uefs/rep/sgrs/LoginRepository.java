@@ -186,13 +186,18 @@ public class LoginRepository {
                 AccessDao accessDao = database.accessDao();
                 Access access = new Access(username, password);
                 Access oldAcc = accessDao.getAccessDirect();
+                boolean insertionNeeded = true;
                 if (oldAcc != null) {
-                    oldAcc.copyFrom(access);
+                    if (oldAcc.equals(access)) {
+                        insertionNeeded = false;
+                    } else {
+                        oldAcc.copyFrom(access);
+                    }
                 } else {
                     oldAcc = access;
                 }
 
-                accessDao.insertAccess(oldAcc);
+                if (insertionNeeded) accessDao.insertAccess(oldAcc);
             }
 
             @Override
