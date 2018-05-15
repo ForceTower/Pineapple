@@ -176,6 +176,7 @@ public class AchievementsViewModel extends ViewModel {
             if (discipline.getSituation() != null && discipline.getCredits() > 0 &&
                     (discipline.getSituation().equalsIgnoreCase("Reprovado por Falta")
                     || discipline.getCredits()/4 <= discipline.getMissedClasses())) {
+                Timber.d("Reproved by miss or zero'd at: %s", discipline.getName());
                 unlocked.put(R.string.achievement_i_have_never_seen, -1);
             }
 
@@ -189,7 +190,7 @@ public class AchievementsViewModel extends ViewModel {
             }
             */
 
-            if (discipline.getSituation() != null && !discipline.getSituation().equalsIgnoreCase("Aprovado")) {
+            if (discipline.getSituation() == null || !discipline.getSituation().equalsIgnoreCase("Aprovado")) {
                 allDisciplinesApproved = false;
             }
 
