@@ -47,13 +47,18 @@ public class SagresSyncWorker extends Worker {
     public WorkerResult doWork() {
         completed = false;
         int iterations = 0;
-        objects = ((UEFSApplication)getApplicationContext()).getRefreshPackage();
-        preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        initiateSync();
+        try {
+            objects = ((UEFSApplication) getApplicationContext()).getRefreshPackage();
+            preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            initiateSync();
 
-        while (!completed && iterations < 300) {
-            iterations++;
-            SystemClock.sleep(3000);
+            while (!completed && iterations < 300) {
+                iterations++;
+                SystemClock.sleep(3000);
+            }
+        } catch (Exception ignored){
+            Timber.d("Ignored exception");
+            ignored.printStackTrace();
         }
         return WorkerResult.SUCCESS;
     }
@@ -108,19 +113,24 @@ public class SagresSyncWorker extends Worker {
     private void proceedSync() {
         Timber.d("Application is online [WORKER]");
         objects.executors.diskIO().execute(() -> {
-            Access access = objects.database.accessDao().getAccessDirect();
-            if (access == null) {
-                Timber.d("Access is null... stop");
-                NotificationCreator.createNotConnectedNotification(getApplicationContext());
-                completed = true;
-            } else {
-                objects.database.profileDao().setLastSyncAttempt(System.currentTimeMillis());
-                objects.database.messageDao().clearAllNotifications();
-                objects.database.gradeInfoDao().clearAllNotifications();
-                objects.executors.mainThread().execute(() -> {
-                    call = objects.repository.refreshData();
-                    call.observeForever(this::progressObserver);
-                });
+            try {
+                Access access = objects.database.accessDao().getAccessDirect();
+                if (access == null) {
+                    Timber.d("Access is null... stop");
+                    NotificationCreator.createNotConnectedNotification(getApplicationContext());
+                    completed = true;
+                } else {
+                    objects.database.profileDao().setLastSyncAttempt(System.currentTimeMillis());
+                    objects.database.messageDao().clearAllNotifications();
+                    objects.database.gradeInfoDao().clearAllNotifications();
+                    objects.executors.mainThread().execute(() -> {
+                        call = objects.repository.refreshData();
+                        call.observeForever(this::progressObserver);
+                    });
+                }
+            } catch (Exception ignored) {
+                Timber.e("Ignored Exception");
+                ignored.printStackTrace();
             }
         });
     }
