@@ -27,7 +27,7 @@ public class WorkerUtils {
         Timber.d("Frequency: %d", frequency);
         Timber.d("Configured: %s", conf);
         Timber.d("Diff Freq: %d", diffFreq);
-        if (frequency == -1 || (conf && diffFreq == frequency)) {
+        if (frequency == -1) {
             Timber.d("Worker Configuration Completed");
             return;
         }
