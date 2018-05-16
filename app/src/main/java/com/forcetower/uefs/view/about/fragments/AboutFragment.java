@@ -64,7 +64,7 @@ public class AboutFragment extends Fragment {
         setupVersion();
         setupCreditsRecycler();
 
-        cvAboutMe.setOnClickListener(v -> openLink(requireContext(), "https://github.com/ForceTower/UEFS_Sagres_App"));
+        cvAboutMe.setOnClickListener(v -> openLink(requireContext(), "https://facebook.com/ForceTower"));
         cvEnjoy.setOnClickListener(v -> openLink(requireContext(), "https://facebook.com/ForceTower"));
         cvFaq.setOnClickListener(v -> navigateToFAQ());
 

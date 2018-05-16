@@ -15,13 +15,13 @@
             android:id="@+id/nav_game"
             android:icon="@drawable/ic_gamepad_variant_accent_30dp"
             android:title="@string/nav_title_unes_adventure"/>
-<!--
+
         <item
             android:id="@+id/nav_universe"
             android:title="@string/the_universe"
             android:icon="@drawable/ic_atom_black_24dp"
             android:checkable="false"/>
--->
+
     </group>
 
     <group
