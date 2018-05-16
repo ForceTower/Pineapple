@@ -392,4 +392,6 @@
     <string name="universe_building">Building...</string>
     <string name="universe_alpha_open">The Universe is a set of resources for the students.\nTeacher Evaluation\nLost and Found\nUniversity Events\nDiscussion Forums for Classes.\n\nIt's still under construction, all you see here is a mirage</string>
     <string name="class_helper_materials">Helper Files</string>
+    <string name="new_version_notification">UNES Updated</string>
+    <string name="you_need_to_relog_in_this_version">This version requires login again. Sorry, it was the only way</string>
 </resources>
