@@ -115,11 +115,13 @@ public class MainActivity extends UBaseActivity implements HasSupportFragmentInj
 
     private void updateReset() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean value = preferences.getBoolean("unes_not_connected_notification_v6.0.0", true);
         if (!preferences.contains("update_v_3.0.0.rc1")) {
             Timber.d("Performing full clear");
             preferences.edit().clear().apply();
             ((UEFSApplication)getApplication()).clearApplicationData();
             preferences.edit().putInt("update_v_3.0.0.rc1", 1).apply();
+            preferences.edit().putBoolean("unes_not_connected_notification_v6.0.0", value).apply();
         }
 
     }
