@@ -5,12 +5,14 @@ import android.app.Application;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.forcetower.uefs.db.AppDatabase;
 import com.forcetower.uefs.di.AppInjector;
+import com.forcetower.uefs.ntf.NotificationCreator;
 import com.forcetower.uefs.ntf.NotificationHelper;
 import com.forcetower.uefs.rep.sgrs.RefreshRepository;
 import com.forcetower.uefs.service.UNEService;
@@ -67,6 +69,16 @@ public class UEFSApplication extends Application implements HasActivityInjector,
 
         Picasso.Builder builder = new Picasso.Builder(this);
         Picasso.setSingletonInstance(builder.build());
+
+        showNewVersionNotification();
+    }
+
+    private void showNewVersionNotification() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if (preferences.getBoolean("unes_not_connected_notification_v6.0.0", true)) {
+            boolean not = NotificationCreator.notConnectedNotification(this);
+            preferences.edit().putBoolean("unes_not_connected_notification_v6.0.0", !not).apply();
+        }
     }
 
     private void configureFeatures() {

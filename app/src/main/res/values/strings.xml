@@ -394,4 +394,6 @@
     <string name="universe_building">Em construção...</string>
     <string name="universe_alpha_open">O Universo é uma coletânea de recursos para os estudantes\n\nAvaliação dos Professores (AKA Barril de Boas)\nAchados e perdidos\nEventos da Universidade\nForuns de discussão para disciplinas\nEntre outros\n\nEstá em alpha 0.0.0 o que você vê aqui é uma miragem e definitivamente será modificado\n\nEstou trabalhando para que ele seja lancado na versão 6.0 :)</string>
     <string name="class_helper_materials">Materiais de Apoio</string>
+    <string name="new_version_notification">UNES Atualizado</string>
+    <string name="you_need_to_relog_in_this_version">Esta versão requer que você faça login novamente. Desculpe, foi o único jeito</string>
 </resources>

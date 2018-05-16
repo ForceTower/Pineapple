@@ -36,4 +36,14 @@ public class DatabaseMigrations {
             Timber.d("Migration 3 -> 4 Executed");
         }
     };
+
+    public static final Migration MIGRATION_4_5 = new Migration(4, 5) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            Timber.d("Executing migration 4 -> 5");
+            database.execSQL("DROP TABLE Profile");
+            database.execSQL("CREATE TABLE IF NOT EXISTS ProfileUNES (uid INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT, score REAL NOT NULL, last_sync INTEGER NOT NULL, last_sync_attempt INTEGER NOT NULL)");
+            Timber.d("Migration 4 -> 5 Executed");
+        }
+    };
 }
