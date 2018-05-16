@@ -32,7 +32,8 @@ public class DatabaseMigrations {
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             Timber.d("Executing migration 3 -> 4");
             database.execSQL("ALTER TABLE DisciplineClassItem ADD COLUMN class_material_link TEXT");
-            database.execSQL("CREATE TABLE IF NOT EXISTS `DisciplineClassMaterialLink` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `class_id` INTEGER NOT NULL, `name` TEXT, `link` TEXT)");
+            database.execSQL("CREATE TABLE IF NOT EXISTS DisciplineClassMaterialLink (uid INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, class_id INTEGER NOT NULL, name TEXT, link TEXT)");
+            Timber.d("Migration 3 -> 4 Executed");
         }
     };
 }

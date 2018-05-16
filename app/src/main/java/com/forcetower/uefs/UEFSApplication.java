@@ -5,6 +5,7 @@ import android.app.Application;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.preference.PreferenceManager;
 import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
 
@@ -13,6 +14,7 @@ import com.forcetower.uefs.di.AppInjector;
 import com.forcetower.uefs.ntf.NotificationHelper;
 import com.forcetower.uefs.rep.sgrs.RefreshRepository;
 import com.forcetower.uefs.service.UNEService;
+import com.forcetower.uefs.worker.WorkerUtils;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.picasso.Picasso;
 
@@ -69,6 +71,12 @@ public class UEFSApplication extends Application implements HasActivityInjector,
 
     private void configureFeatures() {
         new NotificationHelper(this).createChannels();
+        String strFrequency = PreferenceManager.getDefaultSharedPreferences(this).getString("sync_frequency", "60");
+        int frequency = 60;
+        try {
+            frequency = Integer.parseInt(strFrequency);
+        } catch (Exception ignored) {}
+        WorkerUtils.setupSagresSync(this, frequency);
     }
 
     public void clearApplicationData() {

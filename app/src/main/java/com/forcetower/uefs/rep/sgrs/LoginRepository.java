@@ -118,7 +118,9 @@ public class LoginRepository {
                                 profile.setLastSync(now.getTimeInMillis());
                                 Timber.d("Profile updated with new update time");
                                 executors.diskIO().execute(() -> {
-                                    database.profileDao().insertProfile(profile);
+                                    try {
+                                        database.profileDao().insertProfile(profile);
+                                    } catch (Exception ignored) { Timber.d("Profile SQL error"); ignored.printStackTrace(); }
                                     values.postValue(Resource.success(R.string.completed));
                                 });
                             }
