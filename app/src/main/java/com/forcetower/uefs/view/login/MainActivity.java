@@ -11,16 +11,21 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.UEFSApplication;
 import com.forcetower.uefs.db.AppDatabase;
 import com.forcetower.uefs.db.entity.Message;
+import com.forcetower.uefs.util.NetworkUtils;
+import com.forcetower.uefs.util.WordUtils;
 import com.forcetower.uefs.view.UBaseActivity;
 import com.forcetower.uefs.view.login.fragment.LoginFormFragment;
+import com.forcetower.uefs.worker.WorkerUtils;
 
 import java.util.Calendar;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -75,13 +80,17 @@ public class MainActivity extends UBaseActivity implements HasSupportFragmentInj
         if (notificationExtra == null) return;
 
         if (notificationExtra.equalsIgnoreCase("save_message")) {
-            saveMessage(getIntent().getStringExtra("notification_message"));
+            String message = getIntent().getStringExtra("notification_message");
+            if (message == null) return;
+            saveMessage(message);
+            List<String> links = WordUtils.getLinksOnText(message);
+            if (links == null || links.size() == 0) return;
+            String link = links.get(0);
+            NetworkUtils.openLink(this, link);
         }
     }
 
-    private void saveMessage(String message) {
-        if (message == null) return;
-
+    private void saveMessage(@NonNull String message) {
         String author = getIntent().getStringExtra("notification_author");
         if (author == null) author = "João Paulo - ForceTower";
 
