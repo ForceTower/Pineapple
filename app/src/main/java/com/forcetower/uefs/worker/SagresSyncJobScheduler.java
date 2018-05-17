@@ -1,13 +1,13 @@
 package com.forcetower.uefs.worker;
 
+import android.app.job.JobParameters;
+import android.app.job.JobService;
 import android.arch.lifecycle.LiveData;
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.SystemClock;
+import android.os.Build;
 import android.preference.PreferenceManager;
+import android.support.annotation.RequiresApi;
 
-import com.firebase.jobdispatcher.JobParameters;
-import com.firebase.jobdispatcher.JobService;
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.BuildConfig;
 import com.forcetower.uefs.db.AppDatabase;
@@ -23,7 +23,6 @@ import com.forcetower.uefs.db_service.entity.UpdateStatus;
 import com.forcetower.uefs.ntf.NotificationCreator;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
-import com.forcetower.uefs.rep.sgrs.LoginRepository;
 import com.forcetower.uefs.rep.sgrs.RefreshRepository;
 import com.forcetower.uefs.service.ApiResponse;
 import com.forcetower.uefs.service.UNEService;
@@ -39,7 +38,8 @@ import timber.log.Timber;
 /**
  * Created by João Paulo on 17/05/2018.
  */
-public class SagresSyncJobService extends JobService {
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+public class SagresSyncJobScheduler extends JobService {
     @Inject
     RefreshRepository repository;
     @Inject
@@ -62,18 +62,18 @@ public class SagresSyncJobService extends JobService {
     }
 
     @Override
-    public boolean onStartJob(JobParameters job) {
-        Timber.d("Job Started - FirebaseJobDispatcher");
+    public boolean onStartJob(JobParameters params) {
+        Timber.d("Job Started - Job Scheduler");
         if (BuildConfig.DEBUG) NotificationCreator.createSyncWarning(this);
+        jobParameters = params;
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        jobParameters = job;
         initiateSync();
         return true;
     }
 
     @Override
-    public boolean onStopJob(JobParameters job) {
-        Timber.d("Job Finished - FirebaseJobDispatcher");
+    public boolean onStopJob(JobParameters params) {
+        Timber.d("Job Finished - Job Scheduler");
         return false;
     }
 

@@ -2,6 +2,7 @@ package com.forcetower.uefs.di.module;
 
 import com.forcetower.uefs.svc.firebase.UNESFirebaseInstanceIDService;
 import com.forcetower.uefs.svc.firebase.UNESFirebaseMessagingService;
+import com.forcetower.uefs.worker.SagresSyncJobScheduler;
 import com.forcetower.uefs.worker.SagresSyncJobService;
 
 import dagger.Module;
@@ -20,4 +21,7 @@ public abstract class ServicesModule {
 
     @ContributesAndroidInjector
     abstract SagresSyncJobService contributeSagresSyncJobService();
+
+    @ContributesAndroidInjector
+    abstract SagresSyncJobScheduler contributeSagresSyncJobScheduler();
 }
