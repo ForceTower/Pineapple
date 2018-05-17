@@ -80,7 +80,7 @@ public class SagresSyncJobScheduler extends JobService {
     private void initiateSync() {
         if (!initialVerifications()) {
             completed = true;
-            jobFinished(jobParameters, false);
+            jobFinished(jobParameters, true);
             return;
         }
 
@@ -97,6 +97,7 @@ public class SagresSyncJobScheduler extends JobService {
     private void updateAccountObserver(ApiResponse<UpdateStatus> updateResp) {
         if (updateResp == null) {
             Timber.d("Won't sync: null response");
+            jobFinished(jobParameters, true);
             completed = true;
             return;
         }
@@ -106,6 +107,7 @@ public class SagresSyncJobScheduler extends JobService {
         if (!updateResp.isSuccessful()) {
             Timber.d("Won't sync: unsuccessful response, code %d", updateResp.code);
             completed = true;
+            jobFinished(jobParameters, true);
             return;
         }
 
@@ -113,12 +115,14 @@ public class SagresSyncJobScheduler extends JobService {
         if (status == null) {
             Timber.d("Won't sync: object status is null");
             completed = true;
+            jobFinished(jobParameters, true);
             return;
         }
 
         if (!status.isManager()) {
             Timber.d("Won't sync: manager is disabled");
             completed = true;
+            jobFinished(jobParameters, true);
             return;
         }
 
@@ -146,7 +150,7 @@ public class SagresSyncJobScheduler extends JobService {
             } catch (Exception ignored) {
                 Timber.e("Ignored Exception");
                 ignored.printStackTrace();
-                jobFinished(jobParameters, false);
+                jobFinished(jobParameters, true);
             }
         });
     }
