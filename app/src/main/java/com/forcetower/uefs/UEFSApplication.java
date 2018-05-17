@@ -10,13 +10,16 @@ import android.preference.PreferenceManager;
 import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
 
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.forcetower.uefs.db.AppDatabase;
 import com.forcetower.uefs.di.AppInjector;
 import com.forcetower.uefs.ntf.NotificationCreator;
 import com.forcetower.uefs.ntf.NotificationHelper;
 import com.forcetower.uefs.rep.sgrs.RefreshRepository;
 import com.forcetower.uefs.service.UNEService;
-import com.forcetower.uefs.worker.WorkerUtils;
+import com.forcetower.uefs.worker.SyncUtils;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.picasso.Picasso;
 
@@ -43,6 +46,8 @@ public class UEFSApplication extends Application implements HasActivityInjector,
     DispatchingAndroidInjector<Service> dispatchingServiceAndroidInjector;
     @Inject
     DispatchingAndroidInjector<BroadcastReceiver> dispatchingBroadcastAndroidInjector;
+    @Inject
+    FirebaseJobDispatcher dispatcher;
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -83,12 +88,12 @@ public class UEFSApplication extends Application implements HasActivityInjector,
 
     private void configureFeatures() {
         new NotificationHelper(this).createChannels();
-        /*String strFrequency = PreferenceManager.getDefaultSharedPreferences(this).getString("sync_frequency", "60");
+        String strFrequency = PreferenceManager.getDefaultSharedPreferences(this).getString("sync_frequency", "60");
         int frequency = 60;
         try {
             frequency = Integer.parseInt(strFrequency);
         } catch (Exception ignored) {}
-        WorkerUtils.setupSagresSync(this, frequency);*/
+        SyncUtils.setupSagresSync(dispatcher, this, frequency, true);
     }
 
     public void clearApplicationData() {

@@ -42,6 +42,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.forcetower.uefs.BuildConfig;
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.GooglePlayGamesInstance;
@@ -64,13 +65,12 @@ import com.forcetower.uefs.view.UBaseActivity;
 import com.forcetower.uefs.view.about.AboutActivity;
 import com.forcetower.uefs.view.login.MainActivity;
 import com.forcetower.uefs.view.settings.SettingsActivity;
-import com.forcetower.uefs.view.universe.UniverseActivity;
 import com.forcetower.uefs.vm.base.DownloadsViewModel;
 import com.forcetower.uefs.vm.base.GradesViewModel;
 import com.forcetower.uefs.vm.base.ProfileViewModel;
 import com.forcetower.uefs.vm.base.ScheduleViewModel;
 import com.forcetower.uefs.vm.google.AchievementsViewModel;
-import com.forcetower.uefs.worker.WorkerUtils;
+import com.forcetower.uefs.worker.SyncUtils;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -80,7 +80,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import androidx.work.WorkManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.AndroidInjector;
@@ -125,6 +124,8 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     ViewModelProvider.Factory viewModelFactory;
     @Inject
     NavigationController navigationController;
+    @Inject
+    FirebaseJobDispatcher dispatcher;
 
     @StringRes
     private int titleText;
@@ -236,7 +237,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         try {
             frequency = Integer.parseInt(strFrequency);
         } catch (Exception ignored) {}
-        WorkerUtils.setupSagresSync(this, frequency);
+        SyncUtils.setupSagresSync(dispatcher, this, frequency);
     }
 
     private void setupFragmentStackListener() {
@@ -669,7 +670,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
     private void performLogout() {
         disconnecting = true;
-        WorkManager.getInstance().cancelAllWorkByTag(Constants.WORKER_SYNC_SAGRES_NAME);
+        SyncUtils.cancelSyncService(dispatcher, this);
         gradesViewModel.logout().observe(this, this::logoutObserver);
     }
 

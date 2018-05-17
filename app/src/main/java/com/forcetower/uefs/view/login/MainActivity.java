@@ -2,13 +2,11 @@ package com.forcetower.uefs.view.login;
 
 import android.annotation.SuppressLint;
 import android.arch.lifecycle.ViewModelProvider;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -22,7 +20,6 @@ import com.forcetower.uefs.util.NetworkUtils;
 import com.forcetower.uefs.util.WordUtils;
 import com.forcetower.uefs.view.UBaseActivity;
 import com.forcetower.uefs.view.login.fragment.LoginFormFragment;
-import com.forcetower.uefs.worker.WorkerUtils;
 
 import java.util.Calendar;
 import java.util.List;

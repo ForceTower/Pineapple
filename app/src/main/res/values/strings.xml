@@ -396,4 +396,5 @@
     <string name="class_helper_materials">Materiais de Apoio</string>
     <string name="new_version_notification">UNES Atualizado</string>
     <string name="you_need_to_relog_in_this_version">Esta versão requer que você faça login novamente. Desculpe, foi o único jeito</string>
+    <string name="executing_auto_sync">Executando Sincronização</string>
 </resources>

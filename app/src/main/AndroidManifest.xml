@@ -89,6 +89,14 @@
             </intent-filter>
         </service>
 
+        <service
+            android:exported="false"
+            android:name=".worker.SagresSyncJobService">
+            <intent-filter>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>
+            </intent-filter>
+        </service>
+
         <activity android:name=".view.universe.UniverseActivity">
         </activity>
     </application>
