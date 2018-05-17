@@ -44,9 +44,13 @@ import timber.log.Timber;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class SagresSyncJobScheduler extends JobService {
+    @Inject
     RefreshRepository repository;
+    @Inject
     AppDatabase database;
+    @Inject
     AppExecutors executors;
+    @Inject
     UNEService service;
 
     private LiveData<Resource<Integer>> call;
@@ -58,18 +62,17 @@ public class SagresSyncJobScheduler extends JobService {
     @Override
     public void onCreate() {
         super.onCreate();
-        //AndroidInjection.inject(this);
+        ((UEFSApplication) getApplication()).lollipopServiceInjector().inject(this);
     }
 
     @Override
     public boolean onStartJob(JobParameters params) {
         Timber.d("Job Started - Job Scheduler");
-        UEFSApplication.RefreshObjects objects = ((UEFSApplication)getApplication()).getRefreshPackage();
+        /*UEFSApplication.RefreshObjects objects = ((UEFSApplication)getApplication()).getRefreshPackage();
         repository = objects.repository;
         database = objects.database;
         executors = objects.executors;
-        service = objects.service;
-
+        service = objects.service;*/
 
         if (BuildConfig.DEBUG) NotificationCreator.createSyncWarning(this);
         jobParameters = params;

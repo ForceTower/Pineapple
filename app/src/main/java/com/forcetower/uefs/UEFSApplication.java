@@ -13,6 +13,8 @@ import android.support.v7.app.AppCompatDelegate;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.forcetower.uefs.db.AppDatabase;
 import com.forcetower.uefs.di.AppInjector;
+import com.forcetower.uefs.di.component.AppComponent;
+import com.forcetower.uefs.di.injector.HasLollipopServiceInjector;
 import com.forcetower.uefs.ntf.NotificationCreator;
 import com.forcetower.uefs.ntf.NotificationHelper;
 import com.forcetower.uefs.rep.sgrs.RefreshRepository;
@@ -39,7 +41,7 @@ import timber.log.Timber;
  * Application Class. The android kick start
  */
 public class UEFSApplication extends Application implements HasActivityInjector,
-        HasServiceInjector, HasBroadcastReceiverInjector {
+        HasServiceInjector, HasBroadcastReceiverInjector, HasLollipopServiceInjector {
     @Inject
     DispatchingAndroidInjector<Activity> dispatchingActivityAndroidInjector;
     @Inject
@@ -48,6 +50,8 @@ public class UEFSApplication extends Application implements HasActivityInjector,
     DispatchingAndroidInjector<BroadcastReceiver> dispatchingBroadcastAndroidInjector;
     @Inject
     FirebaseJobDispatcher dispatcher;
+
+    private AppComponent appComponent;
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -68,7 +72,7 @@ public class UEFSApplication extends Application implements HasActivityInjector,
         }
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-        AppInjector.init(this);
+        appComponent = AppInjector.init(this);
 
         configureFeatures();
 
@@ -133,6 +137,11 @@ public class UEFSApplication extends Application implements HasActivityInjector,
     @Override
     public AndroidInjector<Service> serviceInjector() {
         return dispatchingServiceAndroidInjector;
+    }
+
+    @Override
+    public AndroidInjector<Service> lollipopServiceInjector() {
+        return appComponent.lollipopServiceComponent().injector();
     }
 
     @Override

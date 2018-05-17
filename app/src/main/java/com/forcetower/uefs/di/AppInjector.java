@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
 import com.forcetower.uefs.UEFSApplication;
+import com.forcetower.uefs.di.component.AppComponent;
 import com.forcetower.uefs.di.component.DaggerAppComponent;
 
 import dagger.android.AndroidInjection;
@@ -20,8 +21,9 @@ import dagger.android.support.HasSupportFragmentInjector;
  * this is responsible for injecting into every single activity and fragment in the correct moment
  */
 public class AppInjector  {
-    public static void init(UEFSApplication application) {
-        DaggerAppComponent.builder().application(application).build().inject(application);
+    public static AppComponent init(UEFSApplication application) {
+        AppComponent component = DaggerAppComponent.builder().application(application).build();
+        component.inject(application);
 
         application.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
             @Override
@@ -47,6 +49,8 @@ public class AppInjector  {
             @Override
             public void onActivityDestroyed(Activity activity) {}
         });
+
+        return component;
     }
 
     private static void handleActivity(Activity activity) {

@@ -7,6 +7,7 @@ import com.forcetower.uefs.di.module.ActivitiesModule;
 import com.forcetower.uefs.di.module.AppModule;
 import com.forcetower.uefs.di.module.DatabaseModule;
 import com.forcetower.uefs.di.module.DatabaseServiceModule;
+import com.forcetower.uefs.di.module.LollipopGreaterServiceModule;
 import com.forcetower.uefs.di.module.NetworkModule;
 import com.forcetower.uefs.di.module.ReceiversModule;
 import com.forcetower.uefs.di.module.ServicesModule;
@@ -40,4 +41,6 @@ public interface AppComponent {
     }
 
     void inject(UEFSApplication application);
+
+    LollipopGreaterServiceComponent lollipopServiceComponent();
 }
