@@ -1,5 +1,7 @@
 package com.forcetower.uefs.worker;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
 import android.arch.lifecycle.LiveData;
@@ -10,6 +12,7 @@ import android.support.annotation.RequiresApi;
 
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.BuildConfig;
+import com.forcetower.uefs.UEFSApplication;
 import com.forcetower.uefs.db.AppDatabase;
 import com.forcetower.uefs.db.dao.GradeInfoDao;
 import com.forcetower.uefs.db.dao.MessageDao;
@@ -38,15 +41,12 @@ import timber.log.Timber;
 /**
  * Created by João Paulo on 17/05/2018.
  */
+
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class SagresSyncJobScheduler extends JobService {
-    @Inject
     RefreshRepository repository;
-    @Inject
     AppDatabase database;
-    @Inject
     AppExecutors executors;
-    @Inject
     UNEService service;
 
     private LiveData<Resource<Integer>> call;
@@ -58,12 +58,19 @@ public class SagresSyncJobScheduler extends JobService {
     @Override
     public void onCreate() {
         super.onCreate();
-        AndroidInjection.inject(this);
+        //AndroidInjection.inject(this);
     }
 
     @Override
     public boolean onStartJob(JobParameters params) {
         Timber.d("Job Started - Job Scheduler");
+        UEFSApplication.RefreshObjects objects = ((UEFSApplication)getApplication()).getRefreshPackage();
+        repository = objects.repository;
+        database = objects.database;
+        executors = objects.executors;
+        service = objects.service;
+
+
         if (BuildConfig.DEBUG) NotificationCreator.createSyncWarning(this);
         jobParameters = params;
         preferences = PreferenceManager.getDefaultSharedPreferences(this);

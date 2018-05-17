@@ -64,7 +64,7 @@ public class SyncUtils {
         }
     }
 
-    @RequiresApi(21)
+    @TargetApi(21)
     private static boolean scheduleJobLollipop(Context context, int frequency) {
         JobScheduler scheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
         JobInfo.Builder infoBuilder = new JobInfo.Builder(Constants.SAGRES_SYNC_ID, new ComponentName(context, SagresSyncJobScheduler.class));
