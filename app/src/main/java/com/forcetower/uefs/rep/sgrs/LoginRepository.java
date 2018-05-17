@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.WorkerThread;
 
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
@@ -48,7 +49,7 @@ import com.forcetower.uefs.sgrs.parsers.SagresGradeParser;
 import com.forcetower.uefs.sgrs.parsers.SagresMessageParser;
 import com.forcetower.uefs.sgrs.parsers.SagresScheduleParser;
 import com.forcetower.uefs.sgrs.parsers.SagresSemesterParser;
-import com.forcetower.uefs.worker.WorkerUtils;
+import com.forcetower.uefs.worker.SyncUtils;
 import com.franmontiel.persistentcookiejar.ClearableCookieJar;
 
 import org.jsoup.nodes.Document;
@@ -86,15 +87,17 @@ public class LoginRepository {
     private final OkHttpClient client;
     private final ClearableCookieJar cookieJar;
     private final Context context;
+    private final FirebaseJobDispatcher dispatcher;
 
     @Inject
     LoginRepository (AppExecutors executors, AppDatabase database, OkHttpClient client,
-                     ClearableCookieJar cookieJar, Context context) {
+                     ClearableCookieJar cookieJar, Context context, FirebaseJobDispatcher dispatcher) {
         this.executors = executors;
         this.database = database;
         this.client = client;
         this.cookieJar = cookieJar;
         this.context = context;
+        this.dispatcher = dispatcher;
     }
 
     public LiveData<Resource<Integer>> login(String username, String password) {
@@ -646,7 +649,7 @@ public class LoginRepository {
         Timber.d("Logout requested");
         cookieJar.clear();
         MutableLiveData<Resource<Integer>> logout = new MutableLiveData<>();
-        WorkerUtils.disableSagresSync(context);
+        SyncUtils.cancelSyncService(dispatcher, context);
         executors.diskIO().execute(() -> {
             deleteDatabase();
             Timber.d("%s", database.gradeInfoDao().getGradesFromSectionDirect(1));

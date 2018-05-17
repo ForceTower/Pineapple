@@ -17,6 +17,7 @@ import com.forcetower.uefs.db_service.entity.Version;
 import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.connected.LoggedActivity;
 import com.forcetower.uefs.view.login.MainActivity;
+import com.forcetower.uefs.worker.SagresSyncJobService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import timber.log.Timber;
@@ -210,6 +211,18 @@ public class NotificationCreator {
                 .setColor(ContextCompat.getColor(context, R.color.colorPrimary));
 
         addOptions(context, builder);
+        showNotification(context, message.hashCode(), builder);
+    }
+
+    public static void createSyncWarning(Context context) {
+        NotificationCompat.Builder builder = notificationBuilder(context, Constants.CHANNEL_GENERAL_WARNINGS_ID)
+                .setContentTitle(context.getString(R.string.title_auto_sync));
+
+        String message = context.getString(R.string.executing_auto_sync);
+        builder.setContentText(message)
+                .setStyle(createBigText(message))
+                .setColor(ContextCompat.getColor(context, R.color.colorPrimary));
+        //addOptions(context, builder);
         showNotification(context, message.hashCode(), builder);
     }
 }

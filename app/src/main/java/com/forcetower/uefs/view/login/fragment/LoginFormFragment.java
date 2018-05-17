@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.anim.ChangeBoundsTransition;
 import com.forcetower.uefs.db.entity.Access;
@@ -24,7 +25,7 @@ import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.about.AboutActivity;
 import com.forcetower.uefs.view.connected.LoggedActivity;
 import com.forcetower.uefs.vm.base.LoginViewModel;
-import com.forcetower.uefs.worker.WorkerUtils;
+import com.forcetower.uefs.worker.SyncUtils;
 
 import javax.inject.Inject;
 
@@ -56,6 +57,8 @@ public class LoginFormFragment extends Fragment implements Injectable {
     ViewGroup vgForm;
 
     @Inject
+    FirebaseJobDispatcher dispatcher;
+    @Inject
     ViewModelProvider.Factory viewModelFactory;
     LoginViewModel loginViewModel;
 
@@ -82,7 +85,7 @@ public class LoginFormFragment extends Fragment implements Injectable {
             AnimUtils.fadeOut(getContext(), vgLoading);
             AnimUtils.fadeIn(getContext(), vgForm);
             AnimUtils.fadeIn(getContext(), tvClickToKnowAbout);
-            WorkerUtils.disableSagresSync(getContext());
+            SyncUtils.cancelSyncService(dispatcher, getContext());
         } else {
             Timber.d("Access is not null. Moving to connected!");
             if (!loginViewModel.isActivityStarted()) {

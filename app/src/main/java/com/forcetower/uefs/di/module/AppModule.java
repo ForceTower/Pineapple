@@ -4,6 +4,8 @@ import android.app.Application;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.GooglePlayGamesInstance;
 import com.forcetower.uefs.db.AppDatabase;
@@ -78,6 +80,12 @@ public class AppModule {
     @Singleton
     GooglePlayGamesInstance provideGooglePlayGamesInstance(Context context) {
         return new GooglePlayGamesInstance(context);
+    }
+
+    @Provides
+    @Singleton
+    FirebaseJobDispatcher provideJobDispatcher(Context context) {
+        return new FirebaseJobDispatcher(new GooglePlayDriver(context));
     }
 
 }

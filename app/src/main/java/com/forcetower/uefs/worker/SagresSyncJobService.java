@@ -1,13 +1,16 @@
 package com.forcetower.uefs.worker;
 
 import android.arch.lifecycle.LiveData;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 
+import com.firebase.jobdispatcher.JobParameters;
+import com.firebase.jobdispatcher.JobService;
+import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.BuildConfig;
-import com.forcetower.uefs.UEFSApplication;
+import com.forcetower.uefs.db.AppDatabase;
 import com.forcetower.uefs.db.dao.GradeInfoDao;
 import com.forcetower.uefs.db.dao.MessageDao;
 import com.forcetower.uefs.db.entity.Access;
@@ -20,6 +23,7 @@ import com.forcetower.uefs.db_service.entity.UpdateStatus;
 import com.forcetower.uefs.ntf.NotificationCreator;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
+import com.forcetower.uefs.rep.sgrs.LoginRepository;
 import com.forcetower.uefs.rep.sgrs.RefreshRepository;
 import com.forcetower.uefs.service.ApiResponse;
 import com.forcetower.uefs.service.UNEService;
@@ -29,51 +33,62 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import androidx.work.Worker;
+import dagger.android.AndroidInjection;
 import timber.log.Timber;
 
 /**
- * Created by João Paulo on 10/05/2018.
+ * Created by João Paulo on 17/05/2018.
  */
-public class SagresSyncWorker extends Worker {
-    private UEFSApplication.RefreshObjects objects;
-    private SharedPreferences preferences;
+public class SagresSyncJobService extends JobService {
+    @Inject
+    RefreshRepository repository;
+    @Inject
+    AppDatabase database;
+    @Inject
+    AppExecutors executors;
+    @Inject
+    UNEService service;
+
     private LiveData<Resource<Integer>> call;
     private LiveData<ApiResponse<UpdateStatus>> updateData;
-    private boolean completed;
+    private SharedPreferences preferences;
+    boolean completed = false;
+    private JobParameters jobParameters;
 
-    @NonNull
     @Override
-    public WorkerResult doWork() {
-        completed = false;
-        int iterations = 0;
-        try {
-            objects = ((UEFSApplication) getApplicationContext()).getRefreshPackage();
-            preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-            initiateSync();
+    public void onCreate() {
+        super.onCreate();
+        AndroidInjection.inject(this);
+    }
 
-            while (!completed && iterations < 300) {
-                iterations++;
-                SystemClock.sleep(3000);
-            }
-        } catch (Exception ignored){
-            Timber.d("Ignored exception");
-            ignored.printStackTrace();
-        }
-        return WorkerResult.SUCCESS;
+    @Override
+    public boolean onStartJob(JobParameters job) {
+        Timber.d("Job Started - FirebaseJobDispatcher");
+        if (BuildConfig.DEBUG) NotificationCreator.createSyncWarning(this);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        jobParameters = job;
+        initiateSync();
+        return true;
+    }
+
+    @Override
+    public boolean onStopJob(JobParameters job) {
+        Timber.d("Job Finished - FirebaseJobDispatcher");
+        return false;
     }
 
     private void initiateSync() {
         if (!initialVerifications()) {
             completed = true;
+            jobFinished(jobParameters, false);
             return;
         }
 
-        objects.executors.networkIO().execute(() -> {
+        executors.networkIO().execute(() -> {
             if (BuildConfig.DEBUG) {
                 proceedSync();
             } else {
-                updateData = objects.service.getUpdateStatus();
+                updateData = service.getUpdateStatus();
                 updateData.observeForever(this::updateAccountObserver);
             }
         });
@@ -86,7 +101,7 @@ public class SagresSyncWorker extends Worker {
             return;
         }
 
-        objects.executors.mainThread().execute(() -> updateData.removeObserver(this::updateAccountObserver));
+        executors.mainThread().execute(() -> updateData.removeObserver(this::updateAccountObserver));
 
         if (!updateResp.isSuccessful()) {
             Timber.d("Won't sync: unsuccessful response, code %d", updateResp.code);
@@ -102,7 +117,7 @@ public class SagresSyncWorker extends Worker {
         }
 
         if (!status.isManager()) {
-            Timber.d("Won't sync: alarm is disabled");
+            Timber.d("Won't sync: manager is disabled");
             completed = true;
             return;
         }
@@ -112,25 +127,26 @@ public class SagresSyncWorker extends Worker {
 
     private void proceedSync() {
         Timber.d("Application is online [WORKER]");
-        objects.executors.diskIO().execute(() -> {
+        executors.diskIO().execute(() -> {
             try {
-                Access access = objects.database.accessDao().getAccessDirect();
+                Access access = database.accessDao().getAccessDirect();
                 if (access == null) {
                     Timber.d("Access is null... stop");
                     NotificationCreator.createNotConnectedNotification(getApplicationContext());
                     completed = true;
                 } else {
-                    objects.database.profileDao().setLastSyncAttempt(System.currentTimeMillis());
-                    objects.database.messageDao().clearAllNotifications();
-                    objects.database.gradeInfoDao().clearAllNotifications();
-                    objects.executors.mainThread().execute(() -> {
-                        call = objects.repository.refreshData();
+                    database.profileDao().setLastSyncAttempt(System.currentTimeMillis());
+                    database.messageDao().clearAllNotifications();
+                    database.gradeInfoDao().clearAllNotifications();
+                    executors.mainThread().execute(() -> {
+                        call = repository.refreshData();
                         call.observeForever(this::progressObserver);
                     });
                 }
             } catch (Exception ignored) {
                 Timber.e("Ignored Exception");
                 ignored.printStackTrace();
+                jobFinished(jobParameters, false);
             }
         });
     }
@@ -159,20 +175,21 @@ public class SagresSyncWorker extends Worker {
             createNotifications();
         } else {
             //noinspection ConstantConditions
-            Timber.d("Refresh progress on alarm: %s", getApplicationContext().getString(resource.data));
+            Timber.d("Refresh progress on job: %s", getApplicationContext().getString(resource.data));
         }
     }
 
     private void createNotifications() {
-        objects.executors.diskIO().execute(() -> {
+        executors.diskIO().execute(() -> {
             messagesNotifications();
             gradesNotifications();
             completed = true;
+            jobFinished(jobParameters, false);
         });
     }
 
     private void messagesNotifications() {
-        MessageDao messageDao = objects.database.messageDao();
+        MessageDao messageDao = database.messageDao();
         Timber.d("Generate message notifications");
         List<Message> messages = messageDao.getAllUnnotifiedMessages();
         for (Message message : messages) {
@@ -189,11 +206,11 @@ public class SagresSyncWorker extends Worker {
     }
 
     private void gradesNotifications() {
-        List<Semester> semesters = objects.database.semesterDao().getAllSemestersDirect();
+        List<Semester> semesters = database.semesterDao().getAllSemestersDirect();
         Semester semester = Semester.getCurrentSemester(semesters);
         String name = semester.getName();
 
-        GradeInfoDao infoDao = objects.database.gradeInfoDao();
+        GradeInfoDao infoDao = database.gradeInfoDao();
         Timber.d("Generate grades notifications for grades posted");
         gradesNotificationHandler(infoDao, infoDao.getUnnotifiedGrades(name), 1);
         Timber.d("Generate grades notifications for recently created grades");
@@ -222,8 +239,8 @@ public class SagresSyncWorker extends Worker {
     }
 
     private void findClass(GradeInfo info) {
-        GradeSection section = objects.database.gradeSectionDao().getSectionByIdDirect(info.getSection());
-        Discipline discipline = objects.database.disciplineDao().getDisciplinesByIdDirect(section.getDiscipline());
+        GradeSection section = database.gradeSectionDao().getSectionByIdDirect(info.getSection());
+        Discipline discipline = database.disciplineDao().getDisciplinesByIdDirect(section.getDiscipline());
         info.setClassName(discipline.getName());
     }
 }

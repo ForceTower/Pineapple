@@ -1,7 +1,13 @@
 package com.forcetower.uefs.svc.firebase;
 
 import android.content.Context;
+import android.os.Build;
 
+import com.forcetower.uefs.BuildConfig;
+import com.forcetower.uefs.db.dao.AccessDao;
+import com.forcetower.uefs.db.entity.Access;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
@@ -16,6 +22,8 @@ import timber.log.Timber;
 public class UNESFirebaseInstanceIDService extends FirebaseInstanceIdService {
     @Inject
     Context context;
+    @Inject
+    AccessDao access;
 
     @Override
     public void onCreate() {
@@ -28,5 +36,11 @@ public class UNESFirebaseInstanceIDService extends FirebaseInstanceIdService {
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Timber.d("Firebase Token: %s", refreshedToken);
         Timber.d("Is context null? %s", context);
+
+        Access a = access.getAccessDirect();
+        if (a == null) return;
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("firebase_tokens");
+        reference.child(a.getUsername()).child("token").setValue(refreshedToken);
+        reference.child(a.getUsername()).child("device").setValue(Build.MANUFACTURER + " " + Build.MODEL + " -- " + Build.BRAND);
     }
 }
