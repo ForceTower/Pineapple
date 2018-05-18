@@ -1,16 +1,14 @@
-package com.forcetower.uefs.worker;
+package com.forcetower.uefs.sync.alm;
 
-import android.app.job.JobParameters;
-import android.app.job.JobService;
 import android.arch.lifecycle.LiveData;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.preference.PreferenceManager;
-import android.support.annotation.RequiresApi;
 
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.BuildConfig;
-import com.forcetower.uefs.UEFSApplication;
 import com.forcetower.uefs.db.AppDatabase;
 import com.forcetower.uefs.db.dao.GradeInfoDao;
 import com.forcetower.uefs.db.dao.MessageDao;
@@ -33,14 +31,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import dagger.android.AndroidInjection;
 import timber.log.Timber;
 
-/**
- * Created by João Paulo on 17/05/2018.
- */
-
-@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class SagresSyncJobScheduler extends JobService {
+public class RefreshBroadcastReceiver extends BroadcastReceiver {
     @Inject
     RefreshRepository repository;
     @Inject
@@ -50,44 +44,19 @@ public class SagresSyncJobScheduler extends JobService {
     @Inject
     UNEService service;
 
+    private Context context;
+    private SharedPreferences preferences;
     private LiveData<Resource<Integer>> call;
     private LiveData<ApiResponse<UpdateStatus>> updateData;
-    private SharedPreferences preferences;
-    boolean completed = false;
-    private JobParameters jobParameters;
 
     @Override
-    public void onCreate() {
-        super.onCreate();
-        ((UEFSApplication) getApplication()).lollipopServiceInjector().inject(this);
-    }
+    public void onReceive(Context context, Intent intent) {
+        AndroidInjection.inject(this, context);
+        Timber.d("On Receive at Refresh Broadcast");
+        this.context = context;
+        preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-    @Override
-    public boolean onStartJob(JobParameters params) {
-        Timber.d("Job Started - Job Scheduler");
-        /*UEFSApplication.RefreshObjects objects = ((UEFSApplication)getApplication()).getRefreshPackage();
-        repository = objects.repository;
-        database = objects.database;
-        executors = objects.executors;
-        service = objects.service;*/
-
-        if (BuildConfig.DEBUG) NotificationCreator.createSyncWarning(this);
-        jobParameters = params;
-        preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        initiateSync();
-        return true;
-    }
-
-    @Override
-    public boolean onStopJob(JobParameters params) {
-        Timber.d("Job Finished - Job Scheduler");
-        return false;
-    }
-
-    private void initiateSync() {
         if (!initialVerifications()) {
-            completed = true;
-            jobFinished(jobParameters, true);
             return;
         }
 
@@ -104,8 +73,6 @@ public class SagresSyncJobScheduler extends JobService {
     private void updateAccountObserver(ApiResponse<UpdateStatus> updateResp) {
         if (updateResp == null) {
             Timber.d("Won't sync: null response");
-            jobFinished(jobParameters, true);
-            completed = true;
             return;
         }
 
@@ -113,23 +80,17 @@ public class SagresSyncJobScheduler extends JobService {
 
         if (!updateResp.isSuccessful()) {
             Timber.d("Won't sync: unsuccessful response, code %d", updateResp.code);
-            completed = true;
-            jobFinished(jobParameters, true);
             return;
         }
 
         UpdateStatus status = updateResp.body;
         if (status == null) {
             Timber.d("Won't sync: object status is null");
-            completed = true;
-            jobFinished(jobParameters, true);
             return;
         }
 
-        if (!status.isManager()) {
-            Timber.d("Won't sync: manager is disabled");
-            completed = true;
-            jobFinished(jobParameters, true);
+        if (!status.isAlarm()) {
+            Timber.d("Won't sync: alarm is disabled");
             return;
         }
 
@@ -137,38 +98,31 @@ public class SagresSyncJobScheduler extends JobService {
     }
 
     private void proceedSync() {
-        Timber.d("Application is online [WORKER]");
+        Timber.d("Application is online [ALARM]");
         executors.diskIO().execute(() -> {
-            try {
-                Access access = database.accessDao().getAccessDirect();
-                if (access == null) {
-                    Timber.d("Access is null... stop");
-                    NotificationCreator.createNotConnectedNotification(getApplicationContext());
-                    completed = true;
-                } else {
-                    database.profileDao().setLastSyncAttempt(System.currentTimeMillis());
-                    database.messageDao().clearAllNotifications();
-                    database.gradeInfoDao().clearAllNotifications();
-                    executors.mainThread().execute(() -> {
-                        call = repository.refreshData();
-                        call.observeForever(this::progressObserver);
-                    });
-                }
-            } catch (Exception ignored) {
-                Timber.e("Ignored Exception");
-                ignored.printStackTrace();
-                jobFinished(jobParameters, true);
+            Access access = database.accessDao().getAccessDirect();
+            if (access == null) {
+                Timber.d("Access is null... stop");
+                NotificationCreator.createNotConnectedNotification(context);
+            } else {
+                database.profileDao().setLastSyncAttempt(System.currentTimeMillis());
+                database.messageDao().clearAllNotifications();
+                database.gradeInfoDao().clearAllNotifications();
+                executors.mainThread().execute(() -> {
+                    call = repository.refreshData();
+                    call.observeForever(this::progressObserver);
+                });
             }
         });
     }
 
     private boolean initialVerifications() {
-        if (!NetworkUtils.isNetworkAvailable(getApplicationContext())) {
+        if (!NetworkUtils.isNetworkAvailable(context)) {
             Timber.d("No internet");
             return false;
         }
 
-        if (preferences.getBoolean("sync_wifi_only", false) && !NetworkUtils.isConnectedToWifi(getApplicationContext())) {
+        if (preferences.getBoolean("sync_wifi_only", false) && !NetworkUtils.isConnectedToWifi(context)) {
             Timber.d("Not on a wifi connection");
             return false;
         }
@@ -186,7 +140,7 @@ public class SagresSyncJobScheduler extends JobService {
             createNotifications();
         } else {
             //noinspection ConstantConditions
-            Timber.d("Refresh progress on job: %s", getApplicationContext().getString(resource.data));
+            Timber.d("Refresh progress on alarm: %s", context.getString(resource.data));
         }
     }
 
@@ -194,8 +148,6 @@ public class SagresSyncJobScheduler extends JobService {
         executors.diskIO().execute(() -> {
             messagesNotifications();
             gradesNotifications();
-            completed = true;
-            jobFinished(jobParameters, false);
         });
     }
 
@@ -204,7 +156,7 @@ public class SagresSyncJobScheduler extends JobService {
         Timber.d("Generate message notifications");
         List<Message> messages = messageDao.getAllUnnotifiedMessages();
         for (Message message : messages) {
-            boolean notified = NotificationCreator.createMessageNotification(getApplicationContext(), message);
+            boolean notified = NotificationCreator.createMessageNotification(context, message);
             if (notified) {
                 message.setNotified(1);
             }
@@ -234,7 +186,7 @@ public class SagresSyncJobScheduler extends JobService {
         Timber.d("Number of notifications: %d", infos.size());
         for (GradeInfo info : infos) {
             findClass(info);
-            boolean notified = NotificationCreator.createGradeNotification(getApplicationContext(), info, type);
+            boolean notified = NotificationCreator.createGradeNotification(context, info, type);
             if (notified) info.setNotified(0);
         }
 

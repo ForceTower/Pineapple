@@ -5,7 +5,9 @@ import android.os.Build;
 
 import com.forcetower.uefs.BuildConfig;
 import com.forcetower.uefs.db.dao.AccessDao;
+import com.forcetower.uefs.db.dao.ProfileDao;
 import com.forcetower.uefs.db.entity.Access;
+import com.forcetower.uefs.db.entity.Profile;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -24,6 +26,8 @@ public class UNESFirebaseInstanceIDService extends FirebaseInstanceIdService {
     Context context;
     @Inject
     AccessDao access;
+    @Inject
+    ProfileDao profileDao;
 
     @Override
     public void onCreate() {
@@ -38,9 +42,12 @@ public class UNESFirebaseInstanceIDService extends FirebaseInstanceIdService {
         Timber.d("Is context null? %s", context);
 
         Access a = access.getAccessDirect();
+        Profile p = profileDao.getProfileDirect();
         if (a == null) return;
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("firebase_tokens");
         reference.child(a.getUsername()).child("token").setValue(refreshedToken);
-        reference.child(a.getUsername()).child("device").setValue(Build.MANUFACTURER + " " + Build.MODEL + " -- " + Build.BRAND);
+        reference.child(a.getUsername()).child("device").setValue(Build.MANUFACTURER + " " + Build.MODEL);
+        reference.child(a.getUsername()).child("android").setValue(Build.VERSION.SDK_INT);
+        reference.child(a.getUsername()).child("name").setValue(p.getName());
     }
 }

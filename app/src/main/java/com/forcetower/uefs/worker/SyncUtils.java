@@ -16,6 +16,7 @@ import com.firebase.jobdispatcher.Job;
 import com.firebase.jobdispatcher.Lifetime;
 import com.firebase.jobdispatcher.Trigger;
 import com.forcetower.uefs.Constants;
+import com.forcetower.uefs.ntf.NotificationCreator;
 import com.forcetower.uefs.util.VersionUtils;
 
 import timber.log.Timber;
@@ -40,11 +41,18 @@ public class SyncUtils {
         boolean replace = oldFreq == frequency;
         Timber.d("Same frequency sync? %s", replace);
 
-        if (frequency == oldFreq) return;
-        if (frequency == -1) {
-            cancelSyncService(dispatcher, context);
+        if (frequency == oldFreq) {
+            NotificationCreator.createNotificationWithDevMessage(context, "Enable Worker command disposed");
             return;
         }
+
+        if (frequency == -1) {
+            cancelSyncService(dispatcher, context);
+            NotificationCreator.createNotificationWithDevMessage(context, "Disable Worker. It's a -1 cancel");
+            return;
+        }
+
+        NotificationCreator.createNotificationWithDevMessage(context, "Schedule Worker");
 
         boolean result;
         if (VersionUtils.isLollipop()) {
@@ -59,8 +67,10 @@ public class SyncUtils {
                     .putInt("sagres_sync_worker_frequency", frequency)
                     .apply();
             Timber.d("Job scheduled");
+            NotificationCreator.createNotificationWithDevMessage(context, "Schedule worker completed");
         } else {
             Timber.d("Failed to schedule job");
+            NotificationCreator.createNotificationWithDevMessage(context, "Schedule Worker failed");
         }
     }
 
@@ -70,7 +80,6 @@ public class SyncUtils {
         JobInfo.Builder infoBuilder = new JobInfo.Builder(Constants.SAGRES_SYNC_ID, new ComponentName(context, SagresSyncJobScheduler.class));
         infoBuilder.setPeriodic(frequency * 60 * 1000);
         infoBuilder.setPersisted(true);
-        infoBuilder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
         assert scheduler != null;
         scheduler.cancel(Constants.SAGRES_SYNC_ID);
         int result = scheduler.schedule(infoBuilder.build());
@@ -107,7 +116,7 @@ public class SyncUtils {
         if (VersionUtils.isLollipop())
             cancelLollipop(context);
         else
-            cancelSyncOther(dispatcher);
+            cancelSyncOther(dispatcher, context);
 
         Timber.d("Configuration erased");
         preferences.edit().putBoolean("sagres_sync_worker_configured_application", false).apply();
@@ -119,9 +128,11 @@ public class SyncUtils {
         JobScheduler scheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
         assert scheduler != null;
         scheduler.cancel(Constants.SAGRES_SYNC_ID);
+        NotificationCreator.createNotificationWithDevMessage(context, "Disable Worker Command Received");
     }
 
-    private static void cancelSyncOther(FirebaseJobDispatcher dispatcher) {
+    private static void cancelSyncOther(FirebaseJobDispatcher dispatcher, Context context) {
         dispatcher.cancel(Constants.WORKER_SYNC_SAGRES_NAME);
+        NotificationCreator.createNotificationWithDevMessage(context, "Disable Worker Command Received");
     }
 }

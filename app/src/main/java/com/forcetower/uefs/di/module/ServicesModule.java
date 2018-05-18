@@ -6,6 +6,7 @@ import android.support.annotation.RequiresApi;
 
 import com.forcetower.uefs.svc.firebase.UNESFirebaseInstanceIDService;
 import com.forcetower.uefs.svc.firebase.UNESFirebaseMessagingService;
+import com.forcetower.uefs.sync.service.SyncAdapterService;
 import com.forcetower.uefs.worker.SagresSyncJobScheduler;
 import com.forcetower.uefs.worker.SagresSyncJobService;
 
@@ -17,6 +18,9 @@ import dagger.android.ContributesAndroidInjector;
  */
 @Module
 public abstract class ServicesModule {
+    @ContributesAndroidInjector
+    abstract SyncAdapterService contributeSyncAdapterService();
+
     @ContributesAndroidInjector
     abstract UNESFirebaseInstanceIDService contributeUNESFirebaseInstanceIDService();
 

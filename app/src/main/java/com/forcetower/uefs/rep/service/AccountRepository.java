@@ -2,8 +2,10 @@ package com.forcetower.uefs.rep.service;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -23,6 +25,9 @@ import com.forcetower.uefs.service.UNEService;
 import com.forcetower.uefs.util.BCrypt;
 import com.forcetower.uefs.util.ImageUtils;
 import com.google.common.hash.Hashing;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.io.File;
 import java.nio.charset.Charset;
@@ -186,5 +191,30 @@ public class AccountRepository {
                 return service.login("password", username, passwordCrypt, 2, clientSecret, "*");
             }
         }.asLiveData();
+    }
+
+    public LiveData<String> setUserToken() {
+        MutableLiveData<String> data = new MutableLiveData<>();
+        executors.diskIO().execute(() -> {
+            try {
+                Access a = appDatabase.accessDao().getAccessDirect();
+                Profile p = appDatabase.profileDao().getProfileDirect();
+                if (a == null) return;
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("firebase_tokens");
+                String token = FirebaseInstanceId.getInstance().getToken();
+                if (token == null) {
+                    data.postValue("Null Firebase Token");
+                } else {
+                    reference.child(a.getUsername()).child("token").setValue(token);
+                    reference.child(a.getUsername()).child("device").setValue(Build.MANUFACTURER + " " + Build.MODEL);
+                    reference.child(a.getUsername()).child("android").setValue(Build.VERSION.SDK_INT);
+                    reference.child(a.getUsername()).child("name").setValue(p != null ? p.getName() : "Null Profile");
+                    data.postValue("Completed");
+                }
+            } catch (Exception ignored) {
+                ignored.printStackTrace();
+            }
+        });
+        return data;
     }
 }

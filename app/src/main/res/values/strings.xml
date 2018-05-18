@@ -241,7 +241,7 @@
     <string name="new_schedule_layout_enabled">Eu prefiro a nova tela de horários</string>
     <string name="changes_apply_after_restart">As mudanças serão aplicadas quando você abrir a tela de horários novamente</string>
 
-    <string name="account_type" translatable="false">com.forcetower.uefs.sync</string>
+    <string name="account_type" translatable="false">com.forcetower.uefs.synchonization</string>
     <string name="authority" translatable="false">com.forcetower.uefs.provider</string>
     <string name="title_big_tray">Bandejão</string>
     <string name="title_big_tray_desc">Veja a cota do bandejão</string>

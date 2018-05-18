@@ -9,6 +9,7 @@ import android.support.annotation.StringRes;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 
+import com.forcetower.uefs.BuildConfig;
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.GradeInfo;
@@ -219,6 +220,19 @@ public class NotificationCreator {
                 .setContentTitle(context.getString(R.string.title_auto_sync));
 
         String message = context.getString(R.string.executing_auto_sync);
+        builder.setContentText(message)
+                .setStyle(createBigText(message))
+                .setColor(ContextCompat.getColor(context, R.color.colorPrimary));
+        //addOptions(context, builder);
+        showNotification(context, message.hashCode(), builder);
+    }
+
+    public static void createNotificationWithDevMessage(Context context, String message) {
+        if (!BuildConfig.DEBUG) return;
+
+        NotificationCompat.Builder builder = notificationBuilder(context, Constants.CHANNEL_GENERAL_WARNINGS_ID)
+                .setContentTitle("Dev notification");
+
         builder.setContentText(message)
                 .setStyle(createBigText(message))
                 .setColor(ContextCompat.getColor(context, R.color.colorPrimary));

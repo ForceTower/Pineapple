@@ -19,6 +19,7 @@ import com.forcetower.uefs.ntf.NotificationCreator;
 import com.forcetower.uefs.ntf.NotificationHelper;
 import com.forcetower.uefs.rep.sgrs.RefreshRepository;
 import com.forcetower.uefs.service.UNEService;
+import com.forcetower.uefs.sync.service.SyncConfiguration;
 import com.forcetower.uefs.worker.SyncUtils;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -98,6 +99,7 @@ public class UEFSApplication extends Application implements HasActivityInjector,
             frequency = Integer.parseInt(strFrequency);
         } catch (Exception ignored) {}
         SyncUtils.setupSagresSync(dispatcher, this, frequency);
+        SyncConfiguration.initializeSyncAdapter(this);
     }
 
     public void clearApplicationData() {

@@ -43,6 +43,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.BuildConfig;
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.GooglePlayGamesInstance;
@@ -57,6 +58,7 @@ import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.SagresDocuments;
 import com.forcetower.uefs.rep.helper.Status;
 import com.forcetower.uefs.service.ApiResponse;
+import com.forcetower.uefs.sync.alm.RefreshAlarmTrigger;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.util.NetworkUtils;
 import com.forcetower.uefs.util.VersionUtils;
@@ -65,11 +67,13 @@ import com.forcetower.uefs.view.UBaseActivity;
 import com.forcetower.uefs.view.about.AboutActivity;
 import com.forcetower.uefs.view.login.MainActivity;
 import com.forcetower.uefs.view.settings.SettingsActivity;
+import com.forcetower.uefs.view.universe.UniverseActivity;
 import com.forcetower.uefs.vm.base.DownloadsViewModel;
 import com.forcetower.uefs.vm.base.GradesViewModel;
 import com.forcetower.uefs.vm.base.ProfileViewModel;
 import com.forcetower.uefs.vm.base.ScheduleViewModel;
 import com.forcetower.uefs.vm.google.AchievementsViewModel;
+import com.forcetower.uefs.vm.universe.UAccountViewModel;
 import com.forcetower.uefs.worker.SyncUtils;
 import com.squareup.picasso.Picasso;
 
@@ -126,6 +130,8 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     NavigationController navigationController;
     @Inject
     FirebaseJobDispatcher dispatcher;
+    @Inject
+    AppExecutors executors;
 
     @StringRes
     private int titleText;
@@ -134,6 +140,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     private GradesViewModel gradesViewModel;
     private AchievementsViewModel achievementsViewModel;
     private DownloadsViewModel downloadsViewModel;
+    private UAccountViewModel uAccountViewModel;
 
     private int numberOfLoadings = 0;
     private int numberOfSemesters = -1;
@@ -224,11 +231,23 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     }
 
     private void onActivityCreated() {
+        setupAlarmManager();
+        RefreshAlarmTrigger.enableBootComponent(this);
         setupWorker();
         setupShortcuts();
 
         mPreferences.edit().putBoolean("show_not_connected_notification", false).apply();
         initiateActivity();
+    }
+
+    private void setupAlarmManager() {
+        String strFrequency = mPreferences.getString("sync_frequency", "60");
+        int frequency = 60;
+        try {
+            frequency = Integer.parseInt(strFrequency);
+        } catch (Exception ignored) {}
+
+        RefreshAlarmTrigger.create(this);
     }
 
     private void setupWorker() {
@@ -393,6 +412,8 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         downloadsViewModel = ViewModelProviders.of(this, viewModelFactory).get(DownloadsViewModel.class);
         downloadsViewModel.getDownloadCertificate().observe(this, this::onCertificateDownload);
         downloadsViewModel.getDownloadFlowchart().observe(this, this::onFlowchartDownload);
+
+        uAccountViewModel = ViewModelProviders.of(this, viewModelFactory).get(UAccountViewModel.class);
     }
 
     private void onCertificateDownload(Resource<Integer> resource) {
@@ -577,7 +598,11 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
                     clearBackStack();
                     navigationController.navigateToOutdatedVersion();
                 }
-            } catch (PackageManager.NameNotFoundException ignored) {}
+
+
+            } catch (Exception ignored) {}
+
+            uAccountViewModel.setUserToken().observe(this, void_ling -> Timber.d("void_ling" + void_ling));
         }
     }
 
@@ -652,9 +677,9 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
                 openCertificatePdf(true, SagresDocuments.ENROLLMENT_CERTIFICATE);
             } else if (id == R.id.nav_flowchart_certificate) {
                 openCertificatePdf(true, SagresDocuments.FLOWCHART);
-            } /*else if (id == R.id.nav_universe) {
+            } else if (id == R.id.nav_universe) {
                 UniverseActivity.startActivity(this);
-            }*/
+            }
 
             if (item.isCheckable()) selectedNavId = id;
         }
