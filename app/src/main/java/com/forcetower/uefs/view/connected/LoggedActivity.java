@@ -170,6 +170,8 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         downloadCert = new NavigationCustomActionViews();
         downloadFlow = new NavigationCustomActionViews();
 
+        Timber.d("Screen DPI is: %d", getResources().getDisplayMetrics().densityDpi);
+
         ButterKnife.bind(navViews, navigationView.getHeaderView(0));
         ButterKnife.bind(downloadCert, navigationView.getMenu().findItem(R.id.nav_enrollment_certificate).getActionView());
         ButterKnife.bind(downloadFlow, navigationView.getMenu().findItem(R.id.nav_flowchart_certificate).getActionView());
@@ -186,9 +188,6 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         setupFragmentStackListener();
         setupToolbarEvents();
         setupActionListeners();
-
-        String backgroundImage = mPreferences.getString(BACKGROUND_IMAGE, Constants.BACKGROUND_IMAGE_DEFAULT);
-        Picasso.with(this).load(backgroundImage).into(navViews.ivBackground);
 
         if (savedInstanceState != null) {
             onRestoreActivity(savedInstanceState);
@@ -578,7 +577,6 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
             String backgroundImage = version.getBackgroundImage();
             if (backgroundImage != null) {
                 mPreferences.edit().putString(BACKGROUND_IMAGE, backgroundImage).apply();
-                Picasso.with(this).load(backgroundImage).into(navViews.ivBackground);
             }
 
             try {
@@ -621,7 +619,6 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        boolean ignoreCheckable = false;
         if (id != selectedNavId) {
             if (id == R.id.nav_profile) {
                 clearBackStack();
@@ -652,18 +649,8 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
                 tabLayout.setVisibility(View.GONE);
             } else if (id == R.id.nav_big_tray) {
                 clearBackStack();
-                if ((latestAccess != null
-                        && (latestAccess.getUsername().equalsIgnoreCase("jpssena")
-                        || latestAccess.getUsername().equalsIgnoreCase("mdlima1")
-                        || latestAccess.getUsername().equalsIgnoreCase("rrazevedo")
-                        || latestAccess.getUsername().equalsIgnoreCase("mtoliveira1")
-                        || latestAccess.getUsername().equalsIgnoreCase("mbcerqueira3")))
-                        || !Constants.DEBUG) {
-                    navigationController.navigateToBigTray();
-                    tabLayout.setVisibility(View.GONE);
-                } else {
-                    NetworkUtils.openLink(this, "http://bit.ly/bandejaouefs");
-                }
+                navigationController.navigateToBigTray();
+                tabLayout.setVisibility(View.GONE);
             } else if (id == R.id.nav_settings) {
                 goToSettings();
             } else if (id == R.id.nav_logout) {
@@ -959,16 +946,14 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     }
 
     class NavigationViews {
-        @BindView(R.id.iv_nav_image)
+        @BindView(R.id.image)
         CircleImageView ivNavUserImage;
-        @BindView(R.id.iv_nav_image_placeholder)
+        @BindView(R.id.image_placeholder)
         CircleImageView ivNavUserImagePlaceHolder;
-        @BindView(R.id.tv_nav_title)
+        @BindView(R.id.name)
         TextView tvNavTitle;
-        @BindView(R.id.tv_nav_subtitle)
+        @BindView(R.id.subtitle)
         TextView tvNavSubtitle;
-        @BindView(R.id.iv_background)
-        ImageView ivBackground;
     }
 
     class NavigationCustomActionViews {
