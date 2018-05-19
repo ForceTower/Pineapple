@@ -1,69 +1,49 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/nav_header_height"
-    android:background="@drawable/side_nav_bar"
+    android:layout_height="80dp"
     xmlns:tools="http://schemas.android.com/tools"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    android:paddingStart="16dp"
+    android:paddingLeft="16dp"
+    android:paddingEnd="16dp"
+    android:paddingRight="16dp">
 
-    <ImageView
-        android:id="@+id/iv_background"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/image"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_unes_large_image_512"/>
+
+    <TextView
+        android:id="@+id/name"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"/>
-    <View
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        tools:text="João Paulo Santos Sena"
+        android:textColor="@color/primaryText"
+        android:textSize="20sp"
+        android:maxLines="1"
+        android:fontFamily="@font/roboto_regular"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_toEndOf="@id/image"
+        android:layout_toRightOf="@id/image"/>
+
+    <TextView
+        android:id="@+id/subtitle"
+        android:layout_below="@id/name"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/black"
-        android:alpha=".2"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="bottom"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin">
+        android:layout_height="wrap_content"
+        tools:text="Engenharia da Computação"
+        android:textColor="@color/secondaryText"
+        android:layout_marginTop="4dp"
+        android:textSize="14sp"
+        android:fontFamily="@font/roboto_regular"
+        android:maxLines="1"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_toEndOf="@id/image"
+        android:layout_toRightOf="@id/image"/>
 
-        <RelativeLayout
-            android:layout_width="72dp"
-            android:layout_height="72dp">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/iv_nav_image_placeholder"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/nav_header_desc"
-                android:paddingTop="@dimen/nav_header_vertical_spacing"
-                android:src="@drawable/ic_unes_large_image_512"/>
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/iv_nav_image"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/nav_header_desc"
-                android:paddingTop="@dimen/nav_header_vertical_spacing"
-                android:visibility="invisible"/>
-
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/tv_nav_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/nav_header_vertical_spacing"
-            tools:text="João Paulo"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:fontFamily="@font/roboto_regular"/>
-
-        <TextView
-            android:id="@+id/tv_nav_subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:fontFamily="@font/roboto_regular"
-            tools:text="jp_log"/>
-    </LinearLayout>
 </RelativeLayout>

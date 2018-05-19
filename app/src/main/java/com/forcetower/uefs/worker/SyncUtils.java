@@ -81,10 +81,22 @@ public class SyncUtils {
         infoBuilder.setPeriodic(frequency * 60 * 1000);
         infoBuilder.setPersisted(true);
         assert scheduler != null;
-        scheduler.cancel(Constants.SAGRES_SYNC_ID);
-        int result = scheduler.schedule(infoBuilder.build());
-        Timber.d("Schedule Lollipop: %s", result == JobScheduler.RESULT_SUCCESS);
-        return result == JobScheduler.RESULT_SUCCESS;
+        try {
+            scheduler.cancel(Constants.SAGRES_SYNC_ID);
+            int result = scheduler.schedule(infoBuilder.build());
+            Timber.d("Schedule Lollipop: %s", result == JobScheduler.RESULT_SUCCESS);
+            return result == JobScheduler.RESULT_SUCCESS;
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+            try {
+                scheduler.cancelAll();
+                int result = scheduler.schedule(infoBuilder.build());
+                return result == JobScheduler.RESULT_SUCCESS;
+            } catch (Exception ignored) {
+                PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("scheduler_critical_adr_5", true).apply();
+                return false;
+            }
+        }
     }
 
     private static boolean scheduleJobOther(FirebaseJobDispatcher dispatcher, int frequency) {
