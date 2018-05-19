@@ -61,6 +61,7 @@ import com.forcetower.uefs.service.ApiResponse;
 import com.forcetower.uefs.sync.alm.RefreshAlarmTrigger;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.util.NetworkUtils;
+import com.forcetower.uefs.util.PixelUtils;
 import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.util.WordUtils;
 import com.forcetower.uefs.view.UBaseActivity;
@@ -171,6 +172,10 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         downloadFlow = new NavigationCustomActionViews();
 
         Timber.d("Screen DPI is: %d", getResources().getDisplayMetrics().densityDpi);
+        /*int target = getResources().getDisplayMetrics().densityDpi - 64;
+        ViewGroup.LayoutParams layoutParams = navigationView.getLayoutParams();
+        layoutParams.width = PixelUtils.getPixelsFromDp(this, target);
+        navigationView.setLayoutParams(layoutParams);*/
 
         ButterKnife.bind(navViews, navigationView.getHeaderView(0));
         ButterKnife.bind(downloadCert, navigationView.getMenu().findItem(R.id.nav_enrollment_certificate).getActionView());
