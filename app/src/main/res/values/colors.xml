@@ -34,6 +34,7 @@
     <color name="light_gray">#D9D9D9</color>
     <color name="lighter_gray">#EEEEEE</color>
     <color name="little_darker_gray">#C7C7C7</color>
+    <color name="drawer_selected_color">#192196F3</color>
 
     <color name="android_green">#A4C639</color>
 
@@ -49,7 +50,8 @@
     <color name="big_tray_color">#F44336</color>
 
     <color name="facebook_blue">#3B5998</color>
-
+    <color name="red">#F44336</color>
+    <color name="black">#000</color>
 
     <color name="dis_01">#2196F3</color>
     <color name="dis_02">#4CAF50</color>

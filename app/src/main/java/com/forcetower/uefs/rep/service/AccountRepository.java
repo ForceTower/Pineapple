@@ -217,4 +217,29 @@ public class AccountRepository {
         });
         return data;
     }
+
+    public LiveData<String> setUserBetaInformation(String version) {
+        MutableLiveData<String> data = new MutableLiveData<>();
+        executors.diskIO().execute(() -> {
+            try {
+                Access a = appDatabase.accessDao().getAccessDirect();
+                Profile p = appDatabase.profileDao().getProfileDirect();
+                if (a == null) return;
+
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("beta_users");
+                String token = FirebaseInstanceId.getInstance().getToken();
+
+                String identifier = a.getUsername().toLowerCase();
+                reference.child(identifier).child("version").setValue(version);
+                reference.child(identifier).child("token").setValue(token);
+                reference.child(identifier).child("name").setValue(p != null ? p.getName() : "invalid");
+                reference.child(identifier).child("last_sync_att").setValue(p != null ? p.getLastSyncAttempt() : 0);
+                reference.child(identifier).child("device").setValue(Build.MANUFACTURER + " " + Build.MODEL);
+                reference.child(identifier).child("android").setValue(Build.VERSION.SDK_INT);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        return data;
+    }
 }

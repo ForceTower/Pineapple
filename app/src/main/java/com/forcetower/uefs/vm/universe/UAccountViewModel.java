@@ -75,4 +75,8 @@ public class UAccountViewModel extends ViewModel {
     public LiveData<String> setUserToken() {
         return accountRepository.setUserToken();
     }
+
+    public LiveData<String> setUserBetaInformation(String version) {
+        return accountRepository.setUserBetaInformation(version);
+    }
 }
