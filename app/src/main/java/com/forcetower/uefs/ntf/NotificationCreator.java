@@ -239,4 +239,16 @@ public class NotificationCreator {
         //addOptions(context, builder);
         showNotification(context, message.hashCode(), builder);
     }
+
+    public static void createUserNotificationWithMessage(Context context, @StringRes int messageId) {
+        NotificationCompat.Builder builder = notificationBuilder(context, Constants.CHANNEL_GENERAL_WARNINGS_ID)
+                .setContentTitle(context.getString(R.string.title_warning));
+
+        String message = context.getString(messageId);
+        builder.setContentText(message)
+                .setStyle(createBigText(message))
+                .setColor(ContextCompat.getColor(context, R.color.red));
+        addOptions(context, builder);
+        showNotification(context, message.hashCode(), builder);
+    }
 }

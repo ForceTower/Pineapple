@@ -389,7 +389,7 @@
     <string name="universe_login_btn">Login</string>
     <string name="materials_download_failed">Falha ao definir aulas</string>
     <string name="select_a_material">Selecione um material</string>
-    <string name="you_can_download_materials_yet">É possivel baixar os materiais!</string>
+    <string name="you_can_download_materials_yet">É possível baixar os materiais!</string>
     <string name="universe_completed">A sua entrada no uneverso foi garantida. Espere mais atualizações</string>
     <string name="universe_building">Em construção...</string>
     <string name="universe_alpha_open">O Universo é uma coletânea de recursos para os estudantes\n\nAvaliação dos Professores (AKA Barril de Boas)\nAchados e perdidos\nEventos da Universidade\nForuns de discussão para disciplinas\nEntre outros\n\nEstá em alpha 0.0.0 o que você vê aqui é uma miragem e definitivamente será modificado\n\nEstou trabalhando para que ele seja lancado na versão 6.0 :)</string>
@@ -397,4 +397,6 @@
     <string name="new_version_notification">UNES Atualizado</string>
     <string name="you_need_to_relog_in_this_version">Esta versão requer que você faça login novamente. Desculpe, foi o único jeito</string>
     <string name="executing_auto_sync">Executando Sincronização</string>
+    <string name="failed_to_schedule_job">Falhou ao marcar sincronização... Isso é um problema grave! Reinstale o aplicativo...</string>
+    <string name="title_warning">Aviso</string>
 </resources>

@@ -16,6 +16,7 @@ import com.firebase.jobdispatcher.Job;
 import com.firebase.jobdispatcher.Lifetime;
 import com.firebase.jobdispatcher.Trigger;
 import com.forcetower.uefs.Constants;
+import com.forcetower.uefs.R;
 import com.forcetower.uefs.ntf.NotificationCreator;
 import com.forcetower.uefs.util.VersionUtils;
 
@@ -71,6 +72,7 @@ public class SyncUtils {
         } else {
             Timber.d("Failed to schedule job");
             NotificationCreator.createNotificationWithDevMessage(context, "Schedule Worker failed");
+            NotificationCreator.createUserNotificationWithMessage(context, R.string.failed_to_schedule_job);
         }
     }
 
