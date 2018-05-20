@@ -228,7 +228,7 @@ public class NotificationCreator {
     }
 
     public static void createNotificationWithDevMessage(Context context, String message) {
-        if (!BuildConfig.DEBUG) return;
+        if (!Constants.DEBUG || !BuildConfig.DEBUG) return;
 
         NotificationCompat.Builder builder = notificationBuilder(context, Constants.CHANNEL_GENERAL_WARNINGS_ID)
                 .setContentTitle("Dev notification");
