@@ -26,27 +26,29 @@ import timber.log.Timber;
  * Created by João Paulo on 17/05/2018.
  */
 public class SyncUtils {
-/*
+
     public static void setupSagresSync(FirebaseJobDispatcher dispatcher, Context context, int frequency, boolean application) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean configured = preferences.getBoolean("sagres_sync_worker_configured_application", false);
-        if (application && configured) return;
+        int oldFreq = preferences.getInt("sagres_sync_worker_frequency", 45);
+        boolean replace = oldFreq == frequency;
+        Timber.d("Same frequency sync? %s", replace);
+        if (application && replace) return;
 
         setupSagresSync(dispatcher, context, frequency);
     }
-*/
+
     public static void setupSagresSync(FirebaseJobDispatcher dispatcher, Context context, int frequency) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         int oldFreq = preferences.getInt("sagres_sync_worker_frequency", 45);
         boolean replace = oldFreq == frequency;
         Timber.d("Same frequency sync? %s", replace);
-
+/*
         if (frequency == oldFreq) {
             NotificationCreator.createNotificationWithDevMessage(context, "Enable Worker command disposed");
             return;
         }
-
+*/
         if (frequency == -1) {
             cancelSyncService(dispatcher, context);
             NotificationCreator.createNotificationWithDevMessage(context, "Disable Worker. It's a -1 cancel");

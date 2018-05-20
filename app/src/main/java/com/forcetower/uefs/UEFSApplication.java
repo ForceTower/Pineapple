@@ -98,7 +98,7 @@ public class UEFSApplication extends Application implements HasActivityInjector,
         try {
             frequency = Integer.parseInt(strFrequency);
         } catch (Exception ignored) {}
-        SyncUtils.setupSagresSync(dispatcher, this, frequency);
+        SyncUtils.setupSagresSync(dispatcher, this, frequency, true);
         SyncConfiguration.initializeSyncAdapter(this);
     }
 

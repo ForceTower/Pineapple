@@ -59,6 +59,7 @@ public class SagresSyncAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
         Timber.d("Perform update called");
+        NotificationCreator.createNotificationWithDevMessage(context, "Account Auto Sync");
 
         executors.networkIO().execute(() -> {
             if (BuildConfig.DEBUG) {

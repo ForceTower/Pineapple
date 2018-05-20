@@ -394,4 +394,7 @@
     <string name="class_helper_materials">Helper Files</string>
     <string name="new_version_notification">UNES Updated</string>
     <string name="you_need_to_relog_in_this_version">This version requires login again. Sorry, it was the only way</string>
+    <string name="title_warning">Warning</string>
+    <string name="failed_to_schedule_job">Failed to schedule sync... This is a huge problem! Sync will have in a 1h period. Reinstall the app and check if this error goes away</string>
+    <string name="executing_auto_sync">Executing Sync</string>
 </resources>

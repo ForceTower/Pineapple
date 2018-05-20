@@ -250,7 +250,6 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         try {
             frequency = Integer.parseInt(strFrequency);
         } catch (Exception ignored) {}
-
         RefreshAlarmTrigger.create(this);
     }
 
@@ -671,9 +670,9 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
                 openCertificatePdf(true, SagresDocuments.ENROLLMENT_CERTIFICATE);
             } else if (id == R.id.nav_flowchart_certificate) {
                 openCertificatePdf(true, SagresDocuments.FLOWCHART);
-            } else if (id == R.id.nav_universe) {
+            } /*else if (id == R.id.nav_universe) {
                 UniverseActivity.startActivity(this);
-            }
+            }*/
 
             if (item.isCheckable()) selectedNavId = id;
         }
@@ -817,8 +816,9 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     private void accessObserver(Access access) {
         latestAccess = access;
         if (access == null && !disconnecting) {
-            gradesViewModel.logout().observe(this, this::logoutObserver);
-            Toast.makeText(this, R.string.disconnected, Toast.LENGTH_SHORT).show();
+            Timber.d("Access got invalidated");
+            //gradesViewModel.logout().observe(this, this::logoutObserver);
+            //Toast.makeText(this, R.string.disconnected, Toast.LENGTH_SHORT).show();
         } else if (access != null) {
             mPlayGamesInstance.changePlayerName(access.getUsername());
         }

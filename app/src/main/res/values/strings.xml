@@ -397,6 +397,6 @@
     <string name="new_version_notification">UNES Atualizado</string>
     <string name="you_need_to_relog_in_this_version">Esta versão requer que você faça login novamente. Desculpe, foi o único jeito</string>
     <string name="executing_auto_sync">Executando Sincronização</string>
-    <string name="failed_to_schedule_job">Falhou ao marcar sincronização... Isso é um problema grave! Reinstale o aplicativo...</string>
+    <string name="failed_to_schedule_job">Falhou ao marcar sincronização... Isso é um problema grave! Sincronizações ocorrerão a cada 1h... Reinstale o aplicativo para ver se funciona...</string>
     <string name="title_warning">Aviso</string>
 </resources>

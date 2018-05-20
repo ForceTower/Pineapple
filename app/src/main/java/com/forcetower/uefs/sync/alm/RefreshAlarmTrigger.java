@@ -21,10 +21,10 @@ public class RefreshAlarmTrigger {
 
         if (VersionUtils.isOreo()) {
             Timber.d("Doing oreo call");
-            doOreo(context, 7);
+            doOreo(context, 10);
         } else {
             Timber.d("Doing common call");
-            doCommon(context, 7);
+            doCommon(context, 10);
         }
     }
 
