@@ -71,7 +71,7 @@ public class SagresSyncJobScheduler extends JobService {
         executors = objects.executors;
         service = objects.service;*/
 
-        if (BuildConfig.DEBUG) NotificationCreator.createSyncWarning(this);
+        //if (BuildConfig.DEBUG) NotificationCreator.createSyncWarning(this);
         jobParameters = params;
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         initiateSync();
