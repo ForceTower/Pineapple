@@ -141,7 +141,7 @@ public class NotificationCreator {
 
     public static void createNotConnectedNotification(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        if (!preferences.getBoolean("show_not_connected_notification", true)) {
+        if (preferences.getBoolean("show_not_connected_notification", true)) {
             Timber.d("Already shown");
             return;
         }
@@ -159,7 +159,7 @@ public class NotificationCreator {
 
         boolean notify = showNotification(context, message.hashCode(), builder);
         if (notify) {
-            preferences.edit().putBoolean("show_not_connected_notification", true).apply();
+            preferences.edit().putBoolean("show_not_connected_notification", false).apply();
             Timber.d("Preference set");
         }
     }

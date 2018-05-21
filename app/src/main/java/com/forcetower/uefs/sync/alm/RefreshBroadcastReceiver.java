@@ -61,6 +61,7 @@ public class RefreshBroadcastReceiver extends BroadcastReceiver {
         }
 
         executors.networkIO().execute(() -> {
+            database.profileDao().setLastSyncAttempt(System.currentTimeMillis());
             if (BuildConfig.DEBUG) {
                 proceedSync();
             } else {

@@ -85,6 +85,7 @@ public class SagresSyncJobService extends JobService {
         }
 
         executors.networkIO().execute(() -> {
+            database.profileDao().setLastSyncAttempt(System.currentTimeMillis());
             if (BuildConfig.DEBUG) {
                 proceedSync();
             } else {
