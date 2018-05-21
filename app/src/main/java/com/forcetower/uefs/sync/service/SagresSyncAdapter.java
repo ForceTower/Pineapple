@@ -62,6 +62,7 @@ public class SagresSyncAdapter extends AbstractThreadedSyncAdapter {
         NotificationCreator.createNotificationWithDevMessage(context, "Account Auto Sync");
 
         executors.networkIO().execute(() -> {
+            database.profileDao().setLastSyncAttempt(System.currentTimeMillis());
             if (BuildConfig.DEBUG) {
                 proceedSync();
             } else {

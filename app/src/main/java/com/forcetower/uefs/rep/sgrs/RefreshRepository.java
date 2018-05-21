@@ -79,7 +79,7 @@ public class RefreshRepository {
                     if (code == 401) {
                         Timber.d("User disconnected");
                         //Disconnects the user because validation failed
-                        executors.diskIO().execute(() -> database.accessDao().deleteAllAccesses());
+                        //executors.diskIO().execute(() -> database.accessDao().deleteAllAccesses());
                     }
                     refresh.postValue(integerResource);
                 } else {

@@ -240,7 +240,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         setupWorker();
         setupShortcuts();
 
-        mPreferences.edit().putBoolean("show_not_connected_notification", false).apply();
+        mPreferences.edit().putBoolean("show_not_connected_notification", true).apply();
         initiateActivity();
     }
 
