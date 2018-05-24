@@ -17,6 +17,11 @@
             android:title="@string/nav_title_unes_adventure"/>
 
         <item
+            android:id="@+id/nav_oracle_gate"
+            android:icon="@drawable/ic_eye_black_24dp"
+            android:title="@string/title_gates_oracle"/>
+
+        <item
             android:id="@+id/nav_universe"
             android:title="@string/the_universe"
             android:icon="@drawable/ic_atom_black_24dp"

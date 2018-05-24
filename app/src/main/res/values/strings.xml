@@ -399,4 +399,12 @@
     <string name="executing_auto_sync">Executando Sincronização</string>
     <string name="failed_to_schedule_job">Falhou ao marcar sincronização... Isso é um problema grave! Sincronizações ocorrerão a cada 1h... Reinstale o aplicativo para ver se funciona...</string>
     <string name="title_warning">Aviso</string>
+    <string name="title_gates_oracle">Oráculo do Pórtico</string>
+    <string name="vote_count">Quantidade de votos:</string>
+    <string name="show_more_comments">Ver mais comentários</string>
+    <string name="label_add_a_comment">Comentar</string>
+    <string name="send_comment">Enviar</string>
+    <string name="cast_your_vote">Dê seu voto</string>
+    <string name="open_voters">Votos para aberto</string>
+    <string name="closed_voters">Votos para fechado</string>
 </resources>

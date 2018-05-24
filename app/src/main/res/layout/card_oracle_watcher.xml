@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardElevation="2dp"
+    app:cardCornerRadius="4dp"
+    android:layout_marginStart="4dp"
+    android:layout_marginLeft="4dp"
+    android:layout_marginEnd="4dp"
+    android:layout_marginRight="4dp"
+    android:layout_marginTop="4dp"
+    android:animateLayoutChanges="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:paddingStart="16dp"
+        android:paddingLeft="16dp"
+        android:paddingEnd="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="8dp">
+
+        <TextView
+            android:id="@+id/content_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="O Pórtico"
+            android:textSize="20sp"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="@color/primaryText"
+            android:maxLines="1"
+            android:paddingTop="8dp"/>
+
+        <TextView
+            android:id="@+id/content_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/content_title"
+            android:fontFamily="@font/roboto_regular"
+            android:textSize="14sp"
+            tools:text="O acesso principal da UEFS"/>
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Fechado"
+            android:textAlignment="gravity"
+            android:gravity="end"
+            android:paddingTop="8dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"
+            android:fontFamily="@font/roboto_regular"/>
+
+        <TextView
+            android:id="@+id/open_voters_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/content_description"
+            android:text="@string/open_voters"
+            android:layout_marginTop="8dp"/>
+
+        <RelativeLayout
+            android:id="@+id/info_percent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/open_voters_label">
+
+            <TextView
+                android:id="@+id/percentage"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                tools:text="56%"
+                android:textAlignment="viewEnd"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:gravity="end"/>
+
+            <ProgressBar
+                android:id="@+id/seek_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:progress="56"
+                style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_toStartOf="@id/percentage"
+                android:layout_toLeftOf="@id/percentage"
+                android:focusable="false"
+                android:clickable="false"/>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/closed_voters_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/info_percent"
+            android:text="@string/closed_voters"
+            android:layout_marginTop="4dp"/>
+
+        <RelativeLayout
+            android:id="@+id/info_percent_closed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/closed_voters_label">
+
+            <TextView
+                android:id="@+id/percentage_closed"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                tools:text="44%"
+                android:textAlignment="viewEnd"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:gravity="end"/>
+
+            <ProgressBar
+                android:id="@+id/seek_bar_closed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:progress="44"
+                style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_toStartOf="@id/percentage_closed"
+                android:layout_toLeftOf="@id/percentage_closed"
+                android:focusable="false"
+                android:clickable="false"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/vote_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/info_percent_closed">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/vote_count"
+                android:textSize="12sp"
+                android:fontFamily="@font/roboto_regular"/>
+
+            <TextView
+                android:id="@+id/vote_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginLeft="4dp"
+                tools:text="350"
+                android:textSize="13sp"
+                android:fontFamily="@font/roboto_regular"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/voting_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/vote_info"
+            android:layout_marginTop="16dp"
+            android:text="@string/cast_your_vote"/>
+
+        <LinearLayout
+            android:id="@+id/voting_section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/voting_label"
+            android:orientation="horizontal"
+            android:layout_marginStart="-16dp"
+            android:layout_marginLeft="-16dp">
+
+            <android.support.v7.widget.AppCompatButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Base.Widget.AppCompat.ButtonBar.AlertDialog"
+                tools:text="ABERTO"
+                android:textColor="@color/colorAccent"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Base.Widget.AppCompat.ButtonBar.AlertDialog"
+                tools:text="FECHADO"
+                android:textColor="@color/colorAccent"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/voting_section"
+            android:background="@color/divider"/>
+
+        <RelativeLayout
+            android:layout_below="@id/voting_section"
+            android:id="@+id/rl_last_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/tv_answer_user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="João Paulo"
+                android:textColor="@color/primaryText"
+                android:textSize="13sp"
+                android:fontFamily="@font/roboto_medium"
+                android:layout_toStartOf="@id/tv_answer_time"
+                android:layout_toLeftOf="@id/tv_answer_time"/>
+
+            <TextView
+                android:id="@+id/tv_answer_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                tools:text="2h"
+                android:textSize="10sp"
+                android:fontFamily="@font/roboto_regular"/>
+
+            <TextView
+                android:id="@+id/tv_answer_comment"
+                android:layout_below="@id/tv_answer_user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                tools:text="O pórtico está aberto apenas para entrada a pé. Sem carros hoje."
+                android:textColor="@color/secondaryText"
+                android:textSize="12sp"
+                android:paddingBottom="8dp"
+                android:fontFamily="@font/roboto_regular"/>
+
+            <LinearLayout
+                android:id="@+id/ll_show_more_comments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_answer_comment"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <android.support.v7.widget.AppCompatButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/show_more_comments"
+                    android:drawableEnd="@drawable/ic_arrow_down_black_24dp"
+                    android:drawableRight="@drawable/ic_arrow_down_black_24dp"
+                    style="@style/Base.Widget.AppCompat.ButtonBar.AlertDialog"
+                    android:textAllCaps="true"
+                    android:textAlignment="gravity"
+                    android:gravity="center_vertical"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_new_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:visibility="gone">
+            <EditText
+                android:id="@+id/et_add_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@id/btn_send_comment"
+                android:layout_marginEnd="8dp"
+                android:alpha="1"
+                android:hint="@string/label_add_a_comment"
+                android:textSize="13sp"
+                android:inputType="text|textAutoCorrect|textCapSentences|textMultiLine"
+                android:maxLength="500"
+                android:fontFamily="@font/roboto_regular"
+                android:layout_toLeftOf="@id/btn_send_comment"
+                android:layout_marginRight="8dp"/>
+
+            <ImageButton
+                android:id="@+id/btn_send_comment"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:alpha="0.7"
+                android:contentDescription="@string/send_comment"
+                style="@style/Base.Widget.AppCompat.ActionButton"
+                app:srcCompat="@drawable/ic_send_black_24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
