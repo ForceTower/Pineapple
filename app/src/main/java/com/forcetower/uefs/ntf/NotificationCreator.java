@@ -77,6 +77,12 @@ public class NotificationCreator {
                     .setContentTitle(context.getString(R.string.new_grade_posted));
             message = context.getString(R.string.grade_posted_notification, info.getEvaluationName(), info.getClassName());
             notify = preferences.getBoolean("show_grades_posted_notification", true);
+            try {
+                String sGrade = info.getGrade();
+                sGrade = sGrade.replaceAll(",", ".");
+                double grade = Double.parseDouble(sGrade);
+                if (grade >= 7) message = context.getString(R.string.new_grade_notification_great, info.getEvaluationName(), info.getClassName());
+            } catch (Exception ignored) {}
         }
 
         else if(type == 2) {
