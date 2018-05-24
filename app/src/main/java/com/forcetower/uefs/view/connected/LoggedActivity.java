@@ -171,7 +171,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         downloadCert = new NavigationCustomActionViews();
         downloadFlow = new NavigationCustomActionViews();
 
-        Timber.d("Screen DPI is: %d", getResources().getDisplayMetrics().densityDpi);
+        //Timber.d("Screen DPI is: %d", getResources().getDisplayMetrics().densityDpi);
         /*int target = getResources().getDisplayMetrics().densityDpi - 64;
         ViewGroup.LayoutParams layoutParams = navigationView.getLayoutParams();
         layoutParams.width = PixelUtils.getPixelsFromDp(this, target);
@@ -670,9 +670,9 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
                 openCertificatePdf(true, SagresDocuments.ENROLLMENT_CERTIFICATE);
             } else if (id == R.id.nav_flowchart_certificate) {
                 openCertificatePdf(true, SagresDocuments.FLOWCHART);
-            } else if (id == R.id.nav_universe) {
+            } /*else if (id == R.id.nav_universe) {
                 UniverseActivity.startActivity(this);
-            }
+            }*/
 
             if (item.isCheckable()) selectedNavId = id;
         }
