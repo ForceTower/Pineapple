@@ -1,13 +1,13 @@
 package com.forcetower.uefs.db_service.entity;
 
-import android.arch.persistence.room.Entity;
-
 /**
  * Created by João Paulo on 29/04/2018.
  */
 public class UpdateStatus {
     private boolean manager;
     private boolean alarm;
+    private boolean one;
+    private boolean two;
     private int count;
 
     public UpdateStatus(boolean manager, boolean alarm, int count) {
@@ -38,5 +38,21 @@ public class UpdateStatus {
 
     public void setCount(int count) {
         this.count = count;
+    }
+
+    public boolean isOne() {
+        return one;
+    }
+
+    public void setOne(boolean one) {
+        this.one = one;
+    }
+
+    public boolean isTwo() {
+        return two;
+    }
+
+    public void setTwo(boolean two) {
+        this.two = two;
     }
 }

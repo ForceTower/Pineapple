@@ -29,6 +29,7 @@
         style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
         android:indeterminate="true"
         android:visibility="gone"
+        tools:visibility="visible"
         android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>
