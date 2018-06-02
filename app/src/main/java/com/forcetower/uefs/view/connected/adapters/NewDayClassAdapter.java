@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.view.connected.LocationClickListener;
+import com.forcetower.uefs.view.connected.fragments.NewScheduleFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ public class NewDayClassAdapter extends RecyclerView.Adapter {
     private static final int HEADER = 0, TIME = 1, CLASS = 2, NOTHING = 3;
     private final List<NewScheduleAdapter.InnerLocation> locations;
     private LocationClickListener onClickListener;
+    private NewScheduleFragment.LocationLongClickListener onLongClickListener;
 
     public NewDayClassAdapter(List<NewScheduleAdapter.InnerLocation> locations) {
         this.locations = new ArrayList<>();
@@ -84,6 +86,10 @@ public class NewDayClassAdapter extends RecyclerView.Adapter {
         this.onClickListener = onClickListener;
     }
 
+    public void setOnLongClickListener(NewScheduleFragment.LocationLongClickListener onLongClickListener) {
+        this.onLongClickListener = onLongClickListener;
+    }
+
     static class HeaderHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_header)
         TextView header;
@@ -129,6 +135,12 @@ public class NewDayClassAdapter extends RecyclerView.Adapter {
             ButterKnife.bind(this, itemView);
             colors = itemView.getContext().getResources().getIntArray(R.array.discipline_colors);
             itemView.setOnClickListener(v -> onClick());
+            itemView.setOnLongClickListener(v -> onLongClick());
+        }
+
+        private boolean onLongClick() {
+            onLongClickListener.onViewLongClicked();
+            return true;
         }
 
         private void onClick() {
