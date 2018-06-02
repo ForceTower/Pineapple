@@ -115,21 +115,6 @@ public class NotificationCreator {
         return showNotification(context, info.getUid(), builder);
     }
 
-    public static boolean notConnectedNotification(Context context) {
-        PendingIntent pendingIntent = getPendingIntent(context, MainActivity.class, "Login");
-        NotificationCompat.Builder builder = notificationBuilder(context, Constants.CHANNEL_GENERAL_WARNINGS_ID)
-                .setContentTitle(context.getString(R.string.login));
-
-        String message = context.getString(R.string.you_need_to_relog_in_this_version);
-        builder.setContentText(message)
-                .setStyle(createBigText(message))
-                .setContentIntent(pendingIntent)
-                .setColor(ContextCompat.getColor(context, R.color.colorPrimary));
-        addOptions(context, builder);
-
-        return showNotification(context, message.hashCode(), builder);
-    }
-
     public static boolean postMessageNotification(Context context, @StringRes int messageId) {
         PendingIntent pendingIntent = getPendingIntent(context, MainActivity.class, "Login");
         NotificationCompat.Builder builder = notificationBuilder(context, Constants.CHANNEL_GENERAL_WARNINGS_ID)

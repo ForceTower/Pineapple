@@ -397,4 +397,16 @@
     <string name="title_warning">Warning</string>
     <string name="failed_to_schedule_job">Failed to schedule sync... This is a huge problem! Sync will have in a 1h period. Reinstall the app and check if this error goes away</string>
     <string name="executing_auto_sync">Executing Sync</string>
+    <string name="title_gates_oracle">Gate\'s Oracle</string>
+    <string name="vote_count">Vote count:</string>
+    <string name="show_more_comments">More comments</string>
+    <string name="label_add_a_comment">Comment</string>
+    <string name="send_comment">Send</string>
+    <string name="cast_your_vote">Cast your vote</string>
+    <string name="open_voters">Votes for open</string>
+    <string name="closed_voters">Votes for closed</string>
+    <string name="gold_members_only">This feature is only enabled for Monkey Gold members, become one today!</string>
+    <string name="crown">Crown</string>
+    <string name="under_tests">Alpha testing phase (Viability)</string>
+    <string name="chat">Chat</string>
 </resources>

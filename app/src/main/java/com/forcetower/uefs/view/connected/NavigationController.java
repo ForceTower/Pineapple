@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.view.connected.fragments.GoldMonkeyFragment;
 import com.forcetower.uefs.view.connected.fragments.OutdatedFragment;
 import com.forcetower.uefs.view.connected.fragments.BigTrayFragment;
 import com.forcetower.uefs.view.connected.fragments.ConnectedFragment;
@@ -143,5 +144,9 @@ public class NavigationController {
 
     public void navigateToOutdatedVersion() {
         changeFragment(new OutdatedFragment());
+    }
+
+    public void navigateToGoldMonkey() {
+        changeFragment(new GoldMonkeyFragment(), "gold_monkey", true);
     }
 }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:contentDescription="@string/logo"
+            app:srcCompat="@drawable/ic_unes_colored"
+            android:layout_centerInParent="true"/>
+
+        <TextView
+            android:layout_below="@id/logo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="@string/gold_members_only"
+            android:textColor="@color/primaryText"
+            android:textSize="16sp"
+            android:textAlignment="gravity"
+            android:gravity="center"
+            android:fontFamily="@font/roboto_medium"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="@string/under_tests"
+            android:textColor="@color/primaryText"
+            android:textSize="14sp"
+            android:textAlignment="gravity"
+            android:gravity="center"
+            android:fontFamily="@font/roboto_regular"/>
+
+    </RelativeLayout>
+</layout>

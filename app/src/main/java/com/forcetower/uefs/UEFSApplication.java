@@ -79,16 +79,6 @@ public class UEFSApplication extends Application implements HasActivityInjector,
 
         Picasso.Builder builder = new Picasso.Builder(this);
         Picasso.setSingletonInstance(builder.build());
-
-        showNewVersionNotification();
-    }
-
-    private void showNewVersionNotification() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if (preferences.getBoolean("unes_not_connected_notification_v6.0.0", true)) {
-            boolean not = NotificationCreator.notConnectedNotification(this);
-            preferences.edit().putBoolean("unes_not_connected_notification_v6.0.0", !not).apply();
-        }
     }
 
     private void configureFeatures() {

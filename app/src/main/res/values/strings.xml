@@ -407,4 +407,8 @@
     <string name="cast_your_vote">Dê seu voto</string>
     <string name="open_voters">Votos para aberto</string>
     <string name="closed_voters">Votos para fechado</string>
+    <string name="gold_members_only">Esta função está disponível apenas para membros Macaco Gold, torne-se um hoje mesmo!</string>
+    <string name="crown">Crown</string>
+    <string name="under_tests">Em Fase de Teste Alfa (Viabilidade)</string>
+    <string name="chat">Chat</string>
 </resources>

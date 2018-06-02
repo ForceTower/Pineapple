@@ -22,10 +22,14 @@
             android:title="@string/title_gates_oracle"/>
 
         <item
+            android:id="@+id/nav_chat"
+            android:icon="@drawable/ic_chat_black_24dp"
+            android:title="@string/chat"/>
+
+        <item
             android:id="@+id/nav_universe"
             android:title="@string/the_universe"
-            android:icon="@drawable/ic_atom_black_24dp"
-            android:checkable="false"/>
+            android:icon="@drawable/ic_atom_black_24dp"/>
 
     </group>
 
