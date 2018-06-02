@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.rep.helper.Resource;
-import com.forcetower.uefs.rep.helper.SagresDocuments;
 import com.forcetower.uefs.sgrs.SagresResponse;
 import com.forcetower.uefs.util.network.LiveDataCallAdapter;
 

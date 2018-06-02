@@ -3,7 +3,6 @@ package com.forcetower.uefs.svc.firebase;
 import android.content.Context;
 import android.os.Build;
 
-import com.forcetower.uefs.BuildConfig;
 import com.forcetower.uefs.db.dao.AccessDao;
 import com.forcetower.uefs.db.dao.ProfileDao;
 import com.forcetower.uefs.db.entity.Access;

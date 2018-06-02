@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 
-import static com.forcetower.uefs.Constants.URL_PATTERN;
-
 /**
  * Created by João Paulo on 06/03/2018.
  */

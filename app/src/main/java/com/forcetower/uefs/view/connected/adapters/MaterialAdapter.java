@@ -11,14 +11,12 @@ import android.widget.TextView;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.DisciplineClassMaterialLink;
 import com.forcetower.uefs.util.NetworkUtils;
-import com.forcetower.uefs.view.connected.OnMaterialLinkClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 /**
  * Created by João Paulo on 14/05/2018.

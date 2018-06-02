@@ -4,8 +4,6 @@ import android.support.annotation.Nullable;
 
 import com.google.gson.Gson;
 
-import java.io.IOException;
-
 import retrofit2.Response;
 import timber.log.Timber;
 

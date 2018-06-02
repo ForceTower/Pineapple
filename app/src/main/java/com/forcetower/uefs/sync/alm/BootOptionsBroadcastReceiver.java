@@ -3,7 +3,6 @@ package com.forcetower.uefs.sync.alm;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.preference.PreferenceManager;
 
 import com.forcetower.uefs.ntf.NotificationCreator;
 

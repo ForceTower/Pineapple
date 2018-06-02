@@ -1,11 +1,9 @@
 package com.forcetower.uefs.view.connected.fragments;
 
 import android.Manifest;
-import android.arch.lifecycle.Lifecycle;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -24,7 +22,6 @@ import com.forcetower.uefs.BuildConfig;
 import com.forcetower.uefs.GameConnectionStatus;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.di.Injectable;
-import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.view.connected.ActivityController;
 import com.forcetower.uefs.view.connected.GamesAccountController;
 import com.google.android.gms.common.api.ResolvableApiException;

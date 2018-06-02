@@ -127,8 +127,8 @@ public class SagresSyncJobScheduler extends JobService {
             return;
         }
 
-        if (!status.isManager()) {
-            Timber.d("Won't sync: manager is disabled");
+        if (!status.isWorker()) {
+            Timber.d("Won't sync: worker is disabled");
             completed = true;
             jobFinished(jobParameters, true);
             return;

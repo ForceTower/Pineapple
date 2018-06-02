@@ -1,7 +1,6 @@
 package com.forcetower.uefs.sync.service;
 
 import android.accounts.Account;
-import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.ContentResolver;
 import android.content.Context;

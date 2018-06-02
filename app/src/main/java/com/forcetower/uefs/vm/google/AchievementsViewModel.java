@@ -6,7 +6,6 @@ import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.WorkerThread;
-import android.util.SparseArray;
 
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.R;

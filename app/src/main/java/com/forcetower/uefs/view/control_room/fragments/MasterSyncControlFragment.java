@@ -2,6 +2,7 @@ package com.forcetower.uefs.view.control_room.fragments;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,12 +12,10 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.databinding.FragmentMasterSyncControlBinding;
 import com.forcetower.uefs.db_service.entity.UpdateStatus;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.service.ActionResult;
@@ -25,48 +24,36 @@ import com.forcetower.uefs.vm.admin.ControlRoomViewModel;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
  * Created by João Paulo on 13/03/2018.
  */
 
 public class MasterSyncControlFragment extends Fragment implements Injectable {
-    @BindView(R.id.btn_toggle_manager)
-    Button btnManager;
-    @BindView(R.id.btn_toggle_alarm)
-    Button btnAlarm;
-    @BindView(R.id.iv_manager_status)
-    ImageView ivManagerStatus;
-    @BindView(R.id.iv_alarm_status)
-    ImageView ivAlarmStatus;
-    @BindView(R.id.tv_connections)
-    TextView tvAmount;
-
     @Inject
     ViewModelProvider.Factory viewModelFactory;
     private ControlRoomViewModel controlRoomViewModel;
+    private FragmentMasterSyncControlBinding binding;
 
     private boolean alarm;
     private boolean manager;
+    private boolean worker;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_master_sync_control, container, false);
-        ButterKnife.bind(this, view);
-        return view;
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_master_sync_control, container, false);
+        return binding.getRoot();
     }
 
     private void setupButtons() {
-        btnAlarm.setOnClickListener(v -> {
-            controlRoomViewModel.updateMasterSyncState(manager, !alarm).observe(this, this::stateChangeRequestObserver);
-        });
+        binding.btnToggleAlarm.setOnClickListener(v ->
+                controlRoomViewModel.updateMasterSyncState(manager, !alarm).observe(this, this::stateChangeRequestObserver));
 
-        btnManager.setOnClickListener(v -> {
-            controlRoomViewModel.updateMasterSyncState(!manager, alarm).observe(this, this::stateChangeRequestObserver);
-        });
+        binding.btnToggleManager.setOnClickListener(v ->
+                controlRoomViewModel.updateMasterSyncState(!manager, alarm).observe(this, this::stateChangeRequestObserver));
+
+        binding.btnToggleWorker.setOnClickListener(v ->
+                controlRoomViewModel.updateWorkerSyncState(!worker).observe(this, this::stateChangeRequestObserver));
     }
 
     @Override
@@ -77,8 +64,10 @@ public class MasterSyncControlFragment extends Fragment implements Injectable {
         if (savedInstanceState != null) {
             alarm = savedInstanceState.getBoolean("alarm", false);
             manager = savedInstanceState.getBoolean("manager", false);
+            worker = savedInstanceState.getBoolean("worker", false);
             updateAlarm(alarm);
             updateManager(manager);
+            updateWorker(worker);
         }
 
         setupButtons();
@@ -100,6 +89,7 @@ public class MasterSyncControlFragment extends Fragment implements Injectable {
             Toast.makeText(getContext(), simple.getMessage(), Toast.LENGTH_SHORT).show();
             updateManager(simple.getData().isManager());
             updateAlarm(simple.getData().isAlarm());
+            updateWorker(simple.getData().isWorker());
         } else {
             if (simpleResp.actionError != null && simpleResp.actionError.getMessage() != null) {
                 Toast.makeText(getContext(), simpleResp.actionError.getMessage(), Toast.LENGTH_SHORT).show();
@@ -116,7 +106,8 @@ public class MasterSyncControlFragment extends Fragment implements Injectable {
             //noinspection ConstantConditions
             updateManager(simple.isManager());
             updateAlarm(simple.isAlarm());
-            tvAmount.setText(getString(R.string.master_update_connections, simple.getCount()));
+            updateWorker(simple.isWorker());
+            binding.tvConnections.setText(getString(R.string.master_update_connections, simple.getCount()));
         } else {
             Toast.makeText(getContext(), R.string.failed_to_connect, Toast.LENGTH_SHORT).show();
         }
@@ -126,12 +117,12 @@ public class MasterSyncControlFragment extends Fragment implements Injectable {
         this.manager = manager;
         if (manager) {
             int color = ContextCompat.getColor(requireContext(), R.color.android_green);
-            DrawableCompat.setTint(ivManagerStatus.getDrawable(), color);
-            btnManager.setText(R.string.disable);
+            DrawableCompat.setTint(binding.ivManagerStatus.getDrawable(), color);
+            binding.btnToggleManager.setText(R.string.disable);
         } else {
             int color = ContextCompat.getColor(requireContext(), android.R.color.holo_red_dark);
-            DrawableCompat.setTint(ivManagerStatus.getDrawable(), color);
-            btnManager.setText(R.string.enable);
+            DrawableCompat.setTint(binding.ivManagerStatus.getDrawable(), color);
+            binding.btnToggleManager.setText(R.string.enable);
         }
     }
 
@@ -139,12 +130,25 @@ public class MasterSyncControlFragment extends Fragment implements Injectable {
         this.alarm = alarm;
         if (alarm) {
             int color = ContextCompat.getColor(requireContext(), R.color.android_green);
-            DrawableCompat.setTint(ivAlarmStatus.getDrawable(), color);
-            btnAlarm.setText(R.string.disable);
+            DrawableCompat.setTint(binding.ivAlarmStatus.getDrawable(), color);
+            binding.btnToggleAlarm.setText(R.string.disable);
         } else {
             int color = ContextCompat.getColor(requireContext(), android.R.color.holo_red_dark);
-            DrawableCompat.setTint(ivAlarmStatus.getDrawable(), color);
-            btnAlarm.setText(R.string.enable);
+            DrawableCompat.setTint(binding.ivAlarmStatus.getDrawable(), color);
+            binding.btnToggleAlarm.setText(R.string.enable);
+        }
+    }
+
+    private void updateWorker(boolean worker) {
+        this.worker = worker;
+        if (worker) {
+            int color = ContextCompat.getColor(requireContext(), R.color.android_green);
+            DrawableCompat.setTint(binding.ivWorkerStatus.getDrawable(), color);
+            binding.btnToggleWorker.setText(R.string.disable);
+        } else {
+            int color = ContextCompat.getColor(requireContext(), android.R.color.holo_red_dark);
+            DrawableCompat.setTint(binding.ivWorkerStatus.getDrawable(), color);
+            binding.btnToggleWorker.setText(R.string.enable);
         }
     }
 
@@ -153,5 +157,6 @@ public class MasterSyncControlFragment extends Fragment implements Injectable {
         super.onSaveInstanceState(outState);
         outState.putBoolean("alarm", alarm);
         outState.putBoolean("manager", manager);
+        outState.putBoolean("worker", worker);
     }
 }

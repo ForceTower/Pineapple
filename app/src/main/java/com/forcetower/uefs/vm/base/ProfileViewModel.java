@@ -15,7 +15,6 @@ import com.forcetower.uefs.db.dao.SemesterDao;
 import com.forcetower.uefs.db.entity.Access;
 import com.forcetower.uefs.db.entity.Profile;
 import com.forcetower.uefs.db.entity.Semester;
-import com.forcetower.uefs.util.ImageUtils;
 
 import java.io.File;
 import java.io.FileInputStream;

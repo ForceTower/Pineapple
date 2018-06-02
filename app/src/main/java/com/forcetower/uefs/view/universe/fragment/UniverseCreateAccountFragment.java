@@ -26,8 +26,6 @@ import com.forcetower.uefs.db_service.entity.Account;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
-import com.forcetower.uefs.service.ActionResult;
-import com.forcetower.uefs.service.ApiResponse;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.universe.UniverseNavigationController;
@@ -41,7 +39,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import timber.log.Timber;
 
 /**

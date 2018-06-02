@@ -1,9 +1,7 @@
 package com.forcetower.uefs.worker;
 
 import android.arch.lifecycle.LiveData;
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
 
 import com.firebase.jobdispatcher.JobParameters;
@@ -23,7 +21,6 @@ import com.forcetower.uefs.db_service.entity.UpdateStatus;
 import com.forcetower.uefs.ntf.NotificationCreator;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
-import com.forcetower.uefs.rep.sgrs.LoginRepository;
 import com.forcetower.uefs.rep.sgrs.RefreshRepository;
 import com.forcetower.uefs.service.ApiResponse;
 import com.forcetower.uefs.service.UNEService;
@@ -117,8 +114,8 @@ public class SagresSyncJobService extends JobService {
             return;
         }
 
-        if (!status.isManager()) {
-            Timber.d("Won't sync: manager is disabled");
+        if (!status.isWorker()) {
+            Timber.d("Won't sync: worker is disabled");
             completed = true;
             return;
         }

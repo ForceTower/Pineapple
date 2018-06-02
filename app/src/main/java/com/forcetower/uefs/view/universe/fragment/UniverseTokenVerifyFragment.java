@@ -18,7 +18,6 @@ import com.forcetower.uefs.view.universe.UniverseNavigationController;
 import com.forcetower.uefs.vm.UEFSViewModelFactory;
 import com.forcetower.uefs.vm.universe.UAccountViewModel;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 import javax.inject.Inject;

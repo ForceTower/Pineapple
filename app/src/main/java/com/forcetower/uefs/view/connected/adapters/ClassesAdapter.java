@@ -15,10 +15,8 @@ import android.widget.TextView;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.DisciplineClassItem;
-import com.forcetower.uefs.db.entity.DisciplineClassMaterialLink;
 import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.connected.OnClassClickListener;
-import com.forcetower.uefs.view.connected.OnMaterialLinkClickListener;
 
 import java.util.List;
 

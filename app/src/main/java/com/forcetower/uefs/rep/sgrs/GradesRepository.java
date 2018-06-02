@@ -32,9 +32,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import timber.log.Timber;
 
-import static com.forcetower.uefs.rep.sgrs.LoginRepository.defineGrades;
 import static com.forcetower.uefs.rep.helper.RequestCreator.makeGradesRequest;
 import static com.forcetower.uefs.rep.helper.RequestCreator.makeListGradeRequests;
+import static com.forcetower.uefs.rep.sgrs.LoginRepository.defineGrades;
 
 /**
  * Created by João Paulo on 07/03/2018.

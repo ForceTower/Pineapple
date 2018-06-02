@@ -5,8 +5,8 @@ import android.arch.lifecycle.ViewModel;
 
 import com.forcetower.uefs.db.dao.CalendarItemDao;
 import com.forcetower.uefs.db.entity.CalendarItem;
-import com.forcetower.uefs.rep.sgrs.RefreshRepository;
 import com.forcetower.uefs.rep.helper.Resource;
+import com.forcetower.uefs.rep.sgrs.RefreshRepository;
 import com.forcetower.uefs.util.AbsentLiveData;
 
 import java.util.List;

@@ -411,4 +411,6 @@
     <string name="crown">Crown</string>
     <string name="under_tests">Em Fase de Teste Alfa (Viabilidade)</string>
     <string name="chat">Chat</string>
+    <string name="title_alpha_testing">Teste Alfa</string>
+    <string name="control_worker_sync">Sincronização por Serviço</string>
 </resources>

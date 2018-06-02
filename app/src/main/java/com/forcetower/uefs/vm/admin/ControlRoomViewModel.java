@@ -57,4 +57,10 @@ public class ControlRoomViewModel extends ViewModel {
     public void setFragmentCall(boolean fragmentCall) {
         this.fragmentCall = fragmentCall;
     }
+
+    public LiveData<ApiResponse<ActionResult<UpdateStatus>>> updateWorkerSyncState(boolean worker) {
+        int w = worker ? 1 : 0;
+        updateState = service.changeWorkerUpdateStatus(w);
+        return updateState;
+    }
 }

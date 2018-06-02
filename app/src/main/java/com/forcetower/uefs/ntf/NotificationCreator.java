@@ -18,7 +18,6 @@ import com.forcetower.uefs.db_service.entity.Version;
 import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.connected.LoggedActivity;
 import com.forcetower.uefs.view.login.MainActivity;
-import com.forcetower.uefs.worker.SagresSyncJobService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import timber.log.Timber;

@@ -22,7 +22,6 @@ import com.forcetower.uefs.rep.resources.NetworkBoundResource;
 import com.forcetower.uefs.service.ActionResult;
 import com.forcetower.uefs.service.ApiResponse;
 import com.forcetower.uefs.service.UNEService;
-import com.forcetower.uefs.util.BCrypt;
 import com.forcetower.uefs.util.ImageUtils;
 import com.google.common.hash.Hashing;
 import com.google.firebase.database.DatabaseReference;

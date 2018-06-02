@@ -3,7 +3,6 @@ package com.forcetower.uefs.di.module;
 import android.content.Context;
 
 import com.forcetower.uefs.Constants;
-import com.forcetower.uefs.db.dao.AccessDao;
 import com.forcetower.uefs.db_service.dao.AccessTokenDao;
 import com.forcetower.uefs.db_service.entity.AccessToken;
 import com.franmontiel.persistentcookiejar.ClearableCookieJar;
@@ -23,7 +22,6 @@ import okhttp3.Headers;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import timber.log.Timber;
 
 /**
  * Created by João Paulo on 05/03/2018.

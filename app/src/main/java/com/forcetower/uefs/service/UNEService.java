@@ -39,6 +39,10 @@ public interface UNEService {
     LiveData<ApiResponse<ActionResult<UpdateStatus>>> changeUpdateStatus(@Field("manager") int manager, @Field("alarm") int alarm);
 
     @FormUrlEncoded
+    @POST("update")
+    LiveData<ApiResponse<ActionResult<UpdateStatus>>> changeWorkerUpdateStatus(@Field("one") int worker);
+
+    @FormUrlEncoded
     @POST("account")
     LiveData<ApiResponse<ActionResult<Account>>> createAccount(
             @Field("name")     String name,

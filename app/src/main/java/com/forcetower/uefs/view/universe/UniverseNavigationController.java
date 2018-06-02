@@ -10,12 +10,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
 import android.transition.Slide;
-import android.view.Gravity;
 import android.view.View;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.anim.ChangeBoundsTransition;
-import com.forcetower.uefs.db_service.entity.Version;
 import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.universe.fragment.UniverseCreateAccountFragment;
 import com.forcetower.uefs.view.universe.fragment.UniverseKnowAboutFragment;

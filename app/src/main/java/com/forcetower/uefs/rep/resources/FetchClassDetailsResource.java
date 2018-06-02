@@ -11,7 +11,6 @@ import android.util.Pair;
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.DisciplineClassItem;
-import com.forcetower.uefs.rep.helper.RequestCreator;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.sgrs.SagresResponse;
 import com.forcetower.uefs.util.network.LiveDataCallAdapter;
@@ -26,7 +25,6 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import okhttp3.Call;

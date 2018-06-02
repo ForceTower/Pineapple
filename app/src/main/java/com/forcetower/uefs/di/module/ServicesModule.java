@@ -1,13 +1,8 @@
 package com.forcetower.uefs.di.module;
 
-import android.annotation.TargetApi;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-
 import com.forcetower.uefs.svc.firebase.UNESFirebaseInstanceIDService;
 import com.forcetower.uefs.svc.firebase.UNESFirebaseMessagingService;
 import com.forcetower.uefs.sync.service.SyncAdapterService;
-import com.forcetower.uefs.worker.SagresSyncJobScheduler;
 import com.forcetower.uefs.worker.SagresSyncJobService;
 
 import dagger.Module;

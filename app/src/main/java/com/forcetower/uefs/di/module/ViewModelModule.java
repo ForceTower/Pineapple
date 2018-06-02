@@ -4,23 +4,22 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
 import com.forcetower.uefs.di.annotation.ViewModelKey;
-import com.forcetower.uefs.vm.google.AchievementsViewModel;
-import com.forcetower.uefs.vm.base.CalendarViewModel;
+import com.forcetower.uefs.vm.UEFSViewModelFactory;
 import com.forcetower.uefs.vm.admin.ControlRoomViewModel;
+import com.forcetower.uefs.vm.base.CalendarViewModel;
 import com.forcetower.uefs.vm.base.DisciplinesViewModel;
 import com.forcetower.uefs.vm.base.DownloadsViewModel;
-import com.forcetower.uefs.vm.google.GoogleCalendarViewModel;
 import com.forcetower.uefs.vm.base.GradesViewModel;
 import com.forcetower.uefs.vm.base.LoginViewModel;
 import com.forcetower.uefs.vm.base.MessagesViewModel;
 import com.forcetower.uefs.vm.base.ProfileViewModel;
 import com.forcetower.uefs.vm.base.ScheduleViewModel;
-import com.forcetower.uefs.vm.UEFSViewModelFactory;
+import com.forcetower.uefs.vm.google.AchievementsViewModel;
+import com.forcetower.uefs.vm.google.GoogleCalendarViewModel;
 import com.forcetower.uefs.vm.universe.UAccountViewModel;
 
 import dagger.Binds;
 import dagger.Module;
-import dagger.internal.Beta;
 import dagger.multibindings.IntoMap;
 
 /**

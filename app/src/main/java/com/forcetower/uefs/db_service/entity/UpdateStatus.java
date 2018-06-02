@@ -1,12 +1,15 @@
 package com.forcetower.uefs.db_service.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by João Paulo on 29/04/2018.
  */
 public class UpdateStatus {
     private boolean manager;
     private boolean alarm;
-    private boolean one;
+    @SerializedName(value = "one")
+    private boolean worker;
     private boolean two;
     private int count;
 
@@ -40,12 +43,12 @@ public class UpdateStatus {
         this.count = count;
     }
 
-    public boolean isOne() {
-        return one;
+    public boolean isWorker() {
+        return worker;
     }
 
-    public void setOne(boolean one) {
-        this.one = one;
+    public void setWorker(boolean worker) {
+        this.worker = worker;
     }
 
     public boolean isTwo() {

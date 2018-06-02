@@ -6,8 +6,8 @@ import android.arch.lifecycle.ViewModel;
 
 import com.forcetower.uefs.db.dao.AccessDao;
 import com.forcetower.uefs.db.entity.Access;
-import com.forcetower.uefs.rep.sgrs.LoginRepository;
 import com.forcetower.uefs.rep.helper.Resource;
+import com.forcetower.uefs.rep.sgrs.LoginRepository;
 
 import javax.inject.Inject;
 

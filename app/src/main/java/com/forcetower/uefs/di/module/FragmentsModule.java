@@ -1,7 +1,6 @@
 package com.forcetower.uefs.di.module;
 
 import com.forcetower.uefs.view.connected.fragments.AllSemestersGradeFragment;
-import com.forcetower.uefs.view.connected.fragments.OutdatedFragment;
 import com.forcetower.uefs.view.connected.fragments.BigTrayFragment;
 import com.forcetower.uefs.view.connected.fragments.CalendarFragment;
 import com.forcetower.uefs.view.connected.fragments.ConnectedFragment;
@@ -11,6 +10,7 @@ import com.forcetower.uefs.view.connected.fragments.DisciplinesFragment;
 import com.forcetower.uefs.view.connected.fragments.GradesFragment;
 import com.forcetower.uefs.view.connected.fragments.MessagesFragment;
 import com.forcetower.uefs.view.connected.fragments.NewScheduleFragment;
+import com.forcetower.uefs.view.connected.fragments.OutdatedFragment;
 import com.forcetower.uefs.view.connected.fragments.OverviewFragment;
 import com.forcetower.uefs.view.connected.fragments.ProfileFragment;
 import com.forcetower.uefs.view.connected.fragments.ScheduleFragment;
