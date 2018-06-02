@@ -96,9 +96,6 @@ dependencies {
     implementation 'pub.devrel:easypermissions:0.3.0'
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.11.0'
 
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
-
     implementation('com.mikepenz:aboutlibraries:6.0.1@aar') {
         transitive = true
     }

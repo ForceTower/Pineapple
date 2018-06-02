@@ -23,6 +23,7 @@ import com.forcetower.uefs.game._2048.tools.KeyListener;
 import com.forcetower.uefs.game._2048.tools.ScoreKeeper;
 import com.forcetower.uefs.game._2048.view.Game;
 import com.forcetower.uefs.game._2048.view.Tile;
+import com.forcetower.uefs.view.UBaseActivity;
 
 import timber.log.Timber;
 
@@ -45,16 +46,12 @@ public class Game2048Fragment extends Fragment implements KeyListener, Game.Game
     private static final String GAME_STATE = "savegame.gamestate";
     private static final String UNDO_GAME_STATE = "savegame.undogamestate";
 
-    private ScoreKeeper mScoreKeeper;
-
     private GameFragment2048Binding binding;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.game_fragment_2048, container, false);
-        //binding.gameview.setOnTouchListener(this);
-        //binding.getRoot().setOnTouchListener(this);
         binding.gamePad.setOnTouchListener(this);
         return binding.getRoot();
     }
@@ -62,7 +59,7 @@ public class Game2048Fragment extends Fragment implements KeyListener, Game.Game
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mScoreKeeper = new ScoreKeeper(requireActivity());
+        ScoreKeeper mScoreKeeper = new ScoreKeeper(requireActivity());
         mScoreKeeper.setViews(binding.tvScore, binding.tvHighscore);
         mGame = new Game(requireActivity());
         mGame.setup(binding.gameview);
@@ -138,9 +135,15 @@ public class Game2048Fragment extends Fragment implements KeyListener, Game.Game
         if (state == Game.State.WON || state == Game.State.ENLESS_WON) {
             binding.tvEndgameOverlay.setVisibility(View.VISIBLE);
             binding.tvEndgameOverlay.setText(R.string.you_win);
+            UBaseActivity activity = (UBaseActivity) requireActivity();
+            activity.unlockAchievements(getString(R.string.achievement_you_are_good_in_2048), activity.mPlayGamesInstance);
+            activity.incrementAchievementProgress(getString(R.string.achievement_unes_2048_champion), 1, activity.mPlayGamesInstance);
         } else if (state == Game.State.LOST) {
             binding.tvEndgameOverlay.setVisibility(View.VISIBLE);
             binding.tvEndgameOverlay.setText(R.string.game_over);
+            UBaseActivity activity = (UBaseActivity) requireActivity();
+            activity.unlockAchievements(getString(R.string.achievement_you_tried_2048), activity.mPlayGamesInstance);
+            activity.incrementAchievementProgress(getString(R.string.achievement_practice_makes_perfect), 1, activity.mPlayGamesInstance);
         } else {
             binding.tvEndgameOverlay.setVisibility(View.GONE);
         }

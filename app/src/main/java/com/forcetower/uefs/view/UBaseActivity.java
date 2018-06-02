@@ -15,6 +15,8 @@ import com.forcetower.uefs.util.NetworkUtils;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
@@ -118,6 +120,7 @@ public abstract class UBaseActivity extends AppCompatActivity implements Achieve
                 startActivityForResult(task.getResult(), PLAY_GAMES_LEADERBOARD);
             } else {
                 Timber.d("Unsuccessful open Achievements Task");
+                Timber.d(task.getException());
                 Toast.makeText(this, R.string.unable_to_open_achievements, Toast.LENGTH_SHORT).show();
             }
         });
