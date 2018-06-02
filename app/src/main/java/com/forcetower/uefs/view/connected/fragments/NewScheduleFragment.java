@@ -3,7 +3,9 @@ package com.forcetower.uefs.view.connected.fragments;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,12 +15,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.UEFSApplication;
 import com.forcetower.uefs.db.entity.DisciplineClassLocation;
 import com.forcetower.uefs.db.entity.DisciplineGroup;
 import com.forcetower.uefs.di.Injectable;
+import com.forcetower.uefs.game._2048.activity.Game2048Activity;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.view.connected.ActivityController;
 import com.forcetower.uefs.view.connected.LocationClickListener;
@@ -91,6 +96,7 @@ public class NewScheduleFragment extends Fragment implements Injectable {
     private void setupRecycler() {
         scheduleAdapter = new NewScheduleAdapter(requireContext(), new ArrayList<>());
         scheduleAdapter.setOnClickListener(locationClickListener);
+        scheduleAdapter.setOnLongClickListener(long2048Click);
         rvSchedule.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         rvSchedule.setAdapter(scheduleAdapter);
         rvSchedule.setNestedScrollingEnabled(false);
@@ -130,4 +136,15 @@ public class NewScheduleFragment extends Fragment implements Injectable {
             executors.mainThread().execute(() -> controller.navigateToDisciplineDetails(groupId, disciplineId));
         }
     });
+
+    private LocationLongClickListener long2048Click = () -> {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        if (preferences.getBoolean("show_current_semester", true) && preferences.getBoolean("show_score", false)) {
+            Game2048Activity.startActivity(requireActivity());
+        }
+    };
+
+    public interface LocationLongClickListener {
+        void onViewLongClicked();
+    }
 }

@@ -20,4 +20,16 @@ public interface AchievementsController {
         if (achievementsClient != null && playGamesInstance.isSignedIn())
             achievementsClient.setSteps(achievement, value);
     }
+
+    default void incrementAchievementProgress(String achievement, int value, GooglePlayGamesInstance playGamesInstance) {
+        AchievementsClient achievementsClient = playGamesInstance.getAchievementsClient();
+        if (achievementsClient != null && playGamesInstance.isSignedIn())
+            achievementsClient.increment(achievement, 1);
+    }
+
+    default void revealAchievement(String achievement, GooglePlayGamesInstance playGamesInstance) {
+        AchievementsClient achievementsClient = playGamesInstance.getAchievementsClient();
+        if (achievementsClient != null && playGamesInstance.isSignedIn())
+            achievementsClient.reveal(achievement);
+    }
 }

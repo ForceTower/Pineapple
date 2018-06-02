@@ -88,22 +88,19 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
-
         <service
-            android:exported="false"
-            android:name=".worker.SagresSyncJobService">
+            android:name=".worker.SagresSyncJobService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>
             </intent-filter>
         </service>
-
         <service
-            android:exported="true"
             android:name=".worker.SagresSyncJobScheduler"
+            android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE"/>
 
-        <receiver
-            android:name=".sync.alm.RefreshBroadcastReceiver">
+        <receiver android:name=".sync.alm.RefreshBroadcastReceiver">
             <intent-filter>
                 <action android:name="com.forcetower.uefs.REFRESH"/>
 
@@ -129,8 +126,7 @@
                 android:name="android.content.SyncAdapter"
                 android:resource="@xml/syncadapter"/>
         </service>
-        <service
-            android:name=".sync.service.GenericAccountService">
+        <service android:name=".sync.service.GenericAccountService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator"/>
             </intent-filter>
@@ -147,8 +143,9 @@
             android:label="@string/sagres_sync"
             android:syncable="true"/>
 
-
         <activity android:name=".view.universe.UniverseActivity">
+        </activity>
+        <activity android:name=".game._2048.activity.Game2048Activity">
         </activity>
     </application>
 

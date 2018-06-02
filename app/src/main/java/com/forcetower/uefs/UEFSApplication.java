@@ -19,7 +19,6 @@ import com.forcetower.uefs.rep.sgrs.RefreshRepository;
 import com.forcetower.uefs.service.UNEService;
 import com.forcetower.uefs.sync.service.SyncConfiguration;
 import com.forcetower.uefs.worker.SyncUtils;
-import com.squareup.leakcanary.LeakCanary;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -49,6 +48,7 @@ public class UEFSApplication extends Application implements HasActivityInjector,
     FirebaseJobDispatcher dispatcher;
 
     private AppComponent appComponent;
+    public int string2048Position;
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -59,10 +59,6 @@ public class UEFSApplication extends Application implements HasActivityInjector,
     @Override
     public void onCreate() {
         super.onCreate();
-        if (LeakCanary.isInAnalyzerProcess(this))
-            return;
-
-        LeakCanary.install(this);
 
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
@@ -149,6 +145,7 @@ public class UEFSApplication extends Application implements HasActivityInjector,
     public RefreshObjects getRefreshPackage() {
         return new RefreshObjects(repository, database, executors, service);
     }
+
 
     public static final class RefreshObjects {
         public final RefreshRepository repository;

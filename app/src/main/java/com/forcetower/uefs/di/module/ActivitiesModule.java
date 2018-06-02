@@ -1,5 +1,6 @@
 package com.forcetower.uefs.di.module;
 
+import com.forcetower.uefs.game._2048.activity.Game2048Activity;
 import com.forcetower.uefs.view.about.AboutActivity;
 import com.forcetower.uefs.view.connected.LoggedActivity;
 import com.forcetower.uefs.view.control_room.ControlRoomActivity;
@@ -33,4 +34,7 @@ public abstract class ActivitiesModule {
 
     @ContributesAndroidInjector(modules = UniverseFragmentsModule.class)
     abstract UniverseActivity contributeUniverseActivity();
+
+    @ContributesAndroidInjector
+    abstract Game2048Activity contributeGame2048Activity();
 }

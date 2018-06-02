@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.DisciplineClassLocation;
 import com.forcetower.uefs.view.connected.LocationClickListener;
+import com.forcetower.uefs.view.connected.fragments.NewScheduleFragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,6 +32,7 @@ public class NewScheduleAdapter extends RecyclerView.Adapter<NewScheduleAdapter.
     private final RecyclerView.RecycledViewPool viewPool;
     private final List<List<InnerLocation>> mapped;
     private LocationClickListener onClickListener;
+    private NewScheduleFragment.LocationLongClickListener onLongClickListener;
 
     public NewScheduleAdapter(@NonNull Context context, @NonNull List<DisciplineClassLocation> locations) {
         this.locations = new ArrayList<>();
@@ -143,6 +145,10 @@ public class NewScheduleAdapter extends RecyclerView.Adapter<NewScheduleAdapter.
         this.onClickListener = onClickListener;
     }
 
+    public void setOnLongClickListener(NewScheduleFragment.LocationLongClickListener onLongClickListener) {
+        this.onLongClickListener = onLongClickListener;
+    }
+
     class ScheduleHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.recycler_view)
         RecyclerView innerRecycler;
@@ -168,6 +174,7 @@ public class NewScheduleAdapter extends RecyclerView.Adapter<NewScheduleAdapter.
 
             adapter = new NewDayClassAdapter(new ArrayList<>());
             adapter.setOnClickListener(onClickListener);
+            adapter.setOnLongClickListener(onLongClickListener);
             innerRecycler.setAdapter(adapter);
         }
 
