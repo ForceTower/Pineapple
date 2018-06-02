@@ -682,6 +682,10 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
                 clearBackStack();
                 navigationController.navigateToGoldMonkey();
                 tabLayout.setVisibility(View.GONE);
+            } else if (id == R.id.nav_chat) {
+                clearBackStack();
+                navigationController.navigateToGoldMonkey();
+                tabLayout.setVisibility(View.GONE);
             }
 
             if (item.isCheckable()) selectedNavId = id;
