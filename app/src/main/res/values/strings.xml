@@ -423,34 +423,5 @@
     <string name="start_new_game">Iniciar novo jogo</string>
     <string name="undo">Desfazer</string>
     <string name="reset">Reiniciar</string>
-    <string name="welcome_2048">Bem vindo</string>
 
-    <string-array name="gate_keeper_2048">
-        <item>Não tem nada aqui. Deixe-me dormir, não bata na minha porta</item>
-        <item>Knock, knock. Quem é?</item>
-        <item>Você é insistente, mas não vou deixar você passar</item>
-        <item>Você de novo?</item>
-        <item>..</item>
-        <item>..</item>
-        <item>......</item>
-        <item>..........</item>
-        <item>AAAAAAAAAAAAAAAAAAA</item>
-        <item>Não tem problema em ocultar seu score</item>
-        <item>Ou seu semestre</item>
-        <item>Mas para que atrapalhar alguém no meio sono??</item>
-        <item>Tudo bem, tudo bem. Eu vou deixar você entrar</item>
-        <item>Mentira, não vou não</item>
-        <item>Você não vai parar mesmo né?</item>
-        <item>Façamos assim, resolva seus problemas primeiro e eu deixo você entrar</item>
-        <item>Nem venha me perguntar quais são eles, eu não vou repetir!</item>
-        <item>É sério, você precisa resolve-los para entrar</item>
-        <item>Parece que você não resolveu eles ainda</item>
-        <item>Tchau! Essa é a última mensagem</item>
-        <item>Porque você não vai pro bandejão? Lá é legal</item>
-        <item>Já recebeu uma declaração no aviãozinho?</item>
-        <item>Sabe o que eu queria agora?</item>
-        <item>Que você parasse de clicar e resolver o que lhe pedi</item>
-        <item>Mas parece que você continua aqui parado, clicando nesse negócio</item>
-        <item>Quer saber? Vou estudar, já que você não vai deixar eu dormir</item>
-    </string-array>
 </resources>

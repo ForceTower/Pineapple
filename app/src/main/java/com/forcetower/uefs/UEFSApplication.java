@@ -48,7 +48,6 @@ public class UEFSApplication extends Application implements HasActivityInjector,
     FirebaseJobDispatcher dispatcher;
 
     private AppComponent appComponent;
-    public int string2048Position;
 
     @Override
     protected void attachBaseContext(Context base) {

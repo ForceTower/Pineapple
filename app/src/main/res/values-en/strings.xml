@@ -420,34 +420,5 @@
     <string name="game_over">Game Over</string>
     <string name="start_new_game">Starts new game</string>
     <string name="undo">Undo</string>
-    <string name="reset">Restart</string>
 
-    <string-array name="gate_keeper_2048">
-        <item>There\'s nothing here. Let me sleep in peace</item>
-        <item>Knock, knock. Who\'s there?</item>
-        <item>You are brave, but I am not letting you pass</item>
-        <item>You again?</item>
-        <item>..</item>
-        <item>..</item>
-        <item>......</item>
-        <item>..........</item>
-        <item>GAAAAAAAAAAAAAAAH</item>
-        <item>There is no problem on hiding your score</item>
-        <item>Nor how long you have been in this university</item>
-        <item>But ruining someone else\'s sleep time, that\'s rude</item>
-        <item>OK, OK fine, I will let you in</item>
-        <item>Just kidding, I won\'t</item>
-        <item>You really are not going to stop, are you?</item>
-        <item>Let\'s make a deal. First you solve your problems then I\'ll let you in</item>
-        <item>Do not even start asking what your problems are, I will not repeat them!</item>
-        <item>Seriously, you need to solve them before coming in</item>
-        <item>It seems like you did not solve them yet</item>
-        <item>Bye, this is my last message</item>
-        <item>Why don\'t you go to the Big Tray. It is cool there</item>
-        <item>Have you ever received a love letter from Aviãozinho?</item>
-        <item>You know what I would like really much?</item>
-        <item>That you stop clicking and solve what I asked you to solve</item>
-        <item>But here you are, clicking this button</item>
-        <item>I am going to study, since sleep is out of question now. Bye</item>
-    </string-array>
 </resources>
