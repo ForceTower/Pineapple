@@ -26,7 +26,7 @@ public abstract class ActivitiesModule {
     @ContributesAndroidInjector(modules = FragmentsModule.class)
     abstract ControlRoomActivity contributeControlRoomActivity();
 
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = AboutFragmentsModule.class)
     abstract AboutActivity contributeAboutActivity();
 
     @ContributesAndroidInjector(modules = FragmentsModule.class)

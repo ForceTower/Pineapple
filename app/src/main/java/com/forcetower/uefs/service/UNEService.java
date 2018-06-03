@@ -2,10 +2,14 @@ package com.forcetower.uefs.service;
 
 import android.arch.lifecycle.LiveData;
 
+import com.forcetower.uefs.db_service.entity.CreditsMention;
 import com.forcetower.uefs.db_service.entity.AccessToken;
 import com.forcetower.uefs.db_service.entity.Account;
 import com.forcetower.uefs.db_service.entity.UpdateStatus;
 import com.forcetower.uefs.db_service.entity.Version;
+import com.forcetower.uefs.db_service.helper.CreditAndMentions;
+
+import java.util.List;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -51,4 +55,7 @@ public interface UNEService {
             @Field("image")    String image,
             @Field("app_account_secret") String secret
     );
+
+    @GET("credits")
+    LiveData<ApiResponse<List<CreditAndMentions>>> getCredits();
 }

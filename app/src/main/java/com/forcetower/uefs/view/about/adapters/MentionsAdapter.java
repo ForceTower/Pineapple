@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.db.entity.Mention;
+import com.forcetower.uefs.db_service.entity.Mention;
 import com.forcetower.uefs.view.about.CreditClickListener;
 
 import java.util.ArrayList;

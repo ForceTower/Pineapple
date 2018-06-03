@@ -2,10 +2,11 @@ package com.forcetower.uefs.util;
 
 import android.support.annotation.NonNull;
 
-import com.forcetower.uefs.db.entity.CreditsMention;
+import com.forcetower.uefs.db_service.entity.CreditsMention;
 import com.forcetower.uefs.db.entity.DisciplineClassLocation;
-import com.forcetower.uefs.db.entity.Mention;
+import com.forcetower.uefs.db_service.entity.Mention;
 import com.forcetower.uefs.db.entity.QuestionAnswer;
+import com.forcetower.uefs.db_service.helper.CreditAndMentions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,20 +37,22 @@ public class MockUtils {
         return locations;
     }
 
-    public static List<CreditsMention> getCredits() {
-        List<CreditsMention> mentions = new ArrayList<>();
+    public static List<CreditAndMentions> getCredits() {
+        List<CreditAndMentions> mentions = new ArrayList<>();
 
         Mention lokisley = new Mention("Lokisley \"Lokisssss\" Oliveira", "https://www.facebook.com/Lokisley");
         Mention teixeira = new Mention("Matheus Teixeira", "https://www.facebook.com/teixeirista");
         Mention kuchuki  = new Mention("Marcus \"Kuchuki\" Aldrey", "https://www.facebook.com/marcus.aldrey");
         Mention rafael   = new Mention("Rafael \"Code\" Azevedo", "https://www.facebook.com/rafaazvd");
+        Mention alberto  = new Mention("Alberto \"Da Pesada\" Junior", "https://www.facebook.com/alberto.junior.995");
 
         Mention bandejao = new Mention("Fonte dos Dados", "http://bit.ly/bandejaouefs");
 
-        mentions.add(new CreditsMention("Ícone do Aplicativo", Collections.singletonList(lokisley)));
-        mentions.add(new CreditsMention("Nome do Aplicativo", Arrays.asList(teixeira, lokisley, kuchuki)));
-        mentions.add(new CreditsMention("Bandejão UEFS", Collections.singletonList(bandejao)));
-        mentions.add(new CreditsMention("Backgrounds", Collections.singletonList(rafael)));
+        mentions.add(new CreditAndMentions("Ícone do Aplicativo", Collections.singletonList(lokisley)));
+        mentions.add(new CreditAndMentions("Nome do Aplicativo", Arrays.asList(teixeira, lokisley, kuchuki)));
+        mentions.add(new CreditAndMentions("Bandejão UEFS", Collections.singletonList(bandejao)));
+        mentions.add(new CreditAndMentions("Backgrounds", Collections.singletonList(rafael)));
+        mentions.add(new CreditAndMentions("Várias idéias geniais", Collections.singletonList(alberto)));
 
         return mentions;
     }

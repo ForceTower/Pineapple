@@ -74,8 +74,10 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
                 });
             } else {
                 onFetchFailed();
-                result.postValue(Resource.error(response.errorMessage, response.code, response.actionError));
-                //result.addSource(dbSource, newData -> setValue(Resource.error(response.errorMessage, response.code, newData)));
+                if (response.actionError != null)
+                    result.postValue(Resource.error(response.errorMessage, response.code, response.actionError));
+                else
+                    result.addSource(dbSource, newData -> result.postValue(Resource.error(response.errorMessage, response.code, newData)));
             }
         });
     }

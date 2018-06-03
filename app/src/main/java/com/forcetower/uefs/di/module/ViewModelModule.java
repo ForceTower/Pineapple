@@ -16,6 +16,7 @@ import com.forcetower.uefs.vm.base.ProfileViewModel;
 import com.forcetower.uefs.vm.base.ScheduleViewModel;
 import com.forcetower.uefs.vm.google.AchievementsViewModel;
 import com.forcetower.uefs.vm.google.GoogleCalendarViewModel;
+import com.forcetower.uefs.vm.service.ServiceGeneralViewModel;
 import com.forcetower.uefs.vm.universe.UAccountViewModel;
 
 import dagger.Binds;
@@ -87,6 +88,11 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(UAccountViewModel.class)
     abstract ViewModel bindUAcountViewModel(UAccountViewModel accountViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ServiceGeneralViewModel.class)
+    abstract ViewModel bindServiceGeneralViewModel(ServiceGeneralViewModel serviceGeneralViewModel);
 
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(UEFSViewModelFactory factory);

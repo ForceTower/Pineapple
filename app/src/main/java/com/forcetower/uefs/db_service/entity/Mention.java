@@ -1,11 +1,21 @@
-package com.forcetower.uefs.db.entity;
+package com.forcetower.uefs.db_service.entity;
 
 import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Index;
+import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
+@Entity(foreignKeys = {
+        @ForeignKey(entity = CreditsMention.class, parentColumns = "uid", childColumns = "credit_id", onDelete = ForeignKey.CASCADE)
+}, indices = {
+        @Index(value = "credit_id")
+})
 public class Mention {
+    @PrimaryKey(autoGenerate = true)
     private int uid;
     @ColumnInfo(name = "credit_id")
     @SerializedName(value = "credit_id")

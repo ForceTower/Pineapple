@@ -1,5 +1,6 @@
 package com.forcetower.uefs.view.about.fragments;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -17,16 +18,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.forcetower.uefs.BuildConfig;
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.db.entity.CreditsMention;
+import com.forcetower.uefs.db_service.entity.CreditsMention;
+import com.forcetower.uefs.db_service.helper.CreditAndMentions;
+import com.forcetower.uefs.di.Injectable;
+import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.util.MockUtils;
 import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.about.adapters.CreditsAdapter;
+import com.forcetower.uefs.vm.UEFSViewModelFactory;
+import com.forcetower.uefs.vm.service.ServiceGeneralViewModel;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 import static com.forcetower.uefs.util.NetworkUtils.openLink;
 import static com.forcetower.uefs.util.WordUtils.validString;
@@ -34,7 +44,7 @@ import static com.forcetower.uefs.util.WordUtils.validString;
 /**
  * Created by João Paulo on 18/04/2018.
  */
-public class AboutFragment extends Fragment {
+public class AboutFragment extends Fragment implements Injectable {
     @BindView(R.id.version_info)
     TextView versionInfo;
     @BindView(R.id.rv_credits)
@@ -48,6 +58,9 @@ public class AboutFragment extends Fragment {
 
     @SuppressWarnings("FieldCanBeLocal")
     private CreditsAdapter creditsAdapter;
+
+    @Inject
+    UEFSViewModelFactory viewModelFactory;
 
     @Override
     public void onAttach(Context context) {
@@ -70,6 +83,22 @@ public class AboutFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        ServiceGeneralViewModel generalViewModel = ViewModelProviders.of(this, viewModelFactory).get(ServiceGeneralViewModel.class);
+        generalViewModel.getCredits().observe(this, this::onCreditsChanged);
+    }
+
+    private void onCreditsChanged(Resource<List<CreditAndMentions>> listCreditsResource) {
+        Timber.d("Credits Status: %s", listCreditsResource.status);
+        if (listCreditsResource.data != null && !listCreditsResource.data.isEmpty()) {
+            creditsAdapter.setMentions(listCreditsResource.data);
+        } else if (listCreditsResource.data != null) {
+            rvCredits.setVisibility(View.GONE);
+        }
+    }
+
     private void navigateToFAQ() {
         Fragment fragment = new FAQFragment();
         if (VersionUtils.isLollipop()) {
@@ -85,18 +114,11 @@ public class AboutFragment extends Fragment {
     }
 
     private void setupVersion() {
-        String version = "0.0u";
-        try {
-            PackageInfo pInfo = requireContext().getPackageManager().getPackageInfo(requireContext().getPackageName(), 0);
-            version = pInfo.versionName;
-        } catch (PackageManager.NameNotFoundException ignored) {}
-        versionInfo.setText(getString(R.string.creator, version));
+        versionInfo.setText(getString(R.string.creator, BuildConfig.VERSION_NAME));
     }
 
     private void setupCreditsRecycler() {
-        List<CreditsMention> mentions = MockUtils.getCredits();
-
-        creditsAdapter = new CreditsAdapter(mentions);
+        creditsAdapter = new CreditsAdapter();
         creditsAdapter.setOnMentionClickListener(mention -> {
             if (validString(mention.getLink())) openLink(requireContext(), mention.getLink());
         });

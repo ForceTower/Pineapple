@@ -1,18 +1,22 @@
-package com.forcetower.uefs.db.entity;
+package com.forcetower.uefs.db_service.entity;
 
+import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+@Entity
 public class CreditsMention {
+    @PrimaryKey(autoGenerate = true)
+    @SerializedName(value = "id")
     private int uid;
     private String category;
-    @Ignore
-    private List<Mention> participants;
 
-    public CreditsMention(String category, List<Mention> participants) {
+    public CreditsMention(String category) {
         this.category = category;
-        this.participants = participants;
     }
 
     public int getUid() {
@@ -29,13 +33,5 @@ public class CreditsMention {
 
     public void setCategory(String category) {
         this.category = category;
-    }
-
-    public List<Mention> getParticipants() {
-        return participants;
-    }
-
-    public void setParticipants(List<Mention> participants) {
-        this.participants = participants;
     }
 }

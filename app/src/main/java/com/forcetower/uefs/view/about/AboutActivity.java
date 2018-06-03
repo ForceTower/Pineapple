@@ -18,10 +18,15 @@ import com.forcetower.uefs.view.about.fragments.AboutFragment;
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
 
+import javax.inject.Inject;
+
 import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 
 public class AboutActivity extends UBaseActivity implements HasSupportFragmentInjector {
+    @Inject
+    DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
 
     public static void startActivity(Context context) {
         Intent intent = new Intent(context, AboutActivity.class);
@@ -78,6 +83,6 @@ public class AboutActivity extends UBaseActivity implements HasSupportFragmentIn
 
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
-        return null;
+        return dispatchingAndroidInjector;
     }
 }
