@@ -1,11 +1,13 @@
 package com.forcetower.uefs.db.entity;
 
 import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
 
 /**
  * Created by João Paulo on 18/04/2018.
  */
 public class QuestionAnswer {
+    @PrimaryKey(autoGenerate = true)
     private int uid;
     private String question;
     private String answer;
