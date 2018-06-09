@@ -666,22 +666,6 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
                 openCertificatePdf(true, SagresDocuments.ENROLLMENT_CERTIFICATE);
             } else if (id == R.id.nav_flowchart_certificate) {
                 openCertificatePdf(true, SagresDocuments.FLOWCHART);
-            } else if (id == R.id.nav_universe) {
-                if (latestAccess.getUsername().equalsIgnoreCase("jpssena"))
-                    UniverseActivity.startActivity(this);
-                else {
-                    clearBackStack();
-                    navigationController.navigateToGoldMonkey();
-                    tabLayout.setVisibility(View.GONE);
-                }
-            } else if (id == R.id.nav_oracle_gate) {
-                clearBackStack();
-                navigationController.navigateToGoldMonkey();
-                tabLayout.setVisibility(View.GONE);
-            } else if (id == R.id.nav_chat) {
-                clearBackStack();
-                navigationController.navigateToGoldMonkey();
-                tabLayout.setVisibility(View.GONE);
             }
 
             if (item.isCheckable()) selectedNavId = id;
