@@ -1,20 +1,17 @@
 package com.forcetower.uefs.view.about.adapters;
 
+import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.db.entity.QuestionAnswer;
+import com.forcetower.uefs.databinding.ItemAboutFaqItemBinding;
+import com.forcetower.uefs.db_service.entity.QuestionAnswer;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by João Paulo on 18/04/2018.
@@ -29,15 +26,16 @@ public class AboutFAQAdapter extends RecyclerView.Adapter<AboutFAQAdapter.FAQIte
 
     public void setItems(List<QuestionAnswer> items) {
         this.items.clear();
-        this.items.addAll(items);
+        for (QuestionAnswer qa : items) if (qa.isActive()) this.items.add(qa);
+
         notifyDataSetChanged();
     }
 
     @NonNull
     @Override
     public FAQItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_about_faq_item, parent, false);
-        return new FAQItemHolder(view);
+       ItemAboutFaqItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_about_faq_item, parent, false);
+        return new FAQItemHolder(binding);
     }
 
     @Override
@@ -51,19 +49,15 @@ public class AboutFAQAdapter extends RecyclerView.Adapter<AboutFAQAdapter.FAQIte
     }
 
     class FAQItemHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tv_question)
-        TextView tvQuestion;
-        @BindView(R.id.tv_answer)
-        TextView tvAnswer;
-
-        FAQItemHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+        ItemAboutFaqItemBinding binding;
+        FAQItemHolder(ItemAboutFaqItemBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
 
         void bind(QuestionAnswer question) {
-            tvQuestion.setText(question.getQuestion());
-            tvAnswer.setText(question.getAnswer());
+            binding.setFaq(question);
+            binding.executePendingBindings();
         }
     }
 }

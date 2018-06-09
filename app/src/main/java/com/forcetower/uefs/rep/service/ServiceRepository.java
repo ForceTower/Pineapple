@@ -6,7 +6,9 @@ import android.support.annotation.Nullable;
 
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.db_service.ServiceDatabase;
+import com.forcetower.uefs.db_service.entity.AboutField;
 import com.forcetower.uefs.db_service.entity.Mention;
+import com.forcetower.uefs.db_service.entity.QuestionAnswer;
 import com.forcetower.uefs.db_service.entity.Version;
 import com.forcetower.uefs.db_service.helper.CreditAndMentions;
 import com.forcetower.uefs.rep.helper.Resource;
@@ -68,6 +70,61 @@ public class ServiceRepository {
             @Override
             protected LiveData<ApiResponse<List<CreditAndMentions>>> createCall() {
                 return service.getCredits();
+            }
+        }.asLiveData();
+    }
+
+    public LiveData<Resource<List<QuestionAnswer>>> getFAQ() {
+        return new NetworkBoundResource<List<QuestionAnswer>, List<QuestionAnswer>>(executors) {
+
+            @Override
+            protected void saveCallResult(@NonNull List<QuestionAnswer> item) {
+                database.questionAnswerDao().deleteAllQuestions();
+                database.questionAnswerDao().insert(item);
+            }
+
+            @Override
+            protected boolean shouldFetch(@Nullable List<QuestionAnswer> data) {
+                return true;
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<List<QuestionAnswer>> loadFromDb() {
+                return database.questionAnswerDao().getFAQ();
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<List<QuestionAnswer>>> createCall() {
+                return service.getFAQ();
+            }
+        }.asLiveData();
+    }
+
+    public LiveData<Resource<List<AboutField>>> getAbout() {
+        return new NetworkBoundResource<List<AboutField>, List<AboutField>>(executors) {
+            @Override
+            protected void saveCallResult(@NonNull List<AboutField> item) {
+                database.aboutFieldDao().deleteAllAbout();
+                database.aboutFieldDao().insert(item);
+            }
+
+            @Override
+            protected boolean shouldFetch(@Nullable List<AboutField> data) {
+                return true;
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<List<AboutField>> loadFromDb() {
+                return database.aboutFieldDao().getAbout();
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<List<AboutField>>> createCall() {
+                return service.getAbout();
             }
         }.asLiveData();
     }

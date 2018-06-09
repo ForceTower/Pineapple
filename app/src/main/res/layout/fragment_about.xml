@@ -1,42 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <ScrollView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <View android:layout_width="match_parent" android:layout_height="4dp"/>
-            <include layout="@layout/card_about_faq"/>
-            <include layout="@layout/card_about_me"/>
-            <include layout="@layout/card_about_features"/>
-            <include layout="@layout/card_about_notifications"/>
-            <include layout="@layout/card_about_disclaimer"/>
-            <include layout="@layout/card_about_privacy"/>
-            <include layout="@layout/card_about_exit"/>
-            <include layout="@layout/card_about_bugs"/>
-            <include layout="@layout/card_about_enjoy"/>
-            <include layout="@layout/card_about_credits"/>
-
-            <Button
-                android:id="@+id/third_party_licenses"
-                android:onClick="thirdParty"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="36dp"
-                android:layout_margin="8dp"
-                android:background="?attr/color_accent"
-                android:textColor="@color/white"
-                android:text="@string/btn_third_party_licenses"
-                android:fontFamily="@font/roboto_regular"/>
-        </LinearLayout>
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-    </ScrollView>
+                <View android:layout_width="match_parent" android:layout_height="4dp"/>
 
-</android.support.design.widget.CoordinatorLayout>
+                <include
+                    android:id="@+id/include_about_faq"
+                    layout="@layout/card_about_faq"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_about"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:listitem="@layout/card_about_item"
+                    tools:itemCount="5">
+                </android.support.v7.widget.RecyclerView>
+
+                <include
+                    android:id="@+id/include_about_credits"
+                    layout="@layout/card_about_credits"/>
+
+                <Button
+                    android:id="@+id/third_party_licenses"
+                    android:onClick="thirdParty"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:layout_margin="8dp"
+                    android:background="?attr/color_accent"
+                    android:textColor="@color/white"
+                    android:text="@string/btn_third_party_licenses"
+                    android:fontFamily="@font/roboto_regular"/>
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+    </android.support.design.widget.CoordinatorLayout>
+</layout>

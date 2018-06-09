@@ -2,9 +2,11 @@ package com.forcetower.uefs.service;
 
 import android.arch.lifecycle.LiveData;
 
+import com.forcetower.uefs.db_service.entity.AboutField;
 import com.forcetower.uefs.db_service.entity.CreditsMention;
 import com.forcetower.uefs.db_service.entity.AccessToken;
 import com.forcetower.uefs.db_service.entity.Account;
+import com.forcetower.uefs.db_service.entity.QuestionAnswer;
 import com.forcetower.uefs.db_service.entity.UpdateStatus;
 import com.forcetower.uefs.db_service.entity.Version;
 import com.forcetower.uefs.db_service.helper.CreditAndMentions;
@@ -58,4 +60,10 @@ public interface UNEService {
 
     @GET("credits")
     LiveData<ApiResponse<List<CreditAndMentions>>> getCredits();
+
+    @GET("faq")
+    LiveData<ApiResponse<List<QuestionAnswer>>> getFAQ();
+
+    @GET("about")
+    LiveData<ApiResponse<List<AboutField>>> getAbout();
 }

@@ -1,6 +1,7 @@
 package com.forcetower.uefs.di.module;
 
 import com.forcetower.uefs.view.about.fragments.AboutFragment;
+import com.forcetower.uefs.view.about.fragments.FAQFragment;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -12,4 +13,7 @@ import dagger.android.ContributesAndroidInjector;
 public abstract class AboutFragmentsModule {
     @ContributesAndroidInjector
     abstract AboutFragment contributeAboutFragment();
+
+    @ContributesAndroidInjector
+    abstract FAQFragment contributeFAQFragment();
 }

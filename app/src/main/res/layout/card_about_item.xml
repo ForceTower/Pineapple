@@ -6,15 +6,17 @@
 
     <data>
         <variable
-            name="faq"
-            type="com.forcetower.uefs.db_service.entity.QuestionAnswer"/>
+            name="about"
+            type="com.forcetower.uefs.db_service.entity.AboutField"/>
     </data>
+
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardElevation="2dp"
         app:cardCornerRadius="2dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginEnd="8dp"
@@ -26,7 +28,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_question"
+                android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="16dp"
@@ -36,8 +38,8 @@
                 android:paddingEnd="16dp"
                 android:paddingRight="16dp"
                 android:textSize="16sp"
-                tools:text="Question"
-                android:text="@{faq.question}"
+                tools:text="A really nice title here"
+                android:text="@{about.title}"
                 android:fontFamily="@font/roboto_regular"
                 android:textColor="@color/primaryText"/>
 
@@ -51,12 +53,12 @@
                 android:layout_marginRight="16dp"/>
 
             <TextView
-                android:id="@+id/tv_answer"
+                android:id="@+id/message"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
-                tools:text="Answer"
-                android:text="@{faq.answer}"
+                tools:text="A really giant message here"
+                android:text="@{about.message}"
                 android:textColor="@color/primaryText"
                 android:textSize="14sp"
                 android:fontFamily="@font/roboto_regular"/>
