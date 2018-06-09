@@ -55,6 +55,8 @@ public class BigTrayFragment extends Fragment implements Injectable {
     LinearLayout llBtns;
     @BindView(R.id.tv_ru_loading)
     TextView tvLoading;
+    @BindView(R.id.tv_ru_approx_label)
+    TextView tvApproxLabel;
     @BindView(R.id.btn_visit_big_tray)
     Button btnVisitBigTray;
 
@@ -126,6 +128,7 @@ public class BigTrayFragment extends Fragment implements Injectable {
             tvRuAmount.setText(getString(R.string.ru_amount_format, amount));
             tvRuMealTime.setText(RUtils.getNextMealTime(calendar));
             tvRuPrice.setVisibility(View.VISIBLE);
+            tvApproxLabel.setVisibility(View.VISIBLE);
             tvRuPrice.setText(RUtils.getPrice(mealType, amount));
         } else {
             tvRuState.setText(R.string.the_big_tray_is_closed);
@@ -133,6 +136,7 @@ public class BigTrayFragment extends Fragment implements Injectable {
             tvRuAmount.setVisibility(View.GONE);
             tvRuMealTime.setText(RUtils.getNextMealTime(calendar));
             tvRuPrice.setVisibility(View.GONE);
+            tvApproxLabel.setVisibility(View.GONE);
         }
 
         tvRuLastUpdate.setText(getString(R.string.ru_last_update, DateUtils.formatDateTime(calendar.getTimeInMillis())));

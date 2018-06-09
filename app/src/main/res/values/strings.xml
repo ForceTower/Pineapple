@@ -407,5 +407,7 @@
     <string name="start_new_game">Iniciar novo jogo</string>
     <string name="undo">Desfazer</string>
     <string name="reset">Reiniciar</string>
+    <string name="uneverse">UNEVerso</string>
+    <string name="available_quota">Cotas restantes (aproximadamente)</string>
 
 </resources>

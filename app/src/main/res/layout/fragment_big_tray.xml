@@ -57,6 +57,14 @@
                 android:padding="8dp"/>
 
             <TextView
+                android:id="@+id/tv_ru_approx_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/available_quota"
+                android:gravity="center"
+                android:textAlignment="gravity"/>
+
+            <TextView
                 android:id="@+id/tv_ru_amount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

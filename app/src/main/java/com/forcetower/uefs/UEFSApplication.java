@@ -131,32 +131,4 @@ public class UEFSApplication extends Application implements HasActivityInjector,
     public AndroidInjector<BroadcastReceiver> broadcastReceiverInjector() {
         return dispatchingBroadcastAndroidInjector;
     }
-
-    //TODO Temporary code until WorkInjector is created
-    @Inject
-    RefreshRepository repository;
-    @Inject
-    AppDatabase database;
-    @Inject
-    AppExecutors executors;
-    @Inject
-    UNEService service;
-    public RefreshObjects getRefreshPackage() {
-        return new RefreshObjects(repository, database, executors, service);
-    }
-
-
-    public static final class RefreshObjects {
-        public final RefreshRepository repository;
-        public final AppDatabase database;
-        public final AppExecutors executors;
-        public final UNEService service;
-
-        RefreshObjects(RefreshRepository repository, AppDatabase database, AppExecutors executors, UNEService service) {
-            this.repository = repository;
-            this.database = database;
-            this.executors = executors;
-            this.service = service;
-        }
-    }
 }
