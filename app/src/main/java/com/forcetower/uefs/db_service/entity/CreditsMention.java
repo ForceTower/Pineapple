@@ -1,12 +1,9 @@
 package com.forcetower.uefs.db_service.entity;
 
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
 
 @Entity
 public class CreditsMention {

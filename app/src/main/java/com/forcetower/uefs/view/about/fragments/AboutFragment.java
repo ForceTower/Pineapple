@@ -20,7 +20,6 @@ import com.forcetower.uefs.db_service.entity.AboutField;
 import com.forcetower.uefs.db_service.helper.CreditAndMentions;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.rep.helper.Resource;
-import com.forcetower.uefs.util.NetworkUtils;
 import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.about.adapters.AboutAdapter;
 import com.forcetower.uefs.view.about.adapters.CreditsAdapter;

@@ -2,8 +2,6 @@ package com.forcetower.uefs.game._2048.view;
 
 import android.content.Context;
 
-import com.forcetower.uefs.BuildConfig;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

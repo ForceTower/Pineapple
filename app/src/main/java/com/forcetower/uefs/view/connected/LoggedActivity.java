@@ -65,7 +65,6 @@ import com.forcetower.uefs.view.UBaseActivity;
 import com.forcetower.uefs.view.about.AboutActivity;
 import com.forcetower.uefs.view.login.MainActivity;
 import com.forcetower.uefs.view.settings.SettingsActivity;
-import com.forcetower.uefs.view.universe.UniverseActivity;
 import com.forcetower.uefs.vm.base.DownloadsViewModel;
 import com.forcetower.uefs.vm.base.GradesViewModel;
 import com.forcetower.uefs.vm.base.ProfileViewModel;

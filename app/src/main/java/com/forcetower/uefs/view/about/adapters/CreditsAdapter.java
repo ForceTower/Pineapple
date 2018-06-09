@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.db_service.entity.CreditsMention;
 import com.forcetower.uefs.db_service.helper.CreditAndMentions;
 import com.forcetower.uefs.view.about.CreditClickListener;
 

@@ -3,7 +3,6 @@ package com.forcetower.uefs.service;
 import android.arch.lifecycle.LiveData;
 
 import com.forcetower.uefs.db_service.entity.AboutField;
-import com.forcetower.uefs.db_service.entity.CreditsMention;
 import com.forcetower.uefs.db_service.entity.AccessToken;
 import com.forcetower.uefs.db_service.entity.Account;
 import com.forcetower.uefs.db_service.entity.QuestionAnswer;
