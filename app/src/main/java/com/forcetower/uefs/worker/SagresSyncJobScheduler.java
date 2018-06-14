@@ -2,11 +2,11 @@ package com.forcetower.uefs.worker;
 
 import android.app.job.JobParameters;
 import android.app.job.JobService;
-import android.arch.lifecycle.LiveData;
+import androidx.lifecycle.LiveData;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.preference.PreferenceManager;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.BuildConfig;

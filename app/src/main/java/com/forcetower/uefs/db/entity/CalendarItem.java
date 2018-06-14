@@ -1,7 +1,7 @@
 package com.forcetower.uefs.db.entity;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 /**
  * Created by João Paulo on 05/03/2018.

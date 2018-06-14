@@ -54,7 +54,7 @@
                             android:textAlignment="center"
                             android:text="@string/control_account_manager_sync"/>
 
-                        <android.support.v7.widget.AppCompatButton
+                        <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/btn_toggle_manager"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
@@ -89,7 +89,7 @@
                             android:textAlignment="center"
                             android:text="@string/control_alarm_sync"/>
 
-                        <android.support.v7.widget.AppCompatButton
+                        <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/btn_toggle_alarm"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
@@ -124,7 +124,7 @@
                             android:textAlignment="center"
                             android:text="@string/control_worker_sync"/>
 
-                        <android.support.v7.widget.AppCompatButton
+                        <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/btn_toggle_worker"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"

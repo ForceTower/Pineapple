@@ -1,6 +1,6 @@
 package com.forcetower.uefs.rep.helper;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.forcetower.uefs.Constants;
 

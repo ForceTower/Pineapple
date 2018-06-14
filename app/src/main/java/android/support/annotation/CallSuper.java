@@ -1,4 +1,4 @@
-package com.forcetower.uefs.annotation;
+package android.support.annotation;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;

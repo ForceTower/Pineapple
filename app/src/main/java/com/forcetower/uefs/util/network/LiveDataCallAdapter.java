@@ -1,7 +1,7 @@
 package com.forcetower.uefs.util.network;
 
-import android.arch.lifecycle.LiveData;
-import android.support.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.annotation.NonNull;
 
 import com.forcetower.uefs.sgrs.SagresResponse;
 

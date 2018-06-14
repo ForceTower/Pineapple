@@ -1,8 +1,8 @@
 package com.forcetower.uefs.db.entity;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.Nullable;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.annotation.Nullable;
 
 /**
  * Created by João Paulo on 05/03/2018.

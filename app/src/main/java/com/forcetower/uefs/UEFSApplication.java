@@ -6,8 +6,8 @@ import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.preference.PreferenceManager;
-import android.support.multidex.MultiDex;
-import android.support.v7.app.AppCompatDelegate;
+import androidx.multidex.MultiDex;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.forcetower.uefs.db.AppDatabase;

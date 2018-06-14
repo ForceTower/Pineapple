@@ -10,8 +10,6 @@
         <item name="color_primary">@color/colorPrimary</item>
         <item name="color_primary_dark">@color/colorPrimaryDark</item>
         <item name="color_primary_light">@color/colorPrimaryLight</item>
-        <item name="coordinatorLayoutStyle">@style/Widget.Design.CoordinatorLayout</item>
-        <item name="cardViewStyle">@style/CardView</item>
     </style>
 
     <style name="AppTheme.NavigationDrawer" parent="AppTheme" />
