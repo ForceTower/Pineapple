@@ -21,7 +21,7 @@ import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.DisciplineClassLocation;
 import com.forcetower.uefs.db.entity.DisciplineGroup;
 import com.forcetower.uefs.di.Injectable;
-import com.forcetower.uefs.game._2048.activity.Game2048Activity;
+import com.forcetower.uefs.game.g2048.activity.Game2048Activity;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.view.connected.ActivityController;
 import com.forcetower.uefs.view.connected.LocationClickListener;

@@ -1,11 +1,11 @@
-package com.forcetower.uefs.game._2048.tools;
+package com.forcetower.uefs.game.g2048.tools;
 
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.SharedPreferences;
 import android.widget.TextView;
 
-import com.forcetower.uefs.game._2048.view.Game;
+import com.forcetower.uefs.game.g2048.view.Game;
 
 public class ScoreKeeper extends ContextWrapper implements Game.ScoreListener {
     private TextView mScoreDisplay;

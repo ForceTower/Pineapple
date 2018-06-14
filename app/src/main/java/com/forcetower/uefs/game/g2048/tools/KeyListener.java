@@ -1,4 +1,4 @@
-package com.forcetower.uefs.game._2048.tools;
+package com.forcetower.uefs.game.g2048.tools;
 
 import android.view.KeyEvent;
 

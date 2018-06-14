@@ -1,4 +1,4 @@
-package com.forcetower.uefs.game._2048.view;
+package com.forcetower.uefs.game.g2048.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
