@@ -63,8 +63,6 @@ public class MainActivity extends UBaseActivity implements HasSupportFragmentInj
         }
 
         if (savedInstanceState == null) {
-            Crashlytics.log("You just opened the app");
-            Crashlytics.logException(new Exception("Exception Log :)"));
             checkoutNotification();
             updateReset();
             getSupportFragmentManager().beginTransaction()
