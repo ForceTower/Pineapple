@@ -9,6 +9,7 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.crashlytics.android.Crashlytics;
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.AppDatabase;
@@ -199,6 +200,8 @@ public class AccountRepository {
                 Access a = appDatabase.accessDao().getAccessDirect();
                 Profile p = appDatabase.profileDao().getProfileDirect();
                 if (a == null) return;
+                Crashlytics.setUserIdentifier(a.getUsername());
+                Crashlytics.setUserName(p != null ? p.getName() : "Undefined");
                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference("firebase_tokens");
                 String token = FirebaseInstanceId.getInstance().getToken();
                 if (token == null) {
@@ -211,6 +214,7 @@ public class AccountRepository {
                     data.postValue("Completed");
                 }
             } catch (Exception ignored) {
+                Crashlytics.logException(ignored);
                 ignored.printStackTrace();
             }
         });

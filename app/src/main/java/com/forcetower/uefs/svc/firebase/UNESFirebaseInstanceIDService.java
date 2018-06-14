@@ -3,6 +3,7 @@ package com.forcetower.uefs.svc.firebase;
 import android.content.Context;
 import android.os.Build;
 
+import com.crashlytics.android.Crashlytics;
 import com.forcetower.uefs.db.dao.AccessDao;
 import com.forcetower.uefs.db.dao.ProfileDao;
 import com.forcetower.uefs.db.entity.Access;
@@ -40,13 +41,17 @@ public class UNESFirebaseInstanceIDService extends FirebaseInstanceIdService {
         Timber.d("Firebase Token: %s", refreshedToken);
         Timber.d("Is context null? %s", context);
 
-        Access a = access.getAccessDirect();
-        Profile p = profileDao.getProfileDirect();
-        if (a == null) return;
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("firebase_tokens");
-        reference.child(a.getUsername()).child("token").setValue(refreshedToken);
-        reference.child(a.getUsername()).child("device").setValue(Build.MANUFACTURER + " " + Build.MODEL);
-        reference.child(a.getUsername()).child("android").setValue(Build.VERSION.SDK_INT);
-        reference.child(a.getUsername()).child("name").setValue(p.getName());
+        try {
+            Access a = access.getAccessDirect();
+            Profile p = profileDao.getProfileDirect();
+            if (a == null) return;
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("firebase_tokens");
+            reference.child(a.getUsername()).child("token").setValue(refreshedToken);
+            reference.child(a.getUsername()).child("device").setValue(Build.MANUFACTURER + " " + Build.MODEL);
+            reference.child(a.getUsername()).child("android").setValue(Build.VERSION.SDK_INT);
+            reference.child(a.getUsername()).child("name").setValue(p.getName());
+        } catch (Exception e) {
+            Crashlytics.logException(e);
+        }
     }
 }

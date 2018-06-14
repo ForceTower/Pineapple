@@ -41,6 +41,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.BuildConfig;
@@ -601,7 +602,9 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
                 if (pInfo.versionName.contains("RC") || pInfo.versionName.contains("rc")) {
                     uAccountViewModel.setUserBetaInformation(pInfo.versionName).observe(this, void_ling -> Timber.d("void_ling_beta: " + void_ling));
                 }
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+                Crashlytics.logException(ignored);
+            }
 
         }
     }
@@ -801,6 +804,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
     private void receiveListOfSemesters(List<Semester> semesters) {
         if (semesters == null) {
+            Crashlytics.log("My face when the semesters database is invalid");
             Timber.d("Database returned a invalid list... Awkward");
             disableBottomLoading();
             return;

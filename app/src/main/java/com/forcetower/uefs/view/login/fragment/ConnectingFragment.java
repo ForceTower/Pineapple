@@ -1,5 +1,6 @@
 package com.forcetower.uefs.view.login.fragment;
 
+import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.anim.ChangeBoundsTransition;
@@ -79,6 +81,7 @@ public class ConnectingFragment extends Fragment implements Injectable {
         Bundle login = getArguments();
         if (login == null) {
             Timber.d("Login bundle is null...");
+            Crashlytics.log("Login bundle is null");
             return;
         }
         String user = login.getString("username");
@@ -129,6 +132,13 @@ public class ConnectingFragment extends Fragment implements Injectable {
 
     private void goToLoginPage() {
         if (!isAdded() || isDetached()) return;
+        if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
+            if (getArguments() != null) {
+                String user = getArguments().getString("username");
+                Crashlytics.log("Can we get some haha's for this guy? " + user);
+            }
+            return;
+        }
 
         Fragment fragment = requireActivity().getSupportFragmentManager().findFragmentByTag(LoginFormFragment.TAG);
         if (fragment == null) {

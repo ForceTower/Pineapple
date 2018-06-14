@@ -26,7 +26,6 @@ import com.forcetower.uefs.service.ActionError;
  * @param <T>
  */
 public class Resource<T> {
-
     @NonNull
     public final Status status;
     @Nullable

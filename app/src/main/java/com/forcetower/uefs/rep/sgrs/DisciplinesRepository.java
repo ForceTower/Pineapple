@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 import android.support.annotation.NonNull;
 
+import com.crashlytics.android.Crashlytics;
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.AppDatabase;
@@ -231,12 +232,13 @@ public class DisciplinesRepository {
         DisciplineClassItemDao itemDao = database.disciplineClassItemDao();
         if (items.size() == 0) {
             Timber.d("This is probably a parse fail, so nothing will be changed :)");
-            return;
+            Crashlytics.logException(new Exception("List Class Items is empty..."));
         } else {
             //List<DisciplineClassItem> insertion = new ArrayList<>();
             for (DisciplineClassItem item : items) {
                 if (item.getNumber() == -1) {
                     Timber.d("This is a parse error class number, it will be skipped, subject: %s", item.getSubject());
+                    Crashlytics.logException(new Exception("This is a parse error class number, it will be skipped, subject: " + item.getSubject()));
                     continue;
                 }
 
@@ -290,6 +292,7 @@ public class DisciplinesRepository {
 
     private Long defineGroup(DisciplineGroup created) {
         if (created == null) {
+            Crashlytics.logException(new Exception("The created DisciplineGroup is null"));
             return -2L;
         }
 
@@ -301,6 +304,7 @@ public class DisciplinesRepository {
         String clgr = created.getGroup();
         if (code == null || smst == null) {
             Timber.d("Parse failed for created group");
+            Crashlytics.logException(new Exception("The created DisciplineGroup is invalid. Code: " + code + " :: Semester: " + smst));
             return -1L;
         }
 
@@ -318,6 +322,9 @@ public class DisciplinesRepository {
         } else if (clgr != null) {
             current = groupDao.getDisciplineGroupByDisciplineIdAndGroupName(discipline.getUid(), clgr);
             Timber.d("it's not null group, means there's more than 1, so response is true, right? %s ", current != null);
+            if (current == null) {
+                Crashlytics.logException(new Exception("It's not a null group, but database returned no Discipline"));
+            }
         } else {
             List<DisciplineGroup> groups = groupDao.getDisciplineGroupsDirect(discipline.getUid());
             Timber.d("Group is null, meaning there is only one... Right? %d", groups.size());
@@ -326,11 +333,10 @@ public class DisciplinesRepository {
                 Timber.d("Got the single one and move on...");
             } else {
                 Timber.d("It seems like i was wrong... l u l");
+                Crashlytics.logException(new Exception("It was a null group, database returned a 0 length for the discipline id"));
                 return -1L;
             }
         }
-
-
 
         if (current == null) {
             Timber.d("A group didn't exist before... Thinking...");

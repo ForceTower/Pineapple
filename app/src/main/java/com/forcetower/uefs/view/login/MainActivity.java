@@ -12,6 +12,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
+import com.crashlytics.android.Crashlytics;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.UEFSApplication;
 import com.forcetower.uefs.db.AppDatabase;
@@ -62,6 +63,8 @@ public class MainActivity extends UBaseActivity implements HasSupportFragmentInj
         }
 
         if (savedInstanceState == null) {
+            Crashlytics.log("You just opened the app");
+            Crashlytics.logException(new Exception("Exception Log :)"));
             checkoutNotification();
             updateReset();
             getSupportFragmentManager().beginTransaction()

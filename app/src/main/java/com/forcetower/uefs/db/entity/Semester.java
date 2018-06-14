@@ -5,6 +5,8 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+import com.crashlytics.android.Crashlytics;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -74,8 +76,10 @@ public class Semester implements Comparable<Semester>{
     }
 
     public static Semester getCurrentSemester(List<Semester> semesters) {
-        if (semesters == null ||semesters.isEmpty())
+        if (semesters == null || semesters.isEmpty()) {
+            Crashlytics.log("No semester found for this guy... It will return 2018.1");
             return new Semester("0", "20181");
+        }
         Collections.sort(semesters);
         return semesters.get(0);
     }

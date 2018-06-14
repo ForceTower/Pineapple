@@ -1,5 +1,6 @@
 package com.forcetower.uefs.sgrs.parsers;
 
+import com.crashlytics.android.Crashlytics;
 import com.forcetower.uefs.db.entity.CalendarItem;
 
 import org.jsoup.nodes.Document;
@@ -20,11 +21,13 @@ public class SagresCalendarParser {
         Element element = document.selectFirst("div[class=\"webpart-calendario\"]");
         if (element == null) {
             Timber.d("Calendar not found");
+            Crashlytics.log("Calendar not found");
             return null;
         }
 
         if (element.childNodeSize() < 2) {
             Timber.d("Calendar found, but not able to parse");
+            Crashlytics.log("Calendar found, but not able to parse");
             return null;
         }
 

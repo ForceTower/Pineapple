@@ -6,6 +6,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.webkit.URLUtil;
 
+import com.crashlytics.android.Crashlytics;
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
@@ -150,6 +151,7 @@ public class RefreshRepository {
                     return true;
                 } catch (Exception e) {
                     downloadedFile.delete();
+                    Crashlytics.logException(e);
                     return false;
                 }
             }
@@ -166,6 +168,8 @@ public class RefreshRepository {
                 Timber.d("Found link: %s", link);
                 if (URLUtil.isHttpUrl(link) || URLUtil.isHttpsUrl(link))
                     return link;
+
+                Crashlytics.log("Link found is not valid: " + link);
                 return null;
             }
 

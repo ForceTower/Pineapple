@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.WorkerThread;
 
+import com.crashlytics.android.Crashlytics;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.Constants;
@@ -123,7 +124,11 @@ public class LoginRepository {
                                 executors.diskIO().execute(() -> {
                                     try {
                                         database.profileDao().insertProfile(profile);
-                                    } catch (Exception ignored) { Timber.d("Profile SQL error"); ignored.printStackTrace(); }
+                                    } catch (Exception ignored) {
+                                        Timber.d("Profile SQL error");
+                                        ignored.printStackTrace();
+                                        Crashlytics.logException(ignored);
+                                    }
                                     values.postValue(Resource.success(R.string.completed));
                                 });
                             }
@@ -247,6 +252,7 @@ public class LoginRepository {
                         try {
                             defineSchedule(SagresScheduleParser.getSchedule(document));
                         } catch (NullPointerException e) {
+                            Crashlytics.logException(e);
                             Timber.d("This person has a problem on parser");
                         }
                     }
@@ -446,6 +452,7 @@ public class LoginRepository {
         }
         if (schedule.isEmpty()) {
             Timber.d("Semester schedule is empty... Did you leave the university or is the parser broken?");
+            Crashlytics.log("Semester schedule is empty... I think this person left the university or it's a freshman");
             return;
         }
 
@@ -508,6 +515,7 @@ public class LoginRepository {
             Timber.d("No error should move pass this guy for now");
             Timber.e(e.getMessage());
             Timber.e("This is the error");
+            Crashlytics.logException(e);
         }
     }
 
@@ -545,6 +553,7 @@ public class LoginRepository {
                     } else {
                         Timber.d("This was ignored");
                         Timber.d("Group is null and there more than one");
+                        Crashlytics.log("Group is null and parser thinks there is more than one");
                     }
                 } else {
                     boolean found = false;
@@ -596,6 +605,7 @@ public class LoginRepository {
     private boolean defineSemester(@NonNull List<Semester> semesters) {
         if (semesters.size() == 0) {
             Timber.d("Semesters not found... Are you a freshman?");
+            Crashlytics.log("Student with no semesters");
             return false;
         }
 

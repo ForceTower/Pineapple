@@ -3,6 +3,7 @@ package com.forcetower.uefs.sgrs.parsers;
 import android.support.annotation.NonNull;
 import android.util.SparseArray;
 
+import com.crashlytics.android.Crashlytics;
 import com.forcetower.uefs.db.entity.DisciplineClassLocation;
 
 import org.jsoup.nodes.Document;
@@ -34,6 +35,7 @@ public class SagresScheduleParser {
 
         if (schedule == null) {
             Timber.d("Schedule not found! Prob is \"Schedule Undefined\"");
+            Crashlytics.log("Schedule not found! Prob is \"Schedule Undefined\"");
             return null;
         }
 
@@ -139,13 +141,19 @@ public class SagresScheduleParser {
                     if (!currentCode.equals("undef")) {
                         SagresClass lesson = codePerLessons.get(currentCode);
                         if (lesson != null) lesson.addAtToAllClasses(parts[0].trim(), parts[1].trim());
-                        else Timber.d("Something wrong is happening here...");
+                        else {
+                            Crashlytics.logException(new Exception("It seems like the class exists but it is not in the schedule. Parts = 2"));
+                            Timber.d("Something wrong is happening here...");
+                        }
                     }
                 } else if (parts.length == 3) {
                     if (!currentCode.equals("undef")) {
                         SagresClass lesson = codePerLessons.get(currentCode);
                         if (lesson != null) lesson.addAtToSpecificClass(parts[2].trim(), parts[1].trim(), parts[0].trim());
-                        else Timber.d("Something wrong is happening here...");
+                        else {
+                            Crashlytics.logException(new Exception("It seems like the class exists but it is not in the schedule. Parts = 3"));
+                            Timber.d("Something wrong is happening here...");
+                        }
                     }
                 }
             } else {
@@ -159,6 +167,7 @@ public class SagresScheduleParser {
                     lesson.setName(name);
                     codePerLessons.put(code, lesson);
                 } else {
+                    Crashlytics.log("Something was ignored due to a bug");
                     Timber.d("Something was ignored due to a bug. Since this might be changed leave as is");
                 }
             }
@@ -361,9 +370,6 @@ public class SagresScheduleParser {
             this.class_name = class_name;
         }
 
-        private Calendar starts;
-        private Calendar ends;
-
         SagresClassDay(String class_code, String class_name, String starts_at, String ends_at, String class_type, String day, String room, String campus, String modulo) {
             this.starts_at = starts_at;
             this.ends_at = ends_at;
@@ -374,9 +380,6 @@ public class SagresScheduleParser {
             this.modulo = modulo;
             this.class_code = class_code;
             this.class_name = class_name;
-
-            this.starts = generateCalendar(starts_at);
-            this.ends = generateCalendar(ends_at);
         }
 
         SagresClassDay(String start, String finish, String day, String classType, SagresClass sagresClass) {

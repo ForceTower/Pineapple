@@ -10,6 +10,7 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.RequiresApi;
 
+import com.crashlytics.android.Crashlytics;
 import com.firebase.jobdispatcher.Constraint;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.Job;
@@ -92,11 +93,13 @@ public class SyncUtils {
             return result == JobScheduler.RESULT_SUCCESS;
         } catch (IllegalStateException e) {
             e.printStackTrace();
+            Crashlytics.logException(e);
             try {
                 scheduler.cancelAll();
                 int result = scheduler.schedule(infoBuilder.build());
                 return result == JobScheduler.RESULT_SUCCESS;
             } catch (Exception ignored) {
+                Crashlytics.logException(ignored);
                 PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("scheduler_critical_adr_5", true).apply();
                 return false;
             }
@@ -121,6 +124,7 @@ public class SyncUtils {
         } catch (Exception e) {
             Timber.e("Scheduling failed");
             e.printStackTrace();
+            Crashlytics.logException(e);
             Timber.d("Schedule Pre-Lollipop: %s", false);
             return false;
         }

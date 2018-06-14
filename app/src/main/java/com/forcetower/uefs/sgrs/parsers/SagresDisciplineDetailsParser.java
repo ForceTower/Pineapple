@@ -1,5 +1,6 @@
 package com.forcetower.uefs.sgrs.parsers;
 
+import com.crashlytics.android.Crashlytics;
 import com.forcetower.uefs.db.entity.DisciplineClassItem;
 import com.forcetower.uefs.db.entity.DisciplineGroup;
 import com.forcetower.uefs.util.WordUtils;
@@ -98,6 +99,7 @@ public class SagresDisciplineDetailsParser {
             created.setMissLimit(maxMiss);
         } catch (Exception e) {
             Timber.d("Exception in parse int for numbers");
+            Crashlytics.logException(e);
         }
 
         return created;
@@ -138,9 +140,8 @@ public class SagresDisciplineDetailsParser {
             return new DisciplineClassItem(0, number, situation, description, date, materials, link);
         } catch (Exception e) {
             e.printStackTrace();
-            //I wanna know if this happen
-            throw e;
+            Crashlytics.logException(e);
         }
-        //return null;
+        return null;
     }
 }

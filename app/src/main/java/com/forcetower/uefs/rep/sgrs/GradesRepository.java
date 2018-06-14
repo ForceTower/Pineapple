@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 import android.support.annotation.NonNull;
 
+import com.crashlytics.android.Crashlytics;
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.db.AppDatabase;
 import com.forcetower.uefs.db.dao.DisciplineDao;
@@ -145,6 +146,7 @@ public class GradesRepository {
 
                 String semester = SagresGradeParser.getPageSemester(document);
                 if (semester == null) {
+                    Crashlytics.log("Unable to find the semester...");
                     Timber.d("Unable to parse grades on page");
                     return;
                 }

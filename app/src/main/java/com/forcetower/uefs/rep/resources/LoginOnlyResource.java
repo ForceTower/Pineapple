@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 import android.support.annotation.MainThread;
 
+import com.crashlytics.android.Crashlytics;
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.rep.helper.Resource;
@@ -123,6 +124,7 @@ public abstract class LoginOnlyResource {
                 return false;
             } else {
                 Timber.d("Login failed - Length is different now");
+                Crashlytics.logException(new Exception("Failed Login because length 0"));
                 return false;
             }
         } else {

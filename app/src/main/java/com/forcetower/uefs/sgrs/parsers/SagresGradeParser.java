@@ -2,6 +2,7 @@ package com.forcetower.uefs.sgrs.parsers;
 
 import android.support.annotation.Nullable;
 
+import com.crashlytics.android.Crashlytics;
 import com.forcetower.uefs.db.entity.Grade;
 import com.forcetower.uefs.db.entity.GradeInfo;
 import com.forcetower.uefs.db.entity.GradeSection;
@@ -26,11 +27,13 @@ public class SagresGradeParser {
     public static String getPageSemester(Document document) {
         Element gradesDiv = document.selectFirst("div[id=\"divBoletins\"]");
         if (gradesDiv == null) {
+            Crashlytics.logException(new Exception("Grades Div is null"));
             return null;
         }
 
         Elements classes = gradesDiv.select("div[class=\"boletim-container\"]");
         if (classes == null) {
+            Crashlytics.logException(new Exception("Container Div is null"));
             return null;
         }
 
@@ -39,6 +42,7 @@ public class SagresGradeParser {
             return semestersValues.get(0).text();
         } else {
             Timber.d("There are 2 values selected... How fun");
+            Crashlytics.logException(new Exception("The number of values selected in the spinner is " + semestersValues.size()));
         }
 
         return null;
@@ -47,7 +51,7 @@ public class SagresGradeParser {
     /**
      * This method assumes that the page is functional. if the page is wrong a NullPointerException
      * will be thrown
-     * @param document
+     * @param document document to parse
      */
     public static List<Grade> getGrades(Document document) {
         List<Grade> grades = new ArrayList<>();
@@ -106,6 +110,7 @@ public class SagresGradeParser {
                 }
             } else {
                 Timber.d("Grades tbody is null... Just wondering");
+                Crashlytics.log("Grades tbody is null, this will make this user angry");
             }
 
             Element tFoot = gradesTable.selectFirst("tfoot");
@@ -120,17 +125,5 @@ public class SagresGradeParser {
         }
 
         return grades;
-    }
-
-    public static class Triple {
-        public final List<Grade> grades;
-        public final List<GradeSection> sections;
-        public final List<GradeInfo> infos;
-
-        public Triple() {
-            grades = new ArrayList<>();
-            sections = new ArrayList<>();
-            infos = new ArrayList<>();
-        }
     }
 }

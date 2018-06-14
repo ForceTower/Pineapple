@@ -66,30 +66,6 @@ public class ScheduleRepository {
         schedule.addSource(dbSource, disciplineClassLocations -> {
             schedule.removeSource(dbSource);
             schedule.postValue(disciplineClassLocations);
-            //noinspection ConstantConditions
-            if (disciplineClassLocations.isEmpty()) {
-                Timber.d("Schedule is empty... Code for retry at every attempt was removed");
-                /*
-                executors.diskIO().execute(() -> {
-                    Access access = accessDao.getAccessDirect();
-                    LiveData<Resource<Integer>> loginRes = loginRepository.login(access.getUsername(), access.getPassword());
-                    schedule.addSource(loginRes, integerResource -> {
-                        //noinspection ConstantConditions
-                        if (integerResource.status == Status.SUCCESS) {
-                            schedule.removeSource(loginRes);
-                            schedule.addSource(dbSource, finalLocations -> schedule.postValue(finalLocations));
-                        } else if (integerResource.status == Status.ERROR) {
-                            int code = integerResource.code;
-                            if (code == 401) {
-                                Timber.d("User disconnected");
-                                //Disconnects the user because validation failed
-                                executors.diskIO().execute(accessDao::deleteAllAccesses);
-                            }
-                        }
-                    });
-                });
-                */
-            }
         });
     }
 
