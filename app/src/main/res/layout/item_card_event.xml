@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="event"
+            type="com.forcetower.uefs.db_service.entity.Event"/>
+    </data>
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="6dp"
+        app:cardElevation="1dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                tools:src="@drawable/mockup_campus_party"
+                android:scaleType="centerCrop"
+                android:contentDescription="@string/event_image"/>
+            
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:padding="8dp"
+                tools:text="Campus Party Brasil 2018"
+                android:textSize="20sp"
+                android:textColor="@color/primaryText"
+                android:fontFamily="@font/roboto_regular"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="5"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:textSize="15sp"
+                android:fontFamily="@font/roboto_regular"
+                tools:text="Evento focado em empreendedorismo e tecnologias de ponta no nosso seculo"/>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+</layout>

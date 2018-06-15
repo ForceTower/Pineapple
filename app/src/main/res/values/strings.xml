@@ -409,5 +409,6 @@
     <string name="reset">Reiniciar</string>
     <string name="uneverse">UNEVerso</string>
     <string name="available_quota">Cotas restantes (aproximadamente)</string>
+    <string name="event_image">Imagem do Evento</string>
 
 </resources>
