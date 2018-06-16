@@ -12,6 +12,7 @@ import com.forcetower.uefs.view.connected.fragments.BigTrayFragment;
 import com.forcetower.uefs.view.connected.fragments.ConnectedFragment;
 import com.forcetower.uefs.view.connected.fragments.DisciplineClassesFragment;
 import com.forcetower.uefs.view.connected.fragments.DisciplineDetailsFragment;
+import com.forcetower.uefs.view.connected.fragments.EventsFragment;
 import com.forcetower.uefs.view.connected.fragments.GoldMonkeyFragment;
 import com.forcetower.uefs.view.connected.fragments.OutdatedFragment;
 import com.forcetower.uefs.view.connected.fragments.ProfileFragment;
@@ -148,5 +149,9 @@ public class NavigationController {
 
     public void navigateToGoldMonkey() {
         changeFragment(new GoldMonkeyFragment(), "gold_monkey", true);
+    }
+
+    public void navigateToEvents() {
+        changeFragment(new EventsFragment(), "list_events", true);
     }
 }

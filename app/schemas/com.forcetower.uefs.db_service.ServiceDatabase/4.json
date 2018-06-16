@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 4,
-    "identityHash": "734ea5fad0465dacaa718c19ab55eb44",
+    "identityHash": "468674722cd48d2222a309ba29cc083d",
     "entities": [
       {
         "tableName": "AccessToken",
@@ -282,7 +282,7 @@
       },
       {
         "tableName": "Event",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `subtitle` TEXT NOT NULL, `description` TEXT NOT NULL, `image_url` TEXT, `creator_name` TEXT NOT NULL, `creator_username` TEXT NOT NULL, `creator_id` INTEGER NOT NULL, `presented_by` TEXT NOT NULL, `start` TEXT NOT NULL, `end` TEXT NOT NULL, `location` TEXT NOT NULL, `is_free` INTEGER NOT NULL, `price` REAL NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `subtitle` TEXT NOT NULL, `description` TEXT NOT NULL, `image_url` TEXT, `creator_name` TEXT NOT NULL, `creator_username` TEXT NOT NULL, `creator_id` INTEGER NOT NULL, `offered_by` TEXT NOT NULL, `start_date` TEXT NOT NULL, `start_time` TEXT NOT NULL, `end_date` TEXT, `end_time` TEXT, `location` TEXT NOT NULL, `is_free` INTEGER NOT NULL, `price` REAL NOT NULL, `inserted_at` INTEGER NOT NULL, `uuid` TEXT)",
         "fields": [
           {
             "fieldPath": "uid",
@@ -333,22 +333,34 @@
             "notNull": true
           },
           {
-            "fieldPath": "presentedBy",
-            "columnName": "presented_by",
+            "fieldPath": "offeredBy",
+            "columnName": "offered_by",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "start",
-            "columnName": "start",
+            "fieldPath": "startDate",
+            "columnName": "start_date",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "end",
-            "columnName": "end",
+            "fieldPath": "startTime",
+            "columnName": "start_time",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "endDate",
+            "columnName": "end_date",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "endTime",
+            "columnName": "end_time",
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "location",
@@ -367,6 +379,18 @@
             "columnName": "price",
             "affinity": "REAL",
             "notNull": true
+          },
+          {
+            "fieldPath": "insertedAt",
+            "columnName": "inserted_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "uuid",
+            "columnName": "uuid",
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -381,7 +405,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"734ea5fad0465dacaa718c19ab55eb44\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"468674722cd48d2222a309ba29cc083d\")"
     ]
   }
 }

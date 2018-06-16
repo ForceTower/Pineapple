@@ -5,6 +5,7 @@ import android.arch.lifecycle.LiveData;
 import com.forcetower.uefs.db_service.entity.AboutField;
 import com.forcetower.uefs.db_service.entity.AccessToken;
 import com.forcetower.uefs.db_service.entity.Account;
+import com.forcetower.uefs.db_service.entity.Event;
 import com.forcetower.uefs.db_service.entity.QuestionAnswer;
 import com.forcetower.uefs.db_service.entity.UpdateStatus;
 import com.forcetower.uefs.db_service.entity.Version;
@@ -65,4 +66,7 @@ public interface UNEService {
 
     @GET("about")
     LiveData<ApiResponse<List<AboutField>>> getAbout();
+
+    @GET("events")
+    LiveData<ApiResponse<List<Event>>> getEvents();
 }

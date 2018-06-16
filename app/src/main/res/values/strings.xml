@@ -415,4 +415,7 @@
     <string name="event_start_time_format">Começa às %1$s</string>
     <string name="event_start_date_format">Evento inicia no dia %1$s</string>
     <string name="event_is_free">A entrada do evento é gratuita</string>
+    <string name="event_card_announcement">Aqui você encontra os eventos que estão ocorrendo na Universidade</string>
+    <string name="no_events_created_yet">Sem eventos cadastrados, por enquanto</string>
+    <string name="nav_title_events">Eventos</string>
 </resources>

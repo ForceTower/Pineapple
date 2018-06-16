@@ -15,7 +15,7 @@ public class Constants {
                     + "[\\p{Alnum}.,%_=?&#\\-+()\\[\\]\\*$~@!:/{};']*)",
             Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
     //Out date time (in seconds)
-    public static final int OUTDATED_SECONDS = 30;
+    public static final int OUTDATED_SECONDS = 60;
     //Worker name
     public static final String WORKER_SYNC_SAGRES_NAME =  "Sagres Synchronization Worker";
     //Sagres Default Pages

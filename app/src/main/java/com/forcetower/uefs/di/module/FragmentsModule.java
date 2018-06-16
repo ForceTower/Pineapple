@@ -7,6 +7,7 @@ import com.forcetower.uefs.view.connected.fragments.ConnectedFragment;
 import com.forcetower.uefs.view.connected.fragments.DisciplineClassesFragment;
 import com.forcetower.uefs.view.connected.fragments.DisciplineDetailsFragment;
 import com.forcetower.uefs.view.connected.fragments.DisciplinesFragment;
+import com.forcetower.uefs.view.connected.fragments.EventsFragment;
 import com.forcetower.uefs.view.connected.fragments.GradesFragment;
 import com.forcetower.uefs.view.connected.fragments.MessagesFragment;
 import com.forcetower.uefs.view.connected.fragments.NewScheduleFragment;
@@ -86,4 +87,7 @@ public abstract class FragmentsModule {
 
     @ContributesAndroidInjector
     abstract TheAdventureFragment contributeTheAdventureFragment();
+
+    @ContributesAndroidInjector
+    abstract EventsFragment contributeEventsFragment();
 }

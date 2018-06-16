@@ -669,8 +669,10 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
                 openCertificatePdf(true, SagresDocuments.ENROLLMENT_CERTIFICATE);
             } else if (id == R.id.nav_flowchart_certificate) {
                 openCertificatePdf(true, SagresDocuments.FLOWCHART);
-            } else if (id == R.id.nav_universe) {
-                UniverseActivity.startActivity(this);
+            } else if (id == R.id.nav_events) {
+                clearBackStack();
+                tabLayout.setVisibility(View.GONE);
+                navigationController.navigateToEvents();
             }
 
             if (item.isCheckable()) selectedNavId = id;

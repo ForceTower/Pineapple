@@ -11,15 +11,17 @@
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_account_box_nav_24dp"
             android:title="@string/nav_title_profile"/>
+
         <item
             android:id="@+id/nav_game"
             android:icon="@drawable/ic_gamepad_variant_accent_30dp"
             android:title="@string/nav_title_unes_adventure"/>
 
         <item
-            android:id="@+id/nav_universe"
-            android:icon="@drawable/ic_atom_black_24dp"
-            android:title="@string/uneverse"/>
+            android:id="@+id/nav_events"
+            android:icon="@drawable/ic_event_black_24dp"
+            android:title="@string/nav_title_events"/>
+
     </group>
 
     <group

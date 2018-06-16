@@ -6,7 +6,12 @@ import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.forcetower.uefs.Constants;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.UUID;
+
+import timber.log.Timber;
 
 /**
  * Created by João Paulo on 14/06/2018.
@@ -61,6 +66,9 @@ public class Event {
     @ColumnInfo(name = "is_free")
     private boolean isFree;
     private double price;
+    @ColumnInfo(name = "inserted_at")
+    private long insertedAt;
+    private UUID uuid;
 
     public Event(@NonNull String name, @NonNull String subtitle, @NonNull String description, String imageUrl, @NonNull String creatorName, @NonNull String creatorUsername, int creatorId, @NonNull String offeredBy, @NonNull String startDate, @NonNull String startTime, String endDate, String endTime, @NonNull String location, boolean isFree, double price) {
         this.name = name;
@@ -217,5 +225,37 @@ public class Event {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public long getInsertedAt() {
+        return insertedAt;
+    }
+
+    public void setInsertedAt(long createdAt) {
+        this.insertedAt = createdAt;
+    }
+
+    public boolean isOutdated() {
+        long current = System.currentTimeMillis()/1000;
+        long limit = insertedAt + Constants.OUTDATED_SECONDS;
+        boolean outdated = current > limit;
+        if (outdated)
+            Timber.d("Event Outdated");
+        else
+            Timber.d("Event Up To Date");
+        return outdated;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Event && ((Event) obj).uid == uid;
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 }

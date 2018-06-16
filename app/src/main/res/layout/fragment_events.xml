@@ -8,17 +8,36 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include
-            layout="@layout/item_card_unes_event_launch"/>
-
-        <android.support.v7.widget.RecyclerView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
-            android:clipToPadding="false"
-            tools:listitem="@layout/item_card_event"
-            tools:itemCount="3">
-        </android.support.v7.widget.RecyclerView>
+            android:orientation="vertical">
 
+            <include
+                layout="@layout/item_card_unes_event_launch"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_events"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:clipToPadding="false"
+                tools:listitem="@layout/item_card_event"
+                tools:itemCount="3">
+            </android.support.v7.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/text_no_events"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:text="@string/no_events_created_yet"
+                android:textColor="@color/primaryText"
+                android:textAlignment="gravity"
+                android:gravity="center"
+                android:fontFamily="@font/roboto_regular"
+                android:textSize="16sp"
+                android:padding="8dp"/>
+        </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </layout>
