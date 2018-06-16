@@ -16,6 +16,8 @@ import javax.inject.Singleton;
 import dagger.BindsInstance;
 import dagger.Component;
 import dagger.android.AndroidInjectionModule;
+import dagger.android.support.AndroidSupportInjection;
+import dagger.android.support.AndroidSupportInjectionModule;
 
 /**
  * Created by João Paulo on 05/03/2018.
@@ -24,6 +26,7 @@ import dagger.android.AndroidInjectionModule;
 @Singleton
 @Component(modules = {
         AndroidInjectionModule.class,
+        AndroidSupportInjectionModule.class,
         AppModule.class,
         DatabaseModule.class,
         NetworkModule.class,

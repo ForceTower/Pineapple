@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 4,
-    "identityHash": "468674722cd48d2222a309ba29cc083d",
+    "identityHash": "44dc4f8c2814bf539ddb5298c8725855",
     "entities": [
       {
         "tableName": "AccessToken",
@@ -282,7 +282,7 @@
       },
       {
         "tableName": "Event",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `subtitle` TEXT NOT NULL, `description` TEXT NOT NULL, `image_url` TEXT, `creator_name` TEXT NOT NULL, `creator_username` TEXT NOT NULL, `creator_id` INTEGER NOT NULL, `offered_by` TEXT NOT NULL, `start_date` TEXT NOT NULL, `start_time` TEXT NOT NULL, `end_date` TEXT, `end_time` TEXT, `location` TEXT NOT NULL, `is_free` INTEGER NOT NULL, `price` REAL NOT NULL, `inserted_at` INTEGER NOT NULL, `uuid` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `subtitle` TEXT NOT NULL, `description` TEXT NOT NULL, `image_url` TEXT, `creator_name` TEXT NOT NULL, `creator_username` TEXT NOT NULL, `creator_id` INTEGER NOT NULL, `offered_by` TEXT NOT NULL, `start_date` TEXT NOT NULL, `start_time` TEXT NOT NULL, `end_date` TEXT, `end_time` TEXT, `location` TEXT NOT NULL, `is_free` INTEGER NOT NULL, `price` REAL NOT NULL, `inserted_at` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "uid",
@@ -385,12 +385,6 @@
             "columnName": "inserted_at",
             "affinity": "INTEGER",
             "notNull": true
-          },
-          {
-            "fieldPath": "uuid",
-            "columnName": "uuid",
-            "affinity": "TEXT",
-            "notNull": false
           }
         ],
         "primaryKey": {
@@ -405,7 +399,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"468674722cd48d2222a309ba29cc083d\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"44dc4f8c2814bf539ddb5298c8725855\")"
     ]
   }
 }

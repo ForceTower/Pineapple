@@ -32,13 +32,7 @@ import dagger.android.ContributesAndroidInjector;
 public abstract class FragmentsModule {
 
     @ContributesAndroidInjector
-    abstract LoginFormFragment contributeLoginFormFragment();
-
-    @ContributesAndroidInjector
     abstract ConnectedFragment contributeConnectedFragment();
-
-    @ContributesAndroidInjector
-    abstract ConnectingFragment contributeConnectingFragment();
 
     @ContributesAndroidInjector
     abstract ScheduleFragment contributeScheduleFragment();
@@ -78,9 +72,6 @@ public abstract class FragmentsModule {
 
     @ContributesAndroidInjector
     abstract DisciplineClassesFragment contributeDisciplineClassesFragment();
-
-    @ContributesAndroidInjector
-    abstract MasterSyncControlFragment contributeMasterSyncControlFragment();
 
     @ContributesAndroidInjector
     abstract OutdatedFragment contributeAutoSyncFragment();

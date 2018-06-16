@@ -17,13 +17,13 @@ import dagger.android.ContributesAndroidInjector;
  */
 @Module
 public abstract class ActivitiesModule {
-    @ContributesAndroidInjector(modules = FragmentsModule.class)
+    @ContributesAndroidInjector(modules = MainActivityFragmentsModule.class)
     abstract MainActivity contributeMainActivity();
 
     @ContributesAndroidInjector
     abstract SettingsActivity contributeSettingsActivity();
 
-    @ContributesAndroidInjector(modules = FragmentsModule.class)
+    @ContributesAndroidInjector(modules = ControlRoomFragmentsModule.class)
     abstract ControlRoomActivity contributeControlRoomActivity();
 
     @ContributesAndroidInjector(modules = AboutFragmentsModule.class)

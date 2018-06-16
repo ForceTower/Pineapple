@@ -1,6 +1,7 @@
 package com.forcetower.uefs.view.connected.fragments;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,6 +18,7 @@ import com.forcetower.uefs.databinding.FragmentEventsBinding;
 import com.forcetower.uefs.db_service.entity.Event;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.rep.helper.Resource;
+import com.forcetower.uefs.view.connected.ActivityController;
 import com.forcetower.uefs.view.connected.NavigationController;
 import com.forcetower.uefs.view.connected.adapters.EventAdapter;
 import com.forcetower.uefs.vm.UEFSViewModelFactory;
@@ -39,11 +41,20 @@ public class EventsFragment extends Fragment implements Injectable {
 
     private FragmentEventsBinding binding;
     private EventAdapter adapter;
+    private ActivityController controller;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        controller = (ActivityController) context;
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_events, container, false);
+        controller.getTabLayout().setVisibility(View.INVISIBLE);
+        controller.changeTitle(R.string.nav_title_events);
         prepareRecyclerView();
         return binding.getRoot();
     }
@@ -61,8 +72,6 @@ public class EventsFragment extends Fragment implements Injectable {
         super.onActivityCreated(savedInstanceState);
         EventsViewModel eventsViewModel = ViewModelProviders.of(this, viewModelFactory).get(EventsViewModel.class);
         eventsViewModel.getEvents().observe(this, this::onEventsUpdate);
-
-        Timber.d("Navigation: " + navigation);
     }
 
     private void onEventsUpdate(Resource<List<Event>> eventsRes) {
