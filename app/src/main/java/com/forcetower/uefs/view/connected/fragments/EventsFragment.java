@@ -53,7 +53,7 @@ public class EventsFragment extends Fragment implements Injectable {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_events, container, false);
-        controller.getTabLayout().setVisibility(View.INVISIBLE);
+        controller.getTabLayout().setVisibility(View.GONE);
         controller.changeTitle(R.string.nav_title_events);
         prepareRecyclerView();
         return binding.getRoot();
