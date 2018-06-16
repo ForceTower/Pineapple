@@ -18,6 +18,7 @@ public class EventsViewModel extends ViewModel {
     private final EventRepository repository;
 
     private LiveData<Resource<List<Event>>> eventSrc;
+    private Event currentEvent;
 
     @Inject
     EventsViewModel(EventRepository repository) {
@@ -27,5 +28,10 @@ public class EventsViewModel extends ViewModel {
     public LiveData<Resource<List<Event>>> getEvents() {
         if (eventSrc == null) eventSrc = repository.getEvents();
         return eventSrc;
+    }
+
+    public Event getCurrentEvent() {
+        if (currentEvent == null) currentEvent = new Event();
+        return currentEvent;
     }
 }

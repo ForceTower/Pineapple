@@ -80,13 +80,15 @@ public class RefreshBroadcastReceiver extends BroadcastReceiver {
         executors.mainThread().execute(() -> updateData.removeObserver(this::updateAccountObserver));
 
         if (!updateResp.isSuccessful()) {
-            Timber.d("Won't sync: unsuccessful response, code %d", updateResp.code);
+            Timber.d("Will sync: unsuccessful response, code %d", updateResp.code);
+            proceedSync();
             return;
         }
 
         UpdateStatus status = updateResp.body;
         if (status == null) {
-            Timber.d("Won't sync: object status is null");
+            Timber.d("Will sync: object status is null");
+            proceedSync();
             return;
         }
 

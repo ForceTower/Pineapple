@@ -2,6 +2,7 @@ package com.forcetower.uefs.db_service.entity;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -68,6 +69,12 @@ public class Event {
     private double price;
     @ColumnInfo(name = "inserted_at")
     private long insertedAt;
+    @SerializedName(value = "has_certificate")
+    @ColumnInfo(name = "has_certificate")
+    private boolean hasCertificate;
+    @SerializedName(value = "certificate_hours")
+    @ColumnInfo(name = "certificate_hours")
+    private int certificateHours;
 
     public Event(@NonNull String name, @NonNull String subtitle, @NonNull String description, String imageUrl, @NonNull String creatorName, @NonNull String creatorUsername, int creatorId, @NonNull String offeredBy, @NonNull String startDate, @NonNull String startTime, String endDate, String endTime, @NonNull String location, boolean isFree, double price) {
         this.name = name;
@@ -85,6 +92,27 @@ public class Event {
         this.location = location;
         this.isFree = isFree;
         this.price = price;
+    }
+
+    @Ignore
+    public Event() {
+        this.name = "";
+        this.subtitle = "";
+        this.description = "";
+        this.imageUrl = "";
+        this.creatorName = "";
+        this.creatorUsername = "";
+        this.creatorId = 0;
+        this.offeredBy = "";
+        this.startDate = "";
+        this.startTime = "";
+        this.endDate = "";
+        this.endTime = "";
+        this.location = "";
+        this.isFree = true;
+        this.price = 0;
+        this.hasCertificate = false;
+        this.certificateHours = 0;
     }
 
     public int getUid() {
@@ -248,5 +276,21 @@ public class Event {
     @Override
     public boolean equals(Object obj) {
         return obj instanceof Event && ((Event) obj).uid == uid;
+    }
+
+    public int getCertificateHours() {
+        return certificateHours;
+    }
+
+    public void setCertificateHours(int certificateHours) {
+        this.certificateHours = certificateHours;
+    }
+
+    public boolean isHasCertificate() {
+        return hasCertificate;
+    }
+
+    public void setHasCertificate(boolean hasCertificate) {
+        this.hasCertificate = hasCertificate;
     }
 }

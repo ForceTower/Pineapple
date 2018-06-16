@@ -65,13 +65,6 @@ public class SagresSyncJobScheduler extends JobService {
     @Override
     public boolean onStartJob(JobParameters params) {
         Timber.d("Job Started - Job Scheduler");
-        /*UEFSApplication.RefreshObjects objects = ((UEFSApplication)getApplication()).getRefreshPackage();
-        repository = objects.repository;
-        database = objects.database;
-        executors = objects.executors;
-        service = objects.service;*/
-
-        //if (BuildConfig.DEBUG) NotificationCreator.createSyncWarning(this);
         jobParameters = params;
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         initiateSync();
@@ -113,17 +106,15 @@ public class SagresSyncJobScheduler extends JobService {
         executors.mainThread().execute(() -> updateData.removeObserver(this::updateAccountObserver));
 
         if (!updateResp.isSuccessful()) {
-            Timber.d("Won't sync: unsuccessful response, code %d", updateResp.code);
-            completed = true;
-            jobFinished(jobParameters, true);
+            Timber.d("Will sync: unsuccessful response, code %d", updateResp.code);
+            proceedSync();
             return;
         }
 
         UpdateStatus status = updateResp.body;
         if (status == null) {
-            Timber.d("Won't sync: object status is null");
-            completed = true;
-            jobFinished(jobParameters, true);
+            Timber.d("Will sync: object status is null");
+            proceedSync();
             return;
         }
 

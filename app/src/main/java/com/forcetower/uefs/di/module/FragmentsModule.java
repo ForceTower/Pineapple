@@ -7,6 +7,11 @@ import com.forcetower.uefs.view.connected.fragments.ConnectedFragment;
 import com.forcetower.uefs.view.connected.fragments.DisciplineClassesFragment;
 import com.forcetower.uefs.view.connected.fragments.DisciplineDetailsFragment;
 import com.forcetower.uefs.view.connected.fragments.DisciplinesFragment;
+import com.forcetower.uefs.view.connected.fragments.EventCreationFourFragment;
+import com.forcetower.uefs.view.connected.fragments.EventCreationOneFragment;
+import com.forcetower.uefs.view.connected.fragments.EventCreationStartFragment;
+import com.forcetower.uefs.view.connected.fragments.EventCreationThreeFragment;
+import com.forcetower.uefs.view.connected.fragments.EventCreationTwoFragment;
 import com.forcetower.uefs.view.connected.fragments.EventsFragment;
 import com.forcetower.uefs.view.connected.fragments.GradesFragment;
 import com.forcetower.uefs.view.connected.fragments.MessagesFragment;
@@ -17,9 +22,6 @@ import com.forcetower.uefs.view.connected.fragments.ProfileFragment;
 import com.forcetower.uefs.view.connected.fragments.ScheduleFragment;
 import com.forcetower.uefs.view.connected.fragments.SemesterGradesFragment;
 import com.forcetower.uefs.view.connected.fragments.TheAdventureFragment;
-import com.forcetower.uefs.view.control_room.fragments.MasterSyncControlFragment;
-import com.forcetower.uefs.view.login.fragment.ConnectingFragment;
-import com.forcetower.uefs.view.login.fragment.LoginFormFragment;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -81,4 +83,19 @@ public abstract class FragmentsModule {
 
     @ContributesAndroidInjector
     abstract EventsFragment contributeEventsFragment();
+
+    @ContributesAndroidInjector
+    abstract EventCreationStartFragment contributeEventCreationStart();
+
+    @ContributesAndroidInjector
+    abstract EventCreationOneFragment contrubuteEventCreationOneFragment();
+
+    @ContributesAndroidInjector
+    abstract EventCreationTwoFragment contributeEventCreationTwoFragment();
+
+    @ContributesAndroidInjector
+    abstract EventCreationThreeFragment contributeEventCreationThreeFragment();
+
+    @ContributesAndroidInjector
+    abstract EventCreationFourFragment contributeEventCreationFourFragment();
 }

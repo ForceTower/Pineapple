@@ -102,15 +102,15 @@ public class SagresSyncJobService extends JobService {
         executors.mainThread().execute(() -> updateData.removeObserver(this::updateAccountObserver));
 
         if (!updateResp.isSuccessful()) {
-            Timber.d("Won't sync: unsuccessful response, code %d", updateResp.code);
-            completed = true;
+            Timber.d("Will sync: unsuccessful response, code %d", updateResp.code);
+            proceedSync();
             return;
         }
 
         UpdateStatus status = updateResp.body;
         if (status == null) {
-            Timber.d("Won't sync: object status is null");
-            completed = true;
+            Timber.d("Will sync: object status is null");
+            proceedSync();
             return;
         }
 

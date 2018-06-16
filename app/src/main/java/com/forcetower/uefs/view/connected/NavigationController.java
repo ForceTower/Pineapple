@@ -12,6 +12,11 @@ import com.forcetower.uefs.view.connected.fragments.BigTrayFragment;
 import com.forcetower.uefs.view.connected.fragments.ConnectedFragment;
 import com.forcetower.uefs.view.connected.fragments.DisciplineClassesFragment;
 import com.forcetower.uefs.view.connected.fragments.DisciplineDetailsFragment;
+import com.forcetower.uefs.view.connected.fragments.EventCreationFourFragment;
+import com.forcetower.uefs.view.connected.fragments.EventCreationOneFragment;
+import com.forcetower.uefs.view.connected.fragments.EventCreationStartFragment;
+import com.forcetower.uefs.view.connected.fragments.EventCreationThreeFragment;
+import com.forcetower.uefs.view.connected.fragments.EventCreationTwoFragment;
 import com.forcetower.uefs.view.connected.fragments.EventsFragment;
 import com.forcetower.uefs.view.connected.fragments.GoldMonkeyFragment;
 import com.forcetower.uefs.view.connected.fragments.OutdatedFragment;
@@ -153,5 +158,25 @@ public class NavigationController {
 
     public void navigateToEvents() {
         changeFragment(new EventsFragment(), "list_events", true);
+    }
+
+    public void navigateToCreateEvent() {
+        changeFragment(new EventCreationStartFragment(), "event_message", true);
+    }
+
+    public void navigateToCreateEventOne() {
+        changeFragment(new EventCreationOneFragment());
+    }
+
+    public void navigateToCreateEventTwo() {
+        changeFragment(new EventCreationTwoFragment(), "event_create_two", true);
+    }
+
+    public void navigateToCreateEventThree() {
+        changeFragment(new EventCreationThreeFragment(), "event_create_three", true);
+    }
+
+    public void navigateToCreateEventFour() {
+        changeFragment(new EventCreationFourFragment(), "event_create_four", true);
     }
 }
