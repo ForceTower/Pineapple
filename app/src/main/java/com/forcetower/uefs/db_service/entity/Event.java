@@ -4,6 +4,7 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -34,14 +35,26 @@ public class Event {
     @SerializedName(value = "creator_id")
     @ColumnInfo(name = "creator_id")
     private int creatorId;
-    @SerializedName(value = "presented_by")
-    @ColumnInfo(name = "presented_by")
+    @SerializedName(value = "offered_by")
+    @ColumnInfo(name = "offered_by")
     @NonNull
-    private String presentedBy;
+    private String offeredBy;
+    @SerializedName(value = "start_date")
+    @ColumnInfo(name = "start_date")
     @NonNull
-    private String start;
+    private String startDate;
+    @SerializedName(value = "start_time")
+    @ColumnInfo(name = "start_time")
     @NonNull
-    private String end;
+    private String startTime;
+    @Nullable
+    @SerializedName(value = "end_date")
+    @ColumnInfo(name = "end_date")
+    private String endDate;
+    @SerializedName(value = "end_time")
+    @ColumnInfo(name = "end_time")
+    @Nullable
+    private String endTime;
     @NonNull
     private String location;
     @SerializedName(value = "is_free")
@@ -49,7 +62,7 @@ public class Event {
     private boolean isFree;
     private double price;
 
-    public Event(@NonNull String name, @NonNull String subtitle, @NonNull String description, String imageUrl, @NonNull String creatorName, @NonNull String creatorUsername, int creatorId, @NonNull String presentedBy, @NonNull String start, @NonNull String end, @NonNull String location, boolean isFree, double price) {
+    public Event(@NonNull String name, @NonNull String subtitle, @NonNull String description, String imageUrl, @NonNull String creatorName, @NonNull String creatorUsername, int creatorId, @NonNull String offeredBy, @NonNull String startDate, @NonNull String startTime, String endDate, String endTime, @NonNull String location, boolean isFree, double price) {
         this.name = name;
         this.subtitle = subtitle;
         this.description = description;
@@ -57,9 +70,11 @@ public class Event {
         this.creatorName = creatorName;
         this.creatorUsername = creatorUsername;
         this.creatorId = creatorId;
-        this.presentedBy = presentedBy;
-        this.start = start;
-        this.end = end;
+        this.offeredBy = offeredBy;
+        this.startDate = startDate;
+        this.startTime = startTime;
+        this.endDate = endDate;
+        this.endTime = endTime;
         this.location = location;
         this.isFree = isFree;
         this.price = price;
@@ -135,30 +150,48 @@ public class Event {
     }
 
     @NonNull
-    public String getPresentedBy() {
-        return presentedBy;
+    public String getOfferedBy() {
+        return offeredBy;
     }
 
-    public void setPresentedBy(@NonNull String presentedBy) {
-        this.presentedBy = presentedBy;
-    }
-
-    @NonNull
-    public String getStart() {
-        return start;
-    }
-
-    public void setStart(@NonNull String start) {
-        this.start = start;
+    public void setOfferedBy(@NonNull String offeredBy) {
+        this.offeredBy = offeredBy;
     }
 
     @NonNull
-    public String getEnd() {
-        return end;
+    public String getStartDate() {
+        return startDate;
     }
 
-    public void setEnd(@NonNull String end) {
-        this.end = end;
+    public void setStartDate(@NonNull String startDate) {
+        this.startDate = startDate;
+    }
+
+    @NonNull
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(@NonNull String startTime) {
+        this.startTime = startTime;
+    }
+
+    @Nullable
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(@Nullable String endDate) {
+        this.endDate = endDate;
+    }
+
+    @Nullable
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(@Nullable String endTime) {
+        this.endTime = endTime;
     }
 
     @NonNull
