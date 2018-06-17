@@ -79,6 +79,7 @@ public class EventCreationTwoFragment extends Fragment implements Injectable {
 
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(), (view, sYear, sMonth, sDay) -> {
+            sMonth++;
             binding.eventStartDate.setText(getString(R.string.date_format, stringify(sDay), stringify(sMonth), sYear));
             binding.eventStartDate.clearFocus();
         }, year, mont, date);
