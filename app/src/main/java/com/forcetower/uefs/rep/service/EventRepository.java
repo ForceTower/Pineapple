@@ -93,4 +93,10 @@ public class EventRepository {
             }
         }.asLiveData();
     }
+
+    public void createEvent(Event event) {
+        executors.diskIO().execute(() -> {
+            database.eventDao().insert(event);
+        });
+    }
 }

@@ -9,6 +9,7 @@ import com.forcetower.uefs.view.connected.fragments.DisciplineDetailsFragment;
 import com.forcetower.uefs.view.connected.fragments.DisciplinesFragment;
 import com.forcetower.uefs.view.connected.fragments.EventCreationFourFragment;
 import com.forcetower.uefs.view.connected.fragments.EventCreationOneFragment;
+import com.forcetower.uefs.view.connected.fragments.EventCreationPreviewFragment;
 import com.forcetower.uefs.view.connected.fragments.EventCreationStartFragment;
 import com.forcetower.uefs.view.connected.fragments.EventCreationThreeFragment;
 import com.forcetower.uefs.view.connected.fragments.EventCreationTwoFragment;
@@ -30,6 +31,7 @@ import dagger.android.ContributesAndroidInjector;
  * Created by João Paulo on 05/03/2018.
  * Module binds fragments from activity, this allows fragments to receive injection as well
  */
+@SuppressWarnings({"Unused", "WeakerAccess"})
 @Module
 public abstract class FragmentsModule {
 
@@ -98,4 +100,7 @@ public abstract class FragmentsModule {
 
     @ContributesAndroidInjector
     abstract EventCreationFourFragment contributeEventCreationFourFragment();
+
+    @ContributesAndroidInjector
+    abstract EventCreationPreviewFragment contributeEventCreationPreviewFragment();
 }

@@ -18,6 +18,7 @@ import com.forcetower.uefs.view.connected.fragments.DisciplineClassesFragment;
 import com.forcetower.uefs.view.connected.fragments.DisciplineDetailsFragment;
 import com.forcetower.uefs.view.connected.fragments.EventCreationFourFragment;
 import com.forcetower.uefs.view.connected.fragments.EventCreationOneFragment;
+import com.forcetower.uefs.view.connected.fragments.EventCreationPreviewFragment;
 import com.forcetower.uefs.view.connected.fragments.EventCreationStartFragment;
 import com.forcetower.uefs.view.connected.fragments.EventCreationThreeFragment;
 import com.forcetower.uefs.view.connected.fragments.EventCreationTwoFragment;
@@ -203,5 +204,17 @@ public class NavigationController {
             fragment.setEnterTransition(new Slide(getGravityCompat(ctx, Gravity.END)));
         }
         changeFragment(fragment, "event_create_four", true);
+    }
+
+    public void navigateToCreateEventPreview(Context ctx) {
+        Fragment fragment = new EventCreationPreviewFragment();
+        if (VersionUtils.isLollipop()) {
+            fragment.setEnterTransition(new Slide(getGravityCompat(ctx, Gravity.END)));
+        }
+        changeFragment(fragment, "event_create_preview", true);
+    }
+
+    public void backTo(String tag) {
+        fragmentManager.popBackStack(tag, 0);
     }
 }

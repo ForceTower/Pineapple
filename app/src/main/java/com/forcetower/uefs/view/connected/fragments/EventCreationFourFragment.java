@@ -20,6 +20,9 @@ import android.widget.Toast;
 import com.crashlytics.android.Crashlytics;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.databinding.FragmentEventCreationFourBinding;
+import com.forcetower.uefs.db.AppDatabase;
+import com.forcetower.uefs.db.entity.Access;
+import com.forcetower.uefs.db.entity.Profile;
 import com.forcetower.uefs.db_service.entity.Event;
 import com.forcetower.uefs.db_service.helper.ImGurDataObject;
 import com.forcetower.uefs.di.Injectable;
@@ -52,6 +55,8 @@ public class EventCreationFourFragment extends Fragment implements Injectable {
     UEFSViewModelFactory viewModelFactory;
     @Inject
     NavigationController controller;
+    @Inject
+    AppDatabase database;
 
     private FragmentEventCreationFourBinding binding;
     private EventsViewModel viewModel;
@@ -73,6 +78,21 @@ public class EventCreationFourFragment extends Fragment implements Injectable {
         viewModel = ViewModelProviders.of(requireActivity(), viewModelFactory).get(EventsViewModel.class);
         viewModel.getBlurImage().observe(this, this::onBlurImageUpdate);
         viewModel.getUploadImGur().observe(this, this::onEventImageUploaded);
+
+        database.accessDao().getAccess().observe(this, this::onAccessChange);
+        database.profileDao().getProfile().observe(this, this::onProfileChange);
+    }
+
+    private void onProfileChange(Profile profile) {
+        if (profile != null) {
+            viewModel.getCurrentEvent().setCreatorName(profile.getName());
+        }
+    }
+
+    private void onAccessChange(Access access) {
+        if (access != null) {
+            viewModel.getCurrentEvent().setCreatorUsername(access.getUsername());
+        }
     }
 
     private void onBlurImageUpdate(Bitmap bitmap) {
@@ -156,6 +176,8 @@ public class EventCreationFourFragment extends Fragment implements Injectable {
             }
 
             Timber.d("Valid Event");
+
+            controller.navigateToCreateEventPreview(requireContext());
         }
     }
 

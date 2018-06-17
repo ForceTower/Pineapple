@@ -427,7 +427,7 @@
     <string name="event_basic_information_text">Algumas informações básicas sobre o evento</string>
     <string name="event_title_too_short">O título do evento deve ter pelo menos 4 letras</string>
     <string name="event_short_description_too_short">A descrição curta deve ter pelo menos 4 letras</string>
-    <string name="event_part_two_message">Como é o evento?</string>
+    <string name="event_part_two_message">Onde e quando?</string>
     <string name="event_image_and_more_information">Preciso de mais algumas informações sobre o evento</string>
     <string name="event_long_description_hint">Descrição Longa do Evento</string>
     <string name="event_location_hint">Local</string>
@@ -461,4 +461,6 @@
     <string name="upload_failed">Upload falhou</string>
     <string name="try_again_is_impossible">Não é possível tentar de novo</string>
     <string name="wait_until_image_is_processed">Espere até a imagem ser processada...</string>
+    <string name="event_preview_message">Veja seu evento antes de publicar</string>
+    <string name="event_confirm_create">Criar</string>
 </resources>

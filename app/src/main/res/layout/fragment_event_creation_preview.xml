@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                tools:ignore="UseCompoundDrawables"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/ic_event_unes_colored_512dp"
+                    android:contentDescription="@string/event_image"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/event_preview_message"
+                    android:padding="8dp"
+                    android:textSize="16sp"
+                    android:textAlignment="gravity"
+                    android:gravity="center"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/roboto_medium"/>
+            </LinearLayout>
+
+            <include
+                android:id="@+id/include_event"
+                layout="@layout/item_card_event"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btn_continue"
+                android:layout_marginTop="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="@string/event_confirm_create"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_gravity="end"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"/>
+        </LinearLayout>
+    </ScrollView>
+
+</layout>

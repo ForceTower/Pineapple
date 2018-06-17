@@ -90,4 +90,9 @@ public class EventsViewModel extends ViewModel {
     public Uri getCurrentUri() {
         return currentImageUri;
     }
+
+    public void createEventUsingCurrent() {
+        repository.createEvent(getCurrentEvent());
+        currentEvent = null;
+    }
 }
