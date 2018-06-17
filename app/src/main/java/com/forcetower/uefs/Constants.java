@@ -51,4 +51,5 @@ public class Constants {
     public static final String UNES_SERVICE_URL  = DEBUG ? "192.168.15.7" : "unes.herokuapp.com";
     public static final String UNES_SERVICE_BASE = "http" + (DEBUG ? "" : "s") + "://"+ UNES_SERVICE_URL + "/api/";
     public static final int SAGRES_SYNC_ID = 8000;
+    public static final int CREATE_EVENT_ID = 9000;
 }

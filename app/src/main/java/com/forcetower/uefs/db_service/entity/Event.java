@@ -19,6 +19,7 @@ import timber.log.Timber;
  */
 @Entity
 public class Event {
+    @SerializedName(value = "id")
     @PrimaryKey(autoGenerate = true)
     private int uid;
     @NonNull
@@ -75,6 +76,12 @@ public class Event {
     @SerializedName(value = "certificate_hours")
     @ColumnInfo(name = "certificate_hours")
     private int certificateHours;
+    @SerializedName(value = "image_delete_hash")
+    @ColumnInfo(name = "image_delete_hash")
+    private String deleteHash;
+    @SerializedName(value = "uuid")
+    @ColumnInfo(name = "uuid")
+    private String uuid;
 
     public Event(@NonNull String name, @NonNull String subtitle, @NonNull String description, String imageUrl, @NonNull String creatorName, @NonNull String creatorUsername, int creatorId, @NonNull String offeredBy, @NonNull String startDate, @NonNull String startTime, String endDate, String endTime, @NonNull String location, boolean isFree, double price) {
         this.name = name;
@@ -297,5 +304,21 @@ public class Event {
     @Override
     public String toString() {
         return name;
+    }
+
+    public void setDeleteHash(String deleteHash) {
+        this.deleteHash = deleteHash;
+    }
+
+    public String getDeleteHash() {
+        return deleteHash;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 }

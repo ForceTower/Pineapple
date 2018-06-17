@@ -2,6 +2,7 @@ package com.forcetower.uefs.vm.service;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -14,6 +15,7 @@ import com.forcetower.uefs.db_service.helper.ImGurDataObject;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
 import com.forcetower.uefs.rep.service.EventRepository;
+import com.forcetower.uefs.service.ActionResult;
 import com.forcetower.uefs.util.ImageUtils;
 import com.forcetower.uefs.util.VersionUtils;
 
@@ -30,6 +32,8 @@ public class EventsViewModel extends ViewModel {
     private final AppExecutors executors;
     private final MediatorLiveData<Resource<ImGurDataObject>> uploadImGurSrc;
     private final MediatorLiveData<Bitmap> blurImageSrc;
+    private final MediatorLiveData<Resource<ActionResult<Event>>> createEventSrc;
+    private final MutableLiveData<Boolean> sendingBooleanSrc;
 
     private LiveData<Resource<List<Event>>> eventSrc;
 
@@ -42,6 +46,9 @@ public class EventsViewModel extends ViewModel {
         this.executors = executors;
         this.uploadImGurSrc = new MediatorLiveData<>();
         this.blurImageSrc = new MediatorLiveData<>();
+        this.createEventSrc = new MediatorLiveData<>();
+        this.sendingBooleanSrc = new MutableLiveData<>();
+        this.sendingBooleanSrc.postValue(false);
     }
 
     public LiveData<Resource<List<Event>>> getEvents() {
@@ -54,7 +61,10 @@ public class EventsViewModel extends ViewModel {
     }
 
     public Event getCurrentEvent() {
-        if (currentEvent == null) currentEvent = new Event();
+        if (currentEvent == null) {
+            currentEvent = new Event();
+            currentEvent.setUuid(UUID.randomUUID().toString());
+        }
         return currentEvent;
     }
 
@@ -91,8 +101,7 @@ public class EventsViewModel extends ViewModel {
         return currentImageUri;
     }
 
-    public void createEventUsingCurrent() {
-        repository.createEvent(getCurrentEvent());
-        currentEvent = null;
+    public void setCurrentEvent(Event event) {
+        this.currentEvent = event;
     }
 }

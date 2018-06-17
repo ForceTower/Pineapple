@@ -411,10 +411,10 @@
     <string name="available_quota">Cotas restantes (aproximadamente)</string>
     <string name="event_image">Imagem do Evento</string>
     <string name="event_date">Data</string>
-    <string name="event_price_format">A entrada custa R$ %.2f</string>
+    <string name="event_price_format">R$ %.2f</string>
     <string name="event_start_time_format">Começa às %1$s</string>
-    <string name="event_start_date_format">Evento inicia no dia %1$s</string>
-    <string name="event_is_free">A entrada do evento é gratuita</string>
+    <string name="event_start_date_format">%1$s às %2$s</string>
+    <string name="event_is_free">Gratuito</string>
     <string name="event_card_announcement">Aqui você encontra os eventos que estão ocorrendo na Universidade</string>
     <string name="no_events_created_yet">Sem eventos cadastrados, por enquanto</string>
     <string name="nav_title_events">Eventos</string>

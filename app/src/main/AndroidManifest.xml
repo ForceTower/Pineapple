@@ -103,6 +103,10 @@
             android:name=".worker.SagresSyncJobScheduler"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE"/>
+        <service
+            android:name=".worker.event.CreateEventWorker"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
 
         <receiver android:name=".sync.alm.RefreshBroadcastReceiver">
             <intent-filter>

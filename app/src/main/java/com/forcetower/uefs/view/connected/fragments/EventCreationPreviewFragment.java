@@ -10,12 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.databinding.FragmentEventCreationPreviewBinding;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.view.connected.NavigationController;
 import com.forcetower.uefs.vm.UEFSViewModelFactory;
 import com.forcetower.uefs.vm.service.EventsViewModel;
+import com.forcetower.uefs.worker.event.EventScheduler;
 
 import javax.inject.Inject;
 
@@ -27,6 +29,8 @@ public class EventCreationPreviewFragment extends Fragment implements Injectable
     UEFSViewModelFactory viewModelFactory;
     @Inject
     NavigationController controller;
+    @Inject
+    FirebaseJobDispatcher dispatcher;
 
     private FragmentEventCreationPreviewBinding binding;
     private EventsViewModel viewModel;
@@ -47,7 +51,8 @@ public class EventCreationPreviewFragment extends Fragment implements Injectable
     }
 
     private void onCreateEventClick() {
-        viewModel.createEventUsingCurrent();
+        EventScheduler.scheduleEventCreation(viewModel.getCurrentEvent(), dispatcher, requireContext());
+        viewModel.setCurrentEvent(null);
         controller.backTo("list_events");
     }
 }

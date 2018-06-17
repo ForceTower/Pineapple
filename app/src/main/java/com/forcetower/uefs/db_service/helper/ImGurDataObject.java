@@ -1,16 +1,19 @@
 package com.forcetower.uefs.db_service.helper;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by João Paulo on 16/06/2018.
  */
 public class ImGurDataObject {
     private String link;
-    private String deletehash;
+    @SerializedName("deletehash")
+    private String deleteHash;
     private String id;
 
-    public ImGurDataObject(String link, String deletehash, String id) {
+    public ImGurDataObject(String link, String deleteHash, String id) {
         this.link = link;
-        this.deletehash = deletehash;
+        this.deleteHash = deleteHash;
         this.id = id;
     }
 
@@ -22,12 +25,12 @@ public class ImGurDataObject {
         this.link = link;
     }
 
-    public String getDeletehash() {
-        return deletehash;
+    public String getDeleteHash() {
+        return deleteHash;
     }
 
-    public void setDeletehash(String deletehash) {
-        this.deletehash = deletehash;
+    public void setDeleteHash(String deleteHash) {
+        this.deleteHash = deleteHash;
     }
 
     public String getId() {
@@ -40,6 +43,6 @@ public class ImGurDataObject {
 
     @Override
     public String toString() {
-        return "L: " + link + " _ ID: " + id + " _ DH: " + deletehash;
+        return "L: " + link + " _ ID: " + id + " _ DH: " + deleteHash;
     }
 }

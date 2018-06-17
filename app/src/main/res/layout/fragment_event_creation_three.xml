@@ -104,14 +104,14 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp">
+                android:layout_marginTop="8dp">
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/event_organization"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/event_organization_hint"
                     android:fontFamily="@font/roboto_regular"
-                    android:inputType="text|textCapSentences"/>
+                    android:inputType="text|textCapSentences|textAutoComplete|textAutoCorrect"/>
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -123,7 +123,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/event_long_description_hint"
                     android:fontFamily="@font/roboto_regular"
-                    android:maxLength="512"
+                    android:maxLength="1024"
                     android:inputType="text|textAutoCorrect|textAutoComplete|textCapSentences|textMultiLine"/>
             </android.support.design.widget.TextInputLayout>
 

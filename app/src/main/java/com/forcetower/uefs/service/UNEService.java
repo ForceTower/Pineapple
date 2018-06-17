@@ -13,6 +13,8 @@ import com.forcetower.uefs.db_service.helper.CreditAndMentions;
 
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -69,4 +71,7 @@ public interface UNEService {
 
     @GET("events")
     LiveData<ApiResponse<List<Event>>> getEvents();
+
+    @POST("events/new")
+    Call<ActionResult<Event>> createEvent(@Body Event event);
 }

@@ -1,6 +1,7 @@
 package com.forcetower.uefs.di.module;
 
 import com.forcetower.uefs.worker.SagresSyncJobScheduler;
+import com.forcetower.uefs.worker.event.CreateEventWorker;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -12,4 +13,7 @@ import dagger.android.ContributesAndroidInjector;
 public abstract class LollipopGreaterServiceModule {
     @ContributesAndroidInjector
     abstract SagresSyncJobScheduler contributeSagresSyncJobScheduler();
+
+    @ContributesAndroidInjector
+    abstract CreateEventWorker contributeCreateEventWorker();
 }

@@ -70,8 +70,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/event_short_description_edit_hint"
                     android:fontFamily="@font/roboto_regular"
-                    android:maxLength="120"
-                    android:inputType="text|textAutoCorrect|textAutoComplete|textCapSentences|textShortMessage"/>
+                    android:maxLength="360"
+                    android:inputType="text|textAutoCorrect|textAutoComplete|textCapSentences|textMultiLine"/>
             </android.support.design.widget.TextInputLayout>
 
             <android.support.v7.widget.AppCompatButton

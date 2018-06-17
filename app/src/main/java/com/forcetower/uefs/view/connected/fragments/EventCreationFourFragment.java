@@ -119,6 +119,8 @@ public class EventCreationFourFragment extends Fragment implements Injectable {
                 canChange = true;
                 if (resource.data != null && resource.data.getLink() != null && !resource.data.getLink().isEmpty()) {
                     viewModel.getCurrentEvent().setImageUrl(resource.data.getLink());
+                    Timber.d("Image delete Hash: " + resource.data.getDeleteHash());
+                    viewModel.getCurrentEvent().setDeleteHash(resource.data.getDeleteHash());
                     refreshInterface(viewModel.getCurrentEvent());
                 } else {
                     Timber.d("Resource Data: " + resource.data);
