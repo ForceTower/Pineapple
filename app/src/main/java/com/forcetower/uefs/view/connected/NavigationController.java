@@ -174,7 +174,7 @@ public class NavigationController {
     }
 
     public void navigateToCreateEventOne(Context ctx) {
-        Fragment fragment = new EventCreationStartFragment();
+        Fragment fragment = new EventCreationOneFragment();
         if (VersionUtils.isLollipop()) {
             fragment.setEnterTransition(new Slide(getGravityCompat(ctx, Gravity.END)));
         }
@@ -182,7 +182,7 @@ public class NavigationController {
     }
 
     public void navigateToCreateEventTwo(Context ctx) {
-        Fragment fragment = new EventCreationStartFragment();
+        Fragment fragment = new EventCreationTwoFragment();
         if (VersionUtils.isLollipop()) {
             fragment.setEnterTransition(new Slide(getGravityCompat(ctx, Gravity.END)));
         }
@@ -190,7 +190,7 @@ public class NavigationController {
     }
 
     public void navigateToCreateEventThree(Context ctx) {
-        Fragment fragment = new EventCreationStartFragment();
+        Fragment fragment = new EventCreationThreeFragment();
         if (VersionUtils.isLollipop()) {
             fragment.setEnterTransition(new Slide(getGravityCompat(ctx, Gravity.END)));
         }
@@ -198,7 +198,7 @@ public class NavigationController {
     }
 
     public void navigateToCreateEventFour(Context ctx) {
-        Fragment fragment = new EventCreationStartFragment();
+        Fragment fragment = new EventCreationFourFragment();
         if (VersionUtils.isLollipop()) {
             fragment.setEnterTransition(new Slide(getGravityCompat(ctx, Gravity.END)));
         }
