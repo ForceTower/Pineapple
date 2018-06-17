@@ -14,6 +14,8 @@ import com.forcetower.uefs.db_service.entity.Event;
 import java.util.ArrayList;
 import java.util.List;
 
+import timber.log.Timber;
+
 /**
  * Created by João Paulo on 16/06/2018.
  */
@@ -27,7 +29,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventHolder>
     @NonNull
     @Override
     public EventHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemCardEventBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_card_unes_event_launch, parent, false);
+        ItemCardEventBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_card_event, parent, false);
         return new EventHolder(binding);
     }
 
@@ -44,6 +46,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventHolder>
     public void setEvents(List<Event> events) {
         this.events.clear();
         this.events.addAll(events);
+
+        Timber.d("Received list: " + events);
 
         notifyDataSetChanged();
     }

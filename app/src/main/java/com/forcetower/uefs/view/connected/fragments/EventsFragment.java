@@ -93,7 +93,7 @@ public class EventsFragment extends Fragment implements Injectable {
     private void onEventsUpdate(Resource<List<Event>> eventsRes) {
         if (eventsRes.data != null && !eventsRes.data.isEmpty()) {
             adapter.setEvents(eventsRes.data);
-        } else {
+        } else if (eventsRes.data != null){
             binding.recyclerEvents.setVisibility(View.GONE);
             binding.textNoEvents.setVisibility(View.VISIBLE);
         }

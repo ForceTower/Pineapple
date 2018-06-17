@@ -293,4 +293,9 @@ public class Event {
     public void setHasCertificate(boolean hasCertificate) {
         this.hasCertificate = hasCertificate;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
