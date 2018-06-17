@@ -1,15 +1,20 @@
 package com.forcetower.uefs.rep.service;
 
 import android.arch.lifecycle.LiveData;
+import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.forcetower.uefs.AppExecutors;
+import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.AppDatabase;
 import com.forcetower.uefs.db_service.ServiceDatabase;
 import com.forcetower.uefs.db_service.entity.Event;
+import com.forcetower.uefs.db_service.helper.ImGurDataObject;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.resources.NetworkBoundResource;
+import com.forcetower.uefs.rep.resources.UploadToImGurResource;
 import com.forcetower.uefs.service.ApiResponse;
 import com.forcetower.uefs.service.UNEService;
 
@@ -17,6 +22,14 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
+import okhttp3.Call;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+
+import static com.forcetower.uefs.rep.helper.RequestCreator.makeFormBodyForImGurImageUpload;
+import static com.forcetower.uefs.rep.helper.RequestCreator.makeRequestForImGurImageUpload;
 
 /**
  * Created by João Paulo on 15/06/2018.
@@ -27,13 +40,20 @@ public class EventRepository {
     private final AppDatabase uDatabase;
     private final UNEService service;
     private final AppExecutors executors;
+    private final OkHttpClient client;
+    private final String imGurAlbum;
+    private final String imGurSecret;
 
     @Inject
-    public EventRepository(ServiceDatabase database, AppDatabase uDatabase, UNEService service, AppExecutors executors) {
+    public EventRepository(ServiceDatabase database, AppDatabase uDatabase, UNEService service,
+                           AppExecutors executors, OkHttpClient client, Context context) {
         this.database = database;
         this.uDatabase = uDatabase;
         this.service = service;
         this.executors = executors;
+        this.client = client;
+        this.imGurAlbum = context.getString(R.string.imgur_service_album);
+        this.imGurSecret = context.getString(R.string.imgur_service_secret);
     }
 
     public LiveData<Resource<List<Event>>> getEvents() {
@@ -58,6 +78,18 @@ public class EventRepository {
             @Override
             protected LiveData<ApiResponse<List<Event>>> createCall() {
                 return service.getEvents();
+            }
+        }.asLiveData();
+    }
+
+    public LiveData<Resource<ImGurDataObject>> uploadImageToImGur(Bitmap bitmap, String name) {
+        return new UploadToImGurResource(executors, bitmap) {
+
+            @Override
+            protected Call createCall(String base64) {
+                FormBody.Builder builder = makeFormBodyForImGurImageUpload(base64, imGurAlbum, name);
+                Request request = makeRequestForImGurImageUpload(builder.build(), imGurSecret);
+                return client.newCall(request);
             }
         }.asLiveData();
     }

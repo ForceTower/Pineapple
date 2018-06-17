@@ -9,6 +9,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
+import android.transition.Slide;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ import com.forcetower.uefs.databinding.FragmentEventsBinding;
 import com.forcetower.uefs.db_service.entity.Event;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.rep.helper.Resource;
+import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.connected.ActivityController;
 import com.forcetower.uefs.view.connected.NavigationController;
 import com.forcetower.uefs.view.connected.adapters.EventAdapter;
@@ -29,6 +32,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import timber.log.Timber;
+
+import static com.forcetower.uefs.util.SupportUtils.getGravityCompat;
 
 /**
  * Created by João Paulo on 15/06/2018.
@@ -62,7 +67,12 @@ public class EventsFragment extends Fragment implements Injectable {
     }
 
     private void onCreateEvent() {
-        navigation.navigateToCreateEvent();
+        if (VersionUtils.isLollipop()) {
+            setExitTransition(new Slide(getGravityCompat(requireContext(), Gravity.START)));
+            setAllowEnterTransitionOverlap(false);
+            setAllowReturnTransitionOverlap(false);
+        }
+        navigation.navigateToCreateEvent(requireContext());
     }
 
     private void prepareRecyclerView() {

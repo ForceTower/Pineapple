@@ -11,6 +11,8 @@ import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
+import android.support.annotation.IntRange;
+import android.support.annotation.RequiresApi;
 import android.util.Base64;
 
 import com.forcetower.uefs.AppExecutors;
@@ -28,8 +30,8 @@ import timber.log.Timber;
 
 public class ImageUtils {
 
-    @TargetApi(17)
-    public static Bitmap blurImage(Context context, Bitmap originalBitmap, int radius) {
+    @RequiresApi(17)
+    public static Bitmap blurImage(Context context, Bitmap originalBitmap, @IntRange(from = 0, to = 25) int radius) {
         Bitmap blurredBitmap = Bitmap.createBitmap(originalBitmap);
 
         RenderScript rs = RenderScript.create(context);
@@ -43,6 +45,16 @@ public class ImageUtils {
         script.forEach(output);
         output.copyTo(blurredBitmap);
         return blurredBitmap;
+    }
+
+    @RequiresApi(17)
+    public static LiveData<Bitmap> blurImageAsync(Context context, Bitmap originalBitmap, @IntRange(from = 0, to = 25) int radius, AppExecutors executors) {
+        MutableLiveData<Bitmap> bitmapSrc = new MutableLiveData<>();
+        executors.others().execute(() -> {
+            Bitmap bitmap = blurImage(context, originalBitmap, radius);
+            bitmapSrc.postValue(bitmap);
+        });
+        return bitmapSrc;
     }
 
     public static String encode(Bitmap bitmap) {

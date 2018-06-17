@@ -200,4 +200,20 @@ public class RequestCreator {
 
         return builderIn;
     }
+
+    public static FormBody.Builder makeFormBodyForImGurImageUpload(String image, String album, String name) {
+        FormBody.Builder builder = new FormBody.Builder();
+        builder.add("image", image);
+        builder.add("album", album);
+        builder.add("name",  name);
+        return builder;
+    }
+
+    public static Request makeRequestForImGurImageUpload(FormBody body, String secret) {
+        return new Request.Builder()
+                .url("https://api.imgur.com/3/image")
+                .addHeader("Authorization", secret)
+                .post(body)
+                .build();
+    }
 }

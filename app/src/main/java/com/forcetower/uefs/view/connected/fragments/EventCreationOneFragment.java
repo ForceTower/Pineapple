@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
+import android.transition.Slide;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +17,14 @@ import com.forcetower.uefs.R;
 import com.forcetower.uefs.databinding.FragmentEventCreationOneBinding;
 import com.forcetower.uefs.db_service.entity.Event;
 import com.forcetower.uefs.di.Injectable;
+import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.connected.NavigationController;
 import com.forcetower.uefs.vm.UEFSViewModelFactory;
 import com.forcetower.uefs.vm.service.EventsViewModel;
 
 import javax.inject.Inject;
+
+import static com.forcetower.uefs.util.SupportUtils.getGravityCompat;
 
 /**
  * Created by João Paulo on 16/06/2018.
@@ -47,8 +53,14 @@ public class EventCreationOneFragment extends Fragment implements Injectable {
     }
 
     private void onNextEvent() {
-        if (validFormData())
-            controller.navigateToCreateEventTwo();
+        if (validFormData()) {
+            if (VersionUtils.isLollipop()) {
+                setExitTransition(new Slide(getGravityCompat(requireContext(), Gravity.START)));
+                setAllowEnterTransitionOverlap(false);
+                setAllowReturnTransitionOverlap(false);
+            }
+            controller.navigateToCreateEventTwo(requireContext());
+        }
     }
 
     private boolean validFormData() {

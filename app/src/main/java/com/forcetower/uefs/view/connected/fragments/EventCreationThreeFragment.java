@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.transition.Slide;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import com.forcetower.uefs.R;
 import com.forcetower.uefs.databinding.FragmentEventCreationThreeBinding;
 import com.forcetower.uefs.db_service.entity.Event;
 import com.forcetower.uefs.di.Injectable;
+import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.connected.NavigationController;
 import com.forcetower.uefs.vm.UEFSViewModelFactory;
 import com.forcetower.uefs.vm.service.EventsViewModel;
@@ -22,6 +25,8 @@ import com.forcetower.uefs.vm.service.EventsViewModel;
 import javax.inject.Inject;
 
 import timber.log.Timber;
+
+import static com.forcetower.uefs.util.SupportUtils.getGravityCompat;
 
 /**
  * Created by João Paulo on 16/06/2018.
@@ -40,6 +45,8 @@ public class EventCreationThreeFragment extends Fragment implements Injectable {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_event_creation_three, container, false);
         binding.btnContinue.setOnClickListener(v -> onNextEvent());
+        binding.cbProvidesHours.setOnCheckedChangeListener((v, val) -> onProvideHoursChange(val));
+        binding.cbEventFree.setOnCheckedChangeListener((v, val) -> onFreeChange(val));
         return binding.getRoot();
     }
 
@@ -70,22 +77,37 @@ public class EventCreationThreeFragment extends Fragment implements Injectable {
         binding.eventHours.setText(getString(R.string.integer_format, event.getCertificateHours()));
     }
 
+    private void onProvideHoursChange(boolean checked) {
+        binding.hoursLayout.setVisibility(checked ? View.VISIBLE : View.GONE);
+    }
+
+    private void onFreeChange(boolean checked) {
+        binding.priceLayout.setVisibility(checked ? View.GONE : View.VISIBLE);
+    }
+
     private void saveFormData() {
         viewModel.getCurrentEvent().setFree(binding.cbEventFree.isChecked());
         viewModel.getCurrentEvent().setDescription(binding.eventLongDescription.getText().toString().trim());
         viewModel.getCurrentEvent().setOfferedBy(binding.eventOrganization.getText().toString().trim());
         viewModel.getCurrentEvent().setHasCertificate(binding.cbProvidesHours.isChecked());
         try {
-            viewModel.getCurrentEvent().setPrice(Double.parseDouble(binding.eventPrice.getText().toString()));
+            viewModel.getCurrentEvent().setPrice(Double.parseDouble(binding.eventPrice.getText().toString().replace(",", ".")));
             viewModel.getCurrentEvent().setCertificateHours(Integer.parseInt(binding.eventHours.getText().toString()));
         } catch (NumberFormatException e) {
+            e.printStackTrace();
             Timber.e("Value inserted is invalid");
         }
     }
 
     private void onNextEvent() {
-       if (validFormData()) controller.navigateToCreateEventFour();
-
+       if (validFormData()) {
+           if (VersionUtils.isLollipop()) {
+               setExitTransition(new Slide(getGravityCompat(requireContext(), Gravity.START)));
+               setAllowEnterTransitionOverlap(false);
+               setAllowReturnTransitionOverlap(false);
+           }
+           controller.navigateToCreateEventFour(requireContext());
+       }
     }
 
     private boolean validFormData() {
@@ -104,7 +126,7 @@ public class EventCreationThreeFragment extends Fragment implements Injectable {
             price = Double.parseDouble(binding.eventPrice.getText().toString().trim().replace(",", "."));
             hours = Integer.parseInt(binding.eventHours.getText().toString().trim());
         } catch (NumberFormatException e) {
-            Toast.makeText(requireContext(), R.string.event_failed_parse_number, Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
             Timber.e("Value inserted is invalid");
         }
 

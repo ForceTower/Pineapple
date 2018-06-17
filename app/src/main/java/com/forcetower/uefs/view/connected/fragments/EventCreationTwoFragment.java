@@ -8,15 +8,17 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.transition.Slide;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.databinding.FragmentEventCreationTwoBinding;
 import com.forcetower.uefs.db_service.entity.Event;
 import com.forcetower.uefs.di.Injectable;
+import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.connected.NavigationController;
 import com.forcetower.uefs.vm.UEFSViewModelFactory;
 import com.forcetower.uefs.vm.service.EventsViewModel;
@@ -24,6 +26,9 @@ import com.forcetower.uefs.vm.service.EventsViewModel;
 import java.util.Calendar;
 
 import javax.inject.Inject;
+
+import static com.forcetower.uefs.util.SupportUtils.getGravityCompat;
+import static com.forcetower.uefs.util.WordUtils.stringify;
 
 /**
  * Created by João Paulo on 16/06/2018.
@@ -74,7 +79,7 @@ public class EventCreationTwoFragment extends Fragment implements Injectable {
 
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(), (view, sYear, sMonth, sDay) -> {
-            binding.eventStartDate.setText(getString(R.string.date_format, sDay, sMonth, sYear));
+            binding.eventStartDate.setText(getString(R.string.date_format, stringify(sDay), stringify(sMonth), sYear));
             binding.eventStartDate.clearFocus();
         }, year, mont, date);
         datePickerDialog.setTitle(R.string.event_date_start_dialog);
@@ -87,7 +92,7 @@ public class EventCreationTwoFragment extends Fragment implements Injectable {
         int minute = calendar.get(Calendar.MINUTE);
 
         TimePickerDialog timePickerDialog = new TimePickerDialog(requireContext(), ((view, sHourOfDay, sMinute) -> {
-            binding.eventStartTime.setText(getString(R.string.time_format, sHourOfDay, sMinute));
+            binding.eventStartTime.setText(getString(R.string.time_format, stringify(sHourOfDay), stringify(sMinute)));
             binding.eventStartTime.clearFocus();
         }), hour, minute, true);
         timePickerDialog.setTitle(R.string.event_time_start_dialog);
@@ -107,8 +112,14 @@ public class EventCreationTwoFragment extends Fragment implements Injectable {
     }
 
     private void onNextClick() {
-        if (validFormData())
-            controller.navigateToCreateEventThree();
+        if (validFormData()) {
+            if (VersionUtils.isLollipop()) {
+                setExitTransition(new Slide(getGravityCompat(requireContext(), Gravity.START)));
+                setAllowEnterTransitionOverlap(false);
+                setAllowReturnTransitionOverlap(false);
+            }
+            controller.navigateToCreateEventThree(requireContext());
+        }
     }
 
     private boolean validFormData() {

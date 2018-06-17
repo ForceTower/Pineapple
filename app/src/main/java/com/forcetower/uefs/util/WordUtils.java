@@ -57,4 +57,11 @@ public class WordUtils {
         stringBuilder.append("Stack Trace END");
         return stringBuilder.toString();
     }
+
+    public static String stringify(int val) {
+        if (val < 10 && val >= 0) {
+            return "0" + val;
+        }
+        return val + "";
+    }
 }

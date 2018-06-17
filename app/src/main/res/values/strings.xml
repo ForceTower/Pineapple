@@ -429,14 +429,14 @@
     <string name="event_short_description_too_short">A descrição curta deve ter pelo menos 4 letras</string>
     <string name="event_part_two_message">Como é o evento?</string>
     <string name="event_image_and_more_information">Preciso de mais algumas informações sobre o evento</string>
-    <string name="event_long_description_hint">Descrição Longa</string>
+    <string name="event_long_description_hint">Descrição Longa do Evento</string>
     <string name="event_location_hint">Local</string>
     <string name="event_start_date_hint">Data de Início</string>
     <string name="event_start_time_hint">Horário de Início</string>
     <string name="event_location">Local</string>
     <string name="validation_error_format">Deve ter pelo menos %1$d caracteres</string>
-    <string name="date_format">%1$d/%2$d/%3$d</string>
-    <string name="time_format">%1$d:%2$d</string>
+    <string name="date_format">%1$s/%2$s/%3$d</string>
+    <string name="time_format">%1$s:%2$s</string>
     <string name="event_date_start_dialog">Data de início</string>
     <string name="event_time_start_dialog">Horário de Início</string>
     <string name="event_payment_and_certificate">Quanto custa e o que as pessoas ganham?</string>
@@ -452,4 +452,13 @@
     <string name="event_invalid_price">Preço incorreto</string>
     <string name="event_invalid_hours">Quantidade de horas inválida</string>
     <string name="event_failed_parse_number">Você colocou uma letra onde deveria ser apenas números?</string>
+    <string name="event_picture_selection">Selecione uma imagem para o evento</string>
+    <string name="event_part_four_message">Mostre seu evento para o mundo!</string>
+    <string name="event_preview">Ver Prévia</string>
+    <string name="cut_event_image">Cortar Imagem</string>
+    <string name="error_creating_image">Erro ao criar imagem cortada :(</string>
+    <string name="event_upload_try_again">Tentar novamente</string>
+    <string name="upload_failed">Upload falhou</string>
+    <string name="try_again_is_impossible">Não é possível tentar de novo</string>
+    <string name="wait_until_image_is_processed">Espere até a imagem ser processada...</string>
 </resources>

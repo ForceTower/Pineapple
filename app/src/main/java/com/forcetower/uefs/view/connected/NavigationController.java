@@ -1,13 +1,17 @@
 package com.forcetower.uefs.view.connected;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.transition.Slide;
+import android.view.Gravity;
 
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.connected.fragments.BigTrayFragment;
 import com.forcetower.uefs.view.connected.fragments.ConnectedFragment;
 import com.forcetower.uefs.view.connected.fragments.DisciplineClassesFragment;
@@ -26,6 +30,7 @@ import com.forcetower.uefs.view.connected.fragments.TheAdventureFragment;
 
 import javax.inject.Inject;
 
+import static com.forcetower.uefs.util.SupportUtils.getGravityCompat;
 import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.CALENDAR_FRAGMENT;
 import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.DISCIPLINES_FRAGMENT;
 import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.FRAGMENT_INTENT_EXTRA;
@@ -160,23 +165,43 @@ public class NavigationController {
         changeFragment(new EventsFragment(), "list_events", true);
     }
 
-    public void navigateToCreateEvent() {
-        changeFragment(new EventCreationStartFragment(), "event_message", true);
+    public void navigateToCreateEvent(Context ctx) {
+        Fragment fragment = new EventCreationStartFragment();
+        if (VersionUtils.isLollipop()) {
+            fragment.setEnterTransition(new Slide(getGravityCompat(ctx, Gravity.END)));
+        }
+        changeFragment(fragment, "event_create_zero", true);
     }
 
-    public void navigateToCreateEventOne() {
-        changeFragment(new EventCreationOneFragment());
+    public void navigateToCreateEventOne(Context ctx) {
+        Fragment fragment = new EventCreationStartFragment();
+        if (VersionUtils.isLollipop()) {
+            fragment.setEnterTransition(new Slide(getGravityCompat(ctx, Gravity.END)));
+        }
+        changeFragment(fragment, "event_create_two", true);
     }
 
-    public void navigateToCreateEventTwo() {
-        changeFragment(new EventCreationTwoFragment(), "event_create_two", true);
+    public void navigateToCreateEventTwo(Context ctx) {
+        Fragment fragment = new EventCreationStartFragment();
+        if (VersionUtils.isLollipop()) {
+            fragment.setEnterTransition(new Slide(getGravityCompat(ctx, Gravity.END)));
+        }
+        changeFragment(fragment, "event_create_two", true);
     }
 
-    public void navigateToCreateEventThree() {
-        changeFragment(new EventCreationThreeFragment(), "event_create_three", true);
+    public void navigateToCreateEventThree(Context ctx) {
+        Fragment fragment = new EventCreationStartFragment();
+        if (VersionUtils.isLollipop()) {
+            fragment.setEnterTransition(new Slide(getGravityCompat(ctx, Gravity.END)));
+        }
+        changeFragment(fragment, "event_create_three", true);
     }
 
-    public void navigateToCreateEventFour() {
-        changeFragment(new EventCreationFourFragment(), "event_create_four", true);
+    public void navigateToCreateEventFour(Context ctx) {
+        Fragment fragment = new EventCreationStartFragment();
+        if (VersionUtils.isLollipop()) {
+            fragment.setEnterTransition(new Slide(getGravityCompat(ctx, Gravity.END)));
+        }
+        changeFragment(fragment, "event_create_four", true);
     }
 }
