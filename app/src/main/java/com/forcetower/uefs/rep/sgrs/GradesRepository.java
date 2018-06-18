@@ -36,6 +36,7 @@ import timber.log.Timber;
 import static com.forcetower.uefs.rep.helper.RequestCreator.makeGradesRequest;
 import static com.forcetower.uefs.rep.helper.RequestCreator.makeListGradeRequests;
 import static com.forcetower.uefs.rep.sgrs.LoginRepository.defineGrades;
+import static com.forcetower.uefs.rep.sgrs.LoginRepository.redefinePages;
 
 /**
  * Created by João Paulo on 07/03/2018.
@@ -152,6 +153,7 @@ public class GradesRepository {
                 }
                 Timber.d("Semester is: %s. Good luck!", semester);
                 List<Grade> grades = SagresGradeParser.getGrades(document);
+                redefinePages(semester, grades, database);
                 defineGrades(semester, grades, database);
             }
 

@@ -21,7 +21,11 @@ import com.forcetower.uefs.sync.service.SyncConfiguration;
 import com.forcetower.uefs.worker.SyncUtils;
 import com.squareup.picasso.Picasso;
 
+import org.jsoup.nodes.Document;
+
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -48,6 +52,7 @@ public class UEFSApplication extends Application implements HasActivityInjector,
     FirebaseJobDispatcher dispatcher;
 
     private AppComponent appComponent;
+    private Map<String, Document> documents;
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -62,6 +67,7 @@ public class UEFSApplication extends Application implements HasActivityInjector,
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         }
+        documents = new HashMap<>();
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         appComponent = AppInjector.init(this);
@@ -130,5 +136,10 @@ public class UEFSApplication extends Application implements HasActivityInjector,
     @Override
     public AndroidInjector<BroadcastReceiver> broadcastReceiverInjector() {
         return dispatchingBroadcastAndroidInjector;
+    }
+
+    public void saveDocument(String key, Document value) {
+        documents.put(key, value);
+        Timber.d("Document put into map");
     }
 }

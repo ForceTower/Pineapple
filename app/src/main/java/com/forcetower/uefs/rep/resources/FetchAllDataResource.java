@@ -2,6 +2,7 @@ package com.forcetower.uefs.rep.resources;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
+import android.os.SystemClock;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 
@@ -124,8 +125,21 @@ public abstract class FetchAllDataResource {
                 executors.diskIO().execute(() -> {
                     result.postValue(Resource.loading(R.string.processing_information));
                     if (document != null) {
-                        saveResult(document);
-                        executors.mainThread().execute(() -> setValue(Resource.success(R.string.completed)));
+                        boolean correct = saveResult(document);
+                        if (correct) {
+                            Timber.d("Everything happened in a glorious way");
+                            executors.mainThread().execute(() -> setValue(Resource.success(R.string.completed)));
+                        }
+                        else {
+                            result.postValue(Resource.loading(R.string.sagres_is_bugged_again));
+                            Timber.d("Try the alternate way");
+                            Timber.d("Save document to parse later on");
+                            saveDocument(document);
+                            SystemClock.sleep(1000);
+                            result.postValue(Resource.loading(R.string.attempting_alternate_way));
+                            SystemClock.sleep(1000);
+                            result.postValue(Resource.success(R.string.completed));
+                        }
                     } else {
                         executors.mainThread().execute(() ->
                                 setValue(Resource.error("Response is fine, but document is null", 500, R.string.failed_to_connect)));
@@ -180,6 +194,7 @@ public abstract class FetchAllDataResource {
     public abstract Call createCall();
     public abstract Call approvalCall(SagresResponse sgrResponse);
     public abstract Call createStudentPageCall();
-    public abstract void saveResult(@NonNull Document document);
+    public abstract boolean saveResult(@NonNull Document document);
+    public abstract void saveDocument(@NonNull Document document);
 
 }

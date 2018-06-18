@@ -1,5 +1,6 @@
 package com.forcetower.uefs.rep.sgrs;
 
+import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 import android.support.annotation.NonNull;
@@ -7,6 +8,7 @@ import android.support.annotation.NonNull;
 import com.crashlytics.android.Crashlytics;
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.UEFSApplication;
 import com.forcetower.uefs.db.AppDatabase;
 import com.forcetower.uefs.db.dao.DisciplineClassItemDao;
 import com.forcetower.uefs.db.dao.DisciplineClassMaterialLinkDao;
@@ -60,12 +62,14 @@ public class DisciplinesRepository {
     private final AppExecutors executors;
     private final AppDatabase  database;
     private final OkHttpClient client;
+    private final UEFSApplication application;
 
     @Inject
-    DisciplinesRepository(AppExecutors executors, AppDatabase database, OkHttpClient client) {
+    DisciplinesRepository(AppExecutors executors, AppDatabase database, OkHttpClient client, Application application) {
         this.executors = executors;
         this.database = database;
         this.client = client;
+        this.application = (UEFSApplication) application;
     }
 
 
@@ -210,8 +214,14 @@ public class DisciplinesRepository {
             }
 
             @Override
-            public void saveResult(@NonNull Document document) {
+            public boolean saveResult(@NonNull Document document) {
                 docSrc.postValue(Resource.success(document));
+                return true;
+            }
+
+            @Override
+            public void saveDocument(@NonNull Document document) {
+                application.saveDocument("student_page", document);
             }
         }.asLiveData();
 

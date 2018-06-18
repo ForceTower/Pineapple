@@ -463,4 +463,7 @@
     <string name="wait_until_image_is_processed">Espere até a imagem ser processada...</string>
     <string name="event_preview_message">Veja seu evento antes de publicar</string>
     <string name="event_confirm_create">Criar</string>
+    <string name="preparing_fetch">Preparando-se</string>
+    <string name="sagres_is_bugged_again">O SAGRES está bugado... De novo</string>
+    <string name="attempting_alternate_way">Tentando de maneira alternativa...</string>
 </resources>

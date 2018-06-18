@@ -1,5 +1,6 @@
 package com.forcetower.uefs.rep.sgrs;
 
+import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.MutableLiveData;
@@ -13,6 +14,7 @@ import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.UEFSApplication;
 import com.forcetower.uefs.db.AppDatabase;
 import com.forcetower.uefs.db.dao.AccessDao;
 import com.forcetower.uefs.db.dao.CalendarItemDao;
@@ -89,16 +91,21 @@ public class LoginRepository {
     private final ClearableCookieJar cookieJar;
     private final Context context;
     private final FirebaseJobDispatcher dispatcher;
+    private final UEFSApplication application;
+
+    private Document temporaryDocument;
+    private boolean sagresBugged;
 
     @Inject
-    LoginRepository (AppExecutors executors, AppDatabase database, OkHttpClient client,
-                     ClearableCookieJar cookieJar, Context context, FirebaseJobDispatcher dispatcher) {
+    LoginRepository(AppExecutors executors, AppDatabase database, OkHttpClient client,
+                    ClearableCookieJar cookieJar, Context context, FirebaseJobDispatcher dispatcher, Application application) {
         this.executors = executors;
         this.database = database;
         this.client = client;
         this.cookieJar = cookieJar;
         this.context = context;
         this.dispatcher = dispatcher;
+        this.application = (UEFSApplication) application;
     }
 
     public LiveData<Resource<Integer>> login(String username, String password) {
@@ -240,14 +247,14 @@ public class LoginRepository {
             }
 
             @Override
-            public void saveResult(@NonNull Document document) {
+            public boolean saveResult(@NonNull Document document) {
                 Timber.d("Processing document");
                 document.charset(Charset.forName("ISO-8859-1"));
                 defineMessages(SagresMessageParser.getMessages(document));
                 defineCalendar(SagresCalendarParser.getCalendar(document));
 
                 if (defineSemester(SagresSemesterParser.getSemesters(document))) {
-                    if (defineDisciplines(SagresDisciplineParser.getDisciplines(document))) {
+                    if (defineDisciplines(SagresDisciplineParser.getDisciplines(document), database)) {
                         defineDcpGroups(SagresDcpGroupsParser.getGroups(document));
                         try {
                             defineSchedule(SagresScheduleParser.getSchedule(document));
@@ -255,8 +262,19 @@ public class LoginRepository {
                             Crashlytics.logException(e);
                             Timber.d("This person has a problem on parser");
                         }
+                        return true;
                     }
+                } else {
+                    sagresBugged = true;
+                    return false;
                 }
+                return true;
+            }
+
+            @Override
+            public void saveDocument(@NonNull Document document) {
+                temporaryDocument = document;
+                application.saveDocument("student_page", document);
             }
         }.asLiveData();
     }
@@ -282,9 +300,43 @@ public class LoginRepository {
                 }
 
                 List<Grade> grades = SagresGradeParser.getGrades(document);
+                if (sagresBugged) {
+                    Timber.d("Since sagres is bugged. This will take a while");
+                    redefinePages(semester, grades, database);
+                }
                 defineGrades(semester, grades, database);
             }
         }.asLiveData();
+    }
+
+    public static void redefinePages(String semester, List<Grade> grades, AppDatabase database) {
+        if (database.semesterDao().getSemesterByNameDirect(semester) == null) {
+            database.semesterDao().insertSemesters(new Semester(semester, semester));
+            Timber.d("Semester inserted as well");
+        }
+
+        List<Discipline> disciplines = new ArrayList<>();
+        Timber.d("Grades size: " + grades.size());
+        for (Grade grade : grades) {
+            String disciplineName = grade.getDisciplineName();
+            int index = disciplineName.lastIndexOf("(");
+            if (index != -1) {
+                disciplineName = disciplineName.substring(0, index);
+            }
+            int pos = disciplineName.indexOf("-");
+            String code = disciplineName.substring(0, pos).trim();
+
+            Discipline discipline = new Discipline(semester, disciplineName, code);
+            discipline.setSituation("Sagres Bugado");
+            disciplines.add(discipline);
+        }
+
+        if (!disciplines.isEmpty()) {
+            Timber.d("Recovered some disciplines: " + disciplines);
+            defineDisciplines(disciplines, database);
+        } else {
+            Timber.d("Failed to recover anyways");
+        }
     }
 
     public static void defineGrades(@NonNull String semester, @NonNull List<Grade> grades, AppDatabase database) {
@@ -578,7 +630,7 @@ public class LoginRepository {
 
     }
 
-    private boolean defineDisciplines(@NonNull List<Discipline> disciplines) {
+    public static boolean defineDisciplines(@NonNull List<Discipline> disciplines, AppDatabase database) {
         if (disciplines.size() == 0) {
             Timber.d("No disciplines found");
             return false;
@@ -603,10 +655,17 @@ public class LoginRepository {
     }
 
     private boolean defineSemester(@NonNull List<Semester> semesters) {
+        if (semesters.size() == 0 && database.semesterDao().getAllSemestersDirect().size() == 0) {
+            Timber.d("This user has no semesters, and it's an empty Set saved");
+            Timber.d("Probably a freshman or a sagres bug");
+            Crashlytics.log("Semesters on parser: 0  <> Semesters Saved: 0");
+            return false;
+        }
+
         if (semesters.size() == 0) {
             Timber.d("Semesters not found... Are you a freshman?");
             Crashlytics.log("Student with no semesters");
-            return false;
+            return true;
         }
 
         SemesterDao semesterDao = database.semesterDao();
