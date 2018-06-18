@@ -82,6 +82,9 @@ public class Event {
     @SerializedName(value = "uuid")
     @ColumnInfo(name = "uuid")
     private String uuid;
+    @SerializedName(value = "created_at")
+    @ColumnInfo(name = "created_at")
+    private String createdAt;
 
     public Event(@NonNull String name, @NonNull String subtitle, @NonNull String description, String imageUrl, @NonNull String creatorName, @NonNull String creatorUsername, int creatorId, @NonNull String offeredBy, @NonNull String startDate, @NonNull String startTime, String endDate, String endTime, @NonNull String location, boolean isFree, double price) {
         this.name = name;
@@ -320,5 +323,13 @@ public class Event {
 
     public void setUuid(String uuid) {
         this.uuid = uuid;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 }

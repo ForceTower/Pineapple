@@ -6,6 +6,7 @@ import android.content.Context;
 
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.GooglePlayDriver;
+import com.forcetower.uefs.BuildConfig;
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.GooglePlayGamesInstance;
 import com.forcetower.uefs.db.AppDatabase;
@@ -46,7 +47,7 @@ public class AppModule {
     @Provides
     @Singleton
     ServiceDatabase provideServiceDatabase(Application application) {
-        return Room.databaseBuilder(application, ServiceDatabase.class, "unes_svc_tst.db")
+        return Room.databaseBuilder(application, ServiceDatabase.class, BuildConfig.DEBUG ? "unes_testing.db" : "uneverse_uefs.db")
                 .fallbackToDestructiveMigration()
                 .build();
     }

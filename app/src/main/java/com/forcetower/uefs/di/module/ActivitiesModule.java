@@ -1,6 +1,6 @@
 package com.forcetower.uefs.di.module;
 
-import com.forcetower.uefs.game._2048.activity.Game2048Activity;
+import com.forcetower.uefs.game.g2048.activity.Game2048Activity;
 import com.forcetower.uefs.view.about.AboutActivity;
 import com.forcetower.uefs.view.connected.LoggedActivity;
 import com.forcetower.uefs.view.control_room.ControlRoomActivity;

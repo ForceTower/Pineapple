@@ -173,7 +173,7 @@
             android:layout_alignWithParentIfMissing="true"
             android:layout_below="@id/ll_buttonrow">
 
-            <com.forcetower.uefs.game._2048.view.GameView
+            <com.forcetower.uefs.game.g2048.view.GameView
                 android:id="@+id/gameview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

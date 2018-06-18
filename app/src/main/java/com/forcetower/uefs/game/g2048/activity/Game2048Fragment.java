@@ -1,5 +1,6 @@
-package com.forcetower.uefs.game._2048.activity;
+package com.forcetower.uefs.game.g2048.activity;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -17,11 +18,11 @@ import android.widget.Toast;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.databinding.GameFragment2048Binding;
-import com.forcetower.uefs.game._2048.tools.InputListener;
-import com.forcetower.uefs.game._2048.tools.KeyListener;
-import com.forcetower.uefs.game._2048.tools.ScoreKeeper;
-import com.forcetower.uefs.game._2048.view.Game;
-import com.forcetower.uefs.game._2048.view.Tile;
+import com.forcetower.uefs.game.g2048.tools.InputListener;
+import com.forcetower.uefs.game.g2048.tools.KeyListener;
+import com.forcetower.uefs.game.g2048.tools.ScoreKeeper;
+import com.forcetower.uefs.game.g2048.view.Game;
+import com.forcetower.uefs.game.g2048.view.Tile;
 import com.forcetower.uefs.view.UBaseActivity;
 
 import timber.log.Timber;
@@ -234,6 +235,7 @@ public class Game2048Fragment extends Fragment implements KeyListener, Game.Game
         Timber.d("Up Swipe");
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     public boolean onTouch(View v, MotionEvent event) {
         switch(event.getAction()){
             case MotionEvent.ACTION_DOWN: {

@@ -153,7 +153,7 @@
 
         <activity android:name=".view.universe.UniverseActivity">
         </activity>
-        <activity android:name=".game._2048.activity.Game2048Activity">
+        <activity android:name=".game.g2048.activity.Game2048Activity">
         </activity>
     </application>
 

@@ -1,9 +1,9 @@
-package com.forcetower.uefs.game._2048.tools;
+package com.forcetower.uefs.game.g2048.tools;
 
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.forcetower.uefs.game._2048.view.Game;
+import com.forcetower.uefs.game.g2048.view.Game;
 
 public class InputListener implements View.OnTouchListener {
 

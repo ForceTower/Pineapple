@@ -1,4 +1,4 @@
-package com.forcetower.uefs.game._2048.activity;
+package com.forcetower.uefs.game.g2048.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -10,7 +10,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.game._2048.tools.KeyListener;
+import com.forcetower.uefs.game.g2048.tools.KeyListener;
 import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.UBaseActivity;
 

@@ -23,7 +23,7 @@ public abstract class EventDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract void insert(List<Event> events);
 
-    @Query("SELECT * FROM Event")
+    @Query("SELECT * FROM Event ORDER BY created_at DESC")
     public abstract LiveData<List<Event>> getAllEvents();
 
     @Delete

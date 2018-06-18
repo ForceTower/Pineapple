@@ -10,6 +10,6 @@
     android:layout_height="match_parent"
     android:keepScreenOn="true"
     android:background="#040731"
-    tools:context=".game._2048.activity.Game2048Activity">
+    tools:context=".game.g2048.activity.Game2048Activity">
 
 </FrameLayout>
