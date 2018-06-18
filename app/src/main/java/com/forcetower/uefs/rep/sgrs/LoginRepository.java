@@ -645,7 +645,7 @@ public class LoginRepository {
             if (current == null) {
                 disciplineDao.insertDiscipline(discipline);
                 Timber.d("It's a new discipline. Wow!");
-            } else {
+            } else if (!discipline.getSituation().equalsIgnoreCase("Sagres Bugado")){
                 discipline.setUid(current.getUid());
                 disciplineDao.insertDiscipline(discipline);
             }
