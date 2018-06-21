@@ -35,6 +35,7 @@ import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.util.DateUtils;
 import com.forcetower.uefs.view.connected.ActivityController;
+import com.forcetower.uefs.view.connected.NavigationController;
 import com.forcetower.uefs.view.control_room.ControlRoomActivity;
 import com.forcetower.uefs.vm.base.ProfileViewModel;
 import com.getkeepsafe.taptargetview.TapTarget;
@@ -72,6 +73,8 @@ public class ProfileFragment extends Fragment implements Injectable {
     TextView tvStdSemesterHidden;
     @BindView(R.id.tv_std_score)
     TextView tvStdScore;
+    @BindView(R.id.tv_std_course)
+    TextView tvStdCourse;
     @BindView(R.id.tv_last_update)
     TextView tvLastUpdate;
     @BindView(R.id.tv_last_update_attempt)
@@ -87,9 +90,13 @@ public class ProfileFragment extends Fragment implements Injectable {
     CircleImageView ivProfileImage;
     @BindView(R.id.iv_img_placeholder)
     CircleImageView ivProfilePlaceholder;
+    @BindView(R.id.cv_select_course)
+    CardView cvChangeCourse;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
+    @Inject
+    NavigationController navigationController;
 
     private ProfileViewModel profileViewModel;
     private SharedPreferences sharedPreferences;
@@ -105,13 +112,13 @@ public class ProfileFragment extends Fragment implements Injectable {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Timber.d(String.valueOf(getParentFragment()));
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
         controller.getTabLayout().setVisibility(View.GONE);
         controller.changeTitle(R.string.title_profile);
 
         cvUpdateControl.setOnClickListener(v -> goToUpdateControl());
+        cvChangeCourse.setOnClickListener(v -> changeCourse());
 
         if (BuildConfig.DEBUG) enablePrivateContent();
 
@@ -134,6 +141,10 @@ public class ProfileFragment extends Fragment implements Injectable {
         });
 
         return view;
+    }
+
+    private void changeCourse() {
+        navigationController.navigateToSelectCourse();
     }
 
     @OnClick(value = {R.id.iv_img_profile, R.id.iv_img_placeholder})
@@ -210,6 +221,8 @@ public class ProfileFragment extends Fragment implements Injectable {
         } else {
             tvLastUpdateAttempt.setText(R.string.no_automatic_update_yet);
         }
+
+        if (profile.getCourse() != null) tvStdCourse.setText(profile.getCourse());
     }
 
     private void onReceiveSemesters(List<Semester> semesters) {

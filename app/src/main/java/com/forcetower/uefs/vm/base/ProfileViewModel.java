@@ -120,4 +120,8 @@ public class ProfileViewModel extends ViewModel {
             }
         });
     }
+
+    public void setProfileCourse(String name) {
+        executors.others().execute(() -> profileDao.setProfileCourse(name));
+    }
 }

@@ -8,6 +8,7 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.RequiresApi;
 
+import com.crashlytics.android.Crashlytics;
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.BuildConfig;
 import com.forcetower.uefs.UEFSApplication;
@@ -19,6 +20,7 @@ import com.forcetower.uefs.db.entity.Discipline;
 import com.forcetower.uefs.db.entity.GradeInfo;
 import com.forcetower.uefs.db.entity.GradeSection;
 import com.forcetower.uefs.db.entity.Message;
+import com.forcetower.uefs.db.entity.Profile;
 import com.forcetower.uefs.db.entity.Semester;
 import com.forcetower.uefs.db_service.entity.UpdateStatus;
 import com.forcetower.uefs.ntf.NotificationCreator;
@@ -28,6 +30,9 @@ import com.forcetower.uefs.rep.sgrs.RefreshRepository;
 import com.forcetower.uefs.service.ApiResponse;
 import com.forcetower.uefs.service.UNEService;
 import com.forcetower.uefs.util.NetworkUtils;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.List;
 
@@ -187,8 +192,33 @@ public class SagresSyncJobScheduler extends JobService {
             messagesNotifications();
             gradesNotifications();
             completed = true;
+
+            setupData();
             jobFinished(jobParameters, false);
         });
+    }
+
+    private void setupData() {
+        Access a = database.accessDao().getAccessDirect();
+        Profile p = database.profileDao().getProfileDirect();
+        if (a != null) {
+            Crashlytics.setUserIdentifier(a.getUsername());
+            Crashlytics.setUserName(p != null ? p.getName() : "Undefined");
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("firebase_tokens");
+            String token = FirebaseInstanceId.getInstance().getToken();
+            if (token != null) {
+                reference.child(a.getUsername()).child("token").setValue(token);
+                reference.child(a.getUsername()).child("device").setValue(Build.MANUFACTURER + " " + Build.MODEL);
+                reference.child(a.getUsername()).child("android").setValue(Build.VERSION.SDK_INT);
+                reference.child(a.getUsername()).child("name").setValue(p != null ? p.getName() : "Null Profile");
+
+                if (p != null && p.getCourse() != null) {
+                    DatabaseReference courses = FirebaseDatabase.getInstance().getReference("courses").child(p.getCourse());
+                    courses.child(a.getUsername()).child("name").setValue(p.getName());
+                    courses.child(a.getUsername()).child("score").setValue(p.getScore());
+                }
+            }
+        }
     }
 
     private void messagesNotifications() {

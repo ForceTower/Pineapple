@@ -23,6 +23,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -115,6 +116,8 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     ProgressBar globalLoading;
     @BindView(R.id.root_coordinator)
     ViewGroup rootViewContent;
+    @BindView(R.id.drawer_container)
+    CoordinatorLayout container;
 
     private NavigationViews navViews;
     private NavigationCustomActionViews downloadCert;
@@ -147,10 +150,10 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     private int selectedNavId;
 
     private boolean disconnecting = false;
-    private Access latestAccess;
     private ActionBarDrawerToggle toggle;
     private boolean isHomeAsUp;
     private boolean isPDFResultShown;
+    private boolean showedOnSession;
 
     public static void startActivity(Context context, boolean afterLogin) {
         Intent intent = new Intent(context, LoggedActivity.class);
@@ -242,11 +245,6 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     }
 
     private void setupAlarmManager() {
-        String strFrequency = mPreferences.getString("sync_frequency", "60");
-        int frequency = 60;
-        try {
-            frequency = Integer.parseInt(strFrequency);
-        } catch (Exception ignored) {}
         RefreshAlarmTrigger.create(this);
     }
 
@@ -372,6 +370,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         numberOfLoadings = savedInstanceState.getInt("number_of_loadings", 0);
         selectedNavId = savedInstanceState.getInt(SELECTED_NAV_DRAWER_ID);
         isPDFResultShown = savedInstanceState.getBoolean("pdf_result_shown", false);
+        showedOnSession = savedInstanceState.getBoolean("showed_on_session", false);
         changeTitle(titleText);
         navigationView.setCheckedItem(selectedNavId);
     }
@@ -551,6 +550,17 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         } else {
             navViews.tvNavSubtitle.setVisibility(View.GONE);
         }
+
+        Timber.d("User Course: %s", profile.getCourse());
+        if ((profile.getCourse() == null || profile.getCourse().isEmpty()) && !showedOnSession) {
+            showedOnSession = true;
+            Snackbar snack = Snackbar.make(container, R.string.setup_your_course, Snackbar.LENGTH_LONG);
+            snack.setAction(R.string.course_answer, v -> {
+                navigationController.navigateToSelectCourse();
+                snack.dismiss();
+            });
+            snack.show();
+        }
     }
 
     private void onReceiveProfileImage(Bitmap bitmap) {
@@ -670,9 +680,13 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
             } else if (id == R.id.nav_flowchart_certificate) {
                 openCertificatePdf(true, SagresDocuments.FLOWCHART);
             } else if (id == R.id.nav_events) {
-                clearBackStack();
-                tabLayout.setVisibility(View.GONE);
-                navigationController.navigateToEvents();
+                if (VersionUtils.isLollipop()) {
+                    clearBackStack();
+                    tabLayout.setVisibility(View.GONE);
+                    navigationController.navigateToEvents();
+                } else {
+                    Toast.makeText(this, R.string.development_only_android_5, Toast.LENGTH_SHORT).show();
+                }
             }
 
             if (item.isCheckable()) selectedNavId = id;
@@ -771,6 +785,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         outState.putInt("title_text", titleText);
         outState.putInt("number_of_loadings", numberOfLoadings);
         outState.putInt(SELECTED_NAV_DRAWER_ID, selectedNavId);
+        outState.putBoolean("showed_on_session", showedOnSession);
         super.onSaveInstanceState(outState);
     }
 
@@ -816,11 +831,8 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     }
 
     private void accessObserver(Access access) {
-        latestAccess = access;
         if (access == null && !disconnecting) {
             Timber.d("Access got invalidated");
-            //gradesViewModel.logout().observe(this, this::logoutObserver);
-            //Toast.makeText(this, R.string.disconnected, Toast.LENGTH_SHORT).show();
         } else if (access != null) {
             mPlayGamesInstance.changePlayerName(access.getUsername());
         }
@@ -914,7 +926,6 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         Snackbar snackbar = Snackbar.make(rootViewContent, getString(R.string.new_schedule_errors), Snackbar.LENGTH_INDEFINITE);
         snackbar.setAction(R.string.send_error, v -> {
             navigationController.navigateToSuggestionFragment(e.getMessage(), WordUtils.buildFromStackTrace(e.getStackTrace()));
-            //SuggestionActivity.startActivity(this, e.getMessage(), e.getStackTrace());
             snackbar.dismiss();
         });
         snackbar.show();

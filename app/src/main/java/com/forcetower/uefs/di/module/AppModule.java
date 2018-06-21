@@ -27,6 +27,7 @@ import static com.forcetower.uefs.db.DatabaseMigrations.MIGRATION_1_2;
 import static com.forcetower.uefs.db.DatabaseMigrations.MIGRATION_2_3;
 import static com.forcetower.uefs.db.DatabaseMigrations.MIGRATION_3_4;
 import static com.forcetower.uefs.db.DatabaseMigrations.MIGRATION_4_5;
+import static com.forcetower.uefs.db.DatabaseMigrations.MIGRATION_5_6;
 
 /**
  * Created by João Paulo on 05/03/2018.
@@ -40,7 +41,7 @@ public class AppModule {
     @Singleton
     AppDatabase provideDatabase(Application application) {
         return Room.databaseBuilder(application, AppDatabase.class, "unes_uefs_5.db")
-                .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
+                .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6)
                 .build();
     }
 

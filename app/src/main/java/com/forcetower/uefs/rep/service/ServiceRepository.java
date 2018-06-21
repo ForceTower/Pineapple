@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.db_service.ServiceDatabase;
 import com.forcetower.uefs.db_service.entity.AboutField;
+import com.forcetower.uefs.db_service.entity.Course;
 import com.forcetower.uefs.db_service.entity.Mention;
 import com.forcetower.uefs.db_service.entity.QuestionAnswer;
 import com.forcetower.uefs.db_service.entity.Version;
@@ -125,6 +126,32 @@ public class ServiceRepository {
             @Override
             protected LiveData<ApiResponse<List<AboutField>>> createCall() {
                 return service.getAbout();
+            }
+        }.asLiveData();
+    }
+
+    public LiveData<Resource<List<Course>>> getCourses() {
+        return new NetworkBoundResource<List<Course>, List<Course>>(executors) {
+            @Override
+            protected void saveCallResult(@NonNull List<Course> item) {
+                database.courseDao().deleteAndInsertAll(item);
+            }
+
+            @Override
+            protected boolean shouldFetch(@Nullable List<Course> data) {
+                return data == null || data.isEmpty() || data.get(0).isOutdated();
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<List<Course>> loadFromDb() {
+                return database.courseDao().getAllCourses();
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<List<Course>>> createCall() {
+                return service.getCourses();
             }
         }.asLiveData();
     }

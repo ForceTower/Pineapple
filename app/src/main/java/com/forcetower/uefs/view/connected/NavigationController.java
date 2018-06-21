@@ -26,6 +26,7 @@ import com.forcetower.uefs.view.connected.fragments.EventsFragment;
 import com.forcetower.uefs.view.connected.fragments.GoldMonkeyFragment;
 import com.forcetower.uefs.view.connected.fragments.OutdatedFragment;
 import com.forcetower.uefs.view.connected.fragments.ProfileFragment;
+import com.forcetower.uefs.view.connected.fragments.SelectCourseFragment;
 import com.forcetower.uefs.view.connected.fragments.SuggestionFragment;
 import com.forcetower.uefs.view.connected.fragments.TheAdventureFragment;
 
@@ -216,5 +217,10 @@ public class NavigationController {
 
     public void backTo(String tag) {
         fragmentManager.popBackStack(tag, 0);
+    }
+
+    public void navigateToSelectCourse() {
+        Fragment fragment = new SelectCourseFragment();
+        changeFragment(fragment, "select_course", true);
     }
 }

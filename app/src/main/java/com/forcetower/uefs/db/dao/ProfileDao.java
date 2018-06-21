@@ -32,4 +32,7 @@ public interface ProfileDao {
 
     @Query("UPDATE Profile SET last_sync_attempt = :timeInMillis")
     void setLastSyncAttempt(long timeInMillis);
+
+    @Query("UPDATE Profile SET course = :name")
+    void setProfileCourse(String name);
 }

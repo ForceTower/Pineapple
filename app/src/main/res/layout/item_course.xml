@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="course"
+            type="com.forcetower.uefs.db_service.entity.Course"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:foreground="?attr/selectableItemBackground">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/image"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:imageUrl="@{course.imageUrl}"
+            android:layout_margin="8dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@id/image"
+            android:layout_toRightOf="@id/image"
+            android:padding="8dp"
+            android:text="@{course.name}"
+            tools:text="Engenharia de Computação"
+            android:textAlignment="gravity"
+            android:gravity="center_vertical"
+            android:textSize="15sp"
+            android:textColor="@color/colorPrimary"
+            android:fontFamily="@font/roboto_regular"/>
+
+    </RelativeLayout>
+
+</layout>

@@ -17,6 +17,7 @@ public class Profile {
     private long lastSync;
     @ColumnInfo(name = "last_sync_attempt")
     private long lastSyncAttempt;
+    private String course;
 
     public Profile(String name, double score) {
         this.name = name;
@@ -61,5 +62,13 @@ public class Profile {
 
     public void setLastSyncAttempt(long lastSyncAttempt) {
         this.lastSyncAttempt = lastSyncAttempt;
+    }
+
+    public String getCourse() {
+        return course;
+    }
+
+    public void setCourse(String course) {
+        this.course = course;
     }
 }

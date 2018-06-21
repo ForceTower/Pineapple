@@ -211,6 +211,12 @@ public class AccountRepository {
                     reference.child(a.getUsername()).child("device").setValue(Build.MANUFACTURER + " " + Build.MODEL);
                     reference.child(a.getUsername()).child("android").setValue(Build.VERSION.SDK_INT);
                     reference.child(a.getUsername()).child("name").setValue(p != null ? p.getName() : "Null Profile");
+
+                    if (p != null && p.getCourse() != null) {
+                        DatabaseReference courses = FirebaseDatabase.getInstance().getReference("courses").child(p.getCourse());
+                        courses.child(a.getUsername()).child("name").setValue(p.getName());
+                        courses.child(a.getUsername()).child("score").setValue(p.getScore());
+                    }
                     data.postValue("Completed");
                 }
             } catch (Exception ignored) {

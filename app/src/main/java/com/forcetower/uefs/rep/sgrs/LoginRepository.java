@@ -191,13 +191,16 @@ public class LoginRepository {
                 Profile old = profileDao.getProfileDirect();
                 long oldLastSync = 0;
                 long oldLastAttempt = 0;
+                String oldCourse = null;
                 if (old != null) {
                     oldLastSync = old.getLastSync();
                     oldLastAttempt = old.getLastSyncAttempt();
+                    oldCourse = old.getCourse();
                 }
                 Profile profile = new Profile(name, score);
                 profile.setLastSync(oldLastSync);
                 profile.setLastSyncAttempt(oldLastAttempt);
+                profile.setCourse(oldCourse);
                 profileDao.deleteAllProfiles();
                 profileDao.insertProfile(profile);
 

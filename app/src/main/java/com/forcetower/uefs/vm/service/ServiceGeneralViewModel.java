@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
 import com.forcetower.uefs.db_service.entity.AboutField;
+import com.forcetower.uefs.db_service.entity.Course;
 import com.forcetower.uefs.db_service.entity.QuestionAnswer;
 import com.forcetower.uefs.db_service.helper.CreditAndMentions;
 import com.forcetower.uefs.rep.helper.Resource;
@@ -21,6 +22,7 @@ public class ServiceGeneralViewModel extends ViewModel {
     private LiveData<Resource<List<CreditAndMentions>>> creditsSrc;
     private LiveData<Resource<List<QuestionAnswer>>> faqSrc;
     private LiveData<Resource<List<AboutField>>> aboutSrc;
+    private LiveData<Resource<List<Course>>> coursesSrc;
 
     @Inject
     ServiceGeneralViewModel(ServiceRepository repository) {
@@ -40,5 +42,11 @@ public class ServiceGeneralViewModel extends ViewModel {
     public LiveData<Resource<List<AboutField>>> getAbout() {
         if (aboutSrc == null) aboutSrc = repository.getAbout();
         return aboutSrc;
+    }
+
+    public LiveData<Resource<List<Course>>> getCourses() {
+        if (coursesSrc == null)
+            coursesSrc = repository.getCourses();
+        return coursesSrc;
     }
 }

@@ -466,4 +466,21 @@
     <string name="preparing_fetch">Preparando-se</string>
     <string name="sagres_is_bugged_again">O SAGRES está bugado... De novo</string>
     <string name="attempting_alternate_way">Tentando de maneira alternativa...</string>
+    <string name="development_only_android_5">Em desenvolvimento, somente Android 5.0 ou superior</string>
+    <string name="setup_your_course">Qual seu curso?</string>
+    <string name="course_answer">Ver</string>
+    <string name="loading_courses_list">Carregando lista de cursos</string>
+    <string name="failed_loading_courses">Falha ao carregar cursos :(</string>
+    <string name="course_selection">Curso Selecionado</string>
+    <string name="course_selection_help">___btn_click_help_course___</string>
+    <string name="ok">Ok</string>
+    <string name="confirm">Confirmar</string>
+    <string name="course_selected">Você selecionou o curso %1$s</string>
+    <string name="is_this_your_course">Este é o seu curso?</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+    <string name="title_select_course">Selecionar Curso</string>
+    <string name="title_change_course">Selecione seu curso</string>
+    <string name="title_change_course_desc">Mude o curso mostrado no aplicativo</string>
+    <string name="course_undefined">Curso indefinido</string>
 </resources>

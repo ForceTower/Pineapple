@@ -21,6 +21,7 @@ import com.forcetower.uefs.view.connected.fragments.OutdatedFragment;
 import com.forcetower.uefs.view.connected.fragments.OverviewFragment;
 import com.forcetower.uefs.view.connected.fragments.ProfileFragment;
 import com.forcetower.uefs.view.connected.fragments.ScheduleFragment;
+import com.forcetower.uefs.view.connected.fragments.SelectCourseFragment;
 import com.forcetower.uefs.view.connected.fragments.SemesterGradesFragment;
 import com.forcetower.uefs.view.connected.fragments.TheAdventureFragment;
 
@@ -90,7 +91,7 @@ public abstract class FragmentsModule {
     abstract EventCreationStartFragment contributeEventCreationStart();
 
     @ContributesAndroidInjector
-    abstract EventCreationOneFragment contrubuteEventCreationOneFragment();
+    abstract EventCreationOneFragment contributeEventCreationOneFragment();
 
     @ContributesAndroidInjector
     abstract EventCreationTwoFragment contributeEventCreationTwoFragment();
@@ -103,4 +104,7 @@ public abstract class FragmentsModule {
 
     @ContributesAndroidInjector
     abstract EventCreationPreviewFragment contributeEventCreationPreviewFragment();
+
+    @ContributesAndroidInjector
+    abstract SelectCourseFragment contributeSelectCourseFragment();
 }
