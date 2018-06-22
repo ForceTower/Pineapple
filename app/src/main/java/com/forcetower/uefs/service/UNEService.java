@@ -78,4 +78,7 @@ public interface UNEService {
 
     @POST("events/new")
     Call<ActionResult<Event>> createEvent(@Body Event event);
+
+    @GET("events/approval")
+    LiveData<ApiResponse<List<Event>>> getUnapprovedEvents();
 }

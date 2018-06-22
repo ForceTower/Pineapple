@@ -36,6 +36,7 @@ public class EventsViewModel extends ViewModel {
     private final MutableLiveData<Boolean> sendingBooleanSrc;
 
     private LiveData<Resource<List<Event>>> eventSrc;
+    private LiveData<Resource<List<Event>>> eventUnapprovedSrc;
 
     private Uri currentImageUri;
     private Event currentEvent;
@@ -103,5 +104,10 @@ public class EventsViewModel extends ViewModel {
 
     public void setCurrentEvent(Event event) {
         this.currentEvent = event;
+    }
+
+    public LiveData<Resource<List<Event>>> getUnapprovedEvents() {
+        if (eventUnapprovedSrc == null) eventUnapprovedSrc = repository.getUnapprovedEvents();
+        return eventUnapprovedSrc;
     }
 }

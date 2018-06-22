@@ -68,6 +68,11 @@ public class Profile {
         return course;
     }
 
+    public String getCourseFixed() {
+        if (getCourse() == null) return "";
+        return getCourse().replace("/", "");
+    }
+
     public void setCourse(String course) {
         this.course = course;
     }

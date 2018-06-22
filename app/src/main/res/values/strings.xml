@@ -483,4 +483,7 @@
     <string name="title_change_course">Selecione seu curso</string>
     <string name="title_change_course_desc">Mude o curso mostrado no aplicativo</string>
     <string name="course_undefined">Curso indefinido</string>
+    <string name="title_master_configuration">Configurações Mestras</string>
+    <string name="update_control">Controle de Atualização</string>
+    <string name="event_approval">Aprovação de Eventos</string>
 </resources>

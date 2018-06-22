@@ -30,6 +30,16 @@ public class Access {
         return username;
     }
 
+    public String getUsernameFixed() {
+        if (username == null) return "";
+
+        return username.replace(".", "")
+                .replace("#", "")
+                .replace("$", "")
+                .replace("[", "")
+                .replace("]", "");
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }

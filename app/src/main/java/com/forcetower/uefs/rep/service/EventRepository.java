@@ -93,4 +93,30 @@ public class EventRepository {
             }
         }.asLiveData();
     }
+
+    public LiveData<Resource<List<Event>>> getUnapprovedEvents() {
+        return new NetworkBoundResource<List<Event>, List<Event>>(executors) {
+            @Override
+            protected void saveCallResult(@NonNull List<Event> item) {
+                database.eventDao().deleteAndInsertUnapproved(item);
+            }
+
+            @Override
+            protected boolean shouldFetch(@Nullable List<Event> data) {
+                return data == null || data.isEmpty() || data.get(0).isOutdated();
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<List<Event>> loadFromDb() {
+                return database.eventDao().getAllUnapprovedEvents();
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<List<Event>>> createCall() {
+                return service.getUnapprovedEvents();
+            }
+        }.asLiveData();
+    }
 }

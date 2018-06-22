@@ -203,15 +203,17 @@ public class SagresSyncJobService extends JobService {
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("firebase_tokens");
             String token = FirebaseInstanceId.getInstance().getToken();
             if (token != null) {
-                reference.child(a.getUsername()).child("token").setValue(token);
-                reference.child(a.getUsername()).child("device").setValue(Build.MANUFACTURER + " " + Build.MODEL);
-                reference.child(a.getUsername()).child("android").setValue(Build.VERSION.SDK_INT);
-                reference.child(a.getUsername()).child("name").setValue(p != null ? p.getName() : "Null Profile");
+                reference.child(a.getUsernameFixed()).child("token").setValue(token);
+                reference.child(a.getUsernameFixed()).child("device").setValue(Build.MANUFACTURER + " " + Build.MODEL);
+                reference.child(a.getUsernameFixed()).child("android").setValue(Build.VERSION.SDK_INT);
+                reference.child(a.getUsernameFixed()).child("name").setValue(p != null ? p.getName() : "Null Profile");
 
+                List<Semester> semesters = database.semesterDao().getAllSemestersDirect();
                 if (p != null && p.getCourse() != null) {
-                    DatabaseReference courses = FirebaseDatabase.getInstance().getReference("courses").child(p.getCourse());
-                    courses.child(a.getUsername()).child("name").setValue(p.getName());
-                    courses.child(a.getUsername()).child("score").setValue(p.getScore());
+                    DatabaseReference courses = FirebaseDatabase.getInstance().getReference("courses").child(p.getCourseFixed());
+                    courses.child(a.getUsernameFixed()).child("name").setValue(p.getName());
+                    courses.child(a.getUsernameFixed()).child("score").setValue(p.getScore());
+                    courses.child(a.getUsernameFixed()).child("semester").setValue(semesters.size());
                 }
             }
         }

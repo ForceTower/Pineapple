@@ -28,6 +28,7 @@ import static com.forcetower.uefs.db.DatabaseMigrations.MIGRATION_2_3;
 import static com.forcetower.uefs.db.DatabaseMigrations.MIGRATION_3_4;
 import static com.forcetower.uefs.db.DatabaseMigrations.MIGRATION_4_5;
 import static com.forcetower.uefs.db.DatabaseMigrations.MIGRATION_5_6;
+import static com.forcetower.uefs.db_service.ServiceDatabaseMigrations.MIGRATION_SERVICE_2_3;
 
 /**
  * Created by João Paulo on 05/03/2018.
@@ -48,8 +49,8 @@ public class AppModule {
     @Provides
     @Singleton
     ServiceDatabase provideServiceDatabase(Application application) {
-        return Room.databaseBuilder(application, ServiceDatabase.class, BuildConfig.DEBUG ? "unes_testing.db" : "uneverse_uefs.db")
-                .fallbackToDestructiveMigration()
+        return Room.databaseBuilder(application, ServiceDatabase.class, "uneverse_uefs.db")
+                .addMigrations(MIGRATION_SERVICE_2_3)
                 .build();
     }
 

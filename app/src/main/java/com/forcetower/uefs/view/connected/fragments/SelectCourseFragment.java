@@ -87,7 +87,7 @@ public class SelectCourseFragment extends Fragment implements Injectable {
                     case -1:
                         if (profile != null && access != null && profile.getCourse() != null) {
                             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("courses");
-                            reference.child(profile.getCourse()).child(access.getUsername()).removeValue()
+                            reference.child(profile.getCourseFixed()).child(access.getUsernameFixed()).removeValue()
                                     .addOnSuccessListener(aVoid -> {
                                         Timber.d("Finished");
                                      });

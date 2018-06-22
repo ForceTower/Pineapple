@@ -85,6 +85,7 @@ public class Event {
     @SerializedName(value = "created_at")
     @ColumnInfo(name = "created_at")
     private String createdAt;
+    private boolean approved;
 
     public Event(@NonNull String name, @NonNull String subtitle, @NonNull String description, String imageUrl, @NonNull String creatorName, @NonNull String creatorUsername, int creatorId, @NonNull String offeredBy, @NonNull String startDate, @NonNull String startTime, String endDate, String endTime, @NonNull String location, boolean isFree, double price) {
         this.name = name;
@@ -331,5 +332,13 @@ public class Event {
 
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
     }
 }

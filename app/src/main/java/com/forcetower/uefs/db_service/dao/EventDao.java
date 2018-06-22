@@ -23,22 +23,38 @@ public abstract class EventDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract void insert(List<Event> events);
 
-    @Query("SELECT * FROM Event ORDER BY created_at DESC")
+    @Query("SELECT * FROM Event WHERE approved = 1 ORDER BY created_at DESC")
     public abstract LiveData<List<Event>> getAllEvents();
 
     @Delete
     public abstract void delete(List<Event> events);
 
-    @Query("DELETE FROM Event")
-    public abstract void deleteAll();
+    @Query("DELETE FROM Event WHERE approved = 1")
+    public abstract void deleteAllApproved();
+
+    @Query("DELETE FROM Event WHERE approved = 0")
+    public abstract void deleteAllUnapproved();
 
     @Transaction
     public void deleteAndInsert(List<Event> events) {
-        deleteAll();
+        deleteAllApproved();
         insert(events);
         updateInsertionTime(System.currentTimeMillis()/1000);
     }
 
-    @Query("UPDATE Event SET inserted_at = :createdAt")
+    @Query("UPDATE Event SET inserted_at = :createdAt WHERE approved = 1")
     public abstract void updateInsertionTime(long createdAt);
+
+    @Query("UPDATE Event SET inserted_at = :createdAt WHERE approved = 0")
+    public abstract void updateInsertionTimeUnapproved(long createdAt);
+
+    @Query("SELECT * FROM Event WHERE approved = 0")
+    public abstract LiveData<List<Event>> getAllUnapprovedEvents();
+
+    @Transaction
+    public void deleteAndInsertUnapproved(List<Event> events) {
+        deleteAllUnapproved();
+        insert(events);
+        updateInsertionTimeUnapproved(System.currentTimeMillis()/1000);
+    }
 }

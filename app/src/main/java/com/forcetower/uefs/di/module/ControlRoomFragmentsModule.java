@@ -1,5 +1,6 @@
 package com.forcetower.uefs.di.module;
 
+import com.forcetower.uefs.view.control_room.fragments.EventApprovalFragment;
 import com.forcetower.uefs.view.control_room.fragments.MasterSyncControlFragment;
 
 import dagger.Module;
@@ -12,4 +13,6 @@ import dagger.android.ContributesAndroidInjector;
 public abstract class ControlRoomFragmentsModule {
     @ContributesAndroidInjector
     abstract MasterSyncControlFragment contributeMasterSyncControlFragment();
+    @ContributesAndroidInjector
+    abstract EventApprovalFragment contributeEventApprovalFragment();
 }

@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.UBaseActivity;
+import com.forcetower.uefs.view.control_room.fragments.ControlRoomSelectionFragment;
 import com.forcetower.uefs.view.control_room.fragments.MasterSyncControlFragment;
 
 import javax.inject.Inject;
@@ -55,7 +56,7 @@ public class ControlRoomActivity extends UBaseActivity implements HasSupportFrag
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(R.string.title_update_control);
+            getSupportActionBar().setTitle(R.string.title_master_configuration);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
@@ -63,7 +64,7 @@ public class ControlRoomActivity extends UBaseActivity implements HasSupportFrag
 
     private void navigateToSyncControl() {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, new MasterSyncControlFragment())
+                .replace(R.id.container, new ControlRoomSelectionFragment())
                 .commitAllowingStateLoss();
     }
 

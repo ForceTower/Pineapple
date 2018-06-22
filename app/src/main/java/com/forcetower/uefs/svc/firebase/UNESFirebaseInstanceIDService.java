@@ -46,10 +46,10 @@ public class UNESFirebaseInstanceIDService extends FirebaseInstanceIdService {
             Profile p = profileDao.getProfileDirect();
             if (a == null) return;
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("firebase_tokens");
-            reference.child(a.getUsername()).child("token").setValue(refreshedToken);
-            reference.child(a.getUsername()).child("device").setValue(Build.MANUFACTURER + " " + Build.MODEL);
-            reference.child(a.getUsername()).child("android").setValue(Build.VERSION.SDK_INT);
-            reference.child(a.getUsername()).child("name").setValue(p.getName());
+            reference.child(a.getUsernameFixed()).child("token").setValue(refreshedToken);
+            reference.child(a.getUsernameFixed()).child("device").setValue(Build.MANUFACTURER + " " + Build.MODEL);
+            reference.child(a.getUsernameFixed()).child("android").setValue(Build.VERSION.SDK_INT);
+            reference.child(a.getUsernameFixed()).child("name").setValue(p.getName());
         } catch (Exception e) {
             Crashlytics.logException(e);
         }
