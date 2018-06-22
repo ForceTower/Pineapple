@@ -13,6 +13,7 @@ import dagger.Module;
 import dagger.Provides;
 
 import static com.forcetower.uefs.db_service.ServiceDatabaseMigrations.MIGRATION_SERVICE_2_3;
+import static com.forcetower.uefs.db_service.ServiceDatabaseMigrations.MIGRATION_SERVICE_3_4;
 
 /**
  * Created by João Paulo on 08/05/2018.
@@ -24,7 +25,7 @@ public class DatabaseServiceModule {
     @Singleton
     ServiceDatabase provideServiceDatabase(Application application) {
         return Room.databaseBuilder(application, ServiceDatabase.class, "uneverse_uefs.db")
-                .addMigrations(MIGRATION_SERVICE_2_3)
+                .addMigrations(MIGRATION_SERVICE_2_3, MIGRATION_SERVICE_3_4)
                 .build();
     }
 

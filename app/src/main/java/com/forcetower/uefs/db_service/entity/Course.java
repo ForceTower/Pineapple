@@ -23,6 +23,9 @@ public class Course {
     @ColumnInfo(name = "inserted_at")
     @SerializedName(value = "inserted_at")
     private long insertedAt;
+    @ColumnInfo(name = "number_of_semesters")
+    @SerializedName(value = "number_of_semesters")
+    private int numberOfSemesters;
 
     public Course(String name, String imageUrl) {
         this.name = name;
@@ -70,5 +73,13 @@ public class Course {
         else
             Timber.d("Course Up To Date");
         return outdated;
+    }
+
+    public int getNumberOfSemesters() {
+        return numberOfSemesters;
+    }
+
+    public void setNumberOfSemesters(int numberOfSemesters) {
+        this.numberOfSemesters = numberOfSemesters;
     }
 }

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 4,
-    "identityHash": "81d0a0c7fd8310b1db05b1afb768b3fa",
+    "identityHash": "762dc3f37cb5182f8b730cd048e8d056",
     "entities": [
       {
         "tableName": "AccessToken",
@@ -282,7 +282,7 @@
       },
       {
         "tableName": "Event",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `subtitle` TEXT NOT NULL, `description` TEXT NOT NULL, `image_url` TEXT, `creator_name` TEXT NOT NULL, `creator_username` TEXT NOT NULL, `creator_id` INTEGER NOT NULL, `offered_by` TEXT NOT NULL, `start_date` TEXT NOT NULL, `start_time` TEXT NOT NULL, `end_date` TEXT, `end_time` TEXT, `location` TEXT NOT NULL, `is_free` INTEGER NOT NULL, `price` REAL NOT NULL, `inserted_at` INTEGER NOT NULL, `has_certificate` INTEGER NOT NULL, `certificate_hours` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `subtitle` TEXT NOT NULL, `description` TEXT NOT NULL, `image_url` TEXT, `creator_name` TEXT NOT NULL, `creator_username` TEXT NOT NULL, `creator_id` INTEGER NOT NULL, `offered_by` TEXT NOT NULL, `start_date` TEXT NOT NULL, `start_time` TEXT NOT NULL, `end_date` TEXT, `end_time` TEXT, `location` TEXT NOT NULL, `is_free` INTEGER NOT NULL, `price` REAL NOT NULL, `inserted_at` INTEGER NOT NULL, `has_certificate` INTEGER NOT NULL, `certificate_hours` INTEGER NOT NULL, `image_delete_hash` TEXT, `uuid` TEXT, `created_at` TEXT, `approved` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "uid",
@@ -397,6 +397,74 @@
             "columnName": "certificate_hours",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "deleteHash",
+            "columnName": "image_delete_hash",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "uuid",
+            "columnName": "uuid",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "created_at",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "approved",
+            "columnName": "approved",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "uid"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Course",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `image_url` TEXT, `inserted_at` INTEGER NOT NULL, `number_of_semesters` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "uid",
+            "columnName": "uid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "imageUrl",
+            "columnName": "image_url",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "insertedAt",
+            "columnName": "inserted_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "numberOfSemesters",
+            "columnName": "number_of_semesters",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -411,7 +479,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"81d0a0c7fd8310b1db05b1afb768b3fa\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"762dc3f37cb5182f8b730cd048e8d056\")"
     ]
   }
 }
