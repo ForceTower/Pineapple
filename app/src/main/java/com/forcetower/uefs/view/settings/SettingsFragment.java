@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.work.SyncWorkerUtils;
+import com.forcetower.uefs.work.sync.SyncWorkerUtils;
 
 import timber.log.Timber;
 

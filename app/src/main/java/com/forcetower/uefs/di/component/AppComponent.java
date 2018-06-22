@@ -10,14 +10,14 @@ import com.forcetower.uefs.di.module.DatabaseServiceModule;
 import com.forcetower.uefs.di.module.NetworkModule;
 import com.forcetower.uefs.di.module.ReceiversModule;
 import com.forcetower.uefs.di.module.ServicesModule;
-import com.forcetower.uefs.work.SagresSyncWorker;
+import com.forcetower.uefs.work.event.CreateEventWorker;
+import com.forcetower.uefs.work.sync.SagresSyncWorker;
 
 import javax.inject.Singleton;
 
 import dagger.BindsInstance;
 import dagger.Component;
 import dagger.android.AndroidInjectionModule;
-import dagger.android.support.AndroidSupportInjection;
 import dagger.android.support.AndroidSupportInjectionModule;
 
 /**
@@ -45,6 +45,7 @@ public interface AppComponent {
 
     void inject(UEFSApplication application);
     void inject(SagresSyncWorker worker);
+    void inject(CreateEventWorker worker);
 
     LollipopGreaterServiceComponent lollipopServiceComponent();
 }

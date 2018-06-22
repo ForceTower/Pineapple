@@ -72,7 +72,7 @@ import com.forcetower.uefs.vm.base.ProfileViewModel;
 import com.forcetower.uefs.vm.base.ScheduleViewModel;
 import com.forcetower.uefs.vm.google.AchievementsViewModel;
 import com.forcetower.uefs.vm.universe.UAccountViewModel;
-import com.forcetower.uefs.work.SyncWorkerUtils;
+import com.forcetower.uefs.work.sync.SyncWorkerUtils;
 
 import java.io.File;
 import java.util.Arrays;

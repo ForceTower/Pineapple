@@ -17,7 +17,7 @@ import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.view.connected.NavigationController;
 import com.forcetower.uefs.vm.UEFSViewModelFactory;
 import com.forcetower.uefs.vm.service.EventsViewModel;
-import com.forcetower.uefs.worker.event.EventScheduler;
+import com.forcetower.uefs.work.event.CreateEventWorker;
 
 import javax.inject.Inject;
 
@@ -51,7 +51,7 @@ public class EventCreationPreviewFragment extends Fragment implements Injectable
     }
 
     private void onCreateEventClick() {
-        EventScheduler.scheduleEventCreation(viewModel.getCurrentEvent(), dispatcher, requireContext());
+        CreateEventWorker.invokeWorker(viewModel.getCurrentEvent());
         viewModel.setCurrentEvent(null);
         controller.backTo("list_events");
     }

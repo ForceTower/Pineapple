@@ -14,7 +14,7 @@ import com.forcetower.uefs.di.AppInjector;
 import com.forcetower.uefs.di.component.AppComponent;
 import com.forcetower.uefs.di.injector.HasLollipopServiceInjector;
 import com.forcetower.uefs.ntf.NotificationHelper;
-import com.forcetower.uefs.work.SyncWorkerUtils;
+import com.forcetower.uefs.work.sync.SyncWorkerUtils;
 import com.squareup.picasso.Picasso;
 
 import org.jsoup.nodes.Document;

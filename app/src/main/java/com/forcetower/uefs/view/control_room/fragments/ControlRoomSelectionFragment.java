@@ -32,14 +32,14 @@ public class ControlRoomSelectionFragment extends Fragment {
         UniverseActivity.startActivity(requireContext());
     }
 
-    private void goToEventApproval() {
+    private void goToMasterSync() {
         requireFragmentManager().beginTransaction()
                 .replace(R.id.container, new MasterSyncControlFragment(), "update_control")
                 .addToBackStack("update_control")
                 .commitAllowingStateLoss();
     }
 
-    private void goToMasterSync() {
+    private void goToEventApproval() {
         requireFragmentManager().beginTransaction()
                 .replace(R.id.container, new EventApprovalFragment(), "event_approval")
                 .addToBackStack("event_approval")

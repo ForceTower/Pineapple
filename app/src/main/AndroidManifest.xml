@@ -95,11 +95,6 @@
             </intent-filter>
         </service>
 
-        <service
-            android:name=".worker.event.CreateEventWorker"
-            android:exported="true"
-            android:permission="android.permission.BIND_JOB_SERVICE"/>
-
         <activity android:name=".view.universe.UniverseActivity">
         </activity>
         <activity android:name=".game.g2048.activity.Game2048Activity">

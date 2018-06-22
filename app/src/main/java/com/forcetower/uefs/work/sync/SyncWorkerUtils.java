@@ -1,4 +1,4 @@
-package com.forcetower.uefs.work;
+package com.forcetower.uefs.work.sync;
 
 import android.content.Context;
 import android.content.SharedPreferences;

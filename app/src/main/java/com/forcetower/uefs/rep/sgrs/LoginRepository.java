@@ -52,8 +52,7 @@ import com.forcetower.uefs.sgrs.parsers.SagresGradeParser;
 import com.forcetower.uefs.sgrs.parsers.SagresMessageParser;
 import com.forcetower.uefs.sgrs.parsers.SagresScheduleParser;
 import com.forcetower.uefs.sgrs.parsers.SagresSemesterParser;
-import com.forcetower.uefs.work.SagresSyncWorker;
-import com.forcetower.uefs.work.SyncWorkerUtils;
+import com.forcetower.uefs.work.sync.SyncWorkerUtils;
 import com.franmontiel.persistentcookiejar.ClearableCookieJar;
 
 import org.jsoup.nodes.Document;
