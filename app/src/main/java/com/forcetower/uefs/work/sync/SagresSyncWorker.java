@@ -195,6 +195,7 @@ public class SagresSyncWorker extends Worker {
     private void setupData() {
         Access a = uDatabase.accessDao().getAccessDirect();
         Profile p = uDatabase.profileDao().getProfileDirect();
+        List<Semester> semesters = uDatabase.semesterDao().getAllSemestersDirect();
         if (a != null) {
             Crashlytics.setUserIdentifier(a.getUsername());
             Crashlytics.setUserName(p != null ? p.getName() : "Undefined");
@@ -210,6 +211,7 @@ public class SagresSyncWorker extends Worker {
                     DatabaseReference courses = FirebaseDatabase.getInstance().getReference("courses").child(p.getCourseFixed());
                     courses.child(a.getUsernameFixed()).child("name").setValue(p.getName());
                     courses.child(a.getUsernameFixed()).child("score").setValue(p.getScore());
+                    courses.child(a.getUsernameFixed()).child("semester").setValue(semesters.size());
                 }
             }
         }
