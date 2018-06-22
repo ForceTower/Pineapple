@@ -20,6 +20,7 @@ import com.forcetower.uefs.view.connected.fragments.NewScheduleFragment;
 import com.forcetower.uefs.view.connected.fragments.OutdatedFragment;
 import com.forcetower.uefs.view.connected.fragments.OverviewFragment;
 import com.forcetower.uefs.view.connected.fragments.ProfileFragment;
+import com.forcetower.uefs.view.connected.fragments.RemindersFragment;
 import com.forcetower.uefs.view.connected.fragments.ScheduleFragment;
 import com.forcetower.uefs.view.connected.fragments.SelectCourseFragment;
 import com.forcetower.uefs.view.connected.fragments.SemesterGradesFragment;
@@ -107,4 +108,7 @@ public abstract class FragmentsModule {
 
     @ContributesAndroidInjector
     abstract SelectCourseFragment contributeSelectCourseFragment();
+
+    @ContributesAndroidInjector
+    abstract RemindersFragment contributeRemindersFragment();
 }

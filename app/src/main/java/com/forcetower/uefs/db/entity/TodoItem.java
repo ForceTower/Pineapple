@@ -15,6 +15,8 @@ public class TodoItem {
     private String disciplineCode;
     private String title;
     @Nullable
+    private String message;
+    @Nullable
     private String date;
     private boolean hasTimeLimit;
     private boolean completed;
@@ -83,5 +85,14 @@ public class TodoItem {
 
     public void setShown(boolean shown) {
         this.shown = shown;
+    }
+
+    @Nullable
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(@Nullable String message) {
+        this.message = message;
     }
 }

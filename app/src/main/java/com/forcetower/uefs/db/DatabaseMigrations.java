@@ -54,4 +54,12 @@ public class DatabaseMigrations {
             database.execSQL("ALTER TABLE Profile ADD COLUMN course TEXT");
         }
     };
+
+    public static final Migration MIGRATION_6_7 = new Migration(6, 7) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            Timber.d("Executing migration 6 -> 7");
+            database.execSQL("ALTER TABLE TodoItem ADD COLUMN message TEXT");
+        }
+    };
 }

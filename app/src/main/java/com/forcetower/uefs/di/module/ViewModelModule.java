@@ -14,6 +14,7 @@ import com.forcetower.uefs.vm.base.LoginViewModel;
 import com.forcetower.uefs.vm.base.MessagesViewModel;
 import com.forcetower.uefs.vm.base.ProfileViewModel;
 import com.forcetower.uefs.vm.base.ScheduleViewModel;
+import com.forcetower.uefs.vm.base.TodoItemViewModel;
 import com.forcetower.uefs.vm.google.AchievementsViewModel;
 import com.forcetower.uefs.vm.google.GoogleCalendarViewModel;
 import com.forcetower.uefs.vm.service.EventsViewModel;
@@ -100,6 +101,11 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(EventsViewModel.class)
     abstract ViewModel bindEventsViewModel(EventsViewModel eventsViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(TodoItemViewModel.class)
+    abstract ViewModel bindTodoItemViewModel(TodoItemViewModel todoItemViewModel);
 
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(UEFSViewModelFactory factory);

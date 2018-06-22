@@ -8,8 +8,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/show_completed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/show_complete_todo_items"
+            android:layout_alignParentEnd="true"
+            android:padding="8dp"
+            android:layout_alignParentRight="true"/>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_reminders"
+            android:layout_below="@id/show_completed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
@@ -18,6 +28,7 @@
 
         <LinearLayout
             android:id="@+id/no_reminders_layout"
+            android:layout_below="@id/show_completed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"

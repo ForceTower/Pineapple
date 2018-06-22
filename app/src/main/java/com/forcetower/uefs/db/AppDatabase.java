@@ -53,7 +53,7 @@ import com.forcetower.uefs.db.entity.TodoItem;
         TodoItem.class,
         Profile.class,
         CalendarEvent.class
-}, version = 6)
+}, version = 7)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract AccessDao accessDao();
     public abstract CalendarItemDao calendarItemDao();
