@@ -74,7 +74,8 @@ public class UEFSApplication extends Application implements HasActivityInjector,
 
     private void configureFeatures() {
         new NotificationHelper(this).createChannels();
-        String strFrequency = PreferenceManager.getDefaultSharedPreferences(this).getString("sync_frequency", "60");
+        String strFrequency = PreferenceManager.getDefaultSharedPreferences(this)
+                .getString("sync_frequency", "60");
         int frequency = 60;
         try {
             frequency = Integer.parseInt(strFrequency);
