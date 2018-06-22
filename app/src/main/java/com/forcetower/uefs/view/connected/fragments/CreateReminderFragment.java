@@ -61,12 +61,12 @@ public class CreateReminderFragment extends BottomSheetDialogFragment implements
 
     private void openDatePicker() {
         DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(), (view, sYear, sMonth, sDay) -> {
-            sMonth++;
-            binding.etDateLimit.setText(getString(R.string.date_format, stringify(sDay), stringify(sMonth), sYear));
-            binding.etDateLimit.clearFocus();
             this.year = sYear;
             this.mont = sMonth;
             this.date = sDay;
+            sMonth++;
+            binding.etDateLimit.setText(getString(R.string.date_format, stringify(sDay), stringify(sMonth), sYear));
+            binding.etDateLimit.clearFocus();
         }, year, mont, date);
 
         datePickerDialog.setTitle(R.string.select_date);
