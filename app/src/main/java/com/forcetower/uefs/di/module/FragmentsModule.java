@@ -4,6 +4,7 @@ import com.forcetower.uefs.view.connected.fragments.AllSemestersGradeFragment;
 import com.forcetower.uefs.view.connected.fragments.BigTrayFragment;
 import com.forcetower.uefs.view.connected.fragments.CalendarFragment;
 import com.forcetower.uefs.view.connected.fragments.ConnectedFragment;
+import com.forcetower.uefs.view.connected.fragments.CreateReminderFragment;
 import com.forcetower.uefs.view.connected.fragments.DisciplineClassesFragment;
 import com.forcetower.uefs.view.connected.fragments.DisciplineDetailsFragment;
 import com.forcetower.uefs.view.connected.fragments.DisciplinesFragment;
@@ -111,4 +112,7 @@ public abstract class FragmentsModule {
 
     @ContributesAndroidInjector
     abstract RemindersFragment contributeRemindersFragment();
+
+    @ContributesAndroidInjector
+    abstract CreateReminderFragment contributeCreateReminderFragment();
 }

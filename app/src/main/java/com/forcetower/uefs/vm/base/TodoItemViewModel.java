@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.ViewModel;
 
+import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.db.dao.TodoItemDao;
 import com.forcetower.uefs.db.entity.TodoItem;
 
@@ -17,14 +18,16 @@ import javax.inject.Inject;
 public class TodoItemViewModel extends ViewModel {
     private final TodoItemDao todoItemDao;
     private final MediatorLiveData<List<TodoItem>> source;
+    private final AppExecutors executors;
+
     private LiveData<List<TodoItem>> currentSource;
     private int state;
 
     @Inject
-    TodoItemViewModel(TodoItemDao dao) {
+    TodoItemViewModel(TodoItemDao dao, AppExecutors executors) {
         this.todoItemDao = dao;
-        source = new MediatorLiveData<>();
-        state = -1;
+        this.executors = executors;
+        this.source = new MediatorLiveData<>();
         getAllIncompleteTodoItems();
     }
 
@@ -46,5 +49,24 @@ public class TodoItemViewModel extends ViewModel {
 
     public LiveData<List<TodoItem>> getSource() {
         return source;
+    }
+
+    public void createTodoItem(String title, String message, String date, boolean hasLimit) {
+        executors.others().execute(() -> {
+            TodoItem item = new TodoItem(null, title, date, hasLimit);
+            item.setMessage(message);
+            todoItemDao.insertTodoItem(item);
+        });
+    }
+
+    public void markTodoItemCompleted(TodoItem item) {
+        executors.others().execute(() -> {
+            item.setCompleted(!item.isCompleted());
+            todoItemDao.insertTodoItem(item);
+        });
+    }
+
+    public void deleteTodoItem(TodoItem item) {
+        executors.others().execute(() -> todoItemDao.deleteTodoItem(item));
     }
 }

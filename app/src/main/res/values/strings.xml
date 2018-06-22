@@ -492,4 +492,13 @@
     <string name="reminders">Lembretes</string>
     <string name="title_reminders">Lembretes</string>
     <string name="nav_title_reminders">Lembretes</string>
+    <string name="create_reminder">Criar Lembrete</string>
+    <string name="reminder_title">Título</string>
+    <string name="reminder_message">Mensagem</string>
+    <string name="reminder_date">Data Limite</string>
+    <string name="save_reminder">Salvar</string>
+    <string name="has_date_limit_reminder">Tem data limite?</string>
+    <string name="reminder_title_too_short">Insira um título</string>
+    <string name="field_is_mandatory">O campo é obrigatório</string>
+    <string name="select_date">Selecione a Data</string>
 </resources>
