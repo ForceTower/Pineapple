@@ -13,6 +13,7 @@ import dagger.android.ContributesAndroidInjector;
 /**
  * Created by João Paulo on 11/05/2018.
  */
+@SuppressWarnings("WeakerAccess")
 @Module
 public abstract class UniverseFragmentsModule {
     @ContributesAndroidInjector

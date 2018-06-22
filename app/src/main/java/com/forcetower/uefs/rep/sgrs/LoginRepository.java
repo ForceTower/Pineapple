@@ -90,21 +90,17 @@ public class LoginRepository {
     private final OkHttpClient client;
     private final ClearableCookieJar cookieJar;
     private final Context context;
-    private final FirebaseJobDispatcher dispatcher;
     private final UEFSApplication application;
-
-    private Document temporaryDocument;
     private boolean sagresBugged;
 
     @Inject
     LoginRepository(AppExecutors executors, AppDatabase database, OkHttpClient client,
-                    ClearableCookieJar cookieJar, Context context, FirebaseJobDispatcher dispatcher, Application application) {
+                    ClearableCookieJar cookieJar, Context context, Application application) {
         this.executors = executors;
         this.database = database;
         this.client = client;
         this.cookieJar = cookieJar;
         this.context = context;
-        this.dispatcher = dispatcher;
         this.application = (UEFSApplication) application;
     }
 
@@ -276,7 +272,6 @@ public class LoginRepository {
 
             @Override
             public void saveDocument(@NonNull Document document) {
-                temporaryDocument = document;
                 application.saveDocument("student_page", document);
             }
         }.asLiveData();

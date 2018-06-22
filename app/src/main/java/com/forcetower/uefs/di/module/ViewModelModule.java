@@ -28,6 +28,7 @@ import dagger.multibindings.IntoMap;
  * Created by João Paulo on 05/03/2018.
  * Binds all view models into the factory so it can be created in Activities/Fragments etc
  */
+@SuppressWarnings("WeakerAccess")
 @Module
 public abstract class ViewModelModule {
     @Binds
@@ -88,7 +89,7 @@ public abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(UAccountViewModel.class)
-    abstract ViewModel bindUAcountViewModel(UAccountViewModel accountViewModel);
+    abstract ViewModel bindUAccountViewModel(UAccountViewModel accountViewModel);
 
     @Binds
     @IntoMap

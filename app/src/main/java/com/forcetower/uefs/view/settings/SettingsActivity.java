@@ -64,8 +64,6 @@ public class SettingsActivity extends UBaseActivity implements SettingsControlle
     LoginRepository repository;
     @Inject
     ViewModelProvider.Factory viewModelFactory;
-    @Inject
-    FirebaseJobDispatcher dispatcher;
 
     private GoogleAccountCredential googleCredential;
     private GoogleCalendarViewModel calendarViewModel;
@@ -358,11 +356,6 @@ public class SettingsActivity extends UBaseActivity implements SettingsControlle
                     resetExportToGoogleCalendar();
             }
         }
-    }
-
-    @Override
-    public FirebaseJobDispatcher getDispatcher() {
-        return dispatcher;
     }
 
     @Override

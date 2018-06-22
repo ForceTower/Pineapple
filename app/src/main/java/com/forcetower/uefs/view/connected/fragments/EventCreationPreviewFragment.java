@@ -29,8 +29,6 @@ public class EventCreationPreviewFragment extends Fragment implements Injectable
     UEFSViewModelFactory viewModelFactory;
     @Inject
     NavigationController controller;
-    @Inject
-    FirebaseJobDispatcher dispatcher;
 
     private FragmentEventCreationPreviewBinding binding;
     private EventsViewModel viewModel;

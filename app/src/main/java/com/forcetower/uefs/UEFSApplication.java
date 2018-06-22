@@ -44,8 +44,6 @@ public class UEFSApplication extends Application implements HasActivityInjector,
     DispatchingAndroidInjector<Service> dispatchingServiceAndroidInjector;
     @Inject
     DispatchingAndroidInjector<BroadcastReceiver> dispatchingBroadcastAndroidInjector;
-    @Inject
-    FirebaseJobDispatcher dispatcher;
 
     private AppComponent appComponent;
     private Map<String, Document> documents;

@@ -13,6 +13,4 @@ public interface SettingsController {
     void resetExportToCalendar();
 
     Context getContext();
-
-    FirebaseJobDispatcher getDispatcher();
 }

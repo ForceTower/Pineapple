@@ -128,8 +128,6 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     @Inject
     NavigationController navigationController;
     @Inject
-    FirebaseJobDispatcher dispatcher;
-    @Inject
     AppExecutors executors;
 
     @StringRes
@@ -169,18 +167,11 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         downloadCert = new NavigationCustomActionViews();
         downloadFlow = new NavigationCustomActionViews();
 
-        Timber.d("Screen DPI is: %d", getResources().getDisplayMetrics().densityDpi);
-        /*int target = getResources().getDisplayMetrics().densityDpi - 64;
-        ViewGroup.LayoutParams layoutParams = navigationView.getLayoutParams();
-        layoutParams.width = PixelUtils.getPixelsFromDp(this, target);
-        navigationView.setLayoutParams(layoutParams);*/
-
         ButterKnife.bind(navViews, navigationView.getHeaderView(0));
         ButterKnife.bind(downloadCert, navigationView.getMenu().findItem(R.id.nav_enrollment_certificate).getActionView());
         ButterKnife.bind(downloadFlow, navigationView.getMenu().findItem(R.id.nav_flowchart_certificate).getActionView());
 
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        //drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 

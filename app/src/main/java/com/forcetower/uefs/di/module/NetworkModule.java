@@ -5,6 +5,8 @@ import android.content.Context;
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.db_service.dao.AccessTokenDao;
 import com.forcetower.uefs.db_service.entity.AccessToken;
+import com.forcetower.uefs.service.UNEService;
+import com.forcetower.uefs.service.adapter.LiveDataCallAdapterFactory;
 import com.franmontiel.persistentcookiejar.ClearableCookieJar;
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
@@ -22,12 +24,26 @@ import okhttp3.Headers;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by João Paulo on 05/03/2018.
  */
 @Module
 public class NetworkModule {
+
+    @Provides
+    @Singleton
+    UNEService provideUNEService(OkHttpClient client) {
+        return new Retrofit.Builder()
+                .baseUrl(Constants.UNES_SERVICE_BASE)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(new LiveDataCallAdapterFactory())
+                .client(client)
+                .build()
+                .create(UNEService.class);
+    }
 
     @Singleton
     @Provides

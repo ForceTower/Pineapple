@@ -57,10 +57,8 @@ public class LoginFormFragment extends Fragment implements Injectable {
     ViewGroup vgForm;
 
     @Inject
-    FirebaseJobDispatcher dispatcher;
-    @Inject
     ViewModelProvider.Factory viewModelFactory;
-    LoginViewModel loginViewModel;
+    private LoginViewModel loginViewModel;
 
     @Nullable
     @Override
