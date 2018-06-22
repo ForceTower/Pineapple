@@ -486,4 +486,6 @@
     <string name="title_master_configuration">Configurações Mestras</string>
     <string name="update_control">Controle de Atualização</string>
     <string name="event_approval">Aprovação de Eventos</string>
+    <string name="no_reminders">Sem lembretes ativos! Hora de relaxar!</string>
+    <string name="relax">Relaxar</string>
 </resources>
