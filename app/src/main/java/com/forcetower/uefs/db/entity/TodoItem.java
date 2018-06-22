@@ -4,6 +4,10 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.Nullable;
 
+import com.forcetower.uefs.util.ObjectUtils;
+
+import java.util.Objects;
+
 /**
  * Created by João Paulo on 05/03/2018.
  */
@@ -94,5 +98,20 @@ public class TodoItem {
 
     public void setMessage(@Nullable String message) {
         this.message = message;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TodoItem todoItem = (TodoItem) o;
+        return ObjectUtils.equals(getTitle(), todoItem.getTitle()) &&
+                ObjectUtils.equals(getMessage(), todoItem.getMessage()) &&
+                ObjectUtils.equals(getDate(), todoItem.getDate());
+    }
+
+    @Override
+    public int hashCode() {
+        return ObjectUtils.hash(getTitle(), getMessage(), getDate());
     }
 }

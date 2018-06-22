@@ -659,6 +659,10 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
                 } else {
                     Toast.makeText(this, R.string.development_only_android_5, Toast.LENGTH_SHORT).show();
                 }
+            } else if (id == R.id.nav_reminders) {
+                clearBackStack();
+                navigationController.navigateToReminders();
+                tabLayout.setVisibility(View.GONE);
             }
 
             if (item.isCheckable()) selectedNavId = id;

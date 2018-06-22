@@ -22,6 +22,11 @@
             android:icon="@drawable/ic_event_black_24dp"
             android:title="@string/nav_title_events"/>
 
+        <item
+            android:id="@+id/nav_reminders"
+            android:icon="@drawable/ic_reminder_black_24dp"
+            android:title="@string/nav_title_reminders"/>
+
     </group>
 
     <group

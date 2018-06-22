@@ -1,6 +1,7 @@
 package com.forcetower.uefs.view.connected.fragments;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,9 +18,11 @@ import com.forcetower.uefs.databinding.FragmentRemindersAnnotationsBinding;
 import com.forcetower.uefs.db.dao.TodoItemDao;
 import com.forcetower.uefs.db.entity.TodoItem;
 import com.forcetower.uefs.di.Injectable;
+import com.forcetower.uefs.view.connected.ActivityController;
 import com.forcetower.uefs.view.connected.adapters.ReminderAdapter;
 import com.forcetower.uefs.vm.UEFSViewModelFactory;
 import com.forcetower.uefs.vm.base.TodoItemViewModel;
+import com.google.firebase.database.DatabaseReference;
 
 import java.util.List;
 
@@ -35,11 +38,26 @@ public class RemindersFragment extends Fragment implements Injectable {
     private FragmentRemindersAnnotationsBinding binding;
     private ReminderAdapter adapter;
     private TodoItemViewModel viewModel;
+    private boolean checked = false;
+
+    private ActivityController controller;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        controller = (ActivityController) context;
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_reminders_annotations, container, false);
+
+        if (controller.getTabLayout() != null) controller.getTabLayout().setVisibility(View.GONE);
+        controller.changeTitle(R.string.title_reminders);
+
+        binding.btnAddReminder.setOnClickListener(v -> createReminder());
+
         prepareRecyclerView();
         binding.showCompleted.setOnCheckedChangeListener((view, value) -> onCheckChanged(value));
         return binding.getRoot();
@@ -50,11 +68,17 @@ public class RemindersFragment extends Fragment implements Injectable {
         binding.rvReminders.setAdapter(adapter);
         binding.rvReminders.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.rvReminders.setItemAnimator(new DefaultItemAnimator());
+        binding.rvReminders.setNestedScrollingEnabled(false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            checked = savedInstanceState.getBoolean("checked", false);
+        }
+
+        binding.showCompleted.setChecked(checked);
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(TodoItemViewModel.class);
         viewModel.getSource().observe(this, this::onDataChanged);
     }
@@ -75,5 +99,15 @@ public class RemindersFragment extends Fragment implements Injectable {
     private void onCheckChanged(boolean value) {
         if (value) viewModel.getAllTodoItems();
         else viewModel.getAllIncompleteTodoItems();
+    }
+
+    private void createReminder() {
+
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("checked", checked);
     }
 }

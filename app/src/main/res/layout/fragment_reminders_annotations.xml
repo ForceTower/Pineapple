@@ -8,51 +8,101 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.AppCompatCheckBox
-            android:id="@+id/show_completed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/show_complete_todo_items"
-            android:layout_alignParentEnd="true"
-            android:padding="8dp"
-            android:layout_alignParentRight="true"/>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_reminders"
-            android:layout_below="@id/show_completed"
+        <android.support.v7.widget.CardView
+            android:id="@+id/layout_reminders"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:clipToPadding="false">
-        </android.support.v7.widget.RecyclerView>
+            android:layout_margin="8dp"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="6dp">
 
-        <LinearLayout
-            android:id="@+id/no_reminders_layout"
-            android:layout_below="@id/show_completed"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_centerInParent="true"
-            tools:ignore="UseCompoundDrawables"
-            android:visibility="invisible">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                app:srcCompat="@drawable/ic_hot_air_ballon_colored_512dp"
-                android:contentDescription="@string/relax"/>
-
-            <TextView
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:text="@string/no_reminders"
-                android:textAlignment="gravity"
-                android:textColor="@color/colorPrimary"
-                android:textSize="16sp"
-                android:fontFamily="@font/roboto_medium"
-                android:gravity="center"/>
-        </LinearLayout>
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/headers"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp">
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/show_completed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/show_complete_todo_items"
+                        android:fontFamily="@font/roboto_regular"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:padding="8dp"
+                        android:textSize="14sp"
+                        android:layout_alignParentRight="true"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/reminders"
+                        android:textSize="16sp"
+                        android:textColor="@color/colorPrimary"
+                        android:padding="16dp"
+                        android:layout_toStartOf="@id/show_completed"
+                        android:layout_toLeftOf="@id/show_completed"
+                        android:textAlignment="gravity"
+                        android:gravity="center_vertical"/>
+                </RelativeLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_reminders"
+                    android:layout_below="@id/headers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="8dp"
+                    android:clipToPadding="false"
+                    tools:listitem="@layout/item_reminder"
+                    tools:itemCount="4">
+                </android.support.v7.widget.RecyclerView>
+
+                <LinearLayout
+                    android:layout_below="@id/headers"
+                    android:id="@+id/no_reminders_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        app:srcCompat="@drawable/ic_hot_air_ballon_colored_512dp"
+                        android:contentDescription="@string/relax"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="@string/no_reminders"
+                        android:textAlignment="gravity"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:gravity="center"/>
+                </LinearLayout>
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btn_add_reminder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="16dp"
+            app:srcCompat="@drawable/ic_add_black_24dp"
+            android:tint="@color/white"/>
 
     </RelativeLayout>
 </layout>

@@ -488,5 +488,8 @@
     <string name="event_approval">Aprovação de Eventos</string>
     <string name="no_reminders">Sem lembretes ativos! Hora de relaxar!</string>
     <string name="relax">Relaxar</string>
-    <string name="show_complete_todo_items">Mostrar Completos</string>
+    <string name="show_complete_todo_items">Completos</string>
+    <string name="reminders">Lembretes</string>
+    <string name="title_reminders">Lembretes</string>
+    <string name="nav_title_reminders">Lembretes</string>
 </resources>
