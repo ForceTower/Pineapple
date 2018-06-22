@@ -10,15 +10,11 @@ import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
-import com.forcetower.uefs.db.AppDatabase;
 import com.forcetower.uefs.di.AppInjector;
 import com.forcetower.uefs.di.component.AppComponent;
 import com.forcetower.uefs.di.injector.HasLollipopServiceInjector;
 import com.forcetower.uefs.ntf.NotificationHelper;
-import com.forcetower.uefs.rep.sgrs.RefreshRepository;
-import com.forcetower.uefs.service.UNEService;
-import com.forcetower.uefs.sync.service.SyncConfiguration;
-import com.forcetower.uefs.worker.SyncUtils;
+import com.forcetower.uefs.work.SyncWorkerUtils;
 import com.squareup.picasso.Picasso;
 
 import org.jsoup.nodes.Document;
@@ -85,8 +81,7 @@ public class UEFSApplication extends Application implements HasActivityInjector,
         try {
             frequency = Integer.parseInt(strFrequency);
         } catch (Exception ignored) {}
-        SyncUtils.setupSagresSync(dispatcher, this, frequency, true);
-        SyncConfiguration.initializeSyncAdapter(this);
+        SyncWorkerUtils.createSync(this, frequency);
     }
 
     public void clearApplicationData() {
@@ -107,8 +102,8 @@ public class UEFSApplication extends Application implements HasActivityInjector,
         if (file != null) {
             if (file.isDirectory()) {
                 String[] children = file.list();
-                for (int i = 0; i < children.length; i++) {
-                    deletedAll = deleteFile(new File(file, children[i])) && deletedAll;
+                for (String aChildren : children) {
+                    deletedAll = deleteFile(new File(file, aChildren)) && deletedAll;
                 }
             } else {
                 deletedAll = file.delete();
@@ -136,6 +131,10 @@ public class UEFSApplication extends Application implements HasActivityInjector,
     @Override
     public AndroidInjector<BroadcastReceiver> broadcastReceiverInjector() {
         return dispatchingBroadcastAndroidInjector;
+    }
+
+    public AppComponent getAppComponent() {
+        return appComponent;
     }
 
     public void saveDocument(String key, Document value) {

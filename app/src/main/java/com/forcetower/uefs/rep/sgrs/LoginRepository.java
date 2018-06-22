@@ -52,7 +52,8 @@ import com.forcetower.uefs.sgrs.parsers.SagresGradeParser;
 import com.forcetower.uefs.sgrs.parsers.SagresMessageParser;
 import com.forcetower.uefs.sgrs.parsers.SagresScheduleParser;
 import com.forcetower.uefs.sgrs.parsers.SagresSemesterParser;
-import com.forcetower.uefs.worker.SyncUtils;
+import com.forcetower.uefs.work.SagresSyncWorker;
+import com.forcetower.uefs.work.SyncWorkerUtils;
 import com.franmontiel.persistentcookiejar.ClearableCookieJar;
 
 import org.jsoup.nodes.Document;
@@ -721,7 +722,7 @@ public class LoginRepository {
         Timber.d("Logout requested");
         cookieJar.clear();
         MutableLiveData<Resource<Integer>> logout = new MutableLiveData<>();
-        SyncUtils.cancelSyncService(dispatcher, context);
+        SyncWorkerUtils.disableWorker(context);
         executors.diskIO().execute(() -> {
             deleteDatabase();
             Timber.d("%s", database.gradeInfoDao().getGradesFromSectionDirect(1));

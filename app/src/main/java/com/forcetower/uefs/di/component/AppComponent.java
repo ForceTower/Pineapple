@@ -10,6 +10,7 @@ import com.forcetower.uefs.di.module.DatabaseServiceModule;
 import com.forcetower.uefs.di.module.NetworkModule;
 import com.forcetower.uefs.di.module.ReceiversModule;
 import com.forcetower.uefs.di.module.ServicesModule;
+import com.forcetower.uefs.work.SagresSyncWorker;
 
 import javax.inject.Singleton;
 
@@ -43,6 +44,7 @@ public interface AppComponent {
     }
 
     void inject(UEFSApplication application);
+    void inject(SagresSyncWorker worker);
 
     LollipopGreaterServiceComponent lollipopServiceComponent();
 }

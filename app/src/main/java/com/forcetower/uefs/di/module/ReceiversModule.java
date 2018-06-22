@@ -1,7 +1,5 @@
 package com.forcetower.uefs.di.module;
 
-import com.forcetower.uefs.sync.alm.RefreshBroadcastReceiver;
-
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 
@@ -10,6 +8,5 @@ import dagger.android.ContributesAndroidInjector;
  */
 @Module
 public abstract class ReceiversModule {
-    @ContributesAndroidInjector
-    abstract RefreshBroadcastReceiver contributesRefreshBroadcastReceiver();
+
 }

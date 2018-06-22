@@ -13,8 +13,7 @@ import android.widget.Toast;
 
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.sync.alm.RefreshAlarmTrigger;
-import com.forcetower.uefs.worker.SyncUtils;
+import com.forcetower.uefs.work.SyncWorkerUtils;
 
 import timber.log.Timber;
 
@@ -117,9 +116,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             if (gradeCreated != null) gradeCreated.setEnabled(false);
             if (gradeChanged != null) gradeChanged.setEnabled(false);
             Timber.d("Frequency set to never update");
-            SyncUtils.cancelSyncService(controller.getDispatcher(), controller.getContext());
-            RefreshAlarmTrigger.removeAlarm(getActivity());
-            RefreshAlarmTrigger.disableBootComponent(getActivity());
+            SyncWorkerUtils.disableWorker(controller.getContext());
         } else if (frequency > 0) {
             preference.setSummary(R.string.pref_sync_frequency_enabled);
             if (notification != null) notification.setEnabled(true);
@@ -127,9 +124,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             if (gradeCreated != null) gradeCreated.setEnabled(true);
             if (gradeChanged != null) gradeChanged.setEnabled(true);
             Timber.d("Frequency set to %d minutes", frequency);
-            SyncUtils.setupSagresSync(controller.getDispatcher(), controller.getContext(), frequency);
-            RefreshAlarmTrigger.create(getActivity());
-            RefreshAlarmTrigger.enableBootComponent(controller.getContext());
+            SyncWorkerUtils.createSync(controller.getContext(), frequency);
         }
     }
 }

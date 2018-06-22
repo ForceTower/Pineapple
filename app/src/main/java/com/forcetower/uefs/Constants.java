@@ -20,6 +20,7 @@ public class Constants {
     public static final int OUTDATED_SECONDS = 60;
     //Worker name
     public static final String WORKER_SYNC_SAGRES_NAME =  "Sagres Synchronization Worker";
+    public static final String WORKER_SYNC_SAGRES_UNIQUE = "sagres_sync_unique_name";
     //Sagres Default Pages
     public static final String SAGRES_SERVER_PAGE = "http://academico2.uefs.br/Portal";
     public static final String SAGRES_LOGIN_PAGE  = SAGRES_SERVER_PAGE + "/Acesso.aspx";

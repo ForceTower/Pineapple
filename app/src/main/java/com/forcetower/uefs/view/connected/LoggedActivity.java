@@ -58,7 +58,6 @@ import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.SagresDocuments;
 import com.forcetower.uefs.rep.helper.Status;
 import com.forcetower.uefs.service.ApiResponse;
-import com.forcetower.uefs.sync.alm.RefreshAlarmTrigger;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.util.NetworkUtils;
 import com.forcetower.uefs.util.VersionUtils;
@@ -67,14 +66,13 @@ import com.forcetower.uefs.view.UBaseActivity;
 import com.forcetower.uefs.view.about.AboutActivity;
 import com.forcetower.uefs.view.login.MainActivity;
 import com.forcetower.uefs.view.settings.SettingsActivity;
-import com.forcetower.uefs.view.universe.UniverseActivity;
 import com.forcetower.uefs.vm.base.DownloadsViewModel;
 import com.forcetower.uefs.vm.base.GradesViewModel;
 import com.forcetower.uefs.vm.base.ProfileViewModel;
 import com.forcetower.uefs.vm.base.ScheduleViewModel;
 import com.forcetower.uefs.vm.google.AchievementsViewModel;
 import com.forcetower.uefs.vm.universe.UAccountViewModel;
-import com.forcetower.uefs.worker.SyncUtils;
+import com.forcetower.uefs.work.SyncWorkerUtils;
 
 import java.io.File;
 import java.util.Arrays;
@@ -235,26 +233,9 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     }
 
     private void onActivityCreated() {
-        setupAlarmManager();
-        RefreshAlarmTrigger.enableBootComponent(this);
-        setupWorker();
         setupShortcuts();
-
         mPreferences.edit().putBoolean("show_not_connected_notification", true).apply();
         initiateActivity();
-    }
-
-    private void setupAlarmManager() {
-        RefreshAlarmTrigger.create(this);
-    }
-
-    private void setupWorker() {
-        String strFrequency = mPreferences.getString("sync_frequency", "60");
-        int frequency = 60;
-        try {
-            frequency = Integer.parseInt(strFrequency);
-        } catch (Exception ignored) {}
-        SyncUtils.setupSagresSync(dispatcher, this, frequency);
     }
 
     private void setupFragmentStackListener() {
@@ -703,7 +684,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
     private void performLogout() {
         disconnecting = true;
-        SyncUtils.cancelSyncService(dispatcher, this);
+        SyncWorkerUtils.disableWorker(this);
         gradesViewModel.logout().observe(this, this::logoutObserver);
     }
 

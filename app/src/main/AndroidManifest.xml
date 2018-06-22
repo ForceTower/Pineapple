@@ -82,78 +82,23 @@
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_firebase_notification_channel_id"/>
 
-        <service android:name=".svc.firebase.UNESFirebaseMessagingService">
+        <service android:name=".svc.firebase.UNESFirebaseMessagingService"
+                 android:permission="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
-        <service android:name=".svc.firebase.UNESFirebaseInstanceIDService">
+        <service android:name=".svc.firebase.UNESFirebaseInstanceIDService"
+                 android:permission="true">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
-        <service
-            android:name=".worker.SagresSyncJobService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>
-            </intent-filter>
-        </service>
-        <service
-            android:name=".worker.SagresSyncJobScheduler"
-            android:exported="true"
-            android:permission="android.permission.BIND_JOB_SERVICE"/>
+
         <service
             android:name=".worker.event.CreateEventWorker"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE"/>
-
-        <receiver android:name=".sync.alm.RefreshBroadcastReceiver">
-            <intent-filter>
-                <action android:name="com.forcetower.uefs.REFRESH"/>
-
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name=".sync.alm.BootOptionsBroadcastReceiver"
-            android:enabled="false">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-            </intent-filter>
-        </receiver>
-
-        <service
-            android:name=".sync.service.SyncAdapterService"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.content.SyncAdapter"/>
-            </intent-filter>
-
-            <meta-data
-                android:name="android.content.SyncAdapter"
-                android:resource="@xml/syncadapter"/>
-        </service>
-        <service android:name=".sync.service.GenericAccountService">
-            <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator"/>
-            </intent-filter>
-
-            <meta-data
-                android:name="android.accounts.AccountAuthenticator"
-                android:resource="@xml/authenticator"/>
-        </service>
-        <service
-            android:name=".worker.mean.DisciplineMeanWorker"
-            android:exported="true"
-            android:permission="android.permission.BIND_JOB_SERVICE"/>
-
-        <provider
-            android:name=".sync.service.SagresProvider"
-            android:authorities="@string/authority"
-            android:exported="false"
-            android:label="@string/sagres_sync"
-            android:syncable="true"/>
 
         <activity android:name=".view.universe.UniverseActivity">
         </activity>

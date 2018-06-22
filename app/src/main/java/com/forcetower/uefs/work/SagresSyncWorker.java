@@ -1,15 +1,16 @@
-package com.forcetower.uefs.worker;
+package com.forcetower.uefs.work;
 
 import android.arch.lifecycle.LiveData;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 
 import com.crashlytics.android.Crashlytics;
-import com.firebase.jobdispatcher.JobParameters;
-import com.firebase.jobdispatcher.JobService;
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.BuildConfig;
+import com.forcetower.uefs.UEFSApplication;
 import com.forcetower.uefs.db.AppDatabase;
 import com.forcetower.uefs.db.dao.GradeInfoDao;
 import com.forcetower.uefs.db.dao.MessageDao;
@@ -36,59 +37,57 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import dagger.android.AndroidInjection;
+import androidx.work.Worker;
 import timber.log.Timber;
 
 /**
- * Created by João Paulo on 17/05/2018.
+ * Created by João Paulo on 21/06/2018.
  */
-public class SagresSyncJobService extends JobService {
+public class SagresSyncWorker extends Worker {
     @Inject
-    RefreshRepository repository;
-    @Inject
-    AppDatabase database;
+    AppDatabase uDatabase;
     @Inject
     AppExecutors executors;
     @Inject
     UNEService service;
+    @Inject
+    RefreshRepository repository;
 
+    private boolean completed;
     private LiveData<Resource<Integer>> call;
     private LiveData<ApiResponse<UpdateStatus>> updateData;
     private SharedPreferences preferences;
-    boolean completed = false;
-    private JobParameters jobParameters;
 
+    @NonNull
     @Override
-    public void onCreate() {
-        super.onCreate();
-        AndroidInjection.inject(this);
-    }
+    public Result doWork() {
+        ((UEFSApplication)getApplicationContext()).getAppComponent().inject(this);
+        int iterations = 0;
+        completed = false;
 
-    @Override
-    public boolean onStartJob(JobParameters job) {
-        Timber.d("Job Started - FirebaseJobDispatcher");
-        if (BuildConfig.DEBUG) NotificationCreator.createSyncWarning(this);
-        preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        jobParameters = job;
-        initiateSync();
-        return true;
-    }
+        try {
+            preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            initiateSync();
 
-    @Override
-    public boolean onStopJob(JobParameters job) {
-        Timber.d("Job Finished - FirebaseJobDispatcher");
-        return false;
+            while (!completed && iterations < 300) {
+                iterations++;
+                SystemClock.sleep(3000);
+            }
+        } catch (Exception ignored) {
+            Crashlytics.logException(ignored);
+            ignored.printStackTrace();
+        }
+
+        return Result.SUCCESS;
     }
 
     private void initiateSync() {
         if (!initialVerifications()) {
             completed = true;
-            jobFinished(jobParameters, false);
             return;
         }
 
         executors.networkIO().execute(() -> {
-            database.profileDao().setLastSyncAttempt(System.currentTimeMillis());
             if (BuildConfig.DEBUG) {
                 proceedSync();
             } else {
@@ -133,15 +132,15 @@ public class SagresSyncJobService extends JobService {
         Timber.d("Application is online [WORKER]");
         executors.diskIO().execute(() -> {
             try {
-                Access access = database.accessDao().getAccessDirect();
+                Access access = uDatabase.accessDao().getAccessDirect();
                 if (access == null) {
                     Timber.d("Access is null... stop");
                     NotificationCreator.createNotConnectedNotification(getApplicationContext());
                     completed = true;
                 } else {
-                    database.profileDao().setLastSyncAttempt(System.currentTimeMillis());
-                    database.messageDao().clearAllNotifications();
-                    database.gradeInfoDao().clearAllNotifications();
+                    uDatabase.profileDao().setLastSyncAttempt(System.currentTimeMillis());
+                    uDatabase.messageDao().clearAllNotifications();
+                    uDatabase.gradeInfoDao().clearAllNotifications();
                     executors.mainThread().execute(() -> {
                         call = repository.refreshData();
                         call.observeForever(this::progressObserver);
@@ -150,7 +149,7 @@ public class SagresSyncJobService extends JobService {
             } catch (Exception ignored) {
                 Timber.e("Ignored Exception");
                 ignored.printStackTrace();
-                jobFinished(jobParameters, false);
+                completed = true;
             }
         });
     }
@@ -190,13 +189,12 @@ public class SagresSyncJobService extends JobService {
             completed = true;
 
             setupData();
-            jobFinished(jobParameters, false);
         });
     }
 
     private void setupData() {
-        Access a = database.accessDao().getAccessDirect();
-        Profile p = database.profileDao().getProfileDirect();
+        Access a = uDatabase.accessDao().getAccessDirect();
+        Profile p = uDatabase.profileDao().getProfileDirect();
         if (a != null) {
             Crashlytics.setUserIdentifier(a.getUsername());
             Crashlytics.setUserName(p != null ? p.getName() : "Undefined");
@@ -208,19 +206,17 @@ public class SagresSyncJobService extends JobService {
                 reference.child(a.getUsernameFixed()).child("android").setValue(Build.VERSION.SDK_INT);
                 reference.child(a.getUsernameFixed()).child("name").setValue(p != null ? p.getName() : "Null Profile");
 
-                List<Semester> semesters = database.semesterDao().getAllSemestersDirect();
                 if (p != null && p.getCourse() != null) {
                     DatabaseReference courses = FirebaseDatabase.getInstance().getReference("courses").child(p.getCourseFixed());
                     courses.child(a.getUsernameFixed()).child("name").setValue(p.getName());
                     courses.child(a.getUsernameFixed()).child("score").setValue(p.getScore());
-                    courses.child(a.getUsernameFixed()).child("semester").setValue(semesters.size());
                 }
             }
         }
     }
 
     private void messagesNotifications() {
-        MessageDao messageDao = database.messageDao();
+        MessageDao messageDao = uDatabase.messageDao();
         Timber.d("Generate message notifications");
         List<Message> messages = messageDao.getAllUnnotifiedMessages();
         for (Message message : messages) {
@@ -237,11 +233,11 @@ public class SagresSyncJobService extends JobService {
     }
 
     private void gradesNotifications() {
-        List<Semester> semesters = database.semesterDao().getAllSemestersDirect();
+        List<Semester> semesters = uDatabase.semesterDao().getAllSemestersDirect();
         Semester semester = Semester.getCurrentSemester(semesters);
         String name = semester.getName();
 
-        GradeInfoDao infoDao = database.gradeInfoDao();
+        GradeInfoDao infoDao = uDatabase.gradeInfoDao();
         Timber.d("Generate grades notifications for grades posted");
         gradesNotificationHandler(infoDao, infoDao.getUnnotifiedGrades(name), 1);
         Timber.d("Generate grades notifications for recently created grades");
@@ -270,8 +266,8 @@ public class SagresSyncJobService extends JobService {
     }
 
     private void findClass(GradeInfo info) {
-        GradeSection section = database.gradeSectionDao().getSectionByIdDirect(info.getSection());
-        Discipline discipline = database.disciplineDao().getDisciplinesByIdDirect(section.getDiscipline());
+        GradeSection section = uDatabase.gradeSectionDao().getSectionByIdDirect(info.getSection());
+        Discipline discipline = uDatabase.disciplineDao().getDisciplinesByIdDirect(section.getDiscipline());
         info.setClassName(discipline.getName());
     }
 }
