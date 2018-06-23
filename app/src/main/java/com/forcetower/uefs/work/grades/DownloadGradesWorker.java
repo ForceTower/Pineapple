@@ -110,7 +110,7 @@ public class DownloadGradesWorker extends Worker {
             keyFinder = getInputData().getBoolean("key_finder", false);
             if (!keyFinder) {
                 Timber.d("Nothing to do here");
-                return Result.FAILURE;
+                return Result.SUCCESS;
             } else {
                 Timber.d("Execute worker - Find semesters keys");
             }
