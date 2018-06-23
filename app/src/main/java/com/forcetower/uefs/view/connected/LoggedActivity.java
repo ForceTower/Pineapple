@@ -330,7 +330,6 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         selectedNavId = savedInstanceState.getInt(SELECTED_NAV_DRAWER_ID);
         isPDFResultShown = savedInstanceState.getBoolean("pdf_result_shown", false);
         showedOnSession = savedInstanceState.getBoolean("showed_on_session", false);
-        afterLogin = getIntent().getBooleanExtra("after_login", false);
         changeTitle(titleText);
         navigationView.setCheckedItem(selectedNavId);
     }
@@ -734,7 +733,6 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putBoolean("after_login", afterLogin);
         outState.putBoolean("pdf_result_shown", isPDFResultShown);
         outState.putInt("title_text", titleText);
         outState.putInt(SELECTED_NAV_DRAWER_ID, selectedNavId);

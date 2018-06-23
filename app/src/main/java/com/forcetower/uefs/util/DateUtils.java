@@ -146,6 +146,13 @@ public class DateUtils {
         return format.format(date);
     }
 
+    public static String convertTimeNullable(Long time){
+        if (time == null) return "---";
+        Date date = new Date(time);
+        Format format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
+        return format.format(date);
+    }
+
     /**
      * Returns whether the given date is today, based on the user's current locale.
      */

@@ -38,6 +38,7 @@ import com.forcetower.uefs.db.entity.GradeSection;
 import com.forcetower.uefs.db.entity.Message;
 import com.forcetower.uefs.db.entity.Profile;
 import com.forcetower.uefs.db.entity.Semester;
+import com.forcetower.uefs.db.entity.SyncRegistry;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
 import com.forcetower.uefs.rep.resources.FetchAllDataResource;
@@ -120,12 +121,12 @@ public class LoginRepository {
                         values.addSource(profData, profile -> {
                             values.removeSource(profData);
                             Calendar now = Calendar.getInstance();
-
                             if (profile != null) {
                                 profile.setLastSync(now.getTimeInMillis());
                                 Timber.d("Profile updated with new update time");
                                 executors.diskIO().execute(() -> {
                                     try {
+                                        database.syncRegistryDao().updateSetCompleted(now.getTimeInMillis());
                                         database.profileDao().insertProfile(profile);
                                     } catch (Exception ignored) {
                                         Timber.d("Profile SQL error");

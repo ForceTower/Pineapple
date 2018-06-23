@@ -17,6 +17,7 @@ import com.forcetower.uefs.db.dao.GradeSectionDao;
 import com.forcetower.uefs.db.dao.MessageDao;
 import com.forcetower.uefs.db.dao.ProfileDao;
 import com.forcetower.uefs.db.dao.SemesterDao;
+import com.forcetower.uefs.db.dao.SyncRegistryDao;
 import com.forcetower.uefs.db.dao.TodoItemDao;
 import com.forcetower.uefs.db.entity.Access;
 import com.forcetower.uefs.db.entity.CalendarEvent;
@@ -32,6 +33,7 @@ import com.forcetower.uefs.db.entity.GradeSection;
 import com.forcetower.uefs.db.entity.Message;
 import com.forcetower.uefs.db.entity.Profile;
 import com.forcetower.uefs.db.entity.Semester;
+import com.forcetower.uefs.db.entity.SyncRegistry;
 import com.forcetower.uefs.db.entity.TodoItem;
 
 /**
@@ -52,8 +54,9 @@ import com.forcetower.uefs.db.entity.TodoItem;
         DisciplineClassMaterialLink.class,
         TodoItem.class,
         Profile.class,
-        CalendarEvent.class
-}, version = 7)
+        CalendarEvent.class,
+        SyncRegistry.class
+}, version = 8)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract AccessDao accessDao();
     public abstract CalendarItemDao calendarItemDao();
@@ -70,4 +73,5 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract TodoItemDao todoItemDao();
     public abstract ProfileDao profileDao();
     public abstract CalendarEventDao calendarEventDao();
+    public abstract SyncRegistryDao syncRegistryDao();
 }

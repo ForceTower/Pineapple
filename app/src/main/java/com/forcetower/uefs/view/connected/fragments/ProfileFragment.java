@@ -120,6 +120,16 @@ public class ProfileFragment extends Fragment implements Injectable {
         cvUpdateControl.setOnClickListener(v -> goToUpdateControl());
         cvChangeCourse.setOnClickListener(v -> changeCourse());
 
+        tvLastUpdateAttempt.setOnLongClickListener(v -> {
+            navigationController.navigateToSyncRegistry();
+            return true;
+        });
+
+        tvLastUpdate.setOnLongClickListener(v -> {
+            navigationController.navigateToSyncRegistry();
+            return true;
+        });
+
         if (BuildConfig.DEBUG) enablePrivateContent();
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());

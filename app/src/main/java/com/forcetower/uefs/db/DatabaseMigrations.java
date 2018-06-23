@@ -62,4 +62,12 @@ public class DatabaseMigrations {
             database.execSQL("ALTER TABLE TodoItem ADD COLUMN message TEXT");
         }
     };
+
+    public static final Migration MIGRATION_7_8 = new Migration(7, 8) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            Timber.d("Executing migration 7 -> 8");
+            database.execSQL("CREATE TABLE IF NOT EXISTS SyncRegistry (uid INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, attempt INTEGER NOT NULL DEFAULT 0, completed INTEGER)");
+        }
+    };
 }

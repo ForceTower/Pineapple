@@ -21,6 +21,7 @@ import com.forcetower.uefs.db.entity.GradeSection;
 import com.forcetower.uefs.db.entity.Message;
 import com.forcetower.uefs.db.entity.Profile;
 import com.forcetower.uefs.db.entity.Semester;
+import com.forcetower.uefs.db.entity.SyncRegistry;
 import com.forcetower.uefs.db_service.entity.UpdateStatus;
 import com.forcetower.uefs.ntf.NotificationCreator;
 import com.forcetower.uefs.rep.helper.Resource;
@@ -139,6 +140,8 @@ public class SagresSyncWorker extends Worker {
                     completed = true;
                 } else {
                     uDatabase.profileDao().setLastSyncAttempt(System.currentTimeMillis());
+                    SyncRegistry registry = new SyncRegistry(System.currentTimeMillis());
+                    uDatabase.syncRegistryDao().insert(registry);
                     uDatabase.messageDao().clearAllNotifications();
                     uDatabase.gradeInfoDao().clearAllNotifications();
                     executors.mainThread().execute(() -> {

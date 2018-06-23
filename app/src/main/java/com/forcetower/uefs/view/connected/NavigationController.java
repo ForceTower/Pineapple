@@ -29,6 +29,7 @@ import com.forcetower.uefs.view.connected.fragments.ProfileFragment;
 import com.forcetower.uefs.view.connected.fragments.RemindersFragment;
 import com.forcetower.uefs.view.connected.fragments.SelectCourseFragment;
 import com.forcetower.uefs.view.connected.fragments.SuggestionFragment;
+import com.forcetower.uefs.view.connected.fragments.SyncRegistryFragment;
 import com.forcetower.uefs.view.connected.fragments.TheAdventureFragment;
 
 import javax.inject.Inject;
@@ -231,5 +232,9 @@ public class NavigationController {
 
     public void back() {
         fragmentManager.popBackStack();
+    }
+
+    public void navigateToSyncRegistry() {
+        changeFragment(new SyncRegistryFragment(), "sync_registry", true);
     }
 }
