@@ -11,6 +11,7 @@ import com.forcetower.uefs.di.module.NetworkModule;
 import com.forcetower.uefs.di.module.ReceiversModule;
 import com.forcetower.uefs.di.module.ServicesModule;
 import com.forcetower.uefs.work.event.CreateEventWorker;
+import com.forcetower.uefs.work.grades.DownloadGradesWorker;
 import com.forcetower.uefs.work.sync.SagresSyncWorker;
 
 import javax.inject.Singleton;
@@ -46,6 +47,7 @@ public interface AppComponent {
     void inject(UEFSApplication application);
     void inject(SagresSyncWorker worker);
     void inject(CreateEventWorker worker);
+    void inject(DownloadGradesWorker worker);
 
     LollipopGreaterServiceComponent lollipopServiceComponent();
 }

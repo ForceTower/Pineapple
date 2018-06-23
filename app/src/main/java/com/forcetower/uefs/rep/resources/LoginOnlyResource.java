@@ -107,7 +107,7 @@ public abstract class LoginOnlyResource {
         return result;
     }
 
-    private boolean needApproval(Document document) {
+    public static boolean needApproval(Document document) {
         Element approval = document.selectFirst("div[class=\"acesso-externo-pagina-login\"]");
         if (approval != null) return true;
 
@@ -116,7 +116,7 @@ public abstract class LoginOnlyResource {
 
     }
 
-    private boolean isConnected(Document document) {
+    public static boolean isConnected(Document document) {
         Element element = document.selectFirst("div[class=\"externo-erro\"]");
         if (element != null) {
             if (element.text().length() != 0) {

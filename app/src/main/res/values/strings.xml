@@ -328,7 +328,7 @@
     <string name="location_is_not_accurate">A localização não está precisa o suficiente, esperando ficar melhor...</string>
     <string name="adventure_not_in_a_valid_location">Você não está num lugar válido</string>
     <string name="adventure_confirm_location">Clique no círculo para verificar localização</string>
-    <string name="downloading_your_grades">Baixando notas dos semestres anteriores</string>
+    <string name="downloading_your_grades">As notas dos semestres anteriores serão baixados de forma assíncrona</string>
     <string name="about_app_frequently_asked_questions">Perguntas Frequentes</string>
     <string name="cd_icon">icon</string>
     <string name="cd_download">download</string>

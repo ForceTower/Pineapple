@@ -72,6 +72,7 @@ import com.forcetower.uefs.vm.base.ProfileViewModel;
 import com.forcetower.uefs.vm.base.ScheduleViewModel;
 import com.forcetower.uefs.vm.google.AchievementsViewModel;
 import com.forcetower.uefs.vm.universe.UAccountViewModel;
+import com.forcetower.uefs.work.grades.DownloadGradesWorker;
 import com.forcetower.uefs.work.sync.SyncWorkerUtils;
 
 import java.io.File;
@@ -139,8 +140,6 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     private DownloadsViewModel downloadsViewModel;
     private UAccountViewModel uAccountViewModel;
 
-    private int numberOfLoadings = 0;
-    private int numberOfSemesters = -1;
     private boolean afterLogin;
     @IdRes
     private int selectedNavId;
@@ -166,6 +165,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         navViews = new NavigationViews();
         downloadCert = new NavigationCustomActionViews();
         downloadFlow = new NavigationCustomActionViews();
+        afterLogin = getIntent().getBooleanExtra("after_login", false);
 
         ButterKnife.bind(navViews, navigationView.getHeaderView(0));
         ButterKnife.bind(downloadCert, navigationView.getMenu().findItem(R.id.nav_enrollment_certificate).getActionView());
@@ -177,7 +177,6 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
         setupViewModels();
         setupIds();
-        setupAfterLogin(savedInstanceState);
         setupNavigationItemColors();
         setupFragmentStackListener();
         setupToolbarEvents();
@@ -188,9 +187,6 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         } else {
             onActivityCreated();
         }
-
-        afterLogin = afterLogin && !gradesViewModel.isAllGradesRunning();
-        loadGradesAndUnset();
     }
 
     private void setupActionListeners() {
@@ -207,20 +203,6 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
             AnimUtils.fadeOut(this, downloadFlow.ivAction);
             AnimUtils.fadeIn(this, downloadFlow.pbAction);
         });
-    }
-
-    private void loadGradesAndUnset() {
-        gradesViewModel.getAllSemestersGrade(afterLogin).observe(this, this::onReceiveGrades);
-        gradesViewModel.getAllSemesters().observe(this, this::receiveListOfSemesters);
-        gradesViewModel.getAccess().observe(this, this::accessObserver);
-        if (afterLogin) {
-            Toast.makeText(this, R.string.downloading_your_grades, Toast.LENGTH_SHORT).show();
-            if (!gradesViewModel.isAllGradesCompleted())
-                enableBottomLoading();
-            else
-                disableBottomLoading();
-            afterLogin = false;
-        }
     }
 
     private void onActivityCreated() {
@@ -339,23 +321,12 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
     private void onRestoreActivity(@NonNull Bundle savedInstanceState) {
         titleText = savedInstanceState.getInt("title_text", R.string.title_schedule);
-        numberOfLoadings = savedInstanceState.getInt("number_of_loadings", 0);
         selectedNavId = savedInstanceState.getInt(SELECTED_NAV_DRAWER_ID);
         isPDFResultShown = savedInstanceState.getBoolean("pdf_result_shown", false);
         showedOnSession = savedInstanceState.getBoolean("showed_on_session", false);
+        afterLogin = getIntent().getBooleanExtra("after_login", false);
         changeTitle(titleText);
         navigationView.setCheckedItem(selectedNavId);
-    }
-
-    private void setupAfterLogin(@Nullable Bundle savedInstanceState) {
-        afterLogin = getIntent().getBooleanExtra("after_login", false);
-        if (afterLogin && gradesViewModel.isAllGradesRunning()) {
-            afterLogin = false;
-        } else {
-            if (!afterLogin && savedInstanceState != null) {
-                afterLogin = savedInstanceState.getBoolean("after_login", false);
-            }
-        }
     }
 
     private void setupIds() {
@@ -370,6 +341,8 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     private void setupViewModels() {
         gradesViewModel = ViewModelProviders.of(this, viewModelFactory).get(GradesViewModel.class);
         gradesViewModel.getUNESLatestVersion().observe(this, this::onReceiveVersion);
+        gradesViewModel.getAllSemesters().observe(this, this::receiveListOfSemesters);
+        gradesViewModel.getAccess().observe(this, this::accessObserver);
 
         ScheduleViewModel scheduleViewModel = ViewModelProviders.of(this, viewModelFactory).get(ScheduleViewModel.class);
         scheduleViewModel.getSingleLoadedLocation().observe(this, this::onReceiveSingleLocation);
@@ -759,7 +732,6 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         outState.putBoolean("after_login", afterLogin);
         outState.putBoolean("pdf_result_shown", isPDFResultShown);
         outState.putInt("title_text", titleText);
-        outState.putInt("number_of_loadings", numberOfLoadings);
         outState.putInt(SELECTED_NAV_DRAWER_ID, selectedNavId);
         outState.putBoolean("showed_on_session", showedOnSession);
         super.onSaveInstanceState(outState);
@@ -770,31 +742,6 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         return dispatchingAndroidInjector;
     }
 
-    private void onReceiveGrades(Resource<Integer> resource) {
-        if (resource == null) {
-            Timber.d("Resource is null, maybe after login is false");
-            disableBottomLoading();
-            gradesViewModel.setAllGradesCompleted(true);
-            return;
-        }
-
-        if (resource.status == Status.LOADING) {
-            Timber.d("A new grade just finished!");
-            numberOfLoadings++;
-        } else if (resource.status == Status.ERROR) {
-            Timber.d("A grade failed to download!");
-            numberOfLoadings++;
-        }
-
-        if (numberOfSemesters != -1) {
-            if (numberOfLoadings >= numberOfSemesters) {
-                disableBottomLoading();
-                gradesViewModel.setAllGradesCompleted(true);
-                afterLogin = false;
-            }
-        }
-    }
-
     private void receiveListOfSemesters(List<Semester> semesters) {
         if (semesters == null) {
             Crashlytics.log("My face when the semesters database is invalid");
@@ -803,7 +750,15 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
             return;
         }
 
-        numberOfSemesters = semesters.size();
+        Timber.d("After Login: " + afterLogin);
+        if (afterLogin) {
+            for (Semester semester : semesters) {
+                DownloadGradesWorker.createWorker(semester.getName());
+            }
+            Toast.makeText(this, R.string.downloading_your_grades, Toast.LENGTH_SHORT).show();
+        }
+
+        afterLogin = false;
     }
 
     private void accessObserver(Access access) {

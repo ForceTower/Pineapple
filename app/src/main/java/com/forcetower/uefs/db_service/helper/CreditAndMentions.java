@@ -19,12 +19,6 @@ public class CreditAndMentions extends CreditsMention {
         super(category);
     }
 
-    @Ignore
-    public CreditAndMentions(String category, List<Mention> participants) {
-        super(category);
-        this.participants = participants;
-    }
-
     public List<Mention> getParticipants() {
         return participants;
     }

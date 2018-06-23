@@ -54,5 +54,6 @@ public class Constants {
     public static final String UNES_SERVICE_URL  = DEBUG ? "192.168.15.7" : "unes.herokuapp.com";
     public static final String UNES_SERVICE_BASE = "http" + (DEBUG ? "" : "s") + "://"+ UNES_SERVICE_URL + "/api/";
 
-    public static final String WORKER_CREATE_EVENT = "Create Event";
+    public static final String WORKER_CREATE_EVENT = "create_event";
+    public static final String WORKER_DOWNLOAD_GRADES = "download_semester_grades_";
 }

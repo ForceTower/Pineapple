@@ -35,6 +35,7 @@ public class RequestCreator {
     }
 
     public static Request getGradesFor(String semesterVal, Document document) {
+        Timber.d("Semester Value is %s", semesterVal);
         FormBody.Builder formBody = new FormBody.Builder();
 
         Elements elements = document.select("input[value][type=\"hidden\"]");
