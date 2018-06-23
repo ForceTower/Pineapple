@@ -83,35 +83,6 @@ public class UEFSApplication extends Application implements HasActivityInjector,
         SyncWorkerUtils.createSync(this, frequency);
     }
 
-    public void clearApplicationData() {
-        File cacheDirectory = getCacheDir();
-        File applicationDirectory = new File(cacheDirectory.getParent());
-        if (applicationDirectory.exists()) {
-            String[] fileNames = applicationDirectory.list();
-            for (String fileName : fileNames) {
-                if (!fileName.equals("lib")) {
-                    deleteFile(new File(applicationDirectory, fileName));
-                }
-            }
-        }
-    }
-
-    public static boolean deleteFile(File file) {
-        boolean deletedAll = true;
-        if (file != null) {
-            if (file.isDirectory()) {
-                String[] children = file.list();
-                for (String aChildren : children) {
-                    deletedAll = deleteFile(new File(file, aChildren)) && deletedAll;
-                }
-            } else {
-                deletedAll = file.delete();
-            }
-        }
-
-        return deletedAll;
-    }
-
     @Override
     public AndroidInjector<Activity> activityInjector() {
         return dispatchingActivityAndroidInjector;
