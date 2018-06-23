@@ -500,4 +500,5 @@
     <string name="attempt_sync_registry">Attempt</string>
     <string name="complete_sync_registry">Succeeded</string>
     <string name="sync_registry_label">Sync Registry</string>
+    <string name="reset">Reset</string>
 </resources>

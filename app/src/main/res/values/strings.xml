@@ -348,7 +348,7 @@
     <string name="uneverse_welcome">O UNEVerso</string>
     <string name="uneverse_know_more">Saiba Mais</string>
     <string name="uneverse_first_steps">Primeiros Passos</string>
-    <string name="transition_logo">transicao_logo</string>
+    <string name="transition_logo" translatable="false">transicao_logo</string>
     <string name="universe_create_account">Criar conta</string>
     <string name="login_repeat_password">Repetir Senha</string>
     <string name="or">Ou</string>
