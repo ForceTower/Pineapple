@@ -17,7 +17,7 @@ ext {
 
         def candidate = "99"
         def (major, minor, patch) = version.toLowerCase().replaceAll('-', '').tokenize('.')
-        if (patch.endsWith("snapshot")) {
+        if (patch.endsWith("development")) {
             candidate = "0"
             patch = patch.replaceAll("[^0-9]","")
         } else {
