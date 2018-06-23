@@ -12,6 +12,8 @@ import com.forcetower.uefs.sgrs.parsers.SagresGradeParser;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.net.URL;
@@ -69,6 +71,25 @@ public class DownloadGradesWorker extends Worker {
         Timber.d("Created DownloadGradesWorker for " + semester);
     }
 
+    public static void createWorker() {
+        Constraints constraints = new Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build();
+
+        Data data = new Data.Builder()
+                .putBoolean("key_finder", true)
+                .build();
+
+        OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(DownloadGradesWorker.class)
+                .setConstraints(constraints)
+                .setInputData(data)
+                .addTag(Constants.WORKER_DOWNLOAD_GRADES + "key_find")
+                .build();
+
+        WorkManager.getInstance().enqueue(request);
+        Timber.d("Created DownloadGradesWorker for key finding");
+    }
+
     @Inject
     AppDatabase mDatabase;
     @Inject
@@ -77,6 +98,7 @@ public class DownloadGradesWorker extends Worker {
     private Charset mCharset = Charset.forName("ISO-8859-1");
     private String mSemester;
     private Access mAccess;
+    private boolean keyFinder;
 
     @NonNull
     @Override
@@ -84,10 +106,16 @@ public class DownloadGradesWorker extends Worker {
         ((UEFSApplication)getApplicationContext()).getAppComponent().inject(this);
 
         mSemester = getInputData().getString("semester", null);
-        Timber.d("Execute worker - Fetch Grades os Semester: %s", mSemester);
         if (mSemester == null) {
-            Timber.e("Worker Cancelled");
-            return Result.FAILURE;
+            keyFinder = getInputData().getBoolean("key_finder", false);
+            if (!keyFinder) {
+                Timber.d("Nothing to do here");
+                return Result.FAILURE;
+            } else {
+                Timber.d("Execute worker - Find semesters keys");
+            }
+        } else {
+            Timber.d("Execute worker - Fetch Grades of Semester ID: %s", mSemester);
         }
 
         mAccess = mDatabase.accessDao().getAccessDirect();
@@ -97,7 +125,7 @@ public class DownloadGradesWorker extends Worker {
         }
 
         try {
-            login();
+            //login();
             findAndFetchGrades();
         } catch (WorkerException e) {
             return e.result;
@@ -150,13 +178,26 @@ public class DownloadGradesWorker extends Worker {
                 String html = response.body().string();
                 Document document = Jsoup.parse(html);
                 document.charset(mCharset);
-                prepareFinalRequest(document);
+                if (!keyFinder)
+                    prepareFinalRequest(document);
+                else
+                    findKeysAndCreateWorks(document);
             } else {
                 throw new WorkerException("Unsuccessful response. Code: " + response.code(), Result.RETRY);
             }
         } catch (IOException e) {
             e.printStackTrace();
             throw new WorkerException(e.getMessage(), Result.RETRY);
+        }
+    }
+
+    private void findKeysAndCreateWorks(Document document) {
+        Elements values = document.select("option");
+        for (Element element : values) {
+            String value = element.attr("value");
+            Timber.d("Setting semester id %s to semester %s", value, element.text().trim());
+            mDatabase.semesterDao().setUefsId(value, element.text().trim());
+            DownloadGradesWorker.createWorker(value);
         }
     }
 
@@ -186,7 +227,7 @@ public class DownloadGradesWorker extends Worker {
         if (semester == null) {
             Crashlytics.log("Unable to find the semester...");
             Timber.d("Unable to parse grades on page");
-            return;
+            throw new WorkerException("Unable to parse grades on page", Result.RETRY);
         }
         Timber.d("Semester is: %s. Good luck!", semester);
         List<Grade> grades = SagresGradeParser.getGrades(document);
@@ -225,7 +266,7 @@ public class DownloadGradesWorker extends Worker {
     class WorkerException extends Exception {
         public Result result;
 
-        public WorkerException(String message, Result result) {
+        WorkerException(String message, Result result) {
             super(message);
             this.result = result;
         }

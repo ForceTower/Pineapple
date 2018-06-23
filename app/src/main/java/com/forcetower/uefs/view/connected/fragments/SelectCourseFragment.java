@@ -93,8 +93,7 @@ public class SelectCourseFragment extends Fragment implements Injectable {
                                      });
                         }
                         profileViewModel.setProfileCourse(course.getName());
-                        Bundle bundle = new Bundle();
-                        navigationController.navigateToMainContent(bundle);
+                        navigationController.back();
                         break;
                 }
             });

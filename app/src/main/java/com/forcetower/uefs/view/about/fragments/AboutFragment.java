@@ -81,10 +81,16 @@ public class AboutFragment extends Fragment implements Injectable {
 
     private void onCreditsChanged(Resource<List<CreditAndMentions>> listCreditsResource) {
         Timber.d("Credits Status: %s", listCreditsResource.status);
-        if (listCreditsResource.data != null && !listCreditsResource.data.isEmpty()) {
-            creditsAdapter.setMentions(listCreditsResource.data);
-        } else if (listCreditsResource.data != null) {
+
+        if (listCreditsResource.data == null) {
             binding.includeAboutCredits.rvCredits.setVisibility(View.GONE);
+        } else {
+            creditsAdapter.setMentions(listCreditsResource.data);
+            if (!listCreditsResource.data.isEmpty()) {
+                binding.includeAboutCredits.rvCredits.setVisibility(View.GONE);
+            } else {
+                binding.includeAboutCredits.rvCredits.setVisibility(View.VISIBLE);
+            }
         }
     }
 

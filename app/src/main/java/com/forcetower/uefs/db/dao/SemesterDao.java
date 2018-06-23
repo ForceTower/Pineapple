@@ -36,4 +36,7 @@ public interface SemesterDao {
 
     @Query("DELETE FROM Semester")
     void removeAllSemesters();
+
+    @Query("UPDATE Semester SET uefs_id = :uefsId WHERE name = :semester")
+    void setUefsId(String uefsId, String semester);
 }

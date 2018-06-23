@@ -313,6 +313,11 @@ public class LoginRepository {
             Timber.d("Semester inserted as well");
         }
 
+        if (!database.disciplineDao().getDisciplinesFromSemesterDirect(semester).isEmpty()) {
+            Timber.d("There's no need for this... It's fine");
+            return;
+        }
+
         List<Discipline> disciplines = new ArrayList<>();
         Timber.d("Grades size: " + grades.size());
         for (Grade grade : grades) {

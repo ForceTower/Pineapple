@@ -228,4 +228,8 @@ public class NavigationController {
     public void navigateToReminders() {
         changeFragment(new RemindersFragment(), "reminders", true);
     }
+
+    public void back() {
+        fragmentManager.popBackStack();
+    }
 }

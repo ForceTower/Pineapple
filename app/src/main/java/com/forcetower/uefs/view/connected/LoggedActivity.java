@@ -165,7 +165,6 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         navViews = new NavigationViews();
         downloadCert = new NavigationCustomActionViews();
         downloadFlow = new NavigationCustomActionViews();
-        afterLogin = getIntent().getBooleanExtra("after_login", false);
 
         ButterKnife.bind(navViews, navigationView.getHeaderView(0));
         ButterKnife.bind(downloadCert, navigationView.getMenu().findItem(R.id.nav_enrollment_certificate).getActionView());
@@ -207,8 +206,15 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
     private void onActivityCreated() {
         setupShortcuts();
+        afterLogin = getIntent().getBooleanExtra("after_login", false);
         mPreferences.edit().putBoolean("show_not_connected_notification", true).apply();
         initiateActivity();
+
+        if (afterLogin) {
+            DownloadGradesWorker.createWorker();
+            Toast.makeText(this, R.string.downloading_your_grades, Toast.LENGTH_SHORT).show();
+        }
+        afterLogin = false;
     }
 
     private void setupFragmentStackListener() {
@@ -341,7 +347,6 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     private void setupViewModels() {
         gradesViewModel = ViewModelProviders.of(this, viewModelFactory).get(GradesViewModel.class);
         gradesViewModel.getUNESLatestVersion().observe(this, this::onReceiveVersion);
-        gradesViewModel.getAllSemesters().observe(this, this::receiveListOfSemesters);
         gradesViewModel.getAccess().observe(this, this::accessObserver);
 
         ScheduleViewModel scheduleViewModel = ViewModelProviders.of(this, viewModelFactory).get(ScheduleViewModel.class);
@@ -740,25 +745,6 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return dispatchingAndroidInjector;
-    }
-
-    private void receiveListOfSemesters(List<Semester> semesters) {
-        if (semesters == null) {
-            Crashlytics.log("My face when the semesters database is invalid");
-            Timber.d("Database returned a invalid list... Awkward");
-            disableBottomLoading();
-            return;
-        }
-
-        Timber.d("After Login: " + afterLogin);
-        if (afterLogin) {
-            for (Semester semester : semesters) {
-                DownloadGradesWorker.createWorker(semester.getName());
-            }
-            Toast.makeText(this, R.string.downloading_your_grades, Toast.LENGTH_SHORT).show();
-        }
-
-        afterLogin = false;
     }
 
     private void accessObserver(Access access) {
