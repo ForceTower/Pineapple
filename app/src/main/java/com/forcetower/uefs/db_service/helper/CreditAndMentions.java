@@ -1,6 +1,5 @@
 package com.forcetower.uefs.db_service.helper;
 
-import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Relation;
 
 import com.forcetower.uefs.db_service.entity.CreditsMention;

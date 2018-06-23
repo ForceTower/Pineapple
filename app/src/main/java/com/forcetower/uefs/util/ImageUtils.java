@@ -1,6 +1,5 @@
 package com.forcetower.uefs.util;
 
-import android.annotation.TargetApi;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.MutableLiveData;

@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.databinding.FragmentEventCreationPreviewBinding;
 import com.forcetower.uefs.di.Injectable;

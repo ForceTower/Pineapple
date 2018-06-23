@@ -13,7 +13,6 @@ import com.forcetower.uefs.R;
 import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.UBaseActivity;
 import com.forcetower.uefs.view.control_room.fragments.ControlRoomSelectionFragment;
-import com.forcetower.uefs.view.control_room.fragments.MasterSyncControlFragment;
 
 import javax.inject.Inject;
 

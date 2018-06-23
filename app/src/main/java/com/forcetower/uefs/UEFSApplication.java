@@ -9,7 +9,6 @@ import android.preference.PreferenceManager;
 import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
 
-import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.forcetower.uefs.di.AppInjector;
 import com.forcetower.uefs.di.component.AppComponent;
 import com.forcetower.uefs.di.injector.HasLollipopServiceInjector;
@@ -19,7 +18,6 @@ import com.squareup.picasso.Picasso;
 
 import org.jsoup.nodes.Document;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -1,7 +1,6 @@
 package com.forcetower.uefs.view.connected.fragments;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;

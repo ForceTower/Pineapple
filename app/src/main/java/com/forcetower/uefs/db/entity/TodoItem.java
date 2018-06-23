@@ -6,8 +6,6 @@ import android.support.annotation.Nullable;
 
 import com.forcetower.uefs.util.ObjectUtils;
 
-import java.util.Objects;
-
 /**
  * Created by João Paulo on 05/03/2018.
  */

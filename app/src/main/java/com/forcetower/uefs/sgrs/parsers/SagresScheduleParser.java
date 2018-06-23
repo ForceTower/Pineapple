@@ -11,13 +11,11 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
 import timber.log.Timber;
 
-import static com.forcetower.uefs.util.DateUtils.generateCalendar;
 import static com.forcetower.uefs.util.DateUtils.getDayOfWeek;
 
 /**

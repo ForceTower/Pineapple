@@ -4,8 +4,6 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.Nullable;
 
-import com.forcetower.uefs.util.DateUtils;
-
 /**
  * Created by João Paulo on 23/06/2018.
  */

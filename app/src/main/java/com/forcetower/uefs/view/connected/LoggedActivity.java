@@ -20,7 +20,6 @@ import android.os.Handler;
 import android.support.annotation.IdRes;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -43,7 +42,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
-import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.BuildConfig;
 import com.forcetower.uefs.GooglePlayGamesInstance;
@@ -51,7 +49,6 @@ import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.Access;
 import com.forcetower.uefs.db.entity.DisciplineClassLocation;
 import com.forcetower.uefs.db.entity.Profile;
-import com.forcetower.uefs.db.entity.Semester;
 import com.forcetower.uefs.db_service.entity.Version;
 import com.forcetower.uefs.ntf.NotificationCreator;
 import com.forcetower.uefs.rep.helper.Resource;
@@ -78,7 +75,6 @@ import com.forcetower.uefs.work.sync.SyncWorkerUtils;
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 import javax.inject.Inject;
 

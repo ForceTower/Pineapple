@@ -10,8 +10,6 @@ import android.support.annotation.Nullable;
 import com.forcetower.uefs.Constants;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.UUID;
-
 import timber.log.Timber;
 
 /**

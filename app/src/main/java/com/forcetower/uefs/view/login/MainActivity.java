@@ -5,23 +5,18 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
-import com.crashlytics.android.Crashlytics;
 import com.forcetower.uefs.R;
-import com.forcetower.uefs.UEFSApplication;
 import com.forcetower.uefs.db.AppDatabase;
 import com.forcetower.uefs.db.entity.Message;
 import com.forcetower.uefs.util.NetworkUtils;
 import com.forcetower.uefs.util.WordUtils;
 import com.forcetower.uefs.view.UBaseActivity;
 import com.forcetower.uefs.view.login.fragment.LoginFormFragment;
-import com.forcetower.uefs.work.grades.DownloadGradesWorker;
 
 import java.util.Calendar;
 import java.util.List;

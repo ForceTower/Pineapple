@@ -17,7 +17,6 @@ import android.view.MenuItem;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.anim.ProgressBarAnimation;
 import com.forcetower.uefs.rep.helper.Resource;

@@ -2,10 +2,8 @@ package com.forcetower.uefs.work.event;
 
 import android.support.annotation.NonNull;
 
-import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.UEFSApplication;
-import com.forcetower.uefs.db.AppDatabase;
 import com.forcetower.uefs.db_service.entity.Event;
 import com.forcetower.uefs.service.ActionResult;
 import com.forcetower.uefs.service.UNEService;
@@ -17,7 +15,6 @@ import javax.inject.Inject;
 
 import androidx.work.Constraints;
 import androidx.work.Data;
-import androidx.work.ExistingWorkPolicy;
 import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;

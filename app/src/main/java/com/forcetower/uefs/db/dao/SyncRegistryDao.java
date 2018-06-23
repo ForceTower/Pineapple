@@ -20,7 +20,7 @@ public interface SyncRegistryDao {
     @Insert(onConflict = REPLACE)
     void insert(SyncRegistry registry);
 
-    @Query("SELECT * FROM SyncRegistry")
+    @Query("SELECT * FROM SyncRegistry ORDER BY attempt DESC")
     LiveData<List<SyncRegistry>> getAllRegistry();
 
     @Query("UPDATE SyncRegistry SET completed = :value WHERE uid = " +
