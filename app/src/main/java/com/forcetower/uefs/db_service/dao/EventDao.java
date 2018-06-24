@@ -57,4 +57,7 @@ public abstract class EventDao {
         insert(events);
         updateInsertionTimeUnapproved(System.currentTimeMillis()/1000);
     }
+
+    @Query("UPDATE Event SET approved = 1 WHERE uuid = :uuid")
+    public abstract void markEventApproved(String uuid);
 }

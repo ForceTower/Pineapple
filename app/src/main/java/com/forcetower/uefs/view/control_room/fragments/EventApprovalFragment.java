@@ -17,9 +17,11 @@ import com.forcetower.uefs.databinding.FragmentEventApprovalBinding;
 import com.forcetower.uefs.db_service.entity.Event;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.rep.helper.Resource;
+import com.forcetower.uefs.view.SimpleDialog;
 import com.forcetower.uefs.view.connected.adapters.EventAdapter;
 import com.forcetower.uefs.vm.UEFSViewModelFactory;
 import com.forcetower.uefs.vm.service.EventsViewModel;
+import com.forcetower.uefs.work.event.EventApprovalWorker;
 
 import java.util.List;
 
@@ -51,6 +53,21 @@ public class EventApprovalFragment extends Fragment implements Injectable {
         binding.rvEvents.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.rvEvents.setAdapter(adapter);
         binding.rvEvents.setItemAnimator(new DefaultItemAnimator());
+
+        adapter.setListener((event, position) -> {
+            SimpleDialog dialog = SimpleDialog.newDialog(
+                    0,
+                    getString(R.string.approve_event),
+                    getString(R.string.do_you_confirm_event_approval, event.getName(), event.getCreatorUsername()),
+                    new int[]{R.string.yes, R.string.no});
+            dialog.setListener((id, which) -> {
+                if (which == -1) {
+                    EventApprovalWorker.createWorker(event.getUuid());
+                }
+            });
+
+            dialog.openDialog(getChildFragmentManager());
+        });
     }
 
     @Override

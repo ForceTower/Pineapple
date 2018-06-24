@@ -11,6 +11,7 @@ import com.forcetower.uefs.db_service.entity.QuestionAnswer;
 import com.forcetower.uefs.db_service.entity.UpdateStatus;
 import com.forcetower.uefs.db_service.entity.Version;
 import com.forcetower.uefs.db_service.helper.CreditAndMentions;
+import com.forcetower.uefs.rep.helper.Resource;
 
 import java.util.List;
 
@@ -81,4 +82,8 @@ public interface UNEService {
 
     @GET("events/approval")
     LiveData<ApiResponse<List<Event>>> getUnapprovedEvents();
+
+    @FormUrlEncoded
+    @POST("events/approve")
+    Call<ActionResult<Event>> approveEvent(@Field("uuid") String uuid);
 }

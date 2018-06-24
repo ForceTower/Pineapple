@@ -87,9 +87,9 @@ public class AboutFragment extends Fragment implements Injectable {
         } else {
             creditsAdapter.setMentions(listCreditsResource.data);
             if (!listCreditsResource.data.isEmpty()) {
-                binding.includeAboutCredits.rvCredits.setVisibility(View.GONE);
-            } else {
                 binding.includeAboutCredits.rvCredits.setVisibility(View.VISIBLE);
+            } else {
+                binding.includeAboutCredits.rvCredits.setVisibility(View.GONE);
             }
         }
     }

@@ -20,6 +20,7 @@ import timber.log.Timber;
  */
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventHolder> {
     private final List<Event> events;
+    private EventClickListener listener;
 
     public EventAdapter() {
         events = new ArrayList<>();
@@ -42,6 +43,10 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventHolder>
         return events.size();
     }
 
+    public void setListener(EventClickListener listener) {
+        this.listener = listener;
+    }
+
     public void setEvents(List<Event> events) {
         this.events.clear();
         this.events.addAll(events);
@@ -57,11 +62,24 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventHolder>
         EventHolder(ItemCardEventBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            this.binding.getRoot().setOnClickListener(v -> onClick());
+        }
+
+        private void onClick() {
+            int position = getAdapterPosition();
+            Event event = events.get(position);
+            if (listener != null) {
+                listener.onEventClick(event, position);
+            }
         }
 
         void bind(Event event) {
             binding.setEvent(event);
             binding.executePendingBindings();
         }
+    }
+
+    public interface EventClickListener {
+        void onEventClick(Event event, int position);
     }
 }

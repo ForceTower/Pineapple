@@ -507,4 +507,7 @@
     <string name="discipline_missed_classes">Faltas</string>
     <string name="no_misses_registered">Você não tem faltas registradas o/</string>
     <string name="calculated_score">Score estimado é: %1$.1f</string>
+    <string name="approve_event">Aprovar Evento</string>
+    <string name="do_you_confirm_event_approval">Você quer aprovar o evento %1$s criado por %2$s</string>
+    <string name="logout_universe">Sair do Universo</string>
 </resources>

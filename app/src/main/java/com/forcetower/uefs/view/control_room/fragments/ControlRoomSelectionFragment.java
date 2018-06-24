@@ -9,14 +9,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.databinding.FragmentControlRoomSelectionBinding;
+import com.forcetower.uefs.db_service.ServiceDatabase;
+import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.view.universe.UniverseActivity;
+
+import javax.inject.Inject;
 
 /**
  * Created by João Paulo on 21/06/2018.
  */
-public class ControlRoomSelectionFragment extends Fragment {
+public class ControlRoomSelectionFragment extends Fragment implements Injectable {
+    @Inject
+    AppExecutors executors;
+    @Inject
+    ServiceDatabase database;
 
     @Nullable
     @Override
@@ -25,7 +34,12 @@ public class ControlRoomSelectionFragment extends Fragment {
         binding.masterSync.setOnClickListener(v -> goToMasterSync());
         binding.eventApprove.setOnClickListener(v -> goToEventApproval());
         binding.uneverse.setOnClickListener(v -> goToUneverse());
+        binding.logoutUneverse.setOnClickListener(v -> logoutUniverse());
         return binding.getRoot();
+    }
+
+    private void logoutUniverse() {
+        executors.others().execute(() -> database.accessTokenDao().deleteAll());
     }
 
     private void goToUneverse() {

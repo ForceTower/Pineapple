@@ -24,6 +24,14 @@
                 style="@style/Widget.AppCompat.Button.Colored"/>
 
             <android.support.v7.widget.AppCompatButton
+                android:id="@+id/logout_uneverse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/logout_universe"
+                android:layout_margin="8dp"
+                style="@style/Widget.AppCompat.Button.Colored"/>
+
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/master_sync"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -30,4 +30,7 @@ public interface AccessTokenDao {
 
     @Delete
     void delete(AccessToken token);
+
+    @Query("DELETE FROM AccessToken")
+    void deleteAll();
 }

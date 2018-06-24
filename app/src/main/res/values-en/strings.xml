@@ -501,7 +501,11 @@
     <string name="complete_sync_registry">Succeeded</string>
     <string name="sync_registry_label">Sync Registry</string>
     <string name="reset">Reset</string>
-    <string name="discipline_missed_classes">Faltas</string>
+    <string name="discipline_missed_classes">Missed classes</string>
     <string name="no_misses_registered">You have no registered missed classes o/</string>
     <string name="calculated_score">UNES calculated score: %1$.1f</string>
+
+    <string name="approve_event">Approve Event</string>
+    <string name="do_you_confirm_event_approval">Do you wish to approve the event %1$s created by %2$s</string>
+    <string name="logout_universe">Logout Uneverse</string>
 </resources>
