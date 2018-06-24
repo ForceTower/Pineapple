@@ -16,6 +16,7 @@ import com.forcetower.uefs.view.connected.fragments.BigTrayFragment;
 import com.forcetower.uefs.view.connected.fragments.ConnectedFragment;
 import com.forcetower.uefs.view.connected.fragments.DisciplineClassesFragment;
 import com.forcetower.uefs.view.connected.fragments.DisciplineDetailsFragment;
+import com.forcetower.uefs.view.connected.fragments.DisciplineMissedClassesFragment;
 import com.forcetower.uefs.view.connected.fragments.EventCreationFourFragment;
 import com.forcetower.uefs.view.connected.fragments.EventCreationOneFragment;
 import com.forcetower.uefs.view.connected.fragments.EventCreationPreviewFragment;
@@ -236,5 +237,9 @@ public class NavigationController {
 
     public void navigateToSyncRegistry() {
         changeFragment(new SyncRegistryFragment(), "sync_registry", true);
+    }
+
+    public void navigateToMissedClasses(int disciplineId) {
+        changeFragment(DisciplineMissedClassesFragment.getFragment(disciplineId), "discipline_missed_classes", true);
     }
 }

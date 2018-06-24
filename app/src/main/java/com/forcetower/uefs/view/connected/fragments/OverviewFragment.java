@@ -26,6 +26,7 @@ import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.util.DateUtils;
 import com.forcetower.uefs.view.UBaseActivity;
 import com.forcetower.uefs.view.connected.ActivityController;
+import com.forcetower.uefs.view.connected.NavigationController;
 import com.forcetower.uefs.vm.base.DisciplinesViewModel;
 
 import javax.inject.Inject;
@@ -35,6 +36,7 @@ import butterknife.ButterKnife;
 import timber.log.Timber;
 
 import static com.forcetower.uefs.view.connected.fragments.DisciplineDetailsFragment.INTENT_DISCIPLINE_GROUP_ID;
+import static com.forcetower.uefs.view.connected.fragments.DisciplineDetailsFragment.INTENT_DISCIPLINE_ID;
 
 /**
  * Created by João Paulo on 09/03/2018.
@@ -56,6 +58,8 @@ public class OverviewFragment extends Fragment implements Injectable {
     @BindView(R.id.tv_class_miss_limit)
     TextView classMissLimit;
     //View References card faults
+    @BindView(R.id.card_missed_classes)
+    CardView cvMissedClasses;
     @BindView(R.id.iv_icon_class_missed)
     ImageView classAlertImage;
     @BindView(R.id.tv_classes_missed)
@@ -86,6 +90,9 @@ public class OverviewFragment extends Fragment implements Injectable {
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
+    @Inject
+    NavigationController navigation;
+
     private DisciplinesViewModel disciplinesViewModel;
 
     private Discipline mDiscipline;
@@ -103,6 +110,10 @@ public class OverviewFragment extends Fragment implements Injectable {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_discipline_overview, container, false);
         ButterKnife.bind(this, view);
+        if (getArguments() != null) {
+            int disciplineId = getArguments().getInt(INTENT_DISCIPLINE_ID);
+            cvMissedClasses.setOnClickListener(v -> navigation.navigateToMissedClasses(disciplineId));
+        }
         return view;
     }
 

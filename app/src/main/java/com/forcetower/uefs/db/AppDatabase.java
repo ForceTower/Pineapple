@@ -11,6 +11,7 @@ import com.forcetower.uefs.db.dao.DisciplineClassLocationDao;
 import com.forcetower.uefs.db.dao.DisciplineClassMaterialLinkDao;
 import com.forcetower.uefs.db.dao.DisciplineDao;
 import com.forcetower.uefs.db.dao.DisciplineGroupDao;
+import com.forcetower.uefs.db.dao.DisciplineMissedClassesDao;
 import com.forcetower.uefs.db.dao.GradeDao;
 import com.forcetower.uefs.db.dao.GradeInfoDao;
 import com.forcetower.uefs.db.dao.GradeSectionDao;
@@ -27,6 +28,7 @@ import com.forcetower.uefs.db.entity.DisciplineClassItem;
 import com.forcetower.uefs.db.entity.DisciplineClassLocation;
 import com.forcetower.uefs.db.entity.DisciplineClassMaterialLink;
 import com.forcetower.uefs.db.entity.DisciplineGroup;
+import com.forcetower.uefs.db.entity.DisciplineMissedClass;
 import com.forcetower.uefs.db.entity.Grade;
 import com.forcetower.uefs.db.entity.GradeInfo;
 import com.forcetower.uefs.db.entity.GradeSection;
@@ -55,8 +57,9 @@ import com.forcetower.uefs.db.entity.TodoItem;
         TodoItem.class,
         Profile.class,
         CalendarEvent.class,
-        SyncRegistry.class
-}, version = 8)
+        SyncRegistry.class,
+        DisciplineMissedClass.class
+}, version = 9)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract AccessDao accessDao();
     public abstract CalendarItemDao calendarItemDao();
@@ -74,4 +77,5 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract ProfileDao profileDao();
     public abstract CalendarEventDao calendarEventDao();
     public abstract SyncRegistryDao syncRegistryDao();
+    public abstract DisciplineMissedClassesDao disciplineMissedClassesDao();
 }

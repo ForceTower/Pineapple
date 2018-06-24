@@ -7,6 +7,7 @@ import com.forcetower.uefs.view.connected.fragments.ConnectedFragment;
 import com.forcetower.uefs.view.connected.fragments.CreateReminderFragment;
 import com.forcetower.uefs.view.connected.fragments.DisciplineClassesFragment;
 import com.forcetower.uefs.view.connected.fragments.DisciplineDetailsFragment;
+import com.forcetower.uefs.view.connected.fragments.DisciplineMissedClassesFragment;
 import com.forcetower.uefs.view.connected.fragments.DisciplinesFragment;
 import com.forcetower.uefs.view.connected.fragments.EventCreationFourFragment;
 import com.forcetower.uefs.view.connected.fragments.EventCreationOneFragment;
@@ -119,4 +120,7 @@ public abstract class FragmentsModule {
 
     @ContributesAndroidInjector
     abstract SyncRegistryFragment contributeSyncRegistryFragment();
+
+    @ContributesAndroidInjector
+    abstract DisciplineMissedClassesFragment contributeDisciplineMissedClassesFragment();
 }

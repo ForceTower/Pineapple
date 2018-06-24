@@ -3,6 +3,7 @@ package com.forcetower.uefs.rep.sgrs;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 import android.support.annotation.NonNull;
+import android.util.Pair;
 
 import com.crashlytics.android.Crashlytics;
 import com.forcetower.uefs.AppExecutors;
@@ -12,12 +13,14 @@ import com.forcetower.uefs.db.dao.GradeDao;
 import com.forcetower.uefs.db.dao.GradeInfoDao;
 import com.forcetower.uefs.db.dao.GradeSectionDao;
 import com.forcetower.uefs.db.entity.Discipline;
+import com.forcetower.uefs.db.entity.DisciplineMissedClass;
 import com.forcetower.uefs.db.entity.Grade;
 import com.forcetower.uefs.db.entity.GradeInfo;
 import com.forcetower.uefs.db.entity.GradeSection;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.resources.FetchAllGradesResource;
 import com.forcetower.uefs.sgrs.parsers.SagresGradeParser;
+import com.forcetower.uefs.sgrs.parsers.SagresMissedClassesParser;
 
 import org.jsoup.nodes.Document;
 
@@ -36,6 +39,7 @@ import timber.log.Timber;
 import static com.forcetower.uefs.rep.helper.RequestCreator.makeGradesRequest;
 import static com.forcetower.uefs.rep.helper.RequestCreator.makeListGradeRequests;
 import static com.forcetower.uefs.rep.sgrs.LoginRepository.defineGrades;
+import static com.forcetower.uefs.rep.sgrs.LoginRepository.defineMissedClasses;
 import static com.forcetower.uefs.rep.sgrs.LoginRepository.redefinePages;
 
 /**
@@ -153,8 +157,14 @@ public class GradesRepository {
                 }
                 Timber.d("Semester is: %s. Good luck!", semester);
                 List<Grade> grades = SagresGradeParser.getGrades(document);
+                Pair<Boolean, List<DisciplineMissedClass>> missedClasses = SagresMissedClassesParser.getMissedClasses(document);
                 redefinePages(semester, grades, database);
                 defineGrades(semester, grades, database);
+                if (!missedClasses.first) {
+                    defineMissedClasses(semester, missedClasses.second, database);
+                } else {
+                    Timber.d("Missed classes error");
+                }
             }
 
             @NonNull

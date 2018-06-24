@@ -12,6 +12,7 @@ import com.forcetower.uefs.db.dao.DisciplineClassLocationDao;
 import com.forcetower.uefs.db.dao.DisciplineClassMaterialLinkDao;
 import com.forcetower.uefs.db.dao.DisciplineDao;
 import com.forcetower.uefs.db.dao.DisciplineGroupDao;
+import com.forcetower.uefs.db.dao.DisciplineMissedClassesDao;
 import com.forcetower.uefs.db.dao.GradeDao;
 import com.forcetower.uefs.db.dao.GradeInfoDao;
 import com.forcetower.uefs.db.dao.GradeSectionDao;
@@ -32,6 +33,7 @@ import static com.forcetower.uefs.db.DatabaseMigrations.MIGRATION_4_5;
 import static com.forcetower.uefs.db.DatabaseMigrations.MIGRATION_5_6;
 import static com.forcetower.uefs.db.DatabaseMigrations.MIGRATION_6_7;
 import static com.forcetower.uefs.db.DatabaseMigrations.MIGRATION_7_8;
+import static com.forcetower.uefs.db.DatabaseMigrations.MIGRATION_8_9;
 
 /**
  * Created by João Paulo on 07/03/2018.
@@ -44,7 +46,7 @@ public class DatabaseModule {
         return Room.databaseBuilder(application, AppDatabase.class, "unes_uefs_5.db")
                 .addMigrations(
                         MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5,
-                        MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8)
+                        MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9)
                 .build();
     }
 
@@ -136,5 +138,11 @@ public class DatabaseModule {
     @Singleton
     DisciplineClassMaterialLinkDao provideDisciplineClassMaterialLinkDao(AppDatabase database) {
         return database.disciplineClassMaterialLinkDao();
+    }
+
+    @Provides
+    @Singleton
+    DisciplineMissedClassesDao provideDisciplineMissedClassesDao(AppDatabase database) {
+        return database.disciplineMissedClassesDao();
     }
 }

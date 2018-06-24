@@ -9,10 +9,12 @@ import com.forcetower.uefs.db.dao.DisciplineClassItemDao;
 import com.forcetower.uefs.db.dao.DisciplineClassMaterialLinkDao;
 import com.forcetower.uefs.db.dao.DisciplineDao;
 import com.forcetower.uefs.db.dao.DisciplineGroupDao;
+import com.forcetower.uefs.db.dao.DisciplineMissedClassesDao;
 import com.forcetower.uefs.db.entity.Discipline;
 import com.forcetower.uefs.db.entity.DisciplineClassItem;
 import com.forcetower.uefs.db.entity.DisciplineClassMaterialLink;
 import com.forcetower.uefs.db.entity.DisciplineGroup;
+import com.forcetower.uefs.db.entity.DisciplineMissedClass;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
 import com.forcetower.uefs.rep.sgrs.DisciplinesRepository;
@@ -33,6 +35,7 @@ public class DisciplinesViewModel extends ViewModel {
     private final DisciplineClassItemDao itemDao;
     private final DisciplinesRepository repository;
     private final DisciplineClassMaterialLinkDao materialLinkDao;
+    private final DisciplineMissedClassesDao disciplineMissedClassesDao;
 
     private LiveData<List<Discipline>> allDisciplines;
 
@@ -49,13 +52,15 @@ public class DisciplinesViewModel extends ViewModel {
     @Inject
     DisciplinesViewModel(DisciplineDao disciplineDao, DisciplineGroupDao groupDao,
                          DisciplinesRepository repository, DisciplineClassItemDao itemDao,
-                         DisciplineClassMaterialLinkDao materialLinkDao) {
+                         DisciplineClassMaterialLinkDao materialLinkDao,
+                         DisciplineMissedClassesDao disciplineMissedClassesDao) {
         this.disciplineDao = disciplineDao;
         this.groupDao = groupDao;
         this.mediatorAssociative = new MediatorLiveData<>();
         this.repository = repository;
         this.itemDao = itemDao;
         this.materialLinkDao = materialLinkDao;
+        this.disciplineMissedClassesDao = disciplineMissedClassesDao;
         this.fetchDetails = new MediatorLiveData<>();
     }
 
@@ -147,5 +152,9 @@ public class DisciplinesViewModel extends ViewModel {
 
     public List<DisciplineClassMaterialLink> getClassMaterialsDirect(int classId) {
         return materialLinkDao.getMaterialsFromClassDirect(classId);
+    }
+
+    public LiveData<List<DisciplineMissedClass>> getMissedClasses(int disciplineId) {
+        return disciplineMissedClassesDao.getMissedClassesOfDiscipline(disciplineId);
     }
 }

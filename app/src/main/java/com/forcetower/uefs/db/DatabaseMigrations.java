@@ -41,8 +41,6 @@ public class DatabaseMigrations {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             Timber.d("Executing migration 4 -> 5");
-            database.execSQL("DROP TABLE Profile");
-            database.execSQL("CREATE TABLE IF NOT EXISTS ProfileUNES (uid INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT, score REAL NOT NULL, last_sync INTEGER NOT NULL, last_sync_attempt INTEGER NOT NULL)");
             Timber.d("Migration 4 -> 5 Executed");
         }
     };
@@ -68,6 +66,14 @@ public class DatabaseMigrations {
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             Timber.d("Executing migration 7 -> 8");
             database.execSQL("CREATE TABLE IF NOT EXISTS SyncRegistry (uid INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, attempt INTEGER NOT NULL DEFAULT 0, completed INTEGER)");
+        }
+    };
+
+    public static final Migration MIGRATION_8_9 = new Migration(8, 9) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            Timber.d("Executing migration 8 -> 9");
+            database.execSQL("CREATE TABLE IF NOT EXISTS DisciplineMissedClass (uid INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, date TEXT, description TEXT, disciplineId INTEGER NOT NULL DEFAULT 0)");
         }
     };
 }

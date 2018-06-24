@@ -504,4 +504,6 @@
     <string name="attempt_sync_registry">Tentativa</string>
     <string name="complete_sync_registry">Concluído</string>
     <string name="sync_registry_label">Registro de Sincronização</string>
+    <string name="discipline_missed_classes">Faltas</string>
+    <string name="no_misses_registered">Você não tem faltas registradas o/</string>
 </resources>

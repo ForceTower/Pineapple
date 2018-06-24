@@ -1,14 +1,17 @@
 package com.forcetower.uefs.work.grades;
 
 import android.support.annotation.NonNull;
+import android.util.Pair;
 
 import com.crashlytics.android.Crashlytics;
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.UEFSApplication;
 import com.forcetower.uefs.db.AppDatabase;
 import com.forcetower.uefs.db.entity.Access;
+import com.forcetower.uefs.db.entity.DisciplineMissedClass;
 import com.forcetower.uefs.db.entity.Grade;
 import com.forcetower.uefs.sgrs.parsers.SagresGradeParser;
+import com.forcetower.uefs.sgrs.parsers.SagresMissedClassesParser;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -44,6 +47,7 @@ import static com.forcetower.uefs.rep.helper.RequestCreator.makeRequestBody;
 import static com.forcetower.uefs.rep.resources.LoginOnlyResource.isConnected;
 import static com.forcetower.uefs.rep.resources.LoginOnlyResource.needApproval;
 import static com.forcetower.uefs.rep.sgrs.LoginRepository.defineGrades;
+import static com.forcetower.uefs.rep.sgrs.LoginRepository.defineMissedClasses;
 import static com.forcetower.uefs.rep.sgrs.LoginRepository.redefinePages;
 
 /**
@@ -237,6 +241,12 @@ public class DownloadGradesWorker extends Worker {
 
         redefinePages(semester, grades, mDatabase);
         defineGrades(semester, grades, mDatabase);
+        Pair<Boolean, List<DisciplineMissedClass>> missedClasses = SagresMissedClassesParser.getMissedClasses(document);
+        if (!missedClasses.first) {
+            defineMissedClasses(semester, missedClasses.second, mDatabase);
+        } else {
+            Timber.d("Missed classes error");
+        }
         Timber.d("All Saved");
     }
 

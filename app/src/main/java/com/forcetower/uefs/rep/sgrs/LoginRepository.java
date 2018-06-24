@@ -8,6 +8,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.WorkerThread;
+import android.util.Pair;
 
 import com.crashlytics.android.Crashlytics;
 import com.forcetower.uefs.AppExecutors;
@@ -31,6 +32,7 @@ import com.forcetower.uefs.db.entity.CalendarItem;
 import com.forcetower.uefs.db.entity.Discipline;
 import com.forcetower.uefs.db.entity.DisciplineClassLocation;
 import com.forcetower.uefs.db.entity.DisciplineGroup;
+import com.forcetower.uefs.db.entity.DisciplineMissedClass;
 import com.forcetower.uefs.db.entity.Grade;
 import com.forcetower.uefs.db.entity.GradeInfo;
 import com.forcetower.uefs.db.entity.GradeSection;
@@ -49,6 +51,7 @@ import com.forcetower.uefs.sgrs.parsers.SagresDisciplineParser;
 import com.forcetower.uefs.sgrs.parsers.SagresGenericParser;
 import com.forcetower.uefs.sgrs.parsers.SagresGradeParser;
 import com.forcetower.uefs.sgrs.parsers.SagresMessageParser;
+import com.forcetower.uefs.sgrs.parsers.SagresMissedClassesParser;
 import com.forcetower.uefs.sgrs.parsers.SagresScheduleParser;
 import com.forcetower.uefs.sgrs.parsers.SagresSemesterParser;
 import com.forcetower.uefs.work.sync.SyncWorkerUtils;
@@ -302,6 +305,12 @@ public class LoginRepository {
                     redefinePages(semester, grades, database);
                 }
                 defineGrades(semester, grades, database);
+                Pair<Boolean, List<DisciplineMissedClass>> missedClasses = SagresMissedClassesParser.getMissedClasses(document);
+                if (!missedClasses.first) {
+                    defineMissedClasses(semester, missedClasses.second, database);
+                } else {
+                    Timber.d("Missed classes error");
+                }
             }
         }.asLiveData();
     }
@@ -339,6 +348,20 @@ public class LoginRepository {
         } else {
             Timber.d("Failed to recover anyways");
         }
+    }
+
+    public static void defineMissedClasses(String semester, List<DisciplineMissedClass> values, AppDatabase database) {
+        List<String> codes = new ArrayList<>();
+        for (DisciplineMissedClass klass : values) {
+            Discipline discipline = database.disciplineDao().getDisciplinesBySemesterAndCodeDirect(semester, klass.getDisciplineCode());
+            klass.setDisciplineId(discipline.getUid());
+            codes.add(klass.getDisciplineCode());
+        }
+        for (String code : codes) {
+            database.disciplineMissedClassesDao().deleteFromDiscipline(code, semester);
+        }
+
+        database.disciplineMissedClassesDao().insert(values);
     }
 
     public static void defineGrades(@NonNull String semester, @NonNull List<Grade> grades, AppDatabase database) {
