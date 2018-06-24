@@ -2,22 +2,22 @@ package com.forcetower.uefs.vm.base;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.support.v4.util.Pair;
 
-import com.forcetower.uefs.db.AppDatabase;
 import com.forcetower.uefs.db.dao.DisciplineClassItemDao;
 import com.forcetower.uefs.db.dao.DisciplineClassMaterialLinkDao;
 import com.forcetower.uefs.db.dao.DisciplineDao;
 import com.forcetower.uefs.db.dao.DisciplineGroupDao;
 import com.forcetower.uefs.db.dao.DisciplineMissedClassesDao;
+import com.forcetower.uefs.db.dao.ProfileDao;
 import com.forcetower.uefs.db.entity.Discipline;
 import com.forcetower.uefs.db.entity.DisciplineClassItem;
 import com.forcetower.uefs.db.entity.DisciplineClassMaterialLink;
 import com.forcetower.uefs.db.entity.DisciplineGroup;
 import com.forcetower.uefs.db.entity.DisciplineMissedClass;
 import com.forcetower.uefs.db.entity.Grade;
+import com.forcetower.uefs.db.entity.Profile;
 import com.forcetower.uefs.db.helper.DisciplineAndGrade;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
@@ -41,6 +41,7 @@ public class DisciplinesViewModel extends ViewModel {
     private final DisciplinesRepository repository;
     private final DisciplineClassMaterialLinkDao materialLinkDao;
     private final DisciplineMissedClassesDao disciplineMissedClassesDao;
+    private final ProfileDao profileDao;
 
     private LiveData<List<Discipline>> allDisciplines;
 
@@ -58,9 +59,10 @@ public class DisciplinesViewModel extends ViewModel {
     DisciplinesViewModel(DisciplineDao disciplineDao, DisciplineGroupDao groupDao,
                          DisciplinesRepository repository, DisciplineClassItemDao itemDao,
                          DisciplineClassMaterialLinkDao materialLinkDao,
-                         DisciplineMissedClassesDao disciplineMissedClassesDao) {
+                         DisciplineMissedClassesDao disciplineMissedClassesDao, ProfileDao profileDao) {
         this.disciplineDao = disciplineDao;
         this.groupDao = groupDao;
+        this.profileDao = profileDao;
         this.mediatorAssociative = new MediatorLiveData<>();
         this.repository = repository;
         this.itemDao = itemDao;
@@ -179,6 +181,8 @@ public class DisciplinesViewModel extends ViewModel {
                         if (value >= 0 && discipline.getCredits() > 0) {
                             sum += value * discipline.getCredits();
                             divisor += discipline.getCredits();
+                        } else if (!finalGrade.getFinalScore().equalsIgnoreCase("Não Divulgada")){
+                            divisor += discipline.getCredits();
                         } else {
                             Timber.d("Ignored " + discipline.getCode() + " - Val: " + value + " :: Crd: " + discipline.getCredits());
                         }
@@ -194,8 +198,8 @@ public class DisciplinesViewModel extends ViewModel {
                 Timber.d("Freshman");
                 result.postValue(-1D);
             } else {
-                double score = sum/divisor;
-                Timber.d("Score calculated: " + score);
+                double score = (sum/divisor) + 0.05;
+                Timber.d("Score calculated: %.1f" + (score));
                 result.postValue(score);
             }
         });

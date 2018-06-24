@@ -189,12 +189,16 @@ public class LoginRepository {
                 Profile old = profileDao.getProfileDirect();
                 long oldLastSync = 0;
                 long oldLastAttempt = 0;
+                double oldScore = -1;
                 String oldCourse = null;
                 if (old != null) {
                     oldLastSync = old.getLastSync();
                     oldLastAttempt = old.getLastSyncAttempt();
                     oldCourse = old.getCourse();
+                    oldScore = old.getScore();
                 }
+
+                score = score == -1 ? oldScore : score;
                 Profile profile = new Profile(name, score);
                 profile.setLastSync(oldLastSync);
                 profile.setLastSyncAttempt(oldLastAttempt);

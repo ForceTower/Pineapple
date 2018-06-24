@@ -63,6 +63,7 @@ import com.forcetower.uefs.view.UBaseActivity;
 import com.forcetower.uefs.view.about.AboutActivity;
 import com.forcetower.uefs.view.login.MainActivity;
 import com.forcetower.uefs.view.settings.SettingsActivity;
+import com.forcetower.uefs.vm.base.DisciplinesViewModel;
 import com.forcetower.uefs.vm.base.DownloadsViewModel;
 import com.forcetower.uefs.vm.base.GradesViewModel;
 import com.forcetower.uefs.vm.base.ProfileViewModel;
@@ -117,6 +118,8 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     private NavigationViews navViews;
     private NavigationCustomActionViews downloadCert;
     private NavigationCustomActionViews downloadFlow;
+    private double scoreCalc = -1;
+    private boolean alternateScore = false;
 
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
@@ -358,6 +361,18 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         downloadsViewModel.getDownloadFlowchart().observe(this, this::onFlowchartDownload);
 
         uAccountViewModel = ViewModelProviders.of(this, viewModelFactory).get(UAccountViewModel.class);
+
+        DisciplinesViewModel disciplinesViewModel = ViewModelProviders.of(this, viewModelFactory).get(DisciplinesViewModel.class);
+        disciplinesViewModel.getScore().observe(this, this::onScoreCalculated);
+    }
+
+    private void onScoreCalculated(Double value) {
+        if (value != null) {
+            this.scoreCalc = value;
+            if (scoreCalc >= 0 && alternateScore) {
+                navViews.tvNavSubtitle.setText(getString(R.string.calculated_score, scoreCalc));
+            }
+        }
     }
 
     private void onCertificateDownload(Resource<Integer> resource) {
@@ -365,7 +380,6 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         if (resource.status == Status.LOADING) {
             //noinspection ConstantConditions
             Timber.d(getString(resource.data));
-            //globalLoading.setIndeterminate(true);
             downloadCert.pbAction.setIndeterminate(true);
             downloadCert.ivAction.setVisibility(View.INVISIBLE);
             AnimUtils.fadeIn(this, downloadCert.pbAction);
@@ -487,7 +501,12 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         if (profile.getScore() >= 0) {
             navViews.tvNavSubtitle.setText(getString(R.string.student_score, profile.getScore()));
         } else {
-            navViews.tvNavSubtitle.setText(R.string.no_score_message);
+            alternateScore = true;
+            if (scoreCalc >= 0) {
+                navViews.tvNavSubtitle.setText(getString(R.string.calculated_score, scoreCalc));
+            } else {
+                navViews.tvNavSubtitle.setText(R.string.no_score_message);
+            }
         }
 
         if (mPreferences.getBoolean("show_score", false)) {
@@ -625,13 +644,9 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
             } else if (id == R.id.nav_flowchart_certificate) {
                 openCertificatePdf(true, SagresDocuments.FLOWCHART);
             } else if (id == R.id.nav_events) {
-                if (VersionUtils.isLollipop()) {
-                    clearBackStack();
-                    tabLayout.setVisibility(View.GONE);
-                    navigationController.navigateToEvents();
-                } else {
-                    Toast.makeText(this, R.string.development_only_android_5, Toast.LENGTH_SHORT).show();
-                }
+                clearBackStack();
+                tabLayout.setVisibility(View.GONE);
+                navigationController.navigateToEvents();
             } else if (id == R.id.nav_reminders) {
                 clearBackStack();
                 navigationController.navigateToReminders();

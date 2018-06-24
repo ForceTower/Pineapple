@@ -90,16 +90,29 @@
                     android:inputType="number"/>
             </android.support.design.widget.TextInputLayout>
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_info_outline_black_24dp"
-                android:drawableLeft="@drawable/ic_info_outline_black_24dp"
-                android:drawablePadding="8dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/event_organization_definition"
-                android:textColor="@color/primaryText"
-                android:fontFamily="@font/roboto_regular"/>
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_info_outline_black_24dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_gravity="center_vertical"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/event_organization_definition"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="@font/roboto_regular"/>
+
+            </LinearLayout>
+
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
