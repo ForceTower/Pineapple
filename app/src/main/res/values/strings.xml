@@ -506,4 +506,5 @@
     <string name="sync_registry_label">Registro de Sincronização</string>
     <string name="discipline_missed_classes">Faltas</string>
     <string name="no_misses_registered">Você não tem faltas registradas o/</string>
+    <string name="calculated_score">O score calculado pelo UNES é %1$.1f</string>
 </resources>

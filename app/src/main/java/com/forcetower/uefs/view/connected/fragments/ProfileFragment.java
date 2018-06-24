@@ -37,6 +37,7 @@ import com.forcetower.uefs.util.DateUtils;
 import com.forcetower.uefs.view.connected.ActivityController;
 import com.forcetower.uefs.view.connected.NavigationController;
 import com.forcetower.uefs.view.control_room.ControlRoomActivity;
+import com.forcetower.uefs.vm.base.DisciplinesViewModel;
 import com.forcetower.uefs.vm.base.ProfileViewModel;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
@@ -102,6 +103,8 @@ public class ProfileFragment extends Fragment implements Injectable {
     private SharedPreferences sharedPreferences;
 
     private ActivityController controller;
+    private double scoreCalc = -1;
+    private boolean alternateScore = false;
 
     @Override
     public void onAttach(Context context) {
@@ -182,6 +185,18 @@ public class ProfileFragment extends Fragment implements Injectable {
         profileViewModel.getSemesters().observe(this, this::onReceiveSemesters);
         profileViewModel.getAccess().observe(this, this::onReceiveAccess);
         profileViewModel.getProfileImage().observe(this, this::onReceiveProfileImage);
+
+        DisciplinesViewModel disciplinesViewModel = ViewModelProviders.of(this, viewModelFactory).get(DisciplinesViewModel.class);
+        disciplinesViewModel.getScore().observe(this, this::onScoreCalculated);
+    }
+
+    private void onScoreCalculated(Double value) {
+        if (value != null) {
+            this.scoreCalc = value;
+            if (scoreCalc >= 0 && alternateScore) {
+                tvStdScore.setText(getString(R.string.calculated_score, scoreCalc));
+            }
+        }
     }
 
     private void onReceiveProfileImage(Bitmap bitmap) {
@@ -219,7 +234,12 @@ public class ProfileFragment extends Fragment implements Injectable {
         if (profile.getScore() >= 0) {
             tvStdScore.setText(getString(R.string.student_score, profile.getScore()));
         } else {
-            tvStdScore.setText(R.string.no_score_message);
+            alternateScore = true;
+            if (scoreCalc >= 0) {
+                tvStdScore.setText(getString(R.string.calculated_score, scoreCalc));
+            } else {
+                tvStdScore.setText(R.string.no_score_message);
+            }
         }
 
         Timber.d("Last Sync: %s", profile.getLastSync());

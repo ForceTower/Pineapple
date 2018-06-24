@@ -8,6 +8,7 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
 import com.forcetower.uefs.db.entity.Discipline;
+import com.forcetower.uefs.db.helper.DisciplineAndGrade;
 
 import java.util.List;
 
@@ -18,6 +19,9 @@ import java.util.List;
 public interface DisciplineDao {
     @Query("SELECT * FROM Discipline")
     LiveData<List<Discipline>> getAllDisciplines();
+
+    @Query("SELECT * FROM Discipline")
+    LiveData<List<DisciplineAndGrade>> getAllDisciplinesWithGrades();
 
     @Query("SELECT * FROM Discipline")
     List<Discipline> getAllDisciplinesDirect();

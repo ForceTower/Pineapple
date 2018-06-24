@@ -2,9 +2,11 @@ package com.forcetower.uefs.vm.base;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.support.v4.util.Pair;
 
+import com.forcetower.uefs.db.AppDatabase;
 import com.forcetower.uefs.db.dao.DisciplineClassItemDao;
 import com.forcetower.uefs.db.dao.DisciplineClassMaterialLinkDao;
 import com.forcetower.uefs.db.dao.DisciplineDao;
@@ -15,9 +17,12 @@ import com.forcetower.uefs.db.entity.DisciplineClassItem;
 import com.forcetower.uefs.db.entity.DisciplineClassMaterialLink;
 import com.forcetower.uefs.db.entity.DisciplineGroup;
 import com.forcetower.uefs.db.entity.DisciplineMissedClass;
+import com.forcetower.uefs.db.entity.Grade;
+import com.forcetower.uefs.db.helper.DisciplineAndGrade;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
 import com.forcetower.uefs.rep.sgrs.DisciplinesRepository;
+import com.forcetower.uefs.util.ValueUtils;
 
 import java.util.List;
 
@@ -156,5 +161,40 @@ public class DisciplinesViewModel extends ViewModel {
 
     public LiveData<List<DisciplineMissedClass>> getMissedClasses(int disciplineId) {
         return disciplineMissedClassesDao.getMissedClassesOfDiscipline(disciplineId);
+    }
+
+    public LiveData<Double> getScore() {
+        MediatorLiveData<Double> result = new MediatorLiveData<>();
+        LiveData<List<DisciplineAndGrade>> disciplinesSrc = disciplineDao.getAllDisciplinesWithGrades();
+        result.addSource(disciplinesSrc, disciplines -> {
+            result.removeSource(disciplinesSrc);
+            double sum = 0;
+            double divisor = 0;
+            //noinspection ConstantConditions
+            for (DisciplineAndGrade discipline : disciplines) {
+                Grade finalGrade = discipline.getFinalGrade();
+                if (finalGrade != null && finalGrade.getFinalScore() != null) {
+                    double value = ValueUtils.toDoubleMod(finalGrade.getFinalScore());
+                    if (value >= 0 && discipline.getCredits() > 0) {
+                        sum += value * discipline.getCredits();
+                        divisor += discipline.getCredits();
+                    } else {
+                        Timber.d("Ignored " + discipline.getCode() + " - Val: " + value + " :: Crd: " + discipline.getCredits());
+                    }
+                } else {
+                    Timber.d("Ignored " + discipline.getCode() + " final score doesn't exists");
+                }
+            }
+
+            if (divisor == 0) {
+                Timber.d("Freshman");
+                result.postValue(-1D);
+            } else {
+                double score = sum/divisor;
+                Timber.d("Score calculated: " + score);
+                result.postValue(score);
+            }
+        });
+        return result;
     }
 }

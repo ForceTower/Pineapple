@@ -29,12 +29,6 @@ public class AppModule {
 
     @Provides
     @Singleton
-    UEFSApplication provideUEFSApplication(Application application) {
-        return (UEFSApplication) application;
-    }
-
-    @Provides
-    @Singleton
     RUFirebase provideRUFirebase(Context context) {
         return new RUFirebase(context);
     }
