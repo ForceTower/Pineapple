@@ -501,4 +501,7 @@
     <string name="complete_sync_registry">Succeeded</string>
     <string name="sync_registry_label">Sync Registry</string>
     <string name="reset">Reset</string>
+    <string name="discipline_missed_classes">Faltas</string>
+    <string name="no_misses_registered">You have no registered missed classes o/</string>
+    <string name="calculated_score">UNES calculated score: %1$.1f</string>
 </resources>
