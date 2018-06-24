@@ -3,6 +3,7 @@ package com.forcetower.uefs.work.event;
 import android.support.annotation.NonNull;
 
 import com.forcetower.uefs.Constants;
+import com.forcetower.uefs.UEFSApplication;
 import com.forcetower.uefs.db_service.ServiceDatabase;
 import com.forcetower.uefs.db_service.entity.Event;
 import com.forcetower.uefs.ntf.NotificationCreator;
@@ -51,8 +52,11 @@ public class EventApprovalWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
+        ((UEFSApplication)getApplicationContext()).getAppComponent().inject(this);
+
         String uuid = getInputData().getString("event_uuid", null);
         if (uuid == null) {
+            Timber.d("Uuid is null. leaving..");
             return Result.FAILURE;
         }
         Call<ActionResult<Event>> call = service.approveEvent(uuid);
