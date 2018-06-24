@@ -172,17 +172,21 @@ public class DisciplinesViewModel extends ViewModel {
             double divisor = 0;
             //noinspection ConstantConditions
             for (DisciplineAndGrade discipline : disciplines) {
-                Grade finalGrade = discipline.getFinalGrade();
-                if (finalGrade != null && finalGrade.getFinalScore() != null) {
-                    double value = ValueUtils.toDoubleMod(finalGrade.getFinalScore());
-                    if (value >= 0 && discipline.getCredits() > 0) {
-                        sum += value * discipline.getCredits();
-                        divisor += discipline.getCredits();
+                if (!discipline.getFinalGrade().isEmpty()) {
+                    Grade finalGrade = discipline.getFinalGrade().get(0);
+                    if (finalGrade.getFinalScore() != null) {
+                        double value = ValueUtils.toDoubleMod(finalGrade.getFinalScore());
+                        if (value >= 0 && discipline.getCredits() > 0) {
+                            sum += value * discipline.getCredits();
+                            divisor += discipline.getCredits();
+                        } else {
+                            Timber.d("Ignored " + discipline.getCode() + " - Val: " + value + " :: Crd: " + discipline.getCredits());
+                        }
                     } else {
-                        Timber.d("Ignored " + discipline.getCode() + " - Val: " + value + " :: Crd: " + discipline.getCredits());
+                        Timber.d("Ignored " + discipline.getCode() + " final score doesn't exists");
                     }
                 } else {
-                    Timber.d("Ignored " + discipline.getCode() + " final score doesn't exists");
+                    Timber.d("Empty list of grades");
                 }
             }
 

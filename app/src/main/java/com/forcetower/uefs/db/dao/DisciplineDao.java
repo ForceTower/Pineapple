@@ -6,6 +6,7 @@ import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Transaction;
 
 import com.forcetower.uefs.db.entity.Discipline;
 import com.forcetower.uefs.db.helper.DisciplineAndGrade;
@@ -20,6 +21,7 @@ public interface DisciplineDao {
     @Query("SELECT * FROM Discipline")
     LiveData<List<Discipline>> getAllDisciplines();
 
+    @Transaction
     @Query("SELECT * FROM Discipline")
     LiveData<List<DisciplineAndGrade>> getAllDisciplinesWithGrades();
 
