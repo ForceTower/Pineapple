@@ -510,4 +510,5 @@
     <string name="approve_event">Aprovar Evento</string>
     <string name="do_you_confirm_event_approval">Você quer aprovar o evento %1$s criado por %2$s</string>
     <string name="logout_universe">Sair do Universo</string>
+    <string name="select_a_course_variant">Você precisa selecionar uma das opções para o aplicativo funcionar corretamente</string>
 </resources>

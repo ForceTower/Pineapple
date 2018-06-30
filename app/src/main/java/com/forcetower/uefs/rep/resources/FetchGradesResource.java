@@ -7,11 +7,15 @@ import android.support.annotation.NonNull;
 
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.db.entity.CourseVariant;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.sgrs.SagresResponse;
+import com.forcetower.uefs.sgrs.parsers.SagresGradeParser;
 import com.forcetower.uefs.util.network.LiveDataCallAdapter;
 
 import org.jsoup.nodes.Document;
+
+import java.util.List;
 
 import okhttp3.Call;
 import timber.log.Timber;
@@ -44,8 +48,14 @@ public abstract class FetchGradesResource {
                 Document document = response.getDocument();
                 result.postValue(Resource.loading(R.string.processing_information));
                 executors.diskIO().execute(() -> {
-                    saveResult(document);
-                    executors.mainThread().execute(() -> result.setValue(Resource.success(R.string.grades_obtained)));
+                    List<CourseVariant> variants = SagresGradeParser.findVariants(document);
+                    if (variants.isEmpty()) {
+                        saveResult(document);
+                        executors.mainThread().execute(() -> result.setValue(Resource.success(R.string.grades_obtained)));
+                    } else {
+                        saveVariants(variants);
+                        executors.mainThread().execute(() -> result.setValue(Resource.loading(R.string.select_a_course_variant)));
+                    }
                 });
             } else {
                 result.postValue(Resource.error(response.getMessage(), response.getCode(), R.string.failed_to_connect));
@@ -59,4 +69,5 @@ public abstract class FetchGradesResource {
 
     public abstract Call createGradesCall();
     public abstract void saveResult(@NonNull Document document);
+    public abstract void saveVariants(@NonNull List<CourseVariant> variants);
 }

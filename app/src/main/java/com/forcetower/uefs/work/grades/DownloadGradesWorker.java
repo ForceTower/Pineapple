@@ -68,6 +68,7 @@ public class DownloadGradesWorker extends Worker {
                 .setConstraints(constraints)
                 .setInputData(data)
                 .addTag(Constants.WORKER_DOWNLOAD_GRADES + semester)
+                .addTag(Constants.WORKER_DOWNLOAD_GRADES_GENERAL)
                 .build();
 
         WorkManager.getInstance().enqueue(request);
@@ -87,6 +88,7 @@ public class DownloadGradesWorker extends Worker {
                 .setConstraints(constraints)
                 .setInputData(data)
                 .addTag(Constants.WORKER_DOWNLOAD_GRADES + "key_find")
+                .addTag(Constants.WORKER_DOWNLOAD_GRADES_GENERAL)
                 .build();
 
         WorkManager.getInstance().enqueue(request);
@@ -102,6 +104,10 @@ public class DownloadGradesWorker extends Worker {
     private String mSemester;
     private Access mAccess;
     private boolean keyFinder;
+
+    public static void disableWorkers() {
+        WorkManager.getInstance().cancelAllWorkByTag(Constants.WORKER_DOWNLOAD_GRADES_GENERAL);
+    }
 
     @NonNull
     @Override

@@ -11,7 +11,6 @@ import com.forcetower.uefs.db_service.entity.QuestionAnswer;
 import com.forcetower.uefs.db_service.entity.UpdateStatus;
 import com.forcetower.uefs.db_service.entity.Version;
 import com.forcetower.uefs.db_service.helper.CreditAndMentions;
-import com.forcetower.uefs.rep.helper.Resource;
 
 import java.util.List;
 

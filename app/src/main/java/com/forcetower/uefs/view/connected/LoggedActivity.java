@@ -79,6 +79,7 @@ import java.util.HashMap;
 
 import javax.inject.Inject;
 
+import androidx.work.WorkManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.AndroidInjector;
@@ -139,7 +140,6 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     private DownloadsViewModel downloadsViewModel;
     private UAccountViewModel uAccountViewModel;
 
-    private boolean afterLogin;
     @IdRes
     private int selectedNavId;
 
@@ -205,7 +205,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
     private void onActivityCreated() {
         setupShortcuts();
-        afterLogin = getIntent().getBooleanExtra("after_login", false);
+        boolean afterLogin = getIntent().getBooleanExtra("after_login", false);
         mPreferences.edit().putBoolean("show_not_connected_notification", true).apply();
         initiateActivity();
 
@@ -213,7 +213,6 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
             DownloadGradesWorker.createWorker();
             Toast.makeText(this, R.string.downloading_your_grades, Toast.LENGTH_SHORT).show();
         }
-        afterLogin = false;
     }
 
     private void setupFragmentStackListener() {
@@ -576,8 +575,8 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
                 if (pInfo.versionName.contains("RC") || pInfo.versionName.contains("rc")) {
                     uAccountViewModel.setUserBetaInformation(pInfo.versionName).observe(this, void_ling -> Timber.d("void_ling_beta: " + void_ling));
                 }
-            } catch (Exception ignored) {
-                Crashlytics.logException(ignored);
+            } catch (Exception e) {
+                Crashlytics.logException(e);
             }
 
         }
@@ -668,6 +667,8 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     private void performLogout() {
         disconnecting = true;
         SyncWorkerUtils.disableWorker(this);
+        DownloadGradesWorker.disableWorkers();
+        WorkManager.getInstance().cancelAllWork();
         gradesViewModel.logout().observe(this, this::logoutObserver);
     }
 

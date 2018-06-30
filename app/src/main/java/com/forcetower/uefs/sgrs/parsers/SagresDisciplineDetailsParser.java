@@ -25,6 +25,7 @@ public class SagresDisciplineDetailsParser {
     public static DisciplineGroup parseDisciplineGroup(Document document) {
         Element elementName = document.selectFirst("h2[class=\"cabecalho-titulo\"]");
         if (elementName == null) {
+            Crashlytics.logException(new Exception("h2[class=\"cabecalho-titulo\"] returned null"));
             return null;
         }
 

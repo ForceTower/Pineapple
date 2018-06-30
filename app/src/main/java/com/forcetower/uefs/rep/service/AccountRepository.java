@@ -24,10 +24,13 @@ import com.forcetower.uefs.service.ActionResult;
 import com.forcetower.uefs.service.ApiResponse;
 import com.forcetower.uefs.service.UNEService;
 import com.forcetower.uefs.util.ImageUtils;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.common.hash.Hashing;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import java.io.File;
 import java.nio.charset.Charset;
@@ -202,11 +205,9 @@ public class AccountRepository {
                 if (a == null) return;
                 Crashlytics.setUserIdentifier(a.getUsername());
                 Crashlytics.setUserName(p != null ? p.getName() : "Undefined");
-                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("firebase_tokens");
-                String token = FirebaseInstanceId.getInstance().getToken();
-                if (token == null) {
-                    data.postValue("Null Firebase Token");
-                } else {
+                FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(task -> {
+                    String token = task.getResult().getToken();
+                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("firebase_tokens");
                     reference.child(a.getUsernameFixed()).child("token").setValue(token);
                     reference.child(a.getUsernameFixed()).child("device").setValue(Build.MANUFACTURER + " " + Build.MODEL);
                     reference.child(a.getUsernameFixed()).child("android").setValue(Build.VERSION.SDK_INT);
@@ -218,10 +219,10 @@ public class AccountRepository {
                         courses.child(a.getUsernameFixed()).child("score").setValue(p.getScore());
                     }
                     data.postValue("Completed");
-                }
-            } catch (Exception ignored) {
-                Crashlytics.logException(ignored);
-                ignored.printStackTrace();
+                });
+            } catch (Exception e) {
+                Crashlytics.logException(e);
+                e.printStackTrace();
             }
         });
         return data;

@@ -21,7 +21,7 @@ public class SagresGenericParser {
     public static String getName(Document document) {
         Element element = document.selectFirst("span[class=\"usuario-nome\"]");
         if (element != null) {
-            return WordUtils.toTitleCase(element.text());
+            return element.text().trim();
         } else {
             return null;
         }

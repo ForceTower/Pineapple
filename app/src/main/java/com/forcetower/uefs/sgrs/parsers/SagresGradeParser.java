@@ -1,11 +1,14 @@
 package com.forcetower.uefs.sgrs.parsers;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.crashlytics.android.Crashlytics;
+import com.forcetower.uefs.db.entity.CourseVariant;
 import com.forcetower.uefs.db.entity.Grade;
 import com.forcetower.uefs.db.entity.GradeInfo;
 import com.forcetower.uefs.db.entity.GradeSection;
+import com.forcetower.uefs.util.WordUtils;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -19,7 +22,14 @@ import timber.log.Timber;
 import static com.forcetower.uefs.util.ValueUtils.toDouble;
 
 /**
- * Created by João Paulo on 06/03/2018.
+ * Created by João Paulo on 10/01/2018.
+ * Upgraded version for v3.0.0 on 06/03/2018
+ * - Better and faster parsing
+ * - Ability to find the semester.
+ *
+ * Upgraded version for 6.2.0 on 30/06/2018
+ * - Some courses have more than one variant... (I need to talk to someone about this)
+ * - Selector can find the appropriate semester on parse time.
  */
 
 public class SagresGradeParser {
@@ -28,23 +38,41 @@ public class SagresGradeParser {
         Element gradesDiv = document.selectFirst("div[id=\"divBoletins\"]");
         if (gradesDiv == null) {
             Crashlytics.logException(new Exception("Grades Div is null"));
+            Timber.d("Grades Div is null");
             return null;
         }
 
         Elements classes = gradesDiv.select("div[class=\"boletim-container\"]");
         if (classes == null) {
             Crashlytics.logException(new Exception("Container Div is null"));
+            Timber.d("Container Div is null");
             return null;
         }
 
         Elements semestersValues = document.select("option[selected=\"selected\"]");
         if (semestersValues.size() == 1) {
             return semestersValues.get(0).text();
+        } else if (semestersValues.size() > 1) {
+            Timber.d("Selected values size is greater than 1");
+            Element select = document.selectFirst("select[id=\"ctl00_MasterPlaceHolder_ddPeriodosLetivos_ddPeriodosLetivos\"]");
+            if (select != null) {
+                Element selected = select.selectFirst("option[selected=\"selected\"]");
+                if (selected != null) {
+                    Timber.d("Second Select working");
+                    return selected.text();
+                } else {
+                    Crashlytics.logException(new Exception("Even after second select it is invalid"));
+                    Timber.d("Select option is null after second Select");
+                }
+            } else {
+                Crashlytics.logException(new Exception("The hole is lower. Cant find second select"));
+                Timber.d("Cant find select for this one query");
+            }
         } else {
-            Timber.d("There are 2 values selected... How fun");
+            Timber.d("There are no values selected... How fun");
             StringBuilder sb = new StringBuilder();
             for (Element element : semestersValues) {
-                sb.append(element.text()).append("\n");
+                sb.append(element.text()).append(" <> ");
             }
             String elements = sb.toString();
             Crashlytics.logException(new Exception("The number of values selected in the spinner is " + semestersValues.size() + ":: Elements: " + elements));
@@ -130,5 +158,31 @@ public class SagresGradeParser {
         }
 
         return grades;
+    }
+
+    public static List<CourseVariant> findVariants(@NonNull Document document) {
+        List<CourseVariant> variants = new ArrayList<>();
+
+        Elements semestersValues = document.select("option[selected=\"selected\"]");
+        if (semestersValues.size() > 1) {
+            Timber.d("There is more than one variant");
+            Element variant = document.selectFirst("select[id=\"ctl00_MasterPlaceHolder_ddRegistroCurso\"]");
+            if (variant == null) {
+                Timber.d("More than 1 selected but variant spinner is not found");
+                Crashlytics.logException(new Exception("More than 1 selected but variant spinner is not found"));
+            } else {
+                Elements options = variant.children();
+                Timber.d("Number of variants: " + options.size());
+                for (Element option : options) {
+                    String uefsId = option.attr("value");
+                    String name = WordUtils.toTitleCase(option.text().trim());
+                    variants.add(new CourseVariant(uefsId, name));
+                    Timber.d("Variant: " + uefsId + " -> " + name);
+                }
+            }
+        } else {
+            Timber.d("No variants found! App will behave normally");
+        }
+        return variants;
     }
 }

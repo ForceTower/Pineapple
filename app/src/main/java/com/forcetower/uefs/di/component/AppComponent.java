@@ -10,7 +10,6 @@ import com.forcetower.uefs.di.module.DatabaseServiceModule;
 import com.forcetower.uefs.di.module.NetworkModule;
 import com.forcetower.uefs.di.module.ReceiversModule;
 import com.forcetower.uefs.di.module.ServicesModule;
-import com.forcetower.uefs.view.control_room.fragments.EventApprovalFragment;
 import com.forcetower.uefs.work.event.CreateEventWorker;
 import com.forcetower.uefs.work.event.EventApprovalWorker;
 import com.forcetower.uefs.work.grades.DownloadGradesWorker;

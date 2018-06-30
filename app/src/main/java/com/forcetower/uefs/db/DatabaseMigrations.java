@@ -76,4 +76,12 @@ public class DatabaseMigrations {
             database.execSQL("CREATE TABLE IF NOT EXISTS DisciplineMissedClass (uid INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, date TEXT, description TEXT, disciplineId INTEGER NOT NULL DEFAULT 0)");
         }
     };
+
+    public static final Migration MIGRATION_9_10 = new Migration(9, 10) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            Timber.d("Executing migration 9 -> 10");
+            database.execSQL("CREATE TABLE IF NOT EXISTS CourseVariant (uid INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, uefs_id TEXT, name TEXT, selected INTEGER NOT NULL DEFAULT 0)");
+        }
+    };
 }

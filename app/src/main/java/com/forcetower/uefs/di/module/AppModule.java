@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 
 import com.forcetower.uefs.GooglePlayGamesInstance;
-import com.forcetower.uefs.UEFSApplication;
 import com.forcetower.uefs.ru.RUFirebase;
 
 import javax.inject.Singleton;

@@ -29,6 +29,7 @@ import com.forcetower.uefs.db.dao.ProfileDao;
 import com.forcetower.uefs.db.dao.SemesterDao;
 import com.forcetower.uefs.db.entity.Access;
 import com.forcetower.uefs.db.entity.CalendarItem;
+import com.forcetower.uefs.db.entity.CourseVariant;
 import com.forcetower.uefs.db.entity.Discipline;
 import com.forcetower.uefs.db.entity.DisciplineClassLocation;
 import com.forcetower.uefs.db.entity.DisciplineGroup;
@@ -315,6 +316,11 @@ public class LoginRepository {
                 } else {
                     Timber.d("Missed classes error");
                 }
+            }
+
+            @Override
+            public void saveVariants(@NonNull List<CourseVariant> variants) {
+                database.courseVariantDao().insert(variants);
             }
         }.asLiveData();
     }

@@ -8,7 +8,6 @@ import com.forcetower.uefs.db_service.ServiceDatabase;
 import com.forcetower.uefs.db_service.entity.Event;
 import com.forcetower.uefs.ntf.NotificationCreator;
 import com.forcetower.uefs.service.ActionResult;
-import com.forcetower.uefs.service.ApiResponse;
 import com.forcetower.uefs.service.UNEService;
 
 import java.io.IOException;

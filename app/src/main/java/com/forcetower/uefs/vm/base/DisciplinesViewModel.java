@@ -17,7 +17,6 @@ import com.forcetower.uefs.db.entity.DisciplineClassMaterialLink;
 import com.forcetower.uefs.db.entity.DisciplineGroup;
 import com.forcetower.uefs.db.entity.DisciplineMissedClass;
 import com.forcetower.uefs.db.entity.Grade;
-import com.forcetower.uefs.db.entity.Profile;
 import com.forcetower.uefs.db.helper.DisciplineAndGrade;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
