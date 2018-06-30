@@ -42,7 +42,12 @@ public class SagresGradeParser {
             return semestersValues.get(0).text();
         } else {
             Timber.d("There are 2 values selected... How fun");
-            Crashlytics.logException(new Exception("The number of values selected in the spinner is " + semestersValues.size()));
+            StringBuilder sb = new StringBuilder();
+            for (Element element : semestersValues) {
+                sb.append(element.text()).append("\n");
+            }
+            String elements = sb.toString();
+            Crashlytics.logException(new Exception("The number of values selected in the spinner is " + semestersValues.size() + ":: Elements: " + elements));
         }
 
         return null;
