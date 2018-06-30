@@ -70,7 +70,12 @@ public class Profile {
 
     public String getCourseFixed() {
         if (getCourse() == null) return "";
-        return getCourse().replace("/", "");
+        return getCourse().replace("/", "")
+                .replace(".", "")
+                .replace("#", "")
+                .replace("$", "")
+                .replace("[", "")
+                .replace("]", "");
     }
 
     public void setCourse(String course) {

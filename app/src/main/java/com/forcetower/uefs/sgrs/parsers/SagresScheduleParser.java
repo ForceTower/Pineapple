@@ -33,7 +33,6 @@ public class SagresScheduleParser {
 
         if (schedule == null) {
             Timber.d("Schedule not found! Prob is \"Schedule Undefined\"");
-            Crashlytics.log("Schedule not found! Prob is \"Schedule Undefined\"");
             return null;
         }
 
