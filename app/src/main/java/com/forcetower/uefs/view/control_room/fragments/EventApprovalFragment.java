@@ -54,7 +54,7 @@ public class EventApprovalFragment extends Fragment implements Injectable {
         binding.rvEvents.setAdapter(adapter);
         binding.rvEvents.setItemAnimator(new DefaultItemAnimator());
 
-        adapter.setListener((event, position) -> {
+        adapter.setListener((event, view, position) -> {
             SimpleDialog dialog = SimpleDialog.newDialog(
                     0,
                     getString(R.string.approve_event),

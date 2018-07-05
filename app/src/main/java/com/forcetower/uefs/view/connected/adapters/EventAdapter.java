@@ -4,6 +4,7 @@ import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.forcetower.uefs.R;
@@ -69,7 +70,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventHolder>
             int position = getAdapterPosition();
             Event event = events.get(position);
             if (listener != null) {
-                listener.onEventClick(event, position);
+                listener.onEventClick(event, binding.eventImage, position);
             }
         }
 
@@ -80,6 +81,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventHolder>
     }
 
     public interface EventClickListener {
-        void onEventClick(Event event, int position);
+        void onEventClick(Event event, View view, int position);
     }
 }

@@ -2,20 +2,26 @@ package com.forcetower.uefs.view.connected.fragments;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
+import android.transition.Explode;
 import android.transition.Slide;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.anim.ChangeBoundsTransition;
 import com.forcetower.uefs.databinding.FragmentEventsBinding;
 import com.forcetower.uefs.db_service.entity.Event;
 import com.forcetower.uefs.di.Injectable;
@@ -24,6 +30,7 @@ import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.connected.ActivityController;
 import com.forcetower.uefs.view.connected.NavigationController;
 import com.forcetower.uefs.view.connected.adapters.EventAdapter;
+import com.forcetower.uefs.view.event.EventDetailsActivity;
 import com.forcetower.uefs.vm.UEFSViewModelFactory;
 import com.forcetower.uefs.vm.service.EventsViewModel;
 
@@ -81,6 +88,21 @@ public class EventsFragment extends Fragment implements Injectable {
         binding.recyclerEvents.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.recyclerEvents.setAdapter(adapter);
         binding.recyclerEvents.setItemAnimator(new DefaultItemAnimator());
+
+        adapter.setListener((event, view, position) -> {
+            Intent intent = EventDetailsActivity.startActivity(requireContext(), event.getUuid());
+            Bundle options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    requireActivity(),
+                    view,
+                    "event_image_target_transition"
+            ).toBundle();
+            if (VersionUtils.isLollipop()) {
+                Window window = requireActivity().getWindow();
+                window.setExitTransition(new Explode());
+                window.setSharedElementEnterTransition(new ChangeBoundsTransition());
+            }
+            startActivity(intent, options);
+        });
     }
 
     @Override

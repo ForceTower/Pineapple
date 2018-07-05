@@ -17,6 +17,8 @@
 
     <style name="AppTheme.NavigationDrawer" parent="AppTheme" />
 
+    <style name="AppTheme.EventsActivity" parent="AppTheme"/>
+
     <style name="AppTheme.PreferencesStyle" parent="AppTheme">
         <item name="android:listDivider">@null</item>
     </style>

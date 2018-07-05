@@ -119,4 +119,8 @@ public class EventRepository {
             }
         }.asLiveData();
     }
+
+    public LiveData<Event> getEvent(String uuid) {
+        return database.eventDao().getEvent(uuid);
+    }
 }

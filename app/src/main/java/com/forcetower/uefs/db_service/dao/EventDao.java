@@ -60,4 +60,7 @@ public abstract class EventDao {
 
     @Query("UPDATE Event SET approved = 1 WHERE uuid = :uuid")
     public abstract void markEventApproved(String uuid);
+
+    @Query("SELECT * FROM Event WHERE uuid = :uuid")
+    public abstract LiveData<Event> getEvent(String uuid);
 }

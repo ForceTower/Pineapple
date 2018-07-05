@@ -42,6 +42,7 @@
                     android:layout_marginTop="0dp"
                     app:imageUrl="@{event.imageUrl}"
                     tools:src="@drawable/mockup_campus_party"
+                    android:transitionName="event_image_source_transition"
                     app:layout_constraintDimensionRatio="H,16:9"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
