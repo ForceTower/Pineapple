@@ -71,12 +71,4 @@ public class UAccountViewModel extends ViewModel {
             loginCredentialsSrc.setValue(tokenResource);
         });
     }
-
-    public LiveData<String> setUserToken() {
-        return accountRepository.setUserToken();
-    }
-
-    public LiveData<String> setUserBetaInformation(String version) {
-        return accountRepository.setUserBetaInformation(version);
-    }
 }

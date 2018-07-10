@@ -77,6 +77,9 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         Preference updated = findPreference("notification_grades_date_change");
         if (updated != null) updated.setOnPreferenceClickListener(preference -> notificationControl(Constants.CHANNEL_GRADES_CHANGED_ID));
+
+        Preference eventGen = findPreference("notification_events_general");
+        if (eventGen != null) eventGen.setOnPreferenceClickListener(preference -> notificationControl(Constants.CHANNEL_GENERAL_EVENTS_ID));
     }
 
     @TargetApi(26)

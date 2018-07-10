@@ -1,10 +1,16 @@
-package com.forcetower.uefs.svc.firebase;
+package com.forcetower.uefs.svc;
 
 import android.os.AsyncTask;
+import android.os.Build;
 
+import com.crashlytics.android.Crashlytics;
 import com.forcetower.uefs.db.AppDatabase;
+import com.forcetower.uefs.db.entity.Access;
 import com.forcetower.uefs.db.entity.Message;
+import com.forcetower.uefs.db.entity.Profile;
 import com.forcetower.uefs.ntf.NotificationCreator;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -34,27 +40,20 @@ public class UNESFirebaseMessagingService extends FirebaseMessagingService {
         Timber.d("Message Type: %s", remoteMessage.getMessageType());
         Timber.d("Message Data: %s", remoteMessage.getData());
 
-        String title = null;
-        String body = null;
-        String icon = null;
-        String sound = null;
         if (remoteMessage.getNotification() != null) {
             RemoteMessage.Notification notification = remoteMessage.getNotification();
-            title = notification.getTitle();
-            body = notification.getBody();
-            icon = notification.getIcon();
-            sound = notification.getTitle();
             NotificationCreator.createFirebaseSimpleNotification(getBaseContext(), notification);
             insertMessage(remoteMessage.getData());
         } else {
             Timber.d("Null notification");
+            Timber.d("This is a data notification");
 
+            Map<String, String> data = remoteMessage.getData();
+            String title = data.get("title");
+            String text = data.get("message");
+            String image = data.get("image");
+            NotificationCreator.createEventNotification(getBaseContext(), title, text, image);
         }
-
-        Timber.d("Title: %s", title);
-        Timber.d("Body: %s", body);
-        Timber.d("Icon: %s", icon);
-        Timber.d("Sound: %s", sound);
     }
 
     private void insertMessage(Map<String, String> data) {
@@ -82,6 +81,24 @@ public class UNESFirebaseMessagingService extends FirebaseMessagingService {
         msg.setNotified(1);
 
         new InsertMessageTask(database).doInBackground(msg);
+    }
+
+    @Override
+    public void onNewToken(String token) {
+        super.onNewToken(token);
+        Timber.d("Firebase Token: " + token);
+        try {
+            Access a = database.accessDao().getAccessDirect();
+            Profile p = database.profileDao().getProfileDirect();
+            if (a == null) return;
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("firebase_tokens");
+            reference.child(a.getUsernameFixed()).child("token").setValue(token);
+            reference.child(a.getUsernameFixed()).child("device").setValue(Build.MANUFACTURER + " " + Build.MODEL);
+            reference.child(a.getUsernameFixed()).child("android").setValue(Build.VERSION.SDK_INT);
+            reference.child(a.getUsernameFixed()).child("name").setValue(p.getName());
+        } catch (Exception e) {
+            Crashlytics.logException(e);
+        }
     }
 
     private static class InsertMessageTask extends AsyncTask<Message, Void, Void> {

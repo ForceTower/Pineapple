@@ -1,5 +1,6 @@
 package com.forcetower.uefs.ntf;
 
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -19,6 +20,9 @@ import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.connected.LoggedActivity;
 import com.forcetower.uefs.view.login.MainActivity;
 import com.google.firebase.messaging.RemoteMessage;
+import com.squareup.picasso.Picasso;
+
+import java.io.IOException;
 
 import timber.log.Timber;
 
@@ -250,5 +254,29 @@ public class NotificationCreator {
                 .setColor(ContextCompat.getColor(context, R.color.red));
         addOptions(context, builder);
         showNotification(context, message.hashCode(), builder);
+    }
+
+    public static void createEventNotification(Context context, String title, String text, String image) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        if (!preferences.getBoolean("show_events_notification", true)) {
+            Timber.d("Setting says this is disabled");
+            return;
+        }
+
+        NotificationCompat.Builder builder = notificationBuilder(context, Constants.CHANNEL_GENERAL_EVENTS_ID)
+                .setContentTitle(title)
+                .setContentText(text)
+                .setColor(ContextCompat.getColor(context, R.color.colorPrimary));
+
+        try {
+            builder.setStyle(new NotificationCompat.BigPictureStyle()
+                    .bigPicture(Picasso.with(context).load(image).get()));
+        } catch (IOException e) {
+            e.printStackTrace();
+            Timber.d("Image couldn't be loaded");
+        }
+
+        addOptions(context, builder);
+        showNotification(context, text.hashCode(), builder);
     }
 }

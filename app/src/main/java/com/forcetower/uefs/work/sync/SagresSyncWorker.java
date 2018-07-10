@@ -203,19 +203,30 @@ public class SagresSyncWorker extends Worker {
             Crashlytics.setUserIdentifier(a.getUsername());
             Crashlytics.setUserName(p != null ? p.getName() : "Undefined");
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("firebase_tokens");
-            String token = FirebaseInstanceId.getInstance().getToken();
-            if (token != null) {
-                reference.child(a.getUsernameFixed()).child("token").setValue(token);
-                reference.child(a.getUsernameFixed()).child("device").setValue(Build.MANUFACTURER + " " + Build.MODEL);
-                reference.child(a.getUsernameFixed()).child("android").setValue(Build.VERSION.SDK_INT);
-                reference.child(a.getUsernameFixed()).child("name").setValue(p != null ? p.getName() : "Null Profile");
+            try {
+                FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(value -> {
+                    if (value.isSuccessful()) {
+                        String token = value.getResult().getToken();
+                        reference.child(a.getUsernameFixed()).child("token").setValue(token);
+                        reference.child(a.getUsernameFixed()).child("device").setValue(Build.MANUFACTURER + " " + Build.MODEL);
+                        reference.child(a.getUsernameFixed()).child("android").setValue(Build.VERSION.SDK_INT);
+                        reference.child(a.getUsernameFixed()).child("name").setValue(p != null ? p.getName() : "Null Profile");
 
-                if (p != null && p.getCourse() != null) {
-                    DatabaseReference courses = FirebaseDatabase.getInstance().getReference("courses").child(p.getCourseFixed());
-                    courses.child(a.getUsernameFixed()).child("name").setValue(p.getName());
-                    courses.child(a.getUsernameFixed()).child("score").setValue(p.getScore());
-                    courses.child(a.getUsernameFixed()).child("semester").setValue(semesters.size());
-                }
+                        if (p != null && p.getCourse() != null) {
+                            DatabaseReference courses = FirebaseDatabase.getInstance().getReference("courses").child(p.getCourseFixed());
+                            courses.child(a.getUsernameFixed()).child("name").setValue(p.getName());
+                            courses.child(a.getUsernameFixed()).child("score").setValue(p.getScore());
+                            courses.child(a.getUsernameFixed()).child("semester").setValue(semesters.size());
+                        }
+                    } else {
+                        Timber.d("Failed");
+                    }
+
+                });
+            } catch (Throwable t) {
+                Crashlytics.logException(t);
+                Timber.d("A throwable just happened: " + t.getMessage());
+                t.printStackTrace();
             }
         }
     }

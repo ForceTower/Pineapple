@@ -1,7 +1,5 @@
 package com.forcetower.uefs.di.module;
-
-import com.forcetower.uefs.svc.firebase.UNESFirebaseInstanceIDService;
-import com.forcetower.uefs.svc.firebase.UNESFirebaseMessagingService;
+import com.forcetower.uefs.svc.UNESFirebaseMessagingService;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -11,9 +9,6 @@ import dagger.android.ContributesAndroidInjector;
  */
 @Module
 public abstract class ServicesModule {
-
-    @ContributesAndroidInjector
-    abstract UNESFirebaseInstanceIDService contributeUNESFirebaseInstanceIDService();
 
     @ContributesAndroidInjector
     abstract UNESFirebaseMessagingService contributeUNESFirebaseMessagingService();

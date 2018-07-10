@@ -570,11 +570,6 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
                     clearBackStack();
                     navigationController.navigateToOutdatedVersion();
                 }
-
-                uAccountViewModel.setUserToken().observe(this, void_ling -> Timber.d("void_ling: " + void_ling));
-                if (pInfo.versionName.contains("RC") || pInfo.versionName.contains("rc")) {
-                    uAccountViewModel.setUserBetaInformation(pInfo.versionName).observe(this, void_ling -> Timber.d("void_ling_beta: " + void_ling));
-                }
             } catch (Exception e) {
                 Crashlytics.logException(e);
             }

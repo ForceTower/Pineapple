@@ -64,6 +64,14 @@
 
         <SwitchPreference
             android:defaultValue="true"
+            android:icon="@drawable/ic_balloon_accent_30dp"
+            android:key="show_events_notification"
+            android:summaryOff="@string/pref_show_events_notification_disabled"
+            android:summaryOn="@string/pref_show_events_notification_enabled"
+            android:title="@string/pref_events"/>
+
+        <SwitchPreference
+            android:defaultValue="true"
             android:icon="@drawable/ic_vibration_accent_30dp"
             android:key="notifications_new_message_vibrate"
             android:summaryOff="@string/pref_new_message_vibration_disabled"

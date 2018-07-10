@@ -508,4 +508,13 @@
     <string name="approve_event">Approve Event</string>
     <string name="do_you_confirm_event_approval">Do you wish to approve the event %1$s created by %2$s</string>
     <string name="logout_universe">Logout Uneverse</string>
+    <string name="select_a_course_variant">You need to select a course variat for the app to work correctly</string>
+    <string name="comments_disabled_for_now">Comments are disabled for now</string>
+    <string name="pref_show_events_notification_disabled">You will not receive event notifications</string>
+    <string name="pref_show_events_notification_enabled">You will receive event news notifications</string>
+    <string name="pref_events">Events</string>
+    <string name="pref_show_events_notification">Control event notifications</string>
+    <string name="channel_group_events">Events</string>
+    <string name="channel_events_general">General News</string>
+    <string name="unavailable_in_android_version">This feature is not available in this Android version. It will be up soon :)</string>
 </resources>

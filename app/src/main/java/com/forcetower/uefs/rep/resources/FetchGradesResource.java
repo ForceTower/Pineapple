@@ -5,6 +5,7 @@ import android.arch.lifecycle.MediatorLiveData;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 
+import com.crashlytics.android.Crashlytics;
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.CourseVariant;
@@ -54,7 +55,7 @@ public abstract class FetchGradesResource {
                         executors.mainThread().execute(() -> result.setValue(Resource.success(R.string.grades_obtained)));
                     } else {
                         saveVariants(variants);
-                        executors.mainThread().execute(() -> result.setValue(Resource.loading(R.string.select_a_course_variant)));
+                        executors.mainThread().execute(() -> result.setValue(Resource.success(R.string.select_a_course_variant)));
                     }
                 });
             } else {

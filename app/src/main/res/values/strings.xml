@@ -509,4 +509,12 @@
     <string name="do_you_confirm_event_approval">Você quer aprovar o evento %1$s criado por %2$s</string>
     <string name="logout_universe">Sair do Universo</string>
     <string name="select_a_course_variant">Você precisa selecionar uma das opções para o aplicativo funcionar corretamente</string>
+    <string name="comments_disabled_for_now">Comentários estão desativados por enquanto</string>
+    <string name="pref_show_events_notification_disabled">Você não receberá notificações de eventos</string>
+    <string name="pref_show_events_notification_enabled">Você está acompanhando as notícias de eventos</string>
+    <string name="pref_events">Eventos</string>
+    <string name="pref_show_events_notification">Controle notificações de eventos</string>
+    <string name="channel_group_events">Eventos</string>
+    <string name="channel_events_general">Notícias Gerais</string>
+    <string name="unavailable_in_android_version">Esta função ainda não funciona nesta versão do Android. Aguarde :)</string>
 </resources>
