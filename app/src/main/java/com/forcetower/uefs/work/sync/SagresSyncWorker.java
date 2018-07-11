@@ -209,8 +209,10 @@ public class SagresSyncWorker extends Worker {
                 List<Course> courses = sDatabase.courseDao().getAllCoursesDirect();
                 int match = 0;
                 for (Course course : courses) {
-                    if (course.getName().equalsIgnoreCase(p.getCourse()))
+                    if (course.getName().equalsIgnoreCase(p.getCourse())) {
                         match = course.getServiceId();
+                        break;
+                    }
                 }
                 if (match > 0)
                     uDatabase.profileDao().setProfileCourseId(match);

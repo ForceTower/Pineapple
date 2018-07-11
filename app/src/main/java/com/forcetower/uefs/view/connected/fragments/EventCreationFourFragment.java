@@ -92,7 +92,7 @@ public class EventCreationFourFragment extends Fragment implements Injectable {
                 Course selected = courses.get(position);
                 Timber.d("Selected course: " + selected.getName());
                 viewModel.getCurrentEvent().setCoursePointer(selected.getServiceId());
-                if (selected.getServiceId() == 0)
+                if (selected.getServiceId() != 0)
                     Toast.makeText(requireContext(), R.string.this_may_not_be_supported_yet, Toast.LENGTH_SHORT).show();
             }
 

@@ -520,5 +520,5 @@
     <string name="specific_course">Specific Course</string>
     <string name="what_course_is_this_for">Is this event for a specific course?</string>
     <string name="any_course">All courses</string>
-    <string name="this_may_not_be_supported_yet">This feature may not work as expected and may not filter all users. Under development</string>
+    <string name="this_may_not_be_supported_yet">This feature may not work as expected and may not filter all users, resulting in not notifying all correct users. Under development</string>
 </resources>

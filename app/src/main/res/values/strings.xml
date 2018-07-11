@@ -520,5 +520,5 @@
     <string name="specific_course">Curso específico</string>
     <string name="what_course_is_this_for">Para qual curso este evento é destinado?</string>
     <string name="any_course">Todos os cursos</string>
-    <string name="this_may_not_be_supported_yet">Este recurso pode não filtrar corretamente os usuários. Em desenvolvimento</string>
+    <string name="this_may_not_be_supported_yet">Este recurso pode não filtrar corretamente os usuários, resultando em notificações para poucas pessoas. Em desenvolvimento</string>
 </resources>
