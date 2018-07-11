@@ -22,6 +22,8 @@ import com.forcetower.uefs.db.entity.Message;
 import com.forcetower.uefs.db.entity.Profile;
 import com.forcetower.uefs.db.entity.Semester;
 import com.forcetower.uefs.db.entity.SyncRegistry;
+import com.forcetower.uefs.db_service.ServiceDatabase;
+import com.forcetower.uefs.db_service.entity.Course;
 import com.forcetower.uefs.db_service.entity.UpdateStatus;
 import com.forcetower.uefs.ntf.NotificationCreator;
 import com.forcetower.uefs.rep.helper.Resource;
@@ -39,6 +41,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import androidx.work.Worker;
+import retrofit2.Response;
 import timber.log.Timber;
 
 /**
@@ -49,6 +52,8 @@ public class SagresSyncWorker extends Worker {
     AppDatabase uDatabase;
     @Inject
     AppExecutors executors;
+    @Inject
+    ServiceDatabase sDatabase;
     @Inject
     UNEService service;
     @Inject
@@ -192,7 +197,45 @@ public class SagresSyncWorker extends Worker {
             completed = true;
 
             setupData();
+            sendCourse();
         });
+    }
+
+    private void sendCourse() {
+        Access a = uDatabase.accessDao().getAccessDirect();
+        Profile p = uDatabase.profileDao().getProfileDirect();
+        if (a != null && p != null && p.getCourse() != null) {
+            if (p.getCourseReference() == 0) {
+                List<Course> courses = sDatabase.courseDao().getAllCoursesDirect();
+                int match = 0;
+                for (Course course : courses) {
+                    if (course.getName().equalsIgnoreCase(p.getCourse()))
+                        match = course.getServiceId();
+                }
+                if (match > 0)
+                    uDatabase.profileDao().setProfileCourseId(match);
+
+                p.setCourseReference(match);
+            }
+
+
+            FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(task -> {
+                String token = task.getResult().getToken();
+                executors.networkIO().execute(() ->{
+                    try {
+                        Response response = service.postFirebaseToken(a.getUsername(), token, p.getCourseReference()).execute();
+                        if (response.isSuccessful()) {
+                            Timber.d("Success Setting Course");
+                        } else {
+                            Timber.d("Failed Setting Course");
+                            Timber.d("Response code: " + response.code());
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+            });
+        }
     }
 
     private void setupData() {

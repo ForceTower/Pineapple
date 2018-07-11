@@ -10,6 +10,8 @@
     <color name="primaryText">#212121</color>
     <color name="secondaryText">#757575</color>
 
+    <color name="color_event">#ffcf0e</color>
+
     <color name="divider">#BDBDBD</color>
     <color name="background">#f8f8f8</color>
     <color name="light_gray">#D9D9D9</color>

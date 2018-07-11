@@ -209,31 +209,6 @@ public class NotificationCreator {
         showNotification(context, message.hashCode(), builder);
     }
 
-    public static void createSyncWarning(Context context) {
-        NotificationCompat.Builder builder = notificationBuilder(context, Constants.CHANNEL_GENERAL_WARNINGS_ID)
-                .setContentTitle(context.getString(R.string.title_auto_sync));
-
-        String message = context.getString(R.string.executing_auto_sync);
-        builder.setContentText(message)
-                .setStyle(createBigText(message))
-                .setColor(ContextCompat.getColor(context, R.color.colorPrimary));
-        //addOptions(context, builder);
-        showNotification(context, message.hashCode(), builder);
-    }
-
-    public static void createNotificationWithDevMessage(Context context, String message) {
-        if (!Constants.DEBUG || !BuildConfig.DEBUG) return;
-
-        NotificationCompat.Builder builder = notificationBuilder(context, Constants.CHANNEL_GENERAL_WARNINGS_ID)
-                .setContentTitle("Dev notification");
-
-        builder.setContentText(message)
-                .setStyle(createBigText(message))
-                .setColor(ContextCompat.getColor(context, R.color.colorPrimary));
-        //addOptions(context, builder);
-        showNotification(context, message.hashCode(), builder);
-    }
-
     public static void createNotificationWithMessage(Context context, String title, String message) {
         NotificationCompat.Builder builder = notificationBuilder(context, Constants.CHANNEL_GENERAL_WARNINGS_ID)
                 .setContentTitle(title);
@@ -266,7 +241,7 @@ public class NotificationCreator {
         NotificationCompat.Builder builder = notificationBuilder(context, Constants.CHANNEL_GENERAL_EVENTS_ID)
                 .setContentTitle(title)
                 .setContentText(text)
-                .setColor(ContextCompat.getColor(context, R.color.colorPrimary));
+                .setColor(ContextCompat.getColor(context, R.color.color_event));
 
         try {
             builder.setStyle(new NotificationCompat.BigPictureStyle()

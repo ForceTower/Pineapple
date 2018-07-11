@@ -32,7 +32,7 @@ import com.forcetower.uefs.db_service.entity.QuestionAnswer;
         AboutField.class,
         Event.class,
         Course.class
-}, version = 4)
+}, version = 5)
 public abstract class ServiceDatabase extends RoomDatabase {
     public abstract AccessTokenDao accessTokenDao();
     public abstract AccountDao accountDao();

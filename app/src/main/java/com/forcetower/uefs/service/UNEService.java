@@ -85,4 +85,16 @@ public interface UNEService {
     @FormUrlEncoded
     @POST("events/approve")
     Call<ActionResult<Event>> approveEvent(@Field("uuid") String uuid);
+
+    @FormUrlEncoded
+    @POST("token/post")
+    Call<ActionResult<Object>> postFirebaseToken(@Field("username") String username, @Field("token") String token);
+
+    @FormUrlEncoded
+    @POST("token/post")
+    Call<ActionResult<Object>> postFirebaseToken(@Field("username") String username, @Field("token") String token, @Field("course") int courseReference);
+
+    @FormUrlEncoded
+    @POST("course/post")
+    Call<ActionResult<Object>> setupUserCourse(@Field("username") String username, @Field("course") int courseReference);
 }

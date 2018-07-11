@@ -1,5 +1,6 @@
 package com.forcetower.uefs.view.connected.fragments;
 
+import android.app.Service;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -15,6 +16,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
@@ -23,6 +26,8 @@ import com.forcetower.uefs.databinding.FragmentEventCreationFourBinding;
 import com.forcetower.uefs.db.AppDatabase;
 import com.forcetower.uefs.db.entity.Access;
 import com.forcetower.uefs.db.entity.Profile;
+import com.forcetower.uefs.db_service.ServiceDatabase;
+import com.forcetower.uefs.db_service.entity.Course;
 import com.forcetower.uefs.db_service.entity.Event;
 import com.forcetower.uefs.db_service.helper.ImGurDataObject;
 import com.forcetower.uefs.di.Injectable;
@@ -31,11 +36,14 @@ import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.connected.NavigationController;
 import com.forcetower.uefs.vm.UEFSViewModelFactory;
 import com.forcetower.uefs.vm.service.EventsViewModel;
+import com.forcetower.uefs.vm.service.ServiceGeneralViewModel;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -61,6 +69,8 @@ public class EventCreationFourFragment extends Fragment implements Injectable {
     private FragmentEventCreationFourBinding binding;
     private EventsViewModel viewModel;
     private boolean canChange = true;
+    private ArrayAdapter<Course> courseAdapter;
+    private List<Course> courses;
 
     @Nullable
     @Override
@@ -69,7 +79,26 @@ public class EventCreationFourFragment extends Fragment implements Injectable {
         binding.btnContinue.setOnClickListener(v -> onNextEvent());
         binding.eventImage.setOnClickListener(v -> changeImageEvent());
         binding.btnTryAgain.setOnClickListener(v -> onRetryUploadEvent());
+        setupSpinner();
         return binding.getRoot();
+    }
+
+    private void setupSpinner() {
+        courseAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line);
+        binding.spiCourse.setAdapter(courseAdapter);
+        binding.spiCourse.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Course selected = courses.get(position);
+                Timber.d("Selected course: " + selected.getName());
+                viewModel.getCurrentEvent().setCoursePointer(selected.getServiceId());
+                if (selected.getServiceId() == 0)
+                    Toast.makeText(requireContext(), R.string.this_may_not_be_supported_yet, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
     }
 
     @Override
@@ -81,6 +110,18 @@ public class EventCreationFourFragment extends Fragment implements Injectable {
 
         database.accessDao().getAccess().observe(this, this::onAccessChange);
         database.profileDao().getProfile().observe(this, this::onProfileChange);
+
+        ServiceGeneralViewModel serviceViewModel = ViewModelProviders.of(this, viewModelFactory).get(ServiceGeneralViewModel.class);
+        serviceViewModel.getCourses().observe(this, this::onCourseChange);
+    }
+
+    private void onCourseChange(Resource<List<Course>> coursesRes) {
+        List<Course> courses = coursesRes.data != null ? coursesRes.data : new ArrayList<>();
+        courses.add(0, Course.getUndefined(requireContext()));
+
+        courseAdapter.clear();
+        courseAdapter.addAll(courses);
+        this.courses = courses;
     }
 
     private void onProfileChange(Profile profile) {

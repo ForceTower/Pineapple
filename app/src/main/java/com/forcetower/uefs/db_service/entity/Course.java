@@ -3,8 +3,10 @@ package com.forcetower.uefs.db_service.entity;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.content.Context;
 
 import com.forcetower.uefs.Constants;
+import com.forcetower.uefs.R;
 import com.google.gson.annotations.SerializedName;
 
 import timber.log.Timber;
@@ -26,6 +28,9 @@ public class Course {
     @ColumnInfo(name = "number_of_semesters")
     @SerializedName(value = "number_of_semesters")
     private int numberOfSemesters;
+    @ColumnInfo(name = "service_id")
+    @SerializedName(value = "id")
+    private int serviceId;
 
     public Course(String name, String imageUrl) {
         this.name = name;
@@ -81,5 +86,24 @@ public class Course {
 
     public void setNumberOfSemesters(int numberOfSemesters) {
         this.numberOfSemesters = numberOfSemesters;
+    }
+
+    public int getServiceId() {
+        return serviceId;
+    }
+
+    public void setServiceId(int serviceId) {
+        this.serviceId = serviceId;
+    }
+
+    public static Course getUndefined(Context ctx) {
+        Course course = new Course(ctx.getString(R.string.any_course), null);
+        course.setServiceId(0);
+        return course;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

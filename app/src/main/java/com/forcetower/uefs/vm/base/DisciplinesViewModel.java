@@ -198,7 +198,7 @@ public class DisciplinesViewModel extends ViewModel {
                 result.postValue(-1D);
             } else {
                 double score = (sum/divisor) + 0.05;
-                Timber.d("Score calculated: %.1f" + (score));
+                Timber.d("Score calculated: %.1f", score);
                 result.postValue(score);
             }
         });

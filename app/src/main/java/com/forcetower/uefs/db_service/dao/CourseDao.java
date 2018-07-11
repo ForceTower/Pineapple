@@ -38,4 +38,7 @@ public abstract class CourseDao {
 
     @Query("SELECT * FROM Course ORDER BY name")
     public abstract LiveData<List<Course>> getAllCourses();
+
+    @Query("SELECT * FROM Course ORDER BY name")
+    public abstract List<Course> getAllCoursesDirect();
 }

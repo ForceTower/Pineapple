@@ -62,7 +62,7 @@ import com.forcetower.uefs.db.entity.TodoItem;
         SyncRegistry.class,
         DisciplineMissedClass.class,
         CourseVariant.class
-}, version = 10)
+}, version = 11)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract AccessDao accessDao();
     public abstract CalendarItemDao calendarItemDao();

@@ -9,6 +9,8 @@ import com.forcetower.uefs.db.entity.Access;
 import com.forcetower.uefs.db.entity.Message;
 import com.forcetower.uefs.db.entity.Profile;
 import com.forcetower.uefs.ntf.NotificationCreator;
+import com.forcetower.uefs.service.ActionResult;
+import com.forcetower.uefs.service.UNEService;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -20,6 +22,8 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
+import retrofit2.Call;
+import retrofit2.Response;
 import timber.log.Timber;
 
 /**
@@ -28,6 +32,8 @@ import timber.log.Timber;
 public class UNESFirebaseMessagingService extends FirebaseMessagingService {
     @Inject
     AppDatabase database;
+    @Inject
+    UNEService service;
 
     @Override
     public void onCreate() {
@@ -96,9 +102,18 @@ public class UNESFirebaseMessagingService extends FirebaseMessagingService {
             reference.child(a.getUsernameFixed()).child("device").setValue(Build.MANUFACTURER + " " + Build.MODEL);
             reference.child(a.getUsernameFixed()).child("android").setValue(Build.VERSION.SDK_INT);
             reference.child(a.getUsernameFixed()).child("name").setValue(p.getName());
+
+            Call call = service.postFirebaseToken(a.getUsername(), token);
+            Response response = call.execute();
+            if (response.isSuccessful()) {
+                Timber.d("User Token was set");
+            } else {
+                Timber.d("Failed to set token");
+            }
         } catch (Exception e) {
             Crashlytics.logException(e);
         }
+
     }
 
     private static class InsertMessageTask extends AsyncTask<Message, Void, Void> {

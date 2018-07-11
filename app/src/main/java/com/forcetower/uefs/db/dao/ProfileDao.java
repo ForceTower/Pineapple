@@ -38,4 +38,7 @@ public interface ProfileDao {
 
     @Query("UPDATE Profile SET score = :score")
     void setScore(double score);
+
+    @Query("UPDATE Profile SET course_reference = :courseId")
+    void setProfileCourseId(int courseId);
 }

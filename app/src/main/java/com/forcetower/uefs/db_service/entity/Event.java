@@ -84,6 +84,9 @@ public class Event {
     @ColumnInfo(name = "created_at")
     private String createdAt;
     private boolean approved;
+    @SerializedName(value = "course_pointer")
+    @ColumnInfo(name = "course_pointer")
+    private int coursePointer;
 
     public Event(@NonNull String name, @NonNull String subtitle, @NonNull String description, String imageUrl, @NonNull String creatorName, @NonNull String creatorUsername, int creatorId, @NonNull String offeredBy, @NonNull String startDate, @NonNull String startTime, String endDate, String endTime, @NonNull String location, boolean isFree, double price) {
         this.name = name;
@@ -338,5 +341,13 @@ public class Event {
 
     public void setApproved(boolean approved) {
         this.approved = approved;
+    }
+
+    public int getCoursePointer() {
+        return coursePointer;
+    }
+
+    public void setCoursePointer(int coursePointer) {
+        this.coursePointer = coursePointer;
     }
 }
