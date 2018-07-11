@@ -103,7 +103,7 @@ public class UNESFirebaseMessagingService extends FirebaseMessagingService {
             reference.child(a.getUsernameFixed()).child("android").setValue(Build.VERSION.SDK_INT);
             reference.child(a.getUsernameFixed()).child("name").setValue(p.getName());
 
-            Call call = service.postFirebaseToken(a.getUsername(), token);
+            Call<ActionResult<Object>> call = service.postFirebaseToken(a.getUsername(), token);
             Response response = call.execute();
             if (response.isSuccessful()) {
                 Timber.d("User Token was set");
