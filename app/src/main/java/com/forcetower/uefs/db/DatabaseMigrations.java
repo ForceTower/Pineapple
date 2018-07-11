@@ -82,6 +82,7 @@ public class DatabaseMigrations {
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             Timber.d("Executing migration 9 -> 10");
             database.execSQL("CREATE TABLE IF NOT EXISTS CourseVariant (uid INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, uefs_id TEXT, name TEXT, selected INTEGER NOT NULL DEFAULT 0)");
+            database.execSQL("CREATE INDEX `index_CourseVariant_uefs_id` ON `CourseVariant` (`uefs_id`)");
         }
     };
 
