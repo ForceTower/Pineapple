@@ -49,44 +49,44 @@ public class UNESFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getNotification() != null) {
             RemoteMessage.Notification notification = remoteMessage.getNotification();
             NotificationCreator.createFirebaseSimpleNotification(getBaseContext(), notification);
-            insertMessage(remoteMessage.getData());
         } else {
             Timber.d("Null notification");
             Timber.d("This is a data notification");
 
             Map<String, String> data = remoteMessage.getData();
-            String title = data.get("title");
-            String text = data.get("message");
-            String image = data.get("image");
-            NotificationCreator.createEventNotification(getBaseContext(), title, text, image);
+            if (data != null) {
+                if (data.containsKey("type")) {
+                    switch (data.get("type")) {
+                        case "event_notification":
+                            eventCreation(data);
+                            break;
+                        case "service_notification":
+                            serviceNotification(data);
+                            break;
+                        default:
+                            Timber.d("Defaulted, nothing to do");
+                            break;
+                    }
+                } else {
+                    Timber.d("This is an invalid notification... Ignoring");
+                }
+            }
         }
     }
 
-    private void insertMessage(Map<String, String> data) {
-        if (data == null) return;
+    private void serviceNotification(Map<String,String> data) {
+        String title = data.get("title");
+        String text = data.get("message");
+        String image = data.get("image");
+        NotificationCreator.createServiceNotification(getBaseContext(), title, text, image);
+    }
 
-        String notificationExtra = data.get("notification_unes_extra");
-        if (notificationExtra == null || !notificationExtra.equalsIgnoreCase("save_message"))
-            return;
-
-        String message = data.get("notification_message");
-        if (message == null) return;
-
-        String author = data.get("notification_author");
-        if (author == null) author = "ForceTower";
-
-        String receivedClass = data.get("notification_class");
-        if (receivedClass == null) receivedClass = "Notificações Gerais";
-
-        Calendar calendar = Calendar.getInstance();
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        int mon = calendar.get(Calendar.MONTH) + 1;
-        int yea = calendar.get(Calendar.YEAR);
-        String received = day + "/" + mon + "/" + yea;
-        Message msg = new Message(author, message, received, receivedClass);
-        msg.setNotified(1);
-
-        new InsertMessageTask(database).doInBackground(msg);
+    private void eventCreation(Map<String,String> data) {
+        String title = data.get("title");
+        String text = data.get("message");
+        String image = data.get("image");
+        String uuid = data.get("uuid");
+        NotificationCreator.createEventNotification(getBaseContext(), title, text, image, uuid);
     }
 
     @Override
@@ -114,17 +114,5 @@ public class UNESFirebaseMessagingService extends FirebaseMessagingService {
             Crashlytics.logException(e);
         }
 
-    }
-
-    private static class InsertMessageTask extends AsyncTask<Message, Void, Void> {
-        private AppDatabase database;
-        private InsertMessageTask(AppDatabase database) {
-            this.database = database;
-        }
-        @Override
-        protected Void doInBackground(Message... messages) {
-            database.messageDao().insertMessages(messages);
-            return null;
-        }
     }
 }

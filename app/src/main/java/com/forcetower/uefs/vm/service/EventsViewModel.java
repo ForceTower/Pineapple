@@ -37,7 +37,7 @@ public class EventsViewModel extends ViewModel {
 
     private LiveData<Resource<List<Event>>> eventSrc;
     private LiveData<Resource<List<Event>>> eventUnapprovedSrc;
-    private LiveData<Event> singleEventSrc;
+    private LiveData<Resource<Event>> singleEventSrc;
 
     private Uri currentImageUri;
     private Event currentEvent;
@@ -112,7 +112,7 @@ public class EventsViewModel extends ViewModel {
         return eventUnapprovedSrc;
     }
 
-    public LiveData<Event> getEvent(String uuid) {
+    public LiveData<Resource<Event>> getEvent(String uuid) {
         if (singleEventSrc == null) singleEventSrc = repository.getEvent(uuid);
         return singleEventSrc;
     }

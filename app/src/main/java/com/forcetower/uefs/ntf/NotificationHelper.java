@@ -17,7 +17,6 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.DrawableRes;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.util.VersionUtils;
@@ -25,7 +24,7 @@ import com.forcetower.uefs.view.connected.fragments.ConnectedFragment;
 
 import timber.log.Timber;
 
-import static com.forcetower.uefs.Constants.CHANNEL_GENERAL_EVENTS_ID;
+import static com.forcetower.uefs.Constants.CHANNEL_EVENTS_GENERAL_ID;
 import static com.forcetower.uefs.Constants.CHANNEL_GENERAL_REMOTE_ID;
 import static com.forcetower.uefs.Constants.CHANNEL_GENERAL_WARNINGS_ID;
 import static com.forcetower.uefs.Constants.CHANNEL_GRADES_CHANGED_ID;
@@ -70,7 +69,7 @@ public class NotificationHelper extends ContextWrapper{
         NotificationChannel created     = createChannel(CHANNEL_GRADES_CREATED_ID, getString(R.string.channel_grades_created), NotificationManager.IMPORTANCE_DEFAULT);
         NotificationChannel warnings    = createChannel(CHANNEL_GENERAL_WARNINGS_ID, getString(R.string.warnings), NotificationManager.IMPORTANCE_DEFAULT);
         NotificationChannel remote      = createChannel(CHANNEL_GENERAL_REMOTE_ID, getString(R.string.remote), NotificationManager.IMPORTANCE_DEFAULT);
-        NotificationChannel eventGen    = createChannel(CHANNEL_GENERAL_EVENTS_ID, getString(R.string.channel_events_general), NotificationManager.IMPORTANCE_DEFAULT);
+        NotificationChannel eventGen    = createChannel(CHANNEL_EVENTS_GENERAL_ID, getString(R.string.channel_events_general), NotificationManager.IMPORTANCE_DEFAULT);
 
         messages.setGroup(CHANNEL_GROUP_MESSAGES_ID);
         posted.setGroup(CHANNEL_GROUP_GRADES_ID);

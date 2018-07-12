@@ -42,6 +42,7 @@ public class ConnectedFragment extends Fragment implements Injectable, MainConte
     public static final String DISCIPLINES_FRAGMENT = "DisciplinesFragment";
     public static final String CALENDAR_FRAGMENT = "CalendarFragment";
     public static final String BIG_TRAY_FRAGMENT = "BigTrayFragment";
+    public static final String EVENT_FRAGMENT = "EventFragment";
 
     @BindView(R.id.navigation)
     BottomNavigationView bottomNavigationView;

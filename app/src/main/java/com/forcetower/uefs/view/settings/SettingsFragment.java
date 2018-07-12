@@ -79,7 +79,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         if (updated != null) updated.setOnPreferenceClickListener(preference -> notificationControl(Constants.CHANNEL_GRADES_CHANGED_ID));
 
         Preference eventGen = findPreference("notification_events_general");
-        if (eventGen != null) eventGen.setOnPreferenceClickListener(preference -> notificationControl(Constants.CHANNEL_GENERAL_EVENTS_ID));
+        if (eventGen != null) eventGen.setOnPreferenceClickListener(preference -> notificationControl(Constants.CHANNEL_EVENTS_GENERAL_ID));
     }
 
     @TargetApi(26)

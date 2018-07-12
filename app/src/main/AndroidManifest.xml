@@ -49,7 +49,8 @@
             android:label="@string/settings"
             android:theme="@style/AppTheme.PreferencesStyle" />
         <activity
-            android:name=".view.event.EventDetailsActivity" />
+            android:name=".view.event.EventDetailsActivity"
+            android:parentActivityName=".view.connected.LoggedActivity"/>
         <activity
             android:name=".view.about.AboutActivity"
             android:label="@string/about_app" />

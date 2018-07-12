@@ -120,7 +120,29 @@ public class EventRepository {
         }.asLiveData();
     }
 
-    public LiveData<Event> getEvent(String uuid) {
-        return database.eventDao().getEvent(uuid);
+    public LiveData<Resource<Event>> getEvent(String uuid) {
+        return new NetworkBoundResource<Event, List<Event>>(executors) {
+            @Override
+            protected void saveCallResult(@NonNull List<Event> item) {
+                database.eventDao().deleteAndInsert(item);
+            }
+
+            @Override
+            protected boolean shouldFetch(@Nullable Event data) {
+                return data == null || data.isOutdated();
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<Event> loadFromDb() {
+                return database.eventDao().getEvent(uuid);
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<List<Event>>> createCall() {
+                return service.getEvents();
+            }
+        }.asLiveData();
     }
 }

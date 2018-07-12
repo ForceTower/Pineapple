@@ -21,6 +21,7 @@ import android.view.animation.AnimationUtils;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.databinding.ActivityEventDetailsBinding;
 import com.forcetower.uefs.db_service.entity.Event;
+import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.vm.UEFSViewModelFactory;
 import com.forcetower.uefs.vm.service.EventsViewModel;
@@ -34,6 +35,7 @@ import dagger.android.support.HasSupportFragmentInjector;
 import timber.log.Timber;
 
 public class EventDetailsActivity extends AppCompatActivity implements HasSupportFragmentInjector {
+    public static final String INTENT_UUID = "uuid";
     private ActivityEventDetailsBinding binding;
     private String uuid;
 
@@ -42,7 +44,7 @@ public class EventDetailsActivity extends AppCompatActivity implements HasSuppor
 
     public static Intent startActivity(Context context, String uuid) {
         Intent intent = new Intent(context, EventDetailsActivity.class);
-        intent.putExtra("uuid", uuid);
+        intent.putExtra(INTENT_UUID, uuid);
         return intent;
     }
 
@@ -98,12 +100,15 @@ public class EventDetailsActivity extends AppCompatActivity implements HasSuppor
         viewModel.getEvent(uuid).observe(this, this::onReceiveEvent);
     }
 
-    private void onReceiveEvent(Event event) {
-        binding.setEvent(event);
-        binding.executePendingBindings();
-        loadImage(event.getImageUrl());
-        binding.collapsingToolbar.setTitle(event.getName());
-        binding.collapsingToolbar.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
+    private void onReceiveEvent(Resource<Event> eventSrc) {
+        if (eventSrc.data != null) {
+            Event event = eventSrc.data;
+            binding.setEvent(event);
+            binding.executePendingBindings();
+            loadImage(event.getImageUrl());
+            binding.collapsingToolbar.setTitle(event.getName());
+            binding.collapsingToolbar.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
+        }
     }
 
     private void loadImage(String url) {

@@ -1,8 +1,9 @@
 package com.forcetower.uefs.ntf;
 
-import android.app.Notification;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -10,7 +11,6 @@ import android.support.annotation.StringRes;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 
-import com.forcetower.uefs.BuildConfig;
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.GradeInfo;
@@ -18,6 +18,7 @@ import com.forcetower.uefs.db.entity.Message;
 import com.forcetower.uefs.db_service.entity.Version;
 import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.connected.LoggedActivity;
+import com.forcetower.uefs.view.event.EventDetailsActivity;
 import com.forcetower.uefs.view.login.MainActivity;
 import com.google.firebase.messaging.RemoteMessage;
 import com.squareup.picasso.Picasso;
@@ -231,17 +232,43 @@ public class NotificationCreator {
         showNotification(context, message.hashCode(), builder);
     }
 
-    public static void createEventNotification(Context context, String title, String text, String image) {
+    public static void createEventNotification(Context context, String title, String text, String image, String uuid) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         if (!preferences.getBoolean("show_events_notification", true)) {
             Timber.d("Setting says this is disabled");
             return;
         }
 
-        NotificationCompat.Builder builder = notificationBuilder(context, Constants.CHANNEL_GENERAL_EVENTS_ID)
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        Intent resultIntent = new Intent(context, EventDetailsActivity.class);
+        resultIntent.putExtra(EventDetailsActivity.INTENT_UUID, uuid);
+        stackBuilder.addParentStack(EventDetailsActivity.class);
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Builder builder = notificationBuilder(context, Constants.CHANNEL_EVENTS_GENERAL_ID)
                 .setContentTitle(title)
                 .setContentText(text)
+                .setContentIntent(pendingIntent)
                 .setColor(ContextCompat.getColor(context, R.color.color_event));
+
+        try {
+            builder.setStyle(new NotificationCompat.BigPictureStyle()
+                    .bigPicture(Picasso.with(context).load(image).get()));
+        } catch (IOException e) {
+            e.printStackTrace();
+            Timber.d("Image couldn't be loaded");
+        }
+
+        addOptions(context, builder);
+        showNotification(context, text.hashCode(), builder);
+    }
+
+    public static void createServiceNotification(Context context, String title, String text, String image) {
+        NotificationCompat.Builder builder = notificationBuilder(context, Constants.CHANNEL_GENERAL_WARNINGS_ID)
+                .setContentTitle(title)
+                .setContentText(text)
+                .setColor(ContextCompat.getColor(context, R.color.color_system_notification));
 
         try {
             builder.setStyle(new NotificationCompat.BigPictureStyle()

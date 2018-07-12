@@ -48,7 +48,7 @@ public class Constants {
     public static final String CHANNEL_GRADES_CHANGED_ID   = "com.forcetower.uefs.GRADES.CHANGE";
     public static final String CHANNEL_GENERAL_WARNINGS_ID = "com.forcetower.uefs.GENERAL.WARNINGS";
     public static final String CHANNEL_GENERAL_REMOTE_ID   = "com.forcetower.uefs.GENERAL.REMOTE";
-    public static final String CHANNEL_GENERAL_EVENTS_ID   = "com.forcetower.uefs.EVENTS.GENERAL";
+    public static final String CHANNEL_EVENTS_GENERAL_ID   = "com.forcetower.uefs.EVENTS.GENERAL";
     //Downloaded files names
     public static final String ENROLLMENT_CERTIFICATE_FILE_NAME = "enrollment_certificate.pdf";
     public static final String FLOWCHART_FILE_NAME = "flowchart.pdf";
