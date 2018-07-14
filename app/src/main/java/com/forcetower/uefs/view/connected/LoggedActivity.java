@@ -92,7 +92,7 @@ import static com.forcetower.uefs.Constants.ENROLLMENT_CERTIFICATE_FILE_NAME;
 import static com.forcetower.uefs.Constants.FLOWCHART_FILE_NAME;
 import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.FRAGMENT_INTENT_EXTRA;
 import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.GRADES_FRAGMENT;
-import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.MESSAGES_FRAGMENT;
+import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.MESSAGES_FRAGMENT_SAGRES;
 
 public class LoggedActivity extends UBaseActivity implements NavigationView.OnNavigationItemSelectedListener,
         HasSupportFragmentInjector, ActivityController, GamesAccountController {
@@ -608,7 +608,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
             } else if (id == R.id.nav_messages) {
                 clearBackStack();
                 navigationController.navigateToMessages();
-                tabLayout.setVisibility(View.GONE);
+                tabLayout.setVisibility(View.VISIBLE);
             } else if (id == R.id.nav_grades) {
                 clearBackStack();
                 navigationController.navigateToGrades();
@@ -683,7 +683,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
 
         Intent messages = new Intent(this, LoggedActivity.class);
-        messages.putExtra(FRAGMENT_INTENT_EXTRA, MESSAGES_FRAGMENT);
+        messages.putExtra(FRAGMENT_INTENT_EXTRA, MESSAGES_FRAGMENT_SAGRES);
         messages.setAction("android.intent.action.VIEW");
         messages.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 

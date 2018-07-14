@@ -3,6 +3,8 @@ package com.forcetower.uefs.sgrs.parsers;
 import android.support.annotation.NonNull;
 import android.util.SparseArray;
 
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
 import com.crashlytics.android.Crashlytics;
 import com.forcetower.uefs.db.entity.DisciplineClassLocation;
 
@@ -139,7 +141,7 @@ public class SagresScheduleParser {
                         SagresClass lesson = codePerLessons.get(currentCode);
                         if (lesson != null) lesson.addAtToAllClasses(parts[0].trim(), parts[1].trim());
                         else {
-                            Crashlytics.logException(new Exception("It seems like the class exists but it is not in the schedule. Parts = 2"));
+                            Crashlytics.logException(new Exception("Class exists but not in schedule. Parts = 2. CC: " + currentCode + ". P1: " + parts[0].trim() + ". P2: " +  parts[1].trim()));
                             Timber.d("Something wrong is happening here...");
                         }
                     }

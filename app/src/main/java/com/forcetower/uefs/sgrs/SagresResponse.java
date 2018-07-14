@@ -26,22 +26,22 @@ public class SagresResponse {
                 String body = response.body().string();
                 document = Jsoup.parse(body);
                 message = null;
-            } catch (Exception ignored) {
-                Timber.d("Failed parsing success body, %s", ignored.getMessage());
-                message = ignored.getMessage();
-                Timber.e("This happened: %s", ignored.getMessage());
+            } catch (Exception e) {
+                Timber.d("Failed parsing success body, %s", e.getMessage());
+                message = e.getMessage();
+                Timber.e("This happened: %s", e.getMessage());
                 code = 500;
-                throwable = ignored;
+                throwable = e;
             }
         } else {
             Timber.d("Unsuccessful response");
             try {
                 message = response.body().string();
-            } catch (Exception ignored) {
-                Timber.d("Failed parsing failed body, %s", ignored.getMessage());
-                message = ignored.getMessage();
-                Timber.e("This happened: %s", ignored.getMessage());
-                throwable = ignored;
+            } catch (Exception e) {
+                Timber.d("Failed parsing failed body, %s", e.getMessage());
+                message = e.getMessage();
+                Timber.e("This happened: %s", e.getMessage());
+                throwable = e;
             } finally {
                 code = 500;
             }

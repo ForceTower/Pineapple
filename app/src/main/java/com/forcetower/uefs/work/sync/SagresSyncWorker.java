@@ -205,7 +205,7 @@ public class SagresSyncWorker extends Worker {
         Access a = uDatabase.accessDao().getAccessDirect();
         Profile p = uDatabase.profileDao().getProfileDirect();
         if (a != null && p != null && p.getCourse() != null) {
-            if (p.getCourseReference() == 0) {
+            if (p.getCourseReference() <= 1) {
                 List<Course> courses = sDatabase.courseDao().getAllCoursesDirect();
                 int match = 0;
                 for (Course course : courses) {
@@ -214,10 +214,10 @@ public class SagresSyncWorker extends Worker {
                         break;
                     }
                 }
-                if (match > 0)
+                if (match > 0) {
                     uDatabase.profileDao().setProfileCourseId(match);
-
-                p.setCourseReference(match);
+                    p.setCourseReference(match);
+                }
             }
 
 

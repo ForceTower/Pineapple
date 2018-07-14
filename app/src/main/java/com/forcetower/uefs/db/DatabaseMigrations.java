@@ -93,4 +93,21 @@ public class DatabaseMigrations {
             database.execSQL("ALTER TABLE Profile ADD COLUMN course_reference INTEGER NOT NULL DEFAULT 0");
         }
     };
+
+    public static final Migration MIGRATION_11_12 = new Migration(11, 12) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            Timber.d("Executing migration 11 -> 12");
+            database.execSQL("CREATE TABLE IF NOT EXISTS `MessageUNES` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `creator` TEXT NOT NULL, `message` TEXT NOT NULL, `create_date` INTEGER NOT NULL, `image_url` TEXT, `uuid` TEXT NOT NULL)");
+            database.execSQL("CREATE UNIQUE INDEX `index_MessageUNES_uuid` ON `MessageUNES` (`uuid`)");
+        }
+    };
+
+    public static final Migration MIGRATION_12_13 = new Migration(12, 13) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            Timber.d("Executing migration 12 -> 13");
+            database.execSQL("ALTER TABLE MessageUNES ADD COLUMN title TEXT DEFAULT NULL");
+        }
+    };
 }

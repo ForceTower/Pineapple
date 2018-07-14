@@ -8,9 +8,7 @@ import java.util.regex.Pattern;
 
 public class Constants {
     public static final boolean DEBUG = false;
-
     public static final String DEFAULT_COURSE_IMAGE = "https://raw.githubusercontent.com/ForceTower/UNES_Files/master/UNES.png";
-
     public static final Pattern URL_PATTERN = Pattern.compile(
             "(?:^|[\\W])((ht|f)tp(s?)://((www)\\.)?)"
                     + "(([\\w\\-]+\\.){1,}?([\\w\\-.~]+\\/?)*"
@@ -40,7 +38,7 @@ public class Constants {
     public static final String CHANNEL_GROUP_MESSAGES_ID   = "com.forcetower.uefs.MESSAGES";
     public static final String CHANNEL_GROUP_GRADES_ID     = "com.forcetower.uefs.GRADES";
     public static final String CHANNEL_GROUP_GENERAL_ID    = "com.forcetower.uefs.GENERAL";
-    public static final String CHANNEL_GROUP_EVENTS_ID    = "com.forcetower.uefs.EVENTS";
+    public static final String CHANNEL_GROUP_EVENTS_ID     = "com.forcetower.uefs.EVENTS";
     //Notification Channels
     public static final String CHANNEL_MESSAGES_ID         = "com.forcetower.uefs.MESSAGES.POST";
     public static final String CHANNEL_GRADES_POSTED_ID    = "com.forcetower.uefs.GRADES.POSTED";

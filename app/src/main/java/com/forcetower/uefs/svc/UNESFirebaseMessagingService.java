@@ -1,12 +1,12 @@
 package com.forcetower.uefs.svc;
 
-import android.os.AsyncTask;
 import android.os.Build;
 
 import com.crashlytics.android.Crashlytics;
+import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.db.AppDatabase;
 import com.forcetower.uefs.db.entity.Access;
-import com.forcetower.uefs.db.entity.Message;
+import com.forcetower.uefs.db.entity.MessageUNES;
 import com.forcetower.uefs.db.entity.Profile;
 import com.forcetower.uefs.ntf.NotificationCreator;
 import com.forcetower.uefs.service.ActionResult;
@@ -16,7 +16,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import java.util.Calendar;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -34,6 +33,8 @@ public class UNESFirebaseMessagingService extends FirebaseMessagingService {
     AppDatabase database;
     @Inject
     UNEService service;
+    @Inject
+    AppExecutors executors;
 
     @Override
     public void onCreate() {
@@ -78,6 +79,18 @@ public class UNESFirebaseMessagingService extends FirebaseMessagingService {
         String title = data.get("title");
         String text = data.get("message");
         String image = data.get("image");
+        String creator = data.get("creator");
+        String date = data.get("time");
+        String uuid = data.get("uuid");
+
+        long value;
+        try {
+            value = Long.parseLong(date);
+        } catch (Exception e) {
+            value = System.currentTimeMillis();
+        }
+        MessageUNES message = new MessageUNES(creator, text, value, image, uuid, title);
+        executors.diskIO().execute(() -> database.messageUNESDao().insert(message));
         NotificationCreator.createServiceNotification(getBaseContext(), title, text, image);
     }
 

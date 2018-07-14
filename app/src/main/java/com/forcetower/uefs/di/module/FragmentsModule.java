@@ -16,6 +16,8 @@ import com.forcetower.uefs.view.connected.fragments.EventCreationStartFragment;
 import com.forcetower.uefs.view.connected.fragments.EventCreationThreeFragment;
 import com.forcetower.uefs.view.connected.fragments.EventCreationTwoFragment;
 import com.forcetower.uefs.view.connected.fragments.EventsFragment;
+import com.forcetower.uefs.view.connected.fragments.MessagesLocalFragment;
+import com.forcetower.uefs.view.connected.fragments.MessagesServiceFragment;
 import com.forcetower.uefs.view.connected.fragments.GradesFragment;
 import com.forcetower.uefs.view.connected.fragments.MessagesFragment;
 import com.forcetower.uefs.view.connected.fragments.NewScheduleFragment;
@@ -123,4 +125,10 @@ public abstract class FragmentsModule {
 
     @ContributesAndroidInjector
     abstract DisciplineMissedClassesFragment contributeDisciplineMissedClassesFragment();
+
+    @ContributesAndroidInjector
+    abstract MessagesServiceFragment contributeFragmentServiceMessages();
+
+    @ContributesAndroidInjector
+    abstract MessagesLocalFragment contributeMessagesLocalFragment();
 }

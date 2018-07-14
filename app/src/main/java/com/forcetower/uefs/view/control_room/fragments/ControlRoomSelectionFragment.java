@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.databinding.FragmentControlRoomSelectionBinding;
+import com.forcetower.uefs.db.AppDatabase;
 import com.forcetower.uefs.db_service.ServiceDatabase;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.view.universe.UniverseActivity;
@@ -25,7 +26,9 @@ public class ControlRoomSelectionFragment extends Fragment implements Injectable
     @Inject
     AppExecutors executors;
     @Inject
-    ServiceDatabase database;
+    ServiceDatabase sDatabase;
+    @Inject
+    AppDatabase aDatabase;
 
     @Nullable
     @Override
@@ -35,11 +38,16 @@ public class ControlRoomSelectionFragment extends Fragment implements Injectable
         binding.eventApprove.setOnClickListener(v -> goToEventApproval());
         binding.uneverse.setOnClickListener(v -> goToUneverse());
         binding.logoutUneverse.setOnClickListener(v -> logoutUniverse());
+        binding.deleteUnesMessages.setOnClickListener(v -> deleteUnesMessages());
         return binding.getRoot();
     }
 
+    private void deleteUnesMessages() {
+        executors.others().execute(() -> aDatabase.messageUNESDao().deleteAll());
+    }
+
     private void logoutUniverse() {
-        executors.others().execute(() -> database.accessTokenDao().deleteAll());
+        executors.others().execute(() -> sDatabase.accessTokenDao().deleteAll());
     }
 
     private void goToUneverse() {

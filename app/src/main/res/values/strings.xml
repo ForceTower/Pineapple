@@ -521,4 +521,9 @@
     <string name="what_course_is_this_for">Para qual curso este evento é destinado?</string>
     <string name="any_course">Todos os cursos</string>
     <string name="this_may_not_be_supported_yet">Este recurso pode não filtrar corretamente os usuários, resultando em notificações para poucas pessoas. Em desenvolvimento</string>
+    <string name="image_message">Imagem da Mensagem</string>
+    <string name="sagres">Sagres</string>
+    <string name="unes">UNES</string>
+    <string name="no_unes_messages">Nenhuma mensagem do UNES</string>
+    <string name="delete_unes_messages">Apagar mensagens UNES</string>
 </resources>

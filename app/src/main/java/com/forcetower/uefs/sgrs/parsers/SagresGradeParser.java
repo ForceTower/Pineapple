@@ -92,69 +92,72 @@ public class SagresGradeParser {
         Elements classes = gradesDiv.select("div[class=\"boletim-container\"]");
 
         for (Element element : classes) {
-            Element classInfo = element.selectFirst("div[class=\"boletim-item-info\"]");
-            Element className = classInfo.selectFirst("span[class=\"boletim-item-titulo cor-destaque\"]");
+            try {
+                Element classInfo = element.selectFirst("div[class=\"boletim-item-info\"]");
+                Element className = classInfo.selectFirst("span[class=\"boletim-item-titulo cor-destaque\"]");
 
-            String discipline = className.text();
-            Grade clazz = new Grade(discipline);
+                String discipline = className.text();
+                Grade clazz = new Grade(discipline);
 
-            Element gradesInfo = element.selectFirst("div[class=\"boletim-notas\"]");
-            Element gradesTable = gradesInfo.selectFirst("table");
-            Element gradesTBody = gradesTable.selectFirst("tbody");
+                Element gradesInfo = element.selectFirst("div[class=\"boletim-notas\"]");
+                Element gradesTable = gradesInfo.selectFirst("table");
+                Element gradesTBody = gradesTable.selectFirst("tbody");
 
+                if (gradesTBody != null) {
+                    Elements trs = gradesTBody.select("tr");
+                    if (!trs.isEmpty()) {
+                        GradeSection section = new GradeSection(discipline, "Não Definido");
+                        for (Element tr : trs) {
+                            Elements children = tr.children();
+                            if (children.size() == 2) {
+                                if (section.getGrades().size() > 0) {
+                                    clazz.addSection(section);
+                                }
 
-            if (gradesTBody != null) {
-                Elements trs = gradesTBody.select("tr");
-                if (!trs.isEmpty()) {
-                    GradeSection section = new GradeSection(discipline, "Não Definido");
-                    for (Element tr : trs) {
-                        Elements children = tr.children();
-                        if (children.size() == 2) {
-                            if (section.getGrades().size() > 0) {
-                                clazz.addSection(section);
+                                section = new GradeSection(children.get(1).text(), discipline);
+                            } else if (children.size() == 4) {
+                                Element td = children.first();
+                                if (td.children().size() == 0) {
+                                    Element meanTests = children.get(2);
+                                    clazz.setPartialMean(meanTests.text());
+                                } else {
+                                    Element date = children.get(0);
+                                    Element identification = children.get(1);
+                                    Element grade = children.get(2);
+                                    Element weight = children.get(3);
+                                    GradeInfo gradeInfo = new GradeInfo(identification.text(), grade.text(), date.text());
+                                    gradeInfo.setWeight(toDouble(weight.text(), 0));
+                                    section.addGrade(gradeInfo);
+                                }
+                            } else if (children.size() == 3) {
+                                section.setPartialMean(children.get(1).text());
+                                Timber.d("section partial %s", section.getPartialMean());
                             }
+                        }
 
-                            section = new GradeSection(children.get(1).text(), discipline);
-                        } else if (children.size() == 4) {
-                            Element td = children.first();
-                            if (td.children().size() == 0) {
-                                Element meanTests = children.get(2);
-                                clazz.setPartialMean(meanTests.text());
-                            } else {
-                                Element date = children.get(0);
-                                Element identification = children.get(1);
-                                Element grade = children.get(2);
-                                Element weight = children.get(3);
-                                GradeInfo gradeInfo = new GradeInfo(identification.text(), grade.text(), date.text());
-                                gradeInfo.setWeight(toDouble(weight.text(), 0));
-                                section.addGrade(gradeInfo);
-                            }
-                        } else if (children.size() == 3) {
-                            section.setPartialMean(children.get(1).text());
-                            Timber.d("section partial %s", section.getPartialMean());
+                        if (section.getGrades().size() != 0) {
+                            Timber.d("Almost missed you %s", section.getName());
+                            Timber.d("%s", section.getGrades());
+                            clazz.addSection(section);
                         }
                     }
+                } else {
+                    Timber.d("Grades tbody is null... Just wondering");
+                    Crashlytics.log("Grades tbody is null, this will make this user angry");
+                }
 
-                    if (section.getGrades().size() != 0) {
-                        Timber.d("Almost missed you %s", section.getName());
-                        Timber.d("%s", section.getGrades());
-                        clazz.addSection(section);
+                Element tFoot = gradesTable.selectFirst("tfoot");
+                if (tFoot != null) {
+                    Element tr = tFoot.selectFirst("tr");
+                    if (tr != null && tr.children().size() == 4) {
+                        clazz.setFinalScore(tr.children().get(2).text());
                     }
                 }
-            } else {
-                Timber.d("Grades tbody is null... Just wondering");
-                Crashlytics.log("Grades tbody is null, this will make this user angry");
+                Timber.d("Grade clazz: %s", clazz);
+                grades.add(clazz);
+            } catch (Exception e) {
+                Crashlytics.logException(e);
             }
-
-            Element tFoot = gradesTable.selectFirst("tfoot");
-            if (tFoot != null) {
-                Element tr = tFoot.selectFirst("tr");
-                if (tr != null && tr.children().size() == 4) {
-                    clazz.setFinalScore(tr.children().get(2).text());
-                }
-            }
-            Timber.d("Grade clazz: %s", clazz);
-            grades.add(clazz);
         }
 
         return grades;

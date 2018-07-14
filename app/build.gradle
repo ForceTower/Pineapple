@@ -102,6 +102,8 @@ dependencies {
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.0'
 
     implementation "com.mikepenz:aboutlibraries:6.0.9"
+
+    implementation 'com.annimon:stream:1.2.0'
 }
 
 apply from: "../artifacts.gradle"

@@ -66,7 +66,10 @@ public class EventDetailsActivity extends AppCompatActivity implements HasSuppor
         int id = item.getItemId();
 
         if (id == android.R.id.home) {
-            finish();
+            if (VersionUtils.isLollipop())
+                finishAfterTransition();
+            else
+                finish();
             return true;
         }
 

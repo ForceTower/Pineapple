@@ -37,7 +37,8 @@ import timber.log.Timber;
 public class ConnectedFragment extends Fragment implements Injectable, MainContentController {
     public static final String FRAGMENT_INTENT_EXTRA = "notification_intent_extra";
     public static final String SCHEDULE_FRAGMENT = "ScheduleFragment";
-    public static final String MESSAGES_FRAGMENT = "MessagesFragment";
+    public static final String MESSAGES_FRAGMENT_SAGRES = "MessagesFragment_SAGRES";
+    public static final String MESSAGES_FRAGMENT_UNES = "MessagesFragment_UNES";
     public static final String GRADES_FRAGMENT = "GradesFragment";
     public static final String DISCIPLINES_FRAGMENT = "DisciplinesFragment";
     public static final String CALENDAR_FRAGMENT = "CalendarFragment";
@@ -105,7 +106,12 @@ public class ConnectedFragment extends Fragment implements Injectable, MainConte
                     navigateToSchedule();
                 } else {
                     Timber.d("Action asks for: %s", value);
-                    if (value.equalsIgnoreCase(MESSAGES_FRAGMENT)) {
+                    if (value.equalsIgnoreCase(MESSAGES_FRAGMENT_SAGRES)) {
+                        MessagesFragment.SELECT_FRAGMENT_AUTO = 0;
+                        bottomNavigationView.setSelectedItemId(R.id.navigation_messages);
+                    } else if (value.equalsIgnoreCase(MESSAGES_FRAGMENT_UNES)) {
+                        MessagesFragment.SELECT_FRAGMENT_AUTO = 1;
+                        MessagesFragment.DO_SELECT_AUTO = true;
                         bottomNavigationView.setSelectedItemId(R.id.navigation_messages);
                     } else if (value.equalsIgnoreCase(SCHEDULE_FRAGMENT)) {
                         bottomNavigationView.setSelectedItemId(R.id.navigation_home);
@@ -173,7 +179,7 @@ public class ConnectedFragment extends Fragment implements Injectable, MainConte
     @Override
     public void navigateToMessages() {
         changeTitle(R.string.title_messages);
-        setTabShowing(false);
+        setTabShowing(true);
         changeFragment(new MessagesFragment());
     }
 

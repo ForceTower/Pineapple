@@ -34,7 +34,8 @@ import static com.forcetower.uefs.ntf.NotificationHelper.notificationBuilder;
 import static com.forcetower.uefs.ntf.NotificationHelper.showNotification;
 import static com.forcetower.uefs.util.WordUtils.validString;
 import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.GRADES_FRAGMENT;
-import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.MESSAGES_FRAGMENT;
+import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.MESSAGES_FRAGMENT_SAGRES;
+import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.MESSAGES_FRAGMENT_UNES;
 
 /**
  * Created by João Paulo on 08/03/2018.
@@ -53,7 +54,7 @@ public class NotificationCreator {
             return true;
         }
 
-        PendingIntent pendingIntent = getPendingIntent(context, LoggedActivity.class, MESSAGES_FRAGMENT);
+        PendingIntent pendingIntent = getPendingIntent(context, LoggedActivity.class, MESSAGES_FRAGMENT_SAGRES);
         NotificationCompat.Builder builder = notificationBuilder(context, Constants.CHANNEL_MESSAGES_ID)
                 .setContentTitle(message.getClassReceived())
                 .setContentText(message.getMessage())
@@ -265,17 +266,23 @@ public class NotificationCreator {
     }
 
     public static void createServiceNotification(Context context, String title, String text, String image) {
+        PendingIntent pendingIntent = getPendingIntent(context, LoggedActivity.class, MESSAGES_FRAGMENT_UNES);
+
         NotificationCompat.Builder builder = notificationBuilder(context, Constants.CHANNEL_GENERAL_WARNINGS_ID)
                 .setContentTitle(title)
                 .setContentText(text)
+                .setContentIntent(pendingIntent)
                 .setColor(ContextCompat.getColor(context, R.color.color_system_notification));
 
-        try {
-            builder.setStyle(new NotificationCompat.BigPictureStyle()
-                    .bigPicture(Picasso.with(context).load(image).get()));
-        } catch (IOException e) {
-            e.printStackTrace();
-            Timber.d("Image couldn't be loaded");
+        if (image != null) {
+            try {
+                builder.setStyle(new NotificationCompat.BigPictureStyle().bigPicture(Picasso.with(context).load(image).get()));
+            } catch (IOException e) {
+                e.printStackTrace();
+                Timber.d("Image couldn't be loaded");
+            }
+        } else {
+            builder.setStyle(new NotificationCompat.BigTextStyle().bigText(text));
         }
 
         addOptions(context, builder);

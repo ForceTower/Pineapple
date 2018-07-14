@@ -89,7 +89,7 @@ public class SelectCourseFragment extends Fragment implements Injectable {
                                         Timber.d("Finished");
                                      });
                         }
-                        profileViewModel.setProfileCourse(course.getName());
+                        profileViewModel.setProfileCourse(course.getName(), course.getServiceId());
                         navigationController.back();
                         break;
                 }

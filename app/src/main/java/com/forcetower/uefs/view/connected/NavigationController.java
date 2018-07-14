@@ -40,7 +40,7 @@ import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.CAL
 import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.DISCIPLINES_FRAGMENT;
 import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.FRAGMENT_INTENT_EXTRA;
 import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.GRADES_FRAGMENT;
-import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.MESSAGES_FRAGMENT;
+import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.MESSAGES_FRAGMENT_SAGRES;
 import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.SCHEDULE_FRAGMENT;
 
 /**
@@ -67,7 +67,7 @@ public class NavigationController {
     public void navigateToMessages() {
         Fragment content = new ConnectedFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(FRAGMENT_INTENT_EXTRA, MESSAGES_FRAGMENT);
+        bundle.putString(FRAGMENT_INTENT_EXTRA, MESSAGES_FRAGMENT_SAGRES);
         content.setArguments(bundle);
         changeFragment(content);
     }
