@@ -24,7 +24,7 @@ public abstract class BaseNavigation {
 
     public BaseNavigation(FragmentActivity activity) {
         this.manager = activity.getSupportFragmentManager();
-        this.containerId = R.id.fragment_host;
+        this.containerId = R.id.container;
     }
 
     protected void switchFragment(Fragment fragment, Bundle arguments) {

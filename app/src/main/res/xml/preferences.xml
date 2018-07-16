@@ -63,7 +63,7 @@
             android:title="@string/pref_grades_date_changed"/>
 
         <CheckBoxPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:icon="@drawable/ic_balloon_accent_30dp"
             android:key="show_events_notification"
             android:summaryOff="@string/pref_show_events_notification_disabled"

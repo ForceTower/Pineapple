@@ -235,7 +235,7 @@ public class NotificationCreator {
 
     public static void createEventNotification(Context context, String title, String text, String image, String uuid) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        if (!preferences.getBoolean("show_events_notification", true)) {
+        if (!preferences.getBoolean("show_events_notification", false) && !VersionUtils.isOreo()) {
             Timber.d("Setting says this is disabled");
             return;
         }
