@@ -1,6 +1,7 @@
 package com.forcetower.uefs.view.universe.fragment;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -21,6 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.databinding.FragmentUniverseCreateAccountBinding;
 import com.forcetower.uefs.db_service.entity.AccessToken;
 import com.forcetower.uefs.db_service.entity.Account;
 import com.forcetower.uefs.di.Injectable;
@@ -35,40 +37,25 @@ import com.forcetower.uefs.vm.universe.UAccountViewModel;
 import java.util.Collections;
 
 import javax.inject.Inject;
-
-import butterknife.BindView;
-import butterknife.BindViews;
-import butterknife.ButterKnife;
 import timber.log.Timber;
 
 /**
  * Created by João Paulo on 11/05/2018.
  */
 public class UniverseCreateAccountFragment extends Fragment implements Injectable {
-    @BindView(R.id.view_root)
-    ViewGroup rootContainer;
-    @BindViews({R.id.dev_iv_anim_1, R.id.dev_iv_anim_2, R.id.dev_iv_anim_3, R.id.dev_iv_anim_4})
-    View[] views;
-    @BindView(R.id.ll_animations)
-    ViewGroup llAnimation;
-    @BindView(R.id.pb_progress)
-    ProgressBar pbProgress;
-    @BindView(R.id.iv_logo)
-    ImageView ivLogo;
-
     @Inject
     UniverseNavigationController navigation;
     @Inject
     UEFSViewModelFactory viewModelFactory;
 
     private UAccountViewModel accountViewModel;
+    private FragmentUniverseCreateAccountBinding binding;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_universe_create_account, container, false);
-        ButterKnife.bind(this, view);
-        return view;
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_universe_create_account, container, false);
+        return binding.getRoot();
     }
 
     @Override
@@ -87,7 +74,7 @@ public class UniverseCreateAccountFragment extends Fragment implements Injectabl
         if (tokenResource.status == Status.SUCCESS) {
             Timber.d("Resource Success: Token received!");
             navigation.navigateToCompleted(Collections.singletonList(
-                    new Pair<>(getString(R.string.transition_logo), ivLogo)
+                    new Pair<>(getString(R.string.transition_logo), binding.ivLogo)
             ), requireContext());
         } else if (tokenResource.status == Status.ERROR) {
             Timber.d("Resource error code: %d", tokenResource.code);
@@ -123,12 +110,12 @@ public class UniverseCreateAccountFragment extends Fragment implements Injectabl
                 }
 
                 navigation.navigateToLogin(Collections.singletonList(
-                        new Pair<>(getString(R.string.transition_logo), ivLogo))
+                        new Pair<>(getString(R.string.transition_logo), binding.ivLogo))
                 );
             } else {
                 Toast.makeText(requireContext(), R.string.universe_connection_error, Toast.LENGTH_SHORT).show();
             }
-            pbProgress.setVisibility(View.INVISIBLE);
+            binding.pbProgress.setVisibility(View.INVISIBLE);
         } else {
             Timber.d("Success!");
             Timber.d("Account: %s", responseAccount.data);
@@ -138,15 +125,19 @@ public class UniverseCreateAccountFragment extends Fragment implements Injectabl
 
     private void beginAnimations() {
         if (!VersionUtils.isLollipop()) {
-            llAnimation.setVisibility(View.VISIBLE);
-            for (View view : views) view.setVisibility(View.VISIBLE);
+            binding.llAnimations.setVisibility(View.VISIBLE);
+            int children = binding.llAnimations.getChildCount();
+            for (int i = 0; i < children; i++) {
+                View view = binding.llAnimations.getChildAt(i);
+                view.setVisibility(View.VISIBLE);
+            }
         } else {
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                TransitionManager.beginDelayedTransition(rootContainer, new TransitionSet()
+                TransitionManager.beginDelayedTransition(binding.viewRoot, new TransitionSet()
                         .addTransition(new ChangeBounds())
                         .addTransition(new ChangeImageTransform()));
 
-                llAnimation.setVisibility(View.VISIBLE);
+                binding.llAnimations.setVisibility(View.VISIBLE);
                 fadeInViews(0);
             }, 750);
         }
@@ -154,9 +145,9 @@ public class UniverseCreateAccountFragment extends Fragment implements Injectabl
 
     private void fadeInViews(int pos) {
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            if (views != null && pos < views.length) {
+            if (pos < binding.llAnimations.getChildCount()) {
                 if (isAdded() && isVisible() && isResumed() && !isHidden()) {
-                    AnimUtils.slideIn(getContext(), views[pos]);
+                    AnimUtils.slideIn(getContext(), binding.llAnimations.getChildAt(pos));
                     fadeInViews(pos + 1);
                 }
             }

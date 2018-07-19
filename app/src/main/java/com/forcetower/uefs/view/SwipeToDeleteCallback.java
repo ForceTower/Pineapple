@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
+import com.crashlytics.android.Crashlytics;
 import com.forcetower.uefs.R;
 
 /**
@@ -17,7 +18,6 @@ import com.forcetower.uefs.R;
  */
 public abstract class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
     private final ColorDrawable background;
-    private final int backgroundColor;
     private final Drawable deleteIcon;
     private final int intrinsicWidth;
     private final int intrinsicHeight;
@@ -26,9 +26,14 @@ public abstract class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallba
         super(0, ItemTouchHelper.LEFT);
         this.background = new ColorDrawable();
         this.deleteIcon = ContextCompat.getDrawable(context, R.drawable.ic_delete_white_24dp);
-        this.backgroundColor = Color.RED;
-        this.intrinsicWidth = deleteIcon.getIntrinsicWidth();
-        this.intrinsicHeight = deleteIcon.getIntrinsicHeight();
+        if (deleteIcon != null) {
+            this.intrinsicWidth = deleteIcon.getIntrinsicWidth();
+            this.intrinsicHeight = deleteIcon.getIntrinsicHeight();
+        } else {
+            this.intrinsicWidth = 24;
+            this.intrinsicHeight = 24;
+            Crashlytics.logException(new Exception("Delete Icon returned null"));
+        }
     }
 
     @Override

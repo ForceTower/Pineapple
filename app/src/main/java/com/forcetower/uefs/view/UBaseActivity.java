@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
@@ -19,8 +20,6 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
 import javax.inject.Inject;
-
-import butterknife.ButterKnife;
 import timber.log.Timber;
 
 /**
@@ -36,10 +35,8 @@ public abstract class UBaseActivity extends AppCompatActivity implements Achieve
 
     protected SharedPreferences mPreferences;
 
-    public void onCreate(@LayoutRes int layout, Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(layout);
-        ButterKnife.bind(this);
         Timber.d("mPlayGames Is: " + mPlayGamesInstance);
         mPlayGamesInstance.createGoogleClient();
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);

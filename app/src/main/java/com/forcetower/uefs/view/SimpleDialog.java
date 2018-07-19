@@ -42,13 +42,15 @@ public class SimpleDialog extends DialogFragment implements DialogInterface.OnCl
             alertDialogBuilder.setTitle(title);
             alertDialogBuilder.setMessage(message);
 
-            switch (buttons.length) {
-                case 3:
-                    alertDialogBuilder.setNeutralButton(buttons[2], this);
-                case 2:
-                    alertDialogBuilder.setNegativeButton(buttons[1], this);
-                case 1:
-                    alertDialogBuilder.setPositiveButton(buttons[0], this);
+            if (buttons != null) {
+                switch (buttons.length) {
+                    case 3:
+                        alertDialogBuilder.setNeutralButton(buttons[2], this);
+                    case 2:
+                        alertDialogBuilder.setNegativeButton(buttons[1], this);
+                    case 1:
+                        alertDialogBuilder.setPositiveButton(buttons[0], this);
+                }
             }
 
             return alertDialogBuilder.create();

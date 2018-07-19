@@ -14,8 +14,6 @@ import com.forcetower.uefs.view.universe.UniverseNavigationController;
 
 import javax.inject.Inject;
 
-import butterknife.ButterKnife;
-
 /**
  * Created by João Paulo on 14/05/2018.
  */
@@ -27,8 +25,6 @@ public class UniverseKnowAboutFragment extends Fragment implements Injectable {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_universe_know_more, container, false);
-        ButterKnife.bind(this, view);
-        return view;
+        return inflater.inflate(R.layout.fragment_universe_know_more, container, false);
     }
 }
