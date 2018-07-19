@@ -9,6 +9,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.anim.ProgressBarAnimation;
+import com.forcetower.uefs.databinding.ActivitySettingsBinding;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
 import com.forcetower.uefs.rep.sgrs.LoginRepository;
@@ -39,7 +41,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
 import dagger.android.AndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 import pub.devrel.easypermissions.AfterPermissionGranted;
@@ -54,11 +55,6 @@ public class SettingsActivity extends UBaseActivity implements SettingsControlle
     private static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1004;
     private static final String SHARED_PREF_ACCOUNT_NAME = "com.forcetower.uefs.calendar.ACCOUNT_SELECTED";
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.pb_progress)
-    ProgressBar pbProgress;
-
     @Inject
     LoginRepository repository;
     @Inject
@@ -69,16 +65,17 @@ public class SettingsActivity extends UBaseActivity implements SettingsControlle
 
     private int currentProgress;
     private int currentSelect;
+    private ActivitySettingsBinding binding;
 
     public static void startActivity(Context context) {
         Intent intent = new Intent(context, SettingsActivity.class);
         context.startActivity(intent);
     }
 
-    @SuppressLint("MissingSuperCall")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(R.layout.activity_settings, savedInstanceState);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_settings);
         setupToolbar();
 
         getFragmentManager().beginTransaction().replace(R.id.container, new SettingsFragment()).commit();
@@ -90,7 +87,7 @@ public class SettingsActivity extends UBaseActivity implements SettingsControlle
 
         if (savedInstanceState != null) {
             currentProgress = savedInstanceState.getInt("PROGRESS");
-            pbProgress.setProgress(currentProgress);
+            binding.pbProgress.setProgress(currentProgress);
             currentSelect = savedInstanceState.getInt("CURRENT_SELECT");
         } else {
             currentSelect = REQUEST_ACCOUNT_PICKER;
@@ -103,9 +100,9 @@ public class SettingsActivity extends UBaseActivity implements SettingsControlle
     }
 
     private void setupToolbar() {
-        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
-        if (VersionUtils.isLollipop()) toolbar.setElevation(10);
-        setSupportActionBar(toolbar);
+        binding.incToolbar.toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        if (VersionUtils.isLollipop()) binding.incToolbar.toolbar.setElevation(10);
+        setSupportActionBar(binding.incToolbar.toolbar);
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(R.string.settings);
@@ -137,9 +134,9 @@ public class SettingsActivity extends UBaseActivity implements SettingsControlle
         Timber.d("Export to Calendar");
         if (!calendarViewModel.isExporting()) {
             Timber.d("Triggers Export");
-            pbProgress.setIndeterminate(true);
-            pbProgress.setProgress(0);
-            AnimUtils.fadeIn(this, pbProgress);
+            binding.pbProgress.setIndeterminate(true);
+            binding.pbProgress.setProgress(0);
+            AnimUtils.fadeIn(this, binding.pbProgress);
             currentSelect = REQUEST_ACCOUNT_PICKER;
             exportToGoogleCalendar();
         } else {
@@ -153,9 +150,9 @@ public class SettingsActivity extends UBaseActivity implements SettingsControlle
         Timber.d("Reset export to calendar");
         if (!calendarViewModel.isExporting()) {
             Timber.d("Triggers Reset");
-            AnimUtils.fadeIn(this, pbProgress);
-            pbProgress.setIndeterminate(false);
-            pbProgress.setProgress(0);
+            AnimUtils.fadeIn(this, binding.pbProgress);
+            binding.pbProgress.setIndeterminate(false);
+            binding.pbProgress.setProgress(0);
             currentSelect = REQUEST_ACCOUNT_PICKER_RESET;
             resetExportToGoogleCalendar();
         } else {
@@ -181,23 +178,23 @@ public class SettingsActivity extends UBaseActivity implements SettingsControlle
                         Toast.makeText(this, getString(R.string.failed_to_export_class) + " " + resource.message, Toast.LENGTH_SHORT).show();
                     else {
                         Toast.makeText(this, getString(resource.data), Toast.LENGTH_SHORT).show();
-                        AnimUtils.fadeOut(this, pbProgress);
+                        AnimUtils.fadeOut(this, binding.pbProgress);
                     }
                 }
             } else if (resource.status == Status.LOADING) {
                 Timber.d("Loading");
-                pbProgress.setIndeterminate(true);
+                binding.pbProgress.setIndeterminate(true);
             } else {
-                pbProgress.setIndeterminate(false);
+                binding.pbProgress.setIndeterminate(false);
                 if (resource.data == 1000) {
-                    AnimUtils.fadeOut(this, pbProgress);
+                    AnimUtils.fadeOut(this, binding.pbProgress);
                     currentProgress = 0;
                     Toast.makeText(this, R.string.completed, Toast.LENGTH_SHORT).show();
                 } else {
-                    ProgressBarAnimation anim = new ProgressBarAnimation(pbProgress, pbProgress.getProgress(), resource.data);
+                    ProgressBarAnimation anim = new ProgressBarAnimation(binding.pbProgress, binding.pbProgress.getProgress(), resource.data);
                     anim.setDuration(500);
                     currentProgress = resource.data;
-                    pbProgress.startAnimation(anim);
+                    binding.pbProgress.startAnimation(anim);
                 }
             }
         }
@@ -206,22 +203,22 @@ public class SettingsActivity extends UBaseActivity implements SettingsControlle
     @SuppressWarnings("ConstantConditions")
     private void onResetProgress(Resource<Integer> resource) {
         if (resource.status == Status.LOADING) {
-            pbProgress.setIndeterminate(false);
+            binding.pbProgress.setIndeterminate(false);
             if (resource.data == 1000) {
-                AnimUtils.fadeOut(this, pbProgress);
+                AnimUtils.fadeOut(this, binding.pbProgress);
                 currentProgress = 0;
             } else {
-                ProgressBarAnimation anim = new ProgressBarAnimation(pbProgress, pbProgress.getProgress(), resource.data);
+                ProgressBarAnimation anim = new ProgressBarAnimation(binding.pbProgress, binding.pbProgress.getProgress(), resource.data);
                 anim.setDuration(500);
                 currentProgress = resource.data;
-                pbProgress.startAnimation(anim);
+                binding.pbProgress.startAnimation(anim);
             }
         } else if (resource.status == Status.ERROR) {
             handleErrorCorrectly(resource);
         } else {
             Toast.makeText(this, R.string.completed, Toast.LENGTH_SHORT).show();
             currentProgress = 0;
-            AnimUtils.fadeOut(this, pbProgress);
+            AnimUtils.fadeOut(this, binding.pbProgress);
         }
     }
 
@@ -230,12 +227,12 @@ public class SettingsActivity extends UBaseActivity implements SettingsControlle
         if (resource.code == 350 && throwable != null) {
             showGooglePlayServicesAvailabilityErrorDialog(((GooglePlayServicesAvailabilityIOException) throwable).getConnectionStatusCode());
             currentProgress = 0;
-            AnimUtils.fadeOut(this, pbProgress);
+            AnimUtils.fadeOut(this, binding.pbProgress);
             return true;
         } else if (resource.code == 360 && throwable != null) {
             startActivityForResult(((UserRecoverableAuthIOException) throwable).getIntent(), REQUEST_AUTHORIZATION);
             currentProgress = 0;
-            AnimUtils.fadeOut(this, pbProgress);
+            AnimUtils.fadeOut(this, binding.pbProgress);
             return true;
         }
         return false;
