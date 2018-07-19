@@ -30,8 +30,6 @@ import com.forcetower.uefs.work.sync.SyncWorkerUtils;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import timber.log.Timber;
 
 /**
