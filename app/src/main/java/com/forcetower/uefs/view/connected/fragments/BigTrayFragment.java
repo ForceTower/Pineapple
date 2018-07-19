@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.core.CrashlyticsListener;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.ru.RUData;
@@ -35,6 +37,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class BigTrayFragment extends Fragment implements Injectable {
     @BindView(R.id.tv_ru_state)
@@ -123,7 +126,7 @@ public class BigTrayFragment extends Fragment implements Injectable {
 
         if (RUtils.isOpen(open, amount, mealType)) {
             tvRuState.setText(R.string.the_big_tray_is_open);
-            tvRuMeal.setText(getString(R.string.ru_meal_name_partial, RUtils.getNextMeal(requireActivity(), mealType)));
+            tvRuMeal.setText(getString(R.string.ru_meal_name_partial, RUtils.getNextMeal(requireContext(), mealType)));
             tvRuAmount.setVisibility(View.VISIBLE);
             tvRuAmount.setText(getString(R.string.ru_amount_format, amount));
             tvRuMealTime.setText(RUtils.getNextMealTime(calendar));
@@ -132,7 +135,7 @@ public class BigTrayFragment extends Fragment implements Injectable {
             tvRuPrice.setText(RUtils.getPrice(mealType, amount));
         } else {
             tvRuState.setText(R.string.the_big_tray_is_closed);
-            tvRuMeal.setText(RUtils.getNextMeal(requireActivity(), mealType));
+            tvRuMeal.setText(RUtils.getNextMeal(requireContext(), mealType));
             tvRuAmount.setVisibility(View.GONE);
             tvRuMealTime.setText(RUtils.getNextMealTime(calendar));
             tvRuPrice.setVisibility(View.GONE);
@@ -144,12 +147,18 @@ public class BigTrayFragment extends Fragment implements Injectable {
 
     private ValueEventListener valueListener = new ValueEventListener() {
         @Override
-        public void onDataChange(DataSnapshot snapshot) {
-            RUData data = snapshot.getValue(RUData.class);
-            if (data != null) updateInterface(data);
+        public void onDataChange(@NonNull DataSnapshot snapshot) {
+            try {
+                RUData data = snapshot.getValue(RUData.class);
+                if (data != null) updateInterface(data);
+            } catch (Exception e) {
+                Timber.e("This RU foreplay is just funny");
+                Crashlytics.logException(e);
+                Crashlytics.log("RU Exception: " + snapshot.getValue());
+            }
         }
 
         @Override
-        public void onCancelled(DatabaseError error) {}
+        public void onCancelled(@NonNull DatabaseError error) {}
     };
 }
