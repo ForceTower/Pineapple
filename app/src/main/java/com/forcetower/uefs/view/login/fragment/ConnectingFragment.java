@@ -3,6 +3,7 @@ package com.forcetower.uefs.view.login.fragment;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -22,6 +23,7 @@ import com.crashlytics.android.Crashlytics;
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.anim.ChangeBoundsTransition;
+import com.forcetower.uefs.databinding.FragmentLoginConnectingBinding;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
@@ -31,8 +33,6 @@ import com.forcetower.uefs.vm.base.LoginViewModel;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import timber.log.Timber;
 
 /**
@@ -42,11 +42,6 @@ import timber.log.Timber;
 public class ConnectingFragment extends Fragment implements Injectable {
     public static final String TAG = "ConnectingFragment";
 
-    @BindView(R.id.image_login_logo)
-    ImageView ivLogo;
-    @BindView(R.id.tv_login_message)
-    TextView tvLoginMessage;
-
     @Inject
     ViewModelProvider.Factory viewModelFactory;
     @Inject
@@ -55,14 +50,14 @@ public class ConnectingFragment extends Fragment implements Injectable {
     LoginViewModel loginViewModel;
 
     private boolean shouldCall = true;
+    private FragmentLoginConnectingBinding binding;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_login_connecting, container, false);
-        ButterKnife.bind(this, view);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login_connecting, container, false);
         animateLogo();
-        return view;
+        return binding.getRoot();
     }
 
     @Override
@@ -112,14 +107,14 @@ public class ConnectingFragment extends Fragment implements Injectable {
             Timber.d("Loading...");
             if (resource.data != null) {
                 Timber.d("Message: %s", getString(resource.data));
-                tvLoginMessage.setText(resource.data);
+                binding.tvLoginMessage.setText(resource.data);
             }
             else
                 Timber.d("Resource data is null... Thinking...");
         } else {
             Timber.d("Failed :(");
             if (resource.data != null) {
-                tvLoginMessage.setText(resource.data);
+                binding.tvLoginMessage.setText(resource.data);
             }
 
             if (resource.code == 401) {
@@ -151,7 +146,7 @@ public class ConnectingFragment extends Fragment implements Injectable {
             setExitTransition(new Fade());
 
             requireActivity().getSupportFragmentManager().beginTransaction()
-                    .addSharedElement(ivLogo, "transition_logo")
+                    .addSharedElement(binding.imageLoginLogo, "transition_logo")
                     .replace(R.id.container, fragment, LoginFormFragment.TAG)
                     .commit();
         } else {
@@ -172,7 +167,7 @@ public class ConnectingFragment extends Fragment implements Injectable {
         fade.setRepeatMode(Animation.REVERSE);
         fade.setDuration(750);
         fade.setRepeatCount(Animation.INFINITE);
-        ivLogo.startAnimation(fade);
-        if (VersionUtils.isLollipop()) ivLogo.setElevation(5);
+        binding.imageLoginLogo.startAnimation(fade);
+        if (VersionUtils.isLollipop()) binding.imageLoginLogo.setElevation(5);
     }
 }
