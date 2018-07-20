@@ -34,7 +34,7 @@ public class AboutFAQAdapter extends RecyclerView.Adapter<AboutFAQAdapter.FAQIte
     @NonNull
     @Override
     public FAQItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-       ItemAboutFaqItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_about_faq_item, parent, false);
+        ItemAboutFaqItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_about_faq_item, parent, false);
         return new FAQItemHolder(binding);
     }
 

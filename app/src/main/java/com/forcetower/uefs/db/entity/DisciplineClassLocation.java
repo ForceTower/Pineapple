@@ -148,4 +148,35 @@ public class DisciplineClassLocation implements Comparable<DisciplineClassLocati
     public String getClassGroup() {
         return classGroup;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DisciplineClassLocation that = (DisciplineClassLocation) o;
+
+        if (uid != that.uid) return false;
+        if (groupId != that.groupId) return false;
+        if (startTime != null ? !startTime.equals(that.startTime) : that.startTime != null)
+            return false;
+        if (endTime != null ? !endTime.equals(that.endTime) : that.endTime != null) return false;
+        if (day != null ? !day.equals(that.day) : that.day != null) return false;
+        if (room != null ? !room.equals(that.room) : that.room != null) return false;
+        if (campus != null ? !campus.equals(that.campus) : that.campus != null) return false;
+        return modulo != null ? modulo.equals(that.modulo) : that.modulo == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = uid;
+        result = 31 * result + groupId;
+        result = 31 * result + (startTime != null ? startTime.hashCode() : 0);
+        result = 31 * result + (endTime != null ? endTime.hashCode() : 0);
+        result = 31 * result + (day != null ? day.hashCode() : 0);
+        result = 31 * result + (room != null ? room.hashCode() : 0);
+        result = 31 * result + (campus != null ? campus.hashCode() : 0);
+        result = 31 * result + (modulo != null ? modulo.hashCode() : 0);
+        return result;
+    }
 }

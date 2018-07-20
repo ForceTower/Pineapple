@@ -1,21 +1,18 @@
 package com.forcetower.uefs.view.connected.adapters;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
+import android.support.v7.recyclerview.extensions.ListAdapter;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.databinding.ItemScheduleClassBinding;
 import com.forcetower.uefs.db.entity.DisciplineClassLocation;
 import com.forcetower.uefs.view.connected.LocationClickListener;
-
-import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 import static com.forcetower.uefs.util.WordUtils.validString;
 
@@ -23,39 +20,35 @@ import static com.forcetower.uefs.util.WordUtils.validString;
  * Created by João Paulo on 07/03/2018.
  */
 
-class DayClassAdapter extends RecyclerView.Adapter<DayClassAdapter.DisciplineHolder> {
-    private Context context;
-    private List<DisciplineClassLocation> disciplines;
+class DayClassAdapter extends ListAdapter<DisciplineClassLocation, DayClassAdapter.DisciplineHolder> {
     private boolean style;
     private LocationClickListener onClickListener;
 
-    DayClassAdapter(@NonNull Context context, @NonNull List<DisciplineClassLocation> disciplines, boolean style) {
-        this.context = context;
-        this.disciplines = disciplines;
+    DayClassAdapter(boolean style) {
+        super(new DiffUtil.ItemCallback<DisciplineClassLocation>() {
+            @Override
+            public boolean areItemsTheSame(DisciplineClassLocation oldItem, DisciplineClassLocation newItem) {
+                return oldItem.getUid() == newItem.getUid();
+            }
+
+            @Override
+            public boolean areContentsTheSame(DisciplineClassLocation oldItem, DisciplineClassLocation newItem) {
+                return oldItem.equals(newItem);
+            }
+        });
         this.style = style;
     }
 
     @NonNull
     @Override
     public DisciplineHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_schedule_class, parent, false);
-        return new DisciplineHolder(view);
+        ItemScheduleClassBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_schedule_class, parent, false);
+        return new DisciplineHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull DisciplineHolder holder, int position) {
-        holder.bind(disciplines.get(position));
-    }
-
-    @Override
-    public int getItemCount() {
-        return disciplines.size();
-    }
-
-    public void setDisciplines(List<DisciplineClassLocation> locations) {
-        this.disciplines.clear();
-        this.disciplines.addAll(locations);
-        notifyDataSetChanged();
+        holder.bind(getItem(position));
     }
 
     public void setOnClickListener(LocationClickListener onClickListener) {
@@ -63,27 +56,24 @@ class DayClassAdapter extends RecyclerView.Adapter<DayClassAdapter.DisciplineHol
     }
 
     class DisciplineHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tv_class_name)
-        TextView tvClassName;
-        @BindView(R.id.tv_class_time)
-        TextView tvClassTime;
-        @BindView(R.id.tv_class_location)
-        TextView tvClassLocation;
+        @NonNull
+        private final ItemScheduleClassBinding binding;
 
-        DisciplineHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(v -> onClick());
+        DisciplineHolder(ItemScheduleClassBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+            binding.getRoot().setOnClickListener(v -> onClick());
         }
 
         private void onClick() {
             if (onClickListener != null) {
                 int position = getAdapterPosition();
-                onClickListener.onDisciplineGroupClicked(disciplines.get(position));
+                onClickListener.onDisciplineGroupClicked(getItem(position));
             }
         }
 
         public void bind(DisciplineClassLocation discipline) {
+            Context context = binding.getRoot().getContext();
             String location = "";
             //if (validString(discipline.getCampus())) location = discipline.getCampus().trim();
 
@@ -97,11 +87,11 @@ class DayClassAdapter extends RecyclerView.Adapter<DayClassAdapter.DisciplineHol
                 else location = location + " - " + discipline.getRoom().trim();
             }
 
-            tvClassName.setText(discipline.getClassName().trim());
-            tvClassLocation.setText(location);
+            binding.tvClassName.setText(discipline.getClassName().trim());
+            binding.tvClassLocation.setText(location);
 
-            if (!style) tvClassTime.setText(context.getString(R.string.discipline_start_end_time, discipline.getStartTime(), discipline.getEndTime()));
-            else tvClassTime.setText(context.getString(R.string.discipline_code_group, discipline.getClassCode(), discipline.getClassGroup()));
+            if (!style) binding.tvClassTime.setText(context.getString(R.string.discipline_start_end_time, discipline.getStartTime(), discipline.getEndTime()));
+            else binding.tvClassTime.setText(context.getString(R.string.discipline_code_group, discipline.getClassCode(), discipline.getClassGroup()));
         }
     }
 }
