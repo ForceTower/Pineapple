@@ -1,52 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.forcetower.uefs.view.connected.fragments.SuggestionFragment">
-
-    <TextView
-        android:id="@+id/tv_write_suggestion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_centerHorizontal="true"
-        android:textColor="@color/primaryText"
-        android:fontFamily="@font/roboto_medium"
-        android:textSize="14sp"
-        android:text="@string/write_a_suggestion"/>
-
-    <EditText
+    xmlns:tools="http://schemas.android.com/tools">
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:hint="@string/suggestion"
-        android:inputType="text|textMultiLine|textCapSentences"
-        android:gravity="top"
-        android:background="@null"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="8dp"
-        android:layout_below="@id/tv_write_suggestion"
-        android:layout_above="@id/btn_submit"
-        android:id="@+id/et_suggestion"/>
+        android:layout_height="match_parent"
+        tools:context="com.forcetower.uefs.view.connected.fragments.SuggestionFragment">
 
-    <Button
-        android:id="@+id/btn_submit"
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:layout_alignParentBottom="true"
-        android:background="?colorAccent"
-        android:textColor="@color/white"
-        android:layout_margin="16dp"
-        android:text="@string/submit"/>
+        <TextView
+            android:id="@+id/tv_write_suggestion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/toolbar"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/primaryText"
+            android:fontFamily="@font/roboto_medium"
+            android:textSize="14sp"
+            android:text="@string/write_a_suggestion"/>
 
-</RelativeLayout>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:hint="@string/suggestion"
+            android:inputType="text|textMultiLine|textCapSentences"
+            android:gravity="top"
+            android:background="@null"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="8dp"
+            android:layout_below="@id/tv_write_suggestion"
+            android:layout_above="@id/btn_submit"
+            android:id="@+id/et_suggestion"/>
+
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_alignParentBottom="true"
+            android:background="?colorAccent"
+            android:textColor="@color/white"
+            android:layout_margin="16dp"
+            android:text="@string/submit"/>
+
+    </RelativeLayout>
+</layout>

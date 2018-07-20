@@ -1,31 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.forcetower.uefs.view.connected.fragments.DisciplineClassesFragment"
-    android:animateLayoutChanges="true">
-
-    <TextView
-        android:id="@+id/dev_thing"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/you_can_download_materials_yet"
-        android:textAlignment="center"
-        android:textColor="@color/primaryText"
-        android:padding="12dp"/>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_below="@id/dev_thing"
+    xmlns:tools="http://schemas.android.com/tools">
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="8dp"
-        android:clipToPadding="false"
-        tools:listitem="@layout/card_discipline_classes"
-        tools:itemCount="3">
-    </android.support.v7.widget.RecyclerView>
+        tools:context="com.forcetower.uefs.view.connected.fragments.DisciplineClassesFragment"
+        android:animateLayoutChanges="true">
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/dev_thing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/you_can_download_materials_yet"
+            android:textAlignment="center"
+            android:textColor="@color/primaryText"
+            android:padding="12dp"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_below="@id/dev_thing"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="8dp"
+            android:clipToPadding="false"
+            tools:listitem="@layout/card_discipline_classes"
+            tools:itemCount="3">
+        </android.support.v7.widget.RecyclerView>
+
+    </RelativeLayout>
+</layout>

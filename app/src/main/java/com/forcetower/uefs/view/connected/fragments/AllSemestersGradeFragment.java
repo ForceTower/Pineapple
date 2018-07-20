@@ -3,6 +3,7 @@ package com.forcetower.uefs.view.connected.fragments;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,12 +11,12 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.databinding.FragmentAllSemestersGradesBinding;
 import com.forcetower.uefs.db.entity.Semester;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.util.WordUtils;
@@ -28,8 +29,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import timber.log.Timber;
 
 /**
@@ -37,14 +36,12 @@ import timber.log.Timber;
  */
 
 public class AllSemestersGradeFragment extends Fragment implements Injectable {
-    @BindView(R.id.view_pager)
-    ViewPager viewPager;
-
     @Inject
     ViewModelProvider.Factory viewModelFactory;
 
     private GradesFragmentAdapter fragmentAdapter;
     private ActivityController controller;
+    private FragmentAllSemestersGradesBinding binding;
 
     @Override
     public void onAttach(Context context) {
@@ -59,12 +56,11 @@ public class AllSemestersGradeFragment extends Fragment implements Injectable {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_all_semesters_grades, container, false);
-        ButterKnife.bind(this, view);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_all_semesters_grades, container, false);
         controller.changeTitle(R.string.title_grades);
         fragmentAdapter = new GradesFragmentAdapter(getChildFragmentManager());
         configureViewPager();
-        return view;
+        return binding.getRoot();
     }
 
     @Override
@@ -82,16 +78,16 @@ public class AllSemestersGradeFragment extends Fragment implements Injectable {
         if (tabLayout != null) {
             tabLayout.removeAllTabs();
             tabLayout.clearOnTabSelectedListeners();
-            tabLayout.setupWithViewPager(viewPager);
-            viewPager.clearOnPageChangeListeners();
-            viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-            tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
+            tabLayout.setupWithViewPager(binding.viewPager);
+            binding.viewPager.clearOnPageChangeListeners();
+            binding.viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+            tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(binding.viewPager));
         }
         fragmentAdapter.setSemesterList(semesters);
     }
 
     private void configureViewPager() {
-        viewPager.setAdapter(fragmentAdapter);
+        binding.viewPager.setAdapter(fragmentAdapter);
     }
 
     private class GradesFragmentAdapter extends FragmentPagerAdapter {

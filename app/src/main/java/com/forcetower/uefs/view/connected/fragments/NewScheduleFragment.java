@@ -4,20 +4,20 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.databinding.FragmentScheduleNewBinding;
 import com.forcetower.uefs.db.entity.DisciplineClassLocation;
 import com.forcetower.uefs.db.entity.DisciplineGroup;
 import com.forcetower.uefs.di.Injectable;
@@ -34,23 +34,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import timber.log.Timber;
 
 /**
  * Created by João Paulo on 29/03/2018.
  */
 public class NewScheduleFragment extends Fragment implements Injectable {
-    @BindView(R.id.vg_no_schedule)
-    ViewGroup vgNoSchedule;
-    @BindView(R.id.recycler_view)
-    RecyclerView rvSchedule;
-    @BindView(R.id.rv_schedule_subtitle)
-    RecyclerView rvScheduleSubtitle;
-    @BindView(R.id.sv_schedule)
-    NestedScrollView svSchedule;
-
     @Inject
     ViewModelProvider.Factory viewModelFactory;
     @Inject
@@ -61,6 +50,7 @@ public class NewScheduleFragment extends Fragment implements Injectable {
 
     private NewScheduleAdapter scheduleAdapter;
     private ScheduleAdapter subtitleAdapter;
+    private FragmentScheduleNewBinding binding;
 
     @Override
     public void onAttach(Context context) {
@@ -75,13 +65,12 @@ public class NewScheduleFragment extends Fragment implements Injectable {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_schedule_new, container, false);
-        ButterKnife.bind(this, view);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_schedule_new, container, false);
         controller.getTabLayout().setVisibility(View.GONE);
         controller.changeTitle(R.string.title_schedule);
         setupRecycler();
         setupSubtitles();
-        return view;
+        return binding.getRoot();
     }
 
     @Override
@@ -95,27 +84,27 @@ public class NewScheduleFragment extends Fragment implements Injectable {
         scheduleAdapter = new NewScheduleAdapter(requireContext(), new ArrayList<>());
         scheduleAdapter.setOnClickListener(locationClickListener);
         scheduleAdapter.setOnLongClickListener(long2048Click);
-        rvSchedule.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        rvSchedule.setAdapter(scheduleAdapter);
-        rvSchedule.setNestedScrollingEnabled(false);
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        binding.recyclerView.setAdapter(scheduleAdapter);
+        binding.recyclerView.setNestedScrollingEnabled(false);
     }
 
     private void setupSubtitles() {
         subtitleAdapter = new ScheduleAdapter(getContext(), new ArrayList<>(), true);
         subtitleAdapter.setOnClickListener(locationClickListener);
-        rvScheduleSubtitle.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvScheduleSubtitle.setAdapter(subtitleAdapter);
-        rvScheduleSubtitle.setNestedScrollingEnabled(false);
+        binding.rvScheduleSubtitle.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.rvScheduleSubtitle.setAdapter(subtitleAdapter);
+        binding.rvScheduleSubtitle.setNestedScrollingEnabled(false);
     }
 
     private void onReceiveLocations(List<DisciplineClassLocation> locations) {
         if (locations == null || locations.isEmpty()) {
-            AnimUtils.fadeOut(getContext(), svSchedule);
-            AnimUtils.fadeIn(getContext(), vgNoSchedule);
+            AnimUtils.fadeOut(getContext(), binding.svSchedule);
+            AnimUtils.fadeIn(getContext(), binding.vgNoSchedule);
         } else {
-            AnimUtils.fadeOut(getContext(), vgNoSchedule);
-            vgNoSchedule.setVisibility(View.GONE);
-            svSchedule.setVisibility(View.VISIBLE);
+            AnimUtils.fadeOut(getContext(), binding.vgNoSchedule);
+            binding.vgNoSchedule.setVisibility(View.GONE);
+            binding.svSchedule.setVisibility(View.VISIBLE);
             try {
                 scheduleAdapter.setLocations(locations);
                 subtitleAdapter.setLocations(locations);

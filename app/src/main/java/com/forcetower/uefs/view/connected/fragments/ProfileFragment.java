@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
@@ -17,17 +18,15 @@ import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.forcetower.uefs.BuildConfig;
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.databinding.FragmentProfileBinding;
 import com.forcetower.uefs.db.entity.Access;
 import com.forcetower.uefs.db.entity.Profile;
 import com.forcetower.uefs.db.entity.Semester;
@@ -49,11 +48,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.OnLongClick;
-import de.hdodenhof.circleimageview.CircleImageView;
 import timber.log.Timber;
 
 import static android.app.Activity.RESULT_OK;
@@ -66,33 +60,6 @@ import static com.forcetower.uefs.view.connected.LoggedActivity.BACKGROUND_IMAGE
 
 public class ProfileFragment extends Fragment implements Injectable {
     public static final int REQUEST_SELECT_PROFILE_PICTURE = 5000;
-    @BindView(R.id.tv_std_name)
-    TextView tvStdName;
-    @BindView(R.id.tv_std_semester)
-    TextView tvStdSemester;
-    @BindView(R.id.tv_std_semester_hide)
-    TextView tvStdSemesterHidden;
-    @BindView(R.id.tv_std_score)
-    TextView tvStdScore;
-    @BindView(R.id.tv_std_course)
-    TextView tvStdCourse;
-    @BindView(R.id.tv_last_update)
-    TextView tvLastUpdate;
-    @BindView(R.id.tv_last_update_attempt)
-    TextView tvLastUpdateAttempt;
-    @BindView(R.id.iv_background)
-    ImageView ivBackground;
-    @BindView(R.id.vw_bg_alpha)
-    View vwBgAlpha;
-
-    @BindView(R.id.cv_update_control)
-    CardView cvUpdateControl;
-    @BindView(R.id.iv_img_profile)
-    CircleImageView ivProfileImage;
-    @BindView(R.id.iv_img_placeholder)
-    CircleImageView ivProfilePlaceholder;
-    @BindView(R.id.cv_select_course)
-    CardView cvChangeCourse;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -103,6 +70,8 @@ public class ProfileFragment extends Fragment implements Injectable {
     private SharedPreferences sharedPreferences;
 
     private ActivityController controller;
+    private FragmentProfileBinding binding;
+
     private double scoreCalc = -1;
     private boolean alternateScore = false;
 
@@ -115,20 +84,22 @@ public class ProfileFragment extends Fragment implements Injectable {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        ButterKnife.bind(this, view);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false);
         controller.getTabLayout().setVisibility(View.GONE);
         controller.changeTitle(R.string.title_profile);
 
-        cvUpdateControl.setOnClickListener(v -> goToUpdateControl());
-        cvChangeCourse.setOnClickListener(v -> changeCourse());
+        binding.ivImgProfile.setOnLongClickListener(v -> onProfileImageLongClick());
+        binding.ivImgProfile.setOnClickListener(v -> selectPicture());
+        binding.ivImgPlaceholder.setOnClickListener(v -> selectPicture());
+        binding.incCardUpdateCtrl.cvUpdateControl.setOnClickListener(v -> goToUpdateControl());
+        binding.incCardCourse.cvSelectCourse.setOnClickListener(v -> changeCourse());
 
-        tvLastUpdateAttempt.setOnLongClickListener(v -> {
+        binding.tvLastUpdateAttempt.setOnLongClickListener(v -> {
             navigationController.navigateToSyncRegistry();
             return true;
         });
 
-        tvLastUpdate.setOnLongClickListener(v -> {
+        binding.tvLastUpdate.setOnLongClickListener(v -> {
             navigationController.navigateToSyncRegistry();
             return true;
         });
@@ -137,7 +108,7 @@ public class ProfileFragment extends Fragment implements Injectable {
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         if (sharedPreferences.getBoolean("show_score", false)) {
-            tvStdScore.setVisibility(View.VISIBLE);
+            binding.tvStdScore.setVisibility(View.VISIBLE);
         }
 
         if (!sharedPreferences.getBoolean("feature_discovered_profile_image", false)) {
@@ -146,21 +117,20 @@ public class ProfileFragment extends Fragment implements Injectable {
 
         String backgroundImage = PreferenceManager.getDefaultSharedPreferences(requireContext())
                 .getString(BACKGROUND_IMAGE, Constants.BACKGROUND_IMAGE_DEFAULT);
-        Picasso.with(requireContext()).load(backgroundImage).into(ivBackground, new Callback() {
+        Picasso.with(requireContext()).load(backgroundImage).into(binding.ivBackground, new Callback() {
             @Override
-            public void onSuccess() { vwBgAlpha.setVisibility(View.VISIBLE); }
+            public void onSuccess() { binding.vwBgAlpha.setVisibility(View.VISIBLE); }
             @Override
-            public void onError() { vwBgAlpha.setVisibility(View.INVISIBLE); }
+            public void onError() { binding.vwBgAlpha.setVisibility(View.INVISIBLE); }
         });
 
-        return view;
+        return binding.getRoot();
     }
 
     private void changeCourse() {
         navigationController.navigateToSelectCourse();
     }
 
-    @OnClick(value = {R.id.iv_img_profile, R.id.iv_img_placeholder})
     public void selectPicture() {
         Timber.d("Fired on click listener");
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
@@ -168,10 +138,9 @@ public class ProfileFragment extends Fragment implements Injectable {
         startActivityForResult(photoPickerIntent, REQUEST_SELECT_PROFILE_PICTURE);
     }
 
-    @OnLongClick(value = R.id.iv_img_profile)
     public boolean onProfileImageLongClick() {
-        AnimUtils.fadeOut(requireContext(), ivProfileImage);
-        AnimUtils.fadeIn(requireContext(), ivProfilePlaceholder);
+        AnimUtils.fadeOut(requireContext(), binding.ivImgProfile);
+        AnimUtils.fadeIn(requireContext(), binding.ivImgPlaceholder);
         profileViewModel.saveProfileImageBitmap(null);
         controller.onProfileImageChanged(null);
         return true;
@@ -194,7 +163,7 @@ public class ProfileFragment extends Fragment implements Injectable {
         if (value != null) {
             this.scoreCalc = value;
             if (scoreCalc >= 0 && alternateScore) {
-                tvStdScore.setText(getString(R.string.calculated_score, scoreCalc));
+                binding.tvStdScore.setText(getString(R.string.calculated_score, scoreCalc));
             }
         }
     }
@@ -204,14 +173,14 @@ public class ProfileFragment extends Fragment implements Injectable {
 
         if (bitmap == null) {
             Timber.d("No image set so far");
-            AnimUtils.fadeIn(requireContext(), ivProfilePlaceholder);
-            AnimUtils.fadeOut(requireContext(), ivProfileImage);
+            AnimUtils.fadeIn(requireContext(), binding.ivImgPlaceholder);
+            AnimUtils.fadeOut(requireContext(), binding.ivImgProfile);
             return;
         }
 
-        ivProfileImage.setImageBitmap(bitmap);
-        AnimUtils.fadeIn(requireContext(), ivProfileImage);
-        AnimUtils.fadeOut(requireContext(), ivProfilePlaceholder);
+        binding.ivImgProfile.setImageBitmap(bitmap);
+        AnimUtils.fadeIn(requireContext(), binding.ivImgProfile);
+        AnimUtils.fadeOut(requireContext(), binding.ivImgPlaceholder);
     }
 
     private void onReceiveAccess(Access access) {
@@ -223,49 +192,49 @@ public class ProfileFragment extends Fragment implements Injectable {
     }
 
     private void enablePrivateContent() {
-        cvUpdateControl.setVisibility(View.VISIBLE);
+        binding.incCardUpdateCtrl.cvUpdateControl.setVisibility(View.VISIBLE);
     }
 
     private void onReceiveProfile(Profile profile) {
         if (profile == null) return;
 
-        tvStdName.setText(profile.getName());
+        binding.tvStdName.setText(profile.getName());
 
         if (profile.getScore() >= 0) {
-            tvStdScore.setText(getString(R.string.student_score, profile.getScore()));
+            binding.tvStdScore.setText(getString(R.string.student_score, profile.getScore()));
         } else {
             alternateScore = true;
             if (scoreCalc >= 0) {
-                tvStdScore.setText(getString(R.string.calculated_score, scoreCalc));
+                binding.tvStdScore.setText(getString(R.string.calculated_score, scoreCalc));
             } else {
-                tvStdScore.setText(R.string.no_score_message);
+                binding.tvStdScore.setText(R.string.no_score_message);
             }
         }
 
         Timber.d("Last Sync: %s", profile.getLastSync());
         String date = DateUtils.convertTime(profile.getLastSync());
         String attempt = DateUtils.convertTime(profile.getLastSyncAttempt());
-        tvLastUpdate.setText(getString(R.string.last_information_update, date));
+        binding.tvLastUpdate.setText(getString(R.string.last_information_update, date));
         if (profile.getLastSyncAttempt() != 0) {
-            tvLastUpdateAttempt.setText(getString(R.string.last_information_update_attempt, attempt));
+            binding.tvLastUpdateAttempt.setText(getString(R.string.last_information_update_attempt, attempt));
         } else {
-            tvLastUpdateAttempt.setText(R.string.no_automatic_update_yet);
+            binding.tvLastUpdateAttempt.setText(R.string.no_automatic_update_yet);
         }
 
-        if (profile.getCourse() != null) tvStdCourse.setText(profile.getCourse());
+        if (profile.getCourse() != null) binding.tvStdCourse.setText(profile.getCourse());
     }
 
     private void onReceiveSemesters(List<Semester> semesters) {
         if (semesters.size() == 0) {
             Timber.d("F R E S H M A N");
-            tvStdSemester.setText(R.string.student_freshman);
+            binding.tvStdSemester.setText(R.string.student_freshman);
         } else {
             int currently = 0;
             for (Semester semester : semesters) {
                 if (semester.getName().trim().length() == 5)
                     currently++;
             }
-            tvStdSemester.setText(getString(R.string.student_semester, currently));
+            binding.tvStdSemester.setText(getString(R.string.student_semester, currently));
         }
     }
 
@@ -274,17 +243,17 @@ public class ProfileFragment extends Fragment implements Injectable {
         super.onResume();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         if (preferences.getBoolean("show_score", false)) {
-            tvStdScore.setVisibility(View.VISIBLE);
+            binding.tvStdScore.setVisibility(View.VISIBLE);
         } else {
-            tvStdScore.setVisibility(View.INVISIBLE);
+            binding.tvStdScore.setVisibility(View.INVISIBLE);
         }
 
         if (preferences.getBoolean("show_current_semester", true)) {
-            tvStdSemester.setVisibility(View.VISIBLE);
-            tvStdSemesterHidden.setVisibility(View.GONE);
+            binding.tvStdSemester.setVisibility(View.VISIBLE);
+            binding.tvStdSemesterHide.setVisibility(View.GONE);
         } else {
-            tvStdSemesterHidden.setVisibility(View.VISIBLE);
-            tvStdSemester.setVisibility(View.GONE);
+            binding.tvStdSemesterHide.setVisibility(View.VISIBLE);
+            binding.tvStdSemester.setVisibility(View.GONE);
         }
     }
 
@@ -303,9 +272,9 @@ public class ProfileFragment extends Fragment implements Injectable {
                     if (selectedImage != null) {
                         InputStream imageStream = requireActivity().getContentResolver().openInputStream(selectedImage);
                         Bitmap imageBitmap = BitmapFactory.decodeStream(imageStream);
-                        ivProfileImage.setImageBitmap(imageBitmap);
-                        AnimUtils.fadeOut(requireContext(), ivProfilePlaceholder);
-                        AnimUtils.fadeIn(requireContext(), ivProfileImage);
+                        binding.ivImgProfile.setImageBitmap(imageBitmap);
+                        AnimUtils.fadeOut(requireContext(), binding.ivImgPlaceholder);
+                        AnimUtils.fadeIn(requireContext(), binding.ivImgProfile);
                         controller.onProfileImageChanged(imageBitmap);
                         profileViewModel.saveProfileImageBitmap(imageBitmap);
                         if (!sharedPreferences.getBoolean("first_profile_image_set", false)) {
@@ -327,7 +296,7 @@ public class ProfileFragment extends Fragment implements Injectable {
     public void discoverProfilePicture() {
         if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
             TapTargetView.showFor(requireActivity(),
-                    TapTarget.forView(ivProfilePlaceholder, getString(R.string.fd_profile_image), getString(R.string.fd_profile_image_desc))
+                    TapTarget.forView(binding.ivImgPlaceholder, getString(R.string.fd_profile_image), getString(R.string.fd_profile_image_desc))
                             .outerCircleColor(R.color.colorPrimary)
                             .targetCircleColor(R.color.white)
                             .titleTextColor(R.color.white)

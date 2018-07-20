@@ -1,95 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/card_prev_next"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:clickable="true"
-    android:focusable="true"
-    android:foreground="?android:attr/selectableItemBackground"
-    android:layout_marginTop="4dp"
-    android:layout_marginEnd="8dp"
-    android:layout_marginStart="8dp"
-    android:layout_marginRight="8dp"
-    android:layout_marginLeft="8dp"
-    app:cardCornerRadius="2dp"
-    app:cardElevation="2dp">
-
-    <LinearLayout
-        android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools">
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_prev_next"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginLeft="8dp"
-        android:paddingBottom="8dp"
-        android:animateLayoutChanges="false">
+        app:cardCornerRadius="2dp"
+        app:cardElevation="2dp">
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp">
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"
+            android:paddingBottom="8dp"
+            android:animateLayoutChanges="false">
 
-            <RelativeLayout
-                android:layout_width="30dp"
-                android:layout_height="match_parent">
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_centerVertical="true"
-                    app:srcCompat="@drawable/ic_keyboard_arrow_left_black_24dp"/>
-            </RelativeLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
+
+                <RelativeLayout
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_centerVertical="true"
+                        app:srcCompat="@drawable/ic_keyboard_arrow_left_black_24dp"/>
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tv_last_class"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/primaryText"
+                    android:textSize="14sp"
+                    tools:text="Ultima Aula: Propriedades de Sinais e Sistemas Lineares"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
+
+                <RelativeLayout
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_centerVertical="true"
+                        app:srcCompat="@drawable/ic_keyboard_arrow_right_black_24dp"/>
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tv_next_class"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/primaryText"
+                    android:textSize="14sp"
+                    tools:text="Proxima Aula: A mágica da Transformada de Fourier no Tempo Contínuo - Exercicios"/>
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/tv_last_class"
+                android:visibility="gone"
+                android:id="@+id/tv_show_all_classes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="?attr/color_accent"
                 android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/primaryText"
-                android:textSize="14sp"
-                tools:text="Ultima Aula: Propriedades de Sinais e Sistemas Lineares"/>
+                android:layout_marginTop="16dp"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/all_classes"/>
         </LinearLayout>
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp">
-
-            <RelativeLayout
-                android:layout_width="30dp"
-                android:layout_height="match_parent">
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_centerVertical="true"
-                    app:srcCompat="@drawable/ic_keyboard_arrow_right_black_24dp"/>
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/tv_next_class"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/primaryText"
-                android:textSize="14sp"
-                tools:text="Proxima Aula: A mágica da Transformada de Fourier no Tempo Contínuo - Exercicios"/>
-        </LinearLayout>
-
-        <TextView
-            android:visibility="gone"
-            android:id="@+id/tv_show_all_classes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="?attr/color_accent"
-            android:fontFamily="@font/roboto_regular"
-            android:layout_marginTop="16dp"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/all_classes"/>
-    </LinearLayout>
-
-</android.support.v7.widget.CardView>
+    </android.support.v7.widget.CardView>
+</layout>

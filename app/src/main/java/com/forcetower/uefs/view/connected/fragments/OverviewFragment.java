@@ -3,20 +3,18 @@ package com.forcetower.uefs.view.connected.fragments;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.databinding.FragmentDisciplineOverviewBinding;
 import com.forcetower.uefs.db.entity.Discipline;
 import com.forcetower.uefs.db.entity.DisciplineGroup;
 import com.forcetower.uefs.di.Injectable;
@@ -31,8 +29,6 @@ import com.forcetower.uefs.vm.base.DisciplinesViewModel;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import timber.log.Timber;
 
 import static com.forcetower.uefs.view.connected.fragments.DisciplineDetailsFragment.INTENT_DISCIPLINE_GROUP_ID;
@@ -43,61 +39,15 @@ import static com.forcetower.uefs.view.connected.fragments.DisciplineDetailsFrag
  */
 
 public class OverviewFragment extends Fragment implements Injectable {
-    @BindView(R.id.pb_loading)
-    ProgressBar pbLoading;
-    @BindView(R.id.draft_card)
-    CardView draftCard;
-    @BindView(R.id.tv_class_credits)
-    TextView classCredits;
-    @BindView(R.id.tv_class_period)
-    TextView classPeriod;
-    @BindView(R.id.tv_class_teacher)
-    TextView classTeacher;
-    @BindView(R.id.tv_class_department)
-    TextView classDepartment;
-    @BindView(R.id.tv_class_miss_limit)
-    TextView classMissLimit;
-    //View References card faults
-    @BindView(R.id.card_missed_classes)
-    CardView cvMissedClasses;
-    @BindView(R.id.iv_icon_class_missed)
-    ImageView classAlertImage;
-    @BindView(R.id.tv_classes_missed)
-    TextView classesMissed;
-    @BindView(R.id.tv_miss_remain)
-    TextView classMissRemain;
-    @BindView(R.id.pb_classes_missed)
-    ProgressBar classesMissedProgress;
-    //View References card prev and next
-    @BindView(R.id.tv_last_class)
-    TextView classPrevious;
-    @BindView(R.id.tv_next_class)
-    TextView classNext;
-    @BindView(R.id.tv_show_all_classes)
-    TextView tvShowAllClasses;
-    @BindView(R.id.card_prev_next)
-    CardView cvClasses;
-    //View References card identification
-    @BindView(R.id.tv_class_name)
-    TextView className;
-    @BindView(R.id.tv_class_group)
-    TextView classGroup;
-    //View References card classes and day
-    //@BindView(R.id.inc_card_classes_days)
-    //CardView cardViewClassesDay;
-    //@BindView(R.id.rv_class_time)
-    //RecyclerView classDayAndTime;
-
     @Inject
     ViewModelProvider.Factory viewModelFactory;
     @Inject
     NavigationController navigation;
 
     private DisciplinesViewModel disciplinesViewModel;
-
     private Discipline mDiscipline;
-
     private ActivityController controller;
+    private FragmentDisciplineOverviewBinding binding;
 
     @Override
     public void onAttach(Context context) {
@@ -108,19 +58,19 @@ public class OverviewFragment extends Fragment implements Injectable {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_discipline_overview, container, false);
-        ButterKnife.bind(this, view);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_discipline_overview, container, false);
         if (getArguments() != null) {
             int disciplineId = getArguments().getInt(INTENT_DISCIPLINE_ID);
-            cvMissedClasses.setOnClickListener(v -> navigation.navigateToMissedClasses(disciplineId));
+            binding.misses.cardMissedClasses.setOnClickListener(v -> navigation.navigateToMissedClasses(disciplineId));
         }
-        return view;
+        return binding.getRoot();
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         disciplinesViewModel = ViewModelProviders.of(this, viewModelFactory).get(DisciplinesViewModel.class);
+        //noinspection ConstantConditions
         int groupId = getArguments().getInt(INTENT_DISCIPLINE_GROUP_ID);
         Timber.d("This is my groupId: %d", groupId);
         disciplinesViewModel.findDisciplineFromGroupId(groupId).observe(this, this::onDisciplineChanged);
@@ -128,21 +78,21 @@ public class OverviewFragment extends Fragment implements Injectable {
         disciplinesViewModel.fetchDetails(groupId).observe(this, this::onFetchUpdate);
 
         if (!disciplinesViewModel.isDetailsFinished())
-            AnimUtils.fadeIn(getContext(), pbLoading);
+            AnimUtils.fadeIn(getContext(), binding.pbLoading);
 
-        draftCard.setOnClickListener(v -> {
+        binding.draftCard.setOnClickListener(v -> {
             if (disciplinesViewModel.isDetailsFinished()) {
                 Timber.d("Click Accepted");
                 disciplinesViewModel.triggerFetchDetails();
                 disciplinesViewModel.fetchDetails(groupId);
-                AnimUtils.fadeIn(getContext(), pbLoading);
-                pbLoading.setIndeterminate(true);
+                AnimUtils.fadeIn(getContext(), binding.pbLoading);
+                binding.pbLoading.setIndeterminate(true);
             } else {
                 Timber.d("Details were no finished, click rejected");
             }
         });
 
-        cvClasses.setOnClickListener(v -> controller.navigateToDisciplineClasses(groupId));
+        binding.prevNext.cardPrevNext.setOnClickListener(v -> controller.navigateToDisciplineClasses(groupId));
     }
 
     private void onDisciplineGroupChanged(DisciplineGroup group) {
@@ -176,22 +126,22 @@ public class OverviewFragment extends Fragment implements Injectable {
             }
         }
 
-        if (!group.isDraft()) classCredits.setText(getString(R.string.class_details_credits, group.getCredits()));
-        classPeriod.setText(getString(R.string.class_details_class_period, group.isDraft() ? "???" : group.getClassPeriod()));
-        classTeacher.setText(getString(R.string.class_details_teacher, group.isDraft() ? "???" : group.getTeacher()));
-        classDepartment.setText(group.isDraft() ? getString(R.string.class_details_department, "???") : group.getDepartment());
-        classGroup.setText(group.getGroup());
+        if (!group.isDraft()) binding.general.tvClassCredits.setText(getString(R.string.class_details_credits, group.getCredits()));
+        binding.general.tvClassPeriod.setText(getString(R.string.class_details_class_period, group.isDraft() ? "???" : group.getClassPeriod()));
+        binding.general.tvClassTeacher.setText(getString(R.string.class_details_teacher, group.isDraft() ? "???" : group.getTeacher()));
+        binding.general.tvClassDepartment.setText(group.isDraft() ? getString(R.string.class_details_department, "???") : group.getDepartment());
+        binding.detailsInfo.tvClassGroup.setText(group.getGroup());
 
         if (!group.isDraft()) {
-            draftCard.setVisibility(View.GONE);
-            tvShowAllClasses.setVisibility(View.VISIBLE);
-            cvClasses.setClickable(true);
-            cvClasses.setFocusable(true);
+            binding.draftCard.setVisibility(View.GONE);
+            binding.prevNext.tvShowAllClasses.setVisibility(View.VISIBLE);
+            binding.prevNext.cardPrevNext.setClickable(true);
+            binding.prevNext.cardPrevNext.setFocusable(true);
         }
         else {
-            tvShowAllClasses.setVisibility(View.GONE);
-            cvClasses.setClickable(false);
-            cvClasses.setFocusable(false);
+            binding.prevNext.tvShowAllClasses.setVisibility(View.GONE);
+            binding.prevNext.cardPrevNext.setClickable(false);
+            binding.prevNext.cardPrevNext.setFocusable(false);
         }
     }
 
@@ -204,15 +154,16 @@ public class OverviewFragment extends Fragment implements Injectable {
         if (resource.status == Status.SUCCESS) {
             Timber.d("Fetch class details success");
             disciplinesViewModel.setDetailsFinished(true);
-            AnimUtils.fadeOutGone(getContext(), pbLoading);
+            AnimUtils.fadeOutGone(getContext(), binding.pbLoading);
         } else if (resource.status == Status.ERROR) {
             Timber.d("Class details fetch error, message: %s", resource.message);
             disciplinesViewModel.setDetailsFinished(true);
-            AnimUtils.fadeOutGone(getContext(), pbLoading);
+            AnimUtils.fadeOutGone(getContext(), binding.pbLoading);
             Toast.makeText(getContext(), R.string.failed_to_connect, Toast.LENGTH_SHORT).show();
         } else {
+            //noinspection ConstantConditions
             Timber.d("Loading: %s", getString(resource.data));
-            AnimUtils.fadeIn(getContext(), pbLoading);
+            AnimUtils.fadeIn(getContext(), binding.pbLoading);
         }
     }
 
@@ -224,30 +175,30 @@ public class OverviewFragment extends Fragment implements Injectable {
 
         this.mDiscipline = discipline;
         String fullName = discipline.getCode() + " - " + discipline.getName();
-        className.setText(fullName);
-        classesMissed.setText(getString(R.string.class_details_classes_missed, discipline.getMissedClasses()));
+        binding.detailsInfo.tvClassName.setText(fullName);
+        binding.misses.tvClassesMissed.setText(getString(R.string.class_details_classes_missed, discipline.getMissedClasses()));
 
         int missed = discipline.getMissedClasses();
         int maxAllowed = discipline.getCredits()/4;
 
         int remains = maxAllowed - missed;
         if (remains > (maxAllowed / 4) + 1 && remains <= (maxAllowed / 2)) {
-            classAlertImage.setImageResource(R.drawable.ic_tag_faces_neutral_black_24dp);
+            binding.misses.ivIconClassMissed.setImageResource(R.drawable.ic_tag_faces_neutral_black_24dp);
         } else if (remains <= (maxAllowed / 4) + 1 && remains >= 0)
-            classAlertImage.setImageResource(R.drawable.ic_tag_faces_sad_black_24dp);
+            binding.misses.ivIconClassMissed.setImageResource(R.drawable.ic_tag_faces_sad_black_24dp);
         else if (remains < 0)
-            classAlertImage.setImageResource(R.drawable.ic_tag_faces_dead_black_24dp);
+            binding.misses.ivIconClassMissed.setImageResource(R.drawable.ic_tag_faces_dead_black_24dp);
 
-        classMissLimit.setText(getString(R.string.class_details_miss_limit, maxAllowed));
-        classesMissedProgress.setProgress((missed*100)/maxAllowed);
+        binding.general.tvClassMissLimit.setText(getString(R.string.class_details_miss_limit, maxAllowed));
+        binding.misses.pbClassesMissed.setProgress((missed*100)/maxAllowed);
 
-        if (remains > 0) classMissRemain.setText(getString(R.string.class_details_miss_remain, remains));
-        else if (remains == 0) classMissRemain.setText(getString(R.string.class_details_can_not_miss_anymore));
-        else classMissRemain.setText(getString(R.string.class_details_failed_by_lack));
+        if (remains > 0) binding.misses.tvMissRemain.setText(getString(R.string.class_details_miss_remain, remains));
+        else if (remains == 0) binding.misses.tvMissRemain.setText(getString(R.string.class_details_can_not_miss_anymore));
+        else binding.misses.tvMissRemain.setText(getString(R.string.class_details_failed_by_lack));
 
-        classPrevious.setText(getString(R.string.class_details_previous_class, discipline.getLastClass()));
-        classNext.setText(getString(R.string.class_details_next_class, discipline.getNextClass()));
+        binding.prevNext.tvLastClass.setText(getString(R.string.class_details_previous_class, discipline.getLastClass()));
+        binding.prevNext.tvNextClass.setText(getString(R.string.class_details_next_class, discipline.getNextClass()));
 
-        classCredits.setText(getString(R.string.class_details_credits, discipline.getCredits()));
+        binding.general.tvClassCredits.setText(getString(R.string.class_details_credits, discipline.getCredits()));
     }
 }

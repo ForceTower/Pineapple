@@ -2,17 +2,18 @@ package com.forcetower.uefs.view.connected.fragments;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.databinding.FragmentSemesterGradesBinding;
 import com.forcetower.uefs.db.entity.Discipline;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.util.AnimUtils;
@@ -24,30 +25,23 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by João Paulo on 07/03/2018.
  */
 public class SemesterGradesFragment extends Fragment implements Injectable {
-    @BindView(R.id.recycler_view)
-    RecyclerView rvDisciplines;
-    @BindView(R.id.vg_loading)
-    ViewGroup vgLoading;
-
     @Inject
     ViewModelProvider.Factory viewModelFactory;
 
     private DisciplineGradesAdapter disciplineGradesAdapter;
+    private FragmentSemesterGradesBinding binding;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_semester_grades, container, false);
-        ButterKnife.bind(this, view);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_semester_grades, container, false);
         setupRecycler();
-        return view;
+        return binding.getRoot();
     }
 
     @Override
@@ -62,14 +56,14 @@ public class SemesterGradesFragment extends Fragment implements Injectable {
 
     private void onGradesReceived(List<Discipline> disciplines) {
         if (disciplines != null) {
-            AnimUtils.fadeOut(getContext(), vgLoading);
+            AnimUtils.fadeOut(getContext(), binding.vgLoading);
             disciplineGradesAdapter.setDisciplines(disciplines);
         }
     }
 
     private void setupRecycler() {
         disciplineGradesAdapter = new DisciplineGradesAdapter(getContext(), new ArrayList<>());
-        rvDisciplines.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvDisciplines.setAdapter(disciplineGradesAdapter);
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerView.setAdapter(disciplineGradesAdapter);
     }
 }

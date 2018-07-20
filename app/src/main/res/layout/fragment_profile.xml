@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:tools="http://schemas.android.com/tools">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -180,8 +179,8 @@
                 android:orientation="vertical"
                 android:paddingBottom="16dp"
                 android:clipToPadding="false">
-                <include android:visibility="gone" tools:visibility="visible" layout="@layout/card_update_control"/>
-                <include android:visibility="visible" layout="@layout/card_change_course"/>
+                <include android:id="@+id/inc_card_update_ctrl" android:visibility="gone" tools:visibility="visible" layout="@layout/card_update_control"/>
+                <include android:id="@+id/inc_card_course" android:visibility="visible" layout="@layout/card_change_course"/>
             </LinearLayout>
 
         </LinearLayout>

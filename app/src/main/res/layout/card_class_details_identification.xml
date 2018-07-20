@@ -1,52 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/card_identification"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="4dp"
-    android:layout_marginEnd="8dp"
-    android:layout_marginStart="8dp"
-    android:layout_marginRight="8dp"
-    android:layout_marginLeft="8dp"
-    app:cardCornerRadius="2dp"
-    app:cardElevation="2dp">
-
-    <RelativeLayout
+    xmlns:tools="http://schemas.android.com/tools">
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_identification"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="2dp">
 
-        <TextView
-            android:id="@+id/tv_class_name"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:textColor="@color/primaryText"
-            android:fontFamily="@font/roboto_medium"
-            android:textSize="14sp"
-            tools:text="TEC412 - Sinais e Sistemas"/>
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tv_class_group"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_class_name"
-            android:layout_marginTop="4dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:paddingBottom="8dp"
-            android:textColor="@color/secondaryText"
-            android:fontFamily="@font/roboto_medium"
-            android:textSize="12sp"
-            tools:text="Turma: T01"/>
+            <TextView
+                android:id="@+id/tv_class_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:textColor="@color/primaryText"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="14sp"
+                tools:text="TEC412 - Sinais e Sistemas"/>
 
-    </RelativeLayout>
-</android.support.v7.widget.CardView>
+            <TextView
+                android:id="@+id/tv_class_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_class_name"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:paddingBottom="8dp"
+                android:textColor="@color/secondaryText"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="12sp"
+                tools:text="Turma: T01"/>
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</layout>

@@ -3,6 +3,7 @@ package com.forcetower.uefs.view.connected.fragments;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -13,7 +14,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +21,7 @@ import android.widget.ArrayAdapter;
 
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.databinding.FragmentDisciplineClassesBinding;
 import com.forcetower.uefs.db.entity.DisciplineClassItem;
 import com.forcetower.uefs.db.entity.DisciplineClassMaterialLink;
 import com.forcetower.uefs.di.Injectable;
@@ -34,21 +35,16 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import timber.log.Timber;
 
 public class DisciplineClassesFragment extends Fragment implements Injectable {
     public static final String INTENT_GROUP_ID = "group_id";
-    @BindView(R.id.recycler_view)
-    RecyclerView recyclerView;
-
-    private ClassesAdapter classesAdapter;
     @Inject
     ViewModelProvider.Factory viewModelFactory;
     @Inject
     AppExecutors executors;
 
+    private ClassesAdapter classesAdapter;
     private ActivityController controller;
     private DisciplinesViewModel disciplinesVM;
 
@@ -70,16 +66,15 @@ public class DisciplineClassesFragment extends Fragment implements Injectable {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_discipline_classes, container, false);
-        ButterKnife.bind(this, view);
+        FragmentDisciplineClassesBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_discipline_classes, container, false);
 
         controller.changeTitle(R.string.discipline_classes);
         controller.getTabLayout().setVisibility(View.GONE);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         classesAdapter = new ClassesAdapter(requireContext(), new ArrayList<>());
         classesAdapter.setOnClassClickListener(this::onClassClickListener);
-        recyclerView.setAdapter(classesAdapter);
+        binding.recyclerView.setAdapter(classesAdapter);
 
 
         if (getArguments() != null) {
@@ -89,7 +84,7 @@ public class DisciplineClassesFragment extends Fragment implements Injectable {
             disciplinesVM.getDisciplineItems(groupId).observe(this, this::onItemsUpdate);
         }
 
-        return view;
+        return binding.getRoot();
     }
 
     private void onClassClickListener(DisciplineClassItem classItem, int position) {

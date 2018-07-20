@@ -1,147 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:locale="pt"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <TextView
-        android:id="@+id/tv_ru_loading"
-        tools:visibility="gone"
+    xmlns:tools="http://schemas.android.com/tools">
+    <RelativeLayout
+        tools:locale="pt"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:text="@string/ru_loading"
-        android:textSize="18sp"
-        android:textColor="@color/primaryText"
-        android:fontFamily="@font/roboto_regular"/>
+        android:layout_height="match_parent">
 
-    <ScrollView
-        android:id="@+id/sv_ru_loaded"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        tools:visibility="visible"
-        android:layout_above="@id/ll_btns">
+        <TextView
+            android:id="@+id/tv_ru_loading"
+            tools:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/ru_loading"
+            android:textSize="18sp"
+            android:textColor="@color/primaryText"
+            android:fontFamily="@font/roboto_regular"/>
+
+        <ScrollView
+            android:id="@+id/sv_ru_loaded"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:layout_above="@id/ll_btns">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp">
+
+                <TextView
+                    android:id="@+id/tv_ru_state"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="O bandejão está aberto!"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="@font/roboto_regular"
+                    android:padding="8dp"/>
+
+                <TextView
+                    android:id="@+id/tv_ru_meal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="Almoço Parcial"
+                    android:gravity="center"
+                    android:textSize="18sp"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="@font/roboto_medium"
+                    android:padding="8dp"/>
+
+                <TextView
+                    android:id="@+id/tv_ru_approx_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/available_quota"
+                    android:gravity="center"
+                    android:textAlignment="gravity"/>
+
+                <TextView
+                    android:id="@+id/tv_ru_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="1345"
+                    android:gravity="center"
+                    android:textSize="45sp"
+                    android:textColor="@android:color/holo_red_light"
+                    android:fontFamily="@font/roboto_bold"
+                    android:padding="16dp"/>
+
+                <TextView
+                    android:id="@+id/tv_ru_meal_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="Almoço: 11h30min às 14h00min"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="@font/roboto_regular"
+                    android:padding="8dp"/>
+
+                <TextView
+                    android:id="@+id/tv_ru_meal_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="R$ 1,00"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="@font/roboto_regular"
+                    android:padding="8dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ru_owners"
+                    android:gravity="center"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="@font/roboto_medium"
+                    android:padding="8dp"/>
+            </LinearLayout>
+        </ScrollView>
 
         <LinearLayout
+            android:id="@+id/ll_btns"
+            android:visibility="gone"
+            tools:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_gravity="center"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp">
+            android:layout_alignParentBottom="true">
+
+            <Button
+                android:id="@+id/btn_visit_big_tray"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:text="@string/visit_official_website"/>
 
             <TextView
-                android:id="@+id/tv_ru_state"
+                android:id="@+id/tv_ru_last_update"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="O bandejão está aberto!"
+                android:text="@string/ru_last_update"
                 android:gravity="center"
-                android:textSize="16sp"
-                android:textColor="@color/primaryText"
+                android:textSize="14sp"
+                android:textColor="@color/secondaryText"
                 android:fontFamily="@font/roboto_regular"
-                android:padding="8dp"/>
-
-            <TextView
-                android:id="@+id/tv_ru_meal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:text="Almoço Parcial"
-                android:gravity="center"
-                android:textSize="18sp"
-                android:textColor="@color/primaryText"
-                android:fontFamily="@font/roboto_medium"
-                android:padding="8dp"/>
-
-            <TextView
-                android:id="@+id/tv_ru_approx_label"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/available_quota"
-                android:gravity="center"
-                android:textAlignment="gravity"/>
-
-            <TextView
-                android:id="@+id/tv_ru_amount"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:text="1345"
-                android:gravity="center"
-                android:textSize="45sp"
-                android:textColor="@android:color/holo_red_light"
-                android:fontFamily="@font/roboto_bold"
-                android:padding="16dp"/>
-
-            <TextView
-                android:id="@+id/tv_ru_meal_time"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:text="Almoço: 11h30min às 14h00min"
-                android:gravity="center"
-                android:textSize="16sp"
-                android:textColor="@color/primaryText"
-                android:fontFamily="@font/roboto_regular"
-                android:padding="8dp"/>
-
-            <TextView
-                android:id="@+id/tv_ru_meal_price"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:text="R$ 1,00"
-                android:gravity="center"
-                android:textSize="16sp"
-                android:textColor="@color/primaryText"
-                android:fontFamily="@font/roboto_regular"
-                android:padding="8dp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/ru_owners"
-                android:gravity="center"
-                android:textColor="@color/primaryText"
-                android:fontFamily="@font/roboto_medium"
-                android:padding="8dp"/>
+                android:paddingBottom="8dp"
+                android:paddingStart="8dp"
+                android:paddingLeft="8dp"
+                android:paddingEnd="8dp"
+                android:paddingRight="8dp"/>
         </LinearLayout>
-    </ScrollView>
-
-    <LinearLayout
-        android:id="@+id/ll_btns"
-        android:visibility="gone"
-        tools:visibility="visible"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_alignParentBottom="true">
-
-        <Button
-            android:id="@+id/btn_visit_big_tray"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:text="@string/visit_official_website"/>
-
-        <TextView
-            android:id="@+id/tv_ru_last_update"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/ru_last_update"
-            android:gravity="center"
-            android:textSize="14sp"
-            android:textColor="@color/secondaryText"
-            android:fontFamily="@font/roboto_regular"
-            android:paddingBottom="8dp"
-            android:paddingStart="8dp"
-            android:paddingLeft="8dp"
-            android:paddingEnd="8dp"
-            android:paddingRight="8dp"/>
-    </LinearLayout>
-</RelativeLayout>
+    </RelativeLayout>
+</layout>

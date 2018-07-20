@@ -1,30 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:id="@+id/vg_root"
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="30dp"
-    android:layout_height="48dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:focusable="true"
-    android:clickable="true"
-    android:foreground="?android:attr/selectableItemBackground"
     xmlns:tools="http://schemas.android.com/tools">
+    <RelativeLayout
+        android:id="@+id/vg_root"
+        android:layout_width="30dp"
+        android:layout_height="48dp"
+        android:focusable="true"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground">
 
-    <ImageView
-        android:id="@+id/iv_action"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        app:srcCompat="@drawable/ic_download_black_24dp"
-        android:layout_centerInParent="true"
-        android:contentDescription="@string/cd_download"/>
+        <ImageView
+            android:id="@+id/iv_action"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            app:srcCompat="@drawable/ic_download_black_24dp"
+            android:layout_centerInParent="true"
+            android:contentDescription="@string/cd_download"/>
 
-    <ProgressBar
-        android:id="@+id/pb_action"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:indeterminate="true"
-        android:layout_centerInParent="true"
-        android:visibility="invisible"
-        tools:visibility="visible"/>
+        <ProgressBar
+            android:id="@+id/pb_action"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:indeterminate="true"
+            android:layout_centerInParent="true"
+            android:visibility="invisible"
+            tools:visibility="visible"/>
 
-</RelativeLayout>
+    </RelativeLayout>
+</layout>

@@ -3,6 +3,7 @@ package com.forcetower.uefs.view.connected.fragments;
 import android.arch.lifecycle.ViewModelProvider;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
@@ -10,17 +11,16 @@ import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.databinding.FragmentConnectedBinding;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.util.VersionUtils;
@@ -29,8 +29,6 @@ import com.forcetower.uefs.view.connected.MainContentController;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import dagger.android.DispatchingAndroidInjector;
 import timber.log.Timber;
 
@@ -45,13 +43,6 @@ public class ConnectedFragment extends Fragment implements Injectable, MainConte
     public static final String BIG_TRAY_FRAGMENT = "BigTrayFragment";
     public static final String EVENT_FRAGMENT = "EventFragment";
 
-    @BindView(R.id.navigation)
-    BottomNavigationView bottomNavigationView;
-    @BindView(R.id.pb_loading)
-    ProgressBar pbLoading;
-    @BindView(R.id.view_root)
-    ViewGroup viewRoot;
-
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
     @Inject
@@ -60,14 +51,13 @@ public class ConnectedFragment extends Fragment implements Injectable, MainConte
     private FragmentManager fragmentManager;
     private SharedPreferences preferences;
     private ActivityController controller;
+    private FragmentConnectedBinding binding;
 
     @IdRes
     private int containerId;
     private boolean showingTab;
-
     @IdRes
     private int selectedTab;
-
     private boolean newScheduleLayout = true;
 
     @Override
@@ -84,8 +74,7 @@ public class ConnectedFragment extends Fragment implements Injectable, MainConte
     @Nullable
     @Override
     public View onCreateView (@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_connected, container, false);
-        ButterKnife.bind(this, view);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_connected, container, false);
 
         preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         newScheduleLayout = preferences.getBoolean("new_schedule_layout", true);
@@ -95,7 +84,7 @@ public class ConnectedFragment extends Fragment implements Injectable, MainConte
         fragmentManager = getChildFragmentManager();
         containerId = R.id.container;
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(this::onNavigationOptionSelected);
+        binding.navigation.setOnNavigationItemSelectedListener(this::onNavigationOptionSelected);
 
         if (savedInstanceState == null) {
             preferences.edit().putBoolean("show_not_connected_notification", false).apply();
@@ -108,19 +97,19 @@ public class ConnectedFragment extends Fragment implements Injectable, MainConte
                     Timber.d("Action asks for: %s", value);
                     if (value.equalsIgnoreCase(MESSAGES_FRAGMENT_SAGRES)) {
                         MessagesFragment.SELECT_FRAGMENT_AUTO = 0;
-                        bottomNavigationView.setSelectedItemId(R.id.navigation_messages);
+                        binding.navigation.setSelectedItemId(R.id.navigation_messages);
                     } else if (value.equalsIgnoreCase(MESSAGES_FRAGMENT_UNES)) {
                         MessagesFragment.SELECT_FRAGMENT_AUTO = 1;
                         MessagesFragment.DO_SELECT_AUTO = true;
-                        bottomNavigationView.setSelectedItemId(R.id.navigation_messages);
+                        binding.navigation.setSelectedItemId(R.id.navigation_messages);
                     } else if (value.equalsIgnoreCase(SCHEDULE_FRAGMENT)) {
-                        bottomNavigationView.setSelectedItemId(R.id.navigation_home);
+                        binding.navigation.setSelectedItemId(R.id.navigation_home);
                     } else if (value.equalsIgnoreCase(GRADES_FRAGMENT)) {
-                        bottomNavigationView.setSelectedItemId(R.id.navigation_grades);
+                        binding.navigation.setSelectedItemId(R.id.navigation_grades);
                     } else if (value.equalsIgnoreCase(DISCIPLINES_FRAGMENT)) {
-                        bottomNavigationView.setSelectedItemId(R.id.navigation_disciplines);
+                        binding.navigation.setSelectedItemId(R.id.navigation_disciplines);
                     } else if (value.equalsIgnoreCase(CALENDAR_FRAGMENT)) {
-                        bottomNavigationView.setSelectedItemId(R.id.navigation_calendar);
+                        binding.navigation.setSelectedItemId(R.id.navigation_calendar);
                     } else {
                         navigateToSchedule();
                     }
@@ -131,11 +120,11 @@ public class ConnectedFragment extends Fragment implements Injectable, MainConte
         } else {
             showingTab = savedInstanceState.getBoolean("tab_showing", false);
             selectedTab = savedInstanceState.getInt("selected_tab", R.id.navigation_home);
-            bottomNavigationView.setSelectedItemId(selectedTab);
+            binding.navigation.setSelectedItemId(selectedTab);
             setTabShowing(showingTab);
         }
 
-        return view;
+        return binding.getRoot();
     }
 
 
@@ -144,7 +133,7 @@ public class ConnectedFragment extends Fragment implements Injectable, MainConte
         super.onResume();
         newScheduleLayout = preferences.getBoolean("new_schedule_layout", true);
         newScheduleLayout = preferences.getBoolean("new_schedule_user_ready", false) && newScheduleLayout;
-        bottomNavigationView.setSelectedItemId(selectedTab);
+        binding.navigation.setSelectedItemId(selectedTab);
     }
 
     @MainThread

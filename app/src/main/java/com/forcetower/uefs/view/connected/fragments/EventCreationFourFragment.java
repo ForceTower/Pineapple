@@ -1,6 +1,5 @@
 package com.forcetower.uefs.view.connected.fragments;
 
-import android.app.Service;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -26,7 +25,6 @@ import com.forcetower.uefs.databinding.FragmentEventCreationFourBinding;
 import com.forcetower.uefs.db.AppDatabase;
 import com.forcetower.uefs.db.entity.Access;
 import com.forcetower.uefs.db.entity.Profile;
-import com.forcetower.uefs.db_service.ServiceDatabase;
 import com.forcetower.uefs.db_service.entity.Course;
 import com.forcetower.uefs.db_service.entity.Event;
 import com.forcetower.uefs.db_service.helper.ImGurDataObject;

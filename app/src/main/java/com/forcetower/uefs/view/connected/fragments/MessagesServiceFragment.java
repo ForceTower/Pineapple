@@ -21,13 +21,11 @@ import android.widget.ArrayAdapter;
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.databinding.FragmentServerMessagesBinding;
-import com.forcetower.uefs.db.entity.Message;
 import com.forcetower.uefs.db.entity.MessageUNES;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.view.connected.adapters.MessagesServerAdapter;
 import com.forcetower.uefs.vm.base.MessagesViewModel;
 
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;

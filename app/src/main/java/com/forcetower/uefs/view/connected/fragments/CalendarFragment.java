@@ -3,20 +3,20 @@ package com.forcetower.uefs.view.connected.fragments;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.databinding.FragmentCalendarBinding;
 import com.forcetower.uefs.db.entity.CalendarItem;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.rep.helper.Resource;
@@ -30,8 +30,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import timber.log.Timber;
 
 /**
@@ -39,16 +37,14 @@ import timber.log.Timber;
  */
 
 public class CalendarFragment extends Fragment implements Injectable {
-    @BindView(R.id.recycler_view)
-    RecyclerView rvCalendar;
-    @BindView(R.id.swipe_refresh)
-    SwipeRefreshLayout refreshLayout;
-
     @Inject
     ViewModelProvider.Factory viewModelFactory;
+
     private CalendarAdapter calendarAdapter;
     private CalendarViewModel calendarViewModel;
     private ActivityController controller;
+
+    private FragmentCalendarBinding binding;
 
     @Override
     public void onAttach(Context context) {
@@ -59,13 +55,12 @@ public class CalendarFragment extends Fragment implements Injectable {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_calendar, container, false);
-        ButterKnife.bind(this, view);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_calendar, container, false);
         controller.getTabLayout().setVisibility(View.GONE);
         controller.changeTitle(R.string.title_calendar);
         setupRecycler();
         setupRefreshLayout();
-        return view;
+        return binding.getRoot();
     }
 
     @Override
@@ -73,7 +68,7 @@ public class CalendarFragment extends Fragment implements Injectable {
         super.onActivityCreated(savedInstanceState);
         calendarViewModel = ViewModelProviders.of(this, viewModelFactory).get(CalendarViewModel.class);
         calendarViewModel.getCalendar().observe(this, this::onReceiveCalendar);
-        refreshLayout.setRefreshing(calendarViewModel.isRefreshing());
+        binding.swipeRefresh.setRefreshing(calendarViewModel.isRefreshing());
         calendarViewModel.refreshManual(false).observe(this, this::onUpdateReceived);
     }
 
@@ -83,17 +78,17 @@ public class CalendarFragment extends Fragment implements Injectable {
 
     private void setupRecycler() {
         calendarAdapter = new CalendarAdapter(getContext(), new ArrayList<>());
-        rvCalendar.setLayoutManager(new LinearLayoutManager(requireContext()));
-        rvCalendar.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
-        rvCalendar.setAdapter(calendarAdapter);
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.recyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
+        binding.recyclerView.setAdapter(calendarAdapter);
     }
 
     private void setupRefreshLayout() {
-        refreshLayout.setOnRefreshListener(() -> {
+        binding.swipeRefresh.setOnRefreshListener(() -> {
             if (calendarViewModel.isRefreshing()) return;
 
             calendarViewModel.refreshManual(true).observe(this, this::onUpdateReceived);
-            refreshLayout.setRefreshing(true);
+            binding.swipeRefresh.setRefreshing(true);
             calendarViewModel.setRefreshing(true);
         });
     }
@@ -102,10 +97,10 @@ public class CalendarFragment extends Fragment implements Injectable {
         if (resource == null) return;
 
         if (resource.status == Status.SUCCESS) {
-            refreshLayout.setRefreshing(false);
+            binding.swipeRefresh.setRefreshing(false);
             calendarViewModel.setRefreshing(false);
         } else if (resource.status == Status.ERROR) {
-            refreshLayout.setRefreshing(false);
+            binding.swipeRefresh.setRefreshing(false);
             calendarViewModel.setRefreshing(false);
             if (resource.data != null)
                 Toast.makeText(getContext(), resource.data, Toast.LENGTH_SHORT).show();

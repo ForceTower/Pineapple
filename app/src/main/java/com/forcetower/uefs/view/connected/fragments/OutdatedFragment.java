@@ -3,6 +3,7 @@ package com.forcetower.uefs.view.connected.fragments;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,26 +12,19 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.databinding.FragmentAutoSyncBinding;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.view.connected.ActivityController;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by João Paulo on 08/03/2018.
  */
 
 public class OutdatedFragment extends Fragment implements Injectable {
-    public static final String PREF_AUTO_SYNC_SHOWN = "auto_sync_shown";
+    private ActivityController controller;
 
-    @BindView(R.id.btn_continue)
-    Button btnContinue;
-
-    ActivityController controller;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -40,16 +34,14 @@ public class OutdatedFragment extends Fragment implements Injectable {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_auto_sync, container, false);
-        ButterKnife.bind(this, view);
+        FragmentAutoSyncBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_auto_sync, container, false);
 
         controller.getTabLayout().setVisibility(View.GONE);
         controller.changeTitle(R.string.title_outdated_version);
         controller.disableDrawer();
 
-        btnContinue.setOnClickListener(v -> openPlayStore());
-
-        return view;
+        binding.btnContinue.setOnClickListener(v -> openPlayStore());
+        return binding.getRoot();
     }
 
     @Override

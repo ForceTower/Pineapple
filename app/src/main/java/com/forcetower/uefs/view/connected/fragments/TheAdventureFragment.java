@@ -2,10 +2,9 @@ package com.forcetower.uefs.view.connected.fragments;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.databinding.DataBindingUtil;
 import android.location.Location;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,13 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.forcetower.uefs.BuildConfig;
 import com.forcetower.uefs.GameConnectionStatus;
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.databinding.FragmentTheAdventureBinding;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.view.connected.ActivityController;
 import com.forcetower.uefs.view.connected.GamesAccountController;
@@ -37,10 +35,6 @@ import com.google.android.gms.tasks.Task;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import de.hdodenhof.circleimageview.CircleImageView;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 import timber.log.Timber;
@@ -54,23 +48,13 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
     public static final String SHOW_ACCURACY_MESSAGE_KEY = "showed_message";
     public static final String REQUESTING_LOCATION_UPDATES_KEY = "requesting_location_updates";
 
-    @BindView(R.id.tv_adventure_description)
-    TextView tvAdventureDescription;
-    @BindView(R.id.btn_join_adventure)
-    Button btnJoin;
-    @BindView(R.id.btn_logout_adventure)
-    Button btnExit;
-    @BindView(R.id.iv_unes_confirm_location)
-    CircleImageView ivConfirmLocation;
-    @BindView(R.id.tv_location_explained)
-    TextView tvLocationExplained;
-
     private ActivityController actController;
     private GamesAccountController gameController;
     private FusedLocationProviderClient fusedLocationClient;
-    private SharedPreferences preferences;
     private LocationCallback locationCallback;
     private LocationRequest mLocationRequest;
+
+    private FragmentTheAdventureBinding binding;
 
     private boolean showedMessage = false;
     private boolean requestingLocationUpdates = false;
@@ -118,16 +102,15 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_the_adventure, container, false);
-        ButterKnife.bind(this, view);
-
-        preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
-
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_the_adventure, container, false);
+        binding.btnLogoutAdventure.setOnClickListener(v -> disconnectAdventure());
+        binding.btnJoinAdventure.setOnClickListener(v -> joinAdventure());
+        binding.ivUnesConfirmLocation.setOnClickListener(v -> confirmLocation());
         actController.changeTitle(R.string.unes_the_adventure);
         actController.getTabLayout().setVisibility(View.GONE);
         setupInterface();
 
-        return view;
+        return binding.getRoot();
     }
 
     @Override
@@ -174,24 +157,20 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
     }
 
     private void showConnectedActions() {
-        btnJoin.setText(R.string.pref_unes_the_adventure_achievements);
-        btnExit.setVisibility(View.VISIBLE);
-        //AnimUtils.fadeIn(requireContext(), btnExit);
-        tvAdventureDescription.setVisibility(View.GONE);
-        tvLocationExplained.setVisibility(View.VISIBLE);
+        binding.btnJoinAdventure.setText(R.string.pref_unes_the_adventure_achievements);
+        binding.btnLogoutAdventure.setVisibility(View.VISIBLE);
+        binding.tvAdventureDescription.setVisibility(View.GONE);
+        binding.tvLocationExplained.setVisibility(View.VISIBLE);
     }
 
     private void showDisconnectedActions() {
-        btnJoin.setText(R.string.unes_the_adventure_join);
-        //AnimUtils.fadeIn(requireContext(), btnJoin);
-        btnExit.setVisibility(View.GONE);
-        tvLocationExplained.setVisibility(View.GONE);
-        //AnimUtils.fadeOutGone(requireContext(), btnExit);
-        tvAdventureDescription.setVisibility(View.VISIBLE);
-        ivConfirmLocation.clearAnimation();
+        binding.btnJoinAdventure.setText(R.string.unes_the_adventure_join);
+        binding.btnLogoutAdventure.setVisibility(View.GONE);
+        binding.tvLocationExplained.setVisibility(View.GONE);
+        binding.tvAdventureDescription.setVisibility(View.VISIBLE);
+        binding.ivUnesConfirmLocation.clearAnimation();
     }
 
-    @OnClick(value = R.id.btn_join_adventure)
     public void joinAdventure() {
         Timber.d("Clicked Join");
         if (gameController.getPlayGamesInstance().isSignedIn()) {
@@ -201,14 +180,12 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
         }
     }
 
-    @OnClick(value = R.id.btn_logout_adventure)
     public void disconnectAdventure() {
         Timber.d("Clicked disconnect");
         gameController.getPlayGamesInstance().disconnect();
         showDisconnectedActions();
     }
 
-    @OnClick(value = R.id.iv_unes_confirm_location)
     @AfterPermissionGranted(REQUEST_PERMISSION_FINE_LOCATION)
     public void confirmLocation() {
         Timber.d("Clicked to confirm location");
@@ -250,22 +227,6 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
             Timber.d("Can make location request");
 
             try {
-/*
-                fusedLocationClient.getLastLocation().addOnSuccessListener(requireActivity(), location -> {
-                    if (location != null) {
-                        Timber.d("Location: LAT: %.8f - LOG: %.8f", location.getLatitude(), location.getLongitude());
-                        Timber.d("Location: Accuracy: %.4f", location.getAccuracy());
-                        if (location.getAccuracy() > 100) {
-                            Toast.makeText(requireContext(), R.string.location_is_not_accurate, Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        onReceiveLocation(location);
-                    } else {
-                        Timber.d("Location is null");
-                        Toast.makeText(requireContext(), R.string.cant_receive_location, Toast.LENGTH_SHORT).show();
-                    }
-                });
-*/
                 startLocationUpdates();
             } catch (SecurityException e) {
                 Timber.e("What??? How did this happen?");
@@ -276,9 +237,9 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
                 try {
                     ResolvableApiException resolvable = (ResolvableApiException) fail;
                     resolvable.startResolutionForResult(requireActivity(), REQUEST_CHECK_SETTINGS);
-                } catch (Exception ignored) {
+                } catch (Exception e) {
                     Timber.d("Ignored exception");
-                    ignored.printStackTrace();
+                    e.printStackTrace();
                     Toast.makeText(requireContext(), R.string.cant_receive_location, Toast.LENGTH_SHORT).show();
                 }
             } else {
@@ -295,7 +256,7 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
 
             fusedLocationClient.requestLocationUpdates(mLocationRequest, locationCallback, null);
             Animation pulse = AnimationUtils.loadAnimation(requireContext(), R.anim.pulse);
-            ivConfirmLocation.startAnimation(pulse);
+            binding.ivUnesConfirmLocation.startAnimation(pulse);
         } catch (SecurityException e) {
             Timber.d("Method could not be called");
         }
@@ -303,7 +264,7 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
 
     private void stopLocationUpdates() {
         fusedLocationClient.removeLocationUpdates(locationCallback);
-        ivConfirmLocation.clearAnimation();
+        binding.ivUnesConfirmLocation.clearAnimation();
     }
 
     private void onReceiveLocation(@NonNull Location location) {

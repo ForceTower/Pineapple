@@ -11,6 +11,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
 import android.content.res.ColorStateList;
+import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Icon;
@@ -46,6 +47,7 @@ import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.BuildConfig;
 import com.forcetower.uefs.GooglePlayGamesInstance;
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.databinding.ActivityLoggedBinding;
 import com.forcetower.uefs.db.entity.Access;
 import com.forcetower.uefs.db.entity.DisciplineClassLocation;
 import com.forcetower.uefs.db.entity.Profile;
@@ -80,8 +82,6 @@ import java.util.HashMap;
 import javax.inject.Inject;
 
 import androidx.work.WorkManager;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
@@ -99,22 +99,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     private static final String SELECTED_NAV_DRAWER_ID = "selected_nav_drawer";
     public static final String BACKGROUND_IMAGE = "background_server_image";
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.app_bar_layout)
-    AppBarLayout appBarLayout;
-    @BindView(R.id.tab_layout)
-    TabLayout tabLayout;
-    @BindView(R.id.drawer_layout)
-    DrawerLayout drawer;
-    @BindView(R.id.nav_view)
-    NavigationView navigationView;
-    @BindView(R.id.pb_global_progress)
-    ProgressBar globalLoading;
-    @BindView(R.id.root_coordinator)
-    ViewGroup rootViewContent;
-    @BindView(R.id.drawer_container)
-    CoordinatorLayout container;
+    private ActivityLoggedBinding binding;
 
     private NavigationViews navViews;
     private NavigationCustomActionViews downloadCert;
@@ -148,6 +133,8 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     private boolean isHomeAsUp;
     private boolean isPDFResultShown;
     private boolean showedOnSession;
+    private Toolbar toolbar;
+    private TabLayout tabLayout;
 
     public static void startActivity(Context context, boolean afterLogin) {
         Intent intent = new Intent(context, LoggedActivity.class);
@@ -158,20 +145,24 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
     @SuppressLint("MissingSuperCall")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(R.layout.activity_logged, savedInstanceState);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_logged);
+        toolbar = binding.appLayout.contentLogged.incToolbar.toolbar;
+        tabLayout = binding.appLayout.contentLogged.incToolbar.tabLayout;
         setSupportActionBar(toolbar);
+
         navViews = new NavigationViews();
         downloadCert = new NavigationCustomActionViews();
         downloadFlow = new NavigationCustomActionViews();
 
-        ButterKnife.bind(navViews, navigationView.getHeaderView(0));
-        ButterKnife.bind(downloadCert, navigationView.getMenu().findItem(R.id.nav_enrollment_certificate).getActionView());
-        ButterKnife.bind(downloadFlow, navigationView.getMenu().findItem(R.id.nav_flowchart_certificate).getActionView());
+        navViews.bindTo(binding.navView.getHeaderView(0));
+        downloadCert.bindTo(binding.navView.getMenu().findItem(R.id.nav_enrollment_certificate).getActionView());
+        downloadFlow.bindTo(binding.navView.getMenu().findItem(R.id.nav_flowchart_certificate).getActionView());
 
-        toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
+        binding.navView.setNavigationItemSelectedListener(this);
 
         setupViewModels();
         setupIds();
@@ -237,12 +228,12 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
     public void setupToolbarEvents() {
         toolbar.setNavigationOnClickListener(v -> {
-            if (drawer.isDrawerOpen(GravityCompat.START)){
-                drawer.closeDrawer(GravityCompat.START);
+            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)){
+                binding.drawerLayout.closeDrawer(GravityCompat.START);
             } else if (isHomeAsUp){
                 onBackPressed();
             } else {
-                drawer.openDrawer(GravityCompat.START);
+                binding.drawerLayout.openDrawer(GravityCompat.START);
             }
         });
     }
@@ -256,7 +247,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
             ValueAnimator anim = isHomeAsUp ? ValueAnimator.ofFloat(0, 1) : ValueAnimator.ofFloat(1, 0);
             anim.addUpdateListener(valueAnimator -> {
                 float slideOffset = (Float) valueAnimator.getAnimatedValue();
-                toggle.onDrawerSlide(drawer, slideOffset);
+                toggle.onDrawerSlide(binding.drawerLayout, slideOffset);
             });
             anim.setInterpolator(new DecelerateInterpolator());
             anim.setDuration(400);
@@ -265,42 +256,42 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     }
 
     private void setupNavigationItemColors() {
-        ColorStateList stateList = navigationView.getItemIconTintList();
+        ColorStateList stateList = binding.navView.getItemIconTintList();
         if (stateList == null) return;
 
-        navigationView.setItemIconTintList(null);
-        navigationView.setItemTextColor(null);
+        binding.navView.setItemIconTintList(null);
+        binding.navView.setItemTextColor(null);
 
         defaultForAll(stateList);
 
-        navigationView.getMenu().findItem(R.id.nav_schedule).getIcon()
+        binding.navView.getMenu().findItem(R.id.nav_schedule).getIcon()
                 .setColorFilter(getResources().getColor(R.color.schedule_color), PorterDuff.Mode.SRC_IN);
 
-        navigationView.getMenu().findItem(R.id.nav_messages).getIcon()
+        binding.navView.getMenu().findItem(R.id.nav_messages).getIcon()
                 .setColorFilter(getResources().getColor(R.color.messages_color), PorterDuff.Mode.SRC_IN);
 
-        navigationView.getMenu().findItem(R.id.nav_grades).getIcon()
+        binding.navView.getMenu().findItem(R.id.nav_grades).getIcon()
                 .setColorFilter(getResources().getColor(R.color.grades_color), PorterDuff.Mode.SRC_IN);
 
-        navigationView.getMenu().findItem(R.id.nav_disciplines).getIcon()
+        binding.navView.getMenu().findItem(R.id.nav_disciplines).getIcon()
                 .setColorFilter(getResources().getColor(R.color.disciplines_color), PorterDuff.Mode.SRC_IN);
 
-        navigationView.getMenu().findItem(R.id.nav_calendar).getIcon()
+        binding.navView.getMenu().findItem(R.id.nav_calendar).getIcon()
                 .setColorFilter(getResources().getColor(R.color.calendar_color), PorterDuff.Mode.SRC_IN);
 
-        navigationView.getMenu().findItem(R.id.nav_enrollment_certificate).getIcon()
+        binding.navView.getMenu().findItem(R.id.nav_enrollment_certificate).getIcon()
                 .setColorFilter(getResources().getColor(R.color.enrollment_color), PorterDuff.Mode.SRC_IN);
 
-        navigationView.getMenu().findItem(R.id.nav_flowchart_certificate).getIcon()
+        binding.navView.getMenu().findItem(R.id.nav_flowchart_certificate).getIcon()
                 .setColorFilter(getResources().getColor(R.color.flowchart_color), PorterDuff.Mode.SRC_IN);
 
-        navigationView.getMenu().findItem(R.id.nav_big_tray).getIcon()
+        binding.navView.getMenu().findItem(R.id.nav_big_tray).getIcon()
                 .setColorFilter(getResources().getColor(R.color.big_tray_color), PorterDuff.Mode.SRC_IN);
     }
 
     private void defaultForAll(ColorStateList stateList) {
-        for (int i = 0; i < navigationView.getMenu().size(); i++) {
-            MenuItem item = navigationView.getMenu().getItem(i);
+        for (int i = 0; i < binding.navView.getMenu().size(); i++) {
+            MenuItem item = binding.navView.getMenu().getItem(i);
              if (item == null || item.getIcon() == null) continue;
 
              if (VersionUtils.isLollipop()) item.getIcon().setTintList(stateList);
@@ -329,14 +320,14 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         isPDFResultShown = savedInstanceState.getBoolean("pdf_result_shown", false);
         showedOnSession = savedInstanceState.getBoolean("showed_on_session", false);
         changeTitle(titleText);
-        navigationView.setCheckedItem(selectedNavId);
+        binding.navView.setCheckedItem(selectedNavId);
     }
 
     private void setupIds() {
-        navigationView.getHeaderView(0).setOnClickListener(v -> {
+        binding.navView.getHeaderView(0).setOnClickListener(v -> {
             navigationController.navigateToProfile();
-            drawer.closeDrawer(GravityCompat.START);
-            navigationView.setCheckedItem(R.id.nav_profile);
+            binding.drawerLayout.closeDrawer(GravityCompat.START);
+            binding.navView.setCheckedItem(R.id.nav_profile);
             selectedNavId = R.id.nav_profile;
         });
     }
@@ -517,7 +508,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         Timber.d("User Course: %s", profile.getCourse());
         if ((profile.getCourse() == null || profile.getCourse().isEmpty()) && !showedOnSession) {
             showedOnSession = true;
-            Snackbar snack = Snackbar.make(container, R.string.setup_your_course, Snackbar.LENGTH_LONG);
+            Snackbar snack = Snackbar.make(binding.appLayout.contentLogged.drawerContainer, R.string.setup_your_course, Snackbar.LENGTH_LONG);
             snack.setAction(R.string.course_answer, v -> {
                 navigationController.navigateToSelectCourse();
                 snack.dismiss();
@@ -650,7 +641,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
             if (item.isCheckable()) selectedNavId = id;
         }
 
-        drawer.closeDrawer(GravityCompat.START);
+        binding.drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
@@ -729,7 +720,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         else if (id == R.id.navigation_calendar)    idRes = R.id.nav_calendar;
         if (idRes != -1) {
             selectedNavId = idRes;
-            navigationView.setCheckedItem(idRes);
+            binding.navView.setCheckedItem(idRes);
         }
     }
 
@@ -778,11 +769,11 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     }
 
     private void enableBottomLoading() {
-        AnimUtils.fadeIn(this, globalLoading);
+        AnimUtils.fadeIn(this, binding.appLayout.contentLogged.pbGlobalProgress);
     }
 
     private void disableBottomLoading() {
-        AnimUtils.fadeOutGone(this, globalLoading);
+        AnimUtils.fadeOutGone(this, binding.appLayout.contentLogged.pbGlobalProgress);
     }
 
     @Override
@@ -792,8 +783,8 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
     @Override
     public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            binding.drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             int count = getSupportFragmentManager().getBackStackEntryCount();
             if (doubleBack || !mPreferences.getBoolean("double_back", false) || count != 0) {
@@ -845,7 +836,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
         navigationController.navigateToSchedule();
 
-        Snackbar snackbar = Snackbar.make(rootViewContent, getString(R.string.new_schedule_errors), Snackbar.LENGTH_INDEFINITE);
+        Snackbar snackbar = Snackbar.make(binding.appLayout.rootCoordinator, getString(R.string.new_schedule_errors), Snackbar.LENGTH_INDEFINITE);
         snackbar.setAction(R.string.send_error, v -> {
             navigationController.navigateToSuggestionFragment(e.getMessage(), WordUtils.buildFromStackTrace(e.getStackTrace()));
             snackbar.dismiss();
@@ -855,7 +846,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
     @Override
     public void navigateToDisciplineDetails(int groupUid, int disciplineUid) {
-        navigationView.setCheckedItem(R.id.nav_disciplines);
+        binding.navView.setCheckedItem(R.id.nav_disciplines);
         selectedNavId = -1;
         navigationController.navigateToDisciplineDetails(groupUid, disciplineUid);
     }
@@ -877,7 +868,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
     @Override
     public void disableDrawer() {
-        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowHomeEnabled(false);
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -888,22 +879,28 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     }
 
     class NavigationViews {
-        @BindView(R.id.image)
         CircleImageView ivNavUserImage;
-        @BindView(R.id.image_placeholder)
         CircleImageView ivNavUserImagePlaceHolder;
-        @BindView(R.id.name)
         TextView tvNavTitle;
-        @BindView(R.id.subtitle)
         TextView tvNavSubtitle;
+
+        private void bindTo(View headerView) {
+            ivNavUserImage = headerView.findViewById(R.id.image);
+            ivNavUserImagePlaceHolder = headerView.findViewById(R.id.image_placeholder);
+            tvNavTitle = headerView.findViewById(R.id.name);
+            tvNavSubtitle = headerView.findViewById(R.id.subtitle);
+        }
     }
 
     class NavigationCustomActionViews {
-        @BindView(R.id.vg_root)
         ViewGroup vgRoot;
-        @BindView(R.id.iv_action)
         ImageView ivAction;
-        @BindView(R.id.pb_action)
         ProgressBar pbAction;
+
+        private void bindTo(View actionView) {
+            vgRoot = actionView.findViewById(R.id.vg_root);
+            ivAction = actionView.findViewById(R.id.iv_action);
+            pbAction = actionView.findViewById(R.id.pb_action);
+        }
     }
 }

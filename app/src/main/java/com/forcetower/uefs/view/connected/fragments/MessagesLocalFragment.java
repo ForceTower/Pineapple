@@ -19,13 +19,13 @@ import android.widget.Toast;
 
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.databinding.FragmentLocalMessagesBinding;
 import com.forcetower.uefs.db.entity.Message;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.Status;
 import com.forcetower.uefs.view.connected.adapters.MessagesAdapter;
 import com.forcetower.uefs.vm.base.MessagesViewModel;
-import com.forcetower.uefs.databinding.FragmentLocalMessagesBinding;
 
 import java.util.ArrayList;
 import java.util.Collections;

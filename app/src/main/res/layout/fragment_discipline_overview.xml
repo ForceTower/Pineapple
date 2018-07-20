@@ -1,35 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <ScrollView
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingBottom="8dp"
-        android:clipToPadding="false"
-        android:animateLayoutChanges="false">
-
-        <ProgressBar
-            android:id="@+id/pb_loading"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginLeft="8dp"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:visibility="gone"
-            android:indeterminate="true"/>
+            android:orientation="vertical"
+            android:paddingBottom="8dp"
+            android:clipToPadding="false"
+            android:animateLayoutChanges="false">
 
-        <include android:id="@+id/draft_card" layout="@layout/card_class_details_draft_class"/>
-        <include layout="@layout/card_class_details_identification"/>
-        <include layout="@layout/card_class_details_general"/>
-        <include layout="@layout/card_class_details_misses"/>
-        <include layout="@layout/card_class_details_prev_and_next"/>
-        <!--<include android:id="@+id/inc_card_classes_days" layout="@layout/card_class_details_classes_time"/>-->
-    </LinearLayout>
+            <ProgressBar
+                android:id="@+id/pb_loading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginLeft="8dp"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:visibility="gone"
+                android:indeterminate="true"/>
 
-</ScrollView>
+            <include android:id="@+id/draft_card" layout="@layout/card_class_details_draft_class"/>
+            <include android:id="@+id/details_info" layout="@layout/card_class_details_identification"/>
+            <include android:id="@+id/general" layout="@layout/card_class_details_general"/>
+            <include android:id="@+id/misses" layout="@layout/card_class_details_misses"/>
+            <include android:id="@+id/prev_next" layout="@layout/card_class_details_prev_and_next"/>
+        </LinearLayout>
+
+    </ScrollView>
+</layout>
