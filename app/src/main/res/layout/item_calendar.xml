@@ -1,39 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginEnd="8dp"
-    android:layout_marginLeft="8dp"
-    android:layout_marginRight="8dp"
-    android:layout_marginStart="8dp"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/tv_date"
-        android:layout_width="wrap_content"
+    <data>
+        <variable
+            name="calendar"
+            type="com.forcetower.uefs.db.entity.CalendarItem"/>
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:fontFamily="@font/roboto_medium"
-        android:textColor="?attr/color_primary"
-        tools:text="22/12 a 24/12"/>
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_event"
-        android:layout_below="@id/tv_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        android:fontFamily="@font/roboto_regular"
-        android:textColor="@color/primaryText"
-        tools:text="Último dia para os Colegiados encaminharem à DAA os processos de aproveitamento de créditos, dispensa de disciplinas, quebra de pré-requisito, trancamento de curso e matrícula especial em disciplinas isoladas"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="?attr/color_primary"
+            tools:text="22/12 a 24/12"/>
 
-</RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="@color/primaryText"
+            tools:text="Último dia para os Colegiados encaminharem à DAA os processos de aproveitamento de créditos, dispensa de disciplinas, quebra de pré-requisito, trancamento de curso e matrícula especial em disciplinas isoladas"/>
+
+    </LinearLayout>
+</layout>

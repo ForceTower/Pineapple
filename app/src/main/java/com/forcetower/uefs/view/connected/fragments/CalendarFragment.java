@@ -25,7 +25,6 @@ import com.forcetower.uefs.view.connected.ActivityController;
 import com.forcetower.uefs.view.connected.adapters.CalendarAdapter;
 import com.forcetower.uefs.vm.base.CalendarViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -73,11 +72,11 @@ public class CalendarFragment extends Fragment implements Injectable {
     }
 
     private void onReceiveCalendar(List<CalendarItem> calendarItems) {
-        calendarAdapter.setCalendar(calendarItems);
+        calendarAdapter.submitList(calendarItems);
     }
 
     private void setupRecycler() {
-        calendarAdapter = new CalendarAdapter(getContext(), new ArrayList<>());
+        calendarAdapter = new CalendarAdapter();
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.recyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
         binding.recyclerView.setAdapter(calendarAdapter);

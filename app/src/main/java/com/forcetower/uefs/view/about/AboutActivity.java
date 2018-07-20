@@ -1,6 +1,5 @@
 package com.forcetower.uefs.view.about;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,10 +32,10 @@ public class AboutActivity extends UBaseActivity implements HasSupportFragmentIn
         context.startActivity(intent);
     }
 
-    @SuppressLint("MissingSuperCall")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(R.layout.activity_about, savedInstanceState);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_about);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         if (VersionUtils.isLollipop()) toolbar.setElevation(10);

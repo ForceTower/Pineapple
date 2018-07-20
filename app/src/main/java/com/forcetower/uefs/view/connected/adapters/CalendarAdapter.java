@@ -1,70 +1,61 @@
 package com.forcetower.uefs.view.connected.adapters;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
+import android.support.annotation.NonNull;
+import android.support.v7.recyclerview.extensions.ListAdapter;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.databinding.ItemCalendarBinding;
 import com.forcetower.uefs.db.entity.CalendarItem;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by João Paulo on 02/12/2017.
  */
-public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ItemHolder>{
-    private Context context;
-    private List<CalendarItem> items;
+public class CalendarAdapter extends ListAdapter<CalendarItem, CalendarAdapter.ItemHolder> {
 
-    public CalendarAdapter(Context context, List<CalendarItem> calendar) {
-        this.context = context;
-        this.items = new ArrayList<>();
-        setCalendar(calendar);
+    public CalendarAdapter() {
+        super(new DiffUtil.ItemCallback<CalendarItem>() {
+            @Override
+            public boolean areItemsTheSame(CalendarItem oldItem, CalendarItem newItem) {
+                return oldItem.getUid() == newItem.getUid();
+            }
+
+            @Override
+            public boolean areContentsTheSame(CalendarItem oldItem, CalendarItem newItem) {
+                return oldItem.equals(newItem);
+            }
+        });
     }
 
-    public void setCalendar(List<CalendarItem> calendar) {
-        this.items.clear();
-        this.items.addAll(calendar);
-        notifyDataSetChanged();
+    @NonNull
+    @Override
+    public ItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        ItemCalendarBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_calendar, parent, false);
+        return new ItemHolder(binding);
     }
 
     @Override
-    public ItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ItemHolder(LayoutInflater.from(context).inflate(R.layout.item_calendar, parent, false));
-    }
-
-    @Override
-    public void onBindViewHolder(ItemHolder holder, int position) {
-        CalendarItem item = items.get(position);
-        holder.bind(item);
-    }
-
-    @Override
-    public int getItemCount() {
-        return items.size();
+    public void onBindViewHolder(@NonNull ItemHolder holder, int position) {
+        CalendarItem item = getItem(position);
+        if (item != null) holder.bind(item);
     }
 
     class ItemHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tv_date)
-        TextView tvDate;
-        @BindView(R.id.tv_event)
-        TextView tvEvent;
+        private final ItemCalendarBinding binding;
 
-        ItemHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+        ItemHolder(ItemCalendarBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
 
         public void bind(CalendarItem item) {
-            tvDate.setText(item.getDay());
-            tvEvent.setText(item.getMessage());
+            binding.setCalendar(item);
+            binding.executePendingBindings();
         }
     }
 }

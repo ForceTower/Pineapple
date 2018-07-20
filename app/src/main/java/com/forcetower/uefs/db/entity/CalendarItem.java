@@ -41,4 +41,24 @@ public class CalendarItem {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CalendarItem that = (CalendarItem) o;
+
+        if (uid != that.uid) return false;
+        if (!day.equals(that.day)) return false;
+        return message.equals(that.message);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = uid;
+        result = 31 * result + day.hashCode();
+        result = 31 * result + message.hashCode();
+        return result;
+    }
 }
