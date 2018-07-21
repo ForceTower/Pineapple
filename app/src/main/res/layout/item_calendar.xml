@@ -25,7 +25,8 @@
             android:layout_marginStart="16dp"
             android:fontFamily="@font/roboto_medium"
             android:textColor="?attr/color_primary"
-            tools:text="22/12 a 24/12"/>
+            tools:text="22/12 a 24/12"
+            android:text="@{calendar.day}"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -38,6 +39,7 @@
             android:layout_marginBottom="8dp"
             android:fontFamily="@font/roboto_regular"
             android:textColor="@color/primaryText"
+            android:text="@{calendar.message}"
             tools:text="Último dia para os Colegiados encaminharem à DAA os processos de aproveitamento de créditos, dispensa de disciplinas, quebra de pré-requisito, trancamento de curso e matrícula especial em disciplinas isoladas"/>
 
     </LinearLayout>

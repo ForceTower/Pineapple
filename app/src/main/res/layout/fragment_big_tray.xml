@@ -19,6 +19,18 @@
             android:textColor="@color/primaryText"
             android:fontFamily="@font/roboto_regular"/>
 
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_ru_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/ru_invalid_data"
+            android:textSize="18sp"
+            android:textColor="@color/red"
+            android:fontFamily="@font/roboto_regular"/>
+
         <ScrollView
             android:id="@+id/sv_ru_loaded"
             android:layout_width="match_parent"

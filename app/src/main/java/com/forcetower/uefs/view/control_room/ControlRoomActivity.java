@@ -36,7 +36,7 @@ public class ControlRoomActivity extends UBaseActivity implements HasSupportFrag
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DataBindingUtil.setContentView(this, R.layout.activity_control_room);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_control_room);
 
         setupToolbar();
 

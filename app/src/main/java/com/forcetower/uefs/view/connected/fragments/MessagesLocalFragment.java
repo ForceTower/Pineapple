@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.SpannableString;
 import android.text.util.Linkify;
@@ -89,6 +90,7 @@ public class MessagesLocalFragment extends Fragment implements Injectable {
         binding.rvMessages.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new MessagesAdapter();
         adapter.setOnClickListener(this::onMessageClicked);
+        binding.rvMessages.setItemAnimator(new DefaultItemAnimator());
         binding.rvMessages.setAdapter(adapter);
     }
 

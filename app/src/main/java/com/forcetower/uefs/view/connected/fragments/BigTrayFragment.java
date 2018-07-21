@@ -83,9 +83,18 @@ public class BigTrayFragment extends Fragment implements Injectable {
             bindData(data);
     }
 
+    private void updateErrorInterface() {
+        if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED) && getActivity() != null) {
+            AnimUtils.fadeOutGone(requireContext(), binding.tvRuLoading);
+            AnimUtils.fadeIn(requireContext(), binding.llBtns);
+            AnimUtils.fadeIn(requireContext(), binding.tvRuError);
+        }
+    }
+
     @UiThread
     private void bindData(RUData data) {
         AnimUtils.fadeOutGone(requireContext(), binding.tvRuLoading);
+        AnimUtils.fadeOutGone(requireContext(), binding.tvRuError);
         AnimUtils.fadeIn(requireContext(), binding.llBtns);
         AnimUtils.fadeIn(requireContext(), binding.svRuLoaded);
 
@@ -127,10 +136,12 @@ public class BigTrayFragment extends Fragment implements Injectable {
                 Timber.e("This RU foreplay is just funny");
                 Crashlytics.logException(e);
                 Crashlytics.log("RU Exception: " + snapshot.getValue());
+                updateErrorInterface();
             }
         }
 
         @Override
         public void onCancelled(@NonNull DatabaseError error) {}
     };
+
 }
