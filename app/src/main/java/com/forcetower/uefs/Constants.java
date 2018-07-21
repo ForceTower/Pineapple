@@ -41,6 +41,7 @@ public class Constants {
     public static final String CHANNEL_GROUP_EVENTS_ID     = "com.forcetower.uefs.EVENTS";
     //Notification Channels
     public static final String CHANNEL_MESSAGES_ID         = "com.forcetower.uefs.MESSAGES.POST";
+    public static final String CHANNEL_MESSAGES_DCE_ID     = "com.forcetower.uefs.MESSAGES.DCE";
     public static final String CHANNEL_GRADES_POSTED_ID    = "com.forcetower.uefs.GRADES.POSTED";
     public static final String CHANNEL_GRADES_CREATED_ID   = "com.forcetower.uefs.GRADES.CREATE";
     public static final String CHANNEL_GRADES_CHANGED_ID   = "com.forcetower.uefs.GRADES.CHANGE";

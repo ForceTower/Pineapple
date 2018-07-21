@@ -39,7 +39,15 @@ public class ControlRoomSelectionFragment extends Fragment implements Injectable
         binding.uneverse.setOnClickListener(v -> goToUneverse());
         binding.logoutUneverse.setOnClickListener(v -> logoutUniverse());
         binding.deleteUnesMessages.setOnClickListener(v -> deleteUnesMessages());
+        binding.sendNotification.setOnClickListener(v -> sendNotifications());
         return binding.getRoot();
+    }
+
+    private void sendNotifications() {
+        requireFragmentManager().beginTransaction()
+                .replace(R.id.container, new SendNotificationFragment(), "send_notifications")
+                .addToBackStack("send_notification")
+                .commitAllowingStateLoss();
     }
 
     private void deleteUnesMessages() {

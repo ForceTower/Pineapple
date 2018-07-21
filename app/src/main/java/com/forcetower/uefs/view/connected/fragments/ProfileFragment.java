@@ -31,6 +31,7 @@ import com.forcetower.uefs.db.entity.Access;
 import com.forcetower.uefs.db.entity.Profile;
 import com.forcetower.uefs.db.entity.Semester;
 import com.forcetower.uefs.di.Injectable;
+import com.forcetower.uefs.service.UserElevation;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.util.DateUtils;
 import com.forcetower.uefs.view.connected.ActivityController;
@@ -154,9 +155,16 @@ public class ProfileFragment extends Fragment implements Injectable {
         profileViewModel.getSemesters().observe(this, this::onReceiveSemesters);
         profileViewModel.getAccess().observe(this, this::onReceiveAccess);
         profileViewModel.getProfileImage().observe(this, this::onReceiveProfileImage);
-
+        profileViewModel.getUserElevation().observe(this, this::onReceiveElevation);
         DisciplinesViewModel disciplinesViewModel = ViewModelProviders.of(this, viewModelFactory).get(DisciplinesViewModel.class);
         disciplinesViewModel.getScore().observe(this, this::onScoreCalculated);
+    }
+
+    private void onReceiveElevation(UserElevation userElevation) {
+        Timber.d("You are a level: " + userElevation.elevation);
+        if (userElevation.elevation > 4) {
+            enablePrivateContent();
+        }
     }
 
     private void onScoreCalculated(Double value) {
@@ -189,6 +197,8 @@ public class ProfileFragment extends Fragment implements Injectable {
         if (access.getUsername().equalsIgnoreCase("jpssena")) {
             enablePrivateContent();
         }
+
+        profileViewModel.findElevation(access.getUsername());
     }
 
     private void enablePrivateContent() {

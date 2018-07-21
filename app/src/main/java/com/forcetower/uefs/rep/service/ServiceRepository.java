@@ -16,6 +16,7 @@ import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.resources.NetworkBoundResource;
 import com.forcetower.uefs.service.ApiResponse;
 import com.forcetower.uefs.service.UNEService;
+import com.forcetower.uefs.service.UserElevation;
 
 import java.util.List;
 
@@ -154,5 +155,9 @@ public class ServiceRepository {
                 return service.getCourses();
             }
         }.asLiveData();
+    }
+
+    public LiveData<ApiResponse<UserElevation>> getUserElevation(String username) {
+        return service.getUserElevation(username);
     }
 }

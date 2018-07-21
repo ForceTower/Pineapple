@@ -16,6 +16,7 @@ import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.GradeInfo;
 import com.forcetower.uefs.db.entity.Message;
 import com.forcetower.uefs.db_service.entity.Version;
+import com.forcetower.uefs.svc.UNESFirebaseMessagingService;
 import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.connected.LoggedActivity;
 import com.forcetower.uefs.view.event.EventDetailsActivity;
@@ -273,6 +274,30 @@ public class NotificationCreator {
                 .setContentText(text)
                 .setContentIntent(pendingIntent)
                 .setColor(ContextCompat.getColor(context, R.color.color_system_notification));
+
+        if (image != null) {
+            try {
+                builder.setStyle(new NotificationCompat.BigPictureStyle().bigPicture(Picasso.with(context).load(image).get()));
+            } catch (IOException e) {
+                e.printStackTrace();
+                Timber.d("Image couldn't be loaded");
+            }
+        } else {
+            builder.setStyle(new NotificationCompat.BigTextStyle().bigText(text));
+        }
+
+        addOptions(context, builder);
+        showNotification(context, text.hashCode(), builder);
+    }
+
+    public static void createDCENotification(Context context, String title, String text, String image) {
+        PendingIntent pendingIntent = getPendingIntent(context, LoggedActivity.class, MESSAGES_FRAGMENT_UNES);
+
+        NotificationCompat.Builder builder = notificationBuilder(context, Constants.CHANNEL_MESSAGES_DCE_ID)
+                .setContentTitle(title)
+                .setContentText(text)
+                .setContentIntent(pendingIntent)
+                .setColor(ContextCompat.getColor(context, R.color.color_dce_notification));
 
         if (image != null) {
             try {

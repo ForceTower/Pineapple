@@ -12,6 +12,7 @@
 
     <color name="color_event">#ffcf0e</color>
     <color name="color_system_notification">#ccff90</color>
+    <color name="color_dce_notification">#FF9800</color>
 
     <color name="divider">#BDBDBD</color>
     <color name="background">#f8f8f8</color>

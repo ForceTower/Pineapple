@@ -34,6 +34,7 @@ import static com.forcetower.uefs.Constants.CHANNEL_GROUP_EVENTS_ID;
 import static com.forcetower.uefs.Constants.CHANNEL_GROUP_GENERAL_ID;
 import static com.forcetower.uefs.Constants.CHANNEL_GROUP_GRADES_ID;
 import static com.forcetower.uefs.Constants.CHANNEL_GROUP_MESSAGES_ID;
+import static com.forcetower.uefs.Constants.CHANNEL_MESSAGES_DCE_ID;
 import static com.forcetower.uefs.Constants.CHANNEL_MESSAGES_ID;
 import static com.forcetower.uefs.util.WordUtils.validString;
 
@@ -70,6 +71,7 @@ public class NotificationHelper extends ContextWrapper{
         NotificationChannel warnings    = createChannel(CHANNEL_GENERAL_WARNINGS_ID, getString(R.string.warnings), NotificationManager.IMPORTANCE_DEFAULT);
         NotificationChannel remote      = createChannel(CHANNEL_GENERAL_REMOTE_ID, getString(R.string.remote), NotificationManager.IMPORTANCE_DEFAULT);
         NotificationChannel eventGen    = createChannel(CHANNEL_EVENTS_GENERAL_ID, getString(R.string.channel_events_general), NotificationManager.IMPORTANCE_DEFAULT);
+        NotificationChannel dceMsg      = createChannel(CHANNEL_MESSAGES_DCE_ID, getString(R.string.channel_messages_dce), NotificationManager.IMPORTANCE_DEFAULT);
 
         messages.setGroup(CHANNEL_GROUP_MESSAGES_ID);
         posted.setGroup(CHANNEL_GROUP_GRADES_ID);
@@ -78,6 +80,7 @@ public class NotificationHelper extends ContextWrapper{
         warnings.setGroup(CHANNEL_GROUP_GENERAL_ID);
         remote.setGroup(CHANNEL_GROUP_GENERAL_ID);
         eventGen.setGroup(CHANNEL_GROUP_EVENTS_ID);
+        dceMsg.setGroup(CHANNEL_GROUP_MESSAGES_ID);
 
         getManager().createNotificationChannel(messages);
         getManager().createNotificationChannel(posted);
@@ -86,6 +89,7 @@ public class NotificationHelper extends ContextWrapper{
         getManager().createNotificationChannel(warnings);
         getManager().createNotificationChannel(remote);
         getManager().createNotificationChannel(eventGen);
+        getManager().createNotificationChannel(dceMsg);
 
     }
 

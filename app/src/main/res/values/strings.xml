@@ -527,4 +527,14 @@
     <string name="no_unes_messages">Nenhuma mensagem do UNES</string>
     <string name="delete_unes_messages">Apagar mensagens UNES</string>
     <string name="ru_invalid_data">O aplicativo do RU não está funcionando corretamente no momento... :(</string>
+    <string name="channel_messages_dce">Mensagens do DCE</string>
+    <string name="hint_notification_title">Título</string>
+    <string name="hint_notification_message">Mensagem</string>
+    <string name="notification_with_image">Notificação com Imagem</string>
+    <string name="send_notification">Enviar Notificação</string>
+    <string name="notification_sent">Notificação Enviada</string>
+    <string name="pref_show_dce_notifications_disabled">Você não receberá mensagens do DCE</string>
+    <string name="pref_show_dce_notifications_enabled">Você está recebendo mensagens do DCE</string>
+    <string name="pref_show_dce_notifications">Recados do DCE</string>
+    <string name="pref_show_dce_notifications_summary">Controle as notificações do DCE</string>
 </resources>

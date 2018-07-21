@@ -80,6 +80,9 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         Preference eventGen = findPreference("notification_events_general");
         if (eventGen != null) eventGen.setOnPreferenceClickListener(preference -> notificationControl(Constants.CHANNEL_EVENTS_GENERAL_ID));
+
+        Preference dceMsg = findPreference("notification_dce_messages");
+        if (dceMsg != null) dceMsg.setOnPreferenceClickListener(preference -> notificationControl(Constants.CHANNEL_MESSAGES_DCE_ID));
     }
 
     @TargetApi(26)

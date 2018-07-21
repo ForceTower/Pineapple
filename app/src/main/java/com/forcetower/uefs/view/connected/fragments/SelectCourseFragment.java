@@ -85,9 +85,7 @@ public class SelectCourseFragment extends Fragment implements Injectable {
                         if (profile != null && access != null && profile.getCourse() != null) {
                             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("courses");
                             reference.child(profile.getCourseFixed()).child(access.getUsernameFixed()).removeValue()
-                                    .addOnSuccessListener(aVoid -> {
-                                        Timber.d("Finished");
-                                     });
+                                    .addOnSuccessListener(aVoid -> Timber.d("Finished"));
                         }
                         profileViewModel.setProfileCourse(course.getName(), course.getServiceId());
                         navigationController.back();

@@ -1,5 +1,6 @@
 package com.forcetower.uefs.di.module;
 
+import com.forcetower.uefs.view.control_room.fragments.SendNotificationFragment;
 import com.forcetower.uefs.view.control_room.fragments.ControlRoomSelectionFragment;
 import com.forcetower.uefs.view.control_room.fragments.EventApprovalFragment;
 import com.forcetower.uefs.view.control_room.fragments.MasterSyncControlFragment;
@@ -18,4 +19,6 @@ public abstract class ControlRoomFragmentsModule {
     abstract EventApprovalFragment contributeEventApprovalFragment();
     @ContributesAndroidInjector
     abstract ControlRoomSelectionFragment contributeControlRoomSelectionFragment();
+    @ContributesAndroidInjector
+    abstract SendNotificationFragment contributeSendNotificationFragment();
 }

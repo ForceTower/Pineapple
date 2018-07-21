@@ -97,4 +97,22 @@ public interface UNEService {
     @FormUrlEncoded
     @POST("course/post")
     Call<ActionResult<Object>> setupUserCourse(@Field("username") String username, @Field("course") int courseReference);
+
+    @FormUrlEncoded
+    @POST("notification/create")
+    LiveData<ApiResponse<ActionResult<String>>> sendNotification(@Field("title") String title, @Field("message") String message, @Field("uuid") String uuid);
+
+    @FormUrlEncoded
+    @POST("notification/create")
+    LiveData<ApiResponse<ActionResult<String>>> sendNotification(
+            @Field("title") String title,
+            @Field("message") String message,
+            @Field("link") String image,
+            @Field("delete_hash") String delete,
+            @Field("uuid") String uuid
+    );
+
+    @FormUrlEncoded
+    @POST("user/elevation")
+    LiveData<ApiResponse<UserElevation>> getUserElevation(@Field("username") String username);
 }

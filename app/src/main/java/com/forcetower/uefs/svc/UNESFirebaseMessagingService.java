@@ -1,6 +1,8 @@
 package com.forcetower.uefs.svc;
 
+import android.content.SharedPreferences;
 import android.os.Build;
+import android.preference.PreferenceManager;
 
 import com.crashlytics.android.Crashlytics;
 import com.forcetower.uefs.AppExecutors;
@@ -11,6 +13,7 @@ import com.forcetower.uefs.db.entity.Profile;
 import com.forcetower.uefs.ntf.NotificationCreator;
 import com.forcetower.uefs.service.ActionResult;
 import com.forcetower.uefs.service.UNEService;
+import com.forcetower.uefs.util.VersionUtils;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -35,11 +38,13 @@ public class UNESFirebaseMessagingService extends FirebaseMessagingService {
     UNEService service;
     @Inject
     AppExecutors executors;
+    private SharedPreferences preferences;
 
     @Override
     public void onCreate() {
         super.onCreate();
         AndroidInjection.inject(this);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
     }
 
     @Override
@@ -64,6 +69,8 @@ public class UNESFirebaseMessagingService extends FirebaseMessagingService {
                         case "service_notification":
                             serviceNotification(data);
                             break;
+                        case "dce_notification":
+                            dceNotification(data);
                         default:
                             Timber.d("Defaulted, nothing to do");
                             break;
@@ -72,6 +79,27 @@ public class UNESFirebaseMessagingService extends FirebaseMessagingService {
                     Timber.d("This is an invalid notification... Ignoring");
                 }
             }
+        }
+    }
+
+    private void dceNotification(Map<String,String> data) {
+        String title = data.get("title");
+        String text = data.get("message");
+        String image = data.get("image");
+        String creator = data.get("creator");
+        String date = data.get("time");
+        String uuid = data.get("uuid");
+
+        long value;
+        try {
+            value = Long.parseLong(date);
+        } catch (Exception e) {
+            value = System.currentTimeMillis();
+        }
+        MessageUNES message = new MessageUNES(creator, text, value, image, uuid, title);
+        executors.diskIO().execute(() -> database.messageUNESDao().insert(message));
+        if (VersionUtils.isOreo() || preferences.getBoolean("show_dce_notifications", true)) {
+            NotificationCreator.createDCENotification(this, title, text, image);
         }
     }
 

@@ -49,6 +49,11 @@
             android:summary="@string/pref_notification_grade_date_changed"
             android:icon="@drawable/ic_date_accent_30dp"/>
         <Preference
+            android:key="notification_dce_messages"
+            android:title="@string/pref_show_dce_notifications"
+            android:summary="@string/pref_show_dce_notifications_summary"
+            android:icon="@drawable/ic_dce_icon_accent_30dp"/>
+        <Preference
             android:key="notification_events_general"
             android:title="@string/pref_events"
             android:summary="@string/pref_show_events_notification"

@@ -15,6 +15,9 @@ import com.forcetower.uefs.db.dao.SemesterDao;
 import com.forcetower.uefs.db.entity.Access;
 import com.forcetower.uefs.db.entity.Profile;
 import com.forcetower.uefs.db.entity.Semester;
+import com.forcetower.uefs.rep.service.ServiceRepository;
+import com.forcetower.uefs.service.ApiResponse;
+import com.forcetower.uefs.service.UserElevation;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -36,18 +39,24 @@ public class ProfileViewModel extends ViewModel {
     private final AccessDao accessDao;
     private final AppExecutors executors;
     private final File cacheDir;
+    private final ServiceRepository serviceRepository;
+    private final MediatorLiveData<UserElevation> elevationSrc;
+
     private LiveData<Profile> profileLiveData;
     private LiveData<List<Semester>> semestersLiveData;
     private LiveData<Access> accessLiveData;
+    private LiveData<ApiResponse<UserElevation>> elevationData;
 
     @Inject
     public ProfileViewModel(ProfileDao profileDao, SemesterDao semesterDao, AccessDao accessDao,
-                            AppExecutors executors, Context context) {
+                            AppExecutors executors, Context context, ServiceRepository serviceRepository) {
         this.profileDao = profileDao;
         this.semesterDao = semesterDao;
         this.accessDao = accessDao;
         this.executors = executors;
         this.cacheDir = context.getCacheDir();
+        this.serviceRepository = serviceRepository;
+        this.elevationSrc = new MediatorLiveData<>();
     }
 
     public LiveData<Profile> getProfile() {
@@ -126,5 +135,29 @@ public class ProfileViewModel extends ViewModel {
             profileDao.setProfileCourse(name);
             profileDao.setProfileCourseId(id);
         });
+    }
+
+    public void findElevation(String username) {
+        if (elevationData == null) {
+            elevationData = serviceRepository.getUserElevation(username);
+            elevationSrc.addSource(elevationData, data -> {
+                //noinspection ConstantConditions
+                if (data.isSuccessful()) {
+                    if (data.body != null) {
+                        elevationSrc.setValue(data.body);
+                    } else {
+                        Timber.d("Null body");
+                        elevationData = null;
+                    }
+                } else {
+                    Timber.d("Response is invalid");
+                    elevationData = null;
+                }
+            });
+        }
+    }
+
+    public LiveData<UserElevation> getUserElevation() {
+        return elevationSrc;
     }
 }

@@ -55,6 +55,14 @@
                 android:layout_margin="8dp"
                 style="@style/Widget.AppCompat.Button.Colored"/>
 
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/send_notification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/send_notification"
+                android:layout_margin="8dp"
+                style="@style/Widget.AppCompat.Button.Colored"/>
+
         </LinearLayout>
 
     </ScrollView>
