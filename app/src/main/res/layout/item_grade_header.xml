@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="48dp">
+    xmlns:tools="http://schemas.android.com/tools">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
 
-    <TextView
-        android:id="@+id/tv_grade_info_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:fontFamily="@font/roboto_medium"
-        android:textColor="?attr/color_primary"
-        android:textSize="12sp"
-        tools:text="Teórico - Prático"/>
-</RelativeLayout>
+        <TextView
+            android:id="@+id/tv_grade_info_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="?attr/color_primary"
+            android:textSize="12sp"
+            tools:text="Teórico - Prático"/>
+    </RelativeLayout>
+</layout>

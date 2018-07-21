@@ -15,9 +15,6 @@ import com.forcetower.uefs.view.connected.fragments.NewScheduleFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
  * Created by João Paulo on 29/03/2018.
  */
@@ -91,12 +88,11 @@ public class NewDayClassAdapter extends RecyclerView.Adapter {
     }
 
     static class HeaderHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tv_header)
-        TextView header;
+        final TextView header;
 
         HeaderHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            header = itemView.findViewById(R.id.tv_header);
         }
 
         void bind(NewScheduleAdapter.InnerLocation location) {
@@ -105,14 +101,13 @@ public class NewDayClassAdapter extends RecyclerView.Adapter {
     }
 
     static class TimeHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tv_start)
-        TextView start;
-        @BindView(R.id.tv_end)
-        TextView end;
+        final TextView start;
+        final TextView end;
 
         TimeHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            start = itemView.findViewById(R.id.tv_start);
+            end = itemView.findViewById(R.id.tv_end);
         }
 
         void bind(NewScheduleAdapter.InnerLocation location) {
@@ -122,20 +117,19 @@ public class NewDayClassAdapter extends RecyclerView.Adapter {
     }
 
     class ClassHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.ll_container)
-        LinearLayout container;
-        @BindView(R.id.tv_code)
-        TextView classCode;
-        @BindView(R.id.tv_group)
-        TextView classGroup;
-        int colors[];
+        final LinearLayout container;
+        final TextView classCode;
+        final TextView classGroup;
+        final int colors[];
 
         ClassHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
             colors = itemView.getContext().getResources().getIntArray(R.array.discipline_colors);
             itemView.setOnClickListener(v -> onClick());
             itemView.setOnLongClickListener(v -> onLongClick());
+            container = itemView.findViewById(R.id.ll_container);
+            classCode = itemView.findViewById(R.id.tv_code);
+            classGroup = itemView.findViewById(R.id.tv_group);
         }
 
         private boolean onLongClick() {

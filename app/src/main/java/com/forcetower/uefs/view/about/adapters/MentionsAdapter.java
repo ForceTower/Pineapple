@@ -14,9 +14,6 @@ import com.forcetower.uefs.view.about.CreditClickListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 import static com.forcetower.uefs.util.WordUtils.validString;
 
 public class MentionsAdapter extends RecyclerView.Adapter<MentionsAdapter.MentionHolder> {
@@ -56,14 +53,13 @@ public class MentionsAdapter extends RecyclerView.Adapter<MentionsAdapter.Mentio
     }
 
     class MentionHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tv_name)
-        TextView tvName;
-        @BindView(R.id.tv_link)
-        TextView tvLink;
+        final TextView tvName;
+        final TextView tvLink;
 
         MentionHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            tvLink = itemView.findViewById(R.id.tv_link);
+            tvName = itemView.findViewById(R.id.tv_name);
             itemView.setOnClickListener(view -> onClicked());
         }
 

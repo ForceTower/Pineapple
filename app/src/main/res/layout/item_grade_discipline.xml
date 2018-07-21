@@ -1,67 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+<layout
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="8dp"
-    android:layout_marginEnd="8dp"
-    android:layout_marginLeft="8dp"
-    android:layout_marginRight="8dp"
-    android:layout_marginTop="8dp"
-    app:cardElevation="2dp"
-    app:cardCornerRadius="2dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout
+    <data>
+        <variable
+            name="discipline"
+            type="com.forcetower.uefs.db.entity.Discipline"/>
+    </data>
+
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        app:cardElevation="2dp"
+        app:cardCornerRadius="2dp">
 
-        <TextView
-            android:id="@+id/tv_class_name"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:textSize="14sp"
-            android:fontFamily="@font/roboto_regular"
-            android:textAlignment="center"
-            android:gravity="center"
-            android:textColor="?attr/color_accent"
-            tools:text="COD123 - Name"/>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_below="@id/tv_class_name"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        </android.support.v7.widget.RecyclerView>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_below="@id/recycler_view"
-            android:textSize="14sp"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:fontFamily="@font/roboto_medium"
-            android:textAlignment="center"
-            android:gravity="center"
-            android:textColor="?attr/color_primary"
-            android:text="@string/final_score_text"/>
+            <TextView
+                android:id="@+id/tv_class_name"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:textSize="14sp"
+                android:fontFamily="@font/roboto_regular"
+                android:textAlignment="center"
+                android:text="@{discipline.name}"
+                android:gravity="center"
+                android:textColor="?attr/color_accent"
+                tools:text="COD123 - Name"/>
 
-        <TextView
-            android:id="@+id/mean_text"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_below="@id/recycler_view"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="16dp"
-            android:layout_marginEnd="16dp"
-            android:textSize="14sp"
-            android:fontFamily="@font/roboto_medium"
-            android:textAlignment="center"
-            android:gravity="center"
-            android:textColor="?attr/color_accent"
-            tools:text="10,0"/>
-    </RelativeLayout>
-</android.support.v7.widget.CardView>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_below="@id/tv_class_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_below="@id/recycler_view"
+                android:textSize="14sp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:fontFamily="@font/roboto_medium"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:textColor="?attr/color_primary"
+                android:text="@string/final_score_text"/>
+
+            <TextView
+                android:id="@+id/mean_text"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_below="@id/recycler_view"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="16dp"
+                android:layout_marginEnd="16dp"
+                android:textSize="14sp"
+                android:fontFamily="@font/roboto_medium"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:textColor="?attr/color_accent"
+                tools:text="10,0"/>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</layout>

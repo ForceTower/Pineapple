@@ -19,9 +19,6 @@ import java.util.Collections;
 import java.util.Hashtable;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 import static com.forcetower.uefs.util.DateUtils.getDayOfWeek;
 import static com.forcetower.uefs.util.DateUtils.toWeekLongDay;
 
@@ -103,24 +100,23 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
     }
 
     class ScheduleViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.inner_recycler_view)
-        RecyclerView innerRecyclerView;
-        @BindView(R.id.tv_day)
-        TextView tvDay;
+        final RecyclerView innerRecyclerView;
+        final TextView tvDay;
 
         DayClassAdapter adapter;
 
         ScheduleViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            tvDay = itemView.findViewById(R.id.tv_day);
+            innerRecyclerView = itemView.findViewById(R.id.inner_recycler_view);
             innerRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-            adapter = new DayClassAdapter(context, new ArrayList<>(), style);
+            adapter = new DayClassAdapter(style);
             adapter.setOnClickListener(onClickListener);
             innerRecyclerView.setAdapter(adapter);
         }
 
         public void bind(Pair<String, List<DisciplineClassLocation>> disciplineClassLocations) {
-            adapter.setDisciplines(disciplineClassLocations.second);
+            adapter.submitList(disciplineClassLocations.second);
             tvDay.setText(disciplineClassLocations.first);
         }
     }

@@ -1,21 +1,21 @@
 package com.forcetower.uefs.view.connected.adapters;
 
+import android.databinding.DataBindingUtil;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.databinding.ItemGradeHeaderBinding;
+import com.forcetower.uefs.databinding.ItemGradeInfoBinding;
+import com.forcetower.uefs.databinding.ItemGradePartialMeanBinding;
 import com.forcetower.uefs.db.entity.Grade;
 import com.forcetower.uefs.db.entity.GradeInfo;
 import com.forcetower.uefs.db.entity.GradeSection;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by João Paulo on 07/03/2018.
@@ -26,29 +26,29 @@ public class GradesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private static final int ITEM = 2;
     private static final int PARTIAL_MEAN = 3;
 
-    private List<GradeView> created = new ArrayList<>();
+    private List<GradeView> created;
 
-    public GradesAdapter(List<GradeSection> sections, Grade grade) {
+    public GradesAdapter() {
         created = new ArrayList<>();
-        setupItems(sections, grade);
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == HEADER) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_grade_header, parent, false);
-            return new HeaderHolder(view);
+            ItemGradeHeaderBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_grade_header, parent, false);
+            return new HeaderHolder(binding);
         } else if (viewType == PARTIAL_MEAN) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_grade_partial_mean, parent, false);
-            return new PartialHolder(view);
+            ItemGradePartialMeanBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_grade_partial_mean, parent, false);
+            return new PartialHolder(binding);
         } else {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_grade_info, parent, false);
-            return new GradeHolder(view);
+            ItemGradeInfoBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_grade_info, parent, false);
+            return new GradeHolder(binding);
         }
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == HEADER) {
             onBindHeaderHolder((HeaderHolder)holder, position);
         } else if(getItemViewType(position) == PARTIAL_MEAN) {
@@ -65,19 +65,20 @@ public class GradesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private void onBindPartialHolder(PartialHolder holder, int position) {
         GradeView grade = created.get(position);
-        holder.tv_partial_mean.setText(grade.headerName);
+        holder.binding.tvPartialMean.setText(grade.headerName);
     }
 
     private void onBindHeaderHolder(HeaderHolder holder, int position) {
         GradeView grade = created.get(position);
-        holder.tv_section_name.setText(grade.headerName);
+        holder.binding.tvGradeInfoName.setText(grade.headerName);
     }
 
     private void onBindGradeHolder(GradeHolder holder, int position) {
         GradeView grade = created.get(position);
-        holder.tv_date.setText(grade.date);
-        holder.tv_eval_name.setText(grade.identification);
-        holder.tv_grade.setText(grade.grade);
+
+        holder.binding.tvEvalDate.setText(grade.date);
+        holder.binding.tvGradeIdentification.setText(grade.identification);
+        holder.binding.tvGrade.setText(grade.grade);
     }
 
     @Override
@@ -146,36 +147,29 @@ public class GradesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     class GradeHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tv_grade_identification)
-        TextView tv_eval_name;
-        @BindView(R.id.tv_eval_date)
-        TextView tv_date;
-        @BindView(R.id.tv_grade)
-        TextView tv_grade;
+        private final ItemGradeInfoBinding binding;
 
-        GradeHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+        GradeHolder(ItemGradeInfoBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
     }
 
     class HeaderHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tv_grade_info_name)
-        TextView tv_section_name;
+        private final ItemGradeHeaderBinding binding;
 
-        HeaderHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+        HeaderHolder(ItemGradeHeaderBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
     }
 
     class PartialHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tv_partial_mean)
-        TextView tv_partial_mean;
+        private final ItemGradePartialMeanBinding binding;
 
-        PartialHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+        PartialHolder(ItemGradePartialMeanBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
     }
 }

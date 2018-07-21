@@ -51,7 +51,7 @@ public class GradesFragment extends Fragment implements Injectable {
 
     private void setupRecyclerView() {
         binding.grades.rvDisciplineGrades.setLayoutManager(new LinearLayoutManager(getContext()));
-        gradesAdapter = new GradesAdapter(null, null);
+        gradesAdapter = new GradesAdapter();
         binding.grades.rvDisciplineGrades.setAdapter(gradesAdapter);
         binding.grades.rvDisciplineGrades.setNestedScrollingEnabled(false);
     }

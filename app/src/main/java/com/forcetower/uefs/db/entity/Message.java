@@ -145,4 +145,31 @@ public class Message implements Comparable<Message>{
     public SpannableString getSpannable() {
         return spannable;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Message message1 = (Message) o;
+
+        if (uid != message1.uid) return false;
+        if (sender != null ? !sender.equals(message1.sender) : message1.sender != null)
+            return false;
+        if (message != null ? !message.equals(message1.message) : message1.message != null)
+            return false;
+        if (receivedAt != null ? !receivedAt.equals(message1.receivedAt) : message1.receivedAt != null)
+            return false;
+        return classReceived != null ? classReceived.equals(message1.classReceived) : message1.classReceived == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = uid;
+        result = 31 * result + (sender != null ? sender.hashCode() : 0);
+        result = 31 * result + (message != null ? message.hashCode() : 0);
+        result = 31 * result + (receivedAt != null ? receivedAt.hashCode() : 0);
+        result = 31 * result + (classReceived != null ? classReceived.hashCode() : 0);
+        return result;
+    }
 }

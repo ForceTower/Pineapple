@@ -1,6 +1,7 @@
 package com.forcetower.uefs.view.connected.adapters;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,20 +9,15 @@ import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.databinding.CardDisciplineClassesBinding;
 import com.forcetower.uefs.db.entity.DisciplineClassItem;
 import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.connected.OnClassClickListener;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import timber.log.Timber;
 
 /**
@@ -49,8 +45,8 @@ public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ClassHol
     @NonNull
     @Override
     public ClassHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_discipline_classes, parent, false);
-        return new ClassHolder(view);
+        CardDisciplineClassesBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.card_discipline_classes, parent, false);
+        return new ClassHolder(binding);
     }
 
     @Override
@@ -70,37 +66,19 @@ public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ClassHol
     }
 
     class ClassHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.view_root)
-        ViewGroup viewRoot;
-        @BindView(R.id.tv_class_subject)
-        TextView tv_class_subject;
-        @BindView(R.id.tv_class_situation)
-        TextView tv_class_situation;
-        @BindView(R.id.tv_class_date)
-        TextView tv_class_date;
-        @BindView(R.id.tv_class_attachments)
-        TextView tv_class_attachments;
-        @BindView(R.id.iv_class_situation)
-        ImageView iv_class_situation;
-        @BindView(R.id.ll_information)
-        LinearLayout ll_information;
-        @BindView(R.id.rl_expanded)
-        RelativeLayout rlExpansion;
-
-        @BindView(R.id.rv_support_material)
-        RecyclerView rvSupportMaterial;
-        private MaterialAdapter adapter;
-
+        private final CardDisciplineClassesBinding binding;
+        private final MaterialAdapter adapter;
         private boolean canExpand = true;
 
-        ClassHolder(View itemView) {
-            super(itemView);
-            itemView.setOnClickListener(v -> onClassClicked());
-            ButterKnife.bind(this, itemView);
-            rvSupportMaterial.setRecycledViewPool(recycledViewPool);
+        ClassHolder(CardDisciplineClassesBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+            binding.getRoot().setOnClickListener(v -> onClassClicked());
+
+            binding.rvSupportMaterial.setRecycledViewPool(recycledViewPool);
             adapter = new MaterialAdapter(context);
-            rvSupportMaterial.setAdapter(adapter);
-            rvSupportMaterial.setLayoutManager(new LinearLayoutManager(context));
+            binding.rvSupportMaterial.setAdapter(adapter);
+            binding.rvSupportMaterial.setLayoutManager(new LinearLayoutManager(context));
         }
 
         private void onClassClicked() {
@@ -114,7 +92,7 @@ public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ClassHol
                 if (VersionUtils.isLollipop()) {
                     boolean isExpanded = position == exPosition;
                     exPosition = isExpanded ? -1 : position;
-                    TransitionManager.beginDelayedTransition(viewRoot);
+                    TransitionManager.beginDelayedTransition(binding.viewRoot);
                     notifyDataSetChanged();
                 } else {
                     if (classClickListener != null)
@@ -150,24 +128,24 @@ public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ClassHol
                 type = 2;
             }
 
-            tv_class_subject.setText(subject);
-            tv_class_attachments.setText(context.getString(R.string.attachments, attachments));
-            tv_class_date.setText(date);
-            tv_class_situation.setText(situation);
-            iv_class_situation.setColorFilter(context.getResources().getColor(color));
-            iv_class_situation.setImageResource(resId);
+            binding.tvClassSubject.setText(subject);
+            binding.tvClassAttachments.setText(context.getString(R.string.attachments, attachments));
+            binding.tvClassDate.setText(date);
+            binding.tvClassSituation.setText(situation);
+            binding.ivClassSituation.setColorFilter(context.getResources().getColor(color));
+            binding.ivClassSituation.setImageResource(resId);
 
             if (type == 0) {
-                ll_information.setVisibility(View.GONE);
+                binding.llInformation.setVisibility(View.GONE);
             } else {
-                ll_information.setVisibility(View.VISIBLE);
+                binding.llInformation.setVisibility(View.VISIBLE);
             }
 
             adapter.setMaterials(item.getMaterials());
 
             if (VersionUtils.isLollipop()) {
                 boolean isExpanded = exPosition == position;
-                rlExpansion.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+                binding.rlExpanded.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
             }
         }
     }

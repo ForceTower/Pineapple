@@ -57,12 +57,12 @@ public class SemesterGradesFragment extends Fragment implements Injectable {
     private void onGradesReceived(List<Discipline> disciplines) {
         if (disciplines != null) {
             AnimUtils.fadeOut(getContext(), binding.vgLoading);
-            disciplineGradesAdapter.setDisciplines(disciplines);
+            disciplineGradesAdapter.submitList(disciplines);
         }
     }
 
     private void setupRecycler() {
-        disciplineGradesAdapter = new DisciplineGradesAdapter(getContext(), new ArrayList<>());
+        disciplineGradesAdapter = new DisciplineGradesAdapter();
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerView.setAdapter(disciplineGradesAdapter);
     }

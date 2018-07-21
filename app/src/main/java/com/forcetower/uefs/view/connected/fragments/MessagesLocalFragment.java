@@ -79,7 +79,7 @@ public class MessagesLocalFragment extends Fragment implements Injectable {
                         Linkify.addLinks(spannable, Linkify.WEB_URLS);
                         message.setSpannable(spannable);
                     }
-                    executors.mainThread().execute(() -> adapter.setMessages(messages));
+                    executors.mainThread().execute(() -> adapter.submitList(messages));
                 }
             });
         }
@@ -87,7 +87,7 @@ public class MessagesLocalFragment extends Fragment implements Injectable {
 
     private void setupRecyclerView() {
         binding.rvMessages.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new MessagesAdapter(new ArrayList<>());
+        adapter = new MessagesAdapter();
         adapter.setOnClickListener(this::onMessageClicked);
         binding.rvMessages.setAdapter(adapter);
     }

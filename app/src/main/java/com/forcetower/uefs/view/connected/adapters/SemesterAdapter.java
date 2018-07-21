@@ -20,9 +20,6 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Set;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
  * Created by João Paulo on 07/03/2018.
  */
@@ -75,8 +72,7 @@ public class SemesterAdapter extends RecyclerView.Adapter<SemesterAdapter.Semest
         }
 
         Set<String> set = mapping.keySet();
-        List<String> semesters = new ArrayList<>();
-        semesters.addAll(set);
+        List<String> semesters = new ArrayList<>(set);
         Collections.sort(semesters, (o1, o2) -> {
             try {
                 int str1 = Integer.parseInt(o1.substring(0, 5));
@@ -111,15 +107,15 @@ public class SemesterAdapter extends RecyclerView.Adapter<SemesterAdapter.Semest
     }
 
     class SemesterHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tv_semester_name)
-        TextView tvSemesterName;
-        @BindView(R.id.recycler_view)
-        RecyclerView recyclerView;
-        DisciplinesAdapter adapter;
+        final TextView tvSemesterName;
+        final RecyclerView recyclerView;
+        final DisciplinesAdapter adapter;
 
         SemesterHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            recyclerView = itemView.findViewById(R.id.recycler_view);
+            tvSemesterName = itemView.findViewById(R.id.tv_semester_name);
+
             adapter = new DisciplinesAdapter(context, new ArrayList<>());
             adapter.setClickListener(clickListener);
             recyclerView.setLayoutManager(new LinearLayoutManager(context));

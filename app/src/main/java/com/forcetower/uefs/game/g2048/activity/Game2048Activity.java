@@ -1,6 +1,5 @@
 package com.forcetower.uefs.game.g2048.activity;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,10 +25,10 @@ public class Game2048Activity extends UBaseActivity implements HasSupportFragmen
         activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
-    @SuppressLint("MissingSuperCall")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(R.layout.activity_game2048, savedInstanceState);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_game2048);
 
         Window window = getWindow();
         if (VersionUtils.isKitkat()) {

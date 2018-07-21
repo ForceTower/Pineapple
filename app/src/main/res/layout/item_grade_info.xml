@@ -1,53 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="60dp"
     xmlns:tools="http://schemas.android.com/tools">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
 
-    <TextView
-        android:id="@+id/tv_grade_identification"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
-        android:textSize="14sp"
-        android:textColor="@color/primaryText"
-        android:fontFamily="@font/roboto_regular"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_toLeftOf="@id/tv_grade"
-        android:maxLines="1"
-        android:layout_toStartOf="@id/tv_grade"
-        tools:text="AV01 - Avaliação de Personalidade"/>
+        <TextView
+            android:id="@+id/tv_grade_identification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:textSize="14sp"
+            android:textColor="@color/primaryText"
+            android:fontFamily="@font/roboto_regular"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@id/tv_grade"
+            android:maxLines="1"
+            android:layout_toStartOf="@id/tv_grade"
+            tools:text="AV01 - Avaliação de Personalidade"/>
 
-    <TextView
-        android:id="@+id/tv_eval_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_grade_identification"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
-        android:alpha="0.54"
-        android:fontFamily="@font/roboto_regular"
-        android:textColor="@android:color/black"
-        android:textSize="12sp"
-        tools:text="22/04/2017"/>
+        <TextView
+            android:id="@+id/tv_eval_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_grade_identification"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:alpha="0.54"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            tools:text="22/04/2017"/>
 
-    <TextView
-        android:id="@+id/tv_grade"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp"
-        android:textSize="14sp"
-        android:fontFamily="@font/roboto_regular"
-        android:textColor="@color/primaryText"
-        tools:text="8.9"/>
+        <TextView
+            android:id="@+id/tv_grade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
+            android:textSize="14sp"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="@color/primaryText"
+            tools:text="8.9"/>
 
-</RelativeLayout>
+    </RelativeLayout>
+</layout>

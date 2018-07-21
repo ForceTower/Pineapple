@@ -1,22 +1,19 @@
 package com.forcetower.uefs.view.connected.adapters;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.forcetower.uefs.R;
+import com.forcetower.uefs.databinding.ItemDisciplinesDisciplineBinding;
 import com.forcetower.uefs.db.entity.Discipline;
 import com.forcetower.uefs.view.connected.DisciplineClickListener;
 
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by João Paulo on 07/03/2018.
@@ -35,8 +32,8 @@ class DisciplinesAdapter extends RecyclerView.Adapter<DisciplinesAdapter.Discipl
     @NonNull
     @Override
     public DisciplineHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_disciplines_discipline, parent, false);
-        return new DisciplineHolder(view);
+        ItemDisciplinesDisciplineBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_disciplines_discipline, parent, false);
+        return new DisciplineHolder(binding);
     }
 
     @Override
@@ -60,22 +57,17 @@ class DisciplinesAdapter extends RecyclerView.Adapter<DisciplinesAdapter.Discipl
     }
 
     class DisciplineHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        @BindView(R.id.tv_class_name)
-        TextView tvClassName;
-        @BindView(R.id.tv_additional_info)
-        TextView tvAdditionalInfo;
-        @BindView(R.id.iv_draft_item)
-        ImageView ivDraftImage;
+        private final ItemDisciplinesDisciplineBinding binding;
 
-        DisciplineHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(this);
+        DisciplineHolder(ItemDisciplinesDisciplineBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+            binding.getRoot().setOnClickListener(this);
         }
 
         public void bind(Discipline discipline) {
-            tvClassName.setText(discipline.getName().trim());
-            tvAdditionalInfo.setText(context.getString(R.string.class_additional_info_format,
+            binding.tvClassName.setText(discipline.getName().trim());
+            binding.tvAdditionalInfo.setText(context.getString(R.string.class_additional_info_format,
                     discipline.getCode(),
                     discipline.getCredits(),
                     discipline.getMissedClasses()));
