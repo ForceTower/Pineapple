@@ -61,7 +61,7 @@
             android:summaryOff="@string/pref_show_grades_changed_notification_disabled"
             android:summaryOn="@string/pref_show_grades_changed_notification_enabled"
             android:title="@string/pref_grades_date_changed"/>
-
+<!--
         <CheckBoxPreference
             android:defaultValue="true"
             android:icon="@drawable/ic_dce_icon_accent_30dp"
@@ -69,7 +69,7 @@
             android:summaryOff="@string/pref_show_dce_notifications_disabled"
             android:summaryOn="@string/pref_show_dce_notifications_enabled"
             android:title="@string/pref_show_dce_notifications"/>
-
+-->
         <CheckBoxPreference
             android:defaultValue="false"
             android:icon="@drawable/ic_balloon_accent_30dp"
