@@ -35,6 +35,7 @@ import timber.log.Timber;
 
 import static com.forcetower.uefs.rep.helper.RequestCreator.makeRequestForEnrollmentCertificate;
 import static com.forcetower.uefs.rep.helper.RequestCreator.makeRequestForFlowchart;
+import static com.forcetower.uefs.rep.helper.RequestCreator.makeRequestForScholarHistory;
 import static com.forcetower.uefs.rep.helper.RequestCreator.makeRequestForURL;
 
 /**
@@ -137,6 +138,8 @@ public class RefreshRepository {
                 File downloadedFile;
                 if (option == SagresDocuments.FLOWCHART) {
                     downloadedFile = new File(externalCacheDir, Constants.FLOWCHART_FILE_NAME);
+                } else if (option == SagresDocuments.SCHOLAR_HISTORY) {
+                    downloadedFile = new File(externalCacheDir, Constants.SCHOLAR_HISTORY_FILE_NAME);
                 } else {
                     downloadedFile = new File(externalCacheDir, Constants.ENROLLMENT_CERTIFICATE_FILE_NAME);
                 }
@@ -178,6 +181,8 @@ public class RefreshRepository {
                 Request request;
                 if (option == SagresDocuments.FLOWCHART) {
                     request = makeRequestForFlowchart();
+                } else if(option == SagresDocuments.SCHOLAR_HISTORY) {
+                    request = makeRequestForScholarHistory();
                 } else {
                     request = makeRequestForEnrollmentCertificate();
                 }

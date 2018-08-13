@@ -22,6 +22,7 @@ public class DownloadsViewModel extends ViewModel {
 
     private MediatorLiveData<Resource<Integer>> downloadCertificate;
     private MediatorLiveData<Resource<Integer>> downloadFlowchart;
+    private MediatorLiveData<Resource<Integer>> downloadHistory;
     private boolean downloadingDocument = false;
 
     @Inject
@@ -30,14 +31,19 @@ public class DownloadsViewModel extends ViewModel {
         this.executors = executors;
         downloadCertificate = new MediatorLiveData<>();
         downloadFlowchart = new MediatorLiveData<>();
+        downloadHistory = new MediatorLiveData<>();
     }
 
-    public MediatorLiveData<Resource<Integer>> getDownloadCertificate() {
+    public LiveData<Resource<Integer>> getDownloadCertificate() {
         return downloadCertificate;
     }
 
-    public MediatorLiveData<Resource<Integer>> getDownloadFlowchart() {
+    public LiveData<Resource<Integer>> getDownloadFlowchart() {
         return downloadFlowchart;
+    }
+
+    public LiveData<Resource<Integer>> getDownloadHistory() {
+        return downloadHistory;
     }
 
     public void triggerDownloadCertificate() {
@@ -74,4 +80,18 @@ public class DownloadsViewModel extends ViewModel {
         return downloadingDocument;
     }
 
+    public void triggerDownloadSchoolHistory() {
+        if (!downloadingDocument) {
+            downloadingDocument = true;
+            LiveData<Resource<Integer>> downloadRes = repository.loginAndDownloadPDFDocument(SagresDocuments.SCHOLAR_HISTORY);
+            downloadHistory.addSource(downloadRes, resource -> {
+                //noinspection ConstantConditions
+                if (resource.status != Status.LOADING) {
+                    downloadHistory.removeSource(downloadRes);
+                    downloadingDocument = false;
+                }
+                downloadHistory.postValue(resource);
+            });
+        }
+    }
 }

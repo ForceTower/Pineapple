@@ -756,11 +756,12 @@ public class LoginRepository {
         SyncWorkerUtils.disableWorker(context);
         executors.diskIO().execute(() -> {
             deleteDatabase();
-            Timber.d("%s", database.gradeInfoDao().getGradesFromSectionDirect(1));
             File enrollmentFile = new File(context.getCacheDir(), Constants.ENROLLMENT_CERTIFICATE_FILE_NAME);
             File flowchartFile = new File(context.getCacheDir(), Constants.FLOWCHART_FILE_NAME);
+            File historyFile = new File(context.getCacheDir(), Constants.SCHOLAR_HISTORY_FILE_NAME);
             if (enrollmentFile.exists()) enrollmentFile.delete();
             if (flowchartFile.exists()) flowchartFile.delete();
+            if (historyFile.exists()) historyFile.delete();
             logout.postValue(Resource.success(R.string.data_deleted));
         });
 
@@ -769,19 +770,20 @@ public class LoginRepository {
 
     @WorkerThread
     public void deleteDatabase() {
-        database.accessDao().deleteAllAccesses();
-        database.todoItemDao().deleteAllTodoItems();
-        database.messageDao().deleteAllMessages();
-        database.profileDao().deleteAllProfiles();
-        database.calendarItemDao().deleteCalendar();
-        database.gradeInfoDao().deleteAllGradesInfo();
-        database.disciplineClassLocationDao().deleteAllDisciplineClassLocations();
-        database.disciplineClassItemDao().deleteAllDisciplineClassItems();
-        database.disciplineGroupDao().deleteAllDisciplineGroups();
-        database.gradeSectionDao().deleteAllGradeSections();
-        database.gradeDao().deleteAllGrades();
-        database.disciplineDao().deleteAllDisciplines();
-        database.semesterDao().removeAllSemesters();
+        database.clearAllTables();
+//        database.accessDao().deleteAllAccesses();
+//        database.todoItemDao().deleteAllTodoItems();
+//        database.messageDao().deleteAllMessages();
+//        database.profileDao().deleteAllProfiles();
+//        database.calendarItemDao().deleteCalendar();
+//        database.gradeInfoDao().deleteAllGradesInfo();
+//        database.disciplineClassLocationDao().deleteAllDisciplineClassLocations();
+//        database.disciplineClassItemDao().deleteAllDisciplineClassItems();
+//        database.disciplineGroupDao().deleteAllDisciplineGroups();
+//        database.gradeSectionDao().deleteAllGradeSections();
+//        database.gradeDao().deleteAllGrades();
+//        database.disciplineDao().deleteAllDisciplines();
+//        database.semesterDao().removeAllSemesters();
     }
 
     public void deleteAccess() {

@@ -26,7 +26,7 @@ public class AppExecutors {
 
     @Inject
     public AppExecutors() {
-        this(Executors.newSingleThreadExecutor(), Executors.newFixedThreadPool(3), new MainThreadExecutor(), Executors.newSingleThreadExecutor());
+        this(Executors.newFixedThreadPool(3), Executors.newFixedThreadPool(6), new MainThreadExecutor(), Executors.newFixedThreadPool(3));
     }
 
     public Executor diskIO() {

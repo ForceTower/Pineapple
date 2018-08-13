@@ -521,4 +521,21 @@
     <string name="what_course_is_this_for">Is this event for a specific course?</string>
     <string name="any_course">All courses</string>
     <string name="this_may_not_be_supported_yet">This feature may not work as expected and may not filter all users, resulting in not notifying all correct users. Under development</string>
+    <string name="image_message">Message Image</string>
+    <string name="sagres">Sagres</string>
+    <string name="unes">UNES</string>
+    <string name="no_unes_messages">There is nothing here</string>
+    <string name="delete_unes_messages">Delete UNES messages</string>
+    <string name="ru_invalid_data">The RU app is not working correctly</string>
+    <string name="channel_messages_dce">DCE messages</string>
+    <string name="hint_notification_title">Title</string>
+    <string name="hint_notification_message">Message</string>
+    <string name="notification_with_image">Notification with image</string>
+    <string name="send_notification">Send notification</string>
+    <string name="notification_sent">Notification sent</string>
+    <string name="pref_show_dce_notifications_disabled">You will not receive DCE messages</string>
+    <string name="pref_show_dce_notifications_enabled">You are receiving DCE messages</string>
+    <string name="pref_show_dce_notifications">DCE Messages</string>
+    <string name="pref_show_dce_notifications_summary">Control DCE notifications</string>
+    <string name="school_history">School History</string>
 </resources>

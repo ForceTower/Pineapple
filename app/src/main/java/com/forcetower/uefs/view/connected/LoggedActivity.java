@@ -90,6 +90,7 @@ import timber.log.Timber;
 
 import static com.forcetower.uefs.Constants.ENROLLMENT_CERTIFICATE_FILE_NAME;
 import static com.forcetower.uefs.Constants.FLOWCHART_FILE_NAME;
+import static com.forcetower.uefs.Constants.SCHOLAR_HISTORY_FILE_NAME;
 import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.FRAGMENT_INTENT_EXTRA;
 import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.GRADES_FRAGMENT;
 import static com.forcetower.uefs.view.connected.fragments.ConnectedFragment.MESSAGES_FRAGMENT_SAGRES;
@@ -104,6 +105,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     private NavigationViews navViews;
     private NavigationCustomActionViews downloadCert;
     private NavigationCustomActionViews downloadFlow;
+    private NavigationCustomActionViews downloadHist;
     private double scoreCalc = -1;
     private boolean alternateScore = false;
 
@@ -155,10 +157,12 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         navViews = new NavigationViews();
         downloadCert = new NavigationCustomActionViews();
         downloadFlow = new NavigationCustomActionViews();
+        downloadHist = new NavigationCustomActionViews();
 
         navViews.bindTo(binding.navView.getHeaderView(0));
         downloadCert.bindTo(binding.navView.getMenu().findItem(R.id.nav_enrollment_certificate).getActionView());
         downloadFlow.bindTo(binding.navView.getMenu().findItem(R.id.nav_flowchart_certificate).getActionView());
+        downloadHist.bindTo(binding.navView.getMenu().findItem(R.id.nav_history_certificate).getActionView());
 
         toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         toggle.syncState();
@@ -191,6 +195,13 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
             flowchartDownload();
             AnimUtils.fadeOut(this, downloadFlow.ivAction);
             AnimUtils.fadeIn(this, downloadFlow.pbAction);
+        });
+
+        downloadHist.vgRoot.setOnClickListener(v -> {
+            if (downloadsViewModel.isBusy()) return;
+            schoolHistoryDownload();
+            AnimUtils.fadeOut(this, downloadHist.ivAction);
+            AnimUtils.fadeIn(this, downloadHist.pbAction);
         });
     }
 
@@ -285,6 +296,9 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         binding.navView.getMenu().findItem(R.id.nav_flowchart_certificate).getIcon()
                 .setColorFilter(getResources().getColor(R.color.flowchart_color), PorterDuff.Mode.SRC_IN);
 
+        binding.navView.getMenu().findItem(R.id.nav_history_certificate).getIcon()
+                .setColorFilter(getResources().getColor(R.color.school_history_color), PorterDuff.Mode.SRC_IN);
+
         binding.navView.getMenu().findItem(R.id.nav_big_tray).getIcon()
                 .setColorFilter(getResources().getColor(R.color.big_tray_color), PorterDuff.Mode.SRC_IN);
     }
@@ -349,6 +363,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         downloadsViewModel = ViewModelProviders.of(this, viewModelFactory).get(DownloadsViewModel.class);
         downloadsViewModel.getDownloadCertificate().observe(this, this::onCertificateDownload);
         downloadsViewModel.getDownloadFlowchart().observe(this, this::onFlowchartDownload);
+        downloadsViewModel.getDownloadHistory().observe(this, this::onHistoryDownload);
 
         uAccountViewModel = ViewModelProviders.of(this, viewModelFactory).get(UAccountViewModel.class);
 
@@ -410,11 +425,36 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         }
     }
 
+    private void onHistoryDownload(Resource<Integer> resource) {
+        if (resource == null) return;
+        if (resource.status == Status.LOADING) {
+            //noinspection ConstantConditions
+            Timber.d(getString(resource.data));
+            //globalLoading.setIndeterminate(true);
+            downloadHist.pbAction.setIndeterminate(true);
+            downloadHist.ivAction.setVisibility(View.INVISIBLE);
+            AnimUtils.fadeIn(this, downloadHist.pbAction);
+        }
+        else {
+            AnimUtils.fadeOut(this, downloadHist.pbAction);
+            downloadHist.ivAction.setVisibility(View.VISIBLE);
+            if (resource.status == Status.ERROR) {
+                //noinspection ConstantConditions
+                Toast.makeText(this, resource.data, Toast.LENGTH_SHORT).show();
+            } else {
+                Timber.d(getString(R.string.completed));
+                if (!isPDFResultShown) openCertificatePdf(false, SagresDocuments.SCHOLAR_HISTORY);
+            }
+        }
+    }
+
     private void openCertificatePdf(boolean clicked, SagresDocuments option) {
         //noinspection ConstantConditions
         File file;
         if (option == SagresDocuments.FLOWCHART) {
             file = new File(getCacheDir(), FLOWCHART_FILE_NAME);
+        } else if (option == SagresDocuments.SCHOLAR_HISTORY) {
+            file = new File(getCacheDir(), SCHOLAR_HISTORY_FILE_NAME);
         } else {
             file = new File(getCacheDir(), ENROLLMENT_CERTIFICATE_FILE_NAME);
         }
@@ -428,6 +468,8 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
                     certificateDownload();
                 else if (option == SagresDocuments.FLOWCHART)
                     flowchartDownload();
+                else if (option == SagresDocuments.SCHOLAR_HISTORY)
+                    schoolHistoryDownload();
             }
             return;
         }
@@ -448,6 +490,22 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         } catch (ActivityNotFoundException e) {
             Toast.makeText(this, R.string.no_pdf_reader, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void schoolHistoryDownload() {
+        if (!NetworkUtils.isNetworkAvailable(this)) {
+            Toast.makeText(this, R.string.offline, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (downloadsViewModel.isBusy()){
+            Toast.makeText(this, R.string.downloader_is_busy, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        isPDFResultShown = false;
+        downloadsViewModel.triggerDownloadSchoolHistory();
+        Toast.makeText(this, R.string.wait_until_download_finishes, Toast.LENGTH_SHORT).show();
     }
 
     private void certificateDownload() {
@@ -628,6 +686,8 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
                 openCertificatePdf(true, SagresDocuments.ENROLLMENT_CERTIFICATE);
             } else if (id == R.id.nav_flowchart_certificate) {
                 openCertificatePdf(true, SagresDocuments.FLOWCHART);
+            } else if (id == R.id.nav_history_certificate) {
+                openCertificatePdf(true, SagresDocuments.SCHOLAR_HISTORY);
             } else if (id == R.id.nav_events) {
                 clearBackStack();
                 tabLayout.setVisibility(View.GONE);
