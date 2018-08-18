@@ -66,12 +66,12 @@ public class RefreshBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         AndroidInjection.inject(this, context);
         this.context = context;
-
-        SyncRegistry registry = new SyncRegistry(System.currentTimeMillis());
-        uDatabase.syncRegistryDao().insert(registry);
-
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        initiateSync();
+        executors.diskIO().execute(() -> {
+            SyncRegistry registry = new SyncRegistry(System.currentTimeMillis());
+            uDatabase.syncRegistryDao().insert(registry);
+            initiateSync();
+        });
     }
 
     private void initiateSync() {
