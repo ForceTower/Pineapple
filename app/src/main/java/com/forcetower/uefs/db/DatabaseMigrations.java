@@ -110,4 +110,12 @@ public class DatabaseMigrations {
             database.execSQL("ALTER TABLE MessageUNES ADD COLUMN title TEXT DEFAULT NULL");
         }
     };
+
+    public static final Migration MIGRATION_13_14 = new Migration(13, 14) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            Timber.d("Executing migration 13 -> 14");
+            database.execSQL("ALTER TABLE SyncRegistry ADD COLUMN reason INTEGER DEFAULT 0 NOT NULL");
+        }
+    };
 }

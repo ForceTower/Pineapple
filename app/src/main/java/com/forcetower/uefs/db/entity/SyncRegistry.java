@@ -14,6 +14,7 @@ public class SyncRegistry {
     private long attempt;
     @Nullable
     private Long completed;
+    private int reason;
 
     public SyncRegistry(long attempt) {
         this.attempt = attempt;
@@ -68,5 +69,13 @@ public class SyncRegistry {
         result = 31 * result + (int) (getAttempt() ^ (getAttempt() >>> 32));
         result = 31 * result + (getCompleted() != null ? getCompleted().hashCode() : 0);
         return result;
+    }
+
+    public int getReason() {
+        return reason;
+    }
+
+    public void setReason(int reason) {
+        this.reason = reason;
     }
 }

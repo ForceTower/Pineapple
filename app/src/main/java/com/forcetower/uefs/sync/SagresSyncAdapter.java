@@ -1,16 +1,19 @@
-package com.forcetower.uefs.work.sync;
+package com.forcetower.uefs.sync;
 
+import android.accounts.Account;
 import android.arch.lifecycle.LiveData;
+import android.content.AbstractThreadedSyncAdapter;
+import android.content.ContentProviderClient;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SyncResult;
 import android.os.Build;
-import android.os.SystemClock;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 
 import com.crashlytics.android.Crashlytics;
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.BuildConfig;
-import com.forcetower.uefs.UEFSApplication;
 import com.forcetower.uefs.db.AppDatabase;
 import com.forcetower.uefs.db.dao.GradeInfoDao;
 import com.forcetower.uefs.db.dao.MessageDao;
@@ -40,64 +43,44 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import androidx.work.Worker;
 import retrofit2.Response;
 import timber.log.Timber;
 
-/**
- * Created by João Paulo on 21/06/2018.
- */
-public class SagresSyncWorker extends Worker {
-    @Inject
-    AppDatabase uDatabase;
-    @Inject
-    AppExecutors executors;
-    @Inject
-    ServiceDatabase sDatabase;
-    @Inject
-    UNEService service;
-    @Inject
-    RefreshRepository repository;
+public class SagresSyncAdapter extends AbstractThreadedSyncAdapter {
+    private final RefreshRepository repository;
+    private final AppDatabase uDatabase;
+    private final Context context;
+    private final AppExecutors executors;
+    private final UNEService service;
+    private final ServiceDatabase sDatabase;
 
-    private boolean completed;
     private LiveData<Resource<Integer>> call;
     private LiveData<ApiResponse<UpdateStatus>> updateData;
     private SharedPreferences preferences;
     private SyncRegistry registry;
 
-    @NonNull
+    @Inject
+    public SagresSyncAdapter(Context context, RefreshRepository repository, AppDatabase database,
+                             AppExecutors executors, UNEService service, ServiceDatabase sDatabase) {
+        super(context, true);
+        this.context = context;
+        this.repository = repository;
+        this.uDatabase = database;
+        this.executors = executors;
+        this.service = service;
+        this.sDatabase = sDatabase;
+    }
+
     @Override
-    public Result doWork() {
-        ((UEFSApplication)getApplicationContext()).getAppComponent().inject(this);
-        int iterations = 0;
-        completed = false;
-
-        try {
-            preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-            initiateSync();
-
-            while (!completed && iterations < 300) {
-                iterations++;
-                SystemClock.sleep(3000);
-            }
-        } catch (Exception e) {
-            Crashlytics.logException(e);
-            e.printStackTrace();
-        }
-
-        return Result.SUCCESS;
+    public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
+        preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        initiateSync();
     }
 
     private void initiateSync() {
         executors.networkIO().execute(() -> {
             registry = new SyncRegistry(System.currentTimeMillis());
             uDatabase.syncRegistryDao().insert(registry);
-
-            if (!initialVerifications()) {
-                completed = true;
-                return;
-            }
-
             if (BuildConfig.DEBUG) {
                 proceedSync();
             } else {
@@ -129,13 +112,12 @@ public class SagresSyncWorker extends Worker {
             return;
         }
 
-        if (!status.isWorker()) {
+        if (!status.isManager()) {
             Timber.d("Won't sync: worker is disabled");
             executors.diskIO().execute(() -> {
                 registry.setReason(1);
                 uDatabase.syncRegistryDao().insert(registry);
             });
-            completed = true;
             return;
         }
 
@@ -143,22 +125,19 @@ public class SagresSyncWorker extends Worker {
     }
 
     private void proceedSync() {
-        Timber.d("Application is online [WORKER]");
+        Timber.d("Application is online [ACCOUNT]");
         executors.diskIO().execute(() -> {
             try {
                 Access access = uDatabase.accessDao().getAccessDirect();
                 if (access == null) {
                     Timber.d("Access is null... stop");
-                    NotificationCreator.createNotConnectedNotification(getApplicationContext());
+                    NotificationCreator.createNotConnectedNotification(context);
                     executors.diskIO().execute(() -> {
                         registry.setReason(2);
                         uDatabase.syncRegistryDao().insert(registry);
                     });
-                    completed = true;
                 } else {
                     uDatabase.profileDao().setLastSyncAttempt(System.currentTimeMillis());
-                    SyncRegistry registry = new SyncRegistry(System.currentTimeMillis());
-                    uDatabase.syncRegistryDao().insert(registry);
                     uDatabase.messageDao().clearAllNotifications();
                     uDatabase.gradeInfoDao().clearAllNotifications();
                     executors.mainThread().execute(() -> {
@@ -173,31 +152,8 @@ public class SagresSyncWorker extends Worker {
                     registry.setReason(3);
                     uDatabase.syncRegistryDao().insert(registry);
                 });
-                completed = true;
             }
         });
-    }
-
-    private boolean initialVerifications() {
-        if (!NetworkUtils.isNetworkAvailable(getApplicationContext())) {
-            Timber.d("No internet");
-            executors.diskIO().execute(() -> {
-                registry.setReason(4);
-                uDatabase.syncRegistryDao().insert(registry);
-            });
-            return false;
-        }
-
-        if (preferences.getBoolean("sync_wifi_only", false) && !NetworkUtils.isConnectedToWifi(getApplicationContext())) {
-            Timber.d("Not on a wifi connection");
-            executors.diskIO().execute(() -> {
-                registry.setReason(5);
-                uDatabase.syncRegistryDao().insert(registry);
-            });
-            return false;
-        }
-
-        return true;
     }
 
     private void progressObserver(Resource<Integer> resource) {
@@ -210,7 +166,7 @@ public class SagresSyncWorker extends Worker {
             createNotifications();
         } else {
             //noinspection ConstantConditions
-            Timber.d("Refresh progress on job: %s", getApplicationContext().getString(resource.data));
+            Timber.d("Refresh progress on job: %s", context.getString(resource.data));
         }
     }
 
@@ -218,7 +174,6 @@ public class SagresSyncWorker extends Worker {
         executors.diskIO().execute(() -> {
             messagesNotifications();
             gradesNotifications();
-            completed = true;
 
             setupData();
             sendCourse();
@@ -321,7 +276,7 @@ public class SagresSyncWorker extends Worker {
         Timber.d("Generate message notifications");
         List<Message> messages = messageDao.getAllUnnotifiedMessages();
         for (Message message : messages) {
-            boolean notified = NotificationCreator.createMessageNotification(getApplicationContext(), message);
+            boolean notified = NotificationCreator.createMessageNotification(context, message);
             if (notified) {
                 message.setNotified(1);
             }
@@ -351,7 +306,7 @@ public class SagresSyncWorker extends Worker {
         Timber.d("Number of notifications: %d", infos.size());
         for (GradeInfo info : infos) {
             findClass(info);
-            boolean notified = NotificationCreator.createGradeNotification(getApplicationContext(), info, type);
+            boolean notified = NotificationCreator.createGradeNotification(context, info, type);
             if (notified) info.setNotified(0);
         }
 

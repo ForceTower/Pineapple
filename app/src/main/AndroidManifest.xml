@@ -95,6 +95,35 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <service
+            android:name=".sync.SyncAdapterService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter"/>
+        </service>
+        <service android:name=".sync.GenericAccountService">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator"/>
+        </service>
+
+        <provider
+            android:name=".sync.SagresProvider"
+            android:authorities="@string/authority"
+            android:exported="false"
+            android:label="@string/sagres_sync"
+            android:syncable="true"/>
+
     </application>
 
 </manifest>

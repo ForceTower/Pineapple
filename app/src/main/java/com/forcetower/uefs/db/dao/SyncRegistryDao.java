@@ -27,6 +27,10 @@ public interface SyncRegistryDao {
             "(SELECT uid from SyncRegistry ORDER BY uid DESC LIMIT 1)")
     void updateSetCompleted(long value);
 
+    @Query("UPDATE SyncRegistry SET reason = :value WHERE uid = " +
+            "(SELECT uid from SyncRegistry ORDER BY uid DESC LIMIT 1)")
+    void updateReason(int value);
+
     @Delete
     void delete(SyncRegistry registry);
 }
