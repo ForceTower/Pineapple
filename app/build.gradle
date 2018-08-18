@@ -50,8 +50,8 @@ dependencies {
     implementation "android.arch.lifecycle:common-java8:1.1.1"
     implementation "android.arch.persistence.room:runtime:1.1.1"
     annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
-    implementation "android.arch.work:work-runtime:1.0.0-alpha07"
-    implementation "android.arch.work:work-firebase:1.0.0-alpha07"
+
+    implementation 'com.evernote:android-job:1.2.6'
 
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'de.hdodenhof:circleimageview:2.2.0'

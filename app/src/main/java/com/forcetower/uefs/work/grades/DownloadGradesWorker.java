@@ -4,6 +4,10 @@ import android.support.annotation.NonNull;
 import android.util.Pair;
 
 import com.crashlytics.android.Crashlytics;
+import com.evernote.android.job.Job;
+import com.evernote.android.job.JobManager;
+import com.evernote.android.job.JobRequest;
+import com.evernote.android.job.util.support.PersistableBundleCompat;
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.UEFSApplication;
 import com.forcetower.uefs.db.AppDatabase;
@@ -25,12 +29,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import androidx.work.Constraints;
-import androidx.work.Data;
-import androidx.work.NetworkType;
-import androidx.work.OneTimeWorkRequest;
-import androidx.work.WorkManager;
-import androidx.work.Worker;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -53,45 +51,37 @@ import static com.forcetower.uefs.rep.sgrs.LoginRepository.redefinePages;
 /**
  * Created by João Paulo on 21/06/2018.
  */
-public class DownloadGradesWorker extends Worker {
+public class DownloadGradesWorker extends Job {
+    public static final String TAG = Constants.WORKER_DOWNLOAD_GRADES_GENERAL;
 
-    public static void createWorker(String semester) {
-        Constraints constraints = new Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
-                .build();
+    private static void createWorker(String semester) {
+        PersistableBundleCompat data = new PersistableBundleCompat();
+        data.putString("semester", semester);
 
-        Data data = new Data.Builder()
-                .putString("semester", semester)
-                .build();
+        new JobRequest.Builder(TAG)
+                .setBackoffCriteria(5_000L, JobRequest.BackoffPolicy.EXPONENTIAL)
+                .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
+                .setExecutionWindow(10_000L, 15_000L)
+                .setExtras(data)
+                .setRequirementsEnforced(true)
+                .build()
+                .schedule();
 
-        OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(DownloadGradesWorker.class)
-                .setConstraints(constraints)
-                .setInputData(data)
-                .addTag(Constants.WORKER_DOWNLOAD_GRADES + semester)
-                .addTag(Constants.WORKER_DOWNLOAD_GRADES_GENERAL)
-                .build();
-
-        WorkManager.getInstance().enqueue(request);
         Timber.d("Created DownloadGradesWorker for " + semester);
     }
 
     public static void createWorker() {
-        Constraints constraints = new Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
-                .build();
+        PersistableBundleCompat data = new PersistableBundleCompat();
+        data.putBoolean("key_finder", true);
 
-        Data data = new Data.Builder()
-                .putBoolean("key_finder", true)
-                .build();
-
-        OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(DownloadGradesWorker.class)
-                .setConstraints(constraints)
-                .setInputData(data)
-                .addTag(Constants.WORKER_DOWNLOAD_GRADES + "key_find")
-                .addTag(Constants.WORKER_DOWNLOAD_GRADES_GENERAL)
-                .build();
-
-        WorkManager.getInstance().enqueue(request);
+        new JobRequest.Builder(TAG)
+                .setBackoffCriteria(5_000L, JobRequest.BackoffPolicy.EXPONENTIAL)
+                .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
+                .setExtras(data)
+                .setExecutionWindow(10_000L, 15_000L)
+                .setRequirementsEnforced(true)
+                .build()
+                .schedule();
         Timber.d("Created DownloadGradesWorker for key finding");
     }
 
@@ -106,17 +96,17 @@ public class DownloadGradesWorker extends Worker {
     private boolean keyFinder;
 
     public static void disableWorkers() {
-        WorkManager.getInstance().cancelAllWorkByTag(Constants.WORKER_DOWNLOAD_GRADES_GENERAL);
+        JobManager.instance().cancelAllForTag(Constants.WORKER_DOWNLOAD_GRADES_GENERAL);
     }
 
     @NonNull
     @Override
-    public Result doWork() {
-        ((UEFSApplication)getApplicationContext()).getAppComponent().inject(this);
+    public Result onRunJob(@NonNull Params params) {
+        ((UEFSApplication)getContext().getApplicationContext()).getAppComponent().inject(this);
 
-        mSemester = getInputData().getString("semester");
+        mSemester = params.getExtras().getString("semester", null);
         if (mSemester == null) {
-            keyFinder = getInputData().getBoolean("key_finder", false);
+            keyFinder = params.getExtras().getBoolean("key_finder", false);
             if (!keyFinder) {
                 Timber.d("Nothing to do here");
                 return Result.SUCCESS;
@@ -169,11 +159,11 @@ public class DownloadGradesWorker extends Worker {
                     Timber.d("Don't need approval");
                 }
             } else {
-                throw new WorkerException("Unsuccessful response. Code: " + response.code(), Result.RETRY);
+                throw new WorkerException("Unsuccessful response. Code: " + response.code(), Result.RESCHEDULE);
             }
         } catch (IOException e) {
             e.printStackTrace();
-            throw new WorkerException(e.getMessage(), Result.RETRY);
+            throw new WorkerException(e.getMessage(), Result.RESCHEDULE);
         }
     }
 
@@ -192,11 +182,11 @@ public class DownloadGradesWorker extends Worker {
                 else
                     findKeysAndCreateWorks(document);
             } else {
-                throw new WorkerException("Unsuccessful response. Code: " + response.code(), Result.RETRY);
+                throw new WorkerException("Unsuccessful response. Code: " + response.code(), Result.RESCHEDULE);
             }
         } catch (IOException e) {
             e.printStackTrace();
-            throw new WorkerException(e.getMessage(), Result.RETRY);
+            throw new WorkerException(e.getMessage(), Result.RESCHEDULE);
         }
     }
 
@@ -222,11 +212,11 @@ public class DownloadGradesWorker extends Worker {
                 grades.charset(mCharset);
                 parseAndSaveGrades(grades);
             } else {
-                throw new WorkerException("Unsuccessful response. Code: " + response.code(), Result.RETRY);
+                throw new WorkerException("Unsuccessful response. Code: " + response.code(), Result.RESCHEDULE);
             }
         } catch (IOException e) {
             e.printStackTrace();
-            throw new WorkerException(e.getMessage(), Result.RETRY);
+            throw new WorkerException(e.getMessage(), Result.RESCHEDULE);
         }
     }
 
@@ -236,13 +226,13 @@ public class DownloadGradesWorker extends Worker {
         if (semester == null) {
             Crashlytics.log("Unable to find the semester...");
             Timber.d("Unable to parse grades on page");
-            throw new WorkerException("Unable to parse grades on page", Result.RETRY);
+            throw new WorkerException("Unable to parse grades on page", Result.RESCHEDULE);
         }
         Timber.d("Semester is: %s. Good luck!", semester);
         List<Grade> grades = SagresGradeParser.getGrades(document);
         Timber.d("Grades List Size: " + grades.size());
         if (grades.isEmpty()) {
-            throw new WorkerException("No grades for semester " + mSemester + ". Retrying...", Result.RETRY);
+            throw new WorkerException("No grades for semester " + mSemester + ". Retrying...", Result.RESCHEDULE);
         }
 
         redefinePages(semester, grades, mDatabase);
@@ -267,14 +257,14 @@ public class DownloadGradesWorker extends Worker {
         try {
             Response execute = call.execute();
             if (!execute.isSuccessful()) {
-                throw new WorkerException("Unsuccessful response. Code: " + response.code(), Result.RETRY);
+                throw new WorkerException("Unsuccessful response. Code: " + response.code(), Result.RESCHEDULE);
             } else {
                 Timber.d("Successfully Approved to Enter the portal");
             }
         } catch (IOException e) {
             e.printStackTrace();
             Crashlytics.logException(e);
-            throw new WorkerException(e.getMessage(), Result.RETRY);
+            throw new WorkerException(e.getMessage(), Result.RESCHEDULE);
         }
     }
 

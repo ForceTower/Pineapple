@@ -2,6 +2,9 @@ package com.forcetower.uefs.work.event;
 
 import android.support.annotation.NonNull;
 
+import com.evernote.android.job.Job;
+import com.evernote.android.job.JobRequest;
+import com.evernote.android.job.util.support.PersistableBundleCompat;
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.UEFSApplication;
 import com.forcetower.uefs.db_service.entity.Event;
@@ -13,12 +16,6 @@ import java.io.IOException;
 
 import javax.inject.Inject;
 
-import androidx.work.Constraints;
-import androidx.work.Data;
-import androidx.work.NetworkType;
-import androidx.work.OneTimeWorkRequest;
-import androidx.work.WorkManager;
-import androidx.work.Worker;
 import retrofit2.Call;
 import retrofit2.Response;
 import timber.log.Timber;
@@ -28,25 +25,23 @@ import static com.forcetower.uefs.util.WordUtils.validString;
 /**
  * Created by João Paulo on 21/06/2018.
  */
-public class CreateEventWorker extends Worker {
+public class CreateEventWorker extends Job {
+    public static final String TAG = Constants.WORKER_CREATE_EVENT;
+
     public static void invokeWorker(@NonNull Event event) {
         String string = new Gson().toJson(event);
 
-        Constraints constraints = new Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
-                .build();
+        PersistableBundleCompat data = new PersistableBundleCompat();
+        data.putString("event", string);
 
-        Data data = new Data.Builder()
-                .putString("event", string)
-                .build();
-
-        OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(CreateEventWorker.class)
-                .setConstraints(constraints)
-                .setInputData(data)
-                .addTag(Constants.WORKER_CREATE_EVENT)
-                .build();
-
-        WorkManager.getInstance().enqueue(request);
+        new JobRequest.Builder(TAG)
+                .setBackoffCriteria(5_000L, JobRequest.BackoffPolicy.EXPONENTIAL)
+                .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
+                .setRequirementsEnforced(true)
+                .setExecutionWindow(10_000L, 15_000L)
+                .setExtras(data)
+                .build()
+                .schedule();
     }
 
     @Inject
@@ -54,9 +49,9 @@ public class CreateEventWorker extends Worker {
 
     @NonNull
     @Override
-    public Result doWork() {
-        ((UEFSApplication)getApplicationContext()).getAppComponent().inject(this);
-        String sEvent = getInputData().getString("event");
+    public Result onRunJob(@NonNull Params params) {
+        ((UEFSApplication)getContext().getApplicationContext()).getAppComponent().inject(this);
+        String sEvent = params.getExtras().getString("event", null);
         if (!validString(sEvent)) return Result.FAILURE;
 
         Event event;
@@ -80,20 +75,20 @@ public class CreateEventWorker extends Worker {
                         return Result.SUCCESS;
                     } else {
                         Timber.d("Body Data is null");
-                        return Result.RETRY;
+                        return Result.RESCHEDULE;
                     }
                 } else {
                     Timber.d("Response Body is null");
-                    return Result.RETRY;
+                    return Result.RESCHEDULE;
                 }
             } else {
                 Timber.d("Unsuccessful response");
                 Timber.d(response.errorBody().string());
-                return Result.RETRY;
+                return Result.RESCHEDULE;
             }
         } catch (IOException e) {
             e.printStackTrace();
-            return Result.RETRY;
+            return Result.RESCHEDULE;
         }
     }
 }

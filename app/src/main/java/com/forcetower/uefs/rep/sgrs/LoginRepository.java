@@ -757,7 +757,7 @@ public class LoginRepository {
         Timber.d("Logout requested");
         cookieJar.clear();
         MutableLiveData<Resource<Integer>> logout = new MutableLiveData<>();
-        SyncWorkerUtils.disableWorker(context, dispatcher);
+        SyncWorkerUtils.disableWorker(context);
         executors.diskIO().execute(() -> {
             deleteDatabase();
             File enrollmentFile = new File(context.getCacheDir(), Constants.ENROLLMENT_CERTIFICATE_FILE_NAME);

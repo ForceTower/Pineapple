@@ -9,11 +9,13 @@ import android.preference.PreferenceManager;
 import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
 
+import com.evernote.android.job.JobManager;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.forcetower.uefs.di.AppInjector;
 import com.forcetower.uefs.di.component.AppComponent;
 import com.forcetower.uefs.di.injector.HasLollipopServiceInjector;
 import com.forcetower.uefs.ntf.NotificationHelper;
+import com.forcetower.uefs.work.sync.SyncWorkCreator;
 import com.forcetower.uefs.work.sync.SyncWorkerUtils;
 import com.squareup.picasso.Picasso;
 
@@ -63,6 +65,7 @@ public class UEFSApplication extends Application implements HasActivityInjector,
             Timber.plant(new Timber.DebugTree());
         }
         documents = new HashMap<>();
+        JobManager.create(this).addJobCreator(new SyncWorkCreator());
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         appComponent = AppInjector.init(this);
@@ -81,7 +84,7 @@ public class UEFSApplication extends Application implements HasActivityInjector,
         try {
             frequency = Integer.parseInt(strFrequency);
         } catch (Exception ignored) {}
-        SyncWorkerUtils.createSync(dispatcher,this, frequency, false);
+        SyncWorkerUtils.createSync(this, frequency, false);
     }
 
     @Override

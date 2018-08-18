@@ -70,7 +70,7 @@ public class LoginFormFragment extends Fragment implements Injectable {
             AnimUtils.fadeOut(getContext(), binding.rlLoading);
             AnimUtils.fadeIn(getContext(), binding.cvLoginFormRoot);
             AnimUtils.fadeIn(getContext(), binding.tvClickToKnowAbout);
-            SyncWorkerUtils.disableWorker(requireContext(), dispatcher);
+            SyncWorkerUtils.disableWorker(requireContext());
         } else {
             Timber.d("Access is not null. Moving to connected!");
             if (!loginViewModel.isActivityStarted()) {

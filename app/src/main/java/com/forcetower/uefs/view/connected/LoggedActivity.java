@@ -43,6 +43,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
+import com.evernote.android.job.JobManager;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.BuildConfig;
@@ -82,7 +83,6 @@ import java.util.HashMap;
 
 import javax.inject.Inject;
 
-import androidx.work.WorkManager;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
@@ -715,9 +715,9 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
     private void performLogout() {
         disconnecting = true;
-        SyncWorkerUtils.disableWorker(this, dispatcher);
+        SyncWorkerUtils.disableWorker(this);
         DownloadGradesWorker.disableWorkers();
-        WorkManager.getInstance().cancelAllWork();
+        JobManager.instance().cancelAll();
         gradesViewModel.logout().observe(this, this::logoutObserver);
     }
 

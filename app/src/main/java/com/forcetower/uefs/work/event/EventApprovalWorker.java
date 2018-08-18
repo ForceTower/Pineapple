@@ -2,6 +2,9 @@ package com.forcetower.uefs.work.event;
 
 import android.support.annotation.NonNull;
 
+import com.evernote.android.job.Job;
+import com.evernote.android.job.JobRequest;
+import com.evernote.android.job.util.support.PersistableBundleCompat;
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.UEFSApplication;
 import com.forcetower.uefs.db_service.ServiceDatabase;
@@ -14,46 +17,38 @@ import java.io.IOException;
 
 import javax.inject.Inject;
 
-import androidx.work.Constraints;
-import androidx.work.Data;
-import androidx.work.NetworkType;
-import androidx.work.OneTimeWorkRequest;
-import androidx.work.WorkManager;
-import androidx.work.Worker;
 import retrofit2.Call;
 import retrofit2.Response;
 import timber.log.Timber;
 
-public class EventApprovalWorker extends Worker {
+public class EventApprovalWorker extends Job {
+    public static final String TAG = Constants.APPROVE_EVENT_WORKER;
+
     @Inject
     UNEService service;
     @Inject
     ServiceDatabase database;
 
     public static void createWorker(String uuid) {
-        Constraints constraints = new Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
-                .build();
+        PersistableBundleCompat data = new PersistableBundleCompat();
+        data.putString("event_uuid", uuid);
 
-        Data data = new Data.Builder()
-                .putString("event_uuid", uuid)
-                .build();
-
-        OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(EventApprovalWorker.class)
-                .setConstraints(constraints)
-                .setInputData(data)
-                .addTag(Constants.APPROVE_EVENT_WORKER + uuid)
-                .build();
-
-        WorkManager.getInstance().enqueue(request);
+        new JobRequest.Builder(TAG)
+                .setBackoffCriteria(5_000L,JobRequest.BackoffPolicy.EXPONENTIAL)
+                .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
+                .setExtras(data)
+                .setExecutionWindow(10_000L, 15_000L)
+                .setRequirementsEnforced(true)
+                .build()
+                .schedule();
     }
 
     @NonNull
     @Override
-    public Result doWork() {
-        ((UEFSApplication)getApplicationContext()).getAppComponent().inject(this);
+    public Result onRunJob(@NonNull Params params) {
+        ((UEFSApplication)getContext().getApplicationContext()).getAppComponent().inject(this);
 
-        String uuid = getInputData().getString("event_uuid");
+        String uuid = params.getExtras().getString("event_uuid", null);
         if (uuid == null) {
             Timber.d("Uuid is null. leaving..");
             return Result.FAILURE;
@@ -68,23 +63,23 @@ public class EventApprovalWorker extends Worker {
                     return Result.SUCCESS;
                 } else {
                     Timber.d("Response data is null " + body);
-                    NotificationCreator.createNotificationWithMessage(getApplicationContext(), "Approve Event", "Approval failed, response data is null");
+                    NotificationCreator.createNotificationWithMessage(getContext(), "Approve Event", "Approval failed, response data is null");
                     return Result.FAILURE;
                 }
             } else {
                 if (response.code() == 403) {
-                    NotificationCreator.createNotificationWithMessage(getApplicationContext(), "Approve Event", "No permission");
+                    NotificationCreator.createNotificationWithMessage(getContext(), "Approve Event", "No permission");
                     return Result.FAILURE;
                 } else if (response.code() == 500) {
-                    return Result.RETRY;
+                    return Result.RESCHEDULE;
                 } else {
-                    NotificationCreator.createNotificationWithMessage(getApplicationContext(), "Approve Event", "Failed with code: " + response.code());
+                    NotificationCreator.createNotificationWithMessage(getContext(), "Approve Event", "Failed with code: " + response.code());
                     return Result.FAILURE;
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
-            return Result.RETRY;
+            return Result.RESCHEDULE;
         }
     }
 }
