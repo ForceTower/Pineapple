@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.alm.RefreshAlarmTrigger;
 
@@ -20,23 +21,25 @@ import androidx.work.WorkManager;
  */
 public class SyncWorkerUtils {
 
-    public static void createSync(Context context, int frequency, boolean force) {
+    public static void createSync(FirebaseJobDispatcher dispatcher, Context context, int frequency, boolean force) {
         if (frequency == -1) {
             RefreshAlarmTrigger.disableBootComponent(context);
-            disableWorker(context);
+            disableWorker(context, dispatcher);
         } else {
             RefreshAlarmTrigger.enableBootComponent(context);
-            createWorker(context, frequency, force);
+            createWorker(dispatcher, context, frequency, force);
         }
     }
 
-    private static void createWorker(Context context, int frequency, boolean force) {
+    private static void createWorker(FirebaseJobDispatcher dispatcher, Context context, int frequency, boolean force) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         int current = preferences.getInt("curr_sync_frequency", 40);
         boolean equals = current == frequency && !force;
 
-        /*
         if (!equals) RefreshAlarmTrigger.create(context, frequency);
+
+        JobSyncUtils.setupSagresSync(dispatcher, context, frequency);
+
 
         Constraints constraints = new Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -54,13 +57,15 @@ public class SyncWorkerUtils {
                         equals ? ExistingPeriodicWorkPolicy.KEEP : ExistingPeriodicWorkPolicy.REPLACE,
                         workRequest
                 );
-        */
+
         preferences.edit().putInt("curr_sync_frequency", frequency).apply();
     }
 
-    public static void disableWorker(Context context) {
+    public static void disableWorker(Context context, FirebaseJobDispatcher dispatcher) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         preferences.edit().putInt("curr_sync_frequency", -1).apply();
         WorkManager.getInstance().cancelAllWorkByTag(Constants.WORKER_SYNC_SAGRES_NAME);
+        RefreshAlarmTrigger.disableBootComponent(context);
+        JobSyncUtils.cancelSyncService(dispatcher, context);
     }
 }

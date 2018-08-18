@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.anim.ChangeBoundsTransition;
 import com.forcetower.uefs.databinding.FragmentLoginFormBinding;
@@ -41,6 +42,8 @@ public class LoginFormFragment extends Fragment implements Injectable {
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
+    @Inject
+    FirebaseJobDispatcher dispatcher;
 
     private LoginViewModel loginViewModel;
     private FragmentLoginFormBinding binding;
@@ -67,7 +70,7 @@ public class LoginFormFragment extends Fragment implements Injectable {
             AnimUtils.fadeOut(getContext(), binding.rlLoading);
             AnimUtils.fadeIn(getContext(), binding.cvLoginFormRoot);
             AnimUtils.fadeIn(getContext(), binding.tvClickToKnowAbout);
-            SyncWorkerUtils.disableWorker(requireContext());
+            SyncWorkerUtils.disableWorker(requireContext(), dispatcher);
         } else {
             Timber.d("Access is not null. Moving to connected!");
             if (!loginViewModel.isActivityStarted()) {

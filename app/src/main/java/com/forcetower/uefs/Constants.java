@@ -61,4 +61,5 @@ public class Constants {
     public static final String WORKER_DOWNLOAD_GRADES = "download_semester_grades_";
     public static final String APPROVE_EVENT_WORKER = "approve_event_";
     public static final String WORKER_DOWNLOAD_GRADES_GENERAL = "download_semester_grades_general";
+    public static final int SAGRES_SYNC_ID = 5556;
 }

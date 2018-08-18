@@ -18,7 +18,7 @@ import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
 @Dao
 public interface SyncRegistryDao {
     @Insert(onConflict = REPLACE)
-    void insert(SyncRegistry registry);
+    long insert(SyncRegistry registry);
 
     @Query("SELECT * FROM SyncRegistry ORDER BY attempt DESC")
     LiveData<List<SyncRegistry>> getAllRegistry();

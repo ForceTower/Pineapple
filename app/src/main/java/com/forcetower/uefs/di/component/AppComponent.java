@@ -14,6 +14,7 @@ import com.forcetower.uefs.work.event.CreateEventWorker;
 import com.forcetower.uefs.work.event.EventApprovalWorker;
 import com.forcetower.uefs.work.grades.DownloadGradesWorker;
 import com.forcetower.uefs.work.sync.SagresSyncWorker;
+import com.forcetower.uefs.work.sync.SyncJobScheduler;
 
 import javax.inject.Singleton;
 

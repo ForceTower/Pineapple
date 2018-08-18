@@ -11,6 +11,7 @@ import android.support.annotation.WorkerThread;
 import android.util.Pair;
 
 import com.crashlytics.android.Crashlytics;
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.Constants;
 import com.forcetower.uefs.R;
@@ -94,17 +95,20 @@ public class LoginRepository {
     private final ClearableCookieJar cookieJar;
     private final Context context;
     private final UEFSApplication application;
+    private final FirebaseJobDispatcher dispatcher;
     private boolean sagresBugged;
 
     @Inject
     LoginRepository(AppExecutors executors, AppDatabase database, OkHttpClient client,
-                    ClearableCookieJar cookieJar, Context context, Application application) {
+                    ClearableCookieJar cookieJar, Context context, Application application,
+                    FirebaseJobDispatcher dispatcher) {
         this.executors = executors;
         this.database = database;
         this.client = client;
         this.cookieJar = cookieJar;
         this.context = context;
         this.application = (UEFSApplication) application;
+        this.dispatcher = dispatcher;
     }
 
     public LiveData<Resource<Integer>> login(String username, String password) {
@@ -753,7 +757,7 @@ public class LoginRepository {
         Timber.d("Logout requested");
         cookieJar.clear();
         MutableLiveData<Resource<Integer>> logout = new MutableLiveData<>();
-        SyncWorkerUtils.disableWorker(context);
+        SyncWorkerUtils.disableWorker(context, dispatcher);
         executors.diskIO().execute(() -> {
             deleteDatabase();
             File enrollmentFile = new File(context.getCacheDir(), Constants.ENROLLMENT_CERTIFICATE_FILE_NAME);

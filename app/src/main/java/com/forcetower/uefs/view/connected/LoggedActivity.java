@@ -43,6 +43,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.BuildConfig;
 import com.forcetower.uefs.GooglePlayGamesInstance;
@@ -117,6 +118,8 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     NavigationController navigationController;
     @Inject
     AppExecutors executors;
+    @Inject
+    FirebaseJobDispatcher dispatcher;
 
     @StringRes
     private int titleText;
@@ -712,7 +715,7 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
 
     private void performLogout() {
         disconnecting = true;
-        SyncWorkerUtils.disableWorker(this);
+        SyncWorkerUtils.disableWorker(this, dispatcher);
         DownloadGradesWorker.disableWorkers();
         WorkManager.getInstance().cancelAllWork();
         gradesViewModel.logout().observe(this, this::logoutObserver);

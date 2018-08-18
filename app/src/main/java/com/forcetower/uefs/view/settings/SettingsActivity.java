@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.anim.ProgressBarAnimation;
 import com.forcetower.uefs.databinding.ActivitySettingsBinding;
@@ -59,6 +60,8 @@ public class SettingsActivity extends UBaseActivity implements SettingsControlle
     LoginRepository repository;
     @Inject
     ViewModelProvider.Factory viewModelFactory;
+    @Inject
+    FirebaseJobDispatcher dispatcher;
 
     private GoogleAccountCredential googleCredential;
     private GoogleCalendarViewModel calendarViewModel;
@@ -97,6 +100,11 @@ public class SettingsActivity extends UBaseActivity implements SettingsControlle
     @Override
     public Context getContext() {
         return getApplicationContext();
+    }
+
+    @Override
+    public FirebaseJobDispatcher getFirebase() {
+        return dispatcher;
     }
 
     private void setupToolbar() {

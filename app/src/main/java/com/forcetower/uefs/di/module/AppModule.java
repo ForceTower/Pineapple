@@ -3,6 +3,8 @@ package com.forcetower.uefs.di.module;
 import android.app.Application;
 import android.content.Context;
 
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
 import com.forcetower.uefs.GooglePlayGamesInstance;
 import com.forcetower.uefs.ru.RUFirebase;
 
@@ -37,6 +39,12 @@ public class AppModule {
     @Singleton
     GooglePlayGamesInstance provideGooglePlayGamesInstance(Context context) {
         return new GooglePlayGamesInstance(context);
+    }
+
+    @Provides
+    @Singleton
+    FirebaseJobDispatcher provideJobDispatcher(Context context) {
+        return new FirebaseJobDispatcher(new GooglePlayDriver(context));
     }
 
 }

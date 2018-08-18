@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
 
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.forcetower.uefs.di.AppInjector;
 import com.forcetower.uefs.di.component.AppComponent;
 import com.forcetower.uefs.di.injector.HasLollipopServiceInjector;
@@ -42,6 +43,8 @@ public class UEFSApplication extends Application implements HasActivityInjector,
     DispatchingAndroidInjector<Service> dispatchingServiceAndroidInjector;
     @Inject
     DispatchingAndroidInjector<BroadcastReceiver> dispatchingBroadcastAndroidInjector;
+    @Inject
+    FirebaseJobDispatcher dispatcher;
 
     private AppComponent appComponent;
     private Map<String, Document> documents;
@@ -78,7 +81,7 @@ public class UEFSApplication extends Application implements HasActivityInjector,
         try {
             frequency = Integer.parseInt(strFrequency);
         } catch (Exception ignored) {}
-        SyncWorkerUtils.createSync(this, frequency, false);
+        SyncWorkerUtils.createSync(dispatcher,this, frequency, false);
     }
 
     @Override

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.work.sync.SyncWorkerUtils;
 
@@ -17,6 +18,8 @@ import dagger.android.AndroidInjection;
 public class UpdateReceiver extends BroadcastReceiver {
     @Inject
     AppExecutors executors;
+    @Inject
+    FirebaseJobDispatcher dispatcher;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -38,7 +41,7 @@ public class UpdateReceiver extends BroadcastReceiver {
                 try {
                     frequency = Integer.parseInt(strFrequency);
                 } catch (Exception ignored) {}
-                SyncWorkerUtils.createSync(context, frequency, true);
+                SyncWorkerUtils.createSync(dispatcher, context, frequency, true);
                 Log.i("UpdateReceiver", "Database Cleared and tasks updated");
             });
         } else {
