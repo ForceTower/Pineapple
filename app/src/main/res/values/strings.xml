@@ -538,4 +538,6 @@
     <string name="pref_show_dce_notifications">Recados do DCE</string>
     <string name="pref_show_dce_notifications_summary">Controle as notificações do DCE</string>
     <string name="school_history">Histórico Escolar</string>
+    <string name="registry_executor_label">E</string>
+    <string name="registry_reason_label">V</string>
 </resources>

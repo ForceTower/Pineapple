@@ -21,6 +21,52 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_weight=".05">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/registry_reason_label"
+                android:textColor="@color/primaryText"
+                android:textAlignment="center"
+                android:fontFamily="@font/roboto_regular"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{@string/integer_format(registry.reason)}"
+                tools:text="0"
+                android:textAlignment="center"
+                android:fontFamily="@font/roboto_regular"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight=".1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/registry_executor_label"
+                android:textColor="@color/primaryText"
+                android:textAlignment="center"
+                android:fontFamily="@font/roboto_regular"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{registry.executor}"
+                tools:text="W"
+                android:textAlignment="center"
+                android:fontFamily="@font/roboto_regular"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:layout_weight=".5">
 
             <TextView

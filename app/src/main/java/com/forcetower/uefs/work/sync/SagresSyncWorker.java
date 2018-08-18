@@ -90,7 +90,7 @@ public class SagresSyncWorker extends Worker {
 
     private void initiateSync() {
         executors.networkIO().execute(() -> {
-            registry = new SyncRegistry(System.currentTimeMillis());
+            registry = new SyncRegistry(System.currentTimeMillis(), "W");
             uDatabase.syncRegistryDao().insert(registry);
 
             if (!initialVerifications()) {
@@ -157,8 +157,6 @@ public class SagresSyncWorker extends Worker {
                     completed = true;
                 } else {
                     uDatabase.profileDao().setLastSyncAttempt(System.currentTimeMillis());
-                    SyncRegistry registry = new SyncRegistry(System.currentTimeMillis());
-                    uDatabase.syncRegistryDao().insert(registry);
                     uDatabase.messageDao().clearAllNotifications();
                     uDatabase.gradeInfoDao().clearAllNotifications();
                     executors.mainThread().execute(() -> {

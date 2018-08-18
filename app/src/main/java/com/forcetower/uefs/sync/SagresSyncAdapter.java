@@ -34,7 +34,6 @@ import com.forcetower.uefs.rep.helper.Status;
 import com.forcetower.uefs.rep.sgrs.RefreshRepository;
 import com.forcetower.uefs.service.ApiResponse;
 import com.forcetower.uefs.service.UNEService;
-import com.forcetower.uefs.util.NetworkUtils;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -79,7 +78,7 @@ public class SagresSyncAdapter extends AbstractThreadedSyncAdapter {
 
     private void initiateSync() {
         executors.networkIO().execute(() -> {
-            registry = new SyncRegistry(System.currentTimeMillis());
+            registry = new SyncRegistry(System.currentTimeMillis(), "A");
             uDatabase.syncRegistryDao().insert(registry);
             if (BuildConfig.DEBUG) {
                 proceedSync();
@@ -166,7 +165,7 @@ public class SagresSyncAdapter extends AbstractThreadedSyncAdapter {
             createNotifications();
         } else {
             //noinspection ConstantConditions
-            Timber.d("Refresh progress on job: %s", context.getString(resource.data));
+            Timber.d("Refresh progress on account: %s", context.getString(resource.data));
         }
     }
 

@@ -2,6 +2,7 @@ package com.forcetower.uefs.db.entity;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 /**
@@ -15,9 +16,12 @@ public class SyncRegistry {
     @Nullable
     private Long completed;
     private int reason;
+    @NonNull
+    private String executor;
 
-    public SyncRegistry(long attempt) {
+    public SyncRegistry(long attempt, @NonNull String executor) {
         this.attempt = attempt;
+        this.executor = executor;
         this.completed = null;
     }
 
@@ -77,5 +81,14 @@ public class SyncRegistry {
 
     public void setReason(int reason) {
         this.reason = reason;
+    }
+
+    @NonNull
+    public String getExecutor() {
+        return executor;
+    }
+
+    public void setExecutor(@NonNull String executor) {
+        this.executor = executor;
     }
 }

@@ -118,4 +118,12 @@ public class DatabaseMigrations {
             database.execSQL("ALTER TABLE SyncRegistry ADD COLUMN reason INTEGER DEFAULT 0 NOT NULL");
         }
     };
+
+    public static final Migration MIGRATION_14_15 = new Migration(14, 15) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            Timber.d("Executing migration 14 -> 15");
+            database.execSQL("ALTER TABLE SyncRegistry ADD COLUMN executor TEXT DEFAULT 'W' NOT NULL");
+        }
+    };
 }
