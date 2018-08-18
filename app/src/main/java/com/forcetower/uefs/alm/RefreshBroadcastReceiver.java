@@ -1,16 +1,16 @@
-package com.forcetower.uefs.work.sync;
+package com.forcetower.uefs.alm;
 
 import android.arch.lifecycle.LiveData;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 
 import com.crashlytics.android.Crashlytics;
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.BuildConfig;
-import com.forcetower.uefs.UEFSApplication;
 import com.forcetower.uefs.db.AppDatabase;
 import com.forcetower.uefs.db.dao.GradeInfoDao;
 import com.forcetower.uefs.db.dao.MessageDao;
@@ -40,14 +40,11 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import androidx.work.Worker;
+import dagger.android.AndroidInjection;
 import retrofit2.Response;
 import timber.log.Timber;
 
-/**
- * Created by João Paulo on 21/06/2018.
- */
-public class SagresSyncWorker extends Worker {
+public class RefreshBroadcastReceiver extends BroadcastReceiver {
     @Inject
     AppDatabase uDatabase;
     @Inject
@@ -59,40 +56,26 @@ public class SagresSyncWorker extends Worker {
     @Inject
     RefreshRepository repository;
 
-    private boolean completed;
+    private Context context;
+
     private LiveData<Resource<Integer>> call;
-    private LiveData<ApiResponse<UpdateStatus>> updateData;
+    private android.arch.lifecycle.LiveData<ApiResponse<UpdateStatus>> updateData;
     private SharedPreferences preferences;
 
-    @NonNull
     @Override
-    public Result doWork() {
-        ((UEFSApplication)getApplicationContext()).getAppComponent().inject(this);
-        int iterations = 0;
-        completed = false;
+    public void onReceive(Context context, Intent intent) {
+        AndroidInjection.inject(this, context);
+        this.context = context;
 
         SyncRegistry registry = new SyncRegistry(System.currentTimeMillis());
         uDatabase.syncRegistryDao().insert(registry);
 
-        try {
-            preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-            initiateSync();
-
-            while (!completed && iterations < 300) {
-                iterations++;
-                SystemClock.sleep(3000);
-            }
-        } catch (Exception e) {
-            Crashlytics.logException(e);
-            e.printStackTrace();
-        }
-
-        return Result.SUCCESS;
+        preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        initiateSync();
     }
 
     private void initiateSync() {
         if (!initialVerifications()) {
-            completed = true;
             return;
         }
 
@@ -110,7 +93,6 @@ public class SagresSyncWorker extends Worker {
         if (updateResp == null) {
             executors.diskIO().execute(() -> uDatabase.syncRegistryDao().updateReason(1));
             Timber.d("Won't sync: null response");
-            completed = true;
             return;
         }
 
@@ -129,10 +111,9 @@ public class SagresSyncWorker extends Worker {
             return;
         }
 
-        if (!status.isWorker()) {
+        if (!status.isAlarm()) {
             executors.diskIO().execute(() -> uDatabase.syncRegistryDao().updateReason(2));
             Timber.d("Won't sync: worker is disabled");
-            completed = true;
             return;
         }
 
@@ -147,8 +128,7 @@ public class SagresSyncWorker extends Worker {
                 if (access == null) {
                     Timber.d("Access is null... stop");
                     executors.diskIO().execute(() -> uDatabase.syncRegistryDao().updateReason(3));
-                    NotificationCreator.createNotConnectedNotification(getApplicationContext());
-                    completed = true;
+                    NotificationCreator.createNotConnectedNotification(context);
                 } else {
                     uDatabase.profileDao().setLastSyncAttempt(System.currentTimeMillis());
                     uDatabase.messageDao().clearAllNotifications();
@@ -161,19 +141,18 @@ public class SagresSyncWorker extends Worker {
             } catch (Exception e) {
                 Timber.e("Ignored Exception");
                 e.printStackTrace();
-                completed = true;
             }
         });
     }
 
     private boolean initialVerifications() {
-        if (!NetworkUtils.isNetworkAvailable(getApplicationContext())) {
+        if (!NetworkUtils.isNetworkAvailable(context)) {
             executors.diskIO().execute(() -> uDatabase.syncRegistryDao().updateReason(4));
             Timber.d("No internet");
             return false;
         }
 
-        if (preferences.getBoolean("sync_wifi_only", false) && !NetworkUtils.isConnectedToWifi(getApplicationContext())) {
+        if (preferences.getBoolean("sync_wifi_only", false) && !NetworkUtils.isConnectedToWifi(context)) {
             Timber.d("Not on a wifi connection");
             executors.diskIO().execute(() -> uDatabase.syncRegistryDao().updateReason(5));
             return false;
@@ -192,7 +171,7 @@ public class SagresSyncWorker extends Worker {
             createNotifications();
         } else {
             //noinspection ConstantConditions
-            Timber.d("Refresh progress on job: %s", getApplicationContext().getString(resource.data));
+            Timber.d("Refresh progress on job: %s", context.getString(resource.data));
         }
     }
 
@@ -200,7 +179,6 @@ public class SagresSyncWorker extends Worker {
         executors.diskIO().execute(() -> {
             messagesNotifications();
             gradesNotifications();
-            completed = true;
 
             try {
                 setupData();
@@ -313,7 +291,7 @@ public class SagresSyncWorker extends Worker {
         Timber.d("Generate message notifications");
         List<Message> messages = messageDao.getAllUnnotifiedMessages();
         for (Message message : messages) {
-            boolean notified = NotificationCreator.createMessageNotification(getApplicationContext(), message);
+            boolean notified = NotificationCreator.createMessageNotification(context, message);
             if (notified) {
                 message.setNotified(1);
             }
@@ -343,7 +321,7 @@ public class SagresSyncWorker extends Worker {
         Timber.d("Number of notifications: %d", infos.size());
         for (GradeInfo info : infos) {
             findClass(info);
-            boolean notified = NotificationCreator.createGradeNotification(getApplicationContext(), info, type);
+            boolean notified = NotificationCreator.createGradeNotification(context, info, type);
             if (notified) info.setNotified(0);
         }
 

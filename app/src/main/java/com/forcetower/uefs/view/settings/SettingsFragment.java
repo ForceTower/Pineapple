@@ -130,7 +130,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             if (gradeCreated != null) gradeCreated.setEnabled(true);
             if (gradeChanged != null) gradeChanged.setEnabled(true);
             Timber.d("Frequency set to %d minutes", frequency);
-            SyncWorkerUtils.createSync(controller.getContext(), frequency);
+            SyncWorkerUtils.createSync(controller.getContext(), frequency, false);
         }
     }
 }

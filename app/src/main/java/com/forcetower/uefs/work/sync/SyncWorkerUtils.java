@@ -19,18 +19,18 @@ import androidx.work.WorkManager;
  */
 public class SyncWorkerUtils {
 
-    public static void createSync(Context context, int frequency) {
+    public static void createSync(Context context, int frequency, boolean force) {
         if (frequency == -1) {
             disableWorker(context);
         } else {
-            createWorker(context, frequency);
+            createWorker(context, frequency, force);
         }
     }
 
-    private static void createWorker(Context context, int frequency) {
+    private static void createWorker(Context context, int frequency, boolean force) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        int current = preferences.getInt("current_sync_frequency", 60);
-        boolean equals = current == frequency;
+        int current = preferences.getInt("curr_sync_frequency", 40);
+        boolean equals = current == frequency && !force;
 
         Constraints constraints = new Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -49,12 +49,12 @@ public class SyncWorkerUtils {
                         workRequest
                 );
 
-        preferences.edit().putInt("current_sync_frequency", frequency).apply();
+        preferences.edit().putInt("curr_sync_frequency", frequency).apply();
     }
 
     public static void disableWorker(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        preferences.edit().putInt("current_sync_frequency", -1).apply();
+        preferences.edit().putInt("curr_sync_frequency", -1).apply();
         WorkManager.getInstance().cancelAllWorkByTag(Constants.WORKER_SYNC_SAGRES_NAME);
     }
 }

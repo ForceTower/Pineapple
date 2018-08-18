@@ -20,9 +20,6 @@
         <item name="color_primary_dark">@color/colorPrimaryDark</item>
         <item name="color_primary_light">@color/colorPrimaryLight</item>
 
-        <item name="coordinatorLayoutStyle">@style/Widget.Design.CoordinatorLayout</item>
-        <item name="cardViewStyle">@style/CardView</item>
-
         <item name="android:navigationBarColor">@color/colorPrimarySuperDark</item>
     </style>
 </resources>

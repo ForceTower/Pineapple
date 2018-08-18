@@ -23,6 +23,8 @@ import retrofit2.Call;
 import retrofit2.Response;
 import timber.log.Timber;
 
+import static com.forcetower.uefs.util.WordUtils.validString;
+
 /**
  * Created by João Paulo on 21/06/2018.
  */
@@ -54,8 +56,8 @@ public class CreateEventWorker extends Worker {
     @Override
     public Result doWork() {
         ((UEFSApplication)getApplicationContext()).getAppComponent().inject(this);
-        String sEvent = getInputData().getString("event", "");
-        if (sEvent.isEmpty()) return Result.FAILURE;
+        String sEvent = getInputData().getString("event");
+        if (!validString(sEvent)) return Result.FAILURE;
 
         Event event;
         try {

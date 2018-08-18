@@ -114,7 +114,7 @@ public class DownloadGradesWorker extends Worker {
     public Result doWork() {
         ((UEFSApplication)getApplicationContext()).getAppComponent().inject(this);
 
-        mSemester = getInputData().getString("semester", null);
+        mSemester = getInputData().getString("semester");
         if (mSemester == null) {
             keyFinder = getInputData().getBoolean("key_finder", false);
             if (!keyFinder) {

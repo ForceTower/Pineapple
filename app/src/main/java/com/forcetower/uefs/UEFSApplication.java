@@ -78,7 +78,7 @@ public class UEFSApplication extends Application implements HasActivityInjector,
         try {
             frequency = Integer.parseInt(strFrequency);
         } catch (Exception ignored) {}
-        SyncWorkerUtils.createSync(this, frequency);
+        SyncWorkerUtils.createSync(this, frequency, false);
     }
 
     @Override

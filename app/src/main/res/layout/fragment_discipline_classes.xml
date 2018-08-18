@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:text="@string/you_can_download_materials_yet"
             android:textAlignment="center"
-            android:textColor="@color/primaryText"
+            android:textColor="?color_text_primary"
             android:padding="12dp"/>
 
         <android.support.v7.widget.RecyclerView

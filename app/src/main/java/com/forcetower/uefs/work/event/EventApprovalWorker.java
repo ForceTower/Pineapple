@@ -53,7 +53,7 @@ public class EventApprovalWorker extends Worker {
     public Result doWork() {
         ((UEFSApplication)getApplicationContext()).getAppComponent().inject(this);
 
-        String uuid = getInputData().getString("event_uuid", null);
+        String uuid = getInputData().getString("event_uuid");
         if (uuid == null) {
             Timber.d("Uuid is null. leaving..");
             return Result.FAILURE;
