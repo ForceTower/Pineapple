@@ -13,6 +13,7 @@ import com.forcetower.uefs.di.AppInjector;
 import com.forcetower.uefs.di.component.AppComponent;
 import com.forcetower.uefs.di.injector.HasLollipopServiceInjector;
 import com.forcetower.uefs.ntf.NotificationHelper;
+import com.forcetower.uefs.sync.SyncConfiguration;
 import com.forcetower.uefs.work.sync.SyncWorkerUtils;
 import com.squareup.picasso.Picasso;
 
@@ -79,6 +80,7 @@ public class UEFSApplication extends Application implements HasActivityInjector,
             frequency = Integer.parseInt(strFrequency);
         } catch (Exception ignored) {}
         SyncWorkerUtils.createSync(this, frequency);
+        SyncConfiguration.initializeSyncAdapter(this);
     }
 
     @Override

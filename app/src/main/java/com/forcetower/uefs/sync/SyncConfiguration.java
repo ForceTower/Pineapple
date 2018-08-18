@@ -19,7 +19,7 @@ import timber.log.Timber;
  * Created by João Paulo on 08/03/2018.
  */
 public class SyncConfiguration {
-    public static final String PREF_SETUP_COMPLETE = "sync_setup_complete";
+    public static final String PREF_SETUP_COMPLETE = "sync_setup_account_";
     public static final String PREF_ACCOUNT_SYNC_FREQUENCY = "sync_frequency";
     public static final int SYNC_FREQUENCY = 60;
 
