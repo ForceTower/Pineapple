@@ -299,8 +299,8 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         binding.navView.getMenu().findItem(R.id.nav_history_certificate).getIcon()
                 .setColorFilter(getResources().getColor(R.color.school_history_color), PorterDuff.Mode.SRC_IN);
 
-        binding.navView.getMenu().findItem(R.id.nav_big_tray).getIcon()
-                .setColorFilter(getResources().getColor(R.color.big_tray_color), PorterDuff.Mode.SRC_IN);
+//        binding.navView.getMenu().findItem(R.id.nav_big_tray).getIcon()
+//                .setColorFilter(getResources().getColor(R.color.big_tray_color), PorterDuff.Mode.SRC_IN);
     }
 
     private void defaultForAll(ColorStateList stateList) {
@@ -669,11 +669,11 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
                 clearBackStack();
                 navigationController.navigateToCalendar();
                 tabLayout.setVisibility(View.GONE);
-            } else if (id == R.id.nav_big_tray) {
+            }/*else if (id == R.id.nav_big_tray) {
                 clearBackStack();
                 navigationController.navigateToBigTray();
                 tabLayout.setVisibility(View.GONE);
-            } else if (id == R.id.nav_settings) {
+            }*/else if (id == R.id.nav_settings) {
                 goToSettings();
             } else if (id == R.id.nav_logout) {
                 performLogout();
