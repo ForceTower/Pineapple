@@ -1,8 +1,8 @@
 package com.forcetower.uefs.util;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MediatorLiveData;
-import android.arch.lifecycle.MutableLiveData;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,8 +10,8 @@ import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
-import android.support.annotation.IntRange;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.IntRange;
+import androidx.annotation.RequiresApi;
 import android.util.Base64;
 
 import com.forcetower.uefs.AppExecutors;

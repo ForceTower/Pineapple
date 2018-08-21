@@ -1,6 +1,6 @@
 package com.forcetower.uefs.work.grades;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Pair;
 
 import com.crashlytics.android.Crashlytics;

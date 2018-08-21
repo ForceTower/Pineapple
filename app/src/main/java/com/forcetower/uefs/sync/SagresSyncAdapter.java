@@ -1,7 +1,7 @@
 package com.forcetower.uefs.sync;
 
 import android.accounts.Account;
-import android.arch.lifecycle.LiveData;
+import androidx.lifecycle.LiveData;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.Context;

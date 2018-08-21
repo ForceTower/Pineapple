@@ -7,7 +7,7 @@ import android.content.Context;
 import android.content.SyncRequest;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.ntf.NotificationCreator;

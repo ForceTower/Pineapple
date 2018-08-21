@@ -1,6 +1,6 @@
 package com.forcetower.uefs.util;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * Created by João Paulo on 06/03/2018.

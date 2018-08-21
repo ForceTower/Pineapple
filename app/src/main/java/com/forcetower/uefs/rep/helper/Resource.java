@@ -16,8 +16,8 @@
 
 package com.forcetower.uefs.rep.helper;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.forcetower.uefs.service.ActionError;
 

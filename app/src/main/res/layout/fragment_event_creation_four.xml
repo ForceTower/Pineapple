@@ -48,11 +48,11 @@
                 android:textColor="@color/colorPrimary"
                 android:fontFamily="@font/roboto_regular"/>
 
-            <android.support.design.widget.CoordinatorLayout
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <android.support.constraint.ConstraintLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
@@ -71,7 +71,7 @@
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         android:contentDescription="@string/event_image"/>
-                </android.support.constraint.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <ProgressBar
                     android:id="@+id/loading_image"
@@ -82,7 +82,7 @@
                     android:indeterminate="true"
                     tools:visibility="visible"/>
 
-                <android.support.v7.widget.AppCompatButton
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_try_again"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
                     android:textColor="@color/white"
                     android:fontFamily="@font/roboto_medium"
                     android:visibility="gone"/>
-            </android.support.design.widget.CoordinatorLayout>
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
             <TextView
                 android:layout_marginTop="16dp"
@@ -101,13 +101,13 @@
                 android:layout_height="wrap_content"
                 android:text="@string/what_course_is_this_for"/>
 
-            <android.support.v7.widget.AppCompatSpinner
+            <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/spi_course"
                 android:layout_width="match_parent"
                 android:layout_height="40dp">
-            </android.support.v7.widget.AppCompatSpinner>
+            </androidx.appcompat.widget.AppCompatSpinner>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_continue"
                 android:layout_marginTop="16dp"
                 android:layout_width="wrap_content"

@@ -1,9 +1,9 @@
 package com.forcetower.uefs.rep.sgrs;
 
 import android.app.Application;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MediatorLiveData;
-import android.support.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
+import androidx.annotation.NonNull;
 
 import com.crashlytics.android.Crashlytics;
 import com.forcetower.uefs.AppExecutors;
@@ -163,7 +163,7 @@ public class DisciplinesRepository {
             }
         }.asLiveData();
 
-        result.addSource(fetch, resource -> {
+        executors.mainThread().execute(() -> result.addSource(fetch, resource -> {
             //noinspection ConstantConditions
             if (resource.status == Status.SUCCESS) {
                 Timber.d("Success");
@@ -177,7 +177,7 @@ public class DisciplinesRepository {
                 Timber.d("Loading");
                 result.postValue(resource);
             }
-        });
+        }));
     }
 
     private LiveData<Resource<Document>> createDocumentSource(String username, String password) {

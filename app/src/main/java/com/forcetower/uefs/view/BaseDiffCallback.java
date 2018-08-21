@@ -1,6 +1,6 @@
 package com.forcetower.uefs.view;
 
-import android.support.v7.util.DiffUtil;
+import androidx.recyclerview.widget.DiffUtil;
 
 import java.lang.reflect.Field;
 import java.util.List;

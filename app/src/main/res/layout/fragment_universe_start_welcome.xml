@@ -28,7 +28,7 @@
             android:transitionName="@string/transition_logo"/>
 
 
-        <android.support.v7.widget.AppCompatButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_know_more"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
@@ -39,7 +39,7 @@
             android:textColor="@color/colorPrimary"
             style="@style/Base.Widget.AppCompat.ButtonBar.AlertDialog"/>
 
-        <android.support.v7.widget.AppCompatButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_first_steps"
             android:layout_width="wrap_content"
             android:layout_height="50dp"

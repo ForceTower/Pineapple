@@ -53,7 +53,7 @@
                 android:fontFamily="@font/roboto_medium"/>
         </LinearLayout>
 
-        <android.support.v7.widget.AppCompatButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_continue"
             android:layout_width="match_parent"
             android:layout_height="50dp"

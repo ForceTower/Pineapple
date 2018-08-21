@@ -1,6 +1,6 @@
 package com.forcetower.uefs.bind;
 
-import android.databinding.BindingAdapter;
+import androidx.databinding.BindingAdapter;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;

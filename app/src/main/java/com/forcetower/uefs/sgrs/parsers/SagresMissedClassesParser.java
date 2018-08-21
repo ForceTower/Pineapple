@@ -1,6 +1,6 @@
 package com.forcetower.uefs.sgrs.parsers;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Pair;
 
 import com.crashlytics.android.Crashlytics;

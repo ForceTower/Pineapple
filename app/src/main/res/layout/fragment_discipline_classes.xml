@@ -17,7 +17,7 @@
             android:textColor="@color/primaryText"
             android:padding="12dp"/>
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_below="@id/dev_thing"
             android:layout_width="match_parent"
@@ -26,7 +26,7 @@
             android:clipToPadding="false"
             tools:listitem="@layout/card_discipline_classes"
             tools:itemCount="3">
-        </android.support.v7.widget.RecyclerView>
+        </androidx.recyclerview.widget.RecyclerView>
 
     </RelativeLayout>
 </layout>

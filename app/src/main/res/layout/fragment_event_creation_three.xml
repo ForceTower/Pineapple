@@ -49,27 +49,27 @@
                 android:textColor="@color/colorPrimary"
                 android:fontFamily="@font/roboto_regular"/>
 
-            <android.support.v7.widget.AppCompatCheckBox
+            <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/cb_event_free"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/event_ticket_free_cb"
                 android:checked="false"/>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/price_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/event_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/event_price_hint"
                     android:fontFamily="@font/roboto_regular"
                     android:inputType="numberDecimal"/>
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.v7.widget.AppCompatCheckBox
+            <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/cb_provides_hours"
                 android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
@@ -77,18 +77,18 @@
                 android:text="@string/event_hours_certificate_cb"
                 android:checked="true"/>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/hours_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/event_hours"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/event_hours_hint"
                     android:fontFamily="@font/roboto_regular"
                     android:inputType="number"/>
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -114,23 +114,23 @@
             </LinearLayout>
 
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp">
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/event_organization"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/event_organization_hint"
                     android:fontFamily="@font/roboto_regular"
                     android:inputType="text|textCapSentences|textAutoComplete|textAutoCorrect"/>
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/event_long_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -138,9 +138,9 @@
                     android:fontFamily="@font/roboto_regular"
                     android:maxLength="1024"
                     android:inputType="text|textAutoCorrect|textAutoComplete|textCapSentences|textMultiLine"/>
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_continue"
                 android:layout_marginTop="16dp"
                 android:layout_width="wrap_content"

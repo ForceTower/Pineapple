@@ -1,10 +1,10 @@
 package com.forcetower.uefs.rep.resources;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MediatorLiveData;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import android.os.SystemClock;
-import android.support.annotation.MainThread;
-import android.support.annotation.NonNull;
+import androidx.annotation.MainThread;
+import androidx.annotation.NonNull;
 
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.R;
@@ -35,7 +35,7 @@ public abstract class FetchAllDataResource {
 
         executors.diskIO().execute(() -> {
             result.postValue(Resource.loading(R.string.connecting));
-            fetchFromSagres();
+            executors.mainThread().execute(this::fetchFromSagres);
         });
     }
 

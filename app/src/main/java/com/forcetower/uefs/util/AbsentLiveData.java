@@ -1,6 +1,6 @@
 package com.forcetower.uefs.util;
 
-import android.arch.lifecycle.LiveData;
+import androidx.lifecycle.LiveData;
 
 @SuppressWarnings("unchecked")
 public class AbsentLiveData extends LiveData {

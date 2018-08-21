@@ -1,10 +1,10 @@
 package com.forcetower.uefs.rep.resources;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MediatorLiveData;
-import android.support.annotation.MainThread;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
+import androidx.annotation.MainThread;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.util.Base64;
 import android.util.Pair;
 
@@ -85,6 +85,7 @@ public abstract class FetchClassDetailsResource {
         executors.diskIO().execute(() ->{
             Call call = createCallPreConnect(builder);
             LiveData<SagresResponse> respSrc = LiveDataCallAdapter.adapt(call);
+            executors.mainThread().execute(() ->{
             result.addSource(respSrc, preResp -> {
                 result.removeSource(respSrc);
                 Timber.d("Connected");
@@ -94,6 +95,7 @@ public abstract class FetchClassDetailsResource {
                     executors.diskIO().execute(() -> {
                         Call connect = makeFinalConnectCall(conDoc);
                         LiveData<SagresResponse> detResp = LiveDataCallAdapter.adapt(connect);
+                        executors.mainThread().execute(()-> {
                         result.addSource(detResp, response -> {
                             result.removeSource(detResp);
                             //noinspection ConstantConditions
@@ -111,10 +113,12 @@ public abstract class FetchClassDetailsResource {
                                 result.postValue(Resource.error(response.getMessage(), response.getCode(), R.string.failed_to_connect));
                             }
                         });
+                        });
                     });
                 } else {
                     result.postValue(Resource.error(preResp.getMessage(), preResp.getCode(), R.string.failed_to_connect));
                 }
+            });
             });
         });
     }

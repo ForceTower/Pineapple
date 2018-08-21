@@ -1,7 +1,7 @@
 package com.forcetower.uefs.ru;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.forcetower.uefs.R;
 

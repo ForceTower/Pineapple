@@ -1,7 +1,7 @@
 package com.forcetower.uefs.db_service;
 
-import android.arch.persistence.room.Database;
-import android.arch.persistence.room.RoomDatabase;
+import androidx.room.Database;
+import androidx.room.RoomDatabase;
 
 import com.forcetower.uefs.db_service.dao.AboutFieldDao;
 import com.forcetower.uefs.db_service.dao.AccessTokenDao;

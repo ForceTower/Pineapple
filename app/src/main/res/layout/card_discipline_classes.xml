@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/view_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -146,7 +146,7 @@
                     android:textColor="@color/primaryText"
                     android:fontFamily="@font/roboto_regular"/>
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:layout_below="@id/dev_tv_helper_material_id"
                     android:id="@+id/rv_support_material"
                     android:layout_marginTop="4dp"
@@ -156,8 +156,8 @@
                     android:clipToPadding="false"
                     tools:itemCount="3"
                     tools:listitem="@layout/item_class_support_material">
-                </android.support.v7.widget.RecyclerView>
+                </androidx.recyclerview.widget.RecyclerView>
             </RelativeLayout>
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 </layout>

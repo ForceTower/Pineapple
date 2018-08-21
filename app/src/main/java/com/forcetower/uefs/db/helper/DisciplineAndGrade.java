@@ -1,6 +1,6 @@
 package com.forcetower.uefs.db.helper;
 
-import android.arch.persistence.room.Relation;
+import androidx.room.Relation;
 
 import com.forcetower.uefs.db.entity.Discipline;
 import com.forcetower.uefs.db.entity.Grade;

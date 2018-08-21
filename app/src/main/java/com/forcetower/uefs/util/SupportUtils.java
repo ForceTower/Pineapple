@@ -1,10 +1,10 @@
 package com.forcetower.uefs.util;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.transition.Slide;
-import android.support.v4.view.GravityCompat;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.transition.Slide;
+import androidx.core.view.GravityCompat;
 
 /**
  * Created by João Paulo on 16/06/2018.

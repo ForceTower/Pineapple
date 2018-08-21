@@ -1,10 +1,10 @@
 package com.forcetower.uefs.rep.service;
 
-import android.arch.lifecycle.LiveData;
+import androidx.lifecycle.LiveData;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.R;

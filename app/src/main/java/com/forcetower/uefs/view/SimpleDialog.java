@@ -3,10 +3,10 @@ package com.forcetower.uefs.view;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AlertDialog;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.appcompat.app.AlertDialog;
 
 public class SimpleDialog extends DialogFragment implements DialogInterface.OnClickListener {
     private static final String EXTRA_ID = "id";

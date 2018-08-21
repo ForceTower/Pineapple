@@ -1,6 +1,6 @@
 package com.forcetower.uefs.db_service.helper;
 
-import android.arch.persistence.room.Relation;
+import androidx.room.Relation;
 
 import com.forcetower.uefs.db_service.entity.CreditsMention;
 import com.forcetower.uefs.db_service.entity.Mention;

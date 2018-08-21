@@ -1,7 +1,7 @@
 package com.forcetower.uefs.sgrs.parsers;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.crashlytics.android.Crashlytics;
 import com.forcetower.uefs.db.entity.CourseVariant;

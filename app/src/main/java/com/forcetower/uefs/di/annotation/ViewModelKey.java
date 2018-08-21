@@ -1,6 +1,6 @@
 package com.forcetower.uefs.di.annotation;
 
-import android.arch.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModel;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
