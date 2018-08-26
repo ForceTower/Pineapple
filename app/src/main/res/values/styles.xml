@@ -1,0 +1,126 @@
+<!--
+  ~ Copyright (c) 2018.
+  ~ João Paulo Sena <joaopaulo761@gmail.com>
+  ~
+  ~ This file is part of the UNES Open Source Project.
+  ~
+  ~ UNES is licensed under the Apache License, Version 2.0 (the "License");
+  ~ You may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="UTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:fontFamily">@font/product_sans_regular</item>
+        <item name="android:windowActivityTransitions">true</item>
+        <item name="android:windowBackground">@color/white</item>
+
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">@color/white</item>
+    </style>
+
+    <style name="UTheme.LightNav"/>
+
+    <style name="UTheme.Translucent" parent="UTheme.LightNav">
+        <item name="android:windowBackground">@color/scrim</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="UTheme.Translucent.About">
+        <item name="android:windowEnterTransition">@transition/about_enter</item>
+        <item name="android:windowReturnTransition">@transition/about_return</item>
+        <item name="android:statusBarColor">@color/blue_accent</item>
+    </style>
+
+    <style name="UTheme.MaterialButton" parent="Widget.MaterialComponents.Button">
+    </style>
+
+    <style name="UTheme.MaterialButton.Default">
+        <item name="android:fontFamily">@font/product_sans_regular</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="UTheme.TextAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/product_sans_regular</item>
+    </style>
+
+    <style name="UTheme.TextAppearance.Headline1" parent="UTheme.TextAppearance">
+        <item name="android:textColor">@color/text_primary_dark</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="UTheme.TextAppearance.Common" parent="UTheme.TextAppearance">
+        <item name="android:textColor">@color/text_secondary_dark</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="UTheme.TextAppearance.Subtitle1" parent="UTheme.TextAppearance">
+        <item name="android:textColor">@color/text_secondary_dark</item>
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="UTheme.TextAppearance.TermsAndConditions" parent="UTheme.TextAppearance">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/text_secondary_dark</item>
+        <item name="lineHeightHint">24sp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:fontFamily">@font/product_sans_regular</item>
+    </style>
+
+    <style name="UTheme.TextAppearance.About" parent="@android:style/TextAppearance.Material.Body1">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/text_secondary_dark</item>
+        <item name="lineHeightHint">24sp</item>
+        <item name="android:fontFamily">@font/product_sans_regular</item>
+    </style>
+
+    <style name="UTheme.BottomNavigation" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="android:fontFamily">@font/product_sans_regular</item>
+    </style>
+
+    <style name="UTheme.BottomNavigation.Active" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:fontFamily">@font/product_sans_regular</item>
+    </style>
+
+    <style name="BottomSheetDialogTheme" parent="@style/Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="bottomSheetStyle">@style/BottomSheet</item>
+    </style>
+
+    <style name="BottomSheet" parent="@style/Widget.Design.BottomSheet.Modal">
+        <!--<item name="android:background">@drawable/bottom_sheet_dialog_background</item>-->
+    </style>
+
+    <style name="BottomSheetEntryDivider">
+        <item name="android:background">#EEEEEE</item>
+    </style>
+
+    <style name="TextAppearanceSubtitle2" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="fontFamily">@font/product_sans_regular</item>
+    </style>
+
+    <style name="TextAppearanceTabLayout" parent="TextAppearance.MaterialComponents.Tab">
+        <item name="android:fontFamily">@font/product_sans_regular</item>
+        <item name="textAllCaps">false</item>
+    </style>
+</resources>

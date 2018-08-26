@@ -1,0 +1,151 @@
+<!--
+  ~ Copyright (c) 2018.
+  ~ João Paulo Sena <joaopaulo761@gmail.com>
+  ~
+  ~ This file is part of the UNES Open Source Project.
+  ~
+  ~ UNES is licensed under the Apache License, Version 2.0 (the "License");
+  ~ You may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools" tools:locale="pt">
+    <string name="app_name">Melon</string>
+    <string name="login_welcome_to_unes">Boas-vindas ao UNES</string>
+    <string name="login_first_steps">Primeiros passos</string>
+    <string name="login_unes_single_help">A maneira mais fácil de acessar o Sagres</string>
+    <string name="unes_image">UNES Imagem</string>
+    <string name="login_access_account">Acessar o UNES</string>
+    <string name="login_using_sagres_account">Entre utilizando a conta do Sagres</string>
+    <string name="login_user">Usuário</string>
+    <string name="login_password">Senha</string>
+    <string name="login_sign_in">Entrar</string>
+    <string name="login_about_unes">Sobre o UNES</string>
+    <string name="login_text_preparing_rockets">Preparando os Foguetes</string>
+    <string name="user_image_transition" translatable="false">user_image_transition</string>
+    <string name="label_schedule">Horário</string>
+    <string name="label_dashboard">Painel de Controle</string>
+    <string name="label_messages">Mensagens</string>
+    <string name="label_grades_disciplines">Notas e Disciplinas</string>
+    <string name="label_calendar">Calendário Acadêmico</string>
+    <string name="label_events">Eventos</string>
+    <string name="label_services">Serviços</string>
+    <string name="label_reminders">Lembretes</string>
+    <string name="label_adventure">Aventura</string>
+    <string name="label_settings">Configurações</string>
+    <string name="label_about_app">Sobre o Aplicativo</string>
+    <string name="label_definitions">Definições</string>
+    <string name="label_logout">Sair</string>
+    <string name="label_open_source_libraries">Licenças de Código Aberto</string>
+    <string name="label_today_schedule">Aulas de Hoje</string>
+    <string name="discipline_icon">ìcone da disciplina</string>
+    <string name="label_recent_messages">Mensagens</string>
+    <string name="login_no_account_message">Ainda não tem uma conta? Passe no vestibular</string>
+    <string name="there_is_no_vestibular_anymore">\"Mas não tem vestibular\"\nEntão faça o ENEM, você entendeu</string>
+    <string name="label_evaluate_recent_class">Avalie aula recente</string>
+    <string name="error_too_small">Muito curto</string>
+    <string name="error_invalid_credentials">Usuário ou senha incorretos</string>
+    <string name="error_login_failed">Login Incorreto</string>
+    <string name="error_connection_failed">Erro de conexão</string>
+    <string name="error_network_error">Falha de conexão</string>
+    <string name="error_unexpected_response">O Sagres não respondeu corretamente</string>
+    <string name="login_connected">Conectado</string>
+    <string name="login_hello_user">Olá %1$s</string>
+
+    <string-array name="login_random_messages">
+        <item>Preparando Foguetes</item>
+        <item>Iniciando Sincronização</item>
+        <item>Procurando por itens interessantes</item>
+        <item>Unificando o UNES</item>
+        <item>Carregando mensagens aleatórias</item>
+        <item>Alguém lê isso?</item>
+        <item>Girando barra de progresso</item>
+        <item>João Paulo está dormindo</item>
+        <item>A barra de progresso está girando</item>
+        <item>Carregando capacitores</item>
+        <item>Ligando a FPGA</item>
+        <item>Dormindo um pouco</item>
+        <item>UNES > Sagres</item>
+        <item>Jogando 2048</item>
+        <item>Concluindo a Graduação</item>
+        <item>Processando processadores</item>
+        <item>Usando algoritmos genéticos</item>
+        <item>Classificando usuários</item>
+        <item>Otimizando o UNES</item>
+        <item>Aumentando suas notas</item>
+        <item>Criando o UNESverso</item>
+        <item>Visitando o Bandejão</item>
+        <item>Entrando em Greve</item>
+        <item>Calculando Hashes malucos</item>
+        <item>RX o rato</item>
+        <item>Eu amo barras de carregamento</item>
+        <item>Criando aviãozinho</item>
+        <item>Gerando código de ignição</item>
+        <item>Deixando o aplicativo bonito</item>
+        <item>Criando compras no aplicativo</item>
+        <item>Andando por ai sem motivo</item>
+        <item>Retirando suas faltas</item>
+        <item>Aprovando as matérias</item>
+        <item>Indo para a calourada</item>
+        <item>Descansando um pouco</item>
+        <item>Criando novas strings</item>
+        <item>Desvendando seus segredos</item>
+        <item>Criando barreira anti-jubilamento</item>
+        <item>Recebendo um aviãozinho</item>
+        <item>Mensagem Aleátoria</item>
+        <item>Fingindo que está carregando</item>
+        <item>Roubando sua caneta</item>
+        <item>Comprando almofadas</item>
+        <item>A cozinha está em chamas</item>
+        <item>Já volto</item>
+        <item>Lendo livro na biblioteca</item>
+        <item>Estudando para a prova</item>
+        <item>Passando em PDS</item>
+        <item>Enfrentando o monstro do mau</item>
+        <item>Carregando suas mensagens</item>
+        <item>Vazando suas notas</item>
+        <item>Olhando esta barra</item>
+        <item>Olhando o Ponto U</item>
+        <item>Olhando os raios de luz!</item>
+        <item>BUNITO</item>
+        <item>Entendendo tudo agora</item>
+        <item>Encaixando todas as peças</item>
+        <item>Ficando de olhos abertos</item>
+    </string-array>
+
+    <string name="message_received_date_format">Mensagem recebida %1$s</string>
+    <string name="message_received_date_ago_format">Mensagem recebida %1$s atrás</string>
+    <string name="label_menu">Menu</string>
+    <string name="label_grades_disciplines_short">Disciplinas</string>
+
+    <string name="data_step_format">Passo %1$d de %2$d: %3$s</string>
+    <string name="step_delete_database">Apagando dados</string>
+    <string name="step_logging_in">Fazendo login</string>
+    <string name="step_finding_profile">Buscando perfil</string>
+    <string name="step_fetching_messages">Buscando mensagens</string>
+    <string name="step_fetching_semesters">Buscando semestres</string>
+    <string name="step_moving_to_start_page">Movendo para página inicial</string>
+    <string name="step_fetching_grades">Buscando notas</string>
+
+    <string name="label_terms_and_conditions_p1">Ao continuar, você concorda com os</string>
+    <string name="label_terms_and_conditions_p2">[Termos de Serviço](https://github.com/ForceTower/Pineapple/blob/development/privacy_policy.md) e a [Política de Privacidade](https://github.com/ForceTower/Pineapple/blob/development/privacy_policy.md)</string>
+
+    <string name="about_unes_0">UNES é uma ferramenta para auxiliar os estudantes durante a vida universitária. O UNES irá periodicamente buscar os dados disponibilizados no [Portal Sagres](http://academico2.uefs.br/Portal/Acesso.aspx) e irá te mandar notificações quando alguma mudança nos dados for detectada. Este não é um aplicativo oficial ou foi endorsado pela Tecnotrends.</string>
+    <string name="about_unes_1">O UNES foi feito por João Paulo Sena</string>
+    <string name="about_unes_2">[Facebook](https://facebook.com/ForceTower) | [GitHub](https://github.com/ForceTower)</string>
+    <string name="about_unes_3">Espero que gostem</string>
+    <string name="acc_contributor_image">Imagem do contribuidor</string>
+    <string name="acc_developer_image">Imagem do Desenvolvedor</string>
+    <string name="acc_user_image">Imagem de Usuário</string>
+    <string name="label_contributors_calling">Pessoas que contribuíram com código ou ideias</string>
+
+    <string name="label_your_score">Seu score é %1$.1f</string>
+</resources>

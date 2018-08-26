@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018.
+  ~ João Paulo Sena <joaopaulo761@gmail.com>
+  ~
+  ~ This file is part of the UNES Open Source Project.
+  ~
+  ~ UNES is licensed under the Apache License, Version 2.0 (the "License");
+  ~ You may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+    <color name="colorPrimary">#FFF</color>
+    <color name="colorPrimaryDark">#FFF</color>
+    <color name="colorPrimaryLight">#FFF</color>
+    <color name="colorAccent">#2196F3</color>
+
+    <color name="yellow_pr">#FFC107</color>
+    <color name="yellow_pr_dark">#FFA000</color>
+    <color name="yellow_pr_light">#FFECB3</color>
+    <color name="blue_accent">#2196F3</color>
+
+    <color name="indigo_dark">#3c54fe</color>
+    <color name="indigo">#4768fd</color>
+
+    <color name="tab_drawable_color">#2196F3</color>
+    <color name="tab_text_color">#2196F3</color>
+
+    <color name="navigation_bottom_checked_color">#2196F3</color>
+    <color name="text_bottom_sheet_menu">#2196F3</color>
+
+    <color name="drawer_selected_color">#192196F3</color>
+    <color name="icon_nav_color">#2196F3</color>
+
+    <color name="links_colors">#2196F3</color>
+    <color name="links_highlighted">#2196F3</color>
+
+    <color name="grey">#FF757575</color>
+    <color name="navigation_grey">#757575</color>
+    <color name="messages_stroke">#a9a9a9</color>
+
+    <color name="highlight_light">#33ffffff</color>
+
+    <color name="text_primary_dark">#de000000</color> <!-- 87% -->
+    <color name="text_secondary_dark">#8a000000</color> <!-- 54% -->
+    <color name="text_tertiary_dark">#61000000</color> <!-- 38% -->
+    <color name="text_primary_light">#ffffffff</color>
+    <color name="text_secondary_light">#b3ffffff</color> <!-- 70% -->
+    <color name="text_disabled_light">#4dffffff</color>
+    <color name="white">#FFFF</color>
+
+    <color name="page_indicator_dark">#80333333</color>
+    <color name="page_indicator_dark_selected">#ff333333</color>
+
+    <color name="scrim">#99323232</color>
+    <color name="background_light">#fafafa</color>
+
+    <color name="mid_grey">#40808080</color>
+    <color name="light_grey">#fff5f5f5</color>
+    <color name="grey_200">#ffeeeeee</color>
+    <color name="grey_300">#ffe0e0e0</color>
+</resources>

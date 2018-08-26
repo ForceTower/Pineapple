@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018.
+  ~ João Paulo Sena <joaopaulo761@gmail.com>
+  ~
+  ~ This file is part of the UNES Open Source Project.
+  ~
+  ~ UNES is licensed under the Apache License, Version 2.0 (the "License");
+  ~ You may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+    <dimen name="bottom_sheet_corner_radius">24dp</dimen>
+    <dimen name="bottom_sheet_top_padding">8dp</dimen>
+    <dimen name="nav_header_size">56dp</dimen>
+    <dimen name="nav_header_keyline">80dp</dimen>
+    <dimen name="third_keyline">72dp</dimen>
+    <dimen name="second_keyline">24dp</dimen>
+    <dimen name="drag_dismiss_distance">112dp</dimen>
+    <dimen name="padding_normal">16dp</dimen>
+    <dimen name="spacing_common">8dp</dimen>
+    <dimen name="spacing_normal">16dp</dimen>
+    <dimen name="display_4_text_size">112dp</dimen>
+    <dimen name="about_app_name_header">224dp</dimen>
+    <dimen name="spacing_large">32dp</dimen>
+    <dimen name="about_header_image">80dp</dimen>
+    <dimen name="about_header_margin">8dp</dimen>
+    <dimen name="contributor_card_corners">6dp</dimen>
+    <dimen name="contributor_image_size">56dp</dimen>
+    <dimen name="contributor_default_elevation">1dp</dimen>
+    <dimen name="contributor_card_raised">6dp</dimen>
+    <dimen name="spacing_xlarge">48dp</dimen>
+    <dimen name="default_card_raised_elevation">8dp</dimen>
+    <dimen name="default_card_resting_elevation">1dp</dimen>
+</resources>
