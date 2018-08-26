@@ -148,4 +148,7 @@
     <string name="label_contributors_calling">Pessoas que contribuíram com código ou ideias</string>
 
     <string name="label_your_score">Seu score é %1$.1f</string>
+    <string name="acc_no_schedule_defined">Horários não foram encontrados</string>
+    <string name="label_schedule_not_found">Horário não foi encontrado</string>
+    <string name="label_schedule_retry">Não se preocupe, o UNES tentará novamente</string>
 </resources>

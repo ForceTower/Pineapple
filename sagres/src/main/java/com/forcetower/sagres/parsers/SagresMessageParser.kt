@@ -64,10 +64,10 @@ object SagresMessageParser {
     }
 
     private fun extractInfoArticle(article: String): SMessage? {
-        val clazz = extractArticleForm1(MESSAGE_CLASS_RECEIVED, article)
-        val date = extractArticleForm1(MESSAGE_DATE_RECEIVED, article)
-        val message = extractArticleForm2(MESSAGE_MESSAGE_RECEIVED, article)
-        val from = extractArticleForm2(MESSAGE_FROM_RECEIVED, article)
+//        val clazz = extractArticleForm1(MESSAGE_CLASS_RECEIVED, article)
+//        val date = extractArticleForm1(MESSAGE_DATE_RECEIVED, article)
+//        val message = extractArticleForm2(MESSAGE_MESSAGE_RECEIVED, article)
+//        val from = extractArticleForm2(MESSAGE_FROM_RECEIVED, article)
         //TODO Figure this out
         return null
     }

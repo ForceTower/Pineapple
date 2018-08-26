@@ -64,7 +64,7 @@ class GradesOperation(private val semester: Long?, private val document: Documen
                 val frequency = SagresMissedClassesParser.extractMissedClasses(document, selected.second)
                 successMeasures(document, codes, grades, frequency)
             } else {
-                val variants = SagresGradesParser.extractCourseVariants(document)
+                //val variants = SagresGradesParser.extractCourseVariants(document)
                 Timber.d("Trying alternate page on this bad boy")
             }
         } else {

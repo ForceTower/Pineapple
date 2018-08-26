@@ -66,6 +66,13 @@
     <style name="UTheme.TextAppearance.Headline1" parent="UTheme.TextAppearance">
         <item name="android:textColor">@color/text_primary_dark</item>
         <item name="android:textSize">24sp</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="UTheme.TextAppearance.Headline2" parent="UTheme.TextAppearance">
+        <item name="android:textColor">@color/text_primary_dark</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textAlignment">center</item>
     </style>
 
     <style name="UTheme.TextAppearance.Common" parent="UTheme.TextAppearance">

@@ -1,0 +1,24 @@
+{
+  "data": [
+    {
+      "classCode": "EXA856",
+      "group": "T01"
+    },
+    {
+      "classCode": "TEC402",
+      "group": "T01"
+    },
+    {
+      "classCode": "FIS410",
+      "group": "T03"
+    },
+    {
+      "classCode": "FIS410",
+      "group": "T03P01"
+    },
+    {
+      "classCode": "CIS210",
+      "group": "T02"
+    }
+  ]
+}
