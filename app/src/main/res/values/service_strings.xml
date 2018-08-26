@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_service_account_secret" translatable="false">2.eATzRA3~[eTVM37q#)</string>
-    <string name="app_service_client_secret" translatable="false">kYVjtz6Uqthl0U3KpfuBwBeUXgbjgcLsuvh0eOZj</string>
-    <string name="imgur_service_album" translatable="false">YuKcQI3mEuYFu3q</string>
-    <string name="imgur_service_secret" translatable="false">Client-ID 5becc567d624bcf</string>
-</resources>
