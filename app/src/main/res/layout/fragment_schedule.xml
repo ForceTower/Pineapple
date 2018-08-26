@@ -21,6 +21,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="empty"
+            type="Boolean"/>
+    </data>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -28,7 +34,8 @@
         <androidx.core.widget.NestedScrollView
             android:id="@+id/layout_data"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:goneIf="@{!empty}">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -50,18 +57,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="8dp"
-                    android:clipToPadding="false">
+                    android:clipToPadding="false"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="5"
+                    tools:listitem="@layout/item_schedule_line_day">
                 </androidx.recyclerview.widget.RecyclerView>
 
             </LinearLayout>
-
         </androidx.core.widget.NestedScrollView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_no_data"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="invisible">
+            android:visibility="invisible"
+            app:goneIf="@{empty}">
 
             <ImageView
                 android:layout_width="0dp"

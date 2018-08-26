@@ -22,6 +22,7 @@ package com.forcetower.unes.core.injection.module
 import com.forcetower.unes.feature.home.HomeBottomFragment
 import com.forcetower.unes.feature.messages.SagresMessagesFragment
 import com.forcetower.unes.feature.messages.UnesMessagesFragment
+import com.forcetower.unes.feature.schedule.ScheduleFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -29,10 +30,10 @@ import dagger.android.ContributesAndroidInjector
 abstract class HomeModule {
     @ContributesAndroidInjector
     abstract fun sagresMessageFragment(): SagresMessagesFragment
-
     @ContributesAndroidInjector
     abstract fun unesMessageFragment(): UnesMessagesFragment
-
     @ContributesAndroidInjector
     abstract fun homeBottomFragment(): HomeBottomFragment
+    @ContributesAndroidInjector
+    abstract fun scheduleFragment(): ScheduleFragment
 }

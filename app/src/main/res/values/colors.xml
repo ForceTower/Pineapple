@@ -47,6 +47,7 @@
     <color name="grey">#FF757575</color>
     <color name="navigation_grey">#757575</color>
     <color name="messages_stroke">#a9a9a9</color>
+    <color name="schedule_divider">#1E000000</color>
 
     <color name="highlight_light">#33ffffff</color>
 

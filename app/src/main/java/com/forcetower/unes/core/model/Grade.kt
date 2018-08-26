@@ -26,6 +26,7 @@ import java.util.*
 @Entity(foreignKeys = [
     ForeignKey(entity = ClassStudent::class, parentColumns = ["uid"], childColumns = ["class_id"], onUpdate = CASCADE, onDelete = CASCADE)
 ], indices = [
+    Index(value = ["class_id"]),
     Index(value = ["name", "class_id"], unique = true),
     Index(value = ["uuid"], unique = true)
 ])

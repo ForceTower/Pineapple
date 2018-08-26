@@ -34,8 +34,8 @@
         android:focusable="true">
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="60dp"
-            android:layout_height="48dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:gravity="center">
 
             <TextView

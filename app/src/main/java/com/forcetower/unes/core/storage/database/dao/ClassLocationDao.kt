@@ -19,10 +19,12 @@
 
 package com.forcetower.unes.core.storage.database.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import androidx.room.OnConflictStrategy.IGNORE
 import com.forcetower.sagres.database.model.SDisciplineClassLocation
 import com.forcetower.unes.core.model.*
+import com.forcetower.unes.core.storage.database.accessors.LocationWithGroup
 import timber.log.Timber
 
 @Dao
@@ -32,6 +34,10 @@ abstract class ClassLocationDao {
 
     @Query("SELECT * FROM ClassLocation")
     abstract fun getAllLocationsDirect(): List<ClassLocation>
+
+    @Transaction
+    @Query("SELECT cl.* FROM ClassLocation cl, Profile p WHERE cl.profile_id = p.uid AND p.me = 1")
+    abstract fun getCurrentSchedule(): LiveData<List<LocationWithGroup>>
 
     @Transaction
     open fun putSchedule(locations: List<SDisciplineClassLocation>) {

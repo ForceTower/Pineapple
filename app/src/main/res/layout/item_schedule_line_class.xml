@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018.
+  ~ João Paulo Sena <joaopaulo761@gmail.com>
+  ~
+  ~ This file is part of the UNES Open Source Project.
+  ~
+  ~ UNES is licensed under the Apache License, Version 2.0 (the "License");
+  ~ You may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="location"
+            type="com.forcetower.unes.core.storage.database.accessors.LocationWithGroup"/>
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:cardCornerRadius="4dp"
+        android:stateListAnimator="@animator/default_card_raise">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/vertical_guide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="64dp" />
+
+            <TextView
+                android:id="@+id/text_start_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:maxLines="1"
+                android:textAlignment="center"
+                android:textColor="@color/text_primary_dark"
+                app:layout_constraintBottom_toTopOf="@+id/divider_time"
+                app:layout_constraintEnd_toStartOf="@+id/vertical_guide"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="08:30" />
+
+            <View
+                android:id="@+id/divider_time"
+                android:layout_width="24dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                android:background="@color/blue_accent"
+                app:layout_constraintBottom_toTopOf="@+id/text_end_time"
+                app:layout_constraintEnd_toStartOf="@+id/vertical_guide"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_start_time" />
+
+            <TextView
+                android:id="@+id/text_end_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:maxLines="1"
+                android:textAlignment="center"
+                android:textColor="@color/text_primary_dark"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/vertical_guide"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider_time"
+                tools:text="10:30" />
+
+            <TextView
+                android:id="@+id/text_class_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:maxLines="1"
+                android:textColor="@color/blue_accent"
+                app:layout_constraintBaseline_toBaselineOf="@+id/text_start_time"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/vertical_guide"
+                tools:text="MI - Processamento Digital de Sinais" />
+
+            <View
+                android:id="@+id/divider_class"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="16dp"
+                android:background="@color/schedule_divider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/vertical_guide"
+                app:layout_constraintTop_toBottomOf="@id/text_class_name" />
+
+            <TextView
+                android:id="@+id/text_class_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:textSize="12sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/text_end_time"
+                app:layout_constraintStart_toEndOf="@+id/text_end_time"
+                app:layout_constraintStart_toStartOf="@+id/vertical_guide"
+                tools:text="TEC513" />
+
+            <TextView
+                android:id="@+id/text_class_modulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:maxLines="1"
+                android:textSize="12sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/text_end_time"
+                app:layout_constraintStart_toEndOf="@+id/text_class_code"
+                tools:text="Módulo 3" />
+
+            <TextView
+                android:id="@+id/text_class_room"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:maxLines="1"
+                android:textSize="12sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/text_end_time"
+                app:layout_constraintStart_toEndOf="@+id/text_class_modulo"
+                tools:text="MP34" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

@@ -27,6 +27,7 @@ import java.util.*
     ForeignKey(entity = ClassStudent::class, parentColumns = ["uid"], childColumns = ["class_id"], onUpdate = CASCADE, onDelete = CASCADE),
     ForeignKey(entity = Profile::class, parentColumns = ["uid"], childColumns = ["profile_id"], onUpdate = CASCADE, onDelete = CASCADE)
 ], indices = [
+    Index(value = ["profile_id"]),
     Index(value = ["class_id", "profile_id"], unique = false),
     Index(value = ["uuid"], unique = true)
 ])
