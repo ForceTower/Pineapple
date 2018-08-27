@@ -17,18 +17,9 @@
  * limitations under the License.
  */
 
-package com.forcetower.unes.core.storage.database.accessors
+package com.forcetower.unes.feature.shared
 
-import androidx.room.Embedded
-import androidx.room.Relation
-import com.forcetower.unes.core.model.ClassGroup
-import com.forcetower.unes.core.model.ClassLocation
-
-class LocationWithGroup {
-    @Embedded
-    var location: ClassLocation? = null
-    @Relation(parentColumn = "group_id", entityColumn = "uid", entity = ClassGroup::class)
-    var groups: List<GroupWithClass> = ArrayList()
-
-    fun singleGroup(): GroupWithClass = groups[0]
+fun <T> List<T>.positionOf(other: Any): Int {
+    for (i in 0..(size - 1)) if (get(i) == other) return i
+    return -1
 }

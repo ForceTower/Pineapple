@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018.
+  ~ João Paulo Sena <joaopaulo761@gmail.com>
+  ~
+  ~ This file is part of the UNES Open Source Project.
+  ~
+  ~ UNES is licensed under the Apache License, Version 2.0 (the "License");
+  ~ You may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="inner"
+            type="com.forcetower.unes.feature.schedule.InnerLocation"/>
+    </data>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="60dp"
+        android:layout_height="48dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/text_start"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            tools:text="07:30"
+            android:text="@{inner.location.location.startsAt}"
+            android:textColor="@color/text_primary_dark" />
+
+        <TextView
+            android:id="@+id/text_end"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            tools:text="09:30"
+            android:text="@{inner.location.location.endsAt}"
+            android:textColor="@color/text_primary_dark" />
+
+    </LinearLayout>
+</layout>

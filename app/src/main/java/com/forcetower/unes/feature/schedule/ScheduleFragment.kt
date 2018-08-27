@@ -44,12 +44,14 @@ class ScheduleFragment: UFragment(), Injectable {
     private lateinit var viewModel: ScheduleViewModel
     private lateinit var binding: FragmentScheduleBinding
 
-    private val pool = RecyclerView.RecycledViewPool()
-    private val lineAdapter by lazy { ScheduleLineAdapter(pool) }
+    private val linePool = RecyclerView.RecycledViewPool()
+    private val lineAdapter by lazy { ScheduleLineAdapter(linePool) }
+    private val blockPool = RecyclerView.RecycledViewPool()
+    private val blockAdapter by lazy { ScheduleBlockAdapter(blockPool) }
 
     init {
-        pool.setMaxRecycledViews(1, 4)
-        pool.setMaxRecycledViews(2, 5)
+        linePool.setMaxRecycledViews(1, 4)
+        linePool.setMaxRecycledViews(2, 5)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -60,9 +62,16 @@ class ScheduleFragment: UFragment(), Injectable {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.apply {
-            recyclerScheduleBlocks.setRecycledViewPool(pool)
-            recyclerScheduleBlocks.adapter = lineAdapter
-            recyclerScheduleBlocks.itemAnimator = DefaultItemAnimator()
+            recyclerScheduleLine.apply {
+                setRecycledViewPool(linePool)
+                adapter = lineAdapter
+                itemAnimator = DefaultItemAnimator()
+            }
+
+            recyclerScheduleBlocks.apply {
+                setRecycledViewPool(blockPool)
+                adapter = blockAdapter
+            }
         }
 
         viewModel = provideViewModel(factory)
@@ -73,5 +82,6 @@ class ScheduleFragment: UFragment(), Injectable {
         binding.empty = locations.isEmpty()
         binding.executePendingBindings()
         lineAdapter.adaptList(locations)
+        blockAdapter.adaptList(locations)
     }
 }
