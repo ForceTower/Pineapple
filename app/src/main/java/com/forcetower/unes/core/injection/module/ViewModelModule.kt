@@ -24,8 +24,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.forcetower.unes.core.injection.annotation.ViewModelKey
 import com.forcetower.unes.core.vm.HomeViewModel
 import com.forcetower.unes.core.vm.LoginViewModel
+import com.forcetower.unes.core.vm.ScheduleViewModel
 import com.forcetower.unes.core.vm.UViewModelFactory
 import dagger.Binds
+import dagger.BindsInstance
 import dagger.Module
 import dagger.multibindings.IntoMap
 
@@ -40,6 +42,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(HomeViewModel::class)
     abstract fun bindHomeViewModel(vm: HomeViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ScheduleViewModel::class)
+    abstract fun bindScheduleViewModel(vm: ScheduleViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(factory: UViewModelFactory): ViewModelProvider.Factory

@@ -87,6 +87,10 @@ class HomeActivity : UActivity(), ToolbarActivity, HasSupportFragmentInjector {
                     findNavController(R.id.home_nav_host).navigate(R.id.messages)
                     true
                 }
+                R.id.schedule -> {
+                    findNavController(R.id.home_nav_host).navigate(R.id.schedule)
+                    true
+                }
                 else -> true
             }
         }

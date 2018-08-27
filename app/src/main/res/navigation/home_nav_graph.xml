@@ -32,6 +32,9 @@
         <action
             android:id="@+id/action_dashboard_to_messages"
             app:destination="@id/messages" />
+        <action
+            android:id="@+id/action_dashboard_to_schedule"
+            app:destination="@id/schedule" />
     </fragment>
     <fragment
         android:id="@+id/messages"
@@ -47,4 +50,9 @@
             android:id="@+id/action_bottom_to_messages"
             app:destination="@id/messages" />
     </fragment>
+    <fragment
+        android:id="@+id/schedule"
+        android:name="com.forcetower.unes.feature.schedule.ScheduleFragment"
+        android:label="ScheduleFragment"
+        tools:layout="@layout/fragment_schedule"/>
 </navigation>

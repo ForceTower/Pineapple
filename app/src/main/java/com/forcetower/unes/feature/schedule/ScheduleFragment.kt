@@ -28,6 +28,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
+import com.forcetower.unes.R
 import com.forcetower.unes.core.injection.Injectable
 import com.forcetower.unes.core.storage.database.accessors.LocationWithGroup
 import com.forcetower.unes.core.vm.ScheduleViewModel
@@ -35,6 +36,7 @@ import com.forcetower.unes.core.vm.UViewModelFactory
 import com.forcetower.unes.databinding.FragmentScheduleBinding
 import com.forcetower.unes.feature.shared.UFragment
 import com.forcetower.unes.feature.shared.provideViewModel
+import timber.log.Timber
 import javax.inject.Inject
 
 class ScheduleFragment: UFragment(), Injectable {
@@ -55,6 +57,9 @@ class ScheduleFragment: UFragment(), Injectable {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        getTabLayout().visibility = GONE
+        getToolbarTitleText().text = getString(R.string.label_schedule)
+        getAppBar().elevation = 0f
         return FragmentScheduleBinding.inflate(inflater, container, false).also {
             binding = it
         }.root
@@ -79,6 +84,7 @@ class ScheduleFragment: UFragment(), Injectable {
     }
 
     private fun populateInterface(locations: List<LocationWithGroup>) {
+        Timber.d("Locations: $locations")
         binding.empty = locations.isEmpty()
         binding.executePendingBindings()
         lineAdapter.adaptList(locations)

@@ -151,4 +151,5 @@
     <string name="acc_no_schedule_defined">Horários não foram encontrados</string>
     <string name="label_schedule_not_found">Horário não foi encontrado</string>
     <string name="label_schedule_retry">Não se preocupe, o UNES tentará novamente</string>
+    <string name="btn_siecomp_schedule">Programação SIECOMP</string>
 </resources>
