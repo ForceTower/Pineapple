@@ -21,5 +21,14 @@ package com.forcetower.unes.feature.shared
 
 import android.view.LayoutInflater
 import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 
 fun View.inflater() : LayoutInflater = LayoutInflater.from(context)
+
+fun RecyclerView.clearDecorations() {
+    if (itemDecorationCount > 0) {
+        for (i in itemDecorationCount - 1 downTo 0) {
+            removeItemDecorationAt(i)
+        }
+    }
+}

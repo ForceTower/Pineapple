@@ -24,15 +24,15 @@ import androidx.room.Relation
 import com.forcetower.unes.core.model.event.Session
 import com.forcetower.unes.core.model.event.SessionSpeaker
 import com.forcetower.unes.core.model.event.SessionTag
-import com.forcetower.unes.core.model.event.Tag
 
 class SessionWithData {
     @Embedded
     lateinit var session: Session
     @Relation(entityColumn = "session_id", parentColumn = "uid", entity = SessionSpeaker::class)
-    lateinit var speakers: List<SessionSpeakerTalker>
+    lateinit var speakersRel: List<SessionSpeakerTalker>
     @Relation(entityColumn = "session_id", parentColumn = "uid", entity = SessionTag::class)
     lateinit var displayTags: List<SessionTagged>
 
     fun tags() = displayTags.map { it.singleTag() }
+    fun speakers() = speakersRel.map { it.singleSpeaker() }
 }
