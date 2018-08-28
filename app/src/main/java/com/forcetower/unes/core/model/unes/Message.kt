@@ -17,31 +17,35 @@
  * limitations under the License.
  */
 
-package com.forcetower.unes.core.model
+package com.forcetower.unes.core.model.unes
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.forcetower.sagres.database.model.SDiscipline
+import com.forcetower.sagres.database.model.SMessage
 import java.util.*
 
 @Entity(indices = [
-    Index(value = ["code"], unique = true),
-    Index(value = ["uuid"], unique = true),
-    Index(value = ["name"], unique = true)
+    Index(value = ["sagres_id"], unique = true),
+    Index(value = ["uuid"], unique = true)
 ])
-data class Discipline(
+data class Message(
     @PrimaryKey(autoGenerate = true)
     val uid: Long = 0,
-    val name: String,
-    val code: String,
-    val credits: Int,
-    var department: String? = null,
+    val content: String,
+    @ColumnInfo(name = "sagres_id")
+    val sagresId: Long,
+    val timestamp: Long,
+    @ColumnInfo(name = "sender_profile")
+    val senderProfile: Int,
+    @ColumnInfo(name = "sender_name")
+    val senderName: String,
+    val notified: Boolean = false,
     val uuid: String = UUID.randomUUID().toString()
 ) {
 
     companion object {
-        fun fromSagres(discipline: SDiscipline)
-                = Discipline(name = discipline.name, code = discipline.code, credits = discipline.credits)
+        fun fromMessage(me: SMessage) = Message(content = me.message, sagresId = me.sagresId, senderName = me.senderName, senderProfile = me.senderProfile, timestamp = me.timeStampInMillis)
     }
 }

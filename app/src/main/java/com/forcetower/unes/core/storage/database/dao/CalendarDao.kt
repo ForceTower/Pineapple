@@ -24,7 +24,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 import androidx.room.Transaction
-import com.forcetower.unes.core.model.CalendarItem
+import com.forcetower.unes.core.model.unes.CalendarItem
 
 @Dao
 abstract class CalendarDao {

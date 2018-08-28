@@ -21,8 +21,8 @@ package com.forcetower.unes.core.storage.database.accessors
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import com.forcetower.unes.core.model.ClassGroup
-import com.forcetower.unes.core.model.ClassLocation
+import com.forcetower.unes.core.model.unes.ClassGroup
+import com.forcetower.unes.core.model.unes.ClassLocation
 
 class LocationWithGroup {
     @Embedded

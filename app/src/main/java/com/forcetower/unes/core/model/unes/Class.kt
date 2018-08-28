@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.forcetower.unes.core.model
+package com.forcetower.unes.core.model.unes
 
 import androidx.room.*
 import androidx.room.ForeignKey.CASCADE

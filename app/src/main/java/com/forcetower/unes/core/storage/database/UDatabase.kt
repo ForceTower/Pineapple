@@ -21,7 +21,7 @@ package com.forcetower.unes.core.storage.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.forcetower.unes.core.model.*
+import com.forcetower.unes.core.model.unes.*
 import com.forcetower.unes.core.storage.database.dao.*
 
 @Database(entities = [

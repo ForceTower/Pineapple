@@ -22,6 +22,7 @@ package com.forcetower.unes.core.injection.module
 import com.forcetower.unes.feature.about.AboutActivity
 import com.forcetower.unes.feature.home.HomeActivity
 import com.forcetower.unes.feature.login.LoginActivity
+import com.forcetower.unes.feature.siecomp.SiecompActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -33,4 +34,6 @@ abstract class ActivityModule {
     abstract fun bindHomeActivity() : HomeActivity
     @ContributesAndroidInjector(modules = [AboutModule::class])
     abstract fun bindAboutActivity(): AboutActivity
+    @ContributesAndroidInjector(modules = [SiecompModule::class])
+    abstract fun bindSiecompActivity(): SiecompActivity
 }

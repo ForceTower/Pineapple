@@ -24,9 +24,9 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy.IGNORE
 import androidx.room.Query
 import androidx.room.Transaction
-import com.forcetower.unes.core.model.ClassGroup
-import com.forcetower.unes.core.model.ClassStudent
-import com.forcetower.unes.core.model.Profile
+import com.forcetower.unes.core.model.unes.ClassGroup
+import com.forcetower.unes.core.model.unes.ClassStudent
+import com.forcetower.unes.core.model.unes.Profile
 
 @Dao
 abstract class ClassStudentDao {

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018.
+  ~ João Paulo Sena <joaopaulo761@gmail.com>
+  ~
+  ~ This file is part of the UNES Open Source Project.
+  ~
+  ~ UNES is licensed under the Apache License, Version 2.0 (the "License");
+  ~ You may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="data"
+            type="com.forcetower.unes.core.storage.database.accessors.SessionWithData"/>
+
+        <variable
+            name="zone"
+            type="org.threeten.bp.ZoneId"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackground">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/keyline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="80dp"/>
+
+        <TextView
+            android:id="@+id/text_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/keyline"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@{data.session.title}"
+            tools:text="Técnicas para aumento de desempenho pessoal"
+            app:layout_constraintEnd_toStartOf="@+id/bookmark_session"
+            style="@style/TextAppearance.AppCompat.Subhead"
+            android:fontFamily="@font/product_sans_regular" />
+
+        <com.google.android.material.internal.CheckableImageButton
+            android:id="@+id/bookmark_session"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:contentDescription="@string/acc_event_mark_session"
+            android:src="@drawable/asld_star_event"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/text_duration_location"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/text_secondary_dark"
+            app:layout_constraintEnd_toEndOf="@id/text_title"
+            app:layout_constraintStart_toStartOf="@+id/keyline"
+            app:layout_constraintTop_toBottomOf="@id/text_title"
+            app:sessionStart="@{data.session.startTime}"
+            app:sessionEnd="@{data.session.endTime}"
+            app:sessionRoom="@{data.session.room}"
+            app:timeZoneId="@{zone}"
+            tools:text="1 hora / Auditório 3 / Módulo 4" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_tags"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:orientation="horizontal"
+            android:paddingBottom="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/keyline"
+            app:layout_constraintTop_toBottomOf="@+id/text_duration_location"
+			tools:listitem="@layout/item_event_session_tag"
+            app:sessionTags="@{data.tags()}"
+            tools:itemCount="1"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

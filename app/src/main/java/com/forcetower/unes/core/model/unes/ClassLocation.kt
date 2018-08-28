@@ -17,26 +17,39 @@
  * limitations under the License.
  */
 
-package com.forcetower.unes.core.model
+package com.forcetower.unes.core.model.unes
 
 import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
 import java.util.*
 
 @Entity(foreignKeys = [
-    ForeignKey(entity = ClassGroup::class, parentColumns = ["uid"], childColumns = ["group_id"], onDelete = CASCADE, onUpdate = CASCADE),
-    ForeignKey(entity = Profile::class, parentColumns = ["uid"], childColumns = ["profile_id"], onDelete = CASCADE, onUpdate = CASCADE)
+    ForeignKey(entity = ClassGroup::class, parentColumns = ["uid"], childColumns = ["group_id"], onUpdate = CASCADE, onDelete = CASCADE),
+    ForeignKey(entity = Profile::class, parentColumns = ["uid"], childColumns = ["profile_id"], onUpdate = CASCADE, onDelete = CASCADE)
 ], indices = [
-    Index(value = ["group_id"]),
-    Index(value = ["profile_id", "group_id"], unique = true),
+    Index(value = ["group_id", "day", "starts_at", "ends_at", "profile_id"], unique = true),
+    Index(value = ["profile_id"]),
     Index(value = ["uuid"], unique = true)
 ])
-data class ClassStudent(
+data class ClassLocation(
     @PrimaryKey(autoGenerate = true)
     val uid: Long = 0,
-    @ColumnInfo(name = "profile_id")
-    val profileId: Long,
     @ColumnInfo(name = "group_id")
     val groupId: Long,
+    @ColumnInfo(name = "profile_id")
+    val profileId: Long,
+    @ColumnInfo(name = "starts_at")
+    val startsAt: String,
+    @ColumnInfo(name = "ends_at")
+    val endsAt: String,
+    val day: String,
+    val room: String?,
+    val modulo: String?,
+    val campus: String?,
     val uuid: String = UUID.randomUUID().toString()
-)
+) {
+
+    override fun toString(): String {
+        return "${groupId}_$profileId: $day >> $startsAt .. $endsAt"
+    }
+}

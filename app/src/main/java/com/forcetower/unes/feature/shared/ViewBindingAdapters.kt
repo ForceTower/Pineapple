@@ -77,8 +77,8 @@ fun invisibleUnless(view: View, visible: Boolean) {
 }
 
 @BindingAdapter("goneIf")
-fun goneIf(view: View, gone: Boolean?) {
-    view.visibility = if (gone == true) GONE else VISIBLE
+fun goneIf(view: View, gone: Boolean) {
+    view.visibility = if (gone) GONE else VISIBLE
 }
 
 @BindingAdapter("pageMargin")

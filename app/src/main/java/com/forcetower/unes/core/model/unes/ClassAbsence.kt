@@ -17,39 +17,29 @@
  * limitations under the License.
  */
 
-package com.forcetower.unes.core.model
+package com.forcetower.unes.core.model.unes
 
 import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
-import com.forcetower.sagres.database.model.SDisciplineGroup
 import java.util.*
 
 @Entity(foreignKeys = [
-    ForeignKey(entity = Class::class, parentColumns = ["uid"], childColumns = ["class_id"], onDelete = CASCADE, onUpdate = CASCADE)
+    ForeignKey(entity = ClassStudent::class, parentColumns = ["uid"], childColumns = ["class_id"], onUpdate = CASCADE, onDelete = CASCADE),
+    ForeignKey(entity = Profile::class, parentColumns = ["uid"], childColumns = ["profile_id"], onUpdate = CASCADE, onDelete = CASCADE)
 ], indices = [
-    Index(value = ["class_id", "group"], unique = true),
+    Index(value = ["profile_id"]),
+    Index(value = ["class_id", "profile_id"], unique = false),
     Index(value = ["uuid"], unique = true)
 ])
-data class ClassGroup(
+data class ClassAbsence(
     @PrimaryKey(autoGenerate = true)
-    var uid: Long = 0,
+    val uid: Long = 0,
     @ColumnInfo(name = "class_id")
     val classId: Long,
-    var group: String,
-    var teacher: String? = null,
-    var credits: Int = 0,
-    val uuid: String = UUID.randomUUID().toString(),
-    var draft: Boolean = true,
-    var ignored: Boolean = false
-) {
-
-    fun selectiveCopy(grp: SDisciplineGroup) {
-        if (!grp.group.isNullOrBlank()) group = grp.group
-        if (!grp.teacher.isNullOrBlank()) teacher = grp.teacher
-        if (grp.credits > 0) credits = grp.credits
-    }
-
-    override fun toString(): String {
-        return "${classId}_$group draft: $draft"
-    }
-}
+    @ColumnInfo(name = "profile_id")
+    val profileId: Long,
+    val sequence: Int,
+    val description: String,
+    val date: String,
+    val uuid: String = UUID.randomUUID().toString()
+)

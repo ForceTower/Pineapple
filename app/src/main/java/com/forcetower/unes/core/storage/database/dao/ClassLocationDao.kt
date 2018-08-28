@@ -23,7 +23,10 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import androidx.room.OnConflictStrategy.IGNORE
 import com.forcetower.sagres.database.model.SDisciplineClassLocation
-import com.forcetower.unes.core.model.*
+import com.forcetower.unes.core.model.unes.ClassGroup
+import com.forcetower.unes.core.model.unes.ClassLocation
+import com.forcetower.unes.core.model.unes.Profile
+import com.forcetower.unes.core.model.unes.Semester
 import com.forcetower.unes.core.storage.database.accessors.LocationWithGroup
 import timber.log.Timber
 

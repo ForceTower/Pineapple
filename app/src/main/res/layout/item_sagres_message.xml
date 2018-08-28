@@ -24,7 +24,7 @@
     <data>
         <variable
             name="message"
-            type="com.forcetower.unes.core.model.Message"/>
+            type="com.forcetower.unes.core.model.unes.Message"/>
     </data>
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"

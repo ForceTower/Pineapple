@@ -17,35 +17,27 @@
  * limitations under the License.
  */
 
-package com.forcetower.unes.core.model
+package com.forcetower.unes.core.model.event
 
-import androidx.room.ColumnInfo
+import android.annotation.SuppressLint
 import androidx.room.Entity
-import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.forcetower.sagres.database.model.SMessage
+import org.threeten.bp.ZonedDateTime
+import org.threeten.bp.format.DateTimeFormatter
 import java.util.*
 
-@Entity(indices = [
-    Index(value = ["sagres_id"], unique = true),
-    Index(value = ["uuid"], unique = true)
-])
-data class Message(
+private const val formatPattern = "d MMMM"
+
+@SuppressLint("ConstantLocale")
+val FORMATTER_MONTH_DAY: DateTimeFormatter =
+        DateTimeFormatter.ofPattern(formatPattern, Locale.getDefault())
+
+data class EventDay(
     @PrimaryKey(autoGenerate = true)
     val uid: Long = 0,
-    val content: String,
-    @ColumnInfo(name = "sagres_id")
-    val sagresId: Long,
-    val timestamp: Long,
-    @ColumnInfo(name = "sender_profile")
-    val senderProfile: Int,
-    @ColumnInfo(name = "sender_name")
-    val senderName: String,
-    val notified: Boolean = false,
-    val uuid: String = UUID.randomUUID().toString()
+    val start: ZonedDateTime,
+    val end: ZonedDateTime
 ) {
-
-    companion object {
-        fun fromMessage(me: SMessage) = Message(content = me.message, sagresId = me.sagresId, senderName = me.senderName, senderProfile = me.senderProfile, timestamp = me.timeStampInMillis)
-    }
+    fun contains(session: Session) = start <= session.startTime && end >= session.endTime
+    fun formatMonthDay(): String = FORMATTER_MONTH_DAY.format(start)
 }

@@ -22,7 +22,7 @@ package com.forcetower.unes.core.storage.repository
 import androidx.lifecycle.LiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.forcetower.unes.core.model.Message
+import com.forcetower.unes.core.model.unes.Message
 import com.forcetower.unes.core.storage.database.UDatabase
 import javax.inject.Inject
 

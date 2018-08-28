@@ -22,9 +22,9 @@ package com.forcetower.unes.core.vm
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.paging.PagedList
-import com.forcetower.unes.core.model.Access
-import com.forcetower.unes.core.model.Message
-import com.forcetower.unes.core.model.Profile
+import com.forcetower.unes.core.model.unes.Access
+import com.forcetower.unes.core.model.unes.Message
+import com.forcetower.unes.core.model.unes.Profile
 import com.forcetower.unes.core.storage.repository.SagresDataRepository
 import com.forcetower.unes.core.storage.repository.LoginSagresRepository
 import javax.inject.Inject

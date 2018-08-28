@@ -23,7 +23,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.forcetower.unes.core.model.Contributor
+import com.forcetower.unes.core.model.unes.Contributor
 import com.forcetower.unes.databinding.ItemAboutContributorBinding
 import com.forcetower.unes.feature.shared.inflater
 

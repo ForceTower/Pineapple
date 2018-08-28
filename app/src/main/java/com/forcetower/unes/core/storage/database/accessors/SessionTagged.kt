@@ -17,26 +17,18 @@
  * limitations under the License.
  */
 
-package com.forcetower.unes.core.model
+package com.forcetower.unes.core.storage.database.accessors
 
-import androidx.room.*
-import androidx.room.ForeignKey.CASCADE
-import java.util.*
+import androidx.room.Embedded
+import androidx.room.Relation
+import com.forcetower.unes.core.model.event.SessionTag
+import com.forcetower.unes.core.model.event.Tag
 
-@Entity(indices = [
-    Index(value = ["sagres_id"], unique = true),
-    Index(value = ["uuid"], unique = true)
-])
-data class Profile(
-    @PrimaryKey(autoGenerate = true)
-    val uid: Long = 0,
-    val name: String?,
-    val email: String?,
-    val score: Double = -1.0,
-    val course: Long? = null,
-    val imageUrl: String? = null,
-    @ColumnInfo(name = "sagres_id")
-    val sagresId: Long,
-    val uuid: String = UUID.randomUUID().toString(),
-    val me: Boolean = false
-)
+class SessionTagged {
+    @Embedded
+    lateinit var data: SessionTag
+    @Relation(entityColumn = "uid", parentColumn = "tag_id")
+    lateinit var tag: List<Tag>
+
+    fun singleTag() = tag[0]
+}

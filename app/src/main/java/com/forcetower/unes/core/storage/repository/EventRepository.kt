@@ -17,25 +17,13 @@
  * limitations under the License.
  */
 
-package com.forcetower.unes.core.model
+package com.forcetower.unes.core.storage.repository
 
-import androidx.room.Entity
-import androidx.room.Index
-import androidx.room.PrimaryKey
-import com.forcetower.sagres.database.model.SCalendar
-import java.util.*
+import com.forcetower.unes.core.storage.database.EDatabase
+import javax.inject.Inject
 
-@Entity(indices = [
-    Index(value = ["uuid"], unique = true)
-])
-data class CalendarItem(
-    @PrimaryKey(autoGenerate = true)
-    val uid: Long = 0,
-    val message: String,
-    val date: String,
-    val uuid: String = UUID.randomUUID().toString()
+class EventRepository @Inject constructor(
+    private val database: EDatabase
 ) {
-    companion object {
-        fun fromSagres(item: SCalendar) = CalendarItem(message = item.message, date = item.day)
-    }
+    fun getSessionsFromDay(day: Int) = database.eventDao().getSessionsFromDay(day)
 }

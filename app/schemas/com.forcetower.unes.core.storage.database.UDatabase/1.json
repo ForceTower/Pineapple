@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "87bd1fc6fe8ea88b96d30aaebe4e8667",
+    "identityHash": "086e982ee6a86fce74d240eb9201c859",
     "entities": [
       {
         "tableName": "AccessToken",
@@ -911,6 +911,14 @@
             "createSql": "CREATE UNIQUE INDEX `index_ClassLocation_group_id_day_starts_at_ends_at_profile_id` ON `${TABLE_NAME}` (`group_id`, `day`, `starts_at`, `ends_at`, `profile_id`)"
           },
           {
+            "name": "index_ClassLocation_profile_id",
+            "unique": false,
+            "columnNames": [
+              "profile_id"
+            ],
+            "createSql": "CREATE  INDEX `index_ClassLocation_profile_id` ON `${TABLE_NAME}` (`profile_id`)"
+          },
+          {
             "name": "index_ClassLocation_uuid",
             "unique": true,
             "columnNames": [
@@ -1041,7 +1049,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"87bd1fc6fe8ea88b96d30aaebe4e8667\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"086e982ee6a86fce74d240eb9201c859\")"
     ]
   }
 }

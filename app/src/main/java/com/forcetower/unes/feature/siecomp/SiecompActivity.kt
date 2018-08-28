@@ -17,15 +17,24 @@
  * limitations under the License.
  */
 
-package com.forcetower.unes.core.model
+package com.forcetower.unes.feature.siecomp
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import com.forcetower.unes.R
+import com.forcetower.unes.feature.shared.UActivity
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.HasSupportFragmentInjector
+import javax.inject.Inject
 
-@Entity
-data class Access(
-    @PrimaryKey(autoGenerate = true)
-    val uid: Long = 0,
-    val username: String,
-    val password: String
-)
+class SiecompActivity : UActivity(), HasSupportFragmentInjector {
+    @Inject
+    lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_siecomp)
+    }
+
+    override fun supportFragmentInjector() = fragmentInjector
+}

@@ -27,7 +27,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import com.forcetower.sagres.database.model.SPerson
 import com.forcetower.sagres.utils.WordUtils
-import com.forcetower.unes.core.model.Profile
+import com.forcetower.unes.core.model.unes.Profile
 
 @Dao
 abstract class ProfileDao {

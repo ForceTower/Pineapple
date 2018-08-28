@@ -40,7 +40,7 @@ import com.forcetower.sagres.operation.Status
 import com.forcetower.unes.GlideApp
 import com.forcetower.unes.R
 import com.forcetower.unes.core.injection.Injectable
-import com.forcetower.unes.core.model.Profile
+import com.forcetower.unes.core.model.unes.Profile
 import com.forcetower.unes.core.storage.repository.LoginSagresRepository
 import com.forcetower.unes.core.vm.LoginViewModel
 import com.forcetower.unes.core.vm.UViewModelFactory

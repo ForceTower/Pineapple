@@ -23,7 +23,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.IGNORE
 import androidx.room.Query
-import com.forcetower.unes.core.model.Discipline
+import com.forcetower.unes.core.model.unes.Discipline
 
 @Dao
 interface DisciplineDao {

@@ -17,31 +17,21 @@
  * limitations under the License.
  */
 
-package com.forcetower.unes.core.model
+package com.forcetower.unes.core.model.unes
 
-import androidx.room.ColumnInfo
+import androidx.annotation.NonNull
+import androidx.annotation.Nullable
 import androidx.room.Entity
-import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.forcetower.sagres.database.model.SSemester
 
-@Entity(indices = [Index(value = ["sagres_id"], unique = true)])
-data class Semester(
+@Entity
+data class AccessToken(
     @PrimaryKey(autoGenerate = true)
-    val uid: Long = 0,
-    @ColumnInfo(name = "sagres_id")
-    val sagresId: Long,
-    val name: String,
-    val codename: String,
-    val start: Long? = null,
-    val end: Long? = null,
-    @ColumnInfo(name = "start_class")
-    val startClass: Long? = null,
-    @ColumnInfo(name = "end_class")
-    val endClass: Long? = null
-) {
-    companion object {
-        fun fromSagres(s: SSemester) =
-                Semester(0, s.uefsId, s.name.trim(), s.codename.trim(), s.startInMillis, s.endInMillis, s.startClassesInMillis, s.endClassesInMillis)
-    }
-}
+    val uid: Int,
+    @NonNull
+    val type: String,
+    @NonNull
+    val token: String,
+    @Nullable
+    val refreshToken: String
+)

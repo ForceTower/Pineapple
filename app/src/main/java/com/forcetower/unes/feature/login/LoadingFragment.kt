@@ -34,7 +34,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import com.forcetower.unes.R
 import com.forcetower.unes.core.injection.Injectable
-import com.forcetower.unes.core.model.Access
+import com.forcetower.unes.core.model.unes.Access
 import com.forcetower.unes.core.util.HtmlUtils
 import com.forcetower.unes.core.vm.LoginViewModel
 import com.forcetower.unes.core.vm.UViewModelFactory

@@ -17,21 +17,12 @@
  * limitations under the License.
  */
 
-package com.forcetower.unes.core.model
+package com.forcetower.unes.widget
 
-import androidx.annotation.NonNull
-import androidx.annotation.Nullable
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import android.content.Context
+import com.google.android.flexbox.FlexboxLayoutManager
 
-@Entity
-data class AccessToken(
-    @PrimaryKey(autoGenerate = true)
-    val uid: Int,
-    @NonNull
-    val type: String,
-    @NonNull
-    val token: String,
-    @Nullable
-    val refreshToken: String
-)
+class UnscrollableFlexboxLayoutManager(context: Context) : FlexboxLayoutManager(context) {
+    override fun canScrollVertically(): Boolean = false
+    override fun canScrollHorizontally(): Boolean = false
+}

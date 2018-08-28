@@ -41,4 +41,6 @@
     <dimen name="spacing_xlarge">48dp</dimen>
     <dimen name="default_card_raised_elevation">8dp</dimen>
     <dimen name="default_card_resting_elevation">1dp</dimen>
+    <dimen name="event_schedule_padding_bottom">56dp</dimen>
+    <dimen name="tag_dot_size">12dp</dimen>
 </resources>

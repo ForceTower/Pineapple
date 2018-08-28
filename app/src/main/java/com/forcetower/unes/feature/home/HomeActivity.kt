@@ -21,21 +21,18 @@ package com.forcetower.unes.feature.home
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
-import androidx.navigation.ui.NavigationUI
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.forcetower.unes.GlideApp
 import com.forcetower.unes.R
-import com.forcetower.unes.core.model.Access
-import com.forcetower.unes.core.model.Profile
+import com.forcetower.unes.core.model.unes.Access
+import com.forcetower.unes.core.model.unes.Profile
 import com.forcetower.unes.core.vm.HomeViewModel
-import com.forcetower.unes.core.vm.LoginViewModel
 import com.forcetower.unes.core.vm.UViewModelFactory
 import com.forcetower.unes.databinding.ActivityHomeBinding
 import com.forcetower.unes.feature.login.LoginActivity
@@ -44,7 +41,6 @@ import com.forcetower.unes.feature.shared.UActivity
 import com.forcetower.unes.feature.shared.config
 import com.forcetower.unes.feature.shared.provideViewModel
 import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import dagger.android.AndroidInjector

@@ -152,4 +152,18 @@
     <string name="label_schedule_not_found">Horário não foi encontrado</string>
     <string name="label_schedule_retry">Não se preocupe, o UNES tentará novamente</string>
     <string name="btn_siecomp_schedule">Programação SIECOMP</string>
+    <string name="filters">Filtros</string>
+    <string name="label_siecomp_schedule">Programação</string>
+    <string name="label_siecomp_no_event_apply_filter">Nenhum evento de hoje se aplica aos filtros</string>
+    <string name="acc_event_mark_session">Marcar Sessão</string>
+    <string name="event_session_duration_location" translatable="false">%1s / %2s</string>
+
+    <plurals name="duration_hours">
+        <item quantity="one">%s hora</item>
+        <item quantity="other">%s horas</item>
+    </plurals>
+    <plurals name="duration_minutes">
+        <item quantity="one">%s minuto</item>
+        <item quantity="other">%s minutos</item>
+    </plurals>
 </resources>

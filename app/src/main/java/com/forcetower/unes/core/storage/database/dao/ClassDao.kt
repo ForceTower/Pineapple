@@ -23,9 +23,9 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import androidx.room.OnConflictStrategy.IGNORE
 import com.forcetower.sagres.database.model.SDiscipline
-import com.forcetower.unes.core.model.Class
-import com.forcetower.unes.core.model.Discipline
-import com.forcetower.unes.core.model.Semester
+import com.forcetower.unes.core.model.unes.Class
+import com.forcetower.unes.core.model.unes.Discipline
+import com.forcetower.unes.core.model.unes.Semester
 
 @Dao
 abstract class ClassDao {
@@ -68,8 +68,8 @@ abstract class ClassDao {
             val discipline = selectDisciplineDirect(dis.code)
             val semester = selectSemesterDirect(dis.semester)
             clazz = Class(
-                disciplineId = discipline.uid,
-                semesterId = semester.uid
+                    disciplineId = discipline.uid,
+                    semesterId = semester.uid
             )
             insert(clazz)
         }

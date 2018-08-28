@@ -24,7 +24,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.forcetower.unes.core.model.Message
+import com.forcetower.unes.core.model.unes.Message
 
 @Dao
 interface MessageDao {

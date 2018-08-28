@@ -29,16 +29,14 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.forcetower.unes.R
 import com.forcetower.unes.core.injection.Injectable
-import com.forcetower.unes.core.model.Message
+import com.forcetower.unes.core.model.unes.Message
 import com.forcetower.unes.core.vm.HomeViewModel
 import com.forcetower.unes.core.vm.UViewModelFactory
 import com.forcetower.unes.databinding.FragmentSagresMessagesBinding
 import com.forcetower.unes.feature.shared.UFragment
 import com.forcetower.unes.feature.shared.getPixelsFromDp
 import com.forcetower.unes.feature.shared.provideViewModel
-import kotlinx.android.synthetic.main.fragment_unes_messages.*
 import timber.log.Timber
 import javax.inject.Inject
 

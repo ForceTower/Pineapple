@@ -25,7 +25,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 import androidx.room.Transaction
-import com.forcetower.unes.core.model.Access
+import com.forcetower.unes.core.model.unes.Access
 
 @Dao
 abstract class AccessDao {

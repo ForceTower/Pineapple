@@ -19,7 +19,7 @@
 
 package com.forcetower.unes.core.storage.network
 
-import com.forcetower.unes.core.model.AccessToken
+import com.forcetower.unes.core.model.unes.AccessToken
 import retrofit2.Call
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded

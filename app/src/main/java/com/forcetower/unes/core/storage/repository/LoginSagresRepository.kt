@@ -33,7 +33,7 @@ import com.forcetower.sagres.operation.Status
 import com.forcetower.sagres.parsers.SagresBasicParser
 import com.forcetower.unes.AppExecutors
 import com.forcetower.unes.R
-import com.forcetower.unes.core.model.*
+import com.forcetower.unes.core.model.unes.*
 import com.forcetower.unes.core.storage.database.UDatabase
 import com.forcetower.unes.core.storage.network.UService
 import timber.log.Timber
@@ -262,7 +262,7 @@ class LoginSagresRepository @Inject constructor(
 
     @WorkerThread
     private fun defineDisciplines(disciplines: List<SDiscipline>) {
-        val values = disciplines.map { com.forcetower.unes.core.model.Discipline.fromSagres(it) }
+        val values = disciplines.map { Discipline.fromSagres(it) }
         database.disciplineDao().insert(values)
         disciplines.forEach { database.classDao().insert(it) }
     }

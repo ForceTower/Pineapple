@@ -23,9 +23,9 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import androidx.room.OnConflictStrategy.IGNORE
 import com.forcetower.sagres.database.model.SDisciplineGroup
-import com.forcetower.unes.core.model.Class
-import com.forcetower.unes.core.model.ClassGroup
-import com.forcetower.unes.core.model.Discipline
+import com.forcetower.unes.core.model.unes.Class
+import com.forcetower.unes.core.model.unes.ClassGroup
+import com.forcetower.unes.core.model.unes.Discipline
 import timber.log.Timber
 
 @Dao

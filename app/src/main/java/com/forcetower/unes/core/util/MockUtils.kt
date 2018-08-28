@@ -19,7 +19,7 @@
 
 package com.forcetower.unes.core.util
 
-import com.forcetower.unes.core.model.Contributor
+import com.forcetower.unes.core.model.unes.Contributor
 
 object MockUtils {
 

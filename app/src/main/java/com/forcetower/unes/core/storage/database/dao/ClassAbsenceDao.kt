@@ -25,10 +25,10 @@ import androidx.room.OnConflictStrategy.IGNORE
 import androidx.room.Query
 import androidx.room.Transaction
 import com.forcetower.sagres.database.model.SDisciplineMissedClass
-import com.forcetower.unes.core.model.ClassAbsence
-import com.forcetower.unes.core.model.ClassGroup
-import com.forcetower.unes.core.model.ClassStudent
-import com.forcetower.unes.core.model.Profile
+import com.forcetower.unes.core.model.unes.ClassAbsence
+import com.forcetower.unes.core.model.unes.ClassGroup
+import com.forcetower.unes.core.model.unes.ClassStudent
+import com.forcetower.unes.core.model.unes.Profile
 import timber.log.Timber
 
 @Dao

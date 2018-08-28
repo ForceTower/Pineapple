@@ -17,22 +17,15 @@
  * limitations under the License.
  */
 
-package com.forcetower.unes.core.model
+package com.forcetower.unes.core.vm
 
-import androidx.room.Entity
-import androidx.room.Index
-import androidx.room.PrimaryKey
-import java.util.*
+import androidx.lifecycle.ViewModel
+import com.forcetower.unes.core.storage.repository.EventRepository
+import javax.inject.Inject
 
-@Entity(indices = [
-    Index(value = ["uuid"], unique = true)
-])
-data class Contributor(
-    @PrimaryKey(autoGenerate = true)
-    val uid: Long = 0,
-    val name: String,
-    val description: String,
-    val image: String? = null,
-    val link: String,
-    val uuid: String = UUID.randomUUID().toString()
-)
+class EventViewModel @Inject constructor(
+    private val repository: EventRepository
+): ViewModel() {
+
+    fun getSessionsFromDay(day: Int) = repository.getSessionsFromDay(day)
+}

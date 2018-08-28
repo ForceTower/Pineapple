@@ -29,7 +29,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.forcetower.unes.R
 import com.forcetower.unes.core.injection.Injectable
-import com.forcetower.unes.core.model.Contributor
+import com.forcetower.unes.core.model.unes.Contributor
 import com.forcetower.unes.core.util.MockUtils
 import com.forcetower.unes.databinding.FragmentAboutContributorsBinding
 import com.forcetower.unes.feature.shared.UFragment
