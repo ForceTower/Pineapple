@@ -28,6 +28,7 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.forcetower.unes.R
 import com.forcetower.unes.core.model.event.Tag
+import timber.log.Timber
 
 @BindingAdapter("sessionTags")
 fun sessionTags(recyclerView: RecyclerView, sessionTags: List<Tag>?) {
@@ -45,10 +46,11 @@ fun tagTint(textView: TextView, color: Int) {
                     color,
                     textView.context
             )
-    )
+    )?: Timber.d("Some of them are null")
 }
 
 fun tagTintOrDefault(color: Int, context: Context): Int {
+    Timber.d("We here")
     return if (color != TRANSPARENT) {
         color
     } else {

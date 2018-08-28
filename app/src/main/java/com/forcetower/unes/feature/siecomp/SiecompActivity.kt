@@ -19,6 +19,8 @@
 
 package com.forcetower.unes.feature.siecomp
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.forcetower.unes.R
@@ -28,12 +30,22 @@ import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
 
 class SiecompActivity : UActivity(), HasSupportFragmentInjector {
+    companion object {
+        fun startActivity(context: Context) {
+            val intent = Intent(context, SiecompActivity::class.java)
+            context.startActivity(intent)
+        }
+    }
     @Inject
     lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_siecomp)
+
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, EScheduleFragment())
+                .commit()
     }
 
     override fun supportFragmentInjector() = fragmentInjector

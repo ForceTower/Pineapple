@@ -36,6 +36,7 @@ import com.forcetower.unes.core.vm.UViewModelFactory
 import com.forcetower.unes.databinding.FragmentScheduleBinding
 import com.forcetower.unes.feature.shared.UFragment
 import com.forcetower.unes.feature.shared.provideViewModel
+import com.forcetower.unes.feature.siecomp.SiecompActivity
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -62,6 +63,7 @@ class ScheduleFragment: UFragment(), Injectable {
         getAppBar().elevation = 0f
         return FragmentScheduleBinding.inflate(inflater, container, false).also {
             binding = it
+            binding.btnSiecompSchedule.setOnClickListener{_ -> SiecompActivity.startActivity(requireContext())}
         }.root
     }
 

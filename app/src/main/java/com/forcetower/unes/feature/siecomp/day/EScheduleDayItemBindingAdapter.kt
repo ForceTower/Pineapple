@@ -45,10 +45,12 @@ import org.threeten.bp.ZonedDateTime
     val localStartTime = ETimeUtils.zonedTime(startTime, finalTimeZoneId)
     val localEndTime = ETimeUtils.zonedTime(endTime, finalTimeZoneId)
 
-    textView.context.getString(
+    textView.text = textView.context.getString(
             R.string.event_session_duration_location,
             durationString(textView.context, Duration.between(startTime, endTime)), room
     )
+
+    textView.contentDescription = fullDateTime(localStartTime, localEndTime, textView, room)
 }
 
 private fun durationString(context: Context, duration: Duration): String {
@@ -59,4 +61,14 @@ private fun durationString(context: Context, duration: Duration): String {
         val minutes = duration.toMinutes()
         context.resources.getQuantityString(R.plurals.duration_minutes, minutes.toInt(), minutes)
     }
+}
+
+private fun fullDateTime(
+        localStartTime: ZonedDateTime,
+        localEndTime: ZonedDateTime,
+        textView: TextView,
+        room: String
+): String {
+    val timeString = ETimeUtils.timeString(localStartTime, localEndTime)
+    return textView.context.getString(R.string.session_duration_location, timeString, room)
 }

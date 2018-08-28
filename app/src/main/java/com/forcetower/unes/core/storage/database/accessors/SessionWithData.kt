@@ -24,6 +24,7 @@ import androidx.room.Relation
 import com.forcetower.unes.core.model.event.Session
 import com.forcetower.unes.core.model.event.SessionSpeaker
 import com.forcetower.unes.core.model.event.SessionTag
+import timber.log.Timber
 
 class SessionWithData {
     @Embedded
@@ -33,6 +34,6 @@ class SessionWithData {
     @Relation(entityColumn = "session_id", parentColumn = "uid", entity = SessionTag::class)
     lateinit var displayTags: List<SessionTagged>
 
-    fun tags() = displayTags.map { it.singleTag() }
+    fun tags() = displayTags.map { it.singleTag() }.also { Timber.d("Size is: ${it.size}") }
     fun speakers() = speakersRel.map { it.singleSpeaker() }
 }

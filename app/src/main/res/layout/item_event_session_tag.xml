@@ -35,7 +35,7 @@
         android:text="@{tag.name}"
         app:tagTint="@{tag.color}"
         android:drawableStart="@drawable/tag_dot"
-        android:drawableTint="#2196F0"
+        tools:drawableTint="#2196F0"
         android:drawablePadding="6dp"
         tools:text="Medíocre"/>
 </layout>

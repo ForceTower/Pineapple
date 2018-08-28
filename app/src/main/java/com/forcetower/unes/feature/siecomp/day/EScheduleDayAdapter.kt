@@ -31,6 +31,7 @@ import com.forcetower.unes.databinding.ItemEventSessionTagBinding
 import com.forcetower.unes.feature.shared.inflater
 import com.forcetower.unes.widget.UnscrollableFlexboxLayoutManager
 import org.threeten.bp.ZoneId
+import timber.log.Timber
 
 class EScheduleDayAdapter(
     private val tagViewPool: RecyclerView.RecycledViewPool,
@@ -85,6 +86,7 @@ class TagHolder(
 ): RecyclerView.ViewHolder(binding.root) {
     fun bind(tag: Tag) {
         binding.tag = tag
+        Timber.d("color is: ${tag.color}")
         binding.executePendingBindings()
     }
 }

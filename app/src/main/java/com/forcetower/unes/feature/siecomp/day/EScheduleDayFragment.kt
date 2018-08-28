@@ -31,6 +31,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.forcetower.unes.core.injection.Injectable
 import com.forcetower.unes.core.storage.database.accessors.SessionWithData
+import com.forcetower.unes.core.util.MockUtils
 import com.forcetower.unes.core.vm.EventViewModel
 import com.forcetower.unes.core.vm.UViewModelFactory
 import com.forcetower.unes.databinding.FragmentSiecompScheduleDayBinding
@@ -66,6 +67,11 @@ class EScheduleDayFragment: UFragment(), Injectable {
     private val tagViewPool = RecyclerView.RecycledViewPool()
     private val sessionViewPool = RecyclerView.RecycledViewPool()
 
+    init {
+        tagViewPool.setMaxRecycledViews(0, 15)
+        sessionViewPool.setMaxRecycledViews(0, 10)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewModel = provideActivityViewModel(factory)
         binding = FragmentSiecompScheduleDayBinding.inflate(inflater, container, false).apply {
@@ -78,6 +84,7 @@ class EScheduleDayFragment: UFragment(), Injectable {
         adapter = EScheduleDayAdapter(tagViewPool, ETimeUtils.SIECOMP_TIMEZONE)
         binding.recyclerDaySchedule.apply {
             setRecycledViewPool(sessionViewPool)
+            adapter = this@EScheduleDayFragment.adapter
             (layoutManager as LinearLayoutManager).recycleChildrenOnDetach = true
             (itemAnimator as DefaultItemAnimator).run {
                 supportsChangeAnimations = false
@@ -95,8 +102,10 @@ class EScheduleDayFragment: UFragment(), Injectable {
         super.onActivityCreated(savedInstanceState)
         viewModel.getSessionsFromDay(eventDay).observe(this, Observer {
             it?: return@Observer
-            populateInterface(it)
+            //populateInterface(it)
         })
+
+        populateInterface(MockUtils.siecomp())
     }
 
     private fun populateInterface(data: List<SessionWithData>) {

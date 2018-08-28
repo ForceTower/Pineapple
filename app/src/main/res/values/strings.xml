@@ -157,6 +157,7 @@
     <string name="label_siecomp_no_event_apply_filter">Nenhum evento de hoje se aplica aos filtros</string>
     <string name="acc_event_mark_session">Marcar Sessão</string>
     <string name="event_session_duration_location" translatable="false">%1s / %2s</string>
+    <string name="session_duration_location" translatable="false">%1s / %2s</string>
 
     <plurals name="duration_hours">
         <item quantity="one">%s hora</item>
