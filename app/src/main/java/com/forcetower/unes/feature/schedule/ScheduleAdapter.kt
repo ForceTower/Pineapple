@@ -19,17 +19,20 @@
 
 package com.forcetower.unes.feature.schedule
 
+import android.content.Context
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.forcetower.unes.R
 import com.forcetower.unes.core.storage.database.accessors.LocationWithGroup
 import com.forcetower.unes.databinding.*
 import com.forcetower.unes.feature.shared.inflater
 import com.forcetower.unes.feature.shared.positionOf
 import com.forcetower.unes.feature.shared.toLongWeekDay
 import com.forcetower.unes.feature.shared.toWeekDay
+import timber.log.Timber
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -126,13 +129,15 @@ data class ScheduleDay(
 //--------------------------------------------------------------------------------------------------
 
 class ScheduleBlockAdapter(
-    private val pool: RecyclerView.RecycledViewPool
+    private val pool: RecyclerView.RecycledViewPool,
+    context: Context
 ): RecyclerView.Adapter<DayBlockHolder>() {
     private val list = ArrayList<ArrayList<InnerLocation>>()
+    private val colors = context.resources.getIntArray(R.array.discipline_colors)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DayBlockHolder {
         val binding = ItemScheduleDayBinding.inflate(parent.inflater(), parent, false)
-        return DayBlockHolder(binding, pool)
+        return DayBlockHolder(binding, pool, colors)
     }
 
     override fun onBindViewHolder(holder: DayBlockHolder, position: Int) = holder.bind(list[position])
@@ -151,8 +156,9 @@ class ScheduleBlockAdapter(
             val classes = mapping.getOrPut(day) { ArrayList() }
             val time = ClassTime(l.location!!.startsAt, l.location!!.endsAt)
 
-            if (!colors.containsKey(day)) colors[day] = index++
-            val color = colors[day]
+            val code = l.singleGroup().singleClass().singleDiscipline().code
+            if (!colors.containsKey(code)) colors[code] = index++
+            val color = colors[code]
 
             classes.add(InnerLocation(location = l, time = time, colorIndex = color))
             if (!times.contains(time)) times.add(time)
@@ -180,7 +186,7 @@ class ScheduleBlockAdapter(
                 times.forEach {
                     val position = classes.positionOf(it)
                     if (position == -1) full.add(InnerLocation())
-                    else full.add(classes[i])
+                    else full.add(classes[position])
                 }
                 list.add(full)
             }
@@ -193,8 +199,9 @@ private const val HEADER: Int = 0
 private const val TIME: Int = 1
 private const val CLASS: Int = 2
 private const val NOTHING: Int = 3
+private const val HEAD_N: Int = 4
 
-class ScheduleBlockClassAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ScheduleBlockClassAdapter(private val colors: IntArray) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val list = ArrayList<InnerLocation>()
 
     fun submitList(list: List<InnerLocation>) {
@@ -208,6 +215,7 @@ class ScheduleBlockClassAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>()
             HEADER -> BHeaderHolder(ItemScheduleBlockHeaderBinding.inflate(parent.inflater(), parent, false))
             TIME   -> BTimeHolder(ItemScheduleBlockTimeBinding.inflate(parent.inflater(), parent, false))
             CLASS  -> BClassHolder(ItemScheduleBlockClassBinding.inflate(parent.inflater(), parent, false))
+            HEAD_N -> BHeadNotHolder(ItemScheduleBlockHeadNotBinding.inflate(parent.inflater(), parent, false))
             else   -> BNothingHolder(ItemScheduleBlockNothingBinding.inflate(parent.inflater(), parent, false))
         }
     }
@@ -217,7 +225,7 @@ class ScheduleBlockClassAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>()
         when(getItemViewType(position)) {
             HEADER -> (holder as BHeaderHolder).bind(element)
             TIME   -> (holder as BTimeHolder)  .bind(element)
-            CLASS  -> (holder as BClassHolder) .bind(element)
+            CLASS  -> (holder as BClassHolder) .bind(element, colors)
         }
     }
 
@@ -229,16 +237,18 @@ class ScheduleBlockClassAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>()
             item.header -> return HEADER
             item.timeRow -> return TIME
             item.location != null -> CLASS
+            item.nothing -> HEAD_N
             else -> NOTHING
         }
     }
 }
 
 class DayBlockHolder(
-    binding: ItemScheduleDayBinding,
-    pool: RecyclerView.RecycledViewPool
+        binding: ItemScheduleDayBinding,
+        pool: RecyclerView.RecycledViewPool,
+        colors: IntArray
 ): RecyclerView.ViewHolder(binding.root) {
-    private val adapter by lazy { ScheduleBlockClassAdapter() }
+    private val adapter by lazy { ScheduleBlockClassAdapter(colors) }
     init {
         binding.recyclerDay.setRecycledViewPool(pool)
         binding.recyclerDay.adapter = adapter
@@ -263,6 +273,8 @@ class BTimeHolder(
 
     fun bind(inner: InnerLocation) {
         binding.inner = inner
+        Timber.d("${inner.time!!.start} is the start time")
+        binding.executePendingBindings()
     }
 }
 
@@ -270,14 +282,19 @@ class BClassHolder(
     private val binding: ItemScheduleBlockClassBinding
 ): RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(inner: InnerLocation) {
+    fun bind(inner: InnerLocation, colors: IntArray) {
         binding.tvCode.text = inner.location!!.singleGroup().singleClass().singleDiscipline().code
         binding.tvGroup.text = inner.location.singleGroup().group!!.group
+        binding.cardRoot.strokeColor = colors[(inner.colorIndex?: 0) % colors.size]
     }
 }
 
 class BNothingHolder(
     binding: ItemScheduleBlockNothingBinding
+): RecyclerView.ViewHolder(binding.root)
+
+class BHeadNotHolder(
+        binding: ItemScheduleBlockHeadNotBinding
 ): RecyclerView.ViewHolder(binding.root)
 
 class ClassTime(

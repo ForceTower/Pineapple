@@ -21,6 +21,7 @@ package com.forcetower.unes.core.model.event
 
 import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
+import com.google.gson.annotations.SerializedName
 import org.threeten.bp.ZonedDateTime
 import java.util.*
 
@@ -33,12 +34,15 @@ data class Session(
     @ColumnInfo(name = "day_id")
     var day: Int = 0,
     @ColumnInfo(name = "start_time")
+    @SerializedName("start_time")
     var startTime: ZonedDateTime = ZonedDateTime.now(),
     @ColumnInfo(name = "end_time")
+    @SerializedName("end_time")
     var endTime: ZonedDateTime = ZonedDateTime.now(),
     var title: String = "",
     var room: String = "",
     var abstract: String = "",
+    @SerializedName("photo_url")
     var photoUrl: String = "",
     var uuid: String = ""
 ) {

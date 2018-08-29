@@ -17,14 +17,10 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-    <TextView
-        android:id="@+id/text_header"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <View
         android:layout_width="60dp"
         android:layout_height="30dp"
-        android:gravity="center"
-        android:layout_margin="2dp"
-        tools:text="SEG"
-        android:textColor="@color/text_primary_dark" />
+        android:layout_margin="2dp"/>
 </layout>

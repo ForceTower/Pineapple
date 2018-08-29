@@ -21,5 +21,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <View
         android:layout_width="60dp"
-        android:layout_height="48dp"/>
+        android:layout_height="48dp"
+        android:layout_margin="2dp"/>
 </layout>

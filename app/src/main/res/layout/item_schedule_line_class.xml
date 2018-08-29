@@ -33,9 +33,12 @@
         android:layout_height="72dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
         app:cardCornerRadius="4dp"
-        android:stateListAnimator="@animator/default_card_raise">
+        app:cardElevation="2dp"
+        android:clickable="true"
+        android:focusable="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -106,7 +109,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:maxLines="1"
-                android:text="@{location.singleGroup().singleClass().singleDiscipline().name}"
+                android:text="@{location.singleGroup().singleClass().singleDiscipline().name.trim()}"
                 android:textColor="@color/blue_accent"
                 app:layout_constraintBaseline_toBaselineOf="@+id/text_start_time"
                 app:layout_constraintEnd_toEndOf="parent"

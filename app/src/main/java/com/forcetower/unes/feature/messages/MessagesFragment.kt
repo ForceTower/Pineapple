@@ -22,6 +22,7 @@ package com.forcetower.unes.feature.messages
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -46,7 +47,7 @@ class MessagesFragment: UFragment() {
 
     private fun preparePager() {
         val tabLayout = getTabLayout()
-        tabLayout.fadeIn()
+        tabLayout.visibility = VISIBLE
 
         tabLayout.clearOnTabSelectedListeners()
         tabLayout.removeAllTabs()

@@ -29,7 +29,8 @@
         android:orientation="vertical"
         android:layout_width="60dp"
         android:layout_height="48dp"
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_margin="2dp">
 
         <TextView
             android:id="@+id/text_start"
@@ -37,7 +38,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             tools:text="07:30"
-            android:text="@{inner.location.location.startsAt}"
+            android:text="@{inner.time.start}"
             android:textColor="@color/text_primary_dark" />
 
         <TextView
@@ -46,7 +47,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             tools:text="09:30"
-            android:text="@{inner.location.location.endsAt}"
+            android:text="@{inner.time.end}"
             android:textColor="@color/text_primary_dark" />
 
     </LinearLayout>
