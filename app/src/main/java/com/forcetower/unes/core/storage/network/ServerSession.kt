@@ -17,27 +17,29 @@
  * limitations under the License.
  */
 
-package com.forcetower.unes.core.model.event
+package com.forcetower.unes.core.storage.network
 
-import androidx.room.Entity
-import androidx.room.Index
-import androidx.room.PrimaryKey
+import com.forcetower.unes.core.model.event.*
 import com.google.gson.annotations.SerializedName
+import org.threeten.bp.ZonedDateTime
 
-@Entity(indices = [
-    Index(value = ["uuid"], unique = true)
-])
-data class Speaker(
+data class ServerSession(
     @SerializedName(value = "id")
-    @PrimaryKey(autoGenerate = true)
-    var uid: Long = 0,
-    var name: String = "",
-    var image: String = "",
-    var lab: String = "",
-    var abstract: String = "",
-    var url: String = "",
-    var uuid: String = ""
+    val uid: Long,
+    val day: Int,
+    @SerializedName("start_time")
+    val startTime: ZonedDateTime,
+    @SerializedName("end_time")
+    val endTime: ZonedDateTime,
+    val title: String,
+    val room: String,
+    val abstract: String,
+    @SerializedName("photo_url")
+    val photoUrl: String,
+    val uuid: String,
+
+    val tags: List<Tag>,
+    val speakers: List<Speaker>
 ) {
-    fun hasLab() = lab.isNotEmpty()
-    fun hasAbstract() = abstract.isNotEmpty()
+    fun toSession() = Session(uid, day, startTime, endTime, title, room, abstract, photoUrl, uuid)
 }

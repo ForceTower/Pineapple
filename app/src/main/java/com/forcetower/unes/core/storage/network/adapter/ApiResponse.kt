@@ -19,51 +19,42 @@
 
 package com.forcetower.unes.core.storage.network.adapter
 
-import com.google.gson.Gson
 import retrofit2.Response
 import timber.log.Timber
+import java.util.regex.Pattern
 
-class ApiResponse<T> {
-    val code: Int
-    val body: T?
-    val errorMessage: String?
-    val actionError: ActionError?
+/**
+ * Common class used by API responses.
+ * @param <T> the type of the response object
+</T> */
+@Suppress("unused") // T is used in extending classes
+sealed class ApiResponse<T> {
+    companion object {
+        fun <T> create(error: Throwable): ApiErrorResponse<T> {
+            return ApiErrorResponse(error.message ?: "unknown error")
+        }
 
-    val isSuccessful: Boolean
-        get() = code in 200..299
-
-    constructor(error: Throwable) {
-        code = 500
-        body = null
-        errorMessage = error.message
-        actionError = null
-    }
-
-    constructor(response: Response<T>) {
-        code = response.code()
-
-        if (response.isSuccessful) {
-            body = response.body()
-            errorMessage = null
-            actionError = null
-        } else {
-            var message: String? = null
-            var aError: ActionError? = null
-            if (response.errorBody() != null) {
-                try {
-                    message = response.errorBody()!!.string()
-                    if (message != null) aError = Gson().fromJson(message, ActionError::class.java)
-                } catch (e: Exception) {
-                    Timber.e(e, "error while parsing response")
+        fun <T> create(response: Response<T>): ApiResponse<T> {
+            return if (response.isSuccessful) {
+                val body = response.body()
+                if (body == null || response.code() == 204) {
+                    ApiEmptyResponse()
+                } else {
+                    ApiSuccessResponse(body = body)
                 }
-
+            } else {
+                val msg = response.errorBody()?.string()
+                val errorMsg = if (msg.isNullOrEmpty()) {
+                    response.message()
+                } else {
+                    msg
+                }
+                ApiErrorResponse(errorMsg ?: "unknown error")
             }
-            if (message == null || message.trim { it <= ' ' }.isEmpty()) {
-                message = response.message()
-            }
-            actionError = aError
-            errorMessage = message
-            body = null
         }
     }
 }
+
+class ApiEmptyResponse<T> : ApiResponse<T>()
+data class ApiSuccessResponse<T>(val body: T): ApiResponse<T>()
+data class ApiErrorResponse<T>(val errorMessage: String) : ApiResponse<T>()

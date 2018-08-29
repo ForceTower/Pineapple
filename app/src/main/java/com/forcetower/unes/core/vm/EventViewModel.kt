@@ -20,11 +20,11 @@
 package com.forcetower.unes.core.vm
 
 import androidx.lifecycle.ViewModel
-import com.forcetower.unes.core.storage.repository.EventRepository
+import com.forcetower.unes.core.storage.repository.SIECOMPRepository
 import javax.inject.Inject
 
 class EventViewModel @Inject constructor(
-    private val repository: EventRepository
+    private val repository: SIECOMPRepository
 ): ViewModel() {
 
     fun getSessionsFromDay(day: Int) = repository.getSessionsFromDay(day)

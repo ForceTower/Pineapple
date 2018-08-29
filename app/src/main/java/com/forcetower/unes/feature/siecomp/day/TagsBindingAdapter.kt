@@ -41,7 +41,7 @@ fun sessionTags(recyclerView: RecyclerView, sessionTags: List<Tag>?) {
 @BindingAdapter("tagTint")
 fun tagTint(textView: TextView, color: Int) {
     // Tint the colored dot
-    (textView.compoundDrawablesRelative[0] as? GradientDrawable)?.setColor(
+    (textView.compoundDrawablesRelative[0]?.mutate() as? GradientDrawable)?.setColor(
             tagTintOrDefault(
                     color,
                     textView.context

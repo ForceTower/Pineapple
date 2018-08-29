@@ -19,6 +19,7 @@
 
 package com.forcetower.unes.core.model.event
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
@@ -29,9 +30,9 @@ import java.util.*
     Index(value = ["uuid"], unique = true)
 ])
 data class Tag(
+    @SerializedName(value = "id")
     @PrimaryKey(autoGenerate = true)
     val uid: Long = 0,
-    val category: String,
     val name: String,
     val color: Int,
     val internal: Boolean = false,

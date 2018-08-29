@@ -20,15 +20,46 @@
 package com.forcetower.unes.core.storage.database.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Query
-import androidx.room.Transaction
+import androidx.room.*
+import androidx.room.OnConflictStrategy.REPLACE
+import com.forcetower.unes.core.model.event.*
 import com.forcetower.unes.core.storage.database.accessors.SessionWithData
+import com.forcetower.unes.core.storage.network.ServerSession
 
 @Dao
 abstract class EventDao {
+    @Insert(onConflict = REPLACE)
+    abstract fun insert(session: Session)
 
     @Transaction
     @Query("SELECT * FROM Session WHERE day_id = :day")
     abstract fun getSessionsFromDay(day: Int): LiveData<List<SessionWithData>>
+
+    @Transaction
+    open fun insertServerSessions(value: List<ServerSession>) {
+        value.forEach {
+            insertTags(it.tags)
+            insertSpeakers(it.speakers)
+            val session = it.toSession()
+            deleteIfPresent(session.uuid)
+            insert(session)
+
+
+        }
+    }
+
+    @Insert(onConflict = REPLACE)
+    protected abstract fun insertTags(tags: List<Tag>)
+
+    @Insert(onConflict = REPLACE)
+    protected abstract fun insertSpeakers(speakers: List<Speaker>)
+
+    @Insert(onConflict = REPLACE)
+    protected abstract fun assocTag(tagged: SessionTag)
+
+    @Insert(onConflict = REPLACE)
+    protected abstract fun assocSpeaker(speaker: SessionSpeaker)
+
+    @Query("DELETE FROM Session WHERE uuid = :sessionUUID")
+    protected abstract fun deleteIfPresent(sessionUUID: String)
 }
