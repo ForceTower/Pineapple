@@ -20,7 +20,6 @@
 package com.forcetower.unes.feature.schedule
 
 import android.content.Context
-import android.graphics.Color
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DiffUtil
@@ -57,7 +56,7 @@ class ScheduleLineAdapter(
     override fun getItemViewType(position: Int) = SCHEDULE_LINE_DAY_HOLDER
 
     fun adaptList(locations: List<LocationWithGroup>) {
-        val map = locations.groupBy { it.location!!.day.trim() }
+        val map = locations.groupBy { it.location.day.trim() }
         val list = ArrayList<ScheduleDay>()
 
         for (i in 1..7) {
@@ -118,7 +117,7 @@ object DayLineDiff: DiffUtil.ItemCallback<ScheduleDay>() {
 }
 
 object ClassLineDiff: DiffUtil.ItemCallback<LocationWithGroup>() {
-    override fun areItemsTheSame(oldItem: LocationWithGroup, newItem: LocationWithGroup) = oldItem.location!!.uid == newItem.location!!.uid
+    override fun areItemsTheSame(oldItem: LocationWithGroup, newItem: LocationWithGroup) = oldItem.location.uid == newItem.location.uid
     override fun areContentsTheSame(oldItem: LocationWithGroup, newItem: LocationWithGroup) = oldItem.location == newItem.location
 }
 
@@ -153,9 +152,9 @@ class ScheduleBlockAdapter(
         var index = 0
 
         location.forEach { l ->
-            val day = l.location!!.day
+            val day = l.location.day
             val classes = mapping.getOrPut(day) { ArrayList() }
-            val time = ClassTime(l.location!!.startsAt, l.location!!.endsAt)
+            val time = ClassTime(l.location.startsAt, l.location.endsAt)
 
             val code = l.singleGroup().singleClass().singleDiscipline().code
             if (!colors.containsKey(code)) colors[code] = index++

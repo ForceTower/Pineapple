@@ -31,7 +31,7 @@ import java.util.*
     Index(value = ["profile_id"]),
     Index(value = ["uuid"], unique = true)
 ])
-data class ClassLocation(
+data class ClassLocation (
     @PrimaryKey(autoGenerate = true)
     val uid: Long = 0,
     @ColumnInfo(name = "group_id")
@@ -47,9 +47,13 @@ data class ClassLocation(
     val modulo: String?,
     val campus: String?,
     val uuid: String = UUID.randomUUID().toString()
-) {
+): Comparable<ClassLocation> {
 
     override fun toString(): String {
         return "${groupId}_$profileId: $day >> $startsAt .. $endsAt"
+    }
+
+    override fun compareTo(other: ClassLocation): Int {
+        return startsAt.compareTo(other.startsAt)
     }
 }

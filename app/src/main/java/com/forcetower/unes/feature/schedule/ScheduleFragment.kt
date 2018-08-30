@@ -38,6 +38,7 @@ import com.forcetower.unes.feature.shared.UFragment
 import com.forcetower.unes.feature.shared.provideViewModel
 import com.forcetower.unes.feature.siecomp.SiecompActivity
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 
 class ScheduleFragment: UFragment(), Injectable {
@@ -89,7 +90,9 @@ class ScheduleFragment: UFragment(), Injectable {
         Timber.d("Locations: $locations")
         binding.empty = locations.isEmpty()
         binding.executePendingBindings()
-        lineAdapter.adaptList(locations)
+        val sorted = locations.toMutableList()
+        sorted.sort()
+        lineAdapter.adaptList(sorted)
         blockAdapter.adaptList(locations)
     }
 }

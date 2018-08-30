@@ -27,6 +27,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.forcetower.unes.GlideApp
 import com.forcetower.unes.R
@@ -71,28 +72,7 @@ class HomeActivity : UActivity(), ToolbarActivity, HasSupportFragmentInjector {
     }
 
     private fun setupBottomNav() {
-        binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.bottom_sheet_menu -> {
-                    if (!bottomFragment.isAdded) {
-                        bottomFragment.show(supportFragmentManager, bottomFragment.tag)
-                    }
-                    false
-                }
-                R.id.messages -> {
-                    findNavController(R.id.home_nav_host).navigate(R.id.messages)
-                    true
-                }
-                R.id.schedule -> {
-                    findNavController(R.id.home_nav_host).navigate(R.id.schedule)
-                    true
-                }
-                else -> true
-            }
-        }
-        binding.bottomNavigation.setOnNavigationItemReselectedListener { menuItem ->
-            Timber.d("Menu item $menuItem was reselected")
-        }
+        NavigationUI.setupWithNavController(binding.bottomNavigation, findNavController(R.id.home_nav_host))
     }
 
     private fun setupViewModel() {

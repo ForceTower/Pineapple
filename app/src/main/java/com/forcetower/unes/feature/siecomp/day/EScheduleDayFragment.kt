@@ -29,9 +29,11 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.forcetower.unes.R
 import com.forcetower.unes.core.injection.Injectable
 import com.forcetower.unes.core.storage.database.accessors.SessionWithData
-import com.forcetower.unes.core.util.MockUtils
+import com.forcetower.unes.core.storage.resource.Resource
+import com.forcetower.unes.core.storage.resource.Status
 import com.forcetower.unes.core.vm.EventViewModel
 import com.forcetower.unes.core.vm.UViewModelFactory
 import com.forcetower.unes.databinding.FragmentSiecompScheduleDayBinding
@@ -40,6 +42,7 @@ import com.forcetower.unes.feature.shared.clearDecorations
 import com.forcetower.unes.feature.shared.provideActivityViewModel
 import com.forcetower.unes.feature.siecomp.ETimeUtils
 import com.forcetower.unes.feature.siecomp.ETimeUtils.SIECOMP_TIMEZONE
+import timber.log.Timber
 import javax.inject.Inject
 
 class EScheduleDayFragment: UFragment(), Injectable {
@@ -102,10 +105,19 @@ class EScheduleDayFragment: UFragment(), Injectable {
         super.onActivityCreated(savedInstanceState)
         viewModel.getSessionsFromDay(eventDay).observe(this, Observer {
             it?: return@Observer
-            //populateInterface(it)
+            onSessionsChange(it)
         })
+    }
 
-        populateInterface(MockUtils.siecomp())
+    private fun onSessionsChange(resource: Resource<List<SessionWithData>>) {
+        if (resource.data != null) {
+            populateInterface(resource.data)
+        }
+
+        when (resource.status) {
+            Status.ERROR -> showSnack(getString(R.string.siecomp_error_updating_info))
+            Status.LOADING, Status.SUCCESS -> Timber.d("Status: ${resource.status}")
+        }
     }
 
     private fun populateInterface(data: List<SessionWithData>) {

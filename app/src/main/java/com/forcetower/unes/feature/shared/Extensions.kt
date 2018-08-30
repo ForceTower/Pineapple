@@ -17,22 +17,11 @@
  * limitations under the License.
  */
 
-package com.forcetower.unes.core.storage.database.accessors
+package com.forcetower.unes.feature.shared
 
-import androidx.room.Embedded
-import androidx.room.Relation
-import com.forcetower.unes.core.model.unes.ClassGroup
-import com.forcetower.unes.core.model.unes.ClassLocation
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
 
-class LocationWithGroup: Comparable<LocationWithGroup> {
-    override fun compareTo(other: LocationWithGroup): Int {
-        return location.compareTo(other.location)
-    }
-
-    @Embedded
-    lateinit var location: ClassLocation
-    @Relation(parentColumn = "group_id", entityColumn = "uid", entity = ClassGroup::class)
-    lateinit var groups: List<GroupWithClass>
-
-    fun singleGroup(): GroupWithClass = groups[0]
+fun <X, Y> LiveData<X>.map(body: (X) -> Y): LiveData<Y> {
+    return Transformations.map(this, body)
 }

@@ -51,5 +51,10 @@ abstract class ViewModelModule {
     abstract fun bindEventViewModel(vm: EventViewModel): ViewModel
 
     @Binds
+    @IntoMap
+    @ViewModelKey(LaunchViewModel::class)
+    abstract fun bindLaunchViewModel(vm: LaunchViewModel): ViewModel
+
+    @Binds
     abstract fun bindViewModelFactory(factory: UViewModelFactory): ViewModelProvider.Factory
 }

@@ -25,34 +25,22 @@
     app:startDestination="@id/schedule">
 
     <fragment
-        android:id="@+id/dashboard"
-        android:name="com.forcetower.unes.feature.dashboard.DashboardFragment"
-        android:label="DashboardFragment"
-        tools:layout="@layout/fragment_dashboard">
-        <action
-            android:id="@+id/action_dashboard_to_messages"
-            app:destination="@id/messages" />
-        <action
-            android:id="@+id/action_dashboard_to_schedule"
-            app:destination="@id/schedule" />
-    </fragment>
+        android:id="@+id/schedule"
+        android:name="com.forcetower.unes.feature.schedule.ScheduleFragment"
+        android:label="ScheduleFragment"
+        tools:layout="@layout/fragment_schedule"/>
+
     <fragment
         android:id="@+id/messages"
         android:name="com.forcetower.unes.feature.messages.MessagesFragment"
         android:label="MessagesFragment"
         tools:layout="@layout/fragment_all_messages"/>
+
     <fragment
-        android:id="@+id/bottom_fragment"
+        android:id="@+id/options_menu"
         android:name="com.forcetower.unes.feature.home.HomeBottomFragment"
         android:label="HomeBottomFragment"
         tools:layout="@layout/fragment_home_bottom_sheet">
-        <action
-            android:id="@+id/action_bottom_to_messages"
-            app:destination="@id/messages" />
     </fragment>
-    <fragment
-        android:id="@+id/schedule"
-        android:name="com.forcetower.unes.feature.schedule.ScheduleFragment"
-        android:label="ScheduleFragment"
-        tools:layout="@layout/fragment_schedule"/>
+
 </navigation>

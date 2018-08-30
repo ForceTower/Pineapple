@@ -22,8 +22,11 @@ package com.forcetower.unes.feature.home
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.ViewGroup
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.forcetower.unes.R
 import com.forcetower.unes.core.injection.Injectable
 import com.forcetower.unes.core.vm.HomeViewModel
@@ -31,12 +34,14 @@ import com.forcetower.unes.core.vm.UViewModelFactory
 import com.forcetower.unes.databinding.HomeBottomBinding
 import com.forcetower.unes.feature.about.AboutActivity
 import com.forcetower.unes.feature.shared.RoundedBottomSheetDialogFragment
+import com.forcetower.unes.feature.shared.UFragment
+import com.forcetower.unes.feature.shared.provideActivityViewModel
 import com.forcetower.unes.feature.shared.provideViewModel
 import kotlinx.android.synthetic.main.fragment_home_bottom_sheet.*
 import timber.log.Timber
 import javax.inject.Inject
 
-class HomeBottomFragment: RoundedBottomSheetDialogFragment(), Injectable {
+class HomeBottomFragment: UFragment(), Injectable {
     @Inject
     lateinit var viewModelFactory: UViewModelFactory
 
@@ -44,7 +49,11 @@ class HomeBottomFragment: RoundedBottomSheetDialogFragment(), Injectable {
     private lateinit var viewModel: HomeViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewModel = provideViewModel(viewModelFactory)
+        viewModel = provideActivityViewModel(viewModelFactory)
+        getToolbarTitleText().text = getString(R.string.label_option_menu)
+        getTabLayout().visibility = GONE
+        getAppBar().elevation = 0f
+
         return HomeBottomBinding.inflate(inflater, container, false).also {
             binding = it
         }.apply {
@@ -59,14 +68,6 @@ class HomeBottomFragment: RoundedBottomSheetDialogFragment(), Injectable {
     }
 
     private fun setupNavigation() {
-        navigation_view.setNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.messages -> activity?.findNavController(R.id.home_nav_host)?.navigate(R.id.messages)
-                R.id.grades_disciplines -> Timber.d("Grades")
-                R.id.about -> AboutActivity.startActivity(requireActivity())
-            }
-            dismiss()
-            true
-        }
+        NavigationUI.setupWithNavController(binding.navigationView, findNavController())
     }
 }

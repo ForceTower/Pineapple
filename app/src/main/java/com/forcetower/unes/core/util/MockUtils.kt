@@ -43,13 +43,13 @@ object MockUtils {
         val speaker1 = Speaker(1, "Angelo Duarte")
         val speaker2 = Speaker(2, "Fernando Kappa")
 
-        val tag1 = Tag(1, "Palestra", "Desempenho", Color.GREEN, false)
-        val tag2 = Tag(2, "Palestra", "Medíocre", Color.RED, false)
-        val tag3 = Tag(3, "Workshop", "Hardware", Color.BLUE, false)
-        val tag4 = Tag(4, "Workshop", "Micro Controladores", Color.CYAN, false)
-        val tag5 = Tag(5, "Workshop", "Programação", Color.MAGENTA, false)
-        val tag6 = Tag(6, "Palestra", "Machine Learning", Color.YELLOW, false)
-        val tag7 = Tag(7, "Palestra", "Data Science", Color.GRAY, false)
+        val tag1 = Tag(1, "Desempenho", Color.GREEN, false)
+        val tag2 = Tag(2, "Medíocre", Color.RED, false)
+        val tag3 = Tag(3, "Hardware", Color.BLUE, false)
+        val tag4 = Tag(4, "Micro Controladores", Color.CYAN, false)
+        val tag5 = Tag(5, "Programação", Color.MAGENTA, false)
+        val tag6 = Tag(6, "Machine Learning", Color.YELLOW, false)
+        val tag7 = Tag(7, "Data Science", Color.GRAY, false)
 
 
         val session1 = Session(1, 0, ZonedDateTime.now().minusMinutes(30), ZonedDateTime.now().plusHours(2), "Aumentando seu desempenho pessoal", "Auditório 3 - Módulo 4", "Duarte chamando todos de mediocre, padrão", "")
