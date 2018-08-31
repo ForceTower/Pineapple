@@ -20,6 +20,7 @@
 package com.forcetower.unes.feature.siecomp.day
 
 import android.content.Context
+import android.graphics.Color
 import android.graphics.Color.TRANSPARENT
 import android.graphics.drawable.GradientDrawable
 import android.widget.TextView
@@ -28,6 +29,7 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.forcetower.unes.R
 import com.forcetower.unes.core.model.event.Tag
+import com.forcetower.unes.core.util.ColorUtils
 import timber.log.Timber
 
 @BindingAdapter("sessionTags")
@@ -50,10 +52,13 @@ fun tagTint(textView: TextView, color: Int) {
 }
 
 fun tagTintOrDefault(color: Int, context: Context): Int {
-    Timber.d("We here")
     return if (color != TRANSPARENT) {
-        color
+        valueOf(color)
     } else {
         ContextCompat.getColor(context, R.color.default_tag_color)
     }
+}
+
+fun valueOf(color: Int): Int {
+    return ColorUtils.modifyAlpha(color, 1)
 }

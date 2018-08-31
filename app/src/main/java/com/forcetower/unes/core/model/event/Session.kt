@@ -29,6 +29,7 @@ import java.util.*
     Index(value = ["uuid"], unique = true)
 ])
 data class Session(
+    @SerializedName(value = "id")
     @PrimaryKey(autoGenerate = true)
     var uid: Long = 0,
     @ColumnInfo(name = "day_id")
@@ -45,7 +46,7 @@ data class Session(
     @SerializedName("photo_url")
     var photoUrl: String = "",
     var uuid: String = ""
-) {
+): Comparable<Session> {
 
     @Ignore
     val year = startTime.year
@@ -59,5 +60,13 @@ data class Session(
 
     fun isOverlapping(session: Session): Boolean {
         return this.startTime < session.endTime && this.endTime > session.startTime
+    }
+
+    override fun compareTo(other: Session): Int {
+        val value = startTime.compareTo(other.startTime)
+        return if (value != 0)
+            value
+        else
+            duration.compareTo(other.duration)
     }
 }

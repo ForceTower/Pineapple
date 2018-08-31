@@ -37,6 +37,7 @@ import okhttp3.Response
 import org.threeten.bp.ZonedDateTime
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import timber.log.Timber
 import java.net.CookieHandler
 import java.net.CookieManager
 import java.util.concurrent.TimeUnit
@@ -75,7 +76,9 @@ object NetworkModule {
     @JvmStatic
     fun provideInterceptor(): Interceptor = Interceptor { chain ->
         val request = chain.request()
-        chain.proceed(request)
+        Timber.d("Going to: ${request.url().url()}")
+        val nRequest = request.newBuilder().addHeader("Accept", "application/json").build()
+        chain.proceed(nRequest)
     }
 
     @Provides

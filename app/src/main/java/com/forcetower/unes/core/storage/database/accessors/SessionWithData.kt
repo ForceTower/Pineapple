@@ -26,7 +26,7 @@ import com.forcetower.unes.core.model.event.SessionSpeaker
 import com.forcetower.unes.core.model.event.SessionTag
 import timber.log.Timber
 
-class SessionWithData {
+class SessionWithData: Comparable<SessionWithData>{
     @Embedded
     lateinit var session: Session
     @Relation(entityColumn = "session_id", parentColumn = "uid", entity = SessionSpeaker::class)
@@ -36,4 +36,8 @@ class SessionWithData {
 
     fun tags() = displayTags.map { it.singleTag() }.also { Timber.d("Size is: ${it.size}") }
     fun speakers() = speakersRel.map { it.singleSpeaker() }
+
+    override fun compareTo(other: SessionWithData): Int {
+        return session.compareTo(other.session)
+    }
 }

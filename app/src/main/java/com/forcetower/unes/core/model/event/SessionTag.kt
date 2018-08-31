@@ -21,6 +21,7 @@ package com.forcetower.unes.core.model.event
 
 import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
+import com.google.gson.annotations.SerializedName
 import java.util.*
 
 @Entity(foreignKeys = [
@@ -33,6 +34,7 @@ import java.util.*
     Index(value = ["uuid"], unique = true)
 ])
 data class SessionTag(
+    @SerializedName(value = "id")
     @PrimaryKey(autoGenerate = true)
     val uid: Long = 0,
     @ColumnInfo(name = "session_id")

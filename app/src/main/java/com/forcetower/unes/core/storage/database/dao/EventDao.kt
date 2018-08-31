@@ -25,28 +25,41 @@ import androidx.room.OnConflictStrategy.REPLACE
 import com.forcetower.unes.core.model.event.*
 import com.forcetower.unes.core.storage.database.accessors.SessionWithData
 import com.forcetower.unes.core.storage.network.ServerSession
+import timber.log.Timber
 
 @Dao
 abstract class EventDao {
     @Insert(onConflict = REPLACE)
-    abstract fun insert(session: Session)
+    abstract fun insert(session: Session): Long
 
     @Transaction
-    @Query("SELECT * FROM Session WHERE day_id = :day")
+    @Query("SELECT * FROM Session WHERE day_id = :day ORDER BY start_time ASC")
     abstract fun getSessionsFromDay(day: Int): LiveData<List<SessionWithData>>
 
     @Transaction
     open fun insertServerSessions(value: List<ServerSession>) {
+        Timber.d("Requested insert of $value")
         value.forEach {
             insertTags(it.tags)
             insertSpeakers(it.speakers)
             val session = it.toSession()
             deleteIfPresent(session.uuid)
-            insert(session)
+            val id = insert(session)
 
+            it.tags.forEach { t ->
+                assocTag(SessionTag(session = id, tag = t.uid))
+            }
 
+            it.speakers.forEach { s ->
+                assocSpeaker(SessionSpeaker(session = id, speaker = s.uid))
+            }
         }
     }
+
+
+
+    @Query("SELECT * FROM Session WHERE uuid = :uuid")
+    protected abstract fun getSessionWithUUID(uuid: String): Session?
 
     @Insert(onConflict = REPLACE)
     protected abstract fun insertTags(tags: List<Tag>)

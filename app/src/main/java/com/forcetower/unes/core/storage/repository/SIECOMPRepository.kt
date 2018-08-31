@@ -42,6 +42,5 @@ class SIECOMPRepository @Inject constructor(
                 override fun saveCallResult(value: List<ServerSession>) {
                     database.eventDao().insertServerSessions(value)
                 }
-
             }.asLiveData()
 }

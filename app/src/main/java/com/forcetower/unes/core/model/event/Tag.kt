@@ -39,4 +39,8 @@ data class Tag(
     @SerializedName("font_color")
     val fontColor: Int? = null,
     val uuid: String = UUID.randomUUID().toString()
-)
+) {
+    override fun toString(): String {
+        return name
+    }
+}

@@ -42,4 +42,6 @@ data class ServerSession(
     val speakers: List<Speaker>
 ) {
     fun toSession() = Session(uid, day, startTime, endTime, title, room, abstract, photoUrl, uuid)
+
+    override fun toString() = "$uid _ $day: $title\n[$speakers]\n[$tags]"
 }

@@ -103,7 +103,9 @@ class EScheduleDayFragment: UFragment(), Injectable {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        Timber.d("Event Day: $eventDay")
         viewModel.getSessionsFromDay(eventDay).observe(this, Observer {
+            Timber.d("It value: $it")
             it?: return@Observer
             onSessionsChange(it)
         })
@@ -121,6 +123,8 @@ class EScheduleDayFragment: UFragment(), Injectable {
     }
 
     private fun populateInterface(data: List<SessionWithData>) {
+//        val mutable = data.toMutableList()
+//        mutable.sort()
         adapter.submitList(data)
         binding.recyclerDaySchedule.run {
             doOnNextLayout {

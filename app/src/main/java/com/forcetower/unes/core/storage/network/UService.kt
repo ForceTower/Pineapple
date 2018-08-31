@@ -29,11 +29,11 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface UService {
-    @POST("/login")
+    @POST("login")
     @FormUrlEncoded
     fun login(@Field("username") username: String, @Field("password") password: String): Call<AccessToken>
 
-    @POST("/login_create")
+    @POST("login_create")
     @FormUrlEncoded
     fun loginOrCreate(
             @Field("username") username: String,
@@ -44,6 +44,6 @@ interface UService {
             @Field("appToken") token: String
     ): Call<AccessToken>
 
-    @GET("/siecomp/list_sessions")
+    @GET("siecomp/list_sessions")
     fun siecompSessions(): LiveData<ApiResponse<List<ServerSession>>>
 }

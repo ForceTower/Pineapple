@@ -40,4 +40,8 @@ data class Speaker(
 ) {
     fun hasLab() = lab.isNotEmpty()
     fun hasAbstract() = abstract.isNotEmpty()
+
+    override fun toString(): String {
+        return name
+    }
 }

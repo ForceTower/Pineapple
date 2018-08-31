@@ -43,6 +43,7 @@ import org.threeten.bp.ZoneId
 import org.threeten.bp.ZonedDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import timber.log.Timber
+import java.util.*
 
 class ScheduleItemHeaderDecoration(
     context: Context,
@@ -54,9 +55,9 @@ class ScheduleItemHeaderDecoration(
     private val paddingTop: Int
     private val hourMinTextSize: Int
     private val meridiemTextSize: Int
-    private val hourFormatter = DateTimeFormatter.ofPattern("h")
-    private val hourMinFormatter = DateTimeFormatter.ofPattern("h:m")
-    private val meridiemFormatter = DateTimeFormatter.ofPattern("a")
+    private val hourFormatter = DateTimeFormatter.ofPattern("H").withLocale(Locale.getDefault())
+    private val hourMinFormatter = DateTimeFormatter.ofPattern("H:m").withLocale(Locale.getDefault())
+    private val meridiemFormatter = DateTimeFormatter.ofPattern("a").withLocale(Locale.getDefault())
 
     init {
         val attrs = context.obtainStyledAttributes(

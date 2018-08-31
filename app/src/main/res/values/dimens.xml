@@ -48,5 +48,5 @@
     <dimen name="time_header_hour_text_size">24sp</dimen>
     <dimen name="time_header_hour_min_text_size">20sp</dimen>
     <dimen name="time_header_meridiem_text_size">12sp</dimen>
-    <dimen name="time_header_padding_top">4dp</dimen>
+    <dimen name="time_header_padding_top">16dp</dimen>
 </resources>

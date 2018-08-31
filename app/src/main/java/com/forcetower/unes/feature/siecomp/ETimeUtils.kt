@@ -56,7 +56,7 @@ object ETimeUtils {
 
     fun timeString(startTime: ZonedDateTime, endTime: ZonedDateTime): String {
         val sb = StringBuilder()
-        sb.append(DateTimeFormatter.ofPattern("EEE, MMM d, h:mm ").format(startTime))
+        sb.append(DateTimeFormatter.ofPattern("EEE, MMM d, H:mm ").format(startTime))
 
         val startTimeMeridiem: String = DateTimeFormatter.ofPattern("a").format(startTime)
         val endTimeMeridiem: String = DateTimeFormatter.ofPattern("a").format(endTime)
@@ -64,7 +64,7 @@ object ETimeUtils {
             sb.append(startTimeMeridiem).append(" ")
         }
 
-        sb.append(DateTimeFormatter.ofPattern("- h:mm a").format(endTime))
+        sb.append(DateTimeFormatter.ofPattern("- H:mm a").format(endTime))
         return sb.toString()
     }
 }

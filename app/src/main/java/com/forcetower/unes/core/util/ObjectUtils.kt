@@ -19,12 +19,14 @@
 
 package com.forcetower.unes.core.util
 
+import com.forcetower.unes.BuildConfig
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonParseException
 import org.threeten.bp.Instant
 import org.threeten.bp.ZoneId
 import org.threeten.bp.ZonedDateTime
 import org.threeten.bp.format.DateTimeFormatter
+import timber.log.Timber
 
 
 object ObjectUtils {
@@ -33,9 +35,12 @@ object ObjectUtils {
         val jsonPrimitive = json.asJsonPrimitive
         try {
 
-            // if provided as String - '2011-12-03T10:15:30+01:00[Europe/Paris]'
+            // if provided as String - '2011-12-03 10:15:30'
             if (jsonPrimitive.isString) {
-                return@JsonDeserializer ZonedDateTime.parse(jsonPrimitive.asString, DateTimeFormatter.ISO_ZONED_DATE_TIME)
+                val pattern = "yyyy-MM-dd HH:mm:ss"
+                Timber.d(jsonPrimitive.asString)
+                val parser = DateTimeFormatter.ofPattern(pattern).withZone(ZoneId.of(BuildConfig.SIECOMP_TIMEZONE))
+                return@JsonDeserializer ZonedDateTime.parse(jsonPrimitive.asString, parser)
             }
 
             // if provided as Long
