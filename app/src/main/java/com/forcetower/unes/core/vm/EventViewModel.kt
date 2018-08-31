@@ -26,5 +26,7 @@ import javax.inject.Inject
 class EventViewModel @Inject constructor(
     private val repository: SIECOMPRepository
 ): ViewModel() {
-    fun getSessionsFromDay(day: Int) = repository.getSessionsFromDay(day)
+    fun getSessionsFromDayLocal(day: Int) = repository.getSessionsFromDayLocal(day)
+
+    fun getSessions() = repository.getAllSessions()
 }

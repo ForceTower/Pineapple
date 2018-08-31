@@ -160,6 +160,7 @@
     <string name="session_duration_location" translatable="false">%1s / %2s</string>
     <string name="label_option_menu">Opções</string>
     <string name="siecomp_error_updating_info">Erro ao atualizar informações</string>
+    <string name="label_hours">horas</string>
 
     <plurals name="duration_hours">
         <item quantity="one">%s hora</item>

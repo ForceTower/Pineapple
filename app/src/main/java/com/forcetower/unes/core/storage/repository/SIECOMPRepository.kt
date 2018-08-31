@@ -34,9 +34,12 @@ class SIECOMPRepository @Inject constructor(
     private val executors: AppExecutors,
     private val service: UService
 ) {
-    fun getSessionsFromDay(day: Int) =
+
+    fun getSessionsFromDayLocal(day: Int) = database.eventDao().getSessionsFromDay(day)
+
+    fun getAllSessions() =
             object: NetworkBoundResource<List<SessionWithData>, List<ServerSession>>(executors) {
-                override fun loadFromDb() = database.eventDao().getSessionsFromDay(day)
+                override fun loadFromDb() = database.eventDao().getAllSessions()
                 override fun shouldFetch(it: List<SessionWithData>?) = true
                 override fun createCall() = service.siecompSessions()
                 override fun saveCallResult(value: List<ServerSession>) {

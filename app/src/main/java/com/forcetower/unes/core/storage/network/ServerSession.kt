@@ -44,4 +44,14 @@ data class ServerSession(
     fun toSession() = Session(uid, day, startTime, endTime, title, room, abstract, photoUrl, uuid)
 
     override fun toString() = "$uid _ $day: $title\n[$speakers]\n[$tags]"
+
+    companion object {
+        fun from(session: Session, tags: List<Tag>, speakers: List<Speaker>): ServerSession {
+            return ServerSession(
+                    session.uid, session.day, session.startTime, session.endTime,
+                    session.title, session.room, session.abstract, session.photoUrl,
+                    session.uuid, tags, speakers
+            )
+        }
+    }
 }

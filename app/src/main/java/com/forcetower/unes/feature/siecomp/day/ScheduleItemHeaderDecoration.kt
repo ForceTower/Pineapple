@@ -38,6 +38,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.State
 import com.forcetower.unes.R
 import com.forcetower.unes.core.storage.database.accessors.SessionWithData
+import com.forcetower.unes.core.storage.network.ServerSession
 import com.forcetower.unes.feature.siecomp.ETimeUtils
 import org.threeten.bp.ZoneId
 import org.threeten.bp.ZonedDateTime
@@ -46,9 +47,9 @@ import timber.log.Timber
 import java.util.*
 
 class ScheduleItemHeaderDecoration(
-    context: Context,
-    sessions: List<SessionWithData>,
-    zoneId: ZoneId
+        context: Context,
+        sessions: List<SessionWithData>,
+        zoneId: ZoneId
 ): RecyclerView.ItemDecoration() {
     private val paint: TextPaint
     private val width: Int
@@ -58,6 +59,7 @@ class ScheduleItemHeaderDecoration(
     private val hourFormatter = DateTimeFormatter.ofPattern("H").withLocale(Locale.getDefault())
     private val hourMinFormatter = DateTimeFormatter.ofPattern("H:m").withLocale(Locale.getDefault())
     private val meridiemFormatter = DateTimeFormatter.ofPattern("a").withLocale(Locale.getDefault())
+    private val hoursString = context.getString(R.string.label_hours)
 
     init {
         val attrs = context.obtainStyledAttributes(
@@ -153,8 +155,12 @@ class ScheduleItemHeaderDecoration(
         }.apply {
             append(System.lineSeparator())
             inSpans(AbsoluteSizeSpan(meridiemTextSize), StyleSpan(BOLD)) {
-                append(meridiemFormatter.format(startTime).toUpperCase())
+                append("horas")
             }
+            /*append(System.lineSeparator())
+            inSpans(AbsoluteSizeSpan(meridiemTextSize), StyleSpan(BOLD)) {
+                append(meridiemFormatter.format(startTime).toUpperCase())
+            }*/
         }
         return StaticLayout(text, paint, width, ALIGN_CENTER, 1f, 0f, false)
     }

@@ -34,7 +34,7 @@ class SessionWithData: Comparable<SessionWithData>{
     @Relation(entityColumn = "session_id", parentColumn = "uid", entity = SessionTag::class)
     lateinit var displayTags: List<SessionTagged>
 
-    fun tags() = displayTags.map { it.singleTag() }.also { Timber.d("Size is: ${it.size}") }
+    fun tags() = displayTags.map { it.singleTag() }.filter { !it.internal }
     fun speakers() = speakersRel.map { it.singleSpeaker() }
 
     override fun compareTo(other: SessionWithData): Int {

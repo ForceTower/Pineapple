@@ -87,7 +87,6 @@ class TagHolder(
 ): RecyclerView.ViewHolder(binding.root) {
     fun bind(tag: Tag) {
         binding.tag = tag
-        Timber.d("color is: ${tag.color}")
         binding.executePendingBindings()
     }
 }

@@ -60,5 +60,5 @@ fun tagTintOrDefault(color: Int, context: Context): Int {
 }
 
 fun valueOf(color: Int): Int {
-    return ColorUtils.modifyAlpha(color, 1)
+    return ColorUtils.modifyAlpha(color, 255)
 }

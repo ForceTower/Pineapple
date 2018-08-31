@@ -26,6 +26,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
 import com.forcetower.unes.core.injection.Injectable
 import com.forcetower.unes.core.vm.EventViewModel
@@ -77,6 +78,13 @@ class EScheduleFragment: UFragment(), Injectable {
         })
 
         viewPager.adapter = EScheduleAdapter(childFragmentManager)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel.getSessions().observe(this, Observer {
+            Timber.d("Loading all event status: ${it.status}")
+        })
     }
 
     inner class EScheduleAdapter(fm: FragmentManager): FragmentPagerAdapter(fm) {

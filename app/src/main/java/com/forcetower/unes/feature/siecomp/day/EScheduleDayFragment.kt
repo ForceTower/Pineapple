@@ -104,23 +104,28 @@ class EScheduleDayFragment: UFragment(), Injectable {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         Timber.d("Event Day: $eventDay")
-        viewModel.getSessionsFromDay(eventDay).observe(this, Observer {
+        viewModel.getSessionsFromDayLocal(eventDay).observe(this, Observer {
             Timber.d("It value: $it")
             it?: return@Observer
-            onSessionsChange(it)
+            populateInterface(it)
         })
     }
 
-    private fun onSessionsChange(resource: Resource<List<SessionWithData>>) {
-        if (resource.data != null) {
-            populateInterface(resource.data)
-        }
-
-        when (resource.status) {
-            Status.ERROR -> showSnack(getString(R.string.siecomp_error_updating_info))
-            Status.LOADING, Status.SUCCESS -> Timber.d("Status: ${resource.status}")
-        }
+    private fun onSessionsChange(data: List<SessionWithData>) {
+        populateInterface(data)
     }
+
+
+//    private fun onSessionsChange(resource: Resource<List<SessionWithData>>) {
+//        if (resource.data != null) {
+//            populateInterface(resource.data)
+//        }
+//
+//        when (resource.status) {
+//            Status.ERROR -> showSnack(getString(R.string.siecomp_error_updating_info))
+//            Status.LOADING, Status.SUCCESS -> Timber.d("Status: ${resource.status}")
+//        }
+//    }
 
     private fun populateInterface(data: List<SessionWithData>) {
 //        val mutable = data.toMutableList()
