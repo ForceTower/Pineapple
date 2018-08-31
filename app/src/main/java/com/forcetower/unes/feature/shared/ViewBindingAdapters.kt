@@ -85,3 +85,14 @@ fun goneIf(view: View, gone: Boolean) {
 fun pageMargin(viewPager: ViewPager, pageMargin: Float) {
     viewPager.pageMargin = pageMargin.toInt()
 }
+
+@BindingAdapter("refreshing")
+fun swipeRefreshing(refreshLayout: CustomSwipeRefreshLayout, refreshing: Boolean) {
+    refreshLayout.isRefreshing = refreshing
+}
+
+@Suppress("UNUSED_PARAMETER")
+@BindingAdapter("onSwipeRefresh")
+fun onSwipeRefresh(view: CustomSwipeRefreshLayout, function: () -> Unit) {
+    function()
+}

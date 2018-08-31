@@ -63,6 +63,7 @@ class EScheduleFragment: UFragment(), Injectable {
             viewPager = binding.pagerSchedule
         }.apply {
             setLifecycleOwner(this@EScheduleFragment)
+            viewModel = this@EScheduleFragment.viewModel
         }.root
     }
 
@@ -82,9 +83,11 @@ class EScheduleFragment: UFragment(), Injectable {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.getSessions().observe(this, Observer {
+        viewModel.refreshSource.observe(this, Observer {
             Timber.d("Loading all event status: ${it.status}")
         })
+
+        viewModel.loadSessions()
     }
 
     inner class EScheduleAdapter(fm: FragmentManager): FragmentPagerAdapter(fm) {

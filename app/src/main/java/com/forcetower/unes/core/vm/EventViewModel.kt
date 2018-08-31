@@ -19,14 +19,44 @@
 
 package com.forcetower.unes.core.vm
 
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.forcetower.unes.core.storage.database.accessors.SessionWithData
 import com.forcetower.unes.core.storage.repository.SIECOMPRepository
+import com.forcetower.unes.core.storage.resource.Resource
+import com.forcetower.unes.core.storage.resource.Status
+import timber.log.Timber
 import javax.inject.Inject
 
 class EventViewModel @Inject constructor(
     private val repository: SIECOMPRepository
 ): ViewModel() {
+    private var loading: Boolean = false
+
+    val refreshing: MutableLiveData<Boolean> = MutableLiveData()
+    val refreshSource: MediatorLiveData<Resource<List<SessionWithData>>> = MediatorLiveData()
+
     fun getSessionsFromDayLocal(day: Int) = repository.getSessionsFromDayLocal(day)
 
-    fun getSessions() = repository.getAllSessions()
+    fun loadSessions() {
+        if (!loading) {
+            loading = true
+            val source = repository.getAllSessions()
+            refreshSource.addSource(source) {
+                when (it.status) {
+                    Status.SUCCESS, Status.ERROR -> {
+                        Timber.d("Status SIECOMP Schedule: ${it.status}")
+                        refreshSource.removeSource(source)
+                        refreshing.value = false
+                        loading = false
+                    }
+                    Status.LOADING -> {
+                        refreshing.value = true
+                        loading = true
+                    }
+                }
+            }
+        }
+    }
 }
