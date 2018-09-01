@@ -84,7 +84,9 @@ public class SagresSyncAdapter extends AbstractThreadedSyncAdapter {
                 proceedSync();
             } else {
                 updateData = service.getUpdateStatus();
-                updateData.observeForever(this::updateAccountObserver);
+                executors.mainThread().execute(() -> {
+                    updateData.observeForever(this::updateAccountObserver);
+                });
             }
         });
     }
@@ -174,8 +176,12 @@ public class SagresSyncAdapter extends AbstractThreadedSyncAdapter {
             messagesNotifications();
             gradesNotifications();
 
-            setupData();
-            sendCourse();
+            try {
+                setupData();
+                sendCourse();
+            } catch (Throwable t) {
+                Crashlytics.logException(t);
+            }
         });
     }
 

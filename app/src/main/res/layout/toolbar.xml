@@ -29,7 +29,10 @@
                 app:tabMode="scrollable"
                 android:visibility="gone"
                 tools:visibility="visible"
-                app:tabSelectedTextColor="@color/white">
+                android:background="@color/colorPrimary"
+                app:tabSelectedTextColor="@color/white"
+                app:tabBackground="@color/colorPrimary"
+                app:tabIndicatorColor="@color/colorAccent">
             </com.google.android.material.tabs.TabLayout>
         </com.google.android.material.appbar.AppBarLayout>
     </RelativeLayout>

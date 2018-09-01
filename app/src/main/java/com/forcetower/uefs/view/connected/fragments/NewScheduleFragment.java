@@ -17,10 +17,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.forcetower.uefs.AppExecutors;
+import com.forcetower.uefs.BuildConfig;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.databinding.FragmentScheduleNewBinding;
 import com.forcetower.uefs.db.entity.DisciplineClassLocation;
 import com.forcetower.uefs.db.entity.DisciplineGroup;
+import com.forcetower.uefs.db.entity.Profile;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.feature.siecomp.SiecompActivity;
 import com.forcetower.uefs.game.g2048.activity.Game2048Activity;
@@ -29,7 +31,10 @@ import com.forcetower.uefs.view.connected.ActivityController;
 import com.forcetower.uefs.view.connected.LocationClickListener;
 import com.forcetower.uefs.view.connected.adapters.NewScheduleAdapter;
 import com.forcetower.uefs.view.connected.adapters.ScheduleAdapter;
+import com.forcetower.uefs.vm.base.ProfileViewModel;
 import com.forcetower.uefs.vm.base.ScheduleViewModel;
+
+import org.threeten.bp.ZonedDateTime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,6 +89,19 @@ public class NewScheduleFragment extends Fragment implements Injectable {
         super.onActivityCreated(savedInstanceState);
         scheduleViewModel = ViewModelProviders.of(this, viewModelFactory).get(ScheduleViewModel.class);
         scheduleViewModel.getSchedule(null).observe(this, this::onReceiveLocations);
+        ProfileViewModel pvm = ViewModelProviders.of(this, viewModelFactory).get(ProfileViewModel.class);
+        pvm.getProfile().observe(this, this::onReceiveProfile);
+    }
+
+    private void onReceiveProfile(Profile profile) {
+        if (profile == null) return;
+
+        ZonedDateTime two = ZonedDateTime.parse(BuildConfig.CONFERENCE_DAY4_END);
+        long millis = two.toInstant().toEpochMilli();
+        Timber.d("Ends at: " + millis);
+        if (System.currentTimeMillis() < millis && (profile.getCourseReference() < 2 || Math.random() < 0.03)) {
+            binding.btnSiecompSchedule.setVisibility(View.VISIBLE);
+        }
     }
 
     private void setupRecycler() {
