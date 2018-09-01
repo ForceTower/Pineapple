@@ -4,10 +4,12 @@ import android.app.Application;
 import android.content.Context;
 
 import com.forcetower.uefs.GooglePlayGamesInstance;
+import com.forcetower.uefs.core.storage.database.EDatabase;
 import com.forcetower.uefs.ru.RUFirebase;
 
 import javax.inject.Singleton;
 
+import androidx.room.Room;
 import dagger.Module;
 import dagger.Provides;
 
@@ -37,6 +39,14 @@ public class AppModule {
     @Singleton
     GooglePlayGamesInstance provideGooglePlayGamesInstance(Context context) {
         return new GooglePlayGamesInstance(context);
+    }
+
+    @Provides
+    @Singleton
+    EDatabase provideEDatabase(Context context) {
+        return Room.databaseBuilder(context.getApplicationContext(), EDatabase.class, "unesco_events__xxx.db")
+                .fallbackToDestructiveMigration()
+                .build();
     }
 
 }

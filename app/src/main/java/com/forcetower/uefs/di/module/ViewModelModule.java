@@ -3,6 +3,7 @@ package com.forcetower.uefs.di.module;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.forcetower.uefs.core.vm.EventViewModel;
 import com.forcetower.uefs.di.annotation.ViewModelKey;
 import com.forcetower.uefs.vm.UEFSViewModelFactory;
 import com.forcetower.uefs.vm.admin.ControlRoomViewModel;
@@ -102,6 +103,11 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(EventsViewModel.class)
     abstract ViewModel bindEventsViewModel(EventsViewModel eventsViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(EventViewModel.class)
+    abstract ViewModel bindEventViewModel(EventViewModel eventsViewModel);
 
     @Binds
     @IntoMap

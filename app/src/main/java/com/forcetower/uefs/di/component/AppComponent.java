@@ -8,6 +8,7 @@ import com.forcetower.uefs.di.module.AppModule;
 import com.forcetower.uefs.di.module.DatabaseModule;
 import com.forcetower.uefs.di.module.DatabaseServiceModule;
 import com.forcetower.uefs.di.module.NetworkModule;
+import com.forcetower.uefs.di.module.NetworkedModule;
 import com.forcetower.uefs.di.module.ReceiversModule;
 import com.forcetower.uefs.di.module.ServicesModule;
 import com.forcetower.uefs.work.event.CreateEventWorker;
@@ -36,7 +37,8 @@ import dagger.android.support.AndroidSupportInjectionModule;
         ActivitiesModule.class,
         ServicesModule.class,
         DatabaseServiceModule.class,
-        ReceiversModule.class
+        ReceiversModule.class,
+        NetworkedModule.class
 })
 public interface AppComponent {
     @Component.Builder

@@ -538,6 +538,26 @@
     <string name="pref_show_dce_notifications">Recados do DCE</string>
     <string name="pref_show_dce_notifications_summary">Controle as notificações do DCE</string>
     <string name="school_history">Histórico Escolar</string>
-    <string name="registry_executor_label">E</string>
-    <string name="registry_reason_label">V</string>
+    <string name="registry_executor_label" translatable="false">E</string>
+    <string name="registry_reason_label" translatable="false">V</string>
+
+    <string name="btn_siecomp_schedule">Programação SIECOMP</string>
+    <string name="filters">Filtros</string>
+    <string name="label_siecomp_schedule">XX SIECOMP</string>
+    <string name="label_siecomp_no_event_apply_filter">Nenhum evento de hoje se aplica aos filtros</string>
+    <string name="acc_event_mark_session">Marcar Sessão</string>
+    <string name="event_session_duration_location" translatable="false">%1s / %2s</string>
+    <string name="session_duration_location" translatable="false">%1s / %2s</string>
+    <string name="label_option_menu">Opções</string>
+    <string name="siecomp_error_updating_info">Erro ao atualizar informações</string>
+    <string name="label_hours">horas</string>
+
+    <plurals name="duration_hours">
+        <item quantity="one">%s hora</item>
+        <item quantity="other">%s horas</item>
+    </plurals>
+    <plurals name="duration_minutes">
+        <item quantity="one">%s minuto</item>
+        <item quantity="other">%s minutos</item>
+    </plurals>
 </resources>

@@ -85,7 +85,9 @@ public class ConnectingFragment extends Fragment implements Injectable {
         if (shouldCall) {
             executors.diskIO().execute(() -> {
                 loginViewModel.deleteDatabase();
-                loginViewModel.getLogin(user, pass);
+                executors.mainThread().execute(() -> {
+                    loginViewModel.getLogin(user, pass);
+                });
                 shouldCall = false;
             });
             loginViewModel.setActivityStarted(false);

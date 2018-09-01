@@ -6,9 +6,18 @@
     <color name="colorPrimarySuperDark">#000133</color>
     <color name="colorAccent">#FF5722</color>
 
+    <color name="blue_accent">#2196F3</color>
+    <color name="text_primary_dark">#de000000</color> <!-- 87% -->
+    <color name="text_secondary_dark">#8a000000</color> <!-- 54% -->
+    <color name="text_tertiary_dark">#61000000</color> <!-- 38% -->
+    <color name="text_primary_light">#ffffffff</color>
+    <color name="text_secondary_light">#b3ffffff</color> <!-- 70% -->
+    <color name="text_disabled_light">#4dffffff</color>
+
     <color name="white">#FFFFFF</color>
     <color name="primaryText">#212121</color>
     <color name="secondaryText">#757575</color>
+    <color name="highlight_light">#33ffffff</color>
 
     <color name="color_event">#ffcf0e</color>
     <color name="color_system_notification">#ccff90</color>
@@ -72,6 +81,23 @@
         <item>@color/dis_14</item>
         <item>@color/dis_15</item>
     </array>
+
+    <color name="teal">#31e7b6</color>
+    <color name="light_blue">#27e5fd</color>
+    <color name="yellow">#fcd230</color>
+    <color name="orange">#ff6c00</color>
+
+    <color name="indigo_dark">#3c54fe</color>
+    <color name="indigo">#4768fd</color>
+    <color name="default_tag_color">#2196F3</color>
+
+    <integer-array name="swipe_refresh_colors">
+        <item>@color/indigo</item>
+        <item>@color/teal</item>
+        <item>@color/light_blue</item>
+        <item>@color/yellow</item>
+        <item>@color/orange</item>
+    </integer-array>
 
     <!-- Games -->
     <color name="background1">#232528</color>

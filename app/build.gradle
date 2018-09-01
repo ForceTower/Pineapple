@@ -1,17 +1,31 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 28
     buildToolsVersion '28.0.2'
     defaultConfig {
         applicationId "com.forcetower.uefs"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 28
         multiDexEnabled true
         versionCode buildVersionCode()
         versionName version
         vectorDrawables.useSupportLibrary = true
+
+        buildConfigField "String", "SIECOMP_TIMEZONE", "\"America/Bahia\""
+        buildConfigField "String", "CONFERENCE_DAY1_START", "\"2018-09-03T08:00:00-03:00\""
+        buildConfigField "String", "CONFERENCE_DAY1_END", "\"2018-09-03T18:00:00-03:00\""
+        buildConfigField "String", "CONFERENCE_DAY2_START", "\"2018-09-04T08:00:00-03:00\""
+        buildConfigField "String", "CONFERENCE_DAY2_END", "\"2018-09-04T18:00:00-03:00\""
+        buildConfigField "String", "CONFERENCE_DAY3_START", "\"2018-09-05T08:00:00-03:00\""
+        buildConfigField "String", "CONFERENCE_DAY3_END", "\"2018-09-05T18:00:00-03:00\""
+        buildConfigField "String", "CONFERENCE_DAY4_START", "\"2018-09-06T08:00:00-03:00\""
+        buildConfigField "String", "CONFERENCE_DAY4_END", "\"2018-09-06T18:00:00-03:00\""
+
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -39,34 +53,34 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.0.0-rc01'
+    implementation 'androidx.appcompat:appcompat:1.0.0-rc02'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
     implementation 'androidx.multidex:multidex:2.0.0'
 
     implementation 'com.google.android.material:material:1.0.0-rc01'
-    implementation 'androidx.cardview:cardview:1.0.0-rc01'
-    implementation 'androidx.palette:palette:1.0.0-rc01'
+    implementation 'androidx.cardview:cardview:1.0.0-rc02'
+    implementation 'androidx.palette:palette:1.0.0-rc02'
 
     implementation "androidx.lifecycle:lifecycle-extensions:2.0.0-rc01"
     implementation "androidx.lifecycle:lifecycle-common-java8:2.0.0-rc01"
     implementation "androidx.room:room-runtime:2.0.0-rc01"
-    annotationProcessor "androidx.room:room-compiler:2.0.0-rc01"
+    kapt "androidx.room:room-compiler:2.0.0-rc01"
     implementation "android.arch.work:work-runtime:1.0.0-alpha04"
     implementation "android.arch.work:work-firebase:1.0.0-alpha04"
 
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
 
-    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
     implementation 'com.google.code.gson:gson:2.8.2'
 
     implementation 'com.google.dagger:dagger:2.16'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.16'
+    kapt 'com.google.dagger:dagger-compiler:2.16'
     implementation 'com.google.dagger:dagger-android:2.16'
     implementation 'com.google.dagger:dagger-android-support:2.16'
-    annotationProcessor 'com.google.dagger:dagger-android-processor:2.16'
+    kapt 'com.google.dagger:dagger-android-processor:2.16'
 
-    implementation 'com.jakewharton.timber:timber:4.6.1'
+    implementation 'com.jakewharton.timber:timber:4.7.0'
 
     implementation 'org.jsoup:jsoup:1.11.2'
 
@@ -74,7 +88,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
 
-    implementation 'com.google.firebase:firebase-core:16.0.1'
+    implementation 'com.google.firebase:firebase-core:16.0.3'
     implementation 'com.google.firebase:firebase-auth:16.0.3'
     implementation 'com.google.firebase:firebase-database:16.0.1'
     implementation 'com.google.firebase:firebase-messaging:17.3.0'
@@ -102,6 +116,11 @@ dependencies {
     implementation "com.mikepenz:aboutlibraries:6.0.9"
 
     implementation 'com.annimon:stream:1.2.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    api "com.jakewharton.threetenabp:threetenabp:1.1.0"
+    implementation "com.google.android:flexbox:0.3.2"
+    implementation "androidx.core:core-ktx:1.0.0-rc02"
 }
 
 apply from: "../artifacts.gradle"

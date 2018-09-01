@@ -1,5 +1,6 @@
 package com.forcetower.uefs.di.module;
 
+import com.forcetower.uefs.feature.siecomp.SiecompActivity;
 import com.forcetower.uefs.game.g2048.activity.Game2048Activity;
 import com.forcetower.uefs.view.about.AboutActivity;
 import com.forcetower.uefs.view.connected.LoggedActivity;
@@ -41,4 +42,7 @@ public abstract class ActivitiesModule {
 
     @ContributesAndroidInjector
     abstract EventDetailsActivity contributeEventDetailsActivity();
+
+    @ContributesAndroidInjector(modules = SiecompModule.class)
+    abstract SiecompActivity contributeSiecompActivity();
 }

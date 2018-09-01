@@ -3,6 +3,7 @@ package com.forcetower.uefs.view.connected.fragments;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import com.forcetower.uefs.databinding.FragmentScheduleNewBinding;
 import com.forcetower.uefs.db.entity.DisciplineClassLocation;
 import com.forcetower.uefs.db.entity.DisciplineGroup;
 import com.forcetower.uefs.di.Injectable;
+import com.forcetower.uefs.feature.siecomp.SiecompActivity;
 import com.forcetower.uefs.game.g2048.activity.Game2048Activity;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.view.connected.ActivityController;
@@ -68,6 +70,10 @@ public class NewScheduleFragment extends Fragment implements Injectable {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_schedule_new, container, false);
         controller.getTabLayout().setVisibility(View.GONE);
         controller.changeTitle(R.string.title_schedule);
+        binding.btnSiecompSchedule.setOnClickListener(v -> {
+            Intent intent = new Intent(requireContext(), SiecompActivity.class);
+            startActivity(intent);
+        });
         setupRecycler();
         setupSubtitles();
         return binding.getRoot();

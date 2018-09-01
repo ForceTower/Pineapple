@@ -41,7 +41,7 @@
                     android:id="@+id/rv_schedule_subtitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
+                    android:paddingBottom="72dp"
                     android:clipToPadding="false"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior">
                 </androidx.recyclerview.widget.RecyclerView>
@@ -119,6 +119,29 @@
                     android:text="@string/check_schedule_in_official_page"/>
             </LinearLayout>
         </ScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_siecomp_schedule"
+            style="@style/Widget.MaterialComponents.Button"
+            android:letterSpacing=".001"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="8dp"
+            android:elevation="6dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:text="@string/btn_siecomp_schedule"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            app:backgroundTint="@color/blue_accent"
+            app:cornerRadius="32dp"
+            app:icon="@drawable/ic_local_activity_black_24dp"
+            app:iconPadding="12dp"
+            app:iconSize="24dp"
+            app:iconTint="@android:color/white" />
 
     </RelativeLayout>
 </layout>

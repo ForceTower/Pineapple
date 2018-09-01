@@ -50,17 +50,15 @@
             android:theme="@style/AppTheme.PreferencesStyle" />
         <activity
             android:name=".view.event.EventDetailsActivity"
-            android:parentActivityName=".view.connected.LoggedActivity"/>
+            android:parentActivityName=".view.connected.LoggedActivity" />
         <activity
             android:name=".view.about.AboutActivity"
             android:label="@string/about_app" />
         <activity
             android:name=".view.control_room.ControlRoomActivity"
             android:label="@string/control_room" />
-
         <activity android:name=".view.universe.UniverseActivity" />
         <activity android:name=".game.g2048.activity.Game2048Activity" />
-
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
@@ -95,26 +93,25 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
         <service
             android:name=".sync.SyncAdapterService"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.content.SyncAdapter"/>
+                <action android:name="android.content.SyncAdapter" />
             </intent-filter>
 
             <meta-data
                 android:name="android.content.SyncAdapter"
-                android:resource="@xml/syncadapter"/>
+                android:resource="@xml/syncadapter" />
         </service>
         <service android:name=".sync.GenericAccountService">
             <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator"/>
+                <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
 
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
-                android:resource="@xml/authenticator"/>
+                android:resource="@xml/authenticator" />
         </service>
 
         <provider
@@ -122,8 +119,10 @@
             android:authorities="@string/authority"
             android:exported="false"
             android:label="@string/sagres_sync"
-            android:syncable="true"/>
+            android:syncable="true" />
 
+        <activity android:name=".feature.siecomp.SiecompActivity"
+            android:theme="@style/AppTheme.Light.Abs"/>
     </application>
 
 </manifest>

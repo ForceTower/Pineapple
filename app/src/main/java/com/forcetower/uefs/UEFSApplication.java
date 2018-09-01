@@ -15,6 +15,7 @@ import com.forcetower.uefs.di.injector.HasLollipopServiceInjector;
 import com.forcetower.uefs.ntf.NotificationHelper;
 import com.forcetower.uefs.sync.SyncConfiguration;
 import com.forcetower.uefs.work.sync.SyncWorkerUtils;
+import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.squareup.picasso.Picasso;
 
 import org.jsoup.nodes.Document;
@@ -56,7 +57,7 @@ public class UEFSApplication extends Application implements HasActivityInjector,
     @Override
     public void onCreate() {
         super.onCreate();
-
+        AndroidThreeTen.init(this);
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         }
