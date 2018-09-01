@@ -27,29 +27,6 @@
 
 package com.forcetower.uefs.core.model.event
 
-import androidx.room.Entity
-import androidx.room.Index
-import androidx.room.PrimaryKey
-import com.google.gson.annotations.SerializedName
-
-@Entity(indices = [
-    Index(value = ["uuid"], unique = true)
-])
-data class Speaker(
-    @SerializedName(value = "id")
-    @PrimaryKey(autoGenerate = true)
-    var uid: Long = 0,
-    var name: String = "",
-    var image: String = "",
-    var lab: String = "",
-    var resume: String = "",
-    var url: String = "",
-    var uuid: String = ""
-) {
-    fun hasLab() = lab.isNotEmpty() && lab != "null"
-    fun hasAbstract() = resume.isNotEmpty()
-
-    override fun toString(): String {
-        return name
-    }
+enum class SessionType {
+    WORKSHOP, SPEAK, DEBATE, CONCLUSION, UNKNOWN
 }

@@ -34,6 +34,7 @@ import androidx.room.OnConflictStrategy.REPLACE
 import com.forcetower.uefs.core.model.event.*
 import com.forcetower.uefs.core.storage.database.accessors.SessionWithData
 import com.forcetower.uefs.core.storage.network.ServerSession
+import timber.log.Timber
 
 @Dao
 abstract class EventDao {
@@ -47,6 +48,10 @@ abstract class EventDao {
     @Transaction
     @Query("SELECT * FROM Session WHERE day_id = :day ORDER BY start_time ASC")
     abstract fun getSessionsFromDay(day: Int): LiveData<List<SessionWithData>>
+
+    @Transaction
+    @Query("SELECT * FROM Session WHERE uid = :id")
+    abstract fun getSessionWithId(id: Long): LiveData<SessionWithData>
 
     @Transaction
     open fun insertServerSessions(value: List<ServerSession>) {

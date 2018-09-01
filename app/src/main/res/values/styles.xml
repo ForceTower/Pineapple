@@ -47,6 +47,38 @@
         <item name="meridiemTextSize">@dimen/time_header_meridiem_text_size</item>
     </style>
 
+    <style name="Widget.Schedule.SessionDetailTitle">
+        <item name="android:gravity">start|bottom</item>
+        <item name="android:textAppearance">@style/TextAppearance.Schedule.SessionTitle.Display</item>
+        <item name="android:breakStrategy" tools:targetApi="m">balanced</item>
+        <item name="android:lineSpacingMultiplier">1</item>
+        <item name="autoSizeTextType">uniform</item>
+        <item name="autoSizeMaxTextSize">34sp</item>
+    </style>
+
+    <style name="TextAppearance.Schedule.SessionTitle.Display" parent="@style/TextAppearance.AppCompat.Display1">
+        <item name="android:fontFamily">@font/product_sans_regular</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
+    </style>
+
+    <style name="TextAppearance.Schedule.Subhead" parent="@style/TextAppearance.AppCompat.Body1">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/text_secondary_dark</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="TextAppearance.Schedule.SpeakerTitle" parent="@style/TextAppearance.AppCompat.Subhead">
+        <item name="android:textColor">@color/text_primary_dark</item>
+        <item name="android:fontFamily">@font/product_sans_regular</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Widget.Schedule.HeaderGrid">
+        <item name="android:color">@color/light_grey</item>
+        <item name="gridSize">8dp</item>
+        <item name="gridStrokeWidth">1dp</item>
+    </style>
+
     <style name="Widget.AppBar" parent="@style/Widget.Design.AppBarLayout">
         <item name="popupTheme">@style/UTheme.PopupTheme</item>
         <item name="android:background">@color/white</item>

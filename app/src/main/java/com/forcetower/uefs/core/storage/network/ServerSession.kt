@@ -45,11 +45,12 @@ data class ServerSession(
     @SerializedName("photo_url")
     val photoUrl: String,
     val uuid: String,
+    val type: Int,
 
     val tags: List<Tag>,
     val speakers: List<Speaker>
 ) {
-    fun toSession() = Session(uid, day, startTime, endTime, title, room, abstract, photoUrl, uuid)
+    fun toSession() = Session(uid, day, startTime, endTime, title, room, abstract, photoUrl, uuid, type)
 
     override fun toString() = "$uid _ $day: $title\n[$speakers]\n[$tags]"
 
@@ -57,8 +58,8 @@ data class ServerSession(
         fun from(session: Session, tags: List<Tag>, speakers: List<Speaker>): ServerSession {
             return ServerSession(
                     session.uid, session.day, session.startTime, session.endTime,
-                    session.title, session.room, session.abstract, session.photoUrl,
-                    session.uuid, tags, speakers
+                    session.title, session.room, session.resume, session.photoUrl,
+                    session.uuid, session.type, tags, speakers
             )
         }
     }

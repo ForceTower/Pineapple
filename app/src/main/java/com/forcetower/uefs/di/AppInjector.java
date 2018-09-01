@@ -2,7 +2,10 @@ package com.forcetower.uefs.di;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -62,8 +65,8 @@ public class AppInjector  {
             ((FragmentActivity)activity).getSupportFragmentManager()
                     .registerFragmentLifecycleCallbacks(new FragmentManager.FragmentLifecycleCallbacks() {
                         @Override
-                        public void onFragmentCreated(FragmentManager fm, Fragment f, Bundle savedInstanceState) {
-                            super.onFragmentCreated(fm, f, savedInstanceState);
+                        public void onFragmentAttached(@NonNull FragmentManager fm, @NonNull Fragment f, @NonNull Context context) {
+                            super.onFragmentAttached(fm, f, context);
                             if (f instanceof Injectable) {
                                 AndroidSupportInjection.inject(f);
                             }

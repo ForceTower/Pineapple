@@ -102,7 +102,9 @@ public class SagresSyncWorker extends Worker {
                 proceedSync();
             } else {
                 updateData = service.getUpdateStatus();
-                updateData.observeForever(this::updateAccountObserver);
+                executors.mainThread().execute(() -> {
+                    updateData.observeForever(this::updateAccountObserver);
+                });
             }
         });
     }

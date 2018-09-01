@@ -6,7 +6,7 @@
 
     <data>
         <variable
-            name="message"
+            name="data"
             type="com.forcetower.uefs.db.entity.Message"/>
     </data>
     <androidx.cardview.widget.CardView
@@ -58,7 +58,7 @@
                     android:textSize="16sp"
                     android:maxLines="1"
                     android:layout_centerInParent="true"
-                    android:text="@{message.classReceived}"
+                    android:text="@{data.classReceived}"
                     tools:text="COD123 - MI Projeto de Ciruicots Eletricos"/>
 
                 <TextView
@@ -75,7 +75,7 @@
                     android:maxLength="15"
                     android:background="@color/white"
                     android:layout_centerInParent="true"
-                    android:text="@{message.receivedAt}"
+                    android:text="@{data.receivedAt}"
                     tools:text="23/05/2018"/>
             </RelativeLayout>
 
@@ -92,7 +92,7 @@
                 android:textSize="12sp"
                 android:textColor="@color/primaryText"
                 android:fontFamily="@font/roboto_regular"
-                android:text="@{message.spannable != null ? message.spannable : message.message}"
+                android:text="@{data.spannable != null ? data.spannable : data.message}"
                 tools:text="Prezados colegas, Gostaria que pudessem participar da minha pesquisa acadêmica com a finalidade de coleta de dados, afim de que os utilize para fundamentar o trabalho de conclusão de curso, a Monografia. Para acessar o formulário copie ou clique link abaixo. Agradeço-os antecipadamente!! https://goo.gl/forms/rx2JUDdKyXv1r0Kj2 Att, Osmario de Oliveira Administração - UEFS."/>
 
             <TextView

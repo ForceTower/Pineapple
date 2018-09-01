@@ -91,7 +91,7 @@ class EScheduleDayFragment: UFragment(), Injectable {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        adapter = EScheduleDayAdapter(tagViewPool, ETimeUtils.SIECOMP_TIMEZONE)
+        adapter = EScheduleDayAdapter(viewModel, tagViewPool, ETimeUtils.SIECOMP_TIMEZONE)
         binding.recyclerDaySchedule.apply {
             setRecycledViewPool(sessionViewPool)
             adapter = this@EScheduleDayFragment.adapter

@@ -50,6 +50,11 @@ fun invisibleUnless(view: View, visible: Boolean) {
     view.visibility = if (visible) VISIBLE else INVISIBLE
 }
 
+@BindingAdapter("goneUnless")
+fun goneUnless(view: View, visible: Boolean) {
+    view.visibility = if (visible) VISIBLE else GONE
+}
+
 @BindingAdapter("goneIf")
 fun goneIf(view: View, gone: Boolean) {
     view.visibility = if (gone) GONE else VISIBLE

@@ -27,23 +27,30 @@
 
 package com.forcetower.uefs.core.vm
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.forcetower.uefs.core.model.event.Session
 import com.forcetower.uefs.core.storage.database.accessors.SessionWithData
 import com.forcetower.uefs.core.storage.repository.SIECOMPRepository
 import com.forcetower.uefs.core.storage.resource.Resource
 import com.forcetower.uefs.core.storage.resource.Status
+import com.forcetower.uefs.feature.siecomp.common.SessionActions
 import timber.log.Timber
 import javax.inject.Inject
 
 class EventViewModel @Inject constructor(
     private val repository: SIECOMPRepository
-): ViewModel() {
+): ViewModel(), SessionActions {
     private var loading: Boolean = false
 
     val refreshing: MutableLiveData<Boolean> = MutableLiveData()
     val refreshSource: MediatorLiveData<Resource<List<SessionWithData>>> = MediatorLiveData()
+
+    private val _navigateToSessionAction = MutableLiveData<Long>()
+    val navigateToSessionAction: LiveData<Long>
+        get() = _navigateToSessionAction
 
     fun getSessionsFromDayLocal(day: Int) = repository.getSessionsFromDayLocal(day)
 
@@ -66,5 +73,13 @@ class EventViewModel @Inject constructor(
                 refreshSource.value = it
             }
         }
+    }
+
+    override fun openSessionDetails(id: Long) {
+        _navigateToSessionAction.value = id
+    }
+
+    override fun onStarClicked(userSession: Long) {
+
     }
 }

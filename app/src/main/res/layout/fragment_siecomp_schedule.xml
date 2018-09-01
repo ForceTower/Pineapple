@@ -73,7 +73,7 @@
             android:id="@+id/swipe_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:refreshing="@{ viewModel.refreshing }"
+            app:refreshing="@{ safeUnbox(viewModel.refreshing) }"
             app:onSwipeRefresh="@{() -> viewModel.loadSessions()}"
             app:swipeRefreshColors="@{@intArray/swipe_refresh_colors}"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">

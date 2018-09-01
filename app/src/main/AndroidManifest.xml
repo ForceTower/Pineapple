@@ -121,8 +121,13 @@
             android:label="@string/sagres_sync"
             android:syncable="true" />
 
-        <activity android:name=".feature.siecomp.SiecompActivity"
-            android:theme="@style/AppTheme.Light.Abs"/>
+        <activity
+            android:name=".feature.siecomp.SiecompActivity"
+            android:theme="@style/AppTheme.Light.Abs" />
+
+        <activity android:name=".feature.siecomp.SessionDetailsActivity"
+            android:theme="@style/AppTheme.Light.Abs"
+            android:parentActivityName=".feature.siecomp.SiecompActivity"/>
     </application>
 
 </manifest>

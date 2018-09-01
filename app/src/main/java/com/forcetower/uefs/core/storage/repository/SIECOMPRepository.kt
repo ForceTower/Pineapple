@@ -54,4 +54,8 @@ class SIECOMPRepository @Inject constructor(
                     database.eventDao().insertServerSessions(value)
                 }
             }.asLiveData()
+
+    fun getSessionDetails(id: Long): LiveData<SessionWithData> {
+        return database.eventDao().getSessionWithId(id)
+    }
 }

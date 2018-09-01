@@ -38,4 +38,7 @@
     <dimen name="time_header_hour_min_text_size">20sp</dimen>
     <dimen name="time_header_meridiem_text_size">12sp</dimen>
     <dimen name="time_header_padding_top">16dp</dimen>
+    <dimen name="margin_normal">16dp</dimen>
+    <dimen name="spacing_micro">4dp</dimen>
+    <dimen name="speaker_headshot_size">40dp</dimen>
 </resources>

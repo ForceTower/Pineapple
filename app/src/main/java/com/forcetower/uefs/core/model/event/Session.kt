@@ -50,16 +50,25 @@ data class Session(
     var endTime: ZonedDateTime = ZonedDateTime.now(),
     var title: String = "",
     var room: String = "",
-    var abstract: String = "",
+    var resume: String = "",
     @SerializedName("photo_url")
     var photoUrl: String = "",
-    var uuid: String = ""
+    var uuid: String = "",
+    var type: Int = 0
 ): Comparable<Session> {
 
     @Ignore
     val year = startTime.year
     @Ignore
     val duration = endTime.toInstant().toEpochMilli() - startTime.toInstant().toEpochMilli()
+    @Ignore
+    val sessionType = when (type) {
+        0 -> SessionType.SPEAK
+        1 -> SessionType.WORKSHOP
+        2 -> SessionType.DEBATE
+        3 -> SessionType.CONCLUSION
+        else -> SessionType.UNKNOWN
+    }
 
     fun isLive(): Boolean {
         val now = ZonedDateTime.now()

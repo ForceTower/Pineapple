@@ -36,6 +36,10 @@
             type="com.forcetower.uefs.core.storage.database.accessors.SessionWithData"/>
 
         <variable
+            name="listener"
+            type="com.forcetower.uefs.feature.siecomp.common.SessionActions"/>
+
+        <variable
             name="zone"
             type="org.threeten.bp.ZoneId"/>
     </data>
@@ -46,6 +50,7 @@
         android:background="?selectableItemBackground"
         android:paddingEnd="@dimen/spacing_normal"
         android:paddingVertical="@dimen/spacing_normal"
+        android:onClick="@{() -> listener.openSessionDetails(data.session.uid)}"
         tools:targetApi="o">
 
         <androidx.constraintlayout.widget.Guideline

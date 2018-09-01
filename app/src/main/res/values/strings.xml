@@ -551,6 +551,10 @@
     <string name="label_option_menu">Opções</string>
     <string name="siecomp_error_updating_info">Erro ao atualizar informações</string>
     <string name="label_hours">horas</string>
+    <string name="navigate_up">Voltar</string>
+    <string name="session_detail_header_aspect" translatable="false">H,16:9</string>
+    <string name="session_detail_speakers_header">Apresentadores / Palestrantes</string>
+    <string name="speaker_headshot_transition">speak_headshot</string>
 
     <plurals name="duration_hours">
         <item quantity="one">%s hora</item>
@@ -559,5 +563,10 @@
     <plurals name="duration_minutes">
         <item quantity="one">%s minuto</item>
         <item quantity="other">%s minutos</item>
+    </plurals>
+
+    <plurals name="session_starting_in">
+        <item quantity="one">A sessão começa em %1$s minuto</item>
+        <item quantity="other">A sessão começa em %1$s minutos</item>
     </plurals>
 </resources>

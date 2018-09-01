@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.forcetower.uefs.core.vm.EventViewModel;
+import com.forcetower.uefs.core.vm.SessionViewModel;
 import com.forcetower.uefs.di.annotation.ViewModelKey;
 import com.forcetower.uefs.vm.UEFSViewModelFactory;
 import com.forcetower.uefs.vm.admin.ControlRoomViewModel;
@@ -118,6 +119,11 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(NotificationViewModel.class)
     abstract ViewModel bindNotificationViewModel(NotificationViewModel notificationViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SessionViewModel.class)
+    abstract ViewModel bindSessionViewModel(SessionViewModel sessionViewModel);
 
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(UEFSViewModelFactory factory);

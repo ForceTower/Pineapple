@@ -34,6 +34,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.forcetower.uefs.core.model.event.Tag
 import com.forcetower.uefs.core.storage.database.accessors.SessionWithData
+import com.forcetower.uefs.core.vm.EventViewModel
 import com.forcetower.uefs.databinding.ItemEventSessionBinding
 import com.forcetower.uefs.databinding.ItemEventSessionTagBinding
 import com.forcetower.uefs.feature.shared.inflater
@@ -41,11 +42,14 @@ import com.forcetower.uefs.widget.UnscrollableFlexboxLayoutManager
 import org.threeten.bp.ZoneId
 
 class EScheduleDayAdapter(
+    private val viewModel: EventViewModel,
     private val tagViewPool: RecyclerView.RecycledViewPool,
     private val zone: ZoneId
 ): ListAdapter<SessionWithData, SessionHolder>(SessionDiff) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SessionHolder {
-        val binding = ItemEventSessionBinding.inflate(parent.inflater(), parent, false)
+        val binding = ItemEventSessionBinding.inflate(parent.inflater(), parent, false).apply {
+            listener = viewModel
+        }
         return SessionHolder(binding, tagViewPool, zone)
     }
 

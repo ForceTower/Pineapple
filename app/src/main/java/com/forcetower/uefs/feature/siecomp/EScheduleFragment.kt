@@ -67,14 +67,25 @@ class EScheduleFragment: UFragment(), Injectable {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewModel = provideActivityViewModel(factory)
 
-        return FragmentSiecompScheduleBinding.inflate(inflater, container, false).also {
+        FragmentSiecompScheduleBinding.inflate(inflater, container, false).also {
             binding = it
             tabs = binding.tabLayout
             viewPager = binding.pagerSchedule
         }.apply {
             setLifecycleOwner(this@EScheduleFragment)
             viewModel = this@EScheduleFragment.viewModel
-        }.root
+        }
+
+
+        viewModel.navigateToSessionAction.observe(this, Observer {
+            openSessionDetails(it)
+        })
+
+        return binding.root
+    }
+
+    private fun openSessionDetails(id: Long) {
+        startActivity(SessionDetailsActivity.startIntent(requireContext(), id))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
