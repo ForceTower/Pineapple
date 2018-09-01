@@ -79,15 +79,7 @@ class EScheduleFragment: UFragment(), Injectable {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewPager.offscreenPageLimit = COUNT - 1
-
         tabs.setupWithViewPager(viewPager)
-
-        viewPager.addOnPageChangeListener(object: ViewPager.SimpleOnPageChangeListener() {
-            override fun onPageSelected(position: Int) {
-
-            }
-        })
-
         viewPager.adapter = EScheduleAdapter(childFragmentManager)
     }
 
