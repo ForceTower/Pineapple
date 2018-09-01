@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import androidx.annotation.DrawableRes;
+import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 import com.forcetower.uefs.R;
@@ -144,7 +145,7 @@ public class NotificationHelper extends ContextWrapper{
         }
     }
 
-    public static PendingIntent getPendingIntent(Context context, Class resultClass, String argument) {
+    public static PendingIntent getPendingIntent(Context context, Class resultClass, @Nullable String argument) {
         Intent resultIntent = new Intent(context, resultClass);
         if (validString(argument)) resultIntent.putExtra(ConnectedFragment.FRAGMENT_INTENT_EXTRA, argument);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);

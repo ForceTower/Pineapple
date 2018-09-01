@@ -128,6 +128,15 @@
         <activity android:name=".feature.siecomp.SessionDetailsActivity"
             android:theme="@style/AppTheme.Light.Abs"
             android:parentActivityName=".feature.siecomp.SiecompActivity"/>
+
+        <receiver
+            android:name=".rcv.OnUpgradeBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

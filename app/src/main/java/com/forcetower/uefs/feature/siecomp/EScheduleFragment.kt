@@ -103,7 +103,10 @@ class EScheduleFragment: UFragment(), Injectable {
             }
         })
 
-        viewModel.loadSessions()
+        if (!viewModel.sessionsLoaded) {
+            viewModel.sessionsLoaded = true
+            viewModel.loadSessions()
+        }
     }
 
     inner class EScheduleAdapter(fm: FragmentManager): FragmentPagerAdapter(fm) {

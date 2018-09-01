@@ -32,6 +32,7 @@ import com.forcetower.uefs.core.model.event.EventDay
 import org.threeten.bp.ZoneId
 import org.threeten.bp.ZonedDateTime
 import org.threeten.bp.format.DateTimeFormatter
+import java.util.*
 
 object ETimeUtils {
     val SIECOMP_TIMEZONE: ZoneId = ZoneId.of(BuildConfig.SIECOMP_TIMEZONE)
@@ -64,15 +65,8 @@ object ETimeUtils {
 
     fun timeString(startTime: ZonedDateTime, endTime: ZonedDateTime): String {
         val sb = StringBuilder()
-        sb.append(DateTimeFormatter.ofPattern("EEE, MMM d, H:mm ").format(startTime))
-
-        val startTimeMeridiem: String = DateTimeFormatter.ofPattern("a").format(startTime)
-        val endTimeMeridiem: String = DateTimeFormatter.ofPattern("a").format(endTime)
-        if (startTimeMeridiem != endTimeMeridiem) {
-            sb.append(startTimeMeridiem).append(" ")
-        }
-
-        sb.append(DateTimeFormatter.ofPattern("- H:mm a").format(endTime))
+        sb.append(DateTimeFormatter.ofPattern("EEE, d 'de' MMM, H:mm").withLocale(Locale.getDefault()).format(startTime))
+        sb.append(DateTimeFormatter.ofPattern(" - H:mm").format(endTime))
         return sb.toString()
     }
 }

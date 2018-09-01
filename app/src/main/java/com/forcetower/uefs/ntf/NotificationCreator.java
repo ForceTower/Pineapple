@@ -16,6 +16,7 @@ import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.GradeInfo;
 import com.forcetower.uefs.db.entity.Message;
 import com.forcetower.uefs.db_service.entity.Version;
+import com.forcetower.uefs.feature.siecomp.SiecompActivity;
 import com.forcetower.uefs.svc.UNESFirebaseMessagingService;
 import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.connected.LoggedActivity;
@@ -25,6 +26,7 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import timber.log.Timber;
 
@@ -312,5 +314,23 @@ public class NotificationCreator {
 
         addOptions(context, builder);
         showNotification(context, text.hashCode(), builder);
+    }
+
+    public static void createSiecompNotification(Context context) {
+        PendingIntent pendingIntent = getPendingIntent(context, SiecompActivity.class, null);
+
+        NotificationCompat.Builder builder = notificationBuilder(context, Constants.CHANNEL_GENERAL_WARNINGS_ID)
+                .setContentTitle("XX SIECOMP")
+                .setContentText("A programação da XX SIECOMP está no UNES!")
+                .setContentIntent(pendingIntent)
+                .setColor(ContextCompat.getColor(context, R.color.blue_accent));
+
+        try {
+            builder.setStyle(new NotificationCompat.BigPictureStyle()
+                    .bigPicture(Picasso.with(context).load("https://i.imgur.com/hdJ4GK3.jpg").get()));
+        } catch (Throwable ignored) {}
+
+        addOptions(context, builder);
+        showNotification(context, "XX SIECOMP".hashCode(), builder);
     }
 }

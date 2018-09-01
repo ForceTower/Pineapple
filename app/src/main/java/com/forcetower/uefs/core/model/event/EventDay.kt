@@ -34,7 +34,7 @@ import org.threeten.bp.ZonedDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import java.util.*
 
-private const val formatPattern = "d MMMM"
+private const val formatPattern = "d 'de' MMMM"
 
 @SuppressLint("ConstantLocale")
 val FORMATTER_MONTH_DAY: DateTimeFormatter =

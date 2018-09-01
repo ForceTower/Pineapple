@@ -43,6 +43,7 @@ import javax.inject.Inject
 class EventViewModel @Inject constructor(
     private val repository: SIECOMPRepository
 ): ViewModel(), SessionActions {
+    var sessionsLoaded: Boolean = false
     private var loading: Boolean = false
 
     val refreshing: MutableLiveData<Boolean> = MutableLiveData()

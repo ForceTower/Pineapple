@@ -66,7 +66,7 @@ class SessionViewModel @Inject constructor(
     val hasPhoto: LiveData<Boolean>
     val timeUntilStart: LiveData<Duration?>
 
-    val timeZoneId = ZoneId.systemDefault()
+    val timeZoneId: ZoneId = ZoneId.systemDefault()
 
     init {
         _session.addSource(sessionId) {
@@ -83,7 +83,7 @@ class SessionViewModel @Inject constructor(
                 val duration = Duration.between(Instant.now(), startTime)
                 val minutes = duration.toMinutes()
                 when (minutes) {
-                    in 1..5 -> duration
+                    in 1..30 -> duration
                     else -> null
                 }
             }

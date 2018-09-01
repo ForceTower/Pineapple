@@ -33,6 +33,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.forcetower.uefs.R
@@ -67,7 +68,10 @@ fun eventHeaderAnim(lottieView: LottieAnimationView, session: Session?) {
         SessionType.CONCLUSION -> "anim/ending.json"
         else -> "anim/speak.json"
     }
+
     lottieView.setAnimation(anim)
+    lottieView.playAnimation()
+    lottieView.repeatCount = LottieDrawable.INFINITE
 }
 
 @Suppress("unused")
