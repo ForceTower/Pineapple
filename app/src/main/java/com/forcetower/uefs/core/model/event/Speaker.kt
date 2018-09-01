@@ -42,6 +42,7 @@ data class Speaker(
     var name: String = "",
     var image: String = "",
     var lab: String = "",
+    @SerializedName(value = "abstract")
     var resume: String = "",
     var url: String = "",
     var uuid: String = ""

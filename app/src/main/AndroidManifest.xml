@@ -124,10 +124,10 @@
         <activity
             android:name=".feature.siecomp.SiecompActivity"
             android:theme="@style/AppTheme.Light.Abs" />
-
-        <activity android:name=".feature.siecomp.SessionDetailsActivity"
-            android:theme="@style/AppTheme.Light.Abs"
-            android:parentActivityName=".feature.siecomp.SiecompActivity"/>
+        <activity
+            android:name=".feature.siecomp.SessionDetailsActivity"
+            android:parentActivityName=".feature.siecomp.SiecompActivity"
+            android:theme="@style/AppTheme.Light.Abs" />
 
         <receiver
             android:name=".rcv.OnUpgradeBroadcastReceiver"
@@ -137,6 +137,10 @@
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
             </intent-filter>
         </receiver>
+
+        <activity android:name=".feature.siecomp.SpeakerActivity"
+            android:parentActivityName=".feature.siecomp.SiecompActivity"
+            android:theme="@style/AppTheme.Speaker"/>
     </application>
 
 </manifest>

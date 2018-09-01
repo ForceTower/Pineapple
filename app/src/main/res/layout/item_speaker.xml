@@ -33,12 +33,17 @@
         <variable
             name="speaker"
             type="com.forcetower.uefs.core.model.event.Speaker"/>
+
+        <variable
+            name="listener"
+            type="com.forcetower.uefs.feature.siecomp.common.SpeakerActions"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?selectableItemBackground"
+        android:onClick="@{() -> listener.onSpeakerClicked(speaker.uid)}"
         android:paddingVertical="@dimen/spacing_normal">
 
         <ImageView

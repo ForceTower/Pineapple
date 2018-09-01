@@ -29,6 +29,7 @@ package com.forcetower.uefs.core.storage.repository
 
 import androidx.lifecycle.LiveData
 import com.forcetower.uefs.AppExecutors
+import com.forcetower.uefs.core.model.event.Speaker
 import com.forcetower.uefs.core.storage.database.EDatabase
 import com.forcetower.uefs.core.storage.database.accessors.SessionWithData
 import com.forcetower.uefs.core.storage.network.ServerSession
@@ -57,5 +58,9 @@ class SIECOMPRepository @Inject constructor(
 
     fun getSessionDetails(id: Long): LiveData<SessionWithData> {
         return database.eventDao().getSessionWithId(id)
+    }
+
+    fun getSpeaker(speakerId: Long): LiveData<Speaker> {
+        return database.eventDao().getSpeakerWithId(speakerId)
     }
 }

@@ -38,6 +38,7 @@ import com.forcetower.uefs.core.storage.repository.SIECOMPRepository
 import com.forcetower.uefs.feature.shared.SetIntervalLiveData
 import com.forcetower.uefs.feature.shared.map
 import com.forcetower.uefs.feature.shared.setValueIfNew
+import com.forcetower.uefs.feature.siecomp.common.SpeakerActions
 import org.threeten.bp.Duration
 import org.threeten.bp.Instant
 import org.threeten.bp.ZoneId
@@ -48,7 +49,7 @@ private const val TEN_SECONDS = 10_000L
 
 class SessionViewModel @Inject constructor(
     private val repository: SIECOMPRepository
-): ViewModel() {
+): ViewModel(), SpeakerActions {
     private val sessionId = MutableLiveData<Long?>()
 
     private val _session = MediatorLiveData<Session?>()
@@ -62,6 +63,10 @@ class SessionViewModel @Inject constructor(
     private val _speakers = MutableLiveData<List<Speaker>>()
     val speakers: LiveData<List<Speaker>>
         get() = _speakers
+
+    private val _navigateToSpeakerAction = MutableLiveData<Long>()
+    val navigateToSpeakerAction: LiveData<Long>
+        get() = _navigateToSpeakerAction
 
     val hasPhoto: LiveData<Boolean>
     val timeUntilStart: LiveData<Duration?>
@@ -95,7 +100,6 @@ class SessionViewModel @Inject constructor(
             //TODO Should attempt to fetch from network
             //[In this case it will work since all data is already on database]
             _session.addSource(repository.getSessionDetails(value)) {
-                Timber.d("Abstract: ${it.session.resume}")
                 _session.value = it.session
                 _tags.value = it.tags()
                 _speakers.value = it.speakers()
@@ -105,5 +109,9 @@ class SessionViewModel @Inject constructor(
 
     fun setSessionId(id: Long?) {
         sessionId.setValueIfNew(id)
+    }
+
+    override fun onSpeakerClicked(id: Long) {
+        _navigateToSpeakerAction.value = id
     }
 }

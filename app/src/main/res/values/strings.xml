@@ -555,6 +555,12 @@
     <string name="session_detail_header_aspect" translatable="false">H,16:9</string>
     <string name="session_detail_speakers_header">Apresentadores / Palestrantes</string>
     <string name="speaker_headshot_transition">speak_headshot</string>
+    <string name="speaker_link_separator">/</string>
+    <string name="speaker_link_website">Website</string>
+    <string name="speaker_link_twitter">Twitter</string>
+    <string name="speaker_link_github">GitHub</string>
+    <string name="speaker_link_linkedin">LinkedIn</string>
+    <string name="speaker_link_facebook">Facebook</string>
 
     <plurals name="duration_hours">
         <item quantity="one">%s hora</item>

@@ -28,6 +28,10 @@
 
     <style name="AppTheme.Light.Abs"/>
 
+    <style name="AppTheme.Speaker" parent="AppTheme.Light.Abs">
+        <item name="android:windowSharedElementEnterTransition">@transition/speaker_shared_enter</item>
+    </style>
+
     <style name="AppTheme.PreferencesStyle" parent="AppTheme">
         <item name="android:listDivider">@null</item>
     </style>

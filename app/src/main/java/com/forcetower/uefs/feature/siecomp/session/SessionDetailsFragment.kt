@@ -27,12 +27,15 @@
 
 package com.forcetower.uefs.feature.siecomp.session
 
+import android.app.ActivityOptions
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.app.NavUtils
 import androidx.core.view.doOnLayout
+import androidx.core.view.forEach
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.forcetower.uefs.R
@@ -42,7 +45,9 @@ import com.forcetower.uefs.databinding.FragmentSessionDetailsBinding
 import com.forcetower.uefs.di.Injectable
 import com.forcetower.uefs.feature.shared.UFragment
 import com.forcetower.uefs.feature.shared.provideActivityViewModel
+import com.forcetower.uefs.feature.siecomp.SpeakerActivity
 import com.forcetower.uefs.vm.UEFSViewModelFactory
+import timber.log.Timber
 import javax.inject.Inject
 
 class SessionDetailsFragment: UFragment(), Injectable {
@@ -82,6 +87,14 @@ class SessionDetailsFragment: UFragment(), Injectable {
             detailsAdapter.speakers = it ?: emptyList()
         })
 
+        viewModel.navigateToSpeakerAction.observe(this, Observer { speakerId ->
+            requireActivity().run {
+                val sharedElement = findSpeakerHeadshot(binding.sessionDetailRecyclerView, speakerId)
+                val option = ActivityOptions.makeSceneTransitionAnimation(this, sharedElement, getString(R.string.speaker_headshot_transition))
+                startActivity(SpeakerActivity.startIntent(this, speakerId), option.toBundle())
+            }
+        })
+
         return binding.root
     }
 
@@ -95,6 +108,15 @@ class SessionDetailsFragment: UFragment(), Injectable {
         viewModel.setSessionId(null)
     }
 
+    private fun findSpeakerHeadshot(speakers: ViewGroup, speakerId: Long): View {
+        speakers.forEach {
+            if (it.getTag(R.id.tag_speaker_id) == speakerId) {
+                return it.findViewById(R.id.speaker_item_headshot)
+            }
+        }
+        Timber.e("Could not find view for speaker id $speakerId")
+        return speakers
+    }
 
     companion object {
         private const val EXTRA_SESSION_ID = "SESSION_ID"

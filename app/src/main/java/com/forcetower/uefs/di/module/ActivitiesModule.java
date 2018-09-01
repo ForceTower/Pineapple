@@ -2,6 +2,7 @@ package com.forcetower.uefs.di.module;
 
 import com.forcetower.uefs.feature.siecomp.SessionDetailsActivity;
 import com.forcetower.uefs.feature.siecomp.SiecompActivity;
+import com.forcetower.uefs.feature.siecomp.SpeakerActivity;
 import com.forcetower.uefs.game.g2048.activity.Game2048Activity;
 import com.forcetower.uefs.view.about.AboutActivity;
 import com.forcetower.uefs.view.connected.LoggedActivity;
@@ -49,4 +50,7 @@ public abstract class ActivitiesModule {
 
     @ContributesAndroidInjector(modules = SessionDetailsModule.class)
     abstract SessionDetailsActivity contributesSessionDetailsActivity();
+
+    @ContributesAndroidInjector(modules = SpeakerModule.class)
+    abstract SpeakerActivity contributesSpeakerActivity();
 }

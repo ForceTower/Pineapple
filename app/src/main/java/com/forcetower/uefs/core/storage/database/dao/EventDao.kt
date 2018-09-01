@@ -108,4 +108,7 @@ abstract class EventDao {
     @Transaction
     @Query("SELECT * FROM Session")
     abstract fun getAllSessions(): LiveData<List<SessionWithData>>
+
+    @Query("SELECT * FROM Speaker WHERE uid = :speakerId")
+    abstract fun getSpeakerWithId(speakerId: Long): LiveData<Speaker>
 }

@@ -25,31 +25,50 @@
  * SOFTWARE.
  */
 
-package com.forcetower.uefs.feature.shared
+package com.forcetower.uefs.core.vm
 
-import android.app.Activity
-import androidx.core.view.postDelayed
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import com.forcetower.uefs.core.model.event.Speaker
+import com.forcetower.uefs.core.storage.repository.SIECOMPRepository
+import com.forcetower.uefs.feature.shared.map
+import com.forcetower.uefs.feature.shared.setValueIfNew
+import timber.log.Timber
+import javax.inject.Inject
 
-fun <X, Y> LiveData<X>.map(body: (X) -> Y): LiveData<Y> {
-    return Transformations.map(this, body)
-}
+class SpeakerViewModel @Inject constructor(
+    private val repository: SIECOMPRepository
+): ViewModel() {
+    private val speakerId = MutableLiveData<Long?>()
 
-inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> FragmentTransaction) {
-    beginTransaction().func().commit()
-}
+    private val _speaker = MediatorLiveData<Speaker?>()
+    val speaker: LiveData<Speaker?>
+        get() = _speaker
 
-fun <T> MutableLiveData<T>.setValueIfNew(newValue: T) {
-    if (this.value != newValue) value = newValue
-}
+    val hasProfileImage: LiveData<Boolean> = _speaker.map {
+        !it?.image.isNullOrBlank() && it?.image != "null"
+    }
 
-fun Activity.postponeEnterTransition(timeout: Long) {
-    postponeEnterTransition()
-    window.decorView.postDelayed(timeout) {
-        startPostponedEnterTransition()
+    init {
+        _speaker.addSource(speakerId) {
+            Timber.d("Speaked Id set to $it")
+            refreshSpeaker(it)
+        }
+    }
+
+    private fun refreshSpeaker(id: Long?) {
+        if (id != null) {
+            val source = repository.getSpeaker(id)
+            _speaker.addSource(source) { value ->
+                _speaker.value = value
+            }
+        }
+    }
+
+    fun setSpeakerId(id: Long?) {
+        speakerId.setValueIfNew(id)
     }
 }

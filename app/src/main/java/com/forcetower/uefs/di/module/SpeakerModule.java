@@ -25,44 +25,16 @@
  * SOFTWARE.
  */
 
-package com.forcetower.uefs.rcv;
+package com.forcetower.uefs.di.module;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
+import com.forcetower.uefs.feature.siecomp.speaker.SpeakerFragment;
 
-import com.forcetower.uefs.AppExecutors;
-import com.forcetower.uefs.BuildConfig;
-import com.forcetower.uefs.db.AppDatabase;
-import com.forcetower.uefs.db.entity.Profile;
-import com.forcetower.uefs.ntf.NotificationCreator;
+import dagger.Module;
+import dagger.android.ContributesAndroidInjector;
 
-import javax.inject.Inject;
+@Module
+abstract class SpeakerModule {
 
-import dagger.android.AndroidInjection;
-
-public class OnUpgradeBroadcastReceiver extends BroadcastReceiver {
-    @Inject
-    AppExecutors executors;
-    @Inject
-    AppDatabase database;
-
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        if (!Intent.ACTION_MY_PACKAGE_REPLACED.equals(intent.getAction()))
-            return;
-
-        AndroidInjection.inject(this, context);
-        siecomp(context);
-    }
-
-    private void siecomp(Context context) {
-        executors.diskIO().execute(() -> {
-            Profile profile = database.profileDao().getProfileDirect();
-            int reference = profile.getCourseReference();
-            if (reference < 2) {
-                NotificationCreator.createSiecompNotification(context);
-            }
-        });
-    }
+    @ContributesAndroidInjector
+    abstract SpeakerFragment contributesSpeakerFragment();
 }

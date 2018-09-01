@@ -84,6 +84,7 @@ class SessionDetailAdapter(
             is SessionDetailViewHolder.SpeakerViewHolder -> holder.binding.apply {
                 val presenter = differ.currentList[position] as Speaker
                 speaker = presenter
+                listener = sessionViewModel
                 setLifecycleOwner(lifecycleOwner)
                 root.setTag(R.id.tag_speaker_id, presenter.uid)
                 executePendingBindings()
