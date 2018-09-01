@@ -54,7 +54,6 @@ class EventViewModel @Inject constructor(
             refreshSource.addSource(source) {
                 when (it.status) {
                     Status.SUCCESS, Status.ERROR -> {
-                        Timber.d("Status SIECOMP Schedule: ${it.status}")
                         refreshSource.removeSource(source)
                         refreshing.value = false
                         loading = false
@@ -64,6 +63,7 @@ class EventViewModel @Inject constructor(
                         loading = true
                     }
                 }
+                refreshSource.value = it
             }
         }
     }

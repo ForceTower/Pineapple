@@ -281,7 +281,6 @@ class BTimeHolder(
 
     fun bind(inner: InnerLocation) {
         binding.inner = inner
-        Timber.d("${inner.time!!.start} is the start time")
         binding.executePendingBindings()
     }
 }

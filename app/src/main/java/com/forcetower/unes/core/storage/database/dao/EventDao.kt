@@ -53,7 +53,6 @@ abstract class EventDao {
 
     @Transaction
     open fun insertServerSessions(value: List<ServerSession>) {
-        Timber.d("Requested insert of $value")
         deleteTags()
         deleteSpeakers()
 
@@ -104,6 +103,7 @@ abstract class EventDao {
     @Query("DELETE FROM Session WHERE uuid = :sessionUUID")
     protected abstract fun deleteIfPresent(sessionUUID: String)
 
+    @Transaction
     @Query("SELECT * FROM Session")
     abstract fun getAllSessions(): LiveData<List<SessionWithData>>
 }

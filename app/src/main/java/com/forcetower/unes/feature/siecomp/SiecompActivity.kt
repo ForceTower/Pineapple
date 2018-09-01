@@ -30,11 +30,16 @@ package com.forcetower.unes.feature.siecomp
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.forcetower.unes.R
+import com.forcetower.unes.databinding.ActivitySiecompBinding
 import com.forcetower.unes.feature.shared.UActivity
+import com.forcetower.unes.feature.shared.config
+import com.google.android.material.snackbar.Snackbar
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
+import timber.log.Timber
 import javax.inject.Inject
 
 class SiecompActivity : UActivity(), HasSupportFragmentInjector {
@@ -46,14 +51,22 @@ class SiecompActivity : UActivity(), HasSupportFragmentInjector {
     }
     @Inject
     lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
+    lateinit var binding: ActivitySiecompBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_siecomp)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_siecomp)
 
         supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, EScheduleFragment())
                 .commit()
+    }
+
+    override fun showSnack(string: String) {
+        Timber.d("Showing Snack")
+        val snack = Snackbar.make(binding.root, string, Snackbar.LENGTH_SHORT)
+        snack.config(96)
+        snack.show()
     }
 
     override fun supportFragmentInjector() = fragmentInjector

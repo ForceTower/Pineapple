@@ -35,6 +35,7 @@ import android.widget.ImageView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -99,8 +100,7 @@ fun swipeRefreshing(refreshLayout: CustomSwipeRefreshLayout, refreshing: Boolean
     refreshLayout.isRefreshing = refreshing
 }
 
-@Suppress("UNUSED_PARAMETER")
 @BindingAdapter("onSwipeRefresh")
-fun onSwipeRefresh(view: CustomSwipeRefreshLayout, function: () -> Unit) {
-    function()
+fun onSwipeRefresh(view: CustomSwipeRefreshLayout, function: SwipeRefreshLayout.OnRefreshListener) {
+    view.setOnRefreshListener(function)
 }

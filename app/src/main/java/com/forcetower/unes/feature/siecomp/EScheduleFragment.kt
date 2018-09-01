@@ -36,7 +36,9 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
+import com.forcetower.unes.R
 import com.forcetower.unes.core.injection.Injectable
+import com.forcetower.unes.core.storage.resource.Status
 import com.forcetower.unes.core.vm.EventViewModel
 import com.forcetower.unes.core.vm.UViewModelFactory
 import com.forcetower.unes.databinding.FragmentSiecompScheduleBinding
@@ -82,7 +84,7 @@ class EScheduleFragment: UFragment(), Injectable {
 
         viewPager.addOnPageChangeListener(object: ViewPager.SimpleOnPageChangeListener() {
             override fun onPageSelected(position: Int) {
-                Timber.d("Position selected: $position")
+
             }
         })
 
@@ -92,7 +94,10 @@ class EScheduleFragment: UFragment(), Injectable {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.refreshSource.observe(this, Observer {
-            Timber.d("Loading all event status: ${it.status}")
+            when (it.status) {
+                Status.ERROR -> showSnack(getString(R.string.siecomp_error_updating_info))
+                Status.LOADING, Status.SUCCESS -> {}
+            }
         })
 
         viewModel.loadSessions()

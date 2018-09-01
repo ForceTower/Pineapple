@@ -34,14 +34,15 @@ import androidx.core.view.ViewCompat
 import com.forcetower.unes.R
 import com.google.android.material.snackbar.Snackbar
 
-fun Snackbar.config() {
+fun Snackbar.config(bottomPadding: Int = 12) {
     val context = view.context
     val params = view.layoutParams as ViewGroup.MarginLayoutParams
 
     val px12 = getPixelsFromDp(context, 12)
     val px6  = getPixelsFromDp(context, 6)
+    val pxB  = getPixelsFromDp(context, bottomPadding)
 
-    params.setMargins(px12, px12, px12, px12)
+    params.setMargins(px12, px12, px12, pxB)
     view.elevation = px6.toFloat()
 
     view.layoutParams = params

@@ -46,7 +46,6 @@ object ObjectUtils {
             // if provided as String - '2011-12-03 10:15:30'
             if (jsonPrimitive.isString) {
                 val pattern = "yyyy-MM-dd HH:mm:ss"
-                Timber.d(jsonPrimitive.asString)
                 val parser = DateTimeFormatter.ofPattern(pattern).withZone(ZoneId.of(BuildConfig.SIECOMP_TIMEZONE))
                 return@JsonDeserializer ZonedDateTime.parse(jsonPrimitive.asString, parser)
             }
