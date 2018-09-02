@@ -36,6 +36,7 @@ import com.forcetower.uefs.core.storage.database.accessors.SessionWithData
 import com.forcetower.uefs.core.storage.repository.SIECOMPRepository
 import com.forcetower.uefs.core.storage.resource.Resource
 import com.forcetower.uefs.core.storage.resource.Status
+import com.forcetower.uefs.feature.Event
 import com.forcetower.uefs.feature.siecomp.common.SessionActions
 import timber.log.Timber
 import javax.inject.Inject
@@ -49,8 +50,8 @@ class EventViewModel @Inject constructor(
     val refreshing: MutableLiveData<Boolean> = MutableLiveData()
     val refreshSource: MediatorLiveData<Resource<List<SessionWithData>>> = MediatorLiveData()
 
-    private val _navigateToSessionAction = MutableLiveData<Long>()
-    val navigateToSessionAction: LiveData<Long>
+    private val _navigateToSessionAction = MutableLiveData<Event<Long>>()
+    val navigateToSessionAction: LiveData<Event<Long>>
         get() = _navigateToSessionAction
 
     fun getSessionsFromDayLocal(day: Int) = repository.getSessionsFromDayLocal(day)
@@ -77,7 +78,7 @@ class EventViewModel @Inject constructor(
     }
 
     override fun openSessionDetails(id: Long) {
-        _navigateToSessionAction.value = id
+        _navigateToSessionAction.value = Event(id)
     }
 
     override fun onStarClicked(userSession: Long) {

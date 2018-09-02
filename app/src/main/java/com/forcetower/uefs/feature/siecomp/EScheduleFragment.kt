@@ -41,6 +41,7 @@ import com.forcetower.uefs.core.storage.resource.Status
 import com.forcetower.uefs.core.vm.EventViewModel
 import com.forcetower.uefs.databinding.FragmentSiecompScheduleBinding
 import com.forcetower.uefs.di.Injectable
+import com.forcetower.uefs.feature.EventObserver
 import com.forcetower.uefs.feature.shared.UFragment
 import com.forcetower.uefs.feature.shared.provideActivityViewModel
 import com.forcetower.uefs.feature.siecomp.ETimeUtils.SIECOMPDays
@@ -77,7 +78,7 @@ class EScheduleFragment: UFragment(), Injectable {
         }
 
 
-        viewModel.navigateToSessionAction.observe(this, Observer {
+        viewModel.navigateToSessionAction.observe(this, EventObserver {
             openSessionDetails(it)
         })
 

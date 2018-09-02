@@ -43,6 +43,7 @@ import com.forcetower.uefs.core.vm.EventViewModel
 import com.forcetower.uefs.core.vm.SessionViewModel
 import com.forcetower.uefs.databinding.FragmentSessionDetailsBinding
 import com.forcetower.uefs.di.Injectable
+import com.forcetower.uefs.feature.EventObserver
 import com.forcetower.uefs.feature.shared.UFragment
 import com.forcetower.uefs.feature.shared.provideActivityViewModel
 import com.forcetower.uefs.feature.siecomp.SpeakerActivity
@@ -87,7 +88,7 @@ class SessionDetailsFragment: UFragment(), Injectable {
             detailsAdapter.speakers = it ?: emptyList()
         })
 
-        viewModel.navigateToSpeakerAction.observe(this, Observer { speakerId ->
+        viewModel.navigateToSpeakerAction.observe(this, EventObserver { speakerId ->
             requireActivity().run {
                 val sharedElement = findSpeakerHeadshot(binding.sessionDetailRecyclerView, speakerId)
                 val option = ActivityOptions.makeSceneTransitionAnimation(this, sharedElement, getString(R.string.speaker_headshot_transition))

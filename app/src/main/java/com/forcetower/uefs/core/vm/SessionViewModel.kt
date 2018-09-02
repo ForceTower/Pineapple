@@ -35,6 +35,7 @@ import com.forcetower.uefs.core.model.event.Session
 import com.forcetower.uefs.core.model.event.Speaker
 import com.forcetower.uefs.core.model.event.Tag
 import com.forcetower.uefs.core.storage.repository.SIECOMPRepository
+import com.forcetower.uefs.feature.Event
 import com.forcetower.uefs.feature.shared.SetIntervalLiveData
 import com.forcetower.uefs.feature.shared.map
 import com.forcetower.uefs.feature.shared.setValueIfNew
@@ -64,8 +65,8 @@ class SessionViewModel @Inject constructor(
     val speakers: LiveData<List<Speaker>>
         get() = _speakers
 
-    private val _navigateToSpeakerAction = MutableLiveData<Long>()
-    val navigateToSpeakerAction: LiveData<Long>
+    private val _navigateToSpeakerAction = MutableLiveData<Event<Long>>()
+    val navigateToSpeakerAction: LiveData<Event<Long>>
         get() = _navigateToSpeakerAction
 
     val hasPhoto: LiveData<Boolean>
@@ -112,6 +113,6 @@ class SessionViewModel @Inject constructor(
     }
 
     override fun onSpeakerClicked(id: Long) {
-        _navigateToSpeakerAction.value = id
+        _navigateToSpeakerAction.value = Event(id)
     }
 }
