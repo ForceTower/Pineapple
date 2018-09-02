@@ -561,6 +561,8 @@
     <string name="speaker_link_github">GitHub</string>
     <string name="speaker_link_linkedin">LinkedIn</string>
     <string name="speaker_link_facebook">Facebook</string>
+    <string name="event_starred">Sessão foi marcada com estrela!</string>
+    <string name="event_unstarred">Sessão desmarcada</string>
 
     <plurals name="duration_hours">
         <item quantity="one">%s hora</item>

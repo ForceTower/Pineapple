@@ -27,7 +27,9 @@
 
 package com.forcetower.uefs.feature.siecomp.common
 
+import com.forcetower.uefs.core.storage.database.accessors.SessionWithData
+
 interface SessionActions {
     fun openSessionDetails(id: Long)
-    fun onStarClicked(userSession: Long)
+    fun onStarClicked(session: SessionWithData)
 }

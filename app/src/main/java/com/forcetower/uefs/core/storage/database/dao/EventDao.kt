@@ -111,4 +111,19 @@ abstract class EventDao {
 
     @Query("SELECT * FROM Speaker WHERE uid = :speakerId")
     abstract fun getSpeakerWithId(speakerId: Long): LiveData<Speaker>
+
+    @Transaction
+    open fun markSessionStar(sessionId: Long, star: Boolean) {
+        if (star) {
+            markStar(SessionStar(0, sessionId))
+        } else {
+            unstarSession(sessionId)
+        }
+    }
+
+    @Query("DELETE FROM SessionStar WHERE session_id = :sessionId")
+    abstract fun unstarSession(sessionId: Long)
+
+    @Insert
+    protected abstract fun markStar(star: SessionStar)
 }

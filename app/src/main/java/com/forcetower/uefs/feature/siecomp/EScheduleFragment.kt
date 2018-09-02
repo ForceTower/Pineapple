@@ -82,6 +82,10 @@ class EScheduleFragment: UFragment(), Injectable {
             openSessionDetails(it)
         })
 
+        viewModel.snackbarMessenger.observe(this, EventObserver {
+            showSnack(getString(it))
+        })
+
         return binding.root
     }
 

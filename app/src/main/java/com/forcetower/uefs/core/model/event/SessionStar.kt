@@ -25,30 +25,17 @@
  * SOFTWARE.
  */
 
-package com.forcetower.uefs.core.storage.database.accessors
+package com.forcetower.uefs.core.model.event
 
-import androidx.room.Embedded
-import androidx.room.Relation
-import com.forcetower.uefs.core.model.event.Session
-import com.forcetower.uefs.core.model.event.SessionSpeaker
-import com.forcetower.uefs.core.model.event.SessionStar
-import com.forcetower.uefs.core.model.event.SessionTag
+import androidx.room.*
+import androidx.room.ForeignKey.NO_ACTION
 
-class SessionWithData: Comparable<SessionWithData>{
-    @Embedded
-    lateinit var session: Session
-    @Relation(entityColumn = "session_id", parentColumn = "uid", entity = SessionSpeaker::class)
-    lateinit var speakersRel: List<SessionSpeakerTalker>
-    @Relation(entityColumn = "session_id", parentColumn = "uid", entity = SessionTag::class)
-    lateinit var displayTags: List<SessionTagged>
-    @Relation(entityColumn = "session_id", parentColumn = "uid")
-    lateinit var stars: List<SessionStar>
-
-    fun tags() = displayTags.map { it.singleTag() }.filter { !it.internal }
-    fun speakers() = speakersRel.map { it.singleSpeaker() }
-    fun isStarred() = stars.isNotEmpty()
-
-    override fun compareTo(other: SessionWithData): Int {
-        return session.compareTo(other.session)
-    }
-}
+@Entity(indices = [
+    Index(value = ["session_id"], unique = true)
+])
+data class SessionStar (
+    @PrimaryKey(autoGenerate = true)
+    var uid: Long = 0,
+    @ColumnInfo(name = "session_id")
+    var sessionId: Long
+)

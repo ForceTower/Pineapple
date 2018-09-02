@@ -64,7 +64,7 @@ class SiecompActivity : UActivity(), HasSupportFragmentInjector {
 
     override fun showSnack(string: String) {
         val snack = Snackbar.make(binding.root, string, Snackbar.LENGTH_SHORT)
-        snack.config(96)
+        snack.config()
         snack.show()
     }
 

@@ -63,4 +63,10 @@ class SIECOMPRepository @Inject constructor(
     fun getSpeaker(speakerId: Long): LiveData<Speaker> {
         return database.eventDao().getSpeakerWithId(speakerId)
     }
+
+    fun markSessionStar(sessionId: Long, star: Boolean) {
+        executors.diskIO().execute {
+            database.eventDao().markSessionStar(sessionId, star)
+        }
+    }
 }

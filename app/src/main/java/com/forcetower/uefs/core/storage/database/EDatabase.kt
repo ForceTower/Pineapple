@@ -39,8 +39,9 @@ import com.forcetower.uefs.core.storage.database.dao.EventDao
     Tag::class,
     Speaker::class,
     SessionTag::class,
-    SessionSpeaker::class
-], version = 3, exportSchema = true)
+    SessionSpeaker::class,
+    SessionStar::class
+], version = 6, exportSchema = true)
 @TypeConverters(value = [EConverters::class])
 abstract class EDatabase: RoomDatabase() {
     abstract fun eventDao(): EventDao

@@ -27,6 +27,7 @@
 
 package com.forcetower.uefs.core.model.event
 
+import androidx.annotation.Nullable
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
@@ -44,7 +45,8 @@ data class Speaker(
     var lab: String = "",
     @SerializedName(value = "abstract")
     var resume: String = "",
-    var url: String = "",
+    var url: String?,
+    var github: String?,
     var uuid: String = ""
 ) {
     fun hasLab() = lab.isNotEmpty() && lab != "null"

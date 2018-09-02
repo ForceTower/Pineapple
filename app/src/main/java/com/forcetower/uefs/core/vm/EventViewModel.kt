@@ -31,14 +31,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.forcetower.uefs.core.model.event.Session
+import com.forcetower.uefs.R
 import com.forcetower.uefs.core.storage.database.accessors.SessionWithData
 import com.forcetower.uefs.core.storage.repository.SIECOMPRepository
 import com.forcetower.uefs.core.storage.resource.Resource
 import com.forcetower.uefs.core.storage.resource.Status
 import com.forcetower.uefs.feature.Event
 import com.forcetower.uefs.feature.siecomp.common.SessionActions
-import timber.log.Timber
 import javax.inject.Inject
 
 class EventViewModel @Inject constructor(
@@ -53,6 +52,10 @@ class EventViewModel @Inject constructor(
     private val _navigateToSessionAction = MutableLiveData<Event<Long>>()
     val navigateToSessionAction: LiveData<Event<Long>>
         get() = _navigateToSessionAction
+
+    private val _snackbarMessenger = MutableLiveData<Event<Int>>()
+    val snackbarMessenger: LiveData<Event<Int>>
+        get() = _snackbarMessenger
 
     fun getSessionsFromDayLocal(day: Int) = repository.getSessionsFromDayLocal(day)
 
@@ -81,7 +84,17 @@ class EventViewModel @Inject constructor(
         _navigateToSessionAction.value = Event(id)
     }
 
-    override fun onStarClicked(userSession: Long) {
+    override fun onStarClicked(session: SessionWithData) {
+        val newIsStarredState = !session.isStarred()
 
+        val stringResId = if (newIsStarredState) {
+            R.string.event_starred
+        } else {
+            R.string.event_unstarred
+        }
+
+        _snackbarMessenger.value = Event(stringResId)
+
+        repository.markSessionStar(session.session.uid, newIsStarredState)
     }
 }
