@@ -30,6 +30,7 @@ package com.forcetower.uefs.rcv;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 
 import com.forcetower.uefs.AppExecutors;
 import com.forcetower.uefs.BuildConfig;
@@ -46,6 +47,8 @@ public class OnUpgradeBroadcastReceiver extends BroadcastReceiver {
     AppExecutors executors;
     @Inject
     AppDatabase database;
+    @Inject
+    SharedPreferences preferences;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -57,6 +60,10 @@ public class OnUpgradeBroadcastReceiver extends BroadcastReceiver {
     }
 
     private void siecomp(Context context) {
+        if (preferences.getBoolean("update_6.4", false))
+            return;
+
+        preferences.edit().putBoolean("update_6.4", true).apply();
         executors.diskIO().execute(() -> {
             Profile profile = database.profileDao().getProfileDirect();
             int reference = 0;

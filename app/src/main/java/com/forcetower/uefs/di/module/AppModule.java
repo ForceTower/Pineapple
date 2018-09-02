@@ -2,6 +2,8 @@ package com.forcetower.uefs.di.module;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.forcetower.uefs.GooglePlayGamesInstance;
 import com.forcetower.uefs.core.storage.database.EDatabase;
@@ -34,6 +36,11 @@ public class AppModule {
         return new RUFirebase(context);
     }
 
+    @Provides
+    @Singleton
+    SharedPreferences provideSharedPreferences(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context);
+    }
 
     @Provides
     @Singleton

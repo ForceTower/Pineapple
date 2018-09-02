@@ -321,7 +321,7 @@ public class NotificationCreator {
 
         NotificationCompat.Builder builder = notificationBuilder(context, Constants.CHANNEL_GENERAL_WARNINGS_ID)
                 .setContentTitle("XX SIECOMP")
-                .setContentText("A programação da XX SIECOMP está no UNES!")
+                .setContentText("A programação da XX SIECOMP está no UNES! [Atualização com Correções]")
                 .setContentIntent(pendingIntent)
                 .setColor(ContextCompat.getColor(context, R.color.blue_accent));
 
