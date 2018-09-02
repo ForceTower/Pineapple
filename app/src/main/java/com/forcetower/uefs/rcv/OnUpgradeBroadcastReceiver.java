@@ -59,7 +59,8 @@ public class OnUpgradeBroadcastReceiver extends BroadcastReceiver {
     private void siecomp(Context context) {
         executors.diskIO().execute(() -> {
             Profile profile = database.profileDao().getProfileDirect();
-            int reference = profile.getCourseReference();
+            int reference = 0;
+            if (profile != null) reference = profile.getCourseReference();
             if (reference < 2) {
                 NotificationCreator.createSiecompNotification(context);
             }
