@@ -220,8 +220,10 @@ public class SagresSyncWorker extends Worker {
             gradesNotifications();
             completed = true;
 
-            setupData();
-            sendCourse();
+            try {
+                setupData();
+                sendCourse();
+            } catch (Throwable ignored) {}
         });
     }
 
