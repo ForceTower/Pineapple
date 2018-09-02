@@ -35,7 +35,7 @@ public class EventsViewModel extends ViewModel {
     private final MediatorLiveData<Resource<ActionResult<Event>>> createEventSrc;
     private final MutableLiveData<Boolean> sendingBooleanSrc;
 
-    private LiveData<Resource<List<Event>>> eventSrc;
+    private MediatorLiveData<Resource<List<Event>>> eventSrc;
     private LiveData<Resource<List<Event>>> eventUnapprovedSrc;
     private LiveData<Resource<Event>> singleEventSrc;
 
@@ -50,12 +50,16 @@ public class EventsViewModel extends ViewModel {
         this.blurImageSrc = new MediatorLiveData<>();
         this.createEventSrc = new MediatorLiveData<>();
         this.sendingBooleanSrc = new MutableLiveData<>();
+        this.eventSrc = new MediatorLiveData<>();
         this.sendingBooleanSrc.postValue(false);
     }
 
     public LiveData<Resource<List<Event>>> getEvents() {
-        if (eventSrc == null) eventSrc = repository.getEvents();
         return eventSrc;
+    }
+
+    public void setCoursePointer(int course) {
+        eventSrc.addSource(repository.getEvents(course), eventSrc::setValue);
     }
 
     public LiveData<Resource<ImGurDataObject>> getUploadImGur() {
