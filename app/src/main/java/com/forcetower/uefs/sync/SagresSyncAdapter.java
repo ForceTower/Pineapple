@@ -198,39 +198,51 @@ public class SagresSyncAdapter extends AbstractThreadedSyncAdapter {
                 }
             }
 
-            FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(task -> {
-                String token = task.getResult().getToken();
-                executors.networkIO().execute(() ->{
-                    try {
-                        Response response = service.postFirebaseToken(a.getUsername(), token, p.getCourseReference()).execute();
-                        if (response.isSuccessful()) {
-                            Timber.d("Success Setting Course");
-                        } else {
-                            Timber.d("Failed Setting Course");
-                            Timber.d("Response code: " + response.code());
+            try {
+                FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(task -> {
+                    String token = task.getResult().getToken();
+                    executors.networkIO().execute(() -> {
+                        try {
+                            Response response = service.postFirebaseToken(a.getUsername(), token, p.getCourseReference()).execute();
+                            if (response.isSuccessful()) {
+                                Timber.d("Success Setting Course");
+                            } else {
+                                Timber.d("Failed Setting Course");
+                                Timber.d("Response code: " + response.code());
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    });
                 });
-            });
+            } catch (Throwable t) {
+                Crashlytics.logException(t);
+                Timber.d("A throwable just happened: " + t.getMessage());
+                t.printStackTrace();
+            }
         } else if (a != null) {
-            FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(task -> {
-                String token = task.getResult().getToken();
-                executors.networkIO().execute(() ->{
-                    try {
-                        Response response = service.postFirebaseToken(a.getUsername(), token).execute();
-                        if (response.isSuccessful()) {
-                            Timber.d("Success Setting Course");
-                        } else {
-                            Timber.d("Failed Setting Course");
-                            Timber.d("Response code: " + response.code());
+            try {
+                FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(task -> {
+                    String token = task.getResult().getToken();
+                    executors.networkIO().execute(() -> {
+                        try {
+                            Response response = service.postFirebaseToken(a.getUsername(), token).execute();
+                            if (response.isSuccessful()) {
+                                Timber.d("Success Setting Course");
+                            } else {
+                                Timber.d("Failed Setting Course");
+                                Timber.d("Response code: " + response.code());
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    });
                 });
-            });
+            } catch (Throwable t) {
+                Crashlytics.logException(t);
+                Timber.d("A throwable just happened: " + t.getMessage());
+                t.printStackTrace();
+            }
         }
     }
 
@@ -244,21 +256,27 @@ public class SagresSyncAdapter extends AbstractThreadedSyncAdapter {
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("firebase_tokens");
             try {
                 FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(value -> {
-                    if (value.isSuccessful()) {
-                        String token = value.getResult().getToken();
-                        reference.child(a.getUsernameFixed()).child("token").setValue(token);
-                        reference.child(a.getUsernameFixed()).child("device").setValue(Build.MANUFACTURER + " " + Build.MODEL);
-                        reference.child(a.getUsernameFixed()).child("android").setValue(Build.VERSION.SDK_INT);
-                        reference.child(a.getUsernameFixed()).child("name").setValue(p != null ? p.getName() : "Null Profile");
+                    try {
+                        if (value.isSuccessful()) {
+                            String token = value.getResult().getToken();
+                            reference.child(a.getUsernameFixed()).child("token").setValue(token);
+                            reference.child(a.getUsernameFixed()).child("device").setValue(Build.MANUFACTURER + " " + Build.MODEL);
+                            reference.child(a.getUsernameFixed()).child("android").setValue(Build.VERSION.SDK_INT);
+                            reference.child(a.getUsernameFixed()).child("name").setValue(p != null ? p.getName() : "Null Profile");
 
-                        if (p != null && p.getCourse() != null) {
-                            DatabaseReference courses = FirebaseDatabase.getInstance().getReference("courses").child(p.getCourseFixed());
-                            courses.child(a.getUsernameFixed()).child("name").setValue(p.getName());
-                            courses.child(a.getUsernameFixed()).child("score").setValue(p.getScore());
-                            courses.child(a.getUsernameFixed()).child("semester").setValue(semesters.size());
+                            if (p != null && p.getCourse() != null) {
+                                DatabaseReference courses = FirebaseDatabase.getInstance().getReference("courses").child(p.getCourseFixed());
+                                courses.child(a.getUsernameFixed()).child("name").setValue(p.getName());
+                                courses.child(a.getUsernameFixed()).child("score").setValue(p.getScore());
+                                courses.child(a.getUsernameFixed()).child("semester").setValue(semesters.size());
+                            }
+                        } else {
+                            Timber.d("Failed");
                         }
-                    } else {
-                        Timber.d("Failed");
+                    } catch (Throwable t) {
+                        Crashlytics.logException(t);
+                        Timber.d("A throwable just happened: " + t.getMessage());
+                        t.printStackTrace();
                     }
 
                 });
