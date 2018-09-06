@@ -56,7 +56,7 @@ public class EventRepository {
         this.imGurSecret = context.getString(R.string.imgur_service_secret);
     }
 
-    public LiveData<Resource<List<Event>>> getEvents() {
+    public LiveData<Resource<List<Event>>> getEvents(int course) {
         return new NetworkBoundResource<List<Event>, List<Event>>(executors) {
             @Override
             protected void saveCallResult(@NonNull List<Event> item) {
@@ -71,7 +71,11 @@ public class EventRepository {
             @NonNull
             @Override
             protected LiveData<List<Event>> loadFromDb() {
-                return database.eventDao().getAllEvents();
+                if (course > 0) {
+                    return database.eventDao().getAllEvents(course);
+                } else {
+                    return database.eventDao().getAllEvents();
+                }
             }
 
             @NonNull

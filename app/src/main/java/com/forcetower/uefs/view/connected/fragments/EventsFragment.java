@@ -22,6 +22,7 @@ import android.view.Window;
 import com.forcetower.uefs.R;
 import com.forcetower.uefs.anim.ChangeBoundsTransition;
 import com.forcetower.uefs.databinding.FragmentEventsBinding;
+import com.forcetower.uefs.db.entity.Profile;
 import com.forcetower.uefs.db_service.entity.Event;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.rep.helper.Resource;
@@ -31,6 +32,7 @@ import com.forcetower.uefs.view.connected.NavigationController;
 import com.forcetower.uefs.view.connected.adapters.EventAdapter;
 import com.forcetower.uefs.view.event.EventDetailsActivity;
 import com.forcetower.uefs.vm.UEFSViewModelFactory;
+import com.forcetower.uefs.vm.base.ProfileViewModel;
 import com.forcetower.uefs.vm.service.EventsViewModel;
 
 import java.util.List;
@@ -53,6 +55,7 @@ public class EventsFragment extends Fragment implements Injectable {
     private FragmentEventsBinding binding;
     private EventAdapter adapter;
     private ActivityController controller;
+    private EventsViewModel eventsViewModel;
 
     @Override
     public void onAttach(Context context) {
@@ -107,8 +110,19 @@ public class EventsFragment extends Fragment implements Injectable {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        EventsViewModel eventsViewModel = ViewModelProviders.of(this, viewModelFactory).get(EventsViewModel.class);
+        eventsViewModel = ViewModelProviders.of(this, viewModelFactory).get(EventsViewModel.class);
+        ProfileViewModel profileViewModel = ViewModelProviders.of(this, viewModelFactory).get(ProfileViewModel.class);
+        profileViewModel.getProfile().observe(this, this::onProfileUpdate);
         eventsViewModel.getEvents().observe(this, this::onEventsUpdate);
+    }
+
+    private void onProfileUpdate(Profile profile) {
+        int reference = 0;
+        if (profile != null) {
+            reference = profile.getCourseReference();
+        }
+
+        eventsViewModel.setCoursePointer(reference);
     }
 
     private void onEventsUpdate(Resource<List<Event>> eventsRes) {

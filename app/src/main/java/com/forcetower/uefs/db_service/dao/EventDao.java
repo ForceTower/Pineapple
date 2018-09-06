@@ -23,6 +23,9 @@ public abstract class EventDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract void insert(List<Event> events);
 
+    @Query("SELECT * FROM Event WHERE approved = 1 AND course_pointer = :course ORDER BY created_at DESC")
+    public abstract LiveData<List<Event>> getAllEvents(int course);
+
     @Query("SELECT * FROM Event WHERE approved = 1 ORDER BY created_at DESC")
     public abstract LiveData<List<Event>> getAllEvents();
 
