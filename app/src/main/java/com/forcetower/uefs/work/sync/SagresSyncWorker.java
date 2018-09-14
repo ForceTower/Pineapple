@@ -273,9 +273,9 @@ public class SagresSyncWorker extends Worker {
         } else if (a != null) {
             try {
                 FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(task -> {
+                    try {
                     String token = task.getResult().getToken();
-                    executors.networkIO().execute(() -> {
-                        try {
+                        executors.networkIO().execute(() -> {
                             Response response = service.postFirebaseToken(a.getUsername(), token).execute();
                             if (response.isSuccessful()) {
                                 Timber.d("Success Setting Course");
@@ -283,10 +283,11 @@ public class SagresSyncWorker extends Worker {
                                 Timber.d("Failed Setting Course");
                                 Timber.d("Response code: " + response.code());
                             }
-                        } catch (Throwable e) {
-                            e.printStackTrace();
-                        }
-                    });
+                        });
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                        Crashlytics.logException(e);
+                    }
                 });
             } catch (Throwable t) {
                 Crashlytics.logException(t);

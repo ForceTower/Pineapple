@@ -200,9 +200,9 @@ public class SagresSyncAdapter extends AbstractThreadedSyncAdapter {
 
             try {
                 FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(task -> {
-                    String token = task.getResult().getToken();
-                    executors.networkIO().execute(() -> {
-                        try {
+                    try {
+                        String token = task.getResult().getToken();
+                        executors.networkIO().execute(() -> {
                             Response response = service.postFirebaseToken(a.getUsername(), token, p.getCourseReference()).execute();
                             if (response.isSuccessful()) {
                                 Timber.d("Success Setting Course");
@@ -210,10 +210,11 @@ public class SagresSyncAdapter extends AbstractThreadedSyncAdapter {
                                 Timber.d("Failed Setting Course");
                                 Timber.d("Response code: " + response.code());
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    });
+
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 });
             } catch (Throwable t) {
                 Crashlytics.logException(t);
