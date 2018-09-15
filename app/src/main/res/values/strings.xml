@@ -239,7 +239,7 @@
     <string name="ru_contribute_desc">Melhore a exatidão do sistema</string>
     <string name="ru_last_update">Última atualização: %1$s</string>
     <string name="ru_loading">Carregando...</string>
-    <string name="ru_owners">Esta funcionalidade vem do bit.ly/bandejaouefs</string>
+    <string name="ru_owners">Esta funcionalidade vem do www.propaae.uefs.br/ru/</string>
     <string name="ru_amount_format">%1$d</string>
     <string name="new_unes_version_available">A versão %1$s do UNES está disponível</string>
     <string name="get_unes_new_version">Baixe a nova versão do UNES na Play Store</string>
@@ -406,7 +406,7 @@
     <string name="undo">Desfazer</string>
     <string name="reset">Reiniciar</string>
     <string name="uneverse">UNEVerso</string>
-    <string name="available_quota">Cotas restantes (aproximadamente)</string>
+    <string name="available_quota">Cotas restantes</string>
     <string name="event_image">Imagem do Evento</string>
     <string name="event_date">Data</string>
     <string name="event_price_format">R$ %.2f</string>
@@ -538,6 +538,7 @@
     <string name="pref_show_dce_notifications">Recados do DCE</string>
     <string name="pref_show_dce_notifications_summary">Controle as notificações do DCE</string>
     <string name="school_history">Histórico Escolar</string>
-    <string name="registry_executor_label">E</string>
-    <string name="registry_reason_label">V</string>
+    <string name="registry_executor_label" translatable="false">E</string>
+    <string name="registry_reason_label" translatable="false">V</string>
+    <string name="connection_error">Erro de conexão</string>
 </resources>

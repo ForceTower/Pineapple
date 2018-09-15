@@ -169,7 +169,8 @@ public class AchievementsViewModel extends ViewModel {
         for (Discipline discipline : disciplines) {
             semesterHours += discipline.getCredits();
 
-            if (discipline.getMissedClasses() == 0)
+            if (discipline.getMissedClasses() == 0 && discipline.getSituation() != null
+                    && !discipline.getSituation().equalsIgnoreCase("Em Aberto"))
                 unlocked.put(R.string.achievement_always_there, -1);
 
             if (discipline.getSituation() != null && discipline.getCredits() > 0 &&

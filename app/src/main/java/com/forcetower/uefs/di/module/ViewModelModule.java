@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProvider;
 import com.forcetower.uefs.di.annotation.ViewModelKey;
 import com.forcetower.uefs.vm.UEFSViewModelFactory;
 import com.forcetower.uefs.vm.admin.ControlRoomViewModel;
+import com.forcetower.uefs.vm.base.BigTrayViewModel;
 import com.forcetower.uefs.vm.base.CalendarViewModel;
 import com.forcetower.uefs.vm.base.DisciplinesViewModel;
 import com.forcetower.uefs.vm.base.DownloadsViewModel;
@@ -112,6 +113,11 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(NotificationViewModel.class)
     abstract ViewModel bindNotificationViewModel(NotificationViewModel notificationViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(BigTrayViewModel.class)
+    abstract ViewModel bindBigTrayViewModel(BigTrayViewModel bigTrayViewModel);
 
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(UEFSViewModelFactory factory);

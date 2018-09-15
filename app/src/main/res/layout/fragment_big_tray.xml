@@ -73,9 +73,8 @@
                     android:id="@+id/tv_ru_approx_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/available_quota"
                     android:gravity="center"
-                    android:textAlignment="gravity"/>
+                    android:text="@string/available_quota"/>
 
                 <TextView
                     android:id="@+id/tv_ru_amount"
@@ -130,17 +129,17 @@
             android:orientation="vertical"
             android:layout_alignParentBottom="true">
 
-            <Button
-                android:id="@+id/btn_visit_big_tray"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:text="@string/visit_official_website"/>
+            <!--<Button-->
+                <!--android:id="@+id/btn_visit_big_tray"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="48dp"-->
+                <!--android:layout_marginStart="16dp"-->
+                <!--android:layout_marginBottom="8dp"-->
+                <!--android:layout_marginLeft="16dp"-->
+                <!--android:layout_marginEnd="16dp"-->
+                <!--android:layout_marginRight="16dp"-->
+                <!--style="@style/Widget.AppCompat.Button.Colored"-->
+                <!--android:text="@string/visit_official_website"/>-->
 
             <TextView
                 android:id="@+id/tv_ru_last_update"

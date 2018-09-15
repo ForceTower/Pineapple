@@ -237,7 +237,7 @@
     <string name="ru_contribute_desc">Help the system get better</string>
     <string name="ru_last_update">Last update: %1$s</string>
     <string name="ru_loading">Loading...</string>
-    <string name="ru_owners">This feature comes from bit.ly/bandejaouefs</string>
+    <string name="ru_owners">This feature comes from www.propaae.uefs.br/ru/</string>
 
     <string name="ru_amount_format">%1$d</string>
     <string name="remote">Remote</string>
@@ -404,7 +404,7 @@
     <string name="start_new_game">Starts new game</string>
     <string name="undo">Undo</string>
     <string name="uneverse">UNEVerse</string>
-    <string name="available_quota">Amount remaining (approximated)</string>
+    <string name="available_quota">Amount remaining</string>
     <string name="event_image">Event Image</string>
     <string name="event_date">Date</string>
     <string name="event_price_format">R$ %.2f</string>
@@ -538,4 +538,6 @@
     <string name="pref_show_dce_notifications">DCE Messages</string>
     <string name="pref_show_dce_notifications_summary">Control DCE notifications</string>
     <string name="school_history">School History</string>
+
+    <string name="connection_error">Connection Error</string>
 </resources>

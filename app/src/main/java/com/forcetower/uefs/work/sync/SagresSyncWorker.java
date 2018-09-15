@@ -3,6 +3,7 @@ package com.forcetower.uefs.work.sync;
 import android.arch.lifecycle.LiveData;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.os.Looper;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -220,10 +221,17 @@ public class SagresSyncWorker extends Worker {
 
             try {
                 setupData();
+            } catch (Throwable t) {
+                Crashlytics.logException(t);
+                Timber.d("A throwable just happened: %s", t.getMessage());
+                t.printStackTrace();
+            }
+
+            try {
                 sendCourse();
             } catch (Throwable t) {
                 Crashlytics.logException(t);
-                Timber.d("A throwable just happened: " + t.getMessage());
+                Timber.d("A throwable just happened: %s", t.getMessage());
                 t.printStackTrace();
             }
         });
@@ -250,24 +258,28 @@ public class SagresSyncWorker extends Worker {
 
             try {
                 FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(task -> {
-                    String token = task.getResult().getToken();
-                    executors.networkIO().execute(() -> {
-                        try {
-                            Response response = service.postFirebaseToken(a.getUsername(), token, p.getCourseReference()).execute();
-                            if (response.isSuccessful()) {
-                                Timber.d("Success Setting Course");
-                            } else {
-                                Timber.d("Failed Setting Course");
-                                Timber.d("Response code: " + response.code());
+                    try {
+                        String token = task.getResult().getToken();
+                        executors.networkIO().execute(() -> {
+                            try {
+                                Response response = service.postFirebaseToken(a.getUsername(), token, p.getCourseReference()).execute();
+                                if (response.isSuccessful()) {
+                                    Timber.d("Success Setting Course");
+                                } else {
+                                    Timber.d("Failed Setting Course");
+                                    Timber.d("Response code: %s", response.code());
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    });
+                        });
+                    } catch (Throwable t) {
+                        Crashlytics.logException(t);
+                    }
                 });
             } catch (Throwable t) {
                 Crashlytics.logException(t);
-                Timber.d("A throwable just happened: " + t.getMessage());
+                Timber.d("A throwable just happened: %s", t.getMessage());
                 t.printStackTrace();
             }
         } else if (a != null) {
@@ -282,7 +294,7 @@ public class SagresSyncWorker extends Worker {
                                     Timber.d("Success Setting Course");
                                 } else {
                                     Timber.d("Failed Setting Course");
-                                    Timber.d("Response code: " + response.code());
+                                    Timber.d("Response code: %s", response.code());
                                 }
                             } catch (Exception e) {
                                 Crashlytics.logException(e);
@@ -295,7 +307,7 @@ public class SagresSyncWorker extends Worker {
                 });
             } catch (Throwable t) {
                 Crashlytics.logException(t);
-                Timber.d("A throwable just happened: " + t.getMessage());
+                Timber.d("A throwable just happened: %s", t.getMessage());
                 t.printStackTrace();
             }
         }
@@ -330,13 +342,13 @@ public class SagresSyncWorker extends Worker {
                         }
                     } catch (Throwable t) {
                         Crashlytics.logException(t);
-                        Timber.d("A throwable just happened: " + t.getMessage());
+                        Timber.d("A throwable just happened: %s", t.getMessage());
                         t.printStackTrace();
                     }
                 });
             } catch (Throwable t) {
                 Crashlytics.logException(t);
-                Timber.d("A throwable just happened: " + t.getMessage());
+                Timber.d("A throwable just happened: %s", t.getMessage());
                 t.printStackTrace();
             }
         }

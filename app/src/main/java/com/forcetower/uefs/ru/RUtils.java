@@ -19,12 +19,8 @@ public class RUtils {
     public static final int LUNCH  = 1;
     public static final int DINNER = 2;
 
-    public static boolean isOpen(boolean open, int amount, int type) {
-        if      (type == COFFEE) return open && amount != 320;
-        else if (type == LUNCH)  return open && amount != 1450;
-        else if (type == DINNER) return open && amount != 490;
-
-        return false;
+    public static boolean isOpen(boolean open, int amount) {
+        return open && amount != 0;
     }
 
     public static int getNextMealType(@NonNull Calendar calendar) {

@@ -174,8 +174,21 @@ public class SagresSyncAdapter extends AbstractThreadedSyncAdapter {
             messagesNotifications();
             gradesNotifications();
 
-            setupData();
-            sendCourse();
+            try {
+                setupData();
+            } catch (Throwable t) {
+                Crashlytics.logException(t);
+                Timber.d("A throwable just happened: %s", t.getMessage());
+                t.printStackTrace();
+            }
+
+            try {
+                sendCourse();
+            } catch (Throwable t) {
+                Crashlytics.logException(t);
+                Timber.d("A throwable just happened: %s", t.getMessage());
+                t.printStackTrace();
+            }
         });
     }
 

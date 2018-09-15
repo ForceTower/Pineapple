@@ -66,7 +66,7 @@ public class MessagesAdapter extends ListAdapter<Message, MessagesAdapter.Messag
         }
 
         public void bind(Message message) {
-            binding.setMessage(message);
+            binding.setMessageItem(message);
             if (message.getClassReceived().equalsIgnoreCase("UEFS")) {
                 binding.senderIcon.setImageResource(R.drawable.ic_university_black_24dp);
             } else {

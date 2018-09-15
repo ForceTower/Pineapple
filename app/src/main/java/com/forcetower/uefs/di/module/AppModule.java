@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 
 import com.forcetower.uefs.GooglePlayGamesInstance;
-import com.forcetower.uefs.ru.RUFirebase;
 
 import javax.inject.Singleton;
 
@@ -25,13 +24,6 @@ public class AppModule {
     Context provideContext(Application application) {
         return application.getApplicationContext();
     }
-
-    @Provides
-    @Singleton
-    RUFirebase provideRUFirebase(Context context) {
-        return new RUFirebase(context);
-    }
-
 
     @Provides
     @Singleton
