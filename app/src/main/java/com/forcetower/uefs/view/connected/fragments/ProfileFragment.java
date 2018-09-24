@@ -161,7 +161,7 @@ public class ProfileFragment extends Fragment implements Injectable {
     }
 
     private void onReceiveElevation(UserElevation userElevation) {
-        Timber.d("You are a level: " + userElevation.elevation);
+        Timber.d("You are a level: %s", userElevation.elevation);
         if (userElevation.elevation > 4) {
             enablePrivateContent();
         }
@@ -231,7 +231,10 @@ public class ProfileFragment extends Fragment implements Injectable {
             binding.tvLastUpdateAttempt.setText(R.string.no_automatic_update_yet);
         }
 
-        if (profile.getCourse() != null) binding.tvStdCourse.setText(profile.getCourse());
+        if (sharedPreferences.contains("user_course_str"))
+            binding.tvStdCourse.setText(sharedPreferences.getString("user_course_str", "Undefined"));
+        else if (profile.getCourse() != null)
+            binding.tvStdCourse.setText(profile.getCourse());
     }
 
     private void onReceiveSemesters(List<Semester> semesters) {

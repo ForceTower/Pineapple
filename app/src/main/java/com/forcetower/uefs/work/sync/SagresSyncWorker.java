@@ -244,30 +244,15 @@ public class SagresSyncWorker extends Worker {
 
     private void sendCourse() {
         Access a = uDatabase.accessDao().getAccessDirect();
-        Profile p = uDatabase.profileDao().getProfileDirect();
-        if (a != null && p != null && p.getCourse() != null) {
-            if (p.getCourseReference() <= 1) {
-                List<Course> courses = sDatabase.courseDao().getAllCoursesDirect();
-                int match = 0;
-                for (Course course : courses) {
-                    if (course.getName().equalsIgnoreCase(p.getCourse())) {
-                        match = course.getServiceId();
-                        break;
-                    }
-                }
-                if (match > 0) {
-                    uDatabase.profileDao().setProfileCourseId(match);
-                    p.setCourseReference(match);
-                }
-            }
-
+        int course = preferences.getInt("user_course_int", -1);
+        if (a != null) {
             try {
                 FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(task -> {
                     try {
                         String token = task.getResult().getToken();
                         executors.networkIO().execute(() -> {
                             try {
-                                Response response = service.postFirebaseToken(a.getUsername(), token, p.getCourseReference()).execute();
+                                Response response = service.postFirebaseToken(a.getUsername(), token, course).execute();
                                 if (response.isSuccessful()) {
                                     Timber.d("Success Setting Course");
                                 } else {
@@ -280,34 +265,6 @@ public class SagresSyncWorker extends Worker {
                         });
                     } catch (Throwable t) {
                         Crashlytics.logException(t);
-                    }
-                });
-            } catch (Throwable t) {
-                Crashlytics.logException(t);
-                Timber.d("A throwable just happened: %s", t.getMessage());
-                t.printStackTrace();
-            }
-        } else if (a != null) {
-            try {
-                FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(task -> {
-                    try {
-                    String token = task.getResult().getToken();
-                        executors.networkIO().execute(() -> {
-                            try {
-                                Response response = service.postFirebaseToken(a.getUsername(), token).execute();
-                                if (response.isSuccessful()) {
-                                    Timber.d("Success Setting Course");
-                                } else {
-                                    Timber.d("Failed Setting Course");
-                                    Timber.d("Response code: %s", response.code());
-                                }
-                            } catch (Exception e) {
-                                Crashlytics.logException(e);
-                            }
-                        });
-                    } catch (Throwable e) {
-                        e.printStackTrace();
-                        Crashlytics.logException(e);
                     }
                 });
             } catch (Throwable t) {

@@ -563,8 +563,13 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
             navViews.tvNavSubtitle.setVisibility(View.GONE);
         }
 
+        if (profile.getCourse() != null) {
+            mPreferences.edit().putInt("user_course_int", profile.getCourseReference()).apply();
+        }
+
         Timber.d("User Course: %s", profile.getCourse());
-        if ((profile.getCourse() == null || profile.getCourse().isEmpty()) && !showedOnSession) {
+        int c_int = mPreferences.getInt("user_course_int", -1);
+        if (c_int == -1 && !showedOnSession) {
             showedOnSession = true;
             Snackbar snack = Snackbar.make(binding.appLayout.contentLogged.drawerContainer, R.string.setup_your_course, Snackbar.LENGTH_LONG);
             snack.setAction(R.string.course_answer, v -> {

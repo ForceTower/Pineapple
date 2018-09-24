@@ -246,7 +246,7 @@ public class DisciplinesRepository {
         } else {
             //List<DisciplineClassItem> insertion = new ArrayList<>();
             for (DisciplineClassItem item : items) {
-                if (item.getNumber() == -1) {
+                if (item == null || item.getNumber() == -1) {
                     Timber.d("This is a parse error class number, it will be skipped, subject: %s", item.getSubject());
                     Crashlytics.logException(new Exception("This is a parse error class number, it will be skipped, subject: " + item.getSubject()));
                     continue;

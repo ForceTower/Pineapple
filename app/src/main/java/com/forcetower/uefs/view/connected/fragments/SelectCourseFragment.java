@@ -2,6 +2,7 @@ package com.forcetower.uefs.view.connected.fragments;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -45,6 +46,9 @@ public class SelectCourseFragment extends Fragment implements Injectable {
     UEFSViewModelFactory viewModelFactory;
     @Inject
     NavigationController navigationController;
+    @Inject
+    SharedPreferences preferences;
+
     private FragmentSelectCourseBinding binding;
     private CourseAdapter adapter;
     private Profile profile;
@@ -88,6 +92,9 @@ public class SelectCourseFragment extends Fragment implements Injectable {
                                     .addOnSuccessListener(aVoid -> Timber.d("Finished"));
                         }
                         profileViewModel.setProfileCourse(course.getName(), course.getServiceId());
+                        preferences.edit()
+                                .putInt("user_course_int", course.getServiceId())
+                                .putString("user_course_str", course.getName()).apply();
                         navigationController.back();
                         break;
                 }

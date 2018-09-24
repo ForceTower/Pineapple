@@ -106,7 +106,7 @@ public class SagresDisciplineDetailsParser {
         return created;
     }
 
-    public static List<DisciplineClassItem> parseDisciplineClassItems(Document document) {
+    public synchronized static List<DisciplineClassItem> parseDisciplineClassItems(Document document) {
         List<DisciplineClassItem> items = new ArrayList<>();
 
         Elements trs = document.select("tr[class]");

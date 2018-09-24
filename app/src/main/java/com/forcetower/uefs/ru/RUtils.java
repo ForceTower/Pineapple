@@ -20,7 +20,7 @@ public class RUtils {
     public static final int DINNER = 2;
 
     public static boolean isOpen(boolean open, int amount) {
-        return open && amount != 0;
+        return open && amount != -1;
     }
 
     public static int getNextMealType(@NonNull Calendar calendar) {
