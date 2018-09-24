@@ -1,5 +1,6 @@
 package com.forcetower.uefs.work.event;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.forcetower.uefs.Constants;
@@ -19,6 +20,7 @@ import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 import androidx.work.Worker;
+import androidx.work.WorkerParameters;
 import retrofit2.Call;
 import retrofit2.Response;
 import timber.log.Timber;
@@ -50,12 +52,16 @@ public class CreateEventWorker extends Worker {
     @Inject
     UNEService service;
 
+    public CreateEventWorker(Context context, WorkerParameters parameters) {
+        super(context, parameters);
+    }
+
     @NonNull
     @Override
     public Result doWork() {
         ((UEFSApplication)getApplicationContext()).getAppComponent().inject(this);
-        String sEvent = getInputData().getString("event", "");
-        if (sEvent.isEmpty()) return Result.FAILURE;
+        String sEvent = getInputData().getString("event");
+        if (sEvent == null) return Result.FAILURE;
 
         Event event;
         try {
@@ -65,7 +71,7 @@ public class CreateEventWorker extends Worker {
         }
 
         Timber.d("Create Event Worker Invoked");
-        Timber.d("Recreated event: " + event.getName());
+        Timber.d("Recreated event: %s", event.getName());
 
         Call<ActionResult<Event>> call = service.createEvent(event);
         try {
@@ -74,7 +80,7 @@ public class CreateEventWorker extends Worker {
                 ActionResult<Event> body = response.body();
                 if (body != null) {
                     if (body.getData() != null) {
-                        Timber.d("Event created on Server Side: " + body.getData().getName());
+                        Timber.d("Event created on Server Side: %s", body.getData().getName());
                         return Result.SUCCESS;
                     } else {
                         Timber.d("Body Data is null");

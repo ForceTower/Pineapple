@@ -1,5 +1,6 @@
 package com.forcetower.uefs.work.event;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.forcetower.uefs.Constants;
@@ -20,6 +21,7 @@ import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 import androidx.work.Worker;
+import androidx.work.WorkerParameters;
 import retrofit2.Call;
 import retrofit2.Response;
 import timber.log.Timber;
@@ -48,12 +50,17 @@ public class EventApprovalWorker extends Worker {
         WorkManager.getInstance().enqueue(request);
     }
 
+
+    public EventApprovalWorker(Context context, WorkerParameters parameters) {
+        super(context, parameters);
+    }
+
     @NonNull
     @Override
     public Result doWork() {
         ((UEFSApplication)getApplicationContext()).getAppComponent().inject(this);
 
-        String uuid = getInputData().getString("event_uuid", null);
+        String uuid = getInputData().getString("event_uuid");
         if (uuid == null) {
             Timber.d("Uuid is null. leaving..");
             return Result.FAILURE;
@@ -67,7 +74,7 @@ public class EventApprovalWorker extends Worker {
                     database.eventDao().markEventApproved(uuid);
                     return Result.SUCCESS;
                 } else {
-                    Timber.d("Response data is null " + body);
+                    Timber.d("Response data is null %s", body);
                     NotificationCreator.createNotificationWithMessage(getApplicationContext(), "Approve Event", "Approval failed, response data is null");
                     return Result.FAILURE;
                 }

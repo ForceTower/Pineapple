@@ -1,5 +1,6 @@
 package com.forcetower.uefs.work.grades;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Pair;
 
@@ -31,6 +32,7 @@ import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 import androidx.work.Worker;
+import androidx.work.WorkerParameters;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -55,7 +57,7 @@ import static com.forcetower.uefs.rep.sgrs.LoginRepository.redefinePages;
  */
 public class DownloadGradesWorker extends Worker {
 
-    public static void createWorker(String semester) {
+    private static void createWorker(String semester) {
         Constraints constraints = new Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build();
@@ -72,7 +74,7 @@ public class DownloadGradesWorker extends Worker {
                 .build();
 
         WorkManager.getInstance().enqueue(request);
-        Timber.d("Created DownloadGradesWorker for " + semester);
+        Timber.d("Created DownloadGradesWorker for %s", semester);
     }
 
     public static void createWorker() {
@@ -109,12 +111,16 @@ public class DownloadGradesWorker extends Worker {
         WorkManager.getInstance().cancelAllWorkByTag(Constants.WORKER_DOWNLOAD_GRADES_GENERAL);
     }
 
+    public DownloadGradesWorker(Context context, WorkerParameters parameters) {
+        super(context, parameters);
+    }
+
     @NonNull
     @Override
     public Result doWork() {
         ((UEFSApplication)getApplicationContext()).getAppComponent().inject(this);
 
-        mSemester = getInputData().getString("semester", null);
+        mSemester = getInputData().getString("semester");
         if (mSemester == null) {
             keyFinder = getInputData().getBoolean("key_finder", false);
             if (!keyFinder) {
@@ -240,7 +246,7 @@ public class DownloadGradesWorker extends Worker {
         }
         Timber.d("Semester is: %s. Good luck!", semester);
         List<Grade> grades = SagresGradeParser.getGrades(document);
-        Timber.d("Grades List Size: " + grades.size());
+        Timber.d("Grades List Size: %s", grades.size());
         if (grades.isEmpty()) {
             throw new WorkerException("No grades for semester " + mSemester + ". Retrying...", Result.RETRY);
         }

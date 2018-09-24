@@ -1,9 +1,9 @@
 package com.forcetower.uefs.work.sync;
 
 import android.arch.lifecycle.LiveData;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.os.Looper;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -42,6 +42,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import androidx.work.Worker;
+import androidx.work.WorkerParameters;
 import retrofit2.Response;
 import timber.log.Timber;
 
@@ -65,6 +66,10 @@ public class SagresSyncWorker extends Worker {
     private LiveData<ApiResponse<UpdateStatus>> updateData;
     private SharedPreferences preferences;
     private SyncRegistry registry;
+
+    public SagresSyncWorker(Context context, WorkerParameters parameters) {
+        super(context, parameters);
+    }
 
     @NonNull
     @Override
