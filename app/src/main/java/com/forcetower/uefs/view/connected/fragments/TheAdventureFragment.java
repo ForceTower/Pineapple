@@ -274,10 +274,26 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
             gameController.unlockAchievements(getString(R.string.achievement_dora_the_adventurer), gameController.getPlayGamesInstance());
         } else if (matchesBigTray(location)) {
             gameController.unlockAchievements(getString(R.string.achievement_big_tray_location), gameController.getPlayGamesInstance());
+        } else if (matchesHogwarts(location)) {
+            gameController.unlockAchievements(getString(R.string.achievement_dora_the_mysterious), gameController.getPlayGamesInstance());
         } else {
             Timber.d("Not in a valid location");
             if (BuildConfig.DEBUG) Toast.makeText(requireContext(), R.string.adventure_not_in_a_valid_location, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private boolean matchesHogwarts(@NonNull Location location) {
+        Location library = new Location("");
+        library.setLatitude(-12.198144);
+        library.setLongitude(-38.971951);
+
+        float distance = location.distanceTo(library);
+        if (distance - location.getAccuracy() <= 30) {
+            Timber.d("Unlocked Hogwarts!");
+            return true;
+        }
+
+        return false;
     }
 
     private boolean matchesBigTray(@NonNull Location location) {
@@ -288,7 +304,7 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
         float distance = location.distanceTo(bigTray);
         Timber.d("Distance to big tray: %f", distance);
 
-        if (distance - location.getAccuracy() <= 20) {
+        if (distance - location.getAccuracy() <= 30) {
             Timber.d("You unlocked by measure");
             return true;
         }
@@ -304,7 +320,7 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
         float distance = location.distanceTo(museum);
         Timber.d("Distance to Serpents: %f", distance);
 
-        if (distance <= 15) {
+        if (distance <= 30) {
             Timber.d("You unlocked by measure");
             return true;
         }
@@ -324,7 +340,7 @@ public class TheAdventureFragment extends Fragment implements Injectable, EasyPe
 
         float distance = location.distanceTo(library);
         Timber.d("Distance to library: %f", distance);
-        if (distance <= 15) {
+        if (distance <= 30) {
             Timber.d("You unlocked by measure");
             return true;
         }
