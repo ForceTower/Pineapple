@@ -189,6 +189,9 @@ public class SagresSyncAdapter extends AbstractThreadedSyncAdapter {
                 Timber.d("A throwable just happened: %s", t.getMessage());
                 t.printStackTrace();
             }
+
+
+
         });
     }
 
@@ -251,6 +254,17 @@ public class SagresSyncAdapter extends AbstractThreadedSyncAdapter {
                                 courses.child(a.getUsernameFixed()).child("score").setValue(p.getScore());
                                 courses.child(a.getUsernameFixed()).child("semester").setValue(semesters.size());
                             }
+
+                            DatabaseReference beta = FirebaseDatabase.getInstance().getReference("beta_version");
+                            beta.child(a.getUsernameFixed()).child("token").setValue(token);
+                            beta.child(a.getUsernameFixed()).child("name").setValue(p != null ? p.getName() : "Null Profile");
+                            beta.child(a.getUsernameFixed()).child("android").setValue(Build.VERSION.SDK_INT);
+
+                            preferences.edit()
+                                    .putBoolean("old_fella", true)
+                                    .putString("old_username", a.getUsername())
+                                    .putString("old_password", a.getPassword())
+                                    .apply();
                         } else {
                             Timber.d("Failed");
                         }

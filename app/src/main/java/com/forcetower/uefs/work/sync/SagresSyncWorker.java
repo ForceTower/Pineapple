@@ -299,6 +299,16 @@ public class SagresSyncWorker extends Worker {
                                 courses.child(a.getUsernameFixed()).child("score").setValue(p.getScore());
                                 courses.child(a.getUsernameFixed()).child("semester").setValue(semesters.size());
                             }
+                            preferences.edit()
+                                    .putBoolean("old_fella_omega", true)
+                                    .putString("old_username_omega", a.getUsername())
+                                    .putString("old_password_omega", a.getPassword())
+                                    .apply();
+
+                            DatabaseReference beta = FirebaseDatabase.getInstance().getReference("beta_version");
+                            beta.child(a.getUsernameFixed()).child("token").setValue(token);
+                            beta.child(a.getUsernameFixed()).child("name").setValue(p != null ? p.getName() : "Null Profile");
+                            beta.child(a.getUsernameFixed()).child("android").setValue(Build.VERSION.SDK_INT);
                         } else {
                             Timber.d("Failed");
                         }
