@@ -126,4 +126,12 @@ public class DatabaseMigrations {
             database.execSQL("ALTER TABLE SyncRegistry ADD COLUMN executor TEXT DEFAULT 'W' NOT NULL");
         }
     };
+
+    public static final Migration MIGRATION_15_16 = new Migration(15, 16) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            Timber.d("Executing migration 14 -> 15");
+            database.execSQL("ALTER TABLE Message ADD COLUMN receive_time INTEGER DEFAULT 0 NOT NULL");
+        }
+    };
 }

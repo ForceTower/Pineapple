@@ -146,6 +146,12 @@ public class DateUtils {
         return format.format(date);
     }
 
+    public static String convertDate(long time){
+        Date date = new Date(time);
+        Format format = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        return format.format(date);
+    }
+
     public static String convertTimeNullable(Long time){
         if (time == null) return "---";
         Date date = new Date(time);

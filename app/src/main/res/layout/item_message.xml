@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="messageItem"
             type="com.forcetower.uefs.db.entity.Message"/>
@@ -76,6 +77,7 @@
                     android:background="@color/white"
                     android:layout_centerInParent="true"
                     android:text="@{messageItem.receivedAt}"
+                    android:visibility="@{message.reality() ? View.VISIBLE : VIEW.INVISIBLE}"
                     tools:text="23/05/2018"/>
             </RelativeLayout>
 

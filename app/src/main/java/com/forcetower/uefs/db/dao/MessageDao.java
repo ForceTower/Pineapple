@@ -11,32 +11,41 @@ import com.forcetower.uefs.db.entity.Message;
 
 import java.util.List;
 
+import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
+
 /**
  * Created by João Paulo on 05/03/2018.
  */
 @Dao
-public interface MessageDao {
+public abstract class  MessageDao {
     @Query("SELECT * FROM Message")
-    LiveData<List<Message>> getAllMessages();
+    public abstract LiveData<List<Message>> getAllMessages();
 
     @Query("SELECT * FROM Message WHERE notified = 0")
-    List<Message> getAllUnnotifiedMessages();
+    public abstract List<Message> getAllUnnotifiedMessages();
 
     @Query("SELECT * FROM Message WHERE message LIKE :message AND sender LIKE :sender")
-    LiveData<List<Message>> getMessagesLike(String message, String sender);
+    public abstract LiveData<List<Message>> getMessagesLike(String message, String sender);
 
     @Query("SELECT * FROM Message WHERE LOWER(message) = LOWER(:message) AND LOWER(sender) = LOWER(:sender)")
-    List<Message> getMessagesDirectLike(String message, String sender);
+    public abstract List<Message> getMessagesDirectLike(String message, String sender);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertMessages(Message... messages);
+    public void insertMessages(Message... messages) {
+        for (Message message : messages) {
+            if (message.getReceiveTime() == 0) message.setReceiveTime(System.currentTimeMillis());
+        }
+        insertAll(messages);
+    }
+
+    @Insert(onConflict = REPLACE)
+    public abstract void insertAll(Message... messages);
 
     @Delete
-    void deleteMessage(Message message);
+    public abstract void deleteMessage(Message message);
 
     @Query("DELETE FROM Message")
-    void deleteAllMessages();
+    public abstract void deleteAllMessages();
 
     @Query("UPDATE Message SET notified = 1")
-    void clearAllNotifications();
+    public abstract void clearAllNotifications();
 }

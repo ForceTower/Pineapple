@@ -8,9 +8,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.SpannableString;
 
+import com.forcetower.uefs.util.DateUtils;
+
+import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import static com.forcetower.uefs.util.WordUtils.validString;
 
@@ -28,6 +33,8 @@ public class Message implements Comparable<Message>{
     @ColumnInfo(name = "class_received")
     private String classReceived;
     private int notified;
+    @ColumnInfo(name = "receive_time")
+    private long receiveTime;
 
     @Ignore
     @Nullable
@@ -88,13 +95,54 @@ public class Message implements Comparable<Message>{
         this.notified = notified;
     }
 
+    public long getReceiveTime() {
+        return receiveTime;
+    }
+
+    public void setReceiveTime(long receiveTime) {
+        this.receiveTime = receiveTime;
+    }
+
     public void selectiveCopy(Message other) {
-        if (validString(other.getReceivedAt()))
+        if (validString(other.getReceivedAt())) {
             this.setReceivedAt(other.getReceivedAt());
+            this.setReceiveTime(other.getReceiveTime());
+        }
+    }
+
+    public boolean reality() {
+        if (receiveTime == 0) return true;
+
+        if (getReceivedAt().contains("/"))
+            return true;
+
+        long now = System.currentTimeMillis();
+        long diff = now - receiveTime;
+
+        long hours = TimeUnit.HOURS.convert(diff, TimeUnit.MILLISECONDS);
+        long days  = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+        String tts = getReceivedAt().replaceAll("[^\\d]", "").trim();
+        int tth = Integer.parseInt(tts);
+
+        if (getReceivedAt().contains("hora"))
+            return tth == Long.valueOf(hours).intValue();
+
+        else if (getReceivedAt().contains("dia"))
+            return tth == Long.valueOf(days).intValue();
+
+        return true;
     }
 
     @Override
     public int compareTo(@NonNull Message o) {
+        if (receiveTime > 0 && o.getReceiveTime() > 0) {
+            return Long.compare(receiveTime, o.getReceiveTime());
+        } else if (receiveTime > 0 && o.getReceiveTime() <= 0) {
+            return -1;
+        } else if (receiveTime <= 0 && o.getReceiveTime() > 0) {
+            return 1;
+        }
+
         if (getReceivedAt().contains("/") && !o.getReceivedAt().contains("/"))
             return 1;
         else if (!getReceivedAt().contains("/") && o.getReceivedAt().contains("/"))
@@ -104,7 +152,7 @@ public class Message implements Comparable<Message>{
                 String tS = getReceivedAt();
                 String oS = o.getReceivedAt();
 
-                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
                 Date date1;
                 Date date2;
