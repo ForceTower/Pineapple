@@ -130,7 +130,7 @@ public class DatabaseMigrations {
     public static final Migration MIGRATION_15_16 = new Migration(15, 16) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
-            Timber.d("Executing migration 14 -> 15");
+            Timber.d("Executing migration 15 -> 16");
             database.execSQL("ALTER TABLE Message ADD COLUMN receive_time INTEGER DEFAULT 0 NOT NULL");
         }
     };
@@ -138,7 +138,7 @@ public class DatabaseMigrations {
     public static final Migration MIGRATION_16_17 = new Migration(16, 17) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
-            Timber.d("Executing migration 14 -> 15");
+            Timber.d("Executing migration 16 -> 17");
             database.execSQL("DELETE FROM Semester WHERE name LIKE '%g'");
         }
     };
