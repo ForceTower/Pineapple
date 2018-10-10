@@ -136,7 +136,7 @@ public class Message implements Comparable<Message>{
     @Override
     public int compareTo(@NonNull Message o) {
         if (receiveTime > 0 && o.getReceiveTime() > 0) {
-            return Long.compare(receiveTime, o.getReceiveTime());
+            return Long.compare(receiveTime, o.getReceiveTime()) * -1;
         } else if (receiveTime > 0 && o.getReceiveTime() <= 0) {
             return -1;
         } else if (receiveTime <= 0 && o.getReceiveTime() > 0) {

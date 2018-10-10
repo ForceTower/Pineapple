@@ -134,4 +134,12 @@ public class DatabaseMigrations {
             database.execSQL("ALTER TABLE Message ADD COLUMN receive_time INTEGER DEFAULT 0 NOT NULL");
         }
     };
+
+    public static final Migration MIGRATION_16_17 = new Migration(16, 17) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            Timber.d("Executing migration 14 -> 15");
+            database.execSQL("DELETE FROM Semester WHERE name LIKE '%g'");
+        }
+    };
 }

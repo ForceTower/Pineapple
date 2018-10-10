@@ -327,8 +327,12 @@ public class LoginRepository {
 
     public static void redefinePages(String semester, List<Grade> grades, AppDatabase database) {
         if (database.semesterDao().getSemesterByNameDirect(semester) == null) {
-            database.semesterDao().insertSemesters(new Semester(semester, semester));
-            Timber.d("Semester inserted as well");
+            if (!semester.contains("g")) {
+                database.semesterDao().insertSemesters(new Semester(semester, semester));
+                Timber.d("Semester inserted as well");
+            } else {
+                Crashlytics.logException(new IllegalStateException("Some semesters are just bugged! Name: " + semester));
+            }
         }
 
         if (!database.disciplineDao().getDisciplinesFromSemesterDirect(semester).isEmpty()) {
@@ -337,7 +341,7 @@ public class LoginRepository {
         }
 
         List<Discipline> disciplines = new ArrayList<>();
-        Timber.d("Grades size: " + grades.size());
+        Timber.d("Grades size: %s", grades.size());
         for (Grade grade : grades) {
             String disciplineName = grade.getDisciplineName();
             int index = disciplineName.lastIndexOf("(");
@@ -707,8 +711,12 @@ public class LoginRepository {
         for (Semester semester : semesters) {
             Semester val = semesterDao.getSemesterByNameDirect(semester.getName());
             if (val == null) {
-                semesterDao.insertSemesters(semester);
-                Timber.d("It's a new semester!");
+                if (!semester.getName().contains("g")) {
+                    semesterDao.insertSemesters(semester);
+                    Timber.d("It's a new semester!");
+                } else {
+                    Crashlytics.logException(new IllegalStateException("Semester has a G in the name! Name: " + semester.getName()));
+                }
             }
         }
 

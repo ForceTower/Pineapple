@@ -200,27 +200,29 @@ public class SagresSyncAdapter extends AbstractThreadedSyncAdapter {
         int course = preferences.getInt("user_course_int", -1);
         if (a != null) {
             try {
-                FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(task -> {
-                    try {
-                        String token = task.getResult().getToken();
-                        executors.networkIO().execute(() -> {
-                            try {
-                                Response response = service.postFirebaseToken(a.getUsername(), token, course).execute();
-                                if (response.isSuccessful()) {
-                                    Timber.d("Success Setting Course");
-                                } else {
-                                    Timber.d("Failed Setting Course");
-                                    Timber.d("Response code: %s", response.code());
+                executors.mainThread().execute(() -> {
+                    FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(task -> {
+                        try {
+                            String token = task.getResult().getToken();
+                            executors.networkIO().execute(() -> {
+                                try {
+                                    Response response = service.postFirebaseToken(a.getUsername(), token, course).execute();
+                                    if (response.isSuccessful()) {
+                                        Timber.d("Success Setting Course");
+                                    } else {
+                                        Timber.d("Failed Setting Course");
+                                        Timber.d("Response code: %s", response.code());
+                                    }
+                                } catch (Exception e) {
+                                    Crashlytics.logException(e);
                                 }
-                            } catch (Exception e) {
-                                Crashlytics.logException(e);
-                            }
 
-                        });
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Crashlytics.logException(e);
-                    }
+                            });
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Crashlytics.logException(e);
+                        }
+                    });
                 });
             } catch (Throwable t) {
                 Crashlytics.logException(t);
@@ -237,49 +239,51 @@ public class SagresSyncAdapter extends AbstractThreadedSyncAdapter {
         if (a != null) {
             Crashlytics.setUserIdentifier(a.getUsername());
             Crashlytics.setUserName(p != null ? p.getName() : "Undefined");
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("firebase_tokens");
-            try {
-                FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(value -> {
-                    try {
-                        if (value.isSuccessful()) {
-                            String token = value.getResult().getToken();
-                            reference.child(a.getUsernameFixed()).child("token").setValue(token);
-                            reference.child(a.getUsernameFixed()).child("device").setValue(Build.MANUFACTURER + " " + Build.MODEL);
-                            reference.child(a.getUsernameFixed()).child("android").setValue(Build.VERSION.SDK_INT);
-                            reference.child(a.getUsernameFixed()).child("name").setValue(p != null ? p.getName() : "Null Profile");
+            executors.mainThread().execute(() -> {
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("firebase_tokens");
+                try {
+                    FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(value -> {
+                        try {
+                            if (value.isSuccessful()) {
+                                String token = value.getResult().getToken();
+                                reference.child(a.getUsernameFixed()).child("token").setValue(token);
+                                reference.child(a.getUsernameFixed()).child("device").setValue(Build.MANUFACTURER + " " + Build.MODEL);
+                                reference.child(a.getUsernameFixed()).child("android").setValue(Build.VERSION.SDK_INT);
+                                reference.child(a.getUsernameFixed()).child("name").setValue(p != null ? p.getName() : "Null Profile");
 
-                            if (p != null && p.getCourse() != null) {
-                                DatabaseReference courses = FirebaseDatabase.getInstance().getReference("courses").child(p.getCourseFixed());
-                                courses.child(a.getUsernameFixed()).child("name").setValue(p.getName());
-                                courses.child(a.getUsernameFixed()).child("score").setValue(p.getScore());
-                                courses.child(a.getUsernameFixed()).child("semester").setValue(semesters.size());
+                                if (p != null && p.getCourse() != null) {
+                                    DatabaseReference courses = FirebaseDatabase.getInstance().getReference("courses").child(p.getCourseFixed());
+                                    courses.child(a.getUsernameFixed()).child("name").setValue(p.getName());
+                                    courses.child(a.getUsernameFixed()).child("score").setValue(p.getScore());
+                                    courses.child(a.getUsernameFixed()).child("semester").setValue(semesters.size());
+                                }
+
+    //                            DatabaseReference beta = FirebaseDatabase.getInstance().getReference("beta_version");
+    //                            beta.child(a.getUsernameFixed()).child("token").setValue(token);
+    //                            beta.child(a.getUsernameFixed()).child("name").setValue(p != null ? p.getName() : "Null Profile");
+    //                            beta.child(a.getUsernameFixed()).child("android").setValue(Build.VERSION.SDK_INT);
+
+                                preferences.edit()
+                                        .putBoolean("old_fella", true)
+                                        .putString("old_username", a.getUsername())
+                                        .putString("old_password", a.getPassword())
+                                        .apply();
+                            } else {
+                                Timber.d("Failed");
                             }
-
-//                            DatabaseReference beta = FirebaseDatabase.getInstance().getReference("beta_version");
-//                            beta.child(a.getUsernameFixed()).child("token").setValue(token);
-//                            beta.child(a.getUsernameFixed()).child("name").setValue(p != null ? p.getName() : "Null Profile");
-//                            beta.child(a.getUsernameFixed()).child("android").setValue(Build.VERSION.SDK_INT);
-
-                            preferences.edit()
-                                    .putBoolean("old_fella", true)
-                                    .putString("old_username", a.getUsername())
-                                    .putString("old_password", a.getPassword())
-                                    .apply();
-                        } else {
-                            Timber.d("Failed");
+                        } catch (Throwable t) {
+                            Crashlytics.logException(t);
+                            Timber.d("A throwable just happened: %s", t.getMessage());
+                            t.printStackTrace();
                         }
-                    } catch (Throwable t) {
-                        Crashlytics.logException(t);
-                        Timber.d("A throwable just happened: %s", t.getMessage());
-                        t.printStackTrace();
-                    }
 
-                });
-            } catch (Throwable t) {
-                Crashlytics.logException(t);
-                Timber.d("A throwable just happened: %s", t.getMessage());
-                t.printStackTrace();
-            }
+                    });
+                } catch (Throwable t) {
+                    Crashlytics.logException(t);
+                    Timber.d("A throwable just happened: %s", t.getMessage());
+                    t.printStackTrace();
+                }
+            });
         }
     }
 
