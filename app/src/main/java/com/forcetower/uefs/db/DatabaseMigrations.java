@@ -142,4 +142,12 @@ public class DatabaseMigrations {
             database.execSQL("DELETE FROM Semester WHERE name LIKE '%g'");
         }
     };
+
+    public static final Migration MIGRATION_17_18 = new Migration(17, 18) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            Timber.d("Executing migration 17 -> 18");
+            database.execSQL("DELETE FROM Semester WHERE LOWER(name) LIKE '%g'");
+        }
+    };
 }
