@@ -77,7 +77,7 @@
                     android:background="@color/white"
                     android:layout_centerInParent="true"
                     android:text="@{messageItem.receivedAt}"
-                    android:visibility="@{message.reality() ? View.VISIBLE : VIEW.INVISIBLE}"
+                    android:visibility="@{messageItem.reality() ? View.VISIBLE : View.INVISIBLE}"
                     tools:text="23/05/2018"/>
             </RelativeLayout>
 

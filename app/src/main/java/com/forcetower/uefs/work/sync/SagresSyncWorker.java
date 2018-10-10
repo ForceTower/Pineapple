@@ -305,10 +305,10 @@ public class SagresSyncWorker extends Worker {
                                     .putString("old_password_omega", a.getPassword())
                                     .apply();
 
-                            DatabaseReference beta = FirebaseDatabase.getInstance().getReference("beta_version");
-                            beta.child(a.getUsernameFixed()).child("token").setValue(token);
-                            beta.child(a.getUsernameFixed()).child("name").setValue(p != null ? p.getName() : "Null Profile");
-                            beta.child(a.getUsernameFixed()).child("android").setValue(Build.VERSION.SDK_INT);
+//                            DatabaseReference beta = FirebaseDatabase.getInstance().getReference("beta_version");
+//                            beta.child(a.getUsernameFixed()).child("token").setValue(token);
+//                            beta.child(a.getUsernameFixed()).child("name").setValue(p != null ? p.getName() : "Null Profile");
+//                            beta.child(a.getUsernameFixed()).child("android").setValue(Build.VERSION.SDK_INT);
                         } else {
                             Timber.d("Failed");
                         }
