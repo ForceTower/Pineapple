@@ -64,6 +64,7 @@ import java.io.File;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -742,7 +743,9 @@ public class LoginRepository {
 
     private void defineMessages(@NonNull List<Message> messages) {
         MessageDao messageDao = database.messageDao();
-        for (Message message : messages) {
+        Collections.sort(messages);
+        for (int i = messages.size() - 1; i >= 0; i--) {
+            Message message = messages.get(i);
             List<Message> alike = messageDao.getMessagesDirectLike(message.getMessage(), message.getSender());
             if (alike.isEmpty()) {
                 Timber.d("New message detected");
