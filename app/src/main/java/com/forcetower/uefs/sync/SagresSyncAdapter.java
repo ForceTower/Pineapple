@@ -213,9 +213,7 @@ public class SagresSyncAdapter extends AbstractThreadedSyncAdapter {
                                         Timber.d("Failed Setting Course");
                                         Timber.d("Response code: %s", response.code());
                                     }
-                                } catch (Exception e) {
-                                    Crashlytics.logException(e);
-                                }
+                                } catch (Exception ignored) {}
 
                             });
                         } catch (Exception e) {

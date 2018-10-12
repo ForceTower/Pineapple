@@ -264,7 +264,7 @@ public class LoginRepository {
                     if (defineDisciplines(SagresDisciplineParser.getDisciplines(document), database)) {
                         defineDcpGroups(SagresDcpGroupsParser.getGroups(document));
                         try {
-                            defineSchedule(SagresScheduleParser.getSchedule(document));
+                            defineSchedule(SagresScheduleParser.getSchedule(document, username, password));
                         } catch (NullPointerException e) {
                             Crashlytics.logException(e);
                             Timber.d("This person has a problem on parser");

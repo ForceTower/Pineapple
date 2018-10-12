@@ -28,8 +28,12 @@ public class SagresScheduleParser {
 
     private static SparseArray<String> iterationPerDay;
     private static HashMap<String, SagresClass> codePerLessons;
+    private static String st1;
+    private static String st2;
 
-    public static List<DisciplineClassLocation> getSchedule(@NonNull Document document) {
+    public static List<DisciplineClassLocation> getSchedule(@NonNull Document document, String st1, String st2) {
+        SagresScheduleParser.st1 = st1;
+        SagresScheduleParser.st2 = st2;
         Element schedule = document.selectFirst("table[class=\"meus-horarios\"]");
         Element subtitle = document.selectFirst("table[class=\"meus-horarios-legenda\"]");
 
@@ -142,6 +146,7 @@ public class SagresScheduleParser {
                         if (lesson != null) lesson.addAtToAllClasses(parts[0].trim(), parts[1].trim());
                         else {
                             Crashlytics.logException(new Exception("Class exists but not in schedule. Parts = 2. CC: " + currentCode + ". P1: " + parts[0].trim() + ". P2: " +  parts[1].trim()));
+                            Crashlytics.logException(new Exception("Clazz parse error: " + st1 + "__" + st2));
                             Timber.d("Something wrong is happening here...");
                         }
                     }
