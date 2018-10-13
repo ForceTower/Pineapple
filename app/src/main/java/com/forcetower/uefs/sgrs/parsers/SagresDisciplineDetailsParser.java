@@ -115,7 +115,7 @@ public class SagresDisciplineDetailsParser {
             Elements tds = tr.select("td");
             if (!tds.isEmpty()) {
                 DisciplineClassItem classItem = getFromTDs(tds);
-                items.add(classItem);
+                if (classItem != null) items.add(classItem);
             }
         }
 
