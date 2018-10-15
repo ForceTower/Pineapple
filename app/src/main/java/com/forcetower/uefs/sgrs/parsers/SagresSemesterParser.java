@@ -25,6 +25,9 @@ public class SagresSemesterParser {
         for (Element element : classes) {
             String period = element.selectFirst("span[class=\"webpart-aluno-periodo\"]").text();
             period = period.toLowerCase();
+
+            if (period.contains("g") || period.contains("c")) continue;
+
             if (!strings.contains(period)) strings.add(period);
         }
         Timber.d("Semesters: %s", strings);

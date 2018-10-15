@@ -39,4 +39,7 @@ public interface SemesterDao {
 
     @Query("UPDATE Semester SET uefs_id = :uefsId WHERE name = :semester")
     void setUefsId(String uefsId, String semester);
+
+    @Query("DELETE FROM Semester WHERE LOWER(name) LIKE '%g%' OR LOWER(name) LIKE '%c%'")
+    void removeSemesterWithGOrC();
 }

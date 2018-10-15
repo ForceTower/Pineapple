@@ -709,6 +709,8 @@ public class LoginRepository {
             return true;
         }
 
+        database.semesterDao().removeSemesterWithGOrC();
+
         SemesterDao semesterDao = database.semesterDao();
         for (Semester semester : semesters) {
             Semester val = semesterDao.getSemesterByNameDirect(semester.getName());
