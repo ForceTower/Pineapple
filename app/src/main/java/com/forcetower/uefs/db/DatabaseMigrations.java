@@ -158,4 +158,12 @@ public class DatabaseMigrations {
             database.execSQL("UPDATE Message SET receive_time = 0");
         }
     };
+
+    public static final Migration MIGRATION_19_20 = new Migration(19, 20) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            Timber.d("Executing migration 19 -> 20");
+            database.execSQL("DELETE FROM Semester WHERE LOWER(name) LIKE '%g'");
+        }
+    };
 }

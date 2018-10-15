@@ -328,7 +328,7 @@ public class LoginRepository {
 
     public static void redefinePages(String semester, List<Grade> grades, AppDatabase database) {
         if (database.semesterDao().getSemesterByNameDirect(semester) == null) {
-            if (!semester.contains("g")) {
+            if (!semester.toLowerCase().contains("g") || !semester.toLowerCase().contains("c")) {
                 database.semesterDao().insertSemesters(new Semester(semester, semester));
                 Timber.d("Semester inserted as well");
             } else {
@@ -564,6 +564,7 @@ public class LoginRepository {
                 List<DisciplineGroup> groups = groupDao.getDisciplineGroupsDirect(semester, code);
                 if (groups.isEmpty()) {
                     Timber.d("It's sad how the code %s at semester %s has no groups, wow", code, semester);
+
                 } else {
                     if (groups.size() == 1) {
                         int groupId = groups.get(0).getUid();
@@ -712,7 +713,7 @@ public class LoginRepository {
         for (Semester semester : semesters) {
             Semester val = semesterDao.getSemesterByNameDirect(semester.getName());
             if (val == null) {
-                if (!semester.getName().contains("g")) {
+                if (!semester.getName().toLowerCase().contains("g") || !semester.getName().toLowerCase().contains("c")) {
                     semesterDao.insertSemesters(semester);
                     Timber.d("It's a new semester!");
                 } else {

@@ -53,10 +53,10 @@ dependencies {
     implementation "android.arch.lifecycle:common-java8:1.1.1"
     implementation "android.arch.persistence.room:runtime:1.1.1"
     annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
-    implementation("android.arch.work:work-runtime:1.0.0-alpha09") {
+    implementation("android.arch.work:work-runtime:1.0.0-alpha10") {
         exclude group: 'com.google.guava', module: 'listenablefuture'
     }
-    implementation("android.arch.work:work-firebase:1.0.0-alpha09") {
+    implementation("android.arch.work:work-firebase:1.0.0-alpha10") {
         exclude group: 'com.google.guava', module: 'listenablefuture'
     }
 
