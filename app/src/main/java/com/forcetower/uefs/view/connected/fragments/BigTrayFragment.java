@@ -18,6 +18,7 @@ import com.forcetower.uefs.databinding.FragmentBigTrayBinding;
 import com.forcetower.uefs.di.Injectable;
 import com.forcetower.uefs.ru.RUData;
 import com.forcetower.uefs.ru.RUtils;
+import com.forcetower.uefs.svc.BigTrayService;
 import com.forcetower.uefs.util.AnimUtils;
 import com.forcetower.uefs.util.DateUtils;
 import com.forcetower.uefs.view.connected.ActivityController;
@@ -52,7 +53,7 @@ public class BigTrayFragment extends Fragment implements Injectable {
         if (controller.getTabLayout() != null) controller.getTabLayout().setVisibility(View.GONE);
         controller.changeTitle(R.string.title_big_tray);
 
-        //binding.btnVisitBigTray.setOnClickListener(v -> NetworkUtils.openLink(requireContext(), "http://bit.ly/bandejaouefs"));
+        binding.btnOpenNotification.setOnClickListener(v -> startBigTrayService());
         return binding.getRoot();
     }
 
@@ -129,6 +130,10 @@ public class BigTrayFragment extends Fragment implements Injectable {
 
         if (!data.isError())
             binding.tvRuLastUpdate.setText(getString(R.string.ru_last_update, DateUtils.formatDateTime(calendar.getTimeInMillis())));
+    }
+
+    private void startBigTrayService() {
+        BigTrayService.startService(requireContext());
     }
 
 }

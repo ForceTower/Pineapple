@@ -1,5 +1,6 @@
 package com.forcetower.uefs.ntf;
 
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Context;
@@ -7,8 +8,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 
 import com.forcetower.uefs.Constants;
@@ -16,9 +19,12 @@ import com.forcetower.uefs.R;
 import com.forcetower.uefs.db.entity.GradeInfo;
 import com.forcetower.uefs.db.entity.Message;
 import com.forcetower.uefs.db_service.entity.Version;
+import com.forcetower.uefs.ru.RUData;
+import com.forcetower.uefs.svc.BigTrayService;
 import com.forcetower.uefs.svc.UNESFirebaseMessagingService;
 import com.forcetower.uefs.util.VersionUtils;
 import com.forcetower.uefs.view.connected.LoggedActivity;
+import com.forcetower.uefs.view.connected.fragments.ConnectedFragment;
 import com.forcetower.uefs.view.event.EventDetailsActivity;
 import com.forcetower.uefs.view.login.MainActivity;
 import com.google.firebase.messaging.RemoteMessage;
@@ -312,5 +318,49 @@ public class NotificationCreator {
 
         addOptions(context, builder);
         showNotification(context, text.hashCode(), builder);
+    }
+
+    public static Notification showBigTrayNotification(Context context, @Nullable RUData data, PendingIntent pending) {
+        NotificationCompat.Builder builder = notificationBuilder(context, Constants.CHANNEL_GENERAL_BIG_TRAY)
+                .setOngoing(true)
+                .setAutoCancel(false)
+                .setContentTitle(context.getString(R.string.label_big_tray))
+                .setPriority(NotificationManagerCompat.IMPORTANCE_LOW)
+                .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                .setContentIntent(createBigTrayIntent(context))
+                .addAction(R.drawable.ic_close_black_24dp, context.getString(R.string.ru_close_notification), pending);
+
+        String content;
+        if (data == null) {
+            content = context.getString(R.string.ru_loading);
+        } else if (data.isAberto()) {
+            int quota = 0;
+            try { quota = Integer.parseInt(data.getCotas()); } catch (Throwable ignored){}
+
+            if (quota > 0) {
+                content = context.getString(R.string.ru_quota_remaining, quota);
+            } else {
+                content = context.getString(R.string.ru_quota_exceeded);
+            }
+        } else if (data.isError()) {
+            content = context.getString(R.string.ru_load_failed);
+        } else if (!data.isAberto()) {
+            content = context.getString(R.string.ru_closed);
+        } else {
+            content = context.getString(R.string.ru_load_failed);
+        }
+
+        builder.setContentText(content);
+        return builder.build();
+    }
+
+    private static PendingIntent createBigTrayIntent(Context ctx) {
+        Intent intent = new Intent(ctx, LoggedActivity.class);
+        intent.putExtra(ConnectedFragment.FRAGMENT_INTENT_EXTRA, "BIG_TRAY_DIRECTION");
+
+        return TaskStackBuilder.create(ctx)
+                .addParentStack(LoggedActivity.class)
+                .addNextIntent(intent)
+                .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 }

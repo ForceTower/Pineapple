@@ -25,6 +25,7 @@ import com.forcetower.uefs.view.connected.fragments.ConnectedFragment;
 import timber.log.Timber;
 
 import static com.forcetower.uefs.Constants.CHANNEL_EVENTS_GENERAL_ID;
+import static com.forcetower.uefs.Constants.CHANNEL_GENERAL_BIG_TRAY;
 import static com.forcetower.uefs.Constants.CHANNEL_GENERAL_REMOTE_ID;
 import static com.forcetower.uefs.Constants.CHANNEL_GENERAL_WARNINGS_ID;
 import static com.forcetower.uefs.Constants.CHANNEL_GRADES_CHANGED_ID;
@@ -72,6 +73,7 @@ public class NotificationHelper extends ContextWrapper{
         NotificationChannel remote      = createChannel(CHANNEL_GENERAL_REMOTE_ID, getString(R.string.remote), NotificationManager.IMPORTANCE_DEFAULT);
         NotificationChannel eventGen    = createChannel(CHANNEL_EVENTS_GENERAL_ID, getString(R.string.channel_events_general), NotificationManager.IMPORTANCE_DEFAULT);
         NotificationChannel dceMsg      = createChannel(CHANNEL_MESSAGES_DCE_ID, getString(R.string.channel_messages_dce), NotificationManager.IMPORTANCE_DEFAULT);
+        NotificationChannel bigTray     = createChannel(CHANNEL_GENERAL_BIG_TRAY, getString(R.string.channel_big_tray_quota), NotificationManager.IMPORTANCE_LOW);
 
         messages.setGroup(CHANNEL_GROUP_MESSAGES_ID);
         posted.setGroup(CHANNEL_GROUP_GRADES_ID);
@@ -81,6 +83,7 @@ public class NotificationHelper extends ContextWrapper{
         remote.setGroup(CHANNEL_GROUP_GENERAL_ID);
         eventGen.setGroup(CHANNEL_GROUP_EVENTS_ID);
         dceMsg.setGroup(CHANNEL_GROUP_MESSAGES_ID);
+        bigTray.setGroup(CHANNEL_GROUP_GENERAL_ID);
 
         getManager().createNotificationChannel(messages);
         getManager().createNotificationChannel(posted);
@@ -90,7 +93,7 @@ public class NotificationHelper extends ContextWrapper{
         getManager().createNotificationChannel(remote);
         getManager().createNotificationChannel(eventGen);
         getManager().createNotificationChannel(dceMsg);
-
+        getManager().createNotificationChannel(bigTray);
     }
 
     @TargetApi(Build.VERSION_CODES.O)

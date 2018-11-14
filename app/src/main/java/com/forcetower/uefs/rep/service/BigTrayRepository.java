@@ -70,11 +70,17 @@ public class BigTrayRepository {
         return data;
     }
 
+    public LiveData<RUData> beginWith(long delay) {
+        requesting = true;
+        loop(delay);
+        return data;
+    }
+
     @MainThread
     private void beginRequests() {
         requesting = true;
         data = new MediatorLiveData<>();
-        loop();
+        loop(3500);
     }
 
     @MainThread
@@ -83,14 +89,14 @@ public class BigTrayRepository {
     }
 
     @MainThread
-    private void loop() {
+    private void loop(long delay) {
         Handler handler = new Handler(Looper.getMainLooper());
         Timber.d("Loop");
         if (requesting) {
             executors.networkIO().execute(() -> {
                 RUData value = performRequest();
                 data.postValue(value);
-                handler.postDelayed(this::loop, 3500);
+                handler.postDelayed(() -> loop(delay), delay);
             });
         }
     }

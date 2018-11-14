@@ -541,4 +541,12 @@
     <string name="registry_executor_label" translatable="false">E</string>
     <string name="registry_reason_label" translatable="false">V</string>
     <string name="connection_error">Erro de conexão</string>
+    <string name="channel_big_tray_quota">Cotas do bandejão</string>
+    <string name="label_big_tray">Bandejão</string>
+    <string name="ru_close_notification">Fechar</string>
+    <string name="ru_quota_remaining">%1$d cotas restantes</string>
+    <string name="ru_quota_exceeded">As cotas acabaram</string>
+    <string name="ru_load_failed">Erro ao carregar dados</string>
+    <string name="ru_closed">O bandejão está fechado</string>
+    <string name="ru_open_as_notification">Abrir como notificação</string>
 </resources>

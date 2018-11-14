@@ -118,6 +118,10 @@
                 android:resource="@xml/authenticator"/>
         </service>
 
+        <service
+            android:name=".svc.BigTrayService"
+            android:exported="false" />
+
         <provider
             android:name=".sync.SagresProvider"
             android:authorities="@string/authority"
