@@ -326,6 +326,12 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
         Bundle bundle = new Bundle();
         bundle.putString(FRAGMENT_INTENT_EXTRA, value);
         navigationController.navigateToMainContent(bundle);
+
+        if (value != null && value.equals("BIG_TRAY_DIRECTION")) {
+            clearBackStack();
+            navigationController.navigateToBigTray();
+            tabLayout.setVisibility(View.GONE);
+        }
     }
 
     private void onRestoreActivity(@NonNull Bundle savedInstanceState) {

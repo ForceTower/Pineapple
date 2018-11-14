@@ -1,4 +1,5 @@
 package com.forcetower.uefs.di.module;
+import com.forcetower.uefs.svc.BigTrayService;
 import com.forcetower.uefs.svc.UNESFirebaseMessagingService;
 import com.forcetower.uefs.sync.SyncAdapterService;
 
@@ -14,4 +15,6 @@ public abstract class ServicesModule {
     abstract UNESFirebaseMessagingService contributeUNESFirebaseMessagingService();
     @ContributesAndroidInjector
     abstract SyncAdapterService contributesSyncAdapterService();
+    @ContributesAndroidInjector
+    abstract BigTrayService contributeBigTrayService();
 }
