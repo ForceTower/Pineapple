@@ -19,6 +19,9 @@ public interface TodoItemDao {
     @Query("SELECT * FROM TodoItem")
     LiveData<List<TodoItem>> getAllTodoItems();
 
+    @Query("SELECT * FROM TodoItem")
+    List<TodoItem> getAllTodoItemsDirect();
+
     @Query("SELECT * FROM TodoItem WHERE completed = 0")
     LiveData<List<TodoItem>> getAllIncompleteTodoItems();
 

@@ -22,8 +22,6 @@ import android.support.annotation.IdRes;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -53,6 +51,7 @@ import com.forcetower.uefs.db.entity.DisciplineClassLocation;
 import com.forcetower.uefs.db.entity.Profile;
 import com.forcetower.uefs.db_service.entity.Version;
 import com.forcetower.uefs.ntf.NotificationCreator;
+import com.forcetower.uefs.rep.service.RemindersRepository;
 import com.forcetower.uefs.rep.helper.Resource;
 import com.forcetower.uefs.rep.helper.SagresDocuments;
 import com.forcetower.uefs.rep.helper.Status;
@@ -117,6 +116,8 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
     NavigationController navigationController;
     @Inject
     AppExecutors executors;
+    @Inject
+    RemindersRepository remindersRepository;
 
     @StringRes
     private int titleText;
@@ -215,6 +216,8 @@ public class LoggedActivity extends UBaseActivity implements NavigationView.OnNa
             DownloadGradesWorker.createWorker();
             Toast.makeText(this, R.string.downloading_your_grades, Toast.LENGTH_SHORT).show();
         }
+
+        remindersRepository.prepareRemindersBackup();
     }
 
     private void setupFragmentStackListener() {
