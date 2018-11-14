@@ -46,18 +46,11 @@ public class SagresMaterialsParser {
         if (a == null) return;
 
         String link = a.attr("href").isEmpty() ? a.attr("href") : a.attr("HREF");
-        Timber.d("Link: " + link);
         String name = "Arquivo";
 
-        Element parent = element.parent();
-        if (parent != null) {
-            parent = parent.parent();
-            if (parent != null) {
-                Element elName = parent.selectFirst("td");
-                name = elName.text();
-                Timber.d("Name: " + elName.text());
-            }
-        }
+        try {
+            name = element.parent().parent().parent().parent().parent().parent().selectFirst("td").text();
+        } catch (Throwable ignored) {}
 
         materials.add(new DisciplineClassMaterialLink(classId, name, link));
     }
