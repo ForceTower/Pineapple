@@ -59,31 +59,35 @@ public class RemindersRepository {
 
     public void prepareRemindersBackup() {
         executors.diskIO().execute(() -> {
-            List<TodoItem> items = database.todoItemDao().getAllTodoItemsDirect();
-            Access access = database.accessDao().getAccessDirect();
-            if (access == null) return;
+            try {
+                List<TodoItem> items = database.todoItemDao().getAllTodoItemsDirect();
+                Access access = database.accessDao().getAccessDirect();
+                if (access == null) return;
 
-            String username = access.getUsernameFixed();
-            executors.mainThread().execute(() -> {
-                if (!items.isEmpty()) {
-                    DatabaseReference reminders = FirebaseDatabase.getInstance().getReference("reminders_backup");
-                    DatabaseReference path = reminders.child(username);
-                    for (TodoItem item : items) {
-                        DatabaseReference td = path.child("td_" + item.getUid());
-                        td.child("title").setValue(item.getTitle());
-                        td.child("date").setValue(item.getDate());
-                        td.child("message").setValue(item.getMessage());
-                        td.child("time_limit").setValue(item.isHasTimeLimit());
-                        td.child("shown").setValue(item.isShown());
-                        td.child("completed").setValue(item.isCompleted());
-                    }
+                String username = access.getUsernameFixed();
+                executors.mainThread().execute(() -> {
+                    try {
+                        if (!items.isEmpty()) {
+                            DatabaseReference reminders = FirebaseDatabase.getInstance().getReference("reminders_backup");
+                            DatabaseReference path = reminders.child(username);
+                            for (TodoItem item : items) {
+                                DatabaseReference td = path.child("td_" + item.getUid());
+                                td.child("title").setValue(item.getTitle());
+                                td.child("date").setValue(item.getDate());
+                                td.child("message").setValue(item.getMessage());
+                                td.child("time_limit").setValue(item.isHasTimeLimit());
+                                td.child("shown").setValue(item.isShown());
+                                td.child("completed").setValue(item.isCompleted());
+                            }
 
-                    Gson gson = new Gson();
-                    String json = gson.toJson(items);
-                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-                    preferences.edit().putString("__backup_todo_items_old__", json).apply();
-                }
-            });
+                            Gson gson = new Gson();
+                            String json = gson.toJson(items);
+                            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+                            preferences.edit().putString("__backup_todo_items_old__", json).apply();
+                        }
+                    } catch (Throwable ignored) { }
+                });
+            } catch (Throwable ignored) {}
         });
     }
 }
