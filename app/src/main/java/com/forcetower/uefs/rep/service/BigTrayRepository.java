@@ -72,6 +72,7 @@ public class BigTrayRepository {
 
     public LiveData<RUData> beginWith(long delay) {
         requesting = true;
+        data = new MediatorLiveData<>();
         loop(delay);
         return data;
     }
