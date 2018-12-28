@@ -71,3 +71,5 @@ freeline_project_description.json
 /app/release/
 /.idea/copyright/profiles_settings.xml
 /.idea/copyright/UNES.xml
+
+\.idea/caches/gradle_models\.ser
