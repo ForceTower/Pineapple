@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.crashlytics.android.Crashlytics;
 import com.forcetower.uefs.AppExecutors;
@@ -14,11 +15,14 @@ import com.forcetower.uefs.sgrs.SagresResponse;
 import com.forcetower.uefs.sgrs.parsers.SagresGradeParser;
 import com.forcetower.uefs.util.network.LiveDataCallAdapter;
 
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import java.nio.charset.Charset;
 import java.util.List;
 
 import okhttp3.Call;
+import okhttp3.Response;
 import timber.log.Timber;
 
 /**
@@ -55,7 +59,27 @@ public abstract class FetchGradesResource {
                         executors.mainThread().execute(() -> result.setValue(Resource.success(R.string.grades_obtained)));
                     } else {
                         saveVariants(variants);
-                        executors.mainThread().execute(() -> result.setValue(Resource.success(R.string.select_a_course_variant)));
+
+                        Long currentSemester = SagresGradeParser.getSelectedSemester(document);
+                        if (currentSemester != null) {
+                            Document varDoc = document;
+                            for (CourseVariant variant : variants) {
+                                try {
+                                    long variantId = Long.parseLong(variant.getUefsId().trim());
+                                    Call varCall = createGradesVariantCall(currentSemester, varDoc, variantId);
+                                    Response varResponse = varCall.execute();
+                                    if (varResponse.isSuccessful()) {
+                                        String body = varResponse.body().string();
+                                        varDoc = Jsoup.parse(body);
+                                        varDoc.charset(Charset.forName("ISO-8859-1"));
+                                        saveResult(varDoc);
+                                    }
+                                } catch (Throwable ignored) {}
+                            }
+                            executors.mainThread().execute(() -> result.setValue(Resource.success(R.string.grades_obtained)));
+                        } else {
+                            executors.mainThread().execute(() -> result.setValue(Resource.success(R.string.select_a_course_variant)));
+                        }
                     }
                 });
             } else {
@@ -69,6 +93,7 @@ public abstract class FetchGradesResource {
     }
 
     public abstract Call createGradesCall();
+    public abstract Call createGradesVariantCall(long semester, @NonNull Document document, @Nullable Long variant);
     public abstract void saveResult(@NonNull Document document);
     public abstract void saveVariants(@NonNull List<CourseVariant> variants);
 }

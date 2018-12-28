@@ -80,6 +80,7 @@ import timber.log.Timber;
 import static com.forcetower.uefs.rep.helper.RequestCreator.makeApprovalRequest;
 import static com.forcetower.uefs.rep.helper.RequestCreator.makeApprovalRequestBody;
 import static com.forcetower.uefs.rep.helper.RequestCreator.makeGradesRequest;
+import static com.forcetower.uefs.rep.helper.RequestCreator.makeGradesRequestForSemester;
 import static com.forcetower.uefs.rep.helper.RequestCreator.makeLoginRequest;
 import static com.forcetower.uefs.rep.helper.RequestCreator.makeRequestBody;
 import static com.forcetower.uefs.rep.helper.RequestCreator.makeStudentPageRequest;
@@ -291,6 +292,11 @@ public class LoginRepository {
             public Call createGradesCall() {
                 Timber.d("Creating Grades Call...");
                 Request request = makeGradesRequest();
+                return client.newCall(request);
+            }
+
+            public Call createGradesVariantCall(long semester, @NonNull Document document, @Nullable Long variant) {
+                Request request = makeGradesRequestForSemester(semester, document, variant);
                 return client.newCall(request);
             }
 

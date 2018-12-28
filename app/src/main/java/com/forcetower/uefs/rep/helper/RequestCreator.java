@@ -1,6 +1,7 @@
 package com.forcetower.uefs.rep.helper;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.forcetower.uefs.Constants;
 
@@ -70,6 +71,32 @@ public class RequestCreator {
     public static Request makeGradesRequest() {
         return new Request.Builder()
                 .url(Constants.SAGRES_GRADE_PAGE)
+                .addHeader("content-type", "application/x-www-form-urlencoded")
+                .addHeader("cache-control", "no-cache")
+                .build();
+    }
+
+    @NonNull
+    public static Request makeGradesRequestForSemester(long semester, @NonNull Document document, @Nullable Long variant) {
+        FormBody.Builder formBody = new FormBody.Builder();
+
+        Elements elements = document.select("input[value][type=\"hidden\"]");
+
+        for (Element element : elements) {
+            String key = element.attr("id");
+            String value = element.attr("value");
+            formBody.add(key, value);
+        }
+
+        formBody.add("ctl00$MasterPlaceHolder$ddPeriodosLetivos$ddPeriodosLetivos", Long.valueOf(semester).toString());
+        if (variant != null) {
+            formBody.add("ctl00$MasterPlaceHolder$ddRegistroCurso", variant.toString());
+        }
+        formBody.add("ctl00$MasterPlaceHolder$imRecuperar", "Exibir");
+        return new Request.Builder()
+                .url(Constants.SAGRES_GRADE_ANY)
+                .post(formBody.build())
+                .addHeader("x-requested-with", "XMLHttpRequest")
                 .addHeader("content-type", "application/x-www-form-urlencoded")
                 .addHeader("cache-control", "no-cache")
                 .build();
