@@ -75,6 +75,7 @@ public abstract class FetchGradesResource {
                                         saveResult(varDoc);
                                     }
                                 } catch (Throwable ignored) {}
+                                Timber.d("Variant: %s", variant.getName());
                             }
                             executors.mainThread().execute(() -> result.setValue(Resource.success(R.string.grades_obtained)));
                         } else {
