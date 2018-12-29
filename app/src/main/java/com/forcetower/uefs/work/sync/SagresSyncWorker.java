@@ -24,7 +24,6 @@ import com.forcetower.uefs.db.entity.Profile;
 import com.forcetower.uefs.db.entity.Semester;
 import com.forcetower.uefs.db.entity.SyncRegistry;
 import com.forcetower.uefs.db_service.ServiceDatabase;
-import com.forcetower.uefs.db_service.entity.Course;
 import com.forcetower.uefs.db_service.entity.UpdateStatus;
 import com.forcetower.uefs.ntf.NotificationCreator;
 import com.forcetower.uefs.rep.helper.Resource;
@@ -91,7 +90,7 @@ public class SagresSyncWorker extends Worker {
             e.printStackTrace();
         }
 
-        return Result.SUCCESS;
+        return Result.success();
     }
 
     private void initiateSync() {

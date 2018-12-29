@@ -61,13 +61,13 @@ public class CreateEventWorker extends Worker {
     public Result doWork() {
         ((UEFSApplication)getApplicationContext()).getAppComponent().inject(this);
         String sEvent = getInputData().getString("event");
-        if (sEvent == null) return Result.FAILURE;
+        if (sEvent == null) return Result.failure();
 
         Event event;
         try {
             event = new Gson().fromJson(sEvent, Event.class);
         } catch (Exception e) {
-            return Result.FAILURE;
+            return Result.failure();
         }
 
         Timber.d("Create Event Worker Invoked");
@@ -81,23 +81,23 @@ public class CreateEventWorker extends Worker {
                 if (body != null) {
                     if (body.getData() != null) {
                         Timber.d("Event created on Server Side: %s", body.getData().getName());
-                        return Result.SUCCESS;
+                        return Result.success();
                     } else {
                         Timber.d("Body Data is null");
-                        return Result.RETRY;
+                        return Result.retry();
                     }
                 } else {
                     Timber.d("Response Body is null");
-                    return Result.RETRY;
+                    return Result.retry();
                 }
             } else {
                 Timber.d("Unsuccessful response");
                 Timber.d(response.errorBody().string());
-                return Result.RETRY;
+                return Result.retry();
             }
         } catch (IOException e) {
             e.printStackTrace();
-            return Result.RETRY;
+            return Result.retry();
         }
     }
 }

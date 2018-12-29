@@ -125,7 +125,7 @@ public class DownloadGradesWorker extends Worker {
             keyFinder = getInputData().getBoolean("key_finder", false);
             if (!keyFinder) {
                 Timber.d("Nothing to do here");
-                return Result.SUCCESS;
+                return Result.success();
             } else {
                 Timber.d("Execute worker - Find semesters keys");
             }
@@ -136,7 +136,7 @@ public class DownloadGradesWorker extends Worker {
         mAccess = mDatabase.accessDao().getAccessDirect();
         if (mAccess == null) {
             Timber.e("Access is null - Worker Cancelled - Semester: %s", mSemester);
-            return Result.FAILURE;
+            return Result.retry();
         }
 
         try {
@@ -148,10 +148,10 @@ public class DownloadGradesWorker extends Worker {
             //No exception shall propagate away from here
             t.printStackTrace();
             Crashlytics.logException(t);
-            return Result.FAILURE;
+            return Result.retry();
         }
 
-        return Result.SUCCESS;
+        return Result.success();
     }
 
     public void login() throws WorkerException {
@@ -167,7 +167,7 @@ public class DownloadGradesWorker extends Worker {
                 document.charset(mCharset);
 
                 if (!isConnected(document))
-                    throw new WorkerException("Worked reports: not connected", Result.FAILURE);
+                    throw new WorkerException("Worked reports: not connected", Result.retry());
 
                 if (needApproval(document)) {
                     approve(response, document);
@@ -175,11 +175,11 @@ public class DownloadGradesWorker extends Worker {
                     Timber.d("Don't need approval");
                 }
             } else {
-                throw new WorkerException("Unsuccessful response. Code: " + response.code(), Result.RETRY);
+                throw new WorkerException("Unsuccessful response. Code: " + response.code(), Result.retry());
             }
         } catch (IOException e) {
             e.printStackTrace();
-            throw new WorkerException(e.getMessage(), Result.RETRY);
+            throw new WorkerException(e.getMessage(), Result.retry());
         }
     }
 
@@ -198,11 +198,11 @@ public class DownloadGradesWorker extends Worker {
                 else
                     findKeysAndCreateWorks(document);
             } else {
-                throw new WorkerException("Unsuccessful response. Code: " + response.code(), Result.RETRY);
+                throw new WorkerException("Unsuccessful response. Code: " + response.code(), Result.retry());
             }
         } catch (IOException e) {
             e.printStackTrace();
-            throw new WorkerException(e.getMessage(), Result.RETRY);
+            throw new WorkerException(e.getMessage(), Result.retry());
         }
     }
 
@@ -228,11 +228,11 @@ public class DownloadGradesWorker extends Worker {
                 grades.charset(mCharset);
                 parseAndSaveGrades(grades);
             } else {
-                throw new WorkerException("Unsuccessful response. Code: " + response.code(), Result.RETRY);
+                throw new WorkerException("Unsuccessful response. Code: " + response.code(), Result.retry());
             }
         } catch (IOException e) {
             e.printStackTrace();
-            throw new WorkerException(e.getMessage(), Result.RETRY);
+            throw new WorkerException(e.getMessage(), Result.retry());
         }
     }
 
@@ -242,13 +242,13 @@ public class DownloadGradesWorker extends Worker {
         if (semester == null) {
             Crashlytics.log("Unable to find the semester...");
             Timber.d("Unable to parse grades on page");
-            throw new WorkerException("Unable to parse grades on page", Result.RETRY);
+            throw new WorkerException("Unable to parse grades on page", Result.retry());
         }
         Timber.d("Semester is: %s. Good luck!", semester);
         List<Grade> grades = SagresGradeParser.getGrades(document);
         Timber.d("Grades List Size: %s", grades.size());
         if (grades.isEmpty()) {
-            throw new WorkerException("No grades for semester " + mSemester + ". Retrying...", Result.RETRY);
+            throw new WorkerException("No grades for semester " + mSemester + ". Retrying...", Result.retry());
         }
 
         redefinePages(semester, grades, mDatabase);
@@ -273,14 +273,14 @@ public class DownloadGradesWorker extends Worker {
         try {
             Response execute = call.execute();
             if (!execute.isSuccessful()) {
-                throw new WorkerException("Unsuccessful response. Code: " + response.code(), Result.RETRY);
+                throw new WorkerException("Unsuccessful response. Code: " + response.code(), Result.retry());
             } else {
                 Timber.d("Successfully Approved to Enter the portal");
             }
         } catch (IOException e) {
             e.printStackTrace();
             Crashlytics.logException(e);
-            throw new WorkerException(e.getMessage(), Result.RETRY);
+            throw new WorkerException(e.getMessage(), Result.retry());
         }
     }
 

@@ -63,7 +63,7 @@ public class EventApprovalWorker extends Worker {
         String uuid = getInputData().getString("event_uuid");
         if (uuid == null) {
             Timber.d("Uuid is null. leaving..");
-            return Result.FAILURE;
+            return Result.failure();
         }
         Call<ActionResult<Event>> call = service.approveEvent(uuid);
         try {
@@ -72,26 +72,26 @@ public class EventApprovalWorker extends Worker {
                 ActionResult<Event> body = response.body();
                 if (body != null && body.getData() != null) {
                     database.eventDao().markEventApproved(uuid);
-                    return Result.SUCCESS;
+                    return Result.success();
                 } else {
                     Timber.d("Response data is null %s", body);
                     NotificationCreator.createNotificationWithMessage(getApplicationContext(), "Approve Event", "Approval failed, response data is null");
-                    return Result.FAILURE;
+                    return Result.failure();
                 }
             } else {
                 if (response.code() == 403) {
                     NotificationCreator.createNotificationWithMessage(getApplicationContext(), "Approve Event", "No permission");
-                    return Result.FAILURE;
+                    return Result.failure();
                 } else if (response.code() == 500) {
-                    return Result.RETRY;
+                    return Result.failure();
                 } else {
                     NotificationCreator.createNotificationWithMessage(getApplicationContext(), "Approve Event", "Failed with code: " + response.code());
-                    return Result.FAILURE;
+                    return Result.failure();
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
-            return Result.RETRY;
+            return Result.retry();
         }
     }
 }
