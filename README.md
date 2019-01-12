@@ -1,4 +1,4 @@
-# Código Legado
+# UNES - Código Legado
 O código presente neste repositório é legado e não é mais utilizado nas versões atuais do UNES.
 O novo projeto do UNES pode ser encontrado (https://www.github.com/ForceTower/Melon)[neste link].
 
@@ -6,7 +6,7 @@ Este projeto mostra todas as alterações feitas no aplicativo desde o seu nasci
 
 Este repositório está aqui somente para que você possa observar todas as versões pelas quais o UNES passou e quem sabe, até aprender alguma coisa neste código estranho.
 
-# UEFS Sagres APP (Legacy)
+## UEFS Sagres APP (Legacy)
 Este repositório contêm o aplicativo para dispositivos Android para o portal do estudante Sagres da UEFS.
 
 Este aplicativo tentará aproximar todo o conteúdo do Sagres em um aplicativo cujas ações podem ser feitas offline e então quando houver internet elas serão sincronizadas com o portal online.
