@@ -1,4 +1,12 @@
-# UEFS Sagres App
+# Código Legado
+O código presente neste repositório é legado e não é mais utilizado nas versões atuais do UNES.
+O novo projeto do UNES pode ser encontrado (https://www.github.com/ForceTower/Melon)[neste link].
+
+Este projeto mostra todas as alterações feitas no aplicativo desde o seu nascimento, no inicio o código era simples, feio e bruto, agora existe algo mais complexo, robusto e bem mais fácil de manter :)
+
+Este repositório está aqui somente para que você possa observar todas as versões pelas quais o UNES passou e quem sabe, até aprender alguma coisa neste código estranho.
+
+# UEFS Sagres APP (Legacy)
 Este repositório contêm o aplicativo para dispositivos Android para o portal do estudante Sagres da UEFS.
 
 Este aplicativo tentará aproximar todo o conteúdo do Sagres em um aplicativo cujas ações podem ser feitas offline e então quando houver internet elas serão sincronizadas com o portal online.
@@ -20,7 +28,7 @@ Também espera-se que possua algumas funcionalidades extras como mostrar no mapa
 - [ ] Momento em que cada laboratório está aberto e nome dos monitores
 - [x] Guia de Matrícula
 
-## A Fase 2 (Está próxima, bem próxima)
+## A Fase 2 (Está próxima, bem próxima) (Melão?)
 - [X] Criação de contas e Login no UNEVerso
 - [ ] Integração Sagres + Facebook (+ Google?)
 - [ ] Notícias da Universidade (Quais eventos/reuniões estão acontecendo?)
