@@ -1,6 +1,6 @@
 # UNES - Código Legado
 O código presente neste repositório é legado e não é mais utilizado nas versões atuais do UNES.
-O novo projeto do UNES pode ser encontrado [https://www.github.com/ForceTower/Melon](neste link).
+O novo projeto do UNES pode ser encontrado [neste link](https://www.github.com/ForceTower/Melon).
 
 Este projeto mostra todas as alterações feitas no aplicativo desde o seu nascimento, no inicio o código era simples, feio e bruto, agora existe algo mais complexo, robusto e bem mais fácil de manter :)
 
